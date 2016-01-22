@@ -1,0 +1,164 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>cloud-web-frontend</artifactId>
+	<packaging>war</packaging>
+	<name>cloud-web-frontend</name>
+	
+	<parent>
+		<groupId>org.cocome</groupId>
+		<artifactId>cocome-maven-project</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	
+	<properties>
+		<logic.protocol>http</logic.protocol>
+		<logic.host>localhost</logic.host>
+		<logic.port>8280</logic.port>
+		<logic.baseDir></logic.baseDir>
+		<logic.cashDeskService>/CashDeskService</logic.cashDeskService>
+		<logic.storeService>/StoreService</logic.storeService>
+		<logic.enterpriseService>/EnterpriseService</logic.enterpriseService>
+		<glassfish-web-domain>cocome-frontend</glassfish-web-domain>
+		<glassfish-web-user>admin</glassfish-web-user>
+		<glassfish-web-passwordFile>${local.glassfish.home}\\domains\\${glassfish-web-domain}\\config\\passwordfile.txt</glassfish-web-passwordFile>
+		<glassfish-web-httpPort>8180</glassfish-web-httpPort>
+		<glassfish-web-adminPort>8148</glassfish-web-adminPort>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-web-6.0</artifactId>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+    </dependency>
+		<dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>cloud-logic-ear</artifactId>
+			<version>${project.version}</version>
+			<type>ear</type>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+			<plugins>
+			<plugin>
+				<groupId>org.jvnet.jax-ws-commons</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>wsimport</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+
+						<configuration>
+							<wsdlUrls>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.port}${logic.baseDir}${logic.cashDeskService}/CashDesk?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.port}${logic.baseDir}${logic.cashDeskService}/BarcodeScanner?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.port}${logic.baseDir}${logic.cashDeskService}/CashBox?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.port}${logic.baseDir}${logic.cashDeskService}/CardReader?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.port}${logic.baseDir}${logic.cashDeskService}/ExpressLight?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.port}${logic.baseDir}${logic.cashDeskService}/Printer?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.port}${logic.baseDir}${logic.cashDeskService}/UserDisplay?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.port}${logic.baseDir}${logic.storeService}/StoreManager?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.port}${logic.baseDir}${logic.enterpriseService}/EnterpriseManager?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.port}${logic.baseDir}${logic.enterpriseService}/EnterpriseReport?wsdl</wsdlUrl>
+							</wsdlUrls>
+							<!-- Keep generated files -->
+							<keep>true</keep>
+							<!-- Package name -->
+							<packageName>org.cocome.logic.stub</packageName>
+							<!-- generated source files destination -->
+							<sourceDestDir>${project.build.directory}/generated-sources/src</sourceDestDir>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java-version}</source>
+					<target>${java-version}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.glassfish.maven.plugin</groupId>
+				<artifactId>maven-glassfish-plugin</artifactId>
+				
+				<configuration>
+						<glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
+						<user>${glassfish-web-user}</user>
+						<passwordFile>${glassfish-web-passwordFile}</passwordFile>
+						<domain>
+							<name>${glassfish-web-domain}</name>
+							<httpPort>${glassfish-web-httpPort}</httpPort>
+							<adminPort>${glassfish-web-adminPort}</adminPort>
+						</domain>
+						<components>
+							<component>
+								<name>${project.artifactId}</name>
+								<artifact>target/${project.artifactId}-${project.version}.${project.packaging}</artifact>
+							</component>
+						</components>
+						<debug>true</debug>
+						<echo>true</echo>
+					</configuration>
+				
+				<executions>
+					<execution>
+						<id>gf-undeploy</id>
+						<goals>
+							<goal>undeploy</goal>
+							<goal>stop-domain</goal>
+						</goals>
+						<phase>clean</phase>
+					</execution>
+					<execution>
+						<id>gf-deploy</id>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>build-helper-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>generate-sources</phase>
+            <goals><goal>add-source</goal></goals>
+            <configuration>
+                <sources>
+                    <source>${project.build.directory}/generated-sources/src</source>
+                </sources>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+		</plugins>
+		</build>
+</project>
