@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>cloud-logic-service</artifactId>
+	<packaging>pom</packaging>
+	<name>cloud-logic-service</name>
+	
+	<parent>
+  		<groupId>org.cocome</groupId>
+  		<artifactId>cocome-maven-project</artifactId>
+  		<version>1.0-SNAPSHOT</version>
+  	</parent>
+  	
+	<modules>
+		<module>cloud-logic-ear</module>
+		<module>cloud-logic-ejb</module>
+		<module>cloud-logic-webservice</module>
+		<module>java-utils</module>
+		<module>cloud-logic-integrationtest</module>
+	</modules>
+
+	<build>
+			<plugins>
+				<plugin>
+					<groupId>org.glassfish.maven.plugin</groupId>
+					<artifactId>maven-glassfish-plugin</artifactId>
+					<configuration>
+						<glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
+						<user>${local.glassfish.user}</user>
+						<passwordFile>${local.glassfish.passwordfile}</passwordFile>
+						<domain>
+							<name>cocome-logic</name>
+							<httpPort>${local.glassfish.httpPort}</httpPort>
+							<adminPort>${local.glassfish.adminPort}</adminPort>
+						</domain>
+						<components>
+							<component>
+								<name>${project.artifactId}</name>
+								<artifact>target/${project.artifactId}-${project.version}.${project.packaging}</artifact>
+							</component>
+						</components>
+						<debug>true</debug>
+						<echo>true</echo>
+					</configuration>
+				</plugin>
+			</plugins>
+	</build>
+</project>
