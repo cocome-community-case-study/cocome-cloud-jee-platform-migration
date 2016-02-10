@@ -4,77 +4,184 @@ Instructions to set up Eclipse environment
 
 ---
 
-    1.  Eclipse for Java EE and Glassfish 3.1 should be used
+== Prerequisits ==
 
-    2.  Import the existing maven project in Eclipse with 
-           Import -> Maven -> Existing Maven Projects
+- Eclipse with Java EE support
+- Glassfish 3.1 (or Glassfish 4.0)
 
-    3.  Select the cocome-maven-project folder in
-        the SVN repository to import. There should appear two 
-        sub-projects, cloud-logic-service and cloud-web-frontend.
-        In the cloud-logic-service there are five child projects 
-        (cloud-logic-ear, cloud-logic-ejb, cloud-logic-webservice,
-        cloud-integrationtest and java-utils) to import.
+Quick Facts:
+${GLASSFISH} - path to the Glassfish installation
+${HOME}      - home folder of your user account
 
-    4.  Set up a Glassfish domain for the logic service if not already present.
+== Preparations ==
 
-    5.  Customize the included settings.xml file for maven and copy it to 
-           {user-homefolder}/.m2/settings.xml
+1. Install Glassfish
+
+This will usually create a domain named 'domain1'. We assume that you
+installed Glassfish in a directory represented by the variable
+${GLASSFISH}, which we use in the remaineder of this document to refer 
+to the installation directory.
+
+Note: in Unix/Linux path names use / and in Windows \. This may require
+escaping in certain places, i.e., \\ for a \.
+
+Glassfish is usually installed with the following layout:
+${GLASSFISH}/bin
+${GLASSFISH}/glassfish
+${GLASSFISH}/javadb
+${GLASSFISH}/mq
+${GLASSFISH}/pkg
+${GLASSFISH}/README.txt
+
+
+2. Configure Glassfish Domains
+
+We must create two Glassfish domains one for the web frontend and one
+for the service logic.
+
+The domain names are:
+- cocome-logic
+- cocome-web
+
+Each domain requires their own port numbers for the service and
+administration. The defaults are 8080 for the service and 4848 for the
+administration interface. However, to avoid conflict with running
+systems we define:
+- cocome-logic: admin 4849, service 8181
+- cocome-web:   admin 4850, service 8282
+
+You may choose other port numbers, especially when on of these ports is
+already in use. You may not be able to select port numbers below 32000,
+as this can be prohibited by firewalls.
+
+a) Change to ${GLASSFISH}/glassfish 
+b) Execute bin/asadmin as follows. The tool will prompt for a password.
+   You may leave that empty.
+
+bin/asadmin create-domain --adminport 4849 --instanceport 8181 cocome-logic
+
+bin/asadmin create-domain --adminport 4850 --instanceport 8282 cocome-web
+
+
+== Importing anf Configuring of the CoCoME Build ==
+
+1.  Import the existing maven project in Eclipse with 
+    Import -> Maven -> Existing Maven Projects
+
+2.  Select the cocome-maven-project folder in
+    the SVN repository to import. There should appear two 
+    sub-projects, cloud-logic-service and cloud-web-frontend.
+    In the cloud-logic-service there are five child projects 
+    (cloud-logic-ear, cloud-logic-ejb, cloud-logic-webservice,
+    cloud-integrationtest and java-utils) to import.
+
+4.  Copy the included settings.xml file for maven and copy it to 
+    ${HOME}/.m2/settings.xml
+
+4.1 Check and change the following setting:
+    - local.glassfish.home to ${GLASSFISH}/glassfish where you replace
+      ${GLASSFISH} with the path of the installation directory
+    - local.glassfish.domain to cocome-logic
+    - local.glassfish.httpPort to 8181
+    - local.glassfish.adminPort to 4849
+
+4.2 Change local.glassfish.passwordfile to point to a plain text password 
+    file with the passwords in the following format. 
+    Note that the master password has to be present and its default value 
+    for a new Glassfish domain is changeit. The default user used is admin 
+    and can be changed with the local.glassfish.user setting.
+           
+    AS_MASTER_PASSWORD=changeit
+    AS_ADMIN_PASSWORD=admin
         
-        5.1 Change local.glassfish.domain to the name of your domain from step 4 
-            and local.glassfish.home to point to a Glassfish installation.
+5.  Make sure to customize the settings regarding the deployment
+    descriptors for glassfish and the logic service in the cloud-web-frontend/pom.xml.
         
-        5.2 Change local.glassfish.httpPort and local.glassfish.adminPort to the 
-            ports used by your domain.
-            
-        5.3 Change local.glassfish.passwordfile to point to a plain text password 
-            file with the passwords in the following format. 
-            Note that the master password has to be present and its default value 
-            for a new Glassfish domain is changeit. The default user used is admin 
-            and can be changed with the local.glassfish.user setting.
-            
-            AS_MASTER_PASSWORD=changeit
-            AS_ADMIN_PASSWORD=admin
+    5.1 Change logic.host and logic.port to the host and port running
+        the logic service, i.e., localhost and 8181 in our installation
         
-    6.  Set up a Glassfish domain for the web frontend or use an existing one.
-        
-    7.  Make sure to customize the settings regarding the deployment
-        descriptors for glassfish and the logic service in the cloud-web-frontend/pom.xml.
-        
-        7.1 Change logic.host and logic.port to the host and port running the logic service from step 4.
-        
-        7.2 Change glassfish-web-domain, glassfish-web-user, glassfish-web-passwordfile, glassfish-httpPort 
-            and glassfish-adminPort to the values of the domain from step 6. These settings will be used to 
-            deploy the web frontend to its domain.
+    5.2 Change glassfish-web-domain, glassfish-web-user, 
+        glassfish-web-passwordfile, glassfish-httpPort and 
+        glassfish-adminPort to the values of the cocome-web domain.
+        These settings will be used to deploy the web frontend to
+        its domain.
 
-    8.  To run the logic service select the cloud-logic-service 
-        project and choose Run As -> Maven install. 
-        This will build the ear archive, start the Glassfish domain 
-        if not started and deploy the service.
-        
-        8.1 This will also run the integrationtest project which requires the serviceadapter 
-            to be already running. The tests use settings in cloud-logic-integrationtest/pom.xml
-            - wsdlLocationBaseURL: The URL to access the logic service, i.e. the host and port 
-                where the logic service runs.
-            - serviceAdapterDatabaseURL: The URL to access the database interface of the 
-                service adapter.
-                
-            To disable running the integration tests simply comment out the soapui plugin 
-            in the cloud-logic-integrationtest/pom.xml.
-        
-        8.2 The logic service requires that the service adapter is running and
-            the needed information is read from the file Configuration.properties
-            in the folder cloud-logic-ejb/src/main/resources.
-            You only need to change the backendHost and backendPort properties to point 
-            to the host and port of the service adapter.
+6. Setup of the logic service integration test
 
-    9.  To deploy the logic service and the web frontend run the maven 
-        install on cocome-maven-project.
+This setup is optional. However, if we choose not to test the
+service, we must disable its execution.
 
-    10.  To undeploy and shut down Glassfish use Run As -> Maven clean.
+   a) Configure integration test
+
+      The tests use settings in cloud-logic-integrationtest/pom.xml
+      - wsdlLocationBaseURL: The URL to access the logic service, i.e. 
+        the host and port where the logic service runs.
+      - serviceAdapterDatabaseURL: The URL to access the database
+        interface of the service adapter.
+ 
+   TODO: This does not work
+
+   b) Disable integration test
+
+      To disable running the integration tests simply comment out the 
+      soapui plugin in the cloud-logic-integrationtest/pom.xml.
+
+7. Setup of the EJBs
+
+The logic service requires that the service adapter is running and
+the needed information is read from the file Configuration.properties
+in the folder cloud-logic-ejb/src/main/resources.
+
+You only need to change the backendHost and backendPort properties
+to point to the host and port of the service adapter.
+
+TODO: which port and host is it?
 
 
-Additional information:
+== Compile and Deploy CoCoME ==
+
+Note: Compiling and deployment may fail due to Javadoc issues. In this
+case rune mvn with the additional argument -Dmaven.javadoc.skip=true
+which can be specified on command line like
+
+mvn -Dmaven.javadoc.skip=true install
+
+and in Eclipse by changing the maven built target setup.
+
+Note: If compilation and deployment fail half through the build and
+deployment process, there might be parts up and running which can cause
+additional trouble after fixing the issue and trying installation again.
+In this cas run mvn clean on command line or in Eclispe.
+
+1. Deploy cloud-logic-service
+
+To run the logic service select the cloud-logic-service project and
+choose Run As -> Maven install. This will build the ear archive, start
+the Glassfish domain if not started and deploy the service. This will
+also run the integrationtest project which requires the serviceadapter
+to be already running. 
+
+Alternative command line approach:
+
+cd cocome-maven-project/cloud-logic-service
+mvn -Dmaven.javadoc.skip=true install
+
+
+2. Deploy complete implementation
+
+Either select the cocome-maven-project in Eclipse and execute maven
+install or do this on command line as
+
+cd cocome-maven-project
+mvn -Dmaven.javadoc.skip=true install
+
+
+== Undeploy Services ==
+
+To undeploy and shut down Glassfish use Run As -> Maven clean.
+
+
+== Additional information ==
 
 - There may be errors regarding the target runtime. They may 
   be resolved by installing at least the Glassfish Tools from the  

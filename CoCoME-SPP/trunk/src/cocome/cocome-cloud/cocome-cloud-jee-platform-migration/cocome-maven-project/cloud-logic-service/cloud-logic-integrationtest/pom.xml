@@ -11,31 +11,31 @@
   	<version>1.0-SNAPSHOT</version>
   </parent>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.smartbear.soapui</groupId>
-                <artifactId>soapui-maven-plugin</artifactId> 
-                 <executions>
-                    <execution>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <projectFile>${project.build.directory}/../CoCoME-test-soapui-project.xml</projectFile>
-                            <output-folder>${project.build.directory}/../output</output-folder>
-                            <projectProperties>
-                            	<!-- Change these settings according to the setup -->
-                            	<value>wsdlLocationBaseURL=http://localhost:8280/</value>
-                            	<value>serviceAdapterDatabaseURL=http://localhost:8080/de.kit.ipd.cocome.cloud.serviceadapter/Services/Database</value>
-                            </projectProperties>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+<!--     <build> -->
+<!--         <plugins> -->
+<!--             <plugin> -->
+<!--                 <groupId>com.smartbear.soapui</groupId> -->
+<!--                 <artifactId>soapui-maven-plugin</artifactId>  -->
+<!--                  <executions> -->
+<!--                     <execution> -->
+<!--                         <phase>test</phase> -->
+<!--                         <goals> -->
+<!--                             <goal>test</goal> -->
+<!--                         </goals> -->
+<!--                         <configuration> -->
+<!--                             <projectFile>${project.build.directory}/../CoCoME-test-soapui-project.xml</projectFile> -->
+<!--                             <output-folder>${project.build.directory}/../output</output-folder> -->
+<!--                             <projectProperties> -->
+<!--                             	Change these settings according to the setup -->
+<!--                             	<value>wsdlLocationBaseURL=http://localhost:8280/</value> -->
+<!--                             	<value>serviceAdapterDatabaseURL=http://localhost:8181/de.kit.ipd.cocome.cloud.serviceadapter/Services/Database</value> -->
+<!--                             </projectProperties> -->
+<!--                         </configuration> -->
+<!--                     </execution> -->
+<!--                 </executions> -->
+<!--             </plugin> -->
+<!--         </plugins> -->
+<!--     </build> -->
     <dependencies>
     	<dependency>
     		<groupId>org.cocome</groupId>

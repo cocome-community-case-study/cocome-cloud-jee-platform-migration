@@ -29,7 +29,7 @@
 						<user>${local.glassfish.user}</user>
 						<passwordFile>${local.glassfish.passwordfile}</passwordFile>
 						<domain>
-							<name>cocome-logic</name>
+							<name>${local.glassfish.domain}</name>
 							<httpPort>${local.glassfish.httpPort}</httpPort>
 							<adminPort>${local.glassfish.adminPort}</adminPort>
 						</domain>
