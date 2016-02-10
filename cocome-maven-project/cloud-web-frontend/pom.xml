@@ -14,16 +14,16 @@
 	<properties>
 		<logic.protocol>http</logic.protocol>
 		<logic.host>localhost</logic.host>
-		<logic.port>8280</logic.port>
+		<logic.port>8383</logic.port>
 		<logic.baseDir></logic.baseDir>
 		<logic.cashDeskService>/CashDeskService</logic.cashDeskService>
 		<logic.storeService>/StoreService</logic.storeService>
 		<logic.enterpriseService>/EnterpriseService</logic.enterpriseService>
-		<glassfish-web-domain>cocome-frontend</glassfish-web-domain>
+		<glassfish-web-domain>web-domain</glassfish-web-domain>
 		<glassfish-web-user>admin</glassfish-web-user>
-		<glassfish-web-passwordFile>${local.glassfish.home}\\domains\\${glassfish-web-domain}\\config\\passwordfile.txt</glassfish-web-passwordFile>
-		<glassfish-web-httpPort>8180</glassfish-web-httpPort>
-		<glassfish-web-adminPort>8148</glassfish-web-adminPort>
+		<glassfish-web-passwordFile>${local.glassfish.home}/domains/${glassfish-web-domain}/config/domain-passwords</glassfish-web-passwordFile>
+		<glassfish-web-httpPort>8282</glassfish-web-httpPort>
+		<glassfish-web-adminPort>4850</glassfish-web-adminPort>
 	</properties>
 
 	<dependencies>
