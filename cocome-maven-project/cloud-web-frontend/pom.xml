@@ -85,6 +85,12 @@
 						</configuration>
 					</execution>
 				</executions>
+                <configuration>
+					<!-- Needed with JDK 8 (JAXP 1.5) -->
+					<vmArgs>
+						<vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+					</vmArgs>
+				</configuration>
 			</plugin>
 
 			<plugin>
