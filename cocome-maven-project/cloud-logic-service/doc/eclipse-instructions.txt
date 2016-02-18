@@ -200,6 +200,16 @@ deployment process, there might be parts up and running which can cause
 additional trouble after fixing the issue and trying installation again.
 In this cas run mvn clean on command line or in Eclipse.
 
+Note: In case Eclipse can not validate the JSP files in the 
+cocome-web-frontend project you need to go to Project -> Project Facets
+and activate the Java Server Faces facet with 2.1 as the version.
+
+Note: Eclipse may show an error validating the file 
+src/main/resources/solver/cocome.mod in the cocome-logic-service project.
+This error can safely be ignored or the folder can be excluded from 
+validation by right-clicking on it and selecting Exclude Validation 
+from the menu.
+
 1. Deploy cloud-logic-service
 
 To run the logic service select the cloud-logic-service project and
