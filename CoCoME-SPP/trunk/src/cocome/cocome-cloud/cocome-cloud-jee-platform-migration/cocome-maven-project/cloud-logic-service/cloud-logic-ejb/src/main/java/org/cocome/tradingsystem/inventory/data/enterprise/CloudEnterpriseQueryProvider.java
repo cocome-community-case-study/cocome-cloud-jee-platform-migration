@@ -161,7 +161,6 @@ public class CloudEnterpriseQueryProvider implements IEnterpriseQueryLocal {
 	public Collection<TradingEnterprise> queryAllEnterprises() {
 		Collection<TradingEnterprise> enterprises = csvHelper.getEnterprisesFromCSV(
 				backendConnection.getEnterprises("name=LIKE%20'*'"));
-				
 		return enterprises;
 	}
 
