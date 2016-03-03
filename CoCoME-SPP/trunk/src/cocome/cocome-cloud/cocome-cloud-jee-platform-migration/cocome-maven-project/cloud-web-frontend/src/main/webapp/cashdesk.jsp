@@ -54,7 +54,7 @@
 							<h:message for="pin" style="color:red" />
 							<h:message for="result" style="color:red" />
 							<h:panelGroup
-								rendered="#{login.per == 'admin' or login.per == 'Cashier'}">
+								rendered="#{login.per == 'admin' or login.per == 'cashier'}">
 								<table>
 									<tr>
 										<td>
@@ -85,7 +85,7 @@
 						</center>
 					</div>
 					<h:panelGroup
-						rendered="#{newSaleProcess.cashDeskNameSet and (login.per == 'admin' or login.per == 'Cashier') 
+						rendered="#{newSaleProcess.cashDeskNameSet and (login.per == 'admin' or login.per == 'cashier') 
 							and newSaleProcess.saleStarted}">
 
 						<div id="LeftSide">
@@ -254,7 +254,7 @@
 					</h:panelGroup>
 
 					<h:panelGroup
-						rendered="#{not newSaleProcess.cashDeskNameSet and (login.per == 'admin' or login.per == 'Cashier')}">
+						rendered="#{not newSaleProcess.cashDeskNameSet and (login.per == 'admin' or login.per == 'cashier')}">
 						<div id="Center">
 							<table align="center">
 
