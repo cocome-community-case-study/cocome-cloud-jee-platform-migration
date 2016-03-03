@@ -13,6 +13,8 @@
 	</modules>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
 		<java-version>1.7</java-version>
 		<ejb-spec-version>3.1</ejb-spec-version>
 		<ear-spec-version>6</ear-spec-version>
@@ -31,6 +33,28 @@
 		<jaxws-plugin-version>2.3</jaxws-plugin-version>
 		<maven-dep-plugin-version>2.1</maven-dep-plugin-version>
 		<maven-build-helper-version>1.9.1</maven-build-helper-version>
+		
+		<!-- deployment properties -->
+		<local.glassfish.home>/home/rju/glassfish4/glassfish</local.glassfish.home>
+		
+		<logic.protocol>http</logic.protocol>
+		<logic.domain>cocome</logic.domain>
+		<logic.host>192.168.48.232</logic.host>
+		<logic.httpPort>8080</logic.httpPort>
+		<logic.adminPort>4848</logic.adminPort>
+		<logic.user>admin</logic.user>
+		<logic.password>admin</logic.password>
+		<logic.baseDir></logic.baseDir>
+		<logic.cashDeskService>/CashDeskService</logic.cashDeskService>
+		<logic.storeService>/StoreService</logic.storeService>
+		<logic.enterpriseService>/EnterpriseService</logic.enterpriseService>
+		
+		<web.domain>cocome</web.domain>
+		<web.host>192.168.48.206</web.host>
+		<web.httpPort>8080</web.httpPort>
+		<web.adminPort>4848</web.adminPort>
+		<web.user>admin</web.user>
+		<web.password>admin</web.password>
 	</properties>
 	
 	
@@ -68,10 +92,10 @@
 			<name>official maven central repo</name>
 			<url>http://repo1.maven.org/maven2/</url>
 		</pluginRepository>
-        <pluginRepository>
-            <id>SmartBearPluginRepository</id>
-            <url>http://www.soapui.org/repository/maven2/</url>
-        </pluginRepository>
+		<pluginRepository>
+			<id>SmartBearPluginRepository</id>
+			<url>http://www.soapui.org/repository/maven2/</url>
+		</pluginRepository>
 	</pluginRepositories>
 
 	<dependencyManagement>
@@ -161,23 +185,24 @@
 				</plugin>
 				
 				<plugin>
-				    <groupId>org.apache.maven.plugins</groupId>
-                	<artifactId>maven-dependency-plugin</artifactId>
-                	<version>${maven-dep-plugin-version}</version>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${maven-dep-plugin-version}</version>
 				</plugin>
 				
 				<plugin>
-                  <groupId>org.jvnet.jax-ws-commons</groupId>
-                  <artifactId>jaxws-maven-plugin</artifactId>
-                  <version>${jaxws-plugin-version}</version>
+					<groupId>org.jvnet.jax-ws-commons</groupId>
+					<artifactId>jaxws-maven-plugin</artifactId>
+					<version>${jaxws-plugin-version}</version>
 				</plugin>
 				
 				<plugin>
-                	<groupId>com.smartbear.soapui</groupId>
-                	<artifactId>soapui-maven-plugin</artifactId>
-                	<version>${soapui-plugin-version}</version>
-                </plugin>
+					<groupId>com.smartbear.soapui</groupId>
+					<artifactId>soapui-maven-plugin</artifactId>
+					<version>${soapui-plugin-version}</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
 </project>
+

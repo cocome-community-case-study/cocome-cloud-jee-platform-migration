@@ -4,7 +4,7 @@
 	<artifactId>cloud-logic-service</artifactId>
 	<packaging>pom</packaging>
 	<name>cloud-logic-service</name>
-	
+		
 	<parent>
   		<groupId>org.cocome</groupId>
   		<artifactId>cocome-maven-project</artifactId>
@@ -26,12 +26,13 @@
 					<artifactId>maven-glassfish-plugin</artifactId>
 					<configuration>
 						<glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
-						<user>${local.glassfish.user}</user>
-						<passwordFile>${local.glassfish.passwordfile}</passwordFile>
+						<user>${logic.user}</user>
+						<adminPassword>${logic.password}</adminPassword>
 						<domain>
-							<name>${local.glassfish.domain}</name>
-							<httpPort>${local.glassfish.httpPort}</httpPort>
-							<adminPort>${local.glassfish.adminPort}</adminPort>
+							<name>${logic.domain}</name>
+							<host>${logic.host}</host>
+							<httpPort>${logic.httpPort}</httpPort>
+							<adminPort>${logic.adminPort}</adminPort>
 						</domain>
 						<components>
 							<component>

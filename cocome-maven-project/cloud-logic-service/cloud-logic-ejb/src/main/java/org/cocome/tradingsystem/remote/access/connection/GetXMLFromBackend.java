@@ -38,33 +38,35 @@ public class GetXMLFromBackend {
 	}
 
 	public String getXMLFromBackend(String urlString) {
-
+		String note = "init";
 		try {
 
 			// make Connection to Back-End to Get XML-File
 			URL url = new URL(urlString);
-			LOG.debug("Opening URL: " + urlString);
+			note = "url";
+			LOG.info("Opening URL: " + urlString);
 			URLConnection conn = url.openConnection();
-
+			note = "connected " + conn.toString();
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
+			note = "prerequest";
 			conn.addRequestProperty("Content-Type", "application/csv");
-
+			note = "added requested properties " + url + " " + conn;
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					conn.getInputStream()));
-
+			note = "buffer def " + in.toString();
 			String inputLine;
 
 			StringBuffer response = new StringBuffer();
-
+			note = "string buf " + response.toString();
 			while ((inputLine = in.readLine()) != null) {
 
 				response.append(inputLine);
 				response.append(System.getProperty("line.separator"));
 			}
-
+			note = "copied data";
 			in.close();
-			
+			note = "input closed";
 			this.message = response.toString();
 			return this.message;
 
@@ -77,7 +79,7 @@ public class GetXMLFromBackend {
 		} catch (IOException ex) {
 			LOG.error("Encountered IOException: " + ex.toString() + 
 					"\nCause: " + (ex.getCause() == null ? "No throwable cause" : ex.getCause().toString()) +
-					"\nTrace: ");
+					"\nTrace: " + " X " + note);
 			ex.printStackTrace();
 			return "IOExceptions";
 		}
@@ -86,7 +88,7 @@ public class GetXMLFromBackend {
 	
 	private String getURLToBackend() {
 		String url = "http://" + backendHost + ":" + backendPort + backendGetDataURL;
-		LOG.debug("URL to get data from Backend: " + url);
+		LOG.info("URL to get data from Backend: " + url);
 		return url;
 	}
 	

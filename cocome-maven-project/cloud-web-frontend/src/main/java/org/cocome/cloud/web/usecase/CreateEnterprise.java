@@ -439,17 +439,22 @@ public class CreateEnterprise implements ActionListener, IUseCase {
 	public String getAllFromDB(){
 		disableAllViewElements();
 		
+		String pos = "init";
 		try {
 			List<EnterpriseTO> enterprises = enterpriseManager.getEnterprises();
+			pos = "list " + enterprises.size();
 			this.listOfEnterprise = new ArrayList<EnterpriseTOWrapper>(
 					enterprises.size());
-
+			pos = "stored list " + enterprises.size();
 			for (EnterpriseTO enterprise : enterprises) {
 				listOfEnterprise.add(new EnterpriseTOWrapper(enterprise));
 			}
+			pos = "looped";
 			this.viewData = true;
 		} catch (SOAPFaultException e) {
-			this.messages.add("Could not connect to database!");
+			this.messages.add("Could not connect to database! " + e.getMessage() + " " 
+					+ pos
+			);
 			this.showMessage = true;
 		}
 		return "Get ALL";
