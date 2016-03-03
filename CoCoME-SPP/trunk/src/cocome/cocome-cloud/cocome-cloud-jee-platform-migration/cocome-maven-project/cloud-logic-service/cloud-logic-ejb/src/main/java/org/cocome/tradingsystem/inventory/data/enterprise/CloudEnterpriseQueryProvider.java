@@ -111,7 +111,7 @@ public class CloudEnterpriseQueryProvider implements IEnterpriseQueryLocal {
 			throws NotInDatabaseException {
 		try {
 			TradingEnterprise enterprise = csvHelper.getEnterprisesFromCSV(
-					backendConnection.getEnterprises("name=LIKE'" + enterpriseName + "'")).iterator().next();
+					backendConnection.getEnterprises("name=LIKE%20'" + enterpriseName + "'")).iterator().next();
 			return enterprise;
 		} catch (NoSuchElementException e) {
 			throw new NotInDatabaseException(
@@ -160,7 +160,7 @@ public class CloudEnterpriseQueryProvider implements IEnterpriseQueryLocal {
 	@Override
 	public Collection<TradingEnterprise> queryAllEnterprises() {
 		Collection<TradingEnterprise> enterprises = csvHelper.getEnterprisesFromCSV(
-				backendConnection.getEnterprises("name=LIKE'*'"));
+				backendConnection.getEnterprises("name=LIKE%20'*'"));
 				
 		return enterprises;
 	}
@@ -217,7 +217,7 @@ public class CloudEnterpriseQueryProvider implements IEnterpriseQueryLocal {
 	@Override
 	public Collection<Product> queryAllProducts() {
 		Collection<Product> products = csvHelper.getProductsFromCSV(
-				backendConnection.getProducts("name=LIKE'*'"));
+				backendConnection.getProducts("name=LIKE%20'*'"));
 				
 		return products;
 	}
