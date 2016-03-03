@@ -45,7 +45,7 @@ public class CloudStoreQueryProvider implements IStoreQueryLocal {
 		}
 		
 		List<Store> stores = (List<Store>) csvHelper.getStoresFromCSV(
-				backendConnection.getStores("name=LIKE'" + name + "';Store.location=LIKE'" + locationQuery + "'"));
+				backendConnection.getStores("name=LIKE%20'" + name + "';Store.location=LIKE%20'" + locationQuery + "'"));
 		
 		if (stores.size() > 1) {
 			LOG.warn("More than one store with name " + name + 

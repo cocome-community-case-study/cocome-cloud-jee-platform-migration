@@ -629,7 +629,7 @@ public class CreateEnterprise implements ActionListener, IUseCase {
 		try {
 			StoreWithEnterpriseTO newStore = new StoreWithEnterpriseTO();
 			newStore.setEnterpriseTO(updateStore_data.getEnterpriseTO());
-			newStore.setId(newStoreId != null ? Long.parseLong(newStoreId) : 0);
+			newStore.setId(0);
 			newStore.setLocation(newStoreLocation);
 			newStore.setName(newStoreName);
 			
