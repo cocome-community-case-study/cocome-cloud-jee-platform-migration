@@ -10,6 +10,12 @@ import javax.xml.bind.annotation.XmlElement;
 import org.cocome.cloud.webservice.exception.UnhandledException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 
+/**
+ * Webservice interface of a card reader at a cash desk.
+ * 
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
+ */
 @WebService
 public interface ICardReader {
 	@WebMethod

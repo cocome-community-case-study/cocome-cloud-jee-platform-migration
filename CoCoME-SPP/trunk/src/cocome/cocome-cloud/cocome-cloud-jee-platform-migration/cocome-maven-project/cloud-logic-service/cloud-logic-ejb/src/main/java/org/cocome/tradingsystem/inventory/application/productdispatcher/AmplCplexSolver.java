@@ -50,8 +50,10 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  * 
  * @author kelsaka
  * @author Lubomir Bulej
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
-class AmplCplexSolver implements IOptimizationSolverLocal {
+public class AmplCplexSolver implements IOptimizationSolverLocal {
 
 	private static final Logger __log__ =
 			Logger.getLogger(AmplCplexSolver.class);

@@ -29,6 +29,8 @@ import org.cocome.tradingsystem.util.java.TimeSpan;
  * to switch a cash desk into express mode.
  * 
  * @author Lubomir Bulej
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 public abstract class ExpressModePolicy {
 

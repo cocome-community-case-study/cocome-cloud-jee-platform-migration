@@ -134,4 +134,16 @@ public class GetXMLFromBackend {
 				getXMLFromBackend(getURLToBackend() + "?query.select=entity.type=" + entity + ";" + cond));
 		return csv.getCSV();
 	}
+	
+	public String getUser(String cond) {
+		MessageToCSV csv = new MessageToCSV(
+				getXMLFromBackend(getURLToBackend() + "?query.select=entity.type=LoginUser;LoginUser." + cond));
+		return csv.getCSV();
+	}
+	
+	public String getCustomer(String cond) {
+		MessageToCSV csv = new MessageToCSV(
+				getXMLFromBackend(getURLToBackend() + "?query.select=entity.type=Customer;Customer." + cond));
+		return csv.getCSV();
+	}
 }

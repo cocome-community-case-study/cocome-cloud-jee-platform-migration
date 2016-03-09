@@ -31,6 +31,7 @@ import org.cocome.tradingsystem.cashdeskline.events.CreditCardScannedEvent;
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Stateless
 public class CardReaderModel implements ICardReaderLocal {

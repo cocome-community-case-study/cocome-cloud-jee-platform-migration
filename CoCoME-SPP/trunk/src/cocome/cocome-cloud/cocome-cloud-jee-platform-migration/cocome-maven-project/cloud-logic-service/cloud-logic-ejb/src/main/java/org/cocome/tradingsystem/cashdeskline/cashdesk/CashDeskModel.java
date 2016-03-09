@@ -69,6 +69,7 @@ import org.cocome.tradingsystem.util.scope.context.INamedSessionContext;
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 
 @CashDeskSessionScoped
@@ -213,11 +214,6 @@ public class CashDeskModel implements Serializable, ICashDeskModelLocal {
 	//
 
 	boolean expressModeEnabled = false;
-	
-	// Determines whether the cash desk should send this event
-	// Needed because it is possible to enter the amount directly
-	// via the cash desk and digit by digit via the cash box
-	boolean sendCashAmountEntered = true;
 
 	//
 	// Sale state
@@ -230,14 +226,6 @@ public class CashDeskModel implements Serializable, ICashDeskModelLocal {
 	private double runningTotal;
 
 	String cardInfo;
-
-	public boolean isSendCashAmountEntered() {
-		return sendCashAmountEntered;
-	}
-
-	public void setSendCashAmountEntered(boolean sendCashAmountEntered) {
-		this.sendCashAmountEntered = sendCashAmountEntered;
-	}
 	
 	/**
 	 * {@inheritDoc}
@@ -299,7 +287,6 @@ public class CashDeskModel implements Serializable, ICashDeskModelLocal {
 		this.runningTotal = 0.0;
 		this.saleProducts = Lists.newArrayList();
 		this.cardInfo = INVALID_CARD_INFO;
-		this.sendCashAmountEntered = true;
 	}
 
 	private void sendSaleStartedEvent() {
@@ -483,10 +470,7 @@ public class CashDeskModel implements Serializable, ICashDeskModelLocal {
 		final double change = this.computeChangeAmount(amount);
 		if (Math.signum(change) >= 0) {
 			this.state = CashDeskState.PAID_BY_CASH;
-			if (this.sendCashAmountEntered) {
-				// The method was called directly, not caused by the cash box
-				this.sendCashAmountEnteredEvent(amount);
-			}
+			this.sendCashAmountEnteredEvent(amount);
 			this.sendChangeAmountCalculatedEvent(change);
 
 		} else {
@@ -606,7 +590,7 @@ public class CashDeskModel implements Serializable, ICashDeskModelLocal {
 
 		//
 		// Request the store inventory system to account for the sale.
-		// This uses JMS so that the notification can be asynchronous
+		// This should use JMS so that the notification can be asynchronous
 		// and the message persisted.
 		//
 		this.sendAccountSaleEvent(saleTO);

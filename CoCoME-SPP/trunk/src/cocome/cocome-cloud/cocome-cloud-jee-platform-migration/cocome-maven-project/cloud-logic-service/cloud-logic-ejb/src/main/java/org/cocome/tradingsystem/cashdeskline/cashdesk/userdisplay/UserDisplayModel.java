@@ -26,6 +26,7 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
  * 
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 
 @CashDeskSessionScoped

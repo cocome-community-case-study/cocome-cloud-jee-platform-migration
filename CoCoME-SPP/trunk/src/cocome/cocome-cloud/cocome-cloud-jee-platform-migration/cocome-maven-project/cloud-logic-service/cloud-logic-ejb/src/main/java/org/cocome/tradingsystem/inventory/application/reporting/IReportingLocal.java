@@ -27,6 +27,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  * @author Sebastian Herold
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Local
 public interface IReportingLocal {

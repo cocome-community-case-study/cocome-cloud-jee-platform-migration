@@ -36,6 +36,7 @@ import org.cocome.tradingsystem.util.mvc.AbstractModel;
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Singleton
 public class CoordinatorModel extends AbstractModel<CoordinatorModel> implements ICoordinatorModelLocal {

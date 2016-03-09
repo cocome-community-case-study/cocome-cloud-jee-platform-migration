@@ -24,6 +24,7 @@ import javax.ejb.Local;
  * @author Holger Klus
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Local
 public interface IBarcodeScannerLocal {

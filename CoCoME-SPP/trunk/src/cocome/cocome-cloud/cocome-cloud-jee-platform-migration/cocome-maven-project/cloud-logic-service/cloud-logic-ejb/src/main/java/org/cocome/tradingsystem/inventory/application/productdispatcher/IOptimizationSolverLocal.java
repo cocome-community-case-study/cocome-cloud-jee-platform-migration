@@ -32,6 +32,8 @@ import org.cocome.tradingsystem.inventory.data.store.Store;
  * Required for UC8.
  * 
  * @author kelsaka
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Local
 interface IOptimizationSolverLocal {

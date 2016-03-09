@@ -23,6 +23,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
 /**
  * 
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  *
  */
 @WebService(endpointInterface=

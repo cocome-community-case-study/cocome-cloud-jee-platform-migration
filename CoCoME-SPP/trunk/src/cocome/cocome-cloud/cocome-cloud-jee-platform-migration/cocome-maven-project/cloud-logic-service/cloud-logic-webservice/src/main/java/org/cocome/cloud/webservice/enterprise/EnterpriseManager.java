@@ -320,4 +320,16 @@ public class EnterpriseManager implements IEnterpriseManager {
 		}
 	}
 
+	@Override
+	public ProductTO getProductByID(long productID) throws NotInDatabaseException {
+		Product product = enterpriseQuery.queryProductByID(productID);
+		return FillTransferObjects.fillProductTO(product);
+	}
+	
+	@Override
+	public ProductTO getProductByBarcode(long barcode) throws NotInDatabaseException {
+		Product product = enterpriseQuery.queryProductByBarcode(barcode);
+		return FillTransferObjects.fillProductTO(product);
+	}
+
 }

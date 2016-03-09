@@ -49,6 +49,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 
 @Dependent
@@ -136,7 +137,6 @@ class CashDeskEventHandler implements ICashDeskEventConsumerLocal, Serializable 
 			final double cashAmount = event.getCashAmount();
 			LOG.debug("\tcashAmount: " + cashAmount);
 
-			this.cashDesk.setSendCashAmountEntered(false);
 			this.cashDesk.startCashPayment(cashAmount);
 		}
 	}

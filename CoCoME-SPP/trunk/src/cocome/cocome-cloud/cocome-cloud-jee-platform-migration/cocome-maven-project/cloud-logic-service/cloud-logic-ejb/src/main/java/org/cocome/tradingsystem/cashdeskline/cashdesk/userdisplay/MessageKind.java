@@ -21,6 +21,7 @@ package org.cocome.tradingsystem.cashdeskline.cashdesk.userdisplay;
  * display.
  * 
  * @author Lubomir Bulej
+ * @author Robert Heinrich
  */
 public enum MessageKind {
 	/**

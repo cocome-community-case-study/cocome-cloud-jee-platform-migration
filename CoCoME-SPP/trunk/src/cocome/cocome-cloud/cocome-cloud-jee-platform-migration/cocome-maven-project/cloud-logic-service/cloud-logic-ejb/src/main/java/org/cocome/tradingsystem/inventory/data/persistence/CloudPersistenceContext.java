@@ -15,6 +15,8 @@ import org.cocome.tradingsystem.inventory.data.enterprise.TradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.store.ProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.StockItem;
 import org.cocome.tradingsystem.inventory.data.store.Store;
+import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
+import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 import org.cocome.tradingsystem.remote.access.connection.CSVBackendConnection;
 
 @Stateless
@@ -258,6 +260,79 @@ public class CloudPersistenceContext implements IPersistenceContextLocal {
 		} else {
 			throw new UpdateException("The entity with class " + entity.getClass() + " is not recognized and can not be updated!");
 		}		
+	}
+
+	@Override
+	public void createEntity(IUser user) throws CreateException {
+		String content = ServiceAdapterEntityConverter.getUserContent(user);
+		try {
+			postData.sendCreateQuery("LoginUser", ServiceAdapterHeaders.USER_CREATE_HEADER, content);
+		} catch (IOException e) {
+			LOG.error("Could not execute post because of an IOException: " + e.getMessage());
+			throw new CreateException("Could not create entity!");
+		}
+		
+		if(!postData.getResponse().contains("SUCCESS")) {
+			throw new CreateException("Could not create entity!");
+		}
+	}
+
+	@Override
+	public void updateEntity(IUser user) throws UpdateException {
+		String content = ServiceAdapterEntityConverter.getUserContent(user);
+		try {
+			postData.sendUpdateQuery("LoginUser", ServiceAdapterHeaders.USER_UPDATE_HEADER, content);
+		} catch (IOException e) {
+			LOG.error("Could not execute post because of an IOException: " + e.getMessage());
+			throw new UpdateException("Could not connect to the database!");
+		}
+		
+		if(!postData.getResponse().contains("SUCCESS")) {
+			throw new UpdateException("Could not create entity!");
+		}
+	}
+
+	@Override
+	public void createEntity(ICustomer customer) throws CreateException {
+		String content = ServiceAdapterEntityConverter.getCustomerContent(customer);
+		
+		// TODO Transactions would be good here
+		createEntity(customer.getUser());
+		
+		try {
+			postData.sendCreateQuery("Customer", 
+					customer.getPreferredStore() == null ? 
+							ServiceAdapterHeaders.CUSTOMER_CREATE_HEADER 
+							: ServiceAdapterHeaders.CUSTOMER_CREATE_HEADER_WITH_STORE,
+					content);
+		} catch (IOException e) {
+			LOG.error("Could not execute post because of an IOException: " + e.getMessage());
+			throw new CreateException("Could not create entity!");
+		}
+		
+		if(!postData.getResponse().contains("SUCCESS")) {
+			throw new CreateException("Could not create entity!");
+		}
+	}
+
+	@Override
+	public void updateEntity(ICustomer customer) throws UpdateException {
+		String content = ServiceAdapterEntityConverter.getUpdateCustomerContent(customer);
+		
+		try {
+			postData.sendUpdateQuery("Customer", 
+					customer.getPreferredStore() == null ? 
+							ServiceAdapterHeaders.CUSTOMER_UPDATE_HEADER 
+							: ServiceAdapterHeaders.CUSTOMER_UPDATE_HEADER_WITH_STORE,
+					content);
+		} catch (IOException e) {
+			LOG.error("Could not execute post because of an IOException: " + e.getMessage());
+			throw new UpdateException("Could not connect to the database!");
+		}
+		
+		if(!postData.getResponse().contains("SUCCESS")) {
+			throw new UpdateException("Could not create entity!");
+		}
 	}
 	
 	

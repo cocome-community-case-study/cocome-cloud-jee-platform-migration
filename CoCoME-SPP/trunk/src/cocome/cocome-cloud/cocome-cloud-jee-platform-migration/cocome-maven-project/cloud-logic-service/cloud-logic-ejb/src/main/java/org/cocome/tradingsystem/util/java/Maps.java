@@ -52,7 +52,7 @@ public class Maps {
 	 * @param <V>
 	 *            the type of the value
 	 * @return
-	 *         new instance of HashMap <K, V>
+	 *         new instance of HashMap &gt;K, V&lt;
 	 */
 	public static <K, V> HashMap<K, V> newHashMap() {
 		return new HashMap<K, V>();
@@ -69,7 +69,7 @@ public class Maps {
 	 * @param <V>
 	 *            the type of the value
 	 * @return
-	 *         new instance of HashMap <K, V>
+	 *         new instance of HashMap &gt;K, V&lt;
 	 */
 	public static <K, V> Map<K, V> newHashMap(final Map<K, V> source) {
 		return new HashMap<K, V>(source);
@@ -85,7 +85,7 @@ public class Maps {
 	 * @param <V>
 	 *            the type of the value
 	 * @return
-	 *         new instance of LinkedHashMap <K, V>
+	 *         new instance of LinkedHashMap &gt;K, V&lt;
 	 */
 	public static <K, V> LinkedHashMap<K, V> newLinkedHashMap() {
 		return new LinkedHashMap<K, V>();
@@ -101,7 +101,7 @@ public class Maps {
 	 * @param <V>
 	 *            the type of the value
 	 * @return
-	 *         new instance of ConcurrentHashMap <K, V>
+	 *         new instance of ConcurrentHashMap &gt;K, V&lt;
 	 */
 	public static <K, V> ConcurrentHashMap<K, V> newConcurrentHashMap() {
 		return new ConcurrentHashMap<K, V>();

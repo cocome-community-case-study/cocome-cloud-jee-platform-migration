@@ -25,6 +25,8 @@ import org.cocome.tradingsystem.cashdeskline.datatypes.PaymentMode;
  * 
  * @author Yannick Welsch
  * @author Lubomir Bulej
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 class Sale {
 

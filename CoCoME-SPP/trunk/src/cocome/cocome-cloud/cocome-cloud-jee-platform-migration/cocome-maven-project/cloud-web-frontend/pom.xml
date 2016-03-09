@@ -4,11 +4,12 @@
 	<artifactId>cloud-web-frontend</artifactId>
 	<packaging>war</packaging>
 	<name>cloud-web-frontend</name>
+	<version>1.1</version>
 
 	<parent>
 		<groupId>org.cocome</groupId>
 		<artifactId>cocome-maven-project</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.1</version>
 	</parent>
 
 	<dependencies>
@@ -34,6 +35,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>cloud-logic-webservicestubs</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
 			<groupId>net.kieker-monitoring</groupId>
 			<artifactId>kieker</artifactId>
 			<version>1.12</version>
@@ -47,47 +53,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.jvnet.jax-ws-commons</groupId>
-				<artifactId>jaxws-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>wsimport</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>wsimport</goal>
-						</goals>
-
-						<configuration>
-							<wsdlUrls>
-								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/CashDesk?wsdl</wsdlUrl>
-								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/BarcodeScanner?wsdl</wsdlUrl>
-								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/CashBox?wsdl</wsdlUrl>
-								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/CardReader?wsdl</wsdlUrl>
-								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/ExpressLight?wsdl</wsdlUrl>
-								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/Printer?wsdl</wsdlUrl>
-								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/UserDisplay?wsdl</wsdlUrl>
-								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.storeService}/StoreManager?wsdl</wsdlUrl>
-								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.enterpriseService}/EnterpriseManager?wsdl</wsdlUrl>
-								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.enterpriseService}/EnterpriseReport?wsdl</wsdlUrl>
-							</wsdlUrls>
-							<!-- Keep generated files -->
-							<keep>true</keep>
-							<!-- Package name -->
-							<packageName>org.cocome.logic.stub</packageName>
-							<!-- generated source files destination -->
-							<sourceDestDir>${project.build.directory}/generated-sources/src</sourceDestDir>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<!-- Needed with JDK 8 (JAXP 1.5) -->
-					<vmArgs>
-						<vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
-					</vmArgs>
-				</configuration>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -150,23 +115,6 @@
 						</manifest>
 					</archive>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${project.build.directory}/generated-sources/src</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

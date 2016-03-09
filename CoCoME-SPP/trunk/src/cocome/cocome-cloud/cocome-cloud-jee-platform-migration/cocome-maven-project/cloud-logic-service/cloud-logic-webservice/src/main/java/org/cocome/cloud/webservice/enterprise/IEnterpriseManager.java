@@ -83,6 +83,26 @@ public interface IEnterpriseManager {
 	@WebMethod
 	public Collection<ProductTO> getAllProducts();
 	
+	/**
+	 * Retrieves the product with the given ID if it is stored in the database.
+	 * The product does not have to be available in any store.
+	 * 
+	 * @return The {@code ProductTO} with the given ID or null if it was not found
+	 * @throws NotInDatabaseException 
+	 */
+	@WebMethod
+	public ProductTO getProductByID(long productID) throws NotInDatabaseException;
+	
+	/**
+	 * Retrieves the product with the given barcode if it is stored in the database.
+	 * The product does not have to be available in any store.
+	 * 
+	 * @return The {@code ProductTO} with the given ID or null if it was not found
+	 * @throws NotInDatabaseException 
+	 */
+	@WebMethod
+	public ProductTO getProductByBarcode(long barcode) throws NotInDatabaseException;
+	
 	@WebMethod
 	public void createEnterprise(
 			@XmlElement(required = true) @WebParam(name = "enterpriseName") String enterpriseName) 

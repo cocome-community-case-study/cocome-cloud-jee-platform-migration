@@ -41,10 +41,8 @@ import org.cocome.tradingsystem.util.exception.BaseException;
  * 
  * @author Lubomir Bulej
  * @author Reiner Jung
- */
-/**
- * @author rju
- * 
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 
 public class IllegalCashDeskStateException extends BaseException {

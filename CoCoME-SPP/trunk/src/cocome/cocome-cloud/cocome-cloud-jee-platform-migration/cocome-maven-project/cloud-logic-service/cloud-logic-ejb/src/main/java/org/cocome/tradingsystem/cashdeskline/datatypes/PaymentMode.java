@@ -24,6 +24,8 @@ import javax.xml.bind.annotation.XmlType;
  * Enumerates the possible payment modes.
  * 
  * @author Yannick Welsch
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @XmlType(name = "PaymentMode")
 @XmlEnum

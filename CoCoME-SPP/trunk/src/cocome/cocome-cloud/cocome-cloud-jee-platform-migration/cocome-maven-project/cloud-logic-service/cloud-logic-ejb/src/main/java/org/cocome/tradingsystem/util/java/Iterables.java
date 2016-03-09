@@ -163,7 +163,7 @@ public class Iterables {
 	 * 
 	 * @param <E>
 	 *            element type
-	 * @param list
+	 * @param collection
 	 *            the collection to create the iterable for
 	 * @return
 	 *         Random {@link Iterable} encapsulating the given collection.
@@ -179,7 +179,7 @@ public class Iterables {
 	 * 
 	 * @param <E>
 	 *            element type
-	 * @param list
+	 * @param collection
 	 *            the collection to create the iterable for
 	 * @return
 	 *         Sampling {@link Iterable} encapsulating the given collection.
@@ -238,7 +238,7 @@ public class Iterables {
 	 * 
 	 * @param <E>
 	 *            element type
-	 * @param array
+	 * @param collection
 	 *            the source collection to create the iterator for
 	 * @return
 	 *         {@link Iterator} encapsulating the given collection.
@@ -253,7 +253,7 @@ public class Iterables {
 	 * 
 	 * @param <E>
 	 *            element type
-	 * @param array
+	 * @param collection
 	 *            the source collection to create the iterator for
 	 * @return
 	 *         Sampling {@link Iterator} encapsulating the given collection.
@@ -268,7 +268,7 @@ public class Iterables {
 	 * 
 	 * @param <E>
 	 *            element type
-	 * @param array
+	 * @param iterable
 	 *            the source iterable to create the iterator for
 	 * @return
 	 *         {@link Iterator} encapsulating the given iterable.
@@ -283,7 +283,7 @@ public class Iterables {
 	 * 
 	 * @param <E>
 	 *            element type
-	 * @param array
+	 * @param iterable
 	 *            the source iterable to create the iterator for
 	 * @return
 	 *         {@link Iterator} encapsulating the given iterable.
@@ -336,7 +336,7 @@ public class Iterables {
 	 * 
 	 * @param <E>
 	 *            element type
-	 * @param array
+	 * @param iterable
 	 *            the source iterable to filter
 	 * @param filter
 	 *            object encapsulating the filtering method
@@ -379,7 +379,7 @@ public class Iterables {
 	 * 
 	 * @param <E>
 	 *            element type
-	 * @param array
+	 * @param iterable
 	 *            iterable containing elements to apply the lambda on
 	 * @param lambda
 	 *            object encapsulating the lambda method

@@ -80,7 +80,7 @@ public class Lists {
 	 * @param items
 	 *            collection of items to put into the list
 	 * @return
-	 *         new instance of ArrayList <E>
+	 *         new instance of ArrayList &gt;E&lt;
 	 */
 	public static <E> ArrayList<E> newArrayList(final Collection<E> items) {
 		Assert.objectNotNull(items, "items");
@@ -98,7 +98,7 @@ public class Lists {
 	 * @param items
 	 *            iterable of items to put into the list
 	 * @return
-	 *         new instance of ArrayList <E>
+	 *         new instance of ArrayList &gt;E&lt;
 	 */
 	public static <E> ArrayList<E> newArrayList(final Iterable<E> items) {
 		Assert.objectNotNull(items, "items");
@@ -121,7 +121,7 @@ public class Lists {
 	 * @param collections
 	 *            collections of items to put into the list
 	 * @return
-	 *         new instance of ArrayList <E>
+	 *         new instance of ArrayList &gt;E&lt;
 	 */
 	public static <E> List<E> newArrayList(
 			final Collection<E>... collections
@@ -144,7 +144,7 @@ public class Lists {
 	 * @param <E>
 	 *            the type of the list element
 	 * @return
-	 *         new instance of LinkedList <E>
+	 *         new instance of LinkedList &gt;E&lt;
 	 */
 	public static <E> LinkedList<E> newLinkedList() {
 		return new LinkedList<E>();
@@ -158,7 +158,7 @@ public class Lists {
 	 * @param items
 	 *            collection of items to put into the list
 	 * @return
-	 *         new instance of LinkedList <E>
+	 *         new instance of LinkedList &gt;E&lt;
 	 */
 	public static <E> LinkedList<E> newLinkedList(final Collection<E> items) {
 		Assert.objectNotNull(items, "items");
@@ -177,7 +177,7 @@ public class Lists {
 	 * @param items
 	 *            array of items to put into the list
 	 * @return
-	 *         new instance of LinkedList <E>
+	 *         new instance of LinkedList &gt;E&lt;
 	 */
 	public static <E> LinkedList<E> newLinkedList(final E... items) {
 		return new LinkedList<E>(Arrays.asList(items));
@@ -190,7 +190,7 @@ public class Lists {
 	 * @param values
 	 *            array of integers to create the list for
 	 * @return
-	 *         new instance of LinkedList <Integer>
+	 *         new instance of LinkedList &gt;Integer&lt;
 	 */
 	public static LinkedList<Integer> newLinkedList(final int... values) {
 		Assert.objectNotNull(values, "values");
@@ -212,7 +212,7 @@ public class Lists {
 	 * @param values
 	 *            array of strings to create the list for
 	 * @return
-	 *         new instance of LinkedList <String>
+	 *         new instance of LinkedList &gt;String&lt;
 	 */
 	public static LinkedList<String> newLinkedList(final String... values) {
 		final LinkedList<String> result = new LinkedList<String>();

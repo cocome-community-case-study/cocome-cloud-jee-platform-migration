@@ -22,4 +22,22 @@ public final class ServiceAdapterHeaders {
 	public static final String PRODUCTSUPPLIER_UPDATE_HEADER = "ProductSupplierId;ProductSupplierName";
 	
 	public static final String SEPARATOR = ";";
+
+	public static final String USER_CREATE_HEADER = "UserName;CredentialType;CredentialString;Role";
+	
+	public static final String USER_UPDATE_HEADER = "UserId;UserName;CredentialType;CredentialString;Role";
+	
+	public static final String CUSTOMER_CREATE_HEADER = "FirstName;LastName;MailAddress;"
+			+ "UserName";
+	
+	public static final String CUSTOMER_UPDATE_HEADER = "CustomerId;FirstName;LastName;MailAddress;"
+			+ "UserName";
+	
+	public static final String CUSTOMER_CREATE_HEADER_WITH_STORE = "FirstName;LastName;MailAddress;"
+			+ "PreferredStoreEnterpriseName;PreferredStoreId;PreferredStoreName;PreferredStoreLocation;"
+			+ "UserName";
+	
+	public static final String CUSTOMER_UPDATE_HEADER_WITH_STORE = "CustomerId;FirstName;LastName;MailAddress;"
+			+ "PreferredStoreEnterpriseName;PreferredStoreId;PreferredStoreName;PreferredStoreLocation;"
+			+ "UserName";
 }

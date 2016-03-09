@@ -17,6 +17,12 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
 import org.cocome.tradingsystem.util.mvc.IContentChangedListener;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
 
+/**
+ * Webservice interface for the barcode scanner of a cash desk.
+ * 
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
+ */
 @WebService(endpointInterface=
 		"org.cocome.cloud.webservice.cashdeskline.cashdesk.barcodescanner.IBarcodeScanner")
 @Stateless

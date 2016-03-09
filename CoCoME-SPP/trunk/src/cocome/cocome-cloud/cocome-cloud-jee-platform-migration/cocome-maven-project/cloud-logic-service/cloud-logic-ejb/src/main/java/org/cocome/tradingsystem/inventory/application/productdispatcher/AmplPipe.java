@@ -27,6 +27,8 @@ import java.io.PrintStream;
  * read back. This is a cleaned up version of the original {@link org.netlib.ampl.Ampl Ampl} class.
  * 
  * @author Lubomir Bulej
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 class AmplPipe {
 

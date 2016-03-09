@@ -43,6 +43,7 @@ import org.cocome.tradingsystem.cashdeskline.events.SaleSuccessEvent;
  * @author Holger Klus
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Local
 interface IUserDisplayEventConsumerLocal {

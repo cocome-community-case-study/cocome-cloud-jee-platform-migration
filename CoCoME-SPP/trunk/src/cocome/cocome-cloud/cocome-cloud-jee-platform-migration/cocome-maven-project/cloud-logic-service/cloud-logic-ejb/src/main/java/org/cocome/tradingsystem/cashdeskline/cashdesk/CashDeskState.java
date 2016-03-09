@@ -20,6 +20,8 @@ package org.cocome.tradingsystem.cashdeskline.cashdesk;
  * Enumerates the states the {@link CashDeskEventHandler} can be in.
  * 
  * @author Yannick Welsch
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 public enum CashDeskState {
 

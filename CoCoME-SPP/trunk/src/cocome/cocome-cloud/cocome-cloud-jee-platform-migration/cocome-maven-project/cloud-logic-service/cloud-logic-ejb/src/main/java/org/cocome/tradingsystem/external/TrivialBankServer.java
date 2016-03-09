@@ -26,6 +26,7 @@ import javax.ejb.Stateless;
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Stateless
 public class TrivialBankServer implements IBankLocal {
@@ -44,7 +45,6 @@ public class TrivialBankServer implements IBankLocal {
 	/**
 	 * Construct a new bank server.
 	 * 
-	 * @throws RemoteException
 	 */
 	public TrivialBankServer() {
 		super();

@@ -84,6 +84,14 @@
 	 	<endpoint-address-uri>/StoreService/StoreManager</endpoint-address-uri>
 	 </webservice-endpoint>
    </ejb>
+   
+   <ejb>
+     <ejb-name>LoginManager</ejb-name>
+	 <webservice-endpoint>
+	 	<port-component-name>LoginManager</port-component-name>
+	 	<endpoint-address-uri>/LoginService/LoginManager</endpoint-address-uri>
+	 </webservice-endpoint>
+   </ejb>
 
  </enterprise-beans>
 </glassfish-ejb-jar> 

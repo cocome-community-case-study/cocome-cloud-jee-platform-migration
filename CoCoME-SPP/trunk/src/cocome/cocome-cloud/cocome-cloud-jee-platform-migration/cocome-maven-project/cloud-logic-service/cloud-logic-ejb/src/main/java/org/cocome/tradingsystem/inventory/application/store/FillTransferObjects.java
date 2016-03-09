@@ -16,8 +16,11 @@
 
 package org.cocome.tradingsystem.inventory.application.store;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.cocome.tradingsystem.inventory.application.usermanager.credentials.CredentialTO;
+import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
 import org.cocome.tradingsystem.inventory.data.enterprise.Product;
 import org.cocome.tradingsystem.inventory.data.enterprise.ProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.TradingEnterprise;
@@ -25,6 +28,11 @@ import org.cocome.tradingsystem.inventory.data.store.OrderEntry;
 import org.cocome.tradingsystem.inventory.data.store.ProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.StockItem;
 import org.cocome.tradingsystem.inventory.data.store.Store;
+import org.cocome.tradingsystem.inventory.data.usermanager.CredentialType;
+import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
+import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
+import org.cocome.tradingsystem.inventory.data.usermanager.Role;
+import org.cocome.tradingsystem.inventory.data.usermanager.UserTO;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.java.Lists;
 
@@ -35,6 +43,7 @@ import org.cocome.tradingsystem.util.java.Lists;
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 public final class FillTransferObjects {
 
@@ -195,4 +204,45 @@ public final class FillTransferObjects {
 		return result;
 	}
 
+	public static CustomerWithStoreTO fillCustomerWithStoreTO(final ICustomer customer) {
+		final CustomerWithStoreTO result = new CustomerWithStoreTO();
+		
+		result.setId(customer.getID());
+		result.setUsername(customer.getUser().getUsername());
+		result.setRoles(new ArrayList<Role>(customer.getUser().getRoles()));
+		result.setCreditCardInfos(new ArrayList<String>(customer.getCreditCardInfo()));
+		result.setFirstName(customer.getFirstName());
+		result.setLastName(customer.getLastName());
+		result.setMailAddress(customer.getMailAddress());
+		result.setPreferredStoreTO(
+				customer.getPreferredStore() != null ? fillStoreTO(customer.getPreferredStore()) : null);
+		
+		return result;
+	}
+	
+	public static CredentialTO fillCredentialTO(final ICredential credential) {
+		final CredentialTO result = new CredentialTO();
+		
+		result.setType(credential.getType());
+		result.setCredentialChars(credential.getCredentialChars());
+		
+		return result;
+	}
+	
+	public static UserTO fillUserTO(final IUser user) {
+		final UserTO result = new UserTO();
+		
+		result.setUsername(user.getUsername());
+		result.setRoles(new ArrayList<Role>(user.getRoles()));
+		
+		// Only include authentication token but no other credentials
+		ICredential authToken = user.getCredential(CredentialType.AUTH_TOKEN); 
+		if (authToken != null) {
+			ArrayList<CredentialTO> credentials = new ArrayList<>(1);
+			credentials.add(fillCredentialTO(authToken));
+			result.setCredentials(credentials);
+		}
+		
+		return result;
+	}
 }

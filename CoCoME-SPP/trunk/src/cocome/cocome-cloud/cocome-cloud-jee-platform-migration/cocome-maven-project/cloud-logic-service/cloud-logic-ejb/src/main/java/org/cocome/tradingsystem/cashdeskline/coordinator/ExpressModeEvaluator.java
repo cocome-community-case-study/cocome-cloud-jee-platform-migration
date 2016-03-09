@@ -29,6 +29,8 @@ import org.cocome.tradingsystem.util.java.TimeSpan;
  * to retain and to distinguish between normal and express sales.
  * 
  * @author Lubomir Bulej
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 class ExpressModeEvaluator {
 

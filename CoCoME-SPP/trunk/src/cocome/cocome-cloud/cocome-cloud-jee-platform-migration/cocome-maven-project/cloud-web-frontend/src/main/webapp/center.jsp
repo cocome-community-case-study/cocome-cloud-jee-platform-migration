@@ -48,7 +48,7 @@ function resizeInputText() {
 	
 		<div class="wrapper">
 			<div class="logo">
-				<h:graphicImage url="faces/WEB-INF/image/SPP_large.png" />
+				<h:graphicImage library="image" name="SPP_large.png" />
 			</div>
 		</div>
 		
@@ -326,7 +326,8 @@ function resizeInputText() {
 									<h:outputText value="Stock item order amount" />
 								</f:facet>
 								<h:inputText value="#{elem.orderAmount}" id="order" size="4" />
-								<h:commandButton  action="#{orderProduct.order}" title="Order" styleClass="add-icon" image="faces/WEB-INF/icon/icon_shoppingcart_accept.png"/>
+								<h:commandButton  action="#{orderProduct.order}" title="Order" styleClass="add-icon"
+									image="#{resource['icon/icon_shoppingcart_accept.png']}" />
 							</h:column>
 	
 						</h:dataTable>
@@ -368,7 +369,8 @@ function resizeInputText() {
 							<h:commandButton action="#{changePrice.editStockItemPrice}"
 								value="Edit Sale Price" rendered="#{not stockItem.editingEnabled}"  />
 							<h:commandButton id="newprice" action="#{changePrice.changeSalesPrice(newPrice.value)}"
-								title="Save" rendered="#{stockItem.editingEnabled}"  styleClass="add-icon" image="faces/WEB-INF/icon/icon_save.png" />	
+								title="Save" rendered="#{stockItem.editingEnabled}"  styleClass="add-icon"
+								image="#{resource['icon/icon_save.png']}" />
 						</h:column>
 					</h:dataTable>
 				</div>
@@ -500,7 +502,8 @@ function resizeInputText() {
 								<h:outputText value="Action" />
 						</f:facet>
 							
-							<h:commandButton action="#{receiveOrderedProducts.rollInOrder}" title="Roll in order" styleClass="add-icon" image="faces/WEB-INF/icon/icon_gear_check.png" rendered="#{not r.arrived}"/>
+							<h:commandButton action="#{receiveOrderedProducts.rollInOrder}" title="Roll in order" styleClass="add-icon" rendered="#{not r.arrived}"
+								image="#{resource['icon/icon_gear_check.png']}" />
 						</h:column>
 						
 			</h:dataTable>

@@ -11,7 +11,12 @@ import org.cocome.cloud.webservice.exception.UnhandledException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
-
+/**
+ * Interface of a barcode scanner.
+ * 
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
+ */
 @WebService
 public interface IBarcodeScanner {
 	@WebMethod

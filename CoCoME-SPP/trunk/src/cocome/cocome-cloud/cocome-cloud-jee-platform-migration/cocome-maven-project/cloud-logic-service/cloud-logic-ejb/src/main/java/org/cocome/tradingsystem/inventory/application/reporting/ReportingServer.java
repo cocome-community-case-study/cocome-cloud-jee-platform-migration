@@ -37,6 +37,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Stateless
 public class ReportingServer implements IReportingLocal {
