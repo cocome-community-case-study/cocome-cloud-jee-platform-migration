@@ -2,13 +2,18 @@ package org.cocome.tradingsystem.remote.access.parsing;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
 import org.apache.log4j.Logger;
+import org.cocome.tradingsystem.inventory.application.usermanager.credentials.CredentialFactory;
+import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
 import org.cocome.tradingsystem.inventory.data.enterprise.Product;
 import org.cocome.tradingsystem.inventory.data.enterprise.ProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.TradingEnterprise;
@@ -16,10 +21,18 @@ import org.cocome.tradingsystem.inventory.data.store.OrderEntry;
 import org.cocome.tradingsystem.inventory.data.store.ProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.StockItem;
 import org.cocome.tradingsystem.inventory.data.store.Store;
+import org.cocome.tradingsystem.inventory.data.usermanager.CredentialType;
+import org.cocome.tradingsystem.inventory.data.usermanager.Customer;
+import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
+import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
+import org.cocome.tradingsystem.inventory.data.usermanager.Role;
+import org.cocome.tradingsystem.inventory.data.usermanager.User;
 
 import de.kit.ipd.java.utils.framework.table.Row;
 import de.kit.ipd.java.utils.parsing.csv.CSVParser;
 import de.kit.ipd.java.utils.time.TimeUtils;
+
+
 
 @RequestScoped
 public class CSVHelper {
@@ -45,15 +58,37 @@ public class CSVHelper {
 	@Inject
 	Provider<OrderEntry> orderEntryProvider;
 	
+	@Inject
+	Provider<Customer> customerProvider;
+	
+	@Inject
+	Provider<User> userProvider;
+	
+	@Inject
+	CredentialFactory credFactory;
+	
 	private static final Logger LOG = Logger.getLogger(CSVHelper.class);
 	
 	private Store getStoreFromRow(Row<String> row) {
+		return getStoreFromRow(row, 0);
+	}
+	
+	private Store getStoreFromRow(Row<String> row, int offset) {
+		if (offset < 0) offset = 0;
+		
 		Store result = storeProvider.get();
 		
-		result.setEnterpriseName(row.getColumns().get(0).getValue());
-		result.setId(Long.parseLong(row.getColumns().get(1).getValue()));
-		result.setName(row.getColumns().get(2).getValue());
-		result.setLocation(row.getColumns().get(3).getValue());
+		String enterpriseName = row.getColumns().get(0 + offset).getValue();
+		result.setEnterpriseName(enterpriseName.equals("null") ? null : enterpriseName);
+		
+		String id = row.getColumns().get(1 + offset).getValue();
+		result.setId(id.equals("null") ? Long.MIN_VALUE : Long.parseLong(id));
+		
+		String storeName = row.getColumns().get(2 + offset).getValue();
+		result.setName(storeName.equals("null") ? null : storeName);
+		
+		String storeLocation = row.getColumns().get(3 + offset).getValue();
+		result.setLocation(storeLocation.equals("null") ? null : storeLocation);
 		
 		return result;
 	}
@@ -160,6 +195,168 @@ public class CSVHelper {
 		return stores;
 	}
 	
+	public Collection<ICustomer> getCustomersFromCSV(String input) {
+		LOG.debug("Parsing customer from input: " + input);
+		CSVParser parser = new CSVParser();
+		parser.parse(input);
+		
+		int tableRows =  parser.getModel().getRows().size();
+		
+		LOG.debug("Parsing customer model: " + parser.getModel().toString() + " with " + tableRows + " rows.");
+		
+		HashMap<Long, ICustomer> customers = null;
+		
+		if (tableRows > 0) {
+			// Make sure to reserve enough initial space for the hash map
+			int initialCapacity = (int) (tableRows / 0.75 + 1); 
+			customers = new HashMap<>(initialCapacity);
+			
+			for (Row<String> row : parser.getModel().getRows()) {
+				extractCustomerRow(customers, row);
+			}
+		}
+		
+		if (customers == null) {
+			LOG.warn("No customers found, returning empty list");
+			return new LinkedList<>();
+		} else {
+			return customers.values();
+		}
+	}
+	
+	
+	private void extractCustomerRow(HashMap<Long, ICustomer> customers, Row<String> row) {
+		LOG.debug("Parsing row: " + row.toString());
+		
+		Customer currentCustomer = getCustomerFromRow(row);
+		User currentUser = getUserFromRow(row, 9);
+		String currentCreditInfo = row.getColumns().get(4).getValue();
+		Store preferredStore = getStoreFromRow(row, 5);
+		ICustomer savedCustomer = customers.get(currentCustomer.getID());
+		
+		LOG.debug("Got from row: " + currentCustomer + "; " + currentUser);
+		
+		currentCustomer.setUser(currentUser);
+		
+		if (savedCustomer == null) {
+			savedCustomer = currentCustomer;
+			customers.put(currentCustomer.getID(), currentCustomer);
+		}
+		
+		if (currentCreditInfo != null && !currentCreditInfo.equals("null")) {
+			Set<String> creditCardInfo = savedCustomer.getCreditCardInfo();
+			
+			if (creditCardInfo == null) {
+				creditCardInfo = new HashSet<>();
+				savedCustomer.setCreditCardInfo(creditCardInfo);
+			}
+			
+			savedCustomer.addCreditCardInfo(currentCreditInfo);
+		}
+		savedCustomer.setPreferredStore(preferredStore);
+	}
+
+	private Customer getCustomerFromRow(Row<String> row) {
+		Customer result = customerProvider.get();
+		
+		result.setID(Long.parseLong(row.getColumns().get(0).getValue()));
+		result.setFirstName(row.getColumns().get(1).getValue());
+		result.setLastName(row.getColumns().get(2).getValue());
+		result.setMailAddress(row.getColumns().get(3).getValue());
+		
+		return result;
+	}
+
+	public Collection<IUser> getUsersFromCSV(String input) {
+		CSVParser parser = new CSVParser();
+		parser.parse(input);
+		
+		
+		int tableRows =  parser.getModel().getRows().size();
+		
+		LOG.debug("Parsing user model: " + parser.getModel().toString());
+		
+		HashMap<String, IUser> users = null;
+		
+		if (tableRows > 0) {
+			// Make sure to reserve enough initial space for the hash map
+			int initialCapacity = (int) (tableRows / 0.75 + 1); 
+			users = new HashMap<>(initialCapacity);
+			
+			for (Row<String> row : parser.getModel().getRows()) {
+				extractUserRow(users, row);
+			}
+		}
+		
+		if (users == null) {
+			return new LinkedList<IUser>();
+		} else {
+			return users.values();
+		}
+	}
+	
+	private void extractUserRow(HashMap<String, IUser> users, Row<String> row) {
+		LOG.debug("Parsing row: " + row.toString());
+		
+		User currentUser = getUserFromRow(row);
+		Role currentRole = getRoleFromRow(row);
+		ICredential currentCredential = getCredentialFromRow(row); 
+		IUser savedUser = users.get(currentUser.getUsername());
+		
+		LOG.debug("Got from row: " + currentUser + "; " + currentRole);
+		
+		if (savedUser == null) {
+			savedUser = currentUser;
+			users.put(currentUser.getUsername(), currentUser);
+		}
+		
+		if (currentCredential != null) {
+			Map<CredentialType, ICredential> cred = savedUser.getCredentials();
+			
+			if (cred == null) {
+				cred = new HashMap<>();
+				savedUser.setCredentials(cred);
+			}
+			
+			savedUser.getCredentials().put(currentCredential.getType(), currentCredential);
+		}
+		
+		if (currentRole != null) {
+			Set<Role> roles = savedUser.getRoles();
+			
+			if (roles == null) {
+				roles = new HashSet<>();
+				savedUser.setRoles(roles);
+			}
+			
+			savedUser.getRoles().add(currentRole);
+		}
+	}
+
+	private ICredential getCredentialFromRow(Row<String> row) {
+		CredentialType type = CredentialType.valueOf(row.getColumns().get(2).getValue().toUpperCase());
+		ICredential cred = credFactory.getCredential(type);
+		cred.setCredentialString(row.getColumns().get(3).getValue());
+		return cred;
+	}
+
+	private Role getRoleFromRow(Row<String> row) {
+		return Role.valueOf(row.getColumns().get(4).getValue().toUpperCase());
+	}
+
+	private User getUserFromRow(Row<String> row) {
+		return getUserFromRow(row, 0);
+	}
+	
+	private User getUserFromRow(Row<String> row, int offset) {
+		if (offset < 0) offset = 0;
+		
+		User user = userProvider.get();
+		user.setUsername(row.getColumns().get(1 + offset).getValue());
+		
+		return user;
+	}
+
 	public Collection<TradingEnterprise> getEnterprisesFromCSV(String input) {
 		CSVParser parser = new CSVParser();
 		parser.parse(input);

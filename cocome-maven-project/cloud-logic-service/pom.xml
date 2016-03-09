@@ -4,11 +4,12 @@
 	<artifactId>cloud-logic-service</artifactId>
 	<packaging>pom</packaging>
 	<name>cloud-logic-service</name>
-		
+	<version>1.1</version>
+	
 	<parent>
   		<groupId>org.cocome</groupId>
   		<artifactId>cocome-maven-project</artifactId>
-  		<version>1.0-SNAPSHOT</version>
+  		<version>1.1</version>
   	</parent>
   	
 	<modules>
@@ -21,7 +22,7 @@
 
 	<build>
 			<plugins>
-				<plugin>
+<!-- 				<plugin>
 					<groupId>org.glassfish.maven.plugin</groupId>
 					<artifactId>maven-glassfish-plugin</artifactId>
 					<configuration>
@@ -43,7 +44,7 @@
 						<debug>true</debug>
 						<echo>true</echo>
 					</configuration>
-				</plugin>
+				</plugin> -->
 			</plugins>
 	</build>
 </project>

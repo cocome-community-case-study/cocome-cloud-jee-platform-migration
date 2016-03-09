@@ -49,7 +49,7 @@ public class Sets {
 	 * @param <E>
 	 *            the type of the set element
 	 * @return
-	 *         new instance of HashSet <E>
+	 *         new instance of HashSet &gt;E&lt;
 	 */
 	public static <E> HashSet<E> newHashSet() {
 		return new HashSet<E>();
@@ -61,7 +61,7 @@ public class Sets {
 	 * @param <E>
 	 *            the type of the set element
 	 * @return
-	 *         new instance of LinkedHashSet <E>
+	 *         new instance of LinkedHashSet &gt;E&lt;
 	 */
 	public static <E> LinkedHashSet<E> newLinkedHashSet() {
 		return new LinkedHashSet<E>();
@@ -73,7 +73,7 @@ public class Sets {
 	 * @param <E>
 	 *            the type of the set element
 	 * @return
-	 *         new instance of TreeSet <E>
+	 *         new instance of TreeSet &gt;E&lt;
 	 */
 	public static <E> TreeSet<E> newTreeSet() {
 		return new TreeSet<E>();
@@ -86,7 +86,7 @@ public class Sets {
 	 * @param <E>
 	 *            the type of the set element
 	 * @return
-	 *         new instance of EnumSet <E>
+	 *         new instance of EnumSet &gt;E&lt;
 	 */
 	public static <E extends Enum<E>> Set<E> newEnumSet(final E... elements) {
 		//

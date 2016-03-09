@@ -12,6 +12,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
  * a context before executing an action.
  * 
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  *
  */
 public abstract class AbstractNamedService {

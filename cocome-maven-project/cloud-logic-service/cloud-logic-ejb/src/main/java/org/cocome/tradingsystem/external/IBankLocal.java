@@ -26,6 +26,7 @@ import javax.ejb.Local;
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Local
 public interface IBankLocal {
@@ -52,7 +53,6 @@ public interface IBankLocal {
 	 * @return
 	 *         result of the debit operation
 	 * 
-	 * @throws RemoteException
 	 */
 	public DebitResult debitCard(TransactionID tid);
 

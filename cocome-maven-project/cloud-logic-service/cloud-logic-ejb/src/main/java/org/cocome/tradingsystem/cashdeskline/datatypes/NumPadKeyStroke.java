@@ -25,6 +25,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * @author Yannick Welsch
  * @author Lubomir Bulej
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @XmlType(name = "NumPadKeyStroke")
 @XmlEnum

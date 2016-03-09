@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.Product;
+import org.cocome.tradingsystem.inventory.application.productdispatcher.AmplCplexSolver;
 
 
 /**

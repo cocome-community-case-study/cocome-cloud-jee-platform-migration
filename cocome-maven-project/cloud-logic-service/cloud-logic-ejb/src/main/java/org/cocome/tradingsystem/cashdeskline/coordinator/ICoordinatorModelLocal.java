@@ -8,6 +8,7 @@ import javax.ejb.Local;
 * deciding in which mode (normal or express) they should operate.
 * 
 * @author Tobias Pöppke
+* @author Robert Heinrich
 */
 
 @Local

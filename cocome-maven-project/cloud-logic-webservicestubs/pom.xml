@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.cocome</groupId>
+		<artifactId>cocome-maven-project</artifactId>
+		<version>1.1</version>
+	</parent>
+
+	<artifactId>cloud-logic-webservicestubs</artifactId>
+	<name>cloud-logic-webservicestubs</name>
+
+<!-- 	<profiles>
+		<profile>
+			<id>with-pickup-shop-profile</id>
+
+			<activation>
+				<property><name>pickup.install</name></property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>2.7</version>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								here the phase you need
+								<phase>install</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${local.glassfish.home}/domains/${pickup.domain}/lib</outputDirectory>
+									<resources>
+										<resource>
+											<directory>target</directory>
+											<includes>
+												<include>**/*.jar</include>
+											</includes>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles> -->
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jvnet.jax-ws-commons</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>wsimport</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+
+						<configuration>
+							<wsdlUrls>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/CashDesk?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/BarcodeScanner?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/CashBox?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/CardReader?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/ExpressLight?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/Printer?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.cashDeskService}/UserDisplay?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.storeService}/StoreManager?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.enterpriseService}/EnterpriseManager?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.enterpriseService}/EnterpriseReport?wsdl</wsdlUrl>
+								<wsdlUrl>${logic.protocol}://${logic.host}:${logic.httpPort}${logic.baseDir}${logic.loginService}/LoginManager?wsdl</wsdlUrl>
+							</wsdlUrls>
+							<!-- Keep generated files -->
+							<keep>true</keep>
+							<!-- Package name -->
+							<packageName>org.cocome.logic.stub</packageName>
+							<!-- generated source files destination -->
+							<sourceDestDir>${project.build.directory}/generated-sources/src</sourceDestDir>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- Needed with JAXP 1.5 -->
+					<vmArgs>
+						<vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
+					</vmArgs>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java-version}</source>
+					<target>${java-version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/src</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<archive>
+						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Description>${project.artifactId}</Bundle-Description>
+						<Export-Package>org.cocome.logic.stub</Export-Package>
+						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+					</instructions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>bundle-manifest</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>manifest</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>cloud-logic-ear</artifactId>
+			<version>1.1</version>
+			<type>ear</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

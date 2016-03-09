@@ -21,6 +21,8 @@ package org.cocome.tradingsystem.external;
  * interface
  * 
  * @author Yannick Welsch
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 public enum DebitResult {
 	OK,

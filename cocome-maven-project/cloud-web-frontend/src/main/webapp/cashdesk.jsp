@@ -36,7 +36,7 @@
 <f:view>
 	<div class="wrapper">
 		<div class="logo">
-			<h:graphicImage url="faces/WEB-INF/image/SPP_large.png" />
+			<h:graphicImage library="image" name="SPP_large.png" />
 		</div>
 	</div>
 				<h:form id="sale">
@@ -95,10 +95,10 @@
 											id="result" value="  #{newSaleProcess.userDisplayOut}" /></td>
 								</tr>
 								<tr>
-									<td align="left"><b>Express Light :</b> <h:graphicImage
-											url="faces/WEB-INF/image/blackBall.png" styleClass="add-icon"
-											rendered="#{not newSaleProcess.inExpressMode}" /> <h:graphicImage
-											url="faces/WEB-INF/image/green.png" styleClass="add-icon"
+									<td align="left"><b>Express Light :</b>
+											<h:graphicImage library="image" name="blackBall.png" styleClass="add-icon"
+											rendered="#{not newSaleProcess.inExpressMode}" /> 
+											<h:graphicImage library="image" name="green.png" styleClass="add-icon"
 											rendered="#{newSaleProcess.inExpressMode}" /></td>
 								</tr>
 

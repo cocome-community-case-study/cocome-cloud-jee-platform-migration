@@ -9,6 +9,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
  * Interface representing an action to be executed while a specific context is active.
  * 
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  *
  * @param <T> the return type of this action
  */

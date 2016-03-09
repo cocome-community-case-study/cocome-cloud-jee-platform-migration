@@ -47,9 +47,9 @@ import org.cocome.tradingsystem.util.java.Maps;
  * <p>
  * TODO Associate a single product dispatcher with a single enterprise. --LB
  * 
- * @author unknown
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Stateless
 public class ProductDispatcherServer implements IProductDispatcherLocal {

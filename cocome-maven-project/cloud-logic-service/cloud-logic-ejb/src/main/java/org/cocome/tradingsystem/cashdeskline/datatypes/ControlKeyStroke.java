@@ -24,6 +24,8 @@ import javax.xml.bind.annotation.XmlType;
  * Enumerates the control keys that can be pressed on the cash box keyboard.
  * 
  * @author Lubomir Bulej
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @XmlType(name = "ControlKeyStroke")
 @XmlEnum

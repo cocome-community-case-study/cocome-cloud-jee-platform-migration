@@ -21,6 +21,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
  * fired from other cash desk components.
  * 
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  *
  */
 @WebService

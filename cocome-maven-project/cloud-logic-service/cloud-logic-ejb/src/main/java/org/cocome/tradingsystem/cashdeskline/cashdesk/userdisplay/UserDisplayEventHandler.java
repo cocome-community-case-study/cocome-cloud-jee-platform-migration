@@ -51,6 +51,7 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @CashDeskSessionScoped
 class UserDisplayEventHandler implements IUserDisplayEventConsumerLocal, Serializable {
@@ -72,7 +73,7 @@ class UserDisplayEventHandler implements IUserDisplayEventConsumerLocal, Seriali
 
 	private boolean enteringCashAmount;
 
-	private double cashAmount;
+	private double cashAmount = 1.0;
 	
 	private boolean paymentModeRejected = false;
 

@@ -66,8 +66,7 @@ public interface IStoreQueryLocal {
 	 *         {@link Store} entity
 	 *         
 	 * @throws NotInDatabaseException 
-	 *             if a store with the given id could not be found
-	 * @throws 
+	 *             if a store with the given id could not be found 
 	 */
 	public Store queryStoreById(long storeId) throws NotInDatabaseException;
 
@@ -113,7 +112,7 @@ public interface IStoreQueryLocal {
 	/**
 	 * Queries the database for a {@link ProductOrder} with given identifier.
 	 * <p>
-	 * The following methods from StoreIf use this method: List<ComplexOrderTO> orderProducts(ComplexOrderTO complexOrder, StoreTO storeTO); ComplexOrderTO
+	 * The following methods from StoreIf use this method: List&gt;ComplexOrderTO&lt; orderProducts(ComplexOrderTO complexOrder, StoreTO storeTO); ComplexOrderTO
 	 * getOrder(int orderId); void rollInReceivedOrder(ComplexOrderTO complexOrder, StoreTO store);
 	 * 
 	 * @param orderId
@@ -203,8 +202,6 @@ public interface IStoreQueryLocal {
 	 * 
 	 * @param storeId
 	 *            unique identifier of a {@link Store} entity
-	 * @param pctx
-	 *            the persistence context
 	 * @return
 	 *         A collection of {@link StockItem} entities objects representing
 	 *         low stock products in the given store.
@@ -219,8 +216,6 @@ public interface IStoreQueryLocal {
 	 *            unique identifier of a {@link Store} entity
 	 * @param productBarcode
 	 *            product barcode for which to find the stock item
-	 * @param pctx
-	 *            the persistence context
 	 * @return
 	 *         The StockItem from the given store for a product with the given
 	 *         barcode, or {@code null} if the stock item could not be found.
@@ -236,8 +231,6 @@ public interface IStoreQueryLocal {
 	 *            unique identifier of a {@link Store} entity
 	 * @param productIds
 	 *            {@link Product} entity identifiers to look up in the stock
-	 * @param pctx
-	 *            the persistence context
 	 * @return
 	 *         The products as StockItems (including amounts)
 	 */

@@ -38,7 +38,7 @@ public interface IEnterpriseQueryLocal {
 	/**
 	 * Retrieves an enterprise with the given id from the database.
 	 * 
-	 * @param enterpriseId
+	 * @param enterpriseID
 	 *            the unique identifier of a TradingEnterprise entity
 
 	 * @return A TradingEnterprise object with the specified id.
@@ -52,7 +52,7 @@ public interface IEnterpriseQueryLocal {
 	/**
 	 * Retrieves all stores belonging to this enterprise from the database.
 	 * 
-	 * @param enterpriseId
+	 * @param enterpriseID
 	 *            the unique identifier of a TradingEnterprise entity
 
 	 * @return All stores found in the given enterprise or an empty collection
@@ -63,7 +63,7 @@ public interface IEnterpriseQueryLocal {
 	/**
 	 * Retrieves a specific store belonging to this enterprise from the database.
 	 * 
-	 * @param enterpriseId
+	 * @param enterpriseID
 	 *    		the unique identifier of a TradingEnterprise entity
 	 *            
 	 * @param storeID
@@ -109,7 +109,7 @@ public interface IEnterpriseQueryLocal {
 	 * Note that there is no information included about the stores in which 
 	 * this product is available.
 	 * 
-	 * @param enterpriseId 
+	 * @param enterpriseID 
 	 * 				The enterprise for which all products should be retrieved  
 	 * @return All {@code Product}s available in the given enterprise 
 	 * 

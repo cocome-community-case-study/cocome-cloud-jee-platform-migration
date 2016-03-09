@@ -40,6 +40,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
  * @author Holger Klus
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Local
 public interface ICashDeskEventConsumerLocal {

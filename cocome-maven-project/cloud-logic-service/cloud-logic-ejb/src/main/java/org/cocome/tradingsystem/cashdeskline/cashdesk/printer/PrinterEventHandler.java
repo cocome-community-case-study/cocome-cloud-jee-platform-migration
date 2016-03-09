@@ -41,6 +41,7 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 
 @CashDeskSessionScoped
@@ -168,8 +169,8 @@ class PrinterEventHandler implements IPrinterEventConsumerLocal, Serializable {
 		final double cashAmount = event.getCashAmount();
 		LOG.debug("\tamount: " + cashAmount);
 
-		if ((this.controllerState == ControllerState.EXPECTING_CASH_AMOUNT)
-				|| (this.controllerState == ControllerState.EXPECTING_CHANGE_AMOUNT)) {
+		if ((this.controllerState == ControllerState.EXPECTING_CASH_AMOUNT)) {
+//				|| (this.controllerState == ControllerState.EXPECTING_CHANGE_AMOUNT)) {
 			this.printCashAmount(cashAmount);
 			this.controllerState = ControllerState.EXPECTING_CHANGE_AMOUNT;
 		} else {

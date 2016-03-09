@@ -17,6 +17,7 @@ import org.cocome.tradingsystem.util.scope.context.INamedSessionContext;
  * necessary information is included as an {@code IContextRegistry}.
  * 
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  *
  */
 

@@ -31,6 +31,7 @@ import org.cocome.tradingsystem.cashdeskline.events.ExpressModeEnabledEvent;
  * @author Holger Klus
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Local
 interface IExpressLightEventConsumerLocal {

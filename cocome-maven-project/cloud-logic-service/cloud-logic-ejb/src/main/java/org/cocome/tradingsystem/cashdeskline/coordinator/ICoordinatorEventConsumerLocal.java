@@ -29,6 +29,8 @@ import org.cocome.tradingsystem.cashdeskline.events.SaleRegisteredEvent;
  * 
  * @author Holger Klus
  * @author Lubomir Bulej
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Local
 interface ICoordinatorEventConsumerLocal {

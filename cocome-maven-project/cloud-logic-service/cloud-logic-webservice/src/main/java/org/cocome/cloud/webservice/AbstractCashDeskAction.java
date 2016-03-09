@@ -18,6 +18,7 @@ import org.cocome.tradingsystem.util.exception.BaseException;
  * this class will convert it to a WS-Fault.
  * 
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  *
  * @param <T> the type returned when executing the action
  */

@@ -10,6 +10,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
  * be triggered from outside.
  * 
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  *
  */
 @Local
@@ -136,13 +137,5 @@ public interface ICashDeskModelLocal {
 	 * @return the current state of this CashDesk
 	 */
 	public CashDeskState getState();
-
-	/**
-	 * Determines whether this CashDesk should send out a CashAmountEnteredEvent
-	 * by itself or not.
-	 * 
-	 * @param send
-	 */
-	public void setSendCashAmountEntered(boolean send);
 
 }

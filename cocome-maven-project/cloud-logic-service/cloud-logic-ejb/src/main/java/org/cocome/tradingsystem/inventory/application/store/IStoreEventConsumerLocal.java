@@ -28,6 +28,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  * 
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Local
 public interface IStoreEventConsumerLocal {

@@ -1,21 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.cocome</groupId>
-    <artifactId>cocome-maven-project</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>CoCoME maven parent</name>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.cocome</groupId>
+	<artifactId>cocome-maven-project</artifactId>
+	<packaging>pom</packaging>
+	<version>1.1</version>
+	<name>CoCoME maven parent</name>
 
 	<modules>
 		<module>cloud-logic-service</module>
 		<module>cloud-web-frontend</module>
+		<module>cloud-logic-webservicestubs</module>
 	</modules>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
 		<java-version>1.7</java-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<ejb-spec-version>3.1</ejb-spec-version>
 		<ear-spec-version>6</ear-spec-version>
 		<ejb-plugin-version>2.3</ejb-plugin-version>
@@ -48,6 +49,7 @@
 		<logic.cashDeskService>/CashDeskService</logic.cashDeskService>
 		<logic.storeService>/StoreService</logic.storeService>
 		<logic.enterpriseService>/EnterpriseService</logic.enterpriseService>
+		<logic.loginService>/LoginService</logic.loginService>
 		
 		<web.domain>cocome</web.domain>
 		<web.host>192.168.48.206</web.host>
@@ -56,8 +58,8 @@
 		<web.user>admin</web.user>
 		<web.password>admin</web.password>
 	</properties>
-	
-	
+
+
 	<repositories>
 		<repository>
 			<id>maven-central</id>
@@ -143,11 +145,11 @@
 						<encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
-				
+
 				<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>${maven-build-helper-version}</version>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${maven-build-helper-version}</version>
 				</plugin>
 
 				<plugin>
@@ -183,19 +185,19 @@
 					<artifactId>maven-glassfish-plugin</artifactId>
 					<version>${glassfish-plugin-version}</version>
 				</plugin>
-				
+
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
 					<version>${maven-dep-plugin-version}</version>
 				</plugin>
-				
+
 				<plugin>
 					<groupId>org.jvnet.jax-ws-commons</groupId>
 					<artifactId>jaxws-maven-plugin</artifactId>
 					<version>${jaxws-plugin-version}</version>
 				</plugin>
-				
+
 				<plugin>
 					<groupId>com.smartbear.soapui</groupId>
 					<artifactId>soapui-maven-plugin</artifactId>

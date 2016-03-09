@@ -30,6 +30,8 @@ import java.util.regex.Pattern;
  * commands sent to the AMPL backend to display the solution.
  * 
  * @author Lubomir Bulej
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 class CplexSolution {
 

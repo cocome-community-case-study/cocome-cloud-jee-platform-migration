@@ -49,7 +49,7 @@
 	
 		<div class="wrapper">
 			<div class="logo">
-				<h:graphicImage url="faces/WEB-INF/image/SPP_large.png" />
+				<h:graphicImage library="image" name="SPP_large.png" />
 			</div>
 		</div>
 		
@@ -160,10 +160,11 @@
 																			<f:facet name="header">
 																				<h:outputText value="Action" />
 																			</f:facet>
-																			<h:commandButton action="#{createEnterprise.getStores}" styleClass="add-icon" image="faces/WEB-INF/icon/icon_Shop.png"
-																				title="Show All Store in this Enterprise" id="getstore" />
-																			<h:commandButton action="#{createEnterprise.setCreateStore}" styleClass="add-icon" image="faces/WEB-INF/image/add-icon.png"
-																				title="New Store" id="newstore"/>
+																			<h:commandButton action="#{createEnterprise.getStores}" styleClass="add-icon"
+																				title="Show All Store in this Enterprise" id="getstore" 
+																				image="#{resource['icon/icon_Shop.png']}" />
+																			<h:commandButton action="#{createEnterprise.setCreateStore}" styleClass="add-icon"
+																				title="New Store" id="newstore" image="#{resource['image/add-icon.png']}" />
 																		</h:column>
 																	</h:dataTable>
 																	</td>
@@ -253,19 +254,30 @@
 																			<f:facet name="header">
 																				<h:outputText value="Action" />
 																			</f:facet>
-																			<h:commandButton rendered="#{not s.editingEnabled}" action="#{createEnterprise.editStoreAction}" styleClass="add-icon" image="faces/WEB-INF/icon/icon_shoppingcart_edit.png" title="Edit Store" id="editstore">
+																			<h:commandButton rendered="#{not s.editingEnabled}" action="#{createEnterprise.editStoreAction}" 
+																				styleClass="add-icon" title="Edit Store" id="editstore"
+																				image="#{resource['icon/icon_shoppingcart_edit.png']}">
 																				<f:attribute name="id" value="#{s.storeTO.id}" />
 																			</h:commandButton>
-																			<h:commandButton action="#{createEnterprise.goToStore}" image="faces/WEB-INF/icon/icon_Shop.png"
-																				styleClass="add-icon" rendered="#{not s.editingEnabled}" actionListener="#{createEnterprise.attrListener}" id="gostore" title="Go To Store">
+																			<h:commandButton action="#{createEnterprise.goToStore}"
+																				styleClass="add-icon" rendered="#{not s.editingEnabled}" 
+																				actionListener="#{createEnterprise.attrListener}" id="gostore" title="Go To Store"
+																				image="#{resource['icon/icon_Shop.png']}">
 																				<f:attribute name="enterpriseName" value="#{createEnterprise.enterpriseName}" />
 																				<f:attribute name="storeId" value="#{createEnterprise.storeId}" />
 																				<f:attribute name="storeName" value="#{createEnterprise.storeName}" />
 																				<f:attribute name="storeLocation" value="#{createEnterprise.storeLocation}" />
 																			</h:commandButton>	
-																			<h:commandButton action="#{createEnterprise.saveStoreAction}" styleClass="add-icon" image="faces/WEB-INF/icon/icon_save.png" rendered="#{s.editingEnabled}" title="Save" id="savestore"/>
-																			<h:commandButton action="#{createEnterprise.getAllStockItem}" styleClass="add-icon" image="faces/WEB-INF/icon/icon_show.png" title="Show All StockItem" rendered="#{not s.editingEnabled}" id="getallStockItem"/>
-																			<h:commandButton action="#{createEnterprise.setCreateStockItem}" styleClass="add-icon" image="faces/WEB-INF/icon/icon_shoppingcart_add.png" title="Create Stock Item" rendered="#{not s.editingEnabled}" id="createStockItem"/>
+																			<h:commandButton action="#{createEnterprise.saveStoreAction}" styleClass="add-icon" 
+																				rendered="#{s.editingEnabled}" title="Save" id="savestore"
+																				image="#{resource['icon/icon_save.png']}">
+																			</h:commandButton>
+																			<h:commandButton action="#{createEnterprise.getAllStockItem}" styleClass="add-icon" 
+																				image="#{resource['icon/icon_show.png']}" title="Show All StockItem" 
+																				rendered="#{not s.editingEnabled}" id="getallStockItem"/>
+																			<h:commandButton action="#{createEnterprise.setCreateStockItem}" styleClass="add-icon" 
+																				image="#{resource['icon/icon_shoppingcart_add.png']}" 
+																				title="Create Stock Item" rendered="#{not s.editingEnabled}" id="createStockItem"/>
 																		</h:column>
 																	</h:dataTable>
 																	<h:commandButton action="#{createEnterprise.setCreateStore}" value="Add New Store" />
@@ -333,8 +345,13 @@
 																					<f:facet name="header">
 																						<h:outputText value="Action" />
 																					</f:facet>
-																					<h:commandButton action="#{createEnterprise.setEditStockItemAction}" styleClass="add-icon" image="faces/WEB-INF/icon/icon_shoppingcart_edit.png" title="Edit Stock Item" rendered="#{not stock_Item.editingEnabled}"  id="changestockItem"/>
-																					<h:commandButton action="#{createEnterprise.saveStockItemAction}" styleClass="add-icon" image="faces/WEB-INF/icon/icon_save.png" title="Save" rendered="#{stock_Item.editingEnabled}" id="savechangestockItem"/>
+																					<h:commandButton action="#{createEnterprise.setEditStockItemAction}" 
+																						styleClass="add-icon" title="Edit Stock Item" 
+																						rendered="#{not stock_Item.editingEnabled}"  id="changestockItem"
+																						image="#{resource['icon/icon_shoppingcart_edit.png']}" />
+																					<h:commandButton action="#{createEnterprise.saveStockItemAction}" 
+																						styleClass="add-icon" title="Save" rendered="#{stock_Item.editingEnabled}" id="savechangestockItem"
+																						image="#{resource['icon/icon_save.png']}" />
 																				</h:column>
 																				</h:dataTable>
 																			</td> 

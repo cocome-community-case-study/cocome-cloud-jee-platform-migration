@@ -27,6 +27,7 @@ import org.cocome.tradingsystem.cashdeskline.datatypes.NumPadKeyStroke;
  * 
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Local
 public interface ICashBoxLocal {

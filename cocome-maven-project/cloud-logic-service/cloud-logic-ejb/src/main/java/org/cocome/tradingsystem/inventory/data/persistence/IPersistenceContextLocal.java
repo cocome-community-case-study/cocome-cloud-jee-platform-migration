@@ -25,6 +25,8 @@ import org.cocome.tradingsystem.inventory.data.enterprise.TradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.store.ProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.StockItem;
 import org.cocome.tradingsystem.inventory.data.store.Store;
+import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
+import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 
 /**
  * Persistence context to persist changes made into the database.
@@ -141,6 +143,42 @@ public interface IPersistenceContextLocal {
 	 * @throws UpdateException 
 	 */
 	public void updateEntity(Product product) throws UpdateException;
+	
+	/**
+	 * Creates a new user in the database.
+	 * 
+	 * @param user
+	 * 			the user to create
+	 * @throws CreateException 
+	 */
+	public void createEntity(IUser user) throws CreateException;
+	
+	/**
+	 * Updates a user with the new values given.
+	 * 
+	 * @param user
+	 * 			the updated user
+	 * @throws UpdateException 
+	 */
+	public void updateEntity(IUser user) throws UpdateException;
+	
+	/**
+	 * Creates a new customer in the database.
+	 * 
+	 * @param customer
+	 * 			the customer to create
+	 * @throws CreateException 
+	 */
+	public void createEntity(ICustomer customer) throws CreateException;
+	
+	/**
+	 * Updates a customer with the new values given.
+	 * 
+	 * @param customer
+	 * 			the updated customer
+	 * @throws UpdateException 
+	 */
+	public void updateEntity(ICustomer customer) throws UpdateException;
 
 //	/**
 //	 * Creates a new order entry in the database.

@@ -17,7 +17,12 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
 import org.cocome.tradingsystem.util.mvc.ContentChangedListener;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
 
-
+/**
+ * Webservice interface of a card reader at a cash desk.
+ * 
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
+ */
 @WebService(endpointInterface=
 		"org.cocome.cloud.webservice.cashdeskline.cashdesk.cardreader.ICardReader")
 @Stateless

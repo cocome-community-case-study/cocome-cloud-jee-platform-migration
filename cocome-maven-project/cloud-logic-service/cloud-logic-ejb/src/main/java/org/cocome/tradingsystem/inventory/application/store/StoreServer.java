@@ -59,6 +59,7 @@ import org.cocome.tradingsystem.util.scope.RegistryKeys;
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Stateless
 public class StoreServer implements Serializable, IStoreInventoryManagerLocal, IStoreInventoryLocal {

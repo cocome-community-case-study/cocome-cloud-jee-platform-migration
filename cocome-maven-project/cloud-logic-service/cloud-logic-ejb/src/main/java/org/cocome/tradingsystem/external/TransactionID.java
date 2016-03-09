@@ -23,6 +23,8 @@ import java.io.Serializable;
  * 
  * @author Yannick Welsch
  * @author Lubomir Bulej
+ * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 public class TransactionID implements Serializable {
 

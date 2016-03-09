@@ -25,6 +25,7 @@ import java.io.Serializable;
  * @author Sebastian Herold
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 public class ReportTO implements Serializable {
 

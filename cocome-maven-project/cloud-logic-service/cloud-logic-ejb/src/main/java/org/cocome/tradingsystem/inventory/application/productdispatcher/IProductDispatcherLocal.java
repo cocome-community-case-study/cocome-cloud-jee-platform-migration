@@ -32,6 +32,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  * @author kelsaka
  * @author Lubomir Bulej
  * @author Tobias Pöppke
+ * @author Robert Heinrich
  */
 @Local
 public interface IProductDispatcherLocal {
@@ -55,7 +56,7 @@ public interface IProductDispatcherLocal {
 	 *         enterprise. The included amount of products might be "0" to indicate
 	 *         that a product is not available in the enterprise.
 	 *         <p>
-	 *         Products that are indicated to be available (amount > 0) are prepared for delivery by the delivering store (markProductsUnavailableInStock).
+	 *         Products that are indicated to be available (amount &gt; 0) are prepared for delivery by the delivering store (markProductsUnavailableInStock).
 	 * @throws NotInDatabaseException 
 	 */
 	ProductAmountTO[] dispatchProductsFromOtherStores(
