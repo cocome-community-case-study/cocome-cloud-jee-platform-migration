@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="IBarcodeScannerService" targetNamespace="http://barcodescanner.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://barcodescanner.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://barcodescanner.cashdesk.cashdeskline.webservice.logic.cocome.org/" schemaLocation="IBarcodeScanner_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="NoSuchProductException">
+    <wsdl:part name="NoSuchProductException" element="tns:NoSuchProductException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendProductBarcodeResponse">
+    <wsdl:part name="parameters" element="tns:sendProductBarcodeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="IllegalCashDeskStateException">
+    <wsdl:part name="IllegalCashDeskStateException" element="tns:IllegalCashDeskStateException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendProductBarcode">
+    <wsdl:part name="parameters" element="tns:sendProductBarcode">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnhandledException">
+    <wsdl:part name="UnhandledException" element="tns:UnhandledException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ProductOutOfStockException">
+    <wsdl:part name="ProductOutOfStockException" element="tns:ProductOutOfStockException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IBarcodeScanner">
+    <wsdl:operation name="sendProductBarcode">
+      <wsdl:input name="sendProductBarcode" message="tns:sendProductBarcode">
+    </wsdl:input>
+      <wsdl:output name="sendProductBarcodeResponse" message="tns:sendProductBarcodeResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="ProductOutOfStockException" message="tns:ProductOutOfStockException">
+    </wsdl:fault>
+      <wsdl:fault name="NoSuchProductException" message="tns:NoSuchProductException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IBarcodeScannerServiceSoapBinding" type="tns:IBarcodeScanner">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sendProductBarcode">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sendProductBarcode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendProductBarcodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ProductOutOfStockException">
+        <soap:fault name="ProductOutOfStockException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NoSuchProductException">
+        <soap:fault name="NoSuchProductException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IBarcodeScannerService">
+    <wsdl:port name="IBarcodeScannerPort" binding="tns:IBarcodeScannerServiceSoapBinding">
+      <soap:address location="http://localhost:9090/IBarcodeScannerPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

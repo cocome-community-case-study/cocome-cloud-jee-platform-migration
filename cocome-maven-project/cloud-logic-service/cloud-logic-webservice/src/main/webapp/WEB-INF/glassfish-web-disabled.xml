@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<glassfish-web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0" xsi:schemaLocation="http://glassfish.org/dtds/glassfish-web-app_3_0-1.dtd">
- <session-config>
-  <session-manager/>
-  <session-properties>
-   <property name="enableCookies" value="true" />
-  </session-properties>
- </session-config>
-</glassfish-web-app>

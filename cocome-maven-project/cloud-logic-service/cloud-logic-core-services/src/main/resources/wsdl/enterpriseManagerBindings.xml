@@ -1,0 +1,27 @@
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb"
+			xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:tns="http://enterprise.webservice.logic.cocome.org/">
+			
+		<bindings if-exists="true" schemaLocation="IEnterpriseManager_schema1.xsd">
+ 		    <bindings node="//xsd:complexType[@name='ProductTO']">
+		      <class ref="org.cocome.tradingsystem.inventory.application.store.ProductTO"/>
+		    </bindings>
+		    <bindings node="//xsd:complexType[@name='SupplierTO']">
+		      <class ref="org.cocome.tradingsystem.inventory.application.store.SupplierTO"/>
+		    </bindings>
+		    <bindings node="//xsd:complexType[@name='ProductWithSupplierTO']">
+		      <class ref="org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO"/>
+		    </bindings>
+		    <bindings node="//xsd:complexType[@name='StoreWithEnterpriseTO']">
+		      <class ref="org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO"/>
+		    </bindings>
+		    <bindings node="//xsd:complexType[@name='StoreTO']">
+		      <class ref="org.cocome.tradingsystem.inventory.application.store.StoreTO"/>
+		    </bindings>
+		    <bindings node="//xsd:complexType[@name='EnterpriseTO']">
+		      <class ref="org.cocome.tradingsystem.inventory.application.store.EnterpriseTO"/>
+		    </bindings>
+    	</bindings>
+    </bindings>
+

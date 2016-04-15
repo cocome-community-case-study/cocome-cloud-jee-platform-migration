@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ICashDeskService" targetNamespace="http://cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://cashdesk.cashdeskline.webservice.logic.cocome.org/" schemaLocation="ICashDesk_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="selectPaymentModeResponse">
+    <wsdl:part name="parameters" element="tns:selectPaymentModeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="startCashPaymentResponse">
+    <wsdl:part name="parameters" element="tns:startCashPaymentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="startCreditCardPaymentResponse">
+    <wsdl:part name="parameters" element="tns:startCreditCardPaymentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="finishSaleResponse">
+    <wsdl:part name="parameters" element="tns:finishSaleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="finishCreditCardPaymentResponse">
+    <wsdl:part name="parameters" element="tns:finishCreditCardPaymentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isInExpressMode">
+    <wsdl:part name="parameters" element="tns:isInExpressMode">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="startCreditCardPayment">
+    <wsdl:part name="parameters" element="tns:startCreditCardPayment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NoSuchProductException">
+    <wsdl:part name="NoSuchProductException" element="tns:NoSuchProductException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isInExpressModeResponse">
+    <wsdl:part name="parameters" element="tns:isInExpressModeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="IllegalCashDeskStateException">
+    <wsdl:part name="IllegalCashDeskStateException" element="tns:IllegalCashDeskStateException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="startSaleResponse">
+    <wsdl:part name="parameters" element="tns:startSaleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="finishCreditCardPayment">
+    <wsdl:part name="parameters" element="tns:finishCreditCardPayment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="finishCashPaymentResponse">
+    <wsdl:part name="parameters" element="tns:finishCashPaymentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="finishSale">
+    <wsdl:part name="parameters" element="tns:finishSale">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="startCashPayment">
+    <wsdl:part name="parameters" element="tns:startCashPayment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addItemToSaleResponse">
+    <wsdl:part name="parameters" element="tns:addItemToSaleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addItemToSale">
+    <wsdl:part name="parameters" element="tns:addItemToSale">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="enableExpressMode">
+    <wsdl:part name="parameters" element="tns:enableExpressMode">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="startSale">
+    <wsdl:part name="parameters" element="tns:startSale">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="enableExpressModeResponse">
+    <wsdl:part name="parameters" element="tns:enableExpressModeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disableExpressMode">
+    <wsdl:part name="parameters" element="tns:disableExpressMode">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnhandledException">
+    <wsdl:part name="UnhandledException" element="tns:UnhandledException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="selectPaymentMode">
+    <wsdl:part name="parameters" element="tns:selectPaymentMode">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ProductOutOfStockException">
+    <wsdl:part name="ProductOutOfStockException" element="tns:ProductOutOfStockException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="finishCashPayment">
+    <wsdl:part name="parameters" element="tns:finishCashPayment">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="IllegalInputException">
+    <wsdl:part name="IllegalInputException" element="tns:IllegalInputException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="disableExpressModeResponse">
+    <wsdl:part name="parameters" element="tns:disableExpressModeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ICashDesk">
+    <wsdl:operation name="disableExpressMode">
+      <wsdl:input name="disableExpressMode" message="tns:disableExpressMode">
+    </wsdl:input>
+      <wsdl:output name="disableExpressModeResponse" message="tns:disableExpressModeResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isInExpressMode">
+      <wsdl:input name="isInExpressMode" message="tns:isInExpressMode">
+    </wsdl:input>
+      <wsdl:output name="isInExpressModeResponse" message="tns:isInExpressModeResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="startCreditCardPayment">
+      <wsdl:input name="startCreditCardPayment" message="tns:startCreditCardPayment">
+    </wsdl:input>
+      <wsdl:output name="startCreditCardPaymentResponse" message="tns:startCreditCardPaymentResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="selectPaymentMode">
+      <wsdl:input name="selectPaymentMode" message="tns:selectPaymentMode">
+    </wsdl:input>
+      <wsdl:output name="selectPaymentModeResponse" message="tns:selectPaymentModeResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalInputException" message="tns:IllegalInputException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="finishCashPayment">
+      <wsdl:input name="finishCashPayment" message="tns:finishCashPayment">
+    </wsdl:input>
+      <wsdl:output name="finishCashPaymentResponse" message="tns:finishCashPaymentResponse">
+    </wsdl:output>
+      <wsdl:fault name="ProductOutOfStockException" message="tns:ProductOutOfStockException">
+    </wsdl:fault>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="finishCreditCardPayment">
+      <wsdl:input name="finishCreditCardPayment" message="tns:finishCreditCardPayment">
+    </wsdl:input>
+      <wsdl:output name="finishCreditCardPaymentResponse" message="tns:finishCreditCardPaymentResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="finishSale">
+      <wsdl:input name="finishSale" message="tns:finishSale">
+    </wsdl:input>
+      <wsdl:output name="finishSaleResponse" message="tns:finishSaleResponse">
+    </wsdl:output>
+      <wsdl:fault name="ProductOutOfStockException" message="tns:ProductOutOfStockException">
+    </wsdl:fault>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="startCashPayment">
+      <wsdl:input name="startCashPayment" message="tns:startCashPayment">
+    </wsdl:input>
+      <wsdl:output name="startCashPaymentResponse" message="tns:startCashPaymentResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addItemToSale">
+      <wsdl:input name="addItemToSale" message="tns:addItemToSale">
+    </wsdl:input>
+      <wsdl:output name="addItemToSaleResponse" message="tns:addItemToSaleResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="ProductOutOfStockException" message="tns:ProductOutOfStockException">
+    </wsdl:fault>
+      <wsdl:fault name="NoSuchProductException" message="tns:NoSuchProductException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="enableExpressMode">
+      <wsdl:input name="enableExpressMode" message="tns:enableExpressMode">
+    </wsdl:input>
+      <wsdl:output name="enableExpressModeResponse" message="tns:enableExpressModeResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="startSale">
+      <wsdl:input name="startSale" message="tns:startSale">
+    </wsdl:input>
+      <wsdl:output name="startSaleResponse" message="tns:startSaleResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ICashDeskServiceSoapBinding" type="tns:ICashDesk">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="disableExpressMode">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="disableExpressMode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="disableExpressModeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isInExpressMode">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isInExpressMode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isInExpressModeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="startCreditCardPayment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="startCreditCardPayment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="startCreditCardPaymentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="selectPaymentMode">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="selectPaymentMode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="selectPaymentModeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalInputException">
+        <soap:fault name="IllegalInputException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="finishCashPayment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="finishCashPayment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="finishCashPaymentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ProductOutOfStockException">
+        <soap:fault name="ProductOutOfStockException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="finishCreditCardPayment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="finishCreditCardPayment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="finishCreditCardPaymentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="finishSale">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="finishSale">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="finishSaleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ProductOutOfStockException">
+        <soap:fault name="ProductOutOfStockException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="startCashPayment">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="startCashPayment">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="startCashPaymentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addItemToSale">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addItemToSale">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addItemToSaleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ProductOutOfStockException">
+        <soap:fault name="ProductOutOfStockException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NoSuchProductException">
+        <soap:fault name="NoSuchProductException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="enableExpressMode">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="enableExpressMode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="enableExpressModeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="startSale">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="startSale">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="startSaleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ICashDeskService">
+    <wsdl:port name="ICashDeskPort" binding="tns:ICashDeskServiceSoapBinding">
+      <soap:address location="http://localhost:9090/ICashDeskPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

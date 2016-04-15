@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE glassfish-ejb-jar PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 EJB 3.1//EN" 
+		"http://glassfish.org/dtds/glassfish-ejb-jar_3_1-1.dtd">
+
+<glassfish-ejb-jar>
+ <enterprise-beans>
+   <ejb>
+     <ejb-name>EnterpriseManager</ejb-name>
+	 <webservice-endpoint>
+	 	<port-component-name>IEnterpriseManager</port-component-name>
+	 	<endpoint-address-uri>/EnterpriseService/IEnterpriseManager</endpoint-address-uri>
+	 </webservice-endpoint>
+   </ejb>
+   
+   <ejb>
+     <ejb-name>EnterpriseReport</ejb-name>
+	 <webservice-endpoint>
+	 	<port-component-name>IEnterpriseReport</port-component-name>
+	 	<endpoint-address-uri>/EnterpriseService/IEnterpriseReport</endpoint-address-uri>
+	 </webservice-endpoint>
+   </ejb>
+   
+   <ejb>
+     <ejb-name>LoginManager</ejb-name>
+	 <webservice-endpoint>
+	 	<port-component-name>ILoginManager</port-component-name>
+	 	<endpoint-address-uri>/LoginService/ILoginManager</endpoint-address-uri>
+	 </webservice-endpoint>
+   </ejb>
+
+ </enterprise-beans>
+</glassfish-ejb-jar> 

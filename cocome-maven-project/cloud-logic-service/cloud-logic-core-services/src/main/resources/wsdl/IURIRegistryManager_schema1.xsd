@@ -1,0 +1,59 @@
+<xs:schema xmlns:tns="http://registry.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://registry.webservice.logic.cocome.org/">
+  <xs:element name="getBoundNames" type="tns:getBoundNames"/>
+  <xs:element name="getBoundNamesResponse" type="tns:getBoundNamesResponse"/>
+  <xs:element name="lookup" type="tns:lookup"/>
+  <xs:element name="lookupResponse" type="tns:lookupResponse"/>
+  <xs:element name="rebind" type="tns:rebind"/>
+  <xs:element name="rebindResponse" type="tns:rebindResponse"/>
+  <xs:element name="unbind" type="tns:unbind"/>
+  <xs:element name="unbindResponse" type="tns:unbindResponse"/>
+  <xs:complexType name="getBoundNames">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getBoundNamesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:registryEntry"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="registryEntry">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="location" type="xs:string"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rebind">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="location" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rebindResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="unbind">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="unbindResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="lookup">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="lookupResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NotBoundException" type="tns:NotBoundException"/>
+  <xs:complexType name="NotBoundException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

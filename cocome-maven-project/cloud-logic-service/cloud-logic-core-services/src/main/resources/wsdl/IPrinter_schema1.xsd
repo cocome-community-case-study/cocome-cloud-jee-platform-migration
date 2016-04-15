@@ -1,0 +1,48 @@
+<xs:schema xmlns:tns="http://printer.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://printer.cashdesk.cashdeskline.webservice.logic.cocome.org/">
+  <xs:element name="getCurrentPrintout" type="tns:getCurrentPrintout"/>
+  <xs:element name="getCurrentPrintoutResponse" type="tns:getCurrentPrintoutResponse"/>
+  <xs:element name="printText" type="tns:printText"/>
+  <xs:element name="printTextResponse" type="tns:printTextResponse"/>
+  <xs:element name="tearOffPrintout" type="tns:tearOffPrintout"/>
+  <xs:element name="tearOffPrintoutResponse" type="tns:tearOffPrintoutResponse"/>
+  <xs:complexType name="printText">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="text" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="printTextResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tearOffPrintout">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tearOffPrintoutResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCurrentPrintout">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCurrentPrintoutResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UnhandledException" type="tns:UnhandledException"/>
+  <xs:complexType name="UnhandledException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

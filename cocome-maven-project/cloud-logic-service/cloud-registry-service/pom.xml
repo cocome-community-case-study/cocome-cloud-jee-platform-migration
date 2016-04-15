@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+    <artifactId>cloud-logic-service</artifactId>
+    <groupId>org.cocome</groupId>
+    <version>1.1</version>
+  </parent>
+
+   <artifactId>cloud-registry-service</artifactId>
+   <packaging>war</packaging>
+
+   <name>CoCoME Registry Service</name>
+
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+
+   <dependencies>
+
+      
+      <dependency>
+        	<groupId>org.apache.logging.log4j</groupId>
+        	<artifactId>log4j-1.2-api</artifactId>
+        </dependency>
+      
+        <dependency>
+        	<groupId>org.jboss.spec</groupId>
+        	<artifactId>jboss-javaee-web-6.0</artifactId>
+        	<type>pom</type>
+        	<scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+        	<groupId>org.cocome</groupId>
+        	<artifactId>cloud-logic-core-services</artifactId>
+        	<version>1.1</version>
+        </dependency>
+        
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <scope>test</scope>
+      </dependency>
+
+   </dependencies>
+
+   <build>
+      <plugins>
+         <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+            	<source>1.7</source>
+            	<target>1.7</target>
+            </configuration>
+         </plugin>
+         <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+               <!-- Java EE 6 doesn't require web.xml, Maven needs to catch 
+                  up! -->
+               <failOnMissingWebXml>false</failOnMissingWebXml>
+            </configuration>
+         </plugin>
+         <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack-properties-file</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack-dependencies</goal>
+						</goals>
+						<configuration>
+							<includeArtifactIds>cloud-logic-core</includeArtifactIds>
+							<outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
+							<includes>**\/*.properties</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+         
+         <plugin>
+				<groupId>org.glassfish.maven.plugin</groupId>
+				<artifactId>maven-glassfish-plugin</artifactId>
+
+				<configuration>
+					<glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
+					<user>${logic.registry.user}</user>
+					<!-- <adminPassword>${logic.password}</adminPassword> -->
+					<passwordFile>${logic.registry.passwordFile}</passwordFile>
+					<domain>
+						<name>${logic.registry.domain}</name>
+						<host>${logic.registry.host}</host>
+						<httpPort>${logic.registry.httpPort}</httpPort>
+						<adminPort>${logic.registry.adminPort}</adminPort>
+					</domain>
+					<components>
+						<component>
+							<name>${project.artifactId}</name>
+							<artifact>target/${project.artifactId}-${project.version}.${project.packaging}</artifact>
+						</component>
+					</components>
+					<debug>true</debug>
+					<echo>true</echo>
+				</configuration>
+				<executions>
+					<execution>
+						<id>gf-undeploy</id>
+						<goals>
+							<goal>undeploy</goal>
+							<goal>stop-domain</goal>
+						</goals>
+						<phase>clean</phase>
+					</execution>
+					<execution>
+						<id>gf-deploy</id>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+      </plugins>
+   </build>
+</project>

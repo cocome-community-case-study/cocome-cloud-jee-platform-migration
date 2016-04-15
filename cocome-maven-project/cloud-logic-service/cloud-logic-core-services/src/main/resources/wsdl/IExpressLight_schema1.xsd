@@ -1,0 +1,47 @@
+<xs:schema xmlns:tns="http://expresslight.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://expresslight.cashdesk.cashdeskline.webservice.logic.cocome.org/">
+  <xs:element name="isOn" type="tns:isOn"/>
+  <xs:element name="isOnResponse" type="tns:isOnResponse"/>
+  <xs:element name="turnExpressLightOff" type="tns:turnExpressLightOff"/>
+  <xs:element name="turnExpressLightOffResponse" type="tns:turnExpressLightOffResponse"/>
+  <xs:element name="turnExpressLightOn" type="tns:turnExpressLightOn"/>
+  <xs:element name="turnExpressLightOnResponse" type="tns:turnExpressLightOnResponse"/>
+  <xs:complexType name="turnExpressLightOff">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="turnExpressLightOffResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="turnExpressLightOn">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="turnExpressLightOnResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="isOn">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="isOnResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UnhandledException" type="tns:UnhandledException"/>
+  <xs:complexType name="UnhandledException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="IUserDisplayService" targetNamespace="http://userdisplay.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://userdisplay.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://userdisplay.cashdesk.cashdeskline.webservice.logic.cocome.org/" schemaLocation="IUserDisplay_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="getMessageKind">
+    <wsdl:part name="parameters" element="tns:getMessageKind">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMessageKindResponse">
+    <wsdl:part name="parameters" element="tns:getMessageKindResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnhandledException">
+    <wsdl:part name="UnhandledException" element="tns:UnhandledException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMessageResponse">
+    <wsdl:part name="parameters" element="tns:getMessageResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMessage">
+    <wsdl:part name="parameters" element="tns:getMessage">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IUserDisplay">
+    <wsdl:operation name="getMessageKind">
+      <wsdl:input name="getMessageKind" message="tns:getMessageKind">
+    </wsdl:input>
+      <wsdl:output name="getMessageKindResponse" message="tns:getMessageKindResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getMessage">
+      <wsdl:input name="getMessage" message="tns:getMessage">
+    </wsdl:input>
+      <wsdl:output name="getMessageResponse" message="tns:getMessageResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IUserDisplayServiceSoapBinding" type="tns:IUserDisplay">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getMessageKind">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMessageKind">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMessageKindResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getMessage">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMessage">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMessageResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IUserDisplayService">
+    <wsdl:port name="IUserDisplayPort" binding="tns:IUserDisplayServiceSoapBinding">
+      <soap:address location="http://localhost:9090/IUserDisplayPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,45 @@
+<xs:schema xmlns:ns1="http://reporting.application.inventory.tradingsystem.cocome.org/" xmlns:tns="http://reporting.enterprise.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://reporting.enterprise.webservice.logic.cocome.org/">
+  <xs:import namespace="http://reporting.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseReport_schema2.xsd"/>
+  <xs:element name="getEnterpriseDeliveryReport" type="tns:getEnterpriseDeliveryReport"/>
+  <xs:element name="getEnterpriseDeliveryReportResponse" type="tns:getEnterpriseDeliveryReportResponse"/>
+  <xs:element name="getEnterpriseStockReport" type="tns:getEnterpriseStockReport"/>
+  <xs:element name="getEnterpriseStockReportResponse" type="tns:getEnterpriseStockReportResponse"/>
+  <xs:element name="getStoreStockReport" type="tns:getStoreStockReport"/>
+  <xs:element name="getStoreStockReportResponse" type="tns:getStoreStockReportResponse"/>
+  <xs:complexType name="getStoreStockReport">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getStoreStockReportResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:ReportTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getEnterpriseDeliveryReport">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getEnterpriseDeliveryReportResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:ReportTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getEnterpriseStockReport">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getEnterpriseStockReportResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:ReportTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NotInDatabaseException" type="tns:NotInDatabaseException"/>
+  <xs:complexType name="NotInDatabaseException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

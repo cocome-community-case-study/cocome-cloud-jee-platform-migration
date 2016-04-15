@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="IStoreManagerService" targetNamespace="http://store.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://store.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://store.webservice.logic.cocome.org/" schemaLocation="IStoreManager_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="changePrice">
+    <wsdl:part name="parameters" element="tns:changePrice">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrder">
+    <wsdl:part name="parameters" element="tns:getOrder">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStockItemsResponse">
+    <wsdl:part name="parameters" element="tns:getStockItemsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="orderProductsResponse">
+    <wsdl:part name="parameters" element="tns:orderProductsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateStockItemResponse">
+    <wsdl:part name="parameters" element="tns:updateStockItemResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="markProductsUnavailableInStock">
+    <wsdl:part name="parameters" element="tns:markProductsUnavailableInStock">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStockItems">
+    <wsdl:part name="parameters" element="tns:getStockItems">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createStockItemResponse">
+    <wsdl:part name="parameters" element="tns:createStockItemResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProductsWithLowStock">
+    <wsdl:part name="parameters" element="tns:getProductsWithLowStock">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllStoreProducts">
+    <wsdl:part name="parameters" element="tns:getAllStoreProducts">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStoreResponse">
+    <wsdl:part name="parameters" element="tns:getStoreResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rollInReceivedOrderResponse">
+    <wsdl:part name="parameters" element="tns:rollInReceivedOrderResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NoSuchProductException">
+    <wsdl:part name="NoSuchProductException" element="tns:NoSuchProductException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProductsWithStockItems">
+    <wsdl:part name="parameters" element="tns:getProductsWithStockItems">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateStockItem">
+    <wsdl:part name="parameters" element="tns:updateStockItem">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProductWithStockItemResponse">
+    <wsdl:part name="parameters" element="tns:getProductWithStockItemResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="orderProducts">
+    <wsdl:part name="parameters" element="tns:orderProducts">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="changePriceResponse">
+    <wsdl:part name="parameters" element="tns:changePriceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProductsWithStockItemsResponse">
+    <wsdl:part name="parameters" element="tns:getProductsWithStockItemsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createStockItem">
+    <wsdl:part name="parameters" element="tns:createStockItem">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOutstandingOrdersResponse">
+    <wsdl:part name="parameters" element="tns:getOutstandingOrdersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProductsWithLowStockResponse">
+    <wsdl:part name="parameters" element="tns:getProductsWithLowStockResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="accountSaleResponse">
+    <wsdl:part name="parameters" element="tns:accountSaleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidRollInRequestException">
+    <wsdl:part name="InvalidRollInRequestException" element="tns:InvalidRollInRequestException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateException">
+    <wsdl:part name="CreateException" element="tns:CreateException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOrderResponse">
+    <wsdl:part name="parameters" element="tns:getOrderResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProductWithStockItem">
+    <wsdl:part name="parameters" element="tns:getProductWithStockItem">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateException">
+    <wsdl:part name="UpdateException" element="tns:UpdateException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getOutstandingOrders">
+    <wsdl:part name="parameters" element="tns:getOutstandingOrders">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="markProductsUnavailableInStockResponse">
+    <wsdl:part name="parameters" element="tns:markProductsUnavailableInStockResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotImplementedException">
+    <wsdl:part name="NotImplementedException" element="tns:NotImplementedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllStoreProductsResponse">
+    <wsdl:part name="parameters" element="tns:getAllStoreProductsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rollInReceivedOrder">
+    <wsdl:part name="parameters" element="tns:rollInReceivedOrder">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStore">
+    <wsdl:part name="parameters" element="tns:getStore">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ProductOutOfStockException">
+    <wsdl:part name="ProductOutOfStockException" element="tns:ProductOutOfStockException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="accountSale">
+    <wsdl:part name="parameters" element="tns:accountSale">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotInDatabaseException">
+    <wsdl:part name="NotInDatabaseException" element="tns:NotInDatabaseException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IStoreManager">
+    <wsdl:operation name="changePrice">
+      <wsdl:input name="changePrice" message="tns:changePrice">
+    </wsdl:input>
+      <wsdl:output name="changePriceResponse" message="tns:changePriceResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getOrder">
+      <wsdl:input name="getOrder" message="tns:getOrder">
+    </wsdl:input>
+      <wsdl:output name="getOrderResponse" message="tns:getOrderResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createStockItem">
+      <wsdl:input name="createStockItem" message="tns:createStockItem">
+    </wsdl:input>
+      <wsdl:output name="createStockItemResponse" message="tns:createStockItemResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="CreateException" message="tns:CreateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="markProductsUnavailableInStock">
+      <wsdl:input name="markProductsUnavailableInStock" message="tns:markProductsUnavailableInStock">
+    </wsdl:input>
+      <wsdl:output name="markProductsUnavailableInStockResponse" message="tns:markProductsUnavailableInStockResponse">
+    </wsdl:output>
+      <wsdl:fault name="ProductOutOfStockException" message="tns:ProductOutOfStockException">
+    </wsdl:fault>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStockItems">
+      <wsdl:input name="getStockItems" message="tns:getStockItems">
+    </wsdl:input>
+      <wsdl:output name="getStockItemsResponse" message="tns:getStockItemsResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotImplementedException" message="tns:NotImplementedException">
+    </wsdl:fault>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProductWithStockItem">
+      <wsdl:input name="getProductWithStockItem" message="tns:getProductWithStockItem">
+    </wsdl:input>
+      <wsdl:output name="getProductWithStockItemResponse" message="tns:getProductWithStockItemResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="NoSuchProductException" message="tns:NoSuchProductException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getOutstandingOrders">
+      <wsdl:input name="getOutstandingOrders" message="tns:getOutstandingOrders">
+    </wsdl:input>
+      <wsdl:output name="getOutstandingOrdersResponse" message="tns:getOutstandingOrdersResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProductsWithLowStock">
+      <wsdl:input name="getProductsWithLowStock" message="tns:getProductsWithLowStock">
+    </wsdl:input>
+      <wsdl:output name="getProductsWithLowStockResponse" message="tns:getProductsWithLowStockResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllStoreProducts">
+      <wsdl:input name="getAllStoreProducts" message="tns:getAllStoreProducts">
+    </wsdl:input>
+      <wsdl:output name="getAllStoreProductsResponse" message="tns:getAllStoreProductsResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="rollInReceivedOrder">
+      <wsdl:input name="rollInReceivedOrder" message="tns:rollInReceivedOrder">
+    </wsdl:input>
+      <wsdl:output name="rollInReceivedOrderResponse" message="tns:rollInReceivedOrderResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+      <wsdl:fault name="InvalidRollInRequestException" message="tns:InvalidRollInRequestException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStore">
+      <wsdl:input name="getStore" message="tns:getStore">
+    </wsdl:input>
+      <wsdl:output name="getStoreResponse" message="tns:getStoreResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="accountSale">
+      <wsdl:input name="accountSale" message="tns:accountSale">
+    </wsdl:input>
+      <wsdl:output name="accountSaleResponse" message="tns:accountSaleResponse">
+    </wsdl:output>
+      <wsdl:fault name="ProductOutOfStockException" message="tns:ProductOutOfStockException">
+    </wsdl:fault>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProductsWithStockItems">
+      <wsdl:input name="getProductsWithStockItems" message="tns:getProductsWithStockItems">
+    </wsdl:input>
+      <wsdl:output name="getProductsWithStockItemsResponse" message="tns:getProductsWithStockItemsResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateStockItem">
+      <wsdl:input name="updateStockItem" message="tns:updateStockItem">
+    </wsdl:input>
+      <wsdl:output name="updateStockItemResponse" message="tns:updateStockItemResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="orderProducts">
+      <wsdl:input name="orderProducts" message="tns:orderProducts">
+    </wsdl:input>
+      <wsdl:output name="orderProductsResponse" message="tns:orderProductsResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+      <wsdl:fault name="CreateException" message="tns:CreateException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IStoreManagerServiceSoapBinding" type="tns:IStoreManager">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getOrder">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getOrder">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getOrderResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="changePrice">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="changePrice">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="changePriceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createStockItem">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createStockItem">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createStockItemResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="CreateException">
+        <soap:fault name="CreateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="markProductsUnavailableInStock">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="markProductsUnavailableInStock">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="markProductsUnavailableInStockResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ProductOutOfStockException">
+        <soap:fault name="ProductOutOfStockException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStockItems">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStockItems">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStockItemsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotImplementedException">
+        <soap:fault name="NotImplementedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProductWithStockItem">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProductWithStockItem">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProductWithStockItemResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NoSuchProductException">
+        <soap:fault name="NoSuchProductException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getOutstandingOrders">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getOutstandingOrders">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getOutstandingOrdersResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProductsWithLowStock">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProductsWithLowStock">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProductsWithLowStockResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllStoreProducts">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllStoreProducts">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllStoreProductsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="rollInReceivedOrder">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="rollInReceivedOrder">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="rollInReceivedOrderResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidRollInRequestException">
+        <soap:fault name="InvalidRollInRequestException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getStore">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStore">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStoreResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="accountSale">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="accountSale">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="accountSaleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ProductOutOfStockException">
+        <soap:fault name="ProductOutOfStockException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getProductsWithStockItems">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getProductsWithStockItems">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getProductsWithStockItemsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateStockItem">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateStockItem">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateStockItemResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="orderProducts">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="orderProducts">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="orderProductsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="CreateException">
+        <soap:fault name="CreateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IStoreManagerService">
+    <wsdl:port name="IStoreManagerPort" binding="tns:IStoreManagerServiceSoapBinding">
+      <soap:address location="http://localhost:9090/IStoreManagerPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

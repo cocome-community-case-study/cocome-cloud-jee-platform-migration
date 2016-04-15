@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="IPrinterService" targetNamespace="http://printer.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://printer.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://printer.cashdesk.cashdeskline.webservice.logic.cocome.org/" schemaLocation="IPrinter_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="UnhandledException">
+    <wsdl:part name="UnhandledException" element="tns:UnhandledException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="tearOffPrintout">
+    <wsdl:part name="parameters" element="tns:tearOffPrintout">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCurrentPrintoutResponse">
+    <wsdl:part name="parameters" element="tns:getCurrentPrintoutResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="printText">
+    <wsdl:part name="parameters" element="tns:printText">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="printTextResponse">
+    <wsdl:part name="parameters" element="tns:printTextResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="tearOffPrintoutResponse">
+    <wsdl:part name="parameters" element="tns:tearOffPrintoutResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCurrentPrintout">
+    <wsdl:part name="parameters" element="tns:getCurrentPrintout">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IPrinter">
+    <wsdl:operation name="printText">
+      <wsdl:input name="printText" message="tns:printText">
+    </wsdl:input>
+      <wsdl:output name="printTextResponse" message="tns:printTextResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="tearOffPrintout">
+      <wsdl:input name="tearOffPrintout" message="tns:tearOffPrintout">
+    </wsdl:input>
+      <wsdl:output name="tearOffPrintoutResponse" message="tns:tearOffPrintoutResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCurrentPrintout">
+      <wsdl:input name="getCurrentPrintout" message="tns:getCurrentPrintout">
+    </wsdl:input>
+      <wsdl:output name="getCurrentPrintoutResponse" message="tns:getCurrentPrintoutResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IPrinterServiceSoapBinding" type="tns:IPrinter">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="printText">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="printText">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="printTextResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="tearOffPrintout">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="tearOffPrintout">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="tearOffPrintoutResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCurrentPrintout">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCurrentPrintout">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCurrentPrintoutResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IPrinterService">
+    <wsdl:port name="IPrinterPort" binding="tns:IPrinterServiceSoapBinding">
+      <soap:address location="http://localhost:9090/IPrinterPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

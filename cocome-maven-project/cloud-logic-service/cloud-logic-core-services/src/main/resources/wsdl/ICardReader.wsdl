@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ICardReaderService" targetNamespace="http://cardreader.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://cardreader.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://cardreader.cashdesk.cashdeskline.webservice.logic.cocome.org/" schemaLocation="ICardReader_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="sendCreditCardPin">
+    <wsdl:part name="parameters" element="tns:sendCreditCardPin">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="IllegalCashDeskStateException">
+    <wsdl:part name="IllegalCashDeskStateException" element="tns:IllegalCashDeskStateException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendCreditCardInfoResponse">
+    <wsdl:part name="parameters" element="tns:sendCreditCardInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendCreditCardPinResponse">
+    <wsdl:part name="parameters" element="tns:sendCreditCardPinResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnhandledException">
+    <wsdl:part name="UnhandledException" element="tns:UnhandledException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendCreditCardInfo">
+    <wsdl:part name="parameters" element="tns:sendCreditCardInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ICardReader">
+    <wsdl:operation name="sendCreditCardPin">
+      <wsdl:input name="sendCreditCardPin" message="tns:sendCreditCardPin">
+    </wsdl:input>
+      <wsdl:output name="sendCreditCardPinResponse" message="tns:sendCreditCardPinResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="sendCreditCardInfo">
+      <wsdl:input name="sendCreditCardInfo" message="tns:sendCreditCardInfo">
+    </wsdl:input>
+      <wsdl:output name="sendCreditCardInfoResponse" message="tns:sendCreditCardInfoResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ICardReaderServiceSoapBinding" type="tns:ICardReader">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sendCreditCardPin">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sendCreditCardPin">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendCreditCardPinResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="sendCreditCardInfo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sendCreditCardInfo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendCreditCardInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ICardReaderService">
+    <wsdl:port name="ICardReaderPort" binding="tns:ICardReaderServiceSoapBinding">
+      <soap:address location="http://localhost:9090/ICardReaderPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

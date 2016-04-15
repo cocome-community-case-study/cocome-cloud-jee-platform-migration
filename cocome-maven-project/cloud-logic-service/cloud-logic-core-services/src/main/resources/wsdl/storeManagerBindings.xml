@@ -1,0 +1,69 @@
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://enterprise.webservice.logic.cocome.org/">
+
+	<bindings if-exists="true" schemaLocation="IStoreManager_schema2.xsd">
+		<bindings node="//xsd:complexType[@name='ProductTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.ProductTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='ProductWithStockItemTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='SupplierTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.SupplierTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='SaleTO']">
+			<class ref="org.cocome.tradingsystem.inventory.application.store.SaleTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='ComplexOrderTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='OrderTO']">
+			<class ref="org.cocome.tradingsystem.inventory.application.store.OrderTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='ComplexOrderEntryTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.ComplexOrderEntryTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='OrderEntryTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.OrderEntryTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='StockItemTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.StockItemTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='ProductWithSupplierTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='ProductMovementTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.ProductMovementTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='ProductAmountTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.ProductAmountTO" />
+		</bindings>
+		<bindings
+			node="//xsd:complexType[@name='ProductWithSupplierAndStockItemTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndStockItemTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='StoreWithEnterpriseTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='StoreTO']">
+			<class ref="org.cocome.tradingsystem.inventory.application.store.StoreTO" />
+		</bindings>
+		<bindings node="//xsd:complexType[@name='EnterpriseTO']">
+			<class
+				ref="org.cocome.tradingsystem.inventory.application.store.EnterpriseTO" />
+		</bindings>
+	</bindings>
+</bindings>

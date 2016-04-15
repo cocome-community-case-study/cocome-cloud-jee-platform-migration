@@ -6,13 +6,13 @@ import java.util.Map;
 
 import javax.xml.ws.WebServiceRef;
 
-import org.cocome.logic.stub.IStoreManager;
-import org.cocome.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.logic.stub.ProductWithSupplierAndStockItemTO;
-import org.cocome.logic.stub.StoreManagerService;
+import org.cocome.cloud.logic.stub.IStoreManager;
+import org.cocome.cloud.logic.stub.IStoreManagerService;
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndStockItemTO;
 
 public class StockItemListFactory {	
-	@WebServiceRef(StoreManagerService.class)
+	@WebServiceRef(IStoreManagerService.class)
 	IStoreManager storeManager;
 	
 	private static Map<Long, StoreStockItemList> storeLists = new HashMap<Long, StoreStockItemList>();

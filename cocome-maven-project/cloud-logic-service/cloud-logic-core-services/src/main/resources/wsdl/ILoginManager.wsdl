@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ILoginManagerService" targetNamespace="http://usermanager.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://usermanager.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://usermanager.webservice.logic.cocome.org/" schemaLocation="ILoginManager_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="requestAuthToken">
+    <wsdl:part name="parameters" element="tns:requestAuthToken">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createNewUser">
+    <wsdl:part name="parameters" element="tns:createNewUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createNewUserResponse">
+    <wsdl:part name="parameters" element="tns:createNewUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserRoles">
+    <wsdl:part name="parameters" element="tns:getUserRoles">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCustomerWithStoreTOResponse">
+    <wsdl:part name="parameters" element="tns:getCustomerWithStoreTOResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkCredentials">
+    <wsdl:part name="parameters" element="tns:checkCredentials">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotInDatabaseException">
+    <wsdl:part name="NotInDatabaseException" element="tns:NotInDatabaseException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUser">
+    <wsdl:part name="parameters" element="tns:updateUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserRolesResponse">
+    <wsdl:part name="parameters" element="tns:getUserRolesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createNewCustomer">
+    <wsdl:part name="parameters" element="tns:createNewCustomer">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCustomerWithStoreTO">
+    <wsdl:part name="parameters" element="tns:getCustomerWithStoreTO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkCredentialsResponse">
+    <wsdl:part name="parameters" element="tns:checkCredentialsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateUserResponse">
+    <wsdl:part name="parameters" element="tns:updateUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeAuthToken">
+    <wsdl:part name="parameters" element="tns:removeAuthToken">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserTO">
+    <wsdl:part name="parameters" element="tns:getUserTO">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCustomer">
+    <wsdl:part name="parameters" element="tns:updateCustomer">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateCustomerResponse">
+    <wsdl:part name="parameters" element="tns:updateCustomerResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserTOResponse">
+    <wsdl:part name="parameters" element="tns:getUserTOResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createNewCustomerResponse">
+    <wsdl:part name="parameters" element="tns:createNewCustomerResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestAuthTokenResponse">
+    <wsdl:part name="parameters" element="tns:requestAuthTokenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeAuthTokenResponse">
+    <wsdl:part name="parameters" element="tns:removeAuthTokenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ILoginManager">
+    <wsdl:operation name="requestAuthToken">
+      <wsdl:input name="requestAuthToken" message="tns:requestAuthToken">
+    </wsdl:input>
+      <wsdl:output name="requestAuthTokenResponse" message="tns:requestAuthTokenResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createNewUser">
+      <wsdl:input name="createNewUser" message="tns:createNewUser">
+    </wsdl:input>
+      <wsdl:output name="createNewUserResponse" message="tns:createNewUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserRoles">
+      <wsdl:input name="getUserRoles" message="tns:getUserRoles">
+    </wsdl:input>
+      <wsdl:output name="getUserRolesResponse" message="tns:getUserRolesResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeAuthToken">
+      <wsdl:input name="removeAuthToken" message="tns:removeAuthToken">
+    </wsdl:input>
+      <wsdl:output name="removeAuthTokenResponse" message="tns:removeAuthTokenResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkCredentials">
+      <wsdl:input name="checkCredentials" message="tns:checkCredentials">
+    </wsdl:input>
+      <wsdl:output name="checkCredentialsResponse" message="tns:checkCredentialsResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUserTO">
+      <wsdl:input name="getUserTO" message="tns:getUserTO">
+    </wsdl:input>
+      <wsdl:output name="getUserTOResponse" message="tns:getUserTOResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateUser">
+      <wsdl:input name="updateUser" message="tns:updateUser">
+    </wsdl:input>
+      <wsdl:output name="updateUserResponse" message="tns:updateUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateCustomer">
+      <wsdl:input name="updateCustomer" message="tns:updateCustomer">
+    </wsdl:input>
+      <wsdl:output name="updateCustomerResponse" message="tns:updateCustomerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createNewCustomer">
+      <wsdl:input name="createNewCustomer" message="tns:createNewCustomer">
+    </wsdl:input>
+      <wsdl:output name="createNewCustomerResponse" message="tns:createNewCustomerResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCustomerWithStoreTO">
+      <wsdl:input name="getCustomerWithStoreTO" message="tns:getCustomerWithStoreTO">
+    </wsdl:input>
+      <wsdl:output name="getCustomerWithStoreTOResponse" message="tns:getCustomerWithStoreTOResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ILoginManagerServiceSoapBinding" type="tns:ILoginManager">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="requestAuthToken">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="requestAuthToken">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="requestAuthTokenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createNewUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createNewUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createNewUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUserRoles">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUserRoles">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUserRolesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeAuthToken">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeAuthToken">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeAuthTokenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkCredentials">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="checkCredentials">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="checkCredentialsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUserTO">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUserTO">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUserTOResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateCustomer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateCustomer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateCustomerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createNewCustomer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createNewCustomer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createNewCustomerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCustomerWithStoreTO">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCustomerWithStoreTO">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCustomerWithStoreTOResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ILoginManagerService">
+    <wsdl:port name="ILoginManagerPort" binding="tns:ILoginManagerServiceSoapBinding">
+      <soap:address location="http://localhost:9090/ILoginManagerPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

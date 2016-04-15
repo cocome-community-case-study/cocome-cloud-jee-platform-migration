@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.cocome.cloud.web.entitywrapper.ProductWSSTOWrapper;
-import org.cocome.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 
 
 @ManagedBean

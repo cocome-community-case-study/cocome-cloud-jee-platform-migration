@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>store-logic-integrationtest</artifactId>
+    <packaging>jar</packaging>
+    <name>CoCoME logic integration tests</name>
+    
+  <parent>
+  	<groupId>org.cocome</groupId>
+  	<artifactId>cloud-store-logic</artifactId>
+  	<version>1.1</version>
+  </parent>
+
+<!--      <build>
+        <plugins>
+            <plugin>
+                <groupId>com.smartbear.soapui</groupId>
+                <artifactId>soapui-maven-plugin</artifactId> 
+                 <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <projectFile>${project.build.directory}/../CoCoME-test-soapui-project.xml</projectFile>
+                            <output-folder>${project.build.directory}/../output</output-folder>
+                            <projectProperties>
+                            	Change these settings according to the setup
+                            	<value>wsdlLocationBaseURL=${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}/</value>
+                            	<value>serviceAdapterDatabaseURL=${serviceadapter.protocol}://${serviceadapter.host}:${serviceadapter.port}${serviceadapter.baseDir}/Database</value>
+                            </projectProperties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build> -->
+    <dependencies>
+    	<dependency>
+    		<groupId>org.cocome</groupId>
+    		<artifactId>store-logic-ear</artifactId>
+    		<version>${project.version}</version>
+    		<type>ear</type>
+    		<scope>provided</scope>
+    	</dependency>
+    </dependencies>
+</project>

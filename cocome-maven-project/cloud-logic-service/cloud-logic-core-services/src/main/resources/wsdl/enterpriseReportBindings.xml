@@ -1,0 +1,12 @@
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb"
+			xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:tns="http://enterprise.webservice.logic.cocome.org/">
+			
+		<bindings if-exists="true" schemaLocation="IEnterpriseReport_schema2.xsd">
+ 		    <bindings node="//xsd:complexType[@name='ReportTO']">
+		      <class ref="org.cocome.tradingsystem.inventory.application.reporting.ReportTO"/>
+		    </bindings>
+    	</bindings>
+    </bindings>
+

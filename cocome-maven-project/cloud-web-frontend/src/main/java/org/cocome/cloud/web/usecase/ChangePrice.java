@@ -18,10 +18,10 @@ import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.web.entitywrapper.ProductWSSTOWrapper;
-import org.cocome.logic.stub.IStoreManager;
-import org.cocome.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.logic.stub.ProductWithSupplierAndStockItemTO;
-import org.cocome.logic.stub.StoreManagerService;
+import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndStockItemTO;
+import org.cocome.cloud.logic.stub.IStoreManagerService;
+import org.cocome.cloud.logic.stub.IStoreManager;
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 
 
 
@@ -29,7 +29,7 @@ import org.cocome.logic.stub.StoreManagerService;
 @SessionScoped
 public class ChangePrice implements ActionListener, IUseCase {
 
-	@WebServiceRef(StoreManagerService.class)
+	@WebServiceRef(IStoreManagerService.class)
 	IStoreManager storeManager;
 	
 	private static final Logger LOG = Logger.getLogger(ChangePrice.class);

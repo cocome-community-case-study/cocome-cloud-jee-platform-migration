@@ -1,0 +1,53 @@
+<xs:schema xmlns:tns="http://barcodescanner.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://barcodescanner.cashdesk.cashdeskline.webservice.logic.cocome.org/">
+  <xs:element name="sendProductBarcode" type="tns:sendProductBarcode"/>
+  <xs:element name="sendProductBarcodeResponse" type="tns:sendProductBarcodeResponse"/>
+  <xs:complexType name="sendProductBarcode">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="barcode" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sendProductBarcodeResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="cashDeskState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EXPECTING_SALE"/>
+      <xs:enumeration value="EXPECTING_ITEMS"/>
+      <xs:enumeration value="EXPECTING_PAYMENT"/>
+      <xs:enumeration value="PAYING_BY_CASH"/>
+      <xs:enumeration value="PAID_BY_CASH"/>
+      <xs:enumeration value="EXPECTING_CARD_INFO"/>
+      <xs:enumeration value="PAYING_BY_CREDIT_CARD"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="NoSuchProductException" type="tns:NoSuchProductException"/>
+  <xs:complexType name="NoSuchProductException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UnhandledException" type="tns:UnhandledException"/>
+  <xs:complexType name="UnhandledException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProductOutOfStockException" type="tns:ProductOutOfStockException"/>
+  <xs:complexType name="ProductOutOfStockException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="IllegalCashDeskStateException" type="tns:IllegalCashDeskStateException"/>
+  <xs:complexType name="IllegalCashDeskStateException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="state" type="tns:cashDeskState"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="legalStates" type="tns:cashDeskState"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

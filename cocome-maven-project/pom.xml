@@ -11,7 +11,6 @@
 	<modules>
 		<module>cloud-logic-service</module>
 		<module>cloud-web-frontend</module>
-		<module>cloud-logic-webservicestubs</module>
 	</modules>
 
 	<properties>
@@ -31,32 +30,67 @@
 		<log4j-version>2.1</log4j-version>
 		<mockito-version>2.0.28-beta</mockito-version>
 		<soapui-plugin-version>5.1.3</soapui-plugin-version>
-		<jaxws-plugin-version>2.3</jaxws-plugin-version>
+		<jaxws-plugin-version>2.4.1</jaxws-plugin-version>
 		<maven-dep-plugin-version>2.1</maven-dep-plugin-version>
 		<maven-build-helper-version>1.9.1</maven-build-helper-version>
-		
+		<cxf.version>3.1.6</cxf.version>
+
 		<!-- deployment properties -->
+		<!-- TODO: Change according to your setup -->
 		<local.glassfish.home>/home/rju/glassfish4/glassfish</local.glassfish.home>
+		<logic.registry.protocol>http</logic.registry.protocol>
+		<logic.registry.domain>cocome-registry</logic.registry.domain>
+		<logic.registry.host>localhost</logic.registry.host>
+		<logic.registry.httpPort>8484</logic.registry.httpPort>
+		<logic.registry.adminPort>8448</logic.registry.adminPort>
+		<logic.registry.user>admin</logic.registry.user>
+		<!-- Hint: If no password is set for a domain, a password file is needed -->
+		<logic.registry.password />
+		<logic.registry.passwordFile>${local.glassfish.passwordfile}</logic.registry.passwordFile>
+		<logic.registry.baseDir />
 		
-		<logic.protocol>http</logic.protocol>
-		<logic.domain>cocome</logic.domain>
-		<logic.host>192.168.48.232</logic.host>
-		<logic.httpPort>8080</logic.httpPort>
-		<logic.adminPort>4848</logic.adminPort>
-		<logic.user>admin</logic.user>
-		<logic.password>admin</logic.password>
-		<logic.baseDir></logic.baseDir>
+		<logic.registry.stubs.package>org.cocome.cloud.logic.registry.stub</logic.registry.stubs.package>
+
+		<logic.store.protocol>http</logic.store.protocol>
+		<logic.store.domain>cocome-store</logic.store.domain>
+		<logic.store.host>localhost</logic.store.host>
+		<logic.store.httpPort>8383</logic.store.httpPort>
+		<logic.store.adminPort>8348</logic.store.adminPort>
+		<logic.store.user>admin</logic.store.user>
+		<logic.store.password />
+		<logic.store.passwordFile>${local.glassfish.passwordfile}</logic.store.passwordFile>
+		<logic.store.baseDir />
+		
+		<logic.stubs.package>org.cocome.cloud.logic.stub</logic.stubs.package>
+
+		<logic.enterprise.protocol>http</logic.enterprise.protocol>
+		<logic.enterprise.domain>cocome-enterprise</logic.enterprise.domain>
+		<logic.enterprise.host>localhost</logic.enterprise.host>
+		<logic.enterprise.httpPort>8282</logic.enterprise.httpPort>
+		<logic.enterprise.adminPort>8248</logic.enterprise.adminPort>
+		<logic.enterprise.user>admin</logic.enterprise.user>
+		<logic.enterprise.password />
+		<logic.enterprise.passwordFile>${local.glassfish.passwordfile}</logic.enterprise.passwordFile>
+		<logic.enterprise.baseDir />
+
 		<logic.cashDeskService>/CashDeskService</logic.cashDeskService>
 		<logic.storeService>/StoreService</logic.storeService>
 		<logic.enterpriseService>/EnterpriseService</logic.enterpriseService>
 		<logic.loginService>/LoginService</logic.loginService>
-		
-		<web.domain>cocome</web.domain>
-		<web.host>192.168.48.206</web.host>
+		<logic.registryService>/RegistryService</logic.registryService>
+
+		<web.domain>cocome-frontend-gf4</web.domain>
+		<web.host>localhost</web.host>
 		<web.httpPort>8080</web.httpPort>
-		<web.adminPort>4848</web.adminPort>
+		<web.adminPort>8048</web.adminPort>
 		<web.user>admin</web.user>
-		<web.password>admin</web.password>
+		<web.password />
+		<web.passwordFile>${local.glassfish.frontend.passwordfile}</web.passwordFile>
+
+		<serviceadapter.protocol>http</serviceadapter.protocol>
+		<serviceadapter.host>localhost</serviceadapter.host>
+		<serviceadapter.port>8181</serviceadapter.port>
+		<serviceadapter.baseDir>/de.kit.ipd.cocome.cloud.serviceadapter/Services</serviceadapter.baseDir>
 	</properties>
 
 
@@ -75,6 +109,17 @@
 			<id>glassfish-repository</id>
 			<name>Java.net Repository for Glassfish</name>
 			<url>http://download.java.net/maven/glassfish</url>
+		</repository>
+		<repository>
+			<id>fusesource.m2</id>
+			<name>Apache CXF Open Source Community Release Repository</name>
+			<url>http://repo.fusesource.com/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 		</repository>
 	</repositories>
 
@@ -97,6 +142,17 @@
 		<pluginRepository>
 			<id>SmartBearPluginRepository</id>
 			<url>http://www.soapui.org/repository/maven2/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>fusesource.m2</id>
+			<name>Apache CXF Open Source Community Release Repository</name>
+			<url>http://repo.fusesource.com/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 		</pluginRepository>
 	</pluginRepositories>
 
@@ -135,6 +191,18 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-java2ws-plugin</artifactId>
+					<version>${cxf.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-codegen-plugin</artifactId>
+					<version>${cxf.version}</version>
+				</plugin>
+
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -193,7 +261,7 @@
 				</plugin>
 
 				<plugin>
-					<groupId>org.jvnet.jax-ws-commons</groupId>
+					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>jaxws-maven-plugin</artifactId>
 					<version>${jaxws-plugin-version}</version>
 				</plugin>
@@ -207,4 +275,3 @@
 		</pluginManagement>
 	</build>
 </project>
-

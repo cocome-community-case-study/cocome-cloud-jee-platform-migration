@@ -77,7 +77,7 @@ function resizeInputText() {
 									</h:commandButton> </p>
 							</h:panelGroup></td>
 						<td ><h:panelGroup
-								rendered="#{(login.per == 'admin') or (login.per == 'store manager')}">
+								rendered="#{(login.per == 'admin') or (login.per == 'storemanager')}">
 								<p class="submit">
 									<h:commandButton value="Order Product"
 										action="#{orderProduct.invoke}"
@@ -99,7 +99,7 @@ function resizeInputText() {
 
 							</h:panelGroup></td>
 						<td ><h:panelGroup
-								rendered="#{(login.per == 'admin') or (login.per == 'store manager')}">
+								rendered="#{(login.per == 'admin') or (login.per == 'storemanager')}">
 								<p class="submit">	<h:commandButton action="#{showReportOfProduct.invoke}"
 										actionListener="#{showReportOfProduct.getSelected}"
 										value="Show Stock Reports">
@@ -118,7 +118,7 @@ function resizeInputText() {
 							</h:panelGroup>
 							</td>
 						<td ><h:panelGroup
-								rendered="#{(login.per == 'admin') or (login.per == 'store manager')}">
+								rendered="#{(login.per == 'admin') or (login.per == 'storemanager')}">
 								<p class="submit">	<h:commandButton value="Change Price"
 										action="#{changePrice.invoke}"
 										actionListener="#{changePrice.attrListener}">
@@ -136,7 +136,7 @@ function resizeInputText() {
 									</h:commandButton> </p>
 							</h:panelGroup></td>
 						<td><h:panelGroup
-								rendered="#{(login.per == 'admin') or (login.per == 'stock manager')}">
+								rendered="#{(login.per == 'admin') or (login.per == 'stockmanager')}">
 									<p class="submit"> <h:commandButton value="Receive Ordered Products" action="#{receiveOrderedProducts.invoke}"
 										actionListener="#{receiveOrderedProducts.attrListener}">
 										<f:actionListener binding="#{changePrice}" />
@@ -163,7 +163,7 @@ function resizeInputText() {
 <%--   							</h:panelGroup>    --%>
 <!-- 							</td> -->
 						<td id="logout"><h:panelGroup
-								rendered="#{(login.per == 'admin') or (login.per == 'enterprise manager') or (login.per == 'store manager') or (login.per == 'stock manager') or (login.per == 'cashier')}">
+								rendered="#{(login.per == 'admin') or (login.per == 'enterprisemanager') or (login.per == 'storemanager') or (login.per == 'stockmanager') or (login.per == 'cashier')}">
 
 								<p class="submit">	<h:commandButton action="#{login.logout}" value="logout" >
 										<f:actionListener binding="#{receiveOrderedProducts}"/>
