@@ -17,14 +17,14 @@ import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.web.entitywrapper.ProductWSSTOWrapper;
-import org.cocome.logic.stub.ComplexOrderEntryTO;
-import org.cocome.logic.stub.ComplexOrderTO;
-import org.cocome.logic.stub.IStoreManager;
-import org.cocome.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.logic.stub.CreateException_Exception;
-import org.cocome.logic.stub.UpdateException_Exception;
-import org.cocome.logic.stub.ProductWithSupplierAndStockItemTO;
-import org.cocome.logic.stub.StoreManagerService;
+import org.cocome.tradingsystem.inventory.application.store.ComplexOrderEntryTO;
+import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndStockItemTO;
+import org.cocome.cloud.logic.stub.IStoreManager;
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.cloud.logic.stub.CreateException_Exception;
+import org.cocome.cloud.logic.stub.UpdateException_Exception;
+import org.cocome.cloud.logic.stub.IStoreManagerService;
 
 @ManagedBean(name = "orderProduct", eager = true)
 @SessionScoped
@@ -35,7 +35,7 @@ public class OrderProduct implements ActionListener, IUseCase{
 	@Inject
 	StockItemListFactory stockItemListFactory;
 	
-	@WebServiceRef(StoreManagerService.class)
+	@WebServiceRef(IStoreManagerService.class)
 	IStoreManager storeManager;
 
 	private StoreStockItemList stockItemList;
@@ -189,11 +189,11 @@ public class OrderProduct implements ActionListener, IUseCase{
 
 	public String save() {
 		ComplexOrderTO order = new ComplexOrderTO();
-		order.getOrderEntries().addAll(orderList.getOrderItems());
+		order.setOrderEntryTOs(orderList.getOrderItems());
 		order.setDeliveryDate(null);
 		order.setOrderingDate(null);
 		
-		LOG.debug("Trying to persist orders: " + order.getOrderEntries());
+		LOG.debug("Trying to persist orders: " + order.getOrderEntryTOs());
 		
 		try {
 			storeManager.orderProducts(Long.parseLong(storeID), order);

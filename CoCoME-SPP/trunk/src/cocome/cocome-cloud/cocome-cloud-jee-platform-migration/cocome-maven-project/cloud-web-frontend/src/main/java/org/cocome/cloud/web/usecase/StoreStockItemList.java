@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.cocome.cloud.web.entitywrapper.ProductWSSTOWrapper;
-import org.cocome.logic.stub.ProductWithSupplierAndStockItemTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndStockItemTO;
 
 public class StoreStockItemList {
 	private boolean reloadNeeded;

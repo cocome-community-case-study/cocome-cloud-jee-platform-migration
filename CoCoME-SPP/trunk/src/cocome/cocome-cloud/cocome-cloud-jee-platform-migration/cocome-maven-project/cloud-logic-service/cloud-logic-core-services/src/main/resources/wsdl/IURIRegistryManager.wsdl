@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="IURIRegistryManagerService" targetNamespace="http://registry.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://registry.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://registry.webservice.logic.cocome.org/" schemaLocation="IURIRegistryManager_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="getBoundNames">
+    <wsdl:part name="parameters" element="tns:getBoundNames">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rebindResponse">
+    <wsdl:part name="parameters" element="tns:rebindResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lookupResponse">
+    <wsdl:part name="parameters" element="tns:lookupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotBoundException">
+    <wsdl:part name="NotBoundException" element="tns:NotBoundException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBoundNamesResponse">
+    <wsdl:part name="parameters" element="tns:getBoundNamesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rebind">
+    <wsdl:part name="parameters" element="tns:rebind">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="unbind">
+    <wsdl:part name="parameters" element="tns:unbind">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="unbindResponse">
+    <wsdl:part name="parameters" element="tns:unbindResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lookup">
+    <wsdl:part name="parameters" element="tns:lookup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IURIRegistryManager">
+    <wsdl:operation name="getBoundNames">
+      <wsdl:input name="getBoundNames" message="tns:getBoundNames">
+    </wsdl:input>
+      <wsdl:output name="getBoundNamesResponse" message="tns:getBoundNamesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="rebind">
+      <wsdl:input name="rebind" message="tns:rebind">
+    </wsdl:input>
+      <wsdl:output name="rebindResponse" message="tns:rebindResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="unbind">
+      <wsdl:input name="unbind" message="tns:unbind">
+    </wsdl:input>
+      <wsdl:output name="unbindResponse" message="tns:unbindResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="lookup">
+      <wsdl:input name="lookup" message="tns:lookup">
+    </wsdl:input>
+      <wsdl:output name="lookupResponse" message="tns:lookupResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotBoundException" message="tns:NotBoundException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IURIRegistryManagerServiceSoapBinding" type="tns:IURIRegistryManager">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getBoundNames">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getBoundNames">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBoundNamesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="rebind">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="rebind">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="rebindResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="unbind">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="unbind">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="unbindResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="lookup">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="lookup">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="lookupResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotBoundException">
+        <soap:fault name="NotBoundException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IURIRegistryManagerService">
+    <wsdl:port name="IURIRegistryManagerPort" binding="tns:IURIRegistryManagerServiceSoapBinding">
+      <soap:address location="http://localhost:9090/IURIRegistryManagerPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

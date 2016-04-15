@@ -1,8 +1,7 @@
 package org.cocome.cloud.web.entitywrapper;
 
-import org.cocome.logic.stub.StockItemTO;
-import org.cocome.logic.stub.StoreWithEnterpriseTO;
-
+import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
+import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 
 public class StockItemTOWrapper {
 

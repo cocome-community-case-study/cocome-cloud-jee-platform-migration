@@ -1,13 +1,12 @@
 package org.cocome.cloud.web.entitywrapper;
 
-import org.cocome.logic.stub.ProductTO;
-
+import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 
 public class ProductTOWrapper {
 	private ProductTO productTO;
 	
-	public ProductTOWrapper(ProductTO productTO) {
-		this.setProductTO(productTO);
+	public ProductTOWrapper(ProductTO product) {
+		this.setProductTO(product);
 	}
 
 	public ProductTO getProductTO() {

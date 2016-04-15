@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ICashBoxService" targetNamespace="http://cashbox.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://cashbox.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://cashbox.cashdesk.cashdeskline.webservice.logic.cocome.org/" schemaLocation="ICashBox_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="UnhandledException">
+    <wsdl:part name="UnhandledException" element="tns:UnhandledException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ProductOutOfStockException">
+    <wsdl:part name="ProductOutOfStockException" element="tns:ProductOutOfStockException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pressNumpadKeyResponse">
+    <wsdl:part name="parameters" element="tns:pressNumpadKeyResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pressControlKey">
+    <wsdl:part name="parameters" element="tns:pressControlKey">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pressControlKeyResponse">
+    <wsdl:part name="parameters" element="tns:pressControlKeyResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="closeResponse">
+    <wsdl:part name="parameters" element="tns:closeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="openResponse">
+    <wsdl:part name="parameters" element="tns:openResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="IllegalCashDeskStateException">
+    <wsdl:part name="IllegalCashDeskStateException" element="tns:IllegalCashDeskStateException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="IllegalInputException">
+    <wsdl:part name="IllegalInputException" element="tns:IllegalInputException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="pressNumpadKey">
+    <wsdl:part name="parameters" element="tns:pressNumpadKey">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isOpen">
+    <wsdl:part name="parameters" element="tns:isOpen">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isOpenResponse">
+    <wsdl:part name="parameters" element="tns:isOpenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="closeSilentlyResponse">
+    <wsdl:part name="parameters" element="tns:closeSilentlyResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="closeSilently">
+    <wsdl:part name="parameters" element="tns:closeSilently">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="close">
+    <wsdl:part name="parameters" element="tns:close">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="open">
+    <wsdl:part name="parameters" element="tns:open">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ICashBox">
+    <wsdl:operation name="isOpen">
+      <wsdl:input name="isOpen" message="tns:isOpen">
+    </wsdl:input>
+      <wsdl:output name="isOpenResponse" message="tns:isOpenResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="closeSilently">
+      <wsdl:input name="closeSilently" message="tns:closeSilently">
+    </wsdl:input>
+      <wsdl:output name="closeSilentlyResponse" message="tns:closeSilentlyResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="pressControlKey">
+      <wsdl:input name="pressControlKey" message="tns:pressControlKey">
+    </wsdl:input>
+      <wsdl:output name="pressControlKeyResponse" message="tns:pressControlKeyResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalInputException" message="tns:IllegalInputException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="close">
+      <wsdl:input name="close" message="tns:close">
+    </wsdl:input>
+      <wsdl:output name="closeResponse" message="tns:closeResponse">
+    </wsdl:output>
+      <wsdl:fault name="ProductOutOfStockException" message="tns:ProductOutOfStockException">
+    </wsdl:fault>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="pressNumpadKey">
+      <wsdl:input name="pressNumpadKey" message="tns:pressNumpadKey">
+    </wsdl:input>
+      <wsdl:output name="pressNumpadKeyResponse" message="tns:pressNumpadKeyResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalInputException" message="tns:IllegalInputException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="open">
+      <wsdl:input name="open" message="tns:open">
+    </wsdl:input>
+      <wsdl:output name="openResponse" message="tns:openResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ICashBoxServiceSoapBinding" type="tns:ICashBox">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="isOpen">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isOpen">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isOpenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="closeSilently">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="closeSilently">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="closeSilentlyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="pressControlKey">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="pressControlKey">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="pressControlKeyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalInputException">
+        <soap:fault name="IllegalInputException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="close">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="close">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="closeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ProductOutOfStockException">
+        <soap:fault name="ProductOutOfStockException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="pressNumpadKey">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="pressNumpadKey">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="pressNumpadKeyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalInputException">
+        <soap:fault name="IllegalInputException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="open">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="open">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="openResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ICashBoxService">
+    <wsdl:port name="ICashBoxPort" binding="tns:ICashBoxServiceSoapBinding">
+      <soap:address location="http://localhost:9090/ICashBoxPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

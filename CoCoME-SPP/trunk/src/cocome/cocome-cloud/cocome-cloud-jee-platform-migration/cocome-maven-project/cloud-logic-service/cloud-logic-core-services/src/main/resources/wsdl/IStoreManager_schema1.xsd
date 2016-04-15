@@ -1,0 +1,236 @@
+<xs:schema xmlns:ns1="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:tns="http://store.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://store.webservice.logic.cocome.org/">
+  <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IStoreManager_schema2.xsd"/>
+  <xs:element name="EnterpriseTO" type="ns1:EnterpriseTO"/>
+  <xs:element name="OrderEntryTO" type="ns1:OrderEntryTO"/>
+  <xs:element name="OrderTO" type="ns1:OrderTO"/>
+  <xs:element name="ProductAmountTO" type="ns1:ProductAmountTO"/>
+  <xs:element name="ProductMovementTO" type="ns1:ProductMovementTO"/>
+  <xs:element name="ProductTO" type="ns1:ProductTO"/>
+  <xs:element name="ProductWithSupplierTO" type="ns1:ProductWithSupplierTO"/>
+  <xs:element name="SaleTO" type="ns1:SaleTO"/>
+  <xs:element name="StockItemTO" type="ns1:StockItemTO"/>
+  <xs:element name="StoreTO" type="ns1:StoreTO"/>
+  <xs:element name="SupplierTO" type="ns1:SupplierTO"/>
+  <xs:element name="accountSale" type="tns:accountSale"/>
+  <xs:element name="accountSaleResponse" type="tns:accountSaleResponse"/>
+  <xs:element name="changePrice" type="tns:changePrice"/>
+  <xs:element name="changePriceResponse" type="tns:changePriceResponse"/>
+  <xs:element name="createStockItem" type="tns:createStockItem"/>
+  <xs:element name="createStockItemResponse" type="tns:createStockItemResponse"/>
+  <xs:element name="getAllStoreProducts" type="tns:getAllStoreProducts"/>
+  <xs:element name="getAllStoreProductsResponse" type="tns:getAllStoreProductsResponse"/>
+  <xs:element name="getOrder" type="tns:getOrder"/>
+  <xs:element name="getOrderResponse" type="tns:getOrderResponse"/>
+  <xs:element name="getOutstandingOrders" type="tns:getOutstandingOrders"/>
+  <xs:element name="getOutstandingOrdersResponse" type="tns:getOutstandingOrdersResponse"/>
+  <xs:element name="getProductWithStockItem" type="tns:getProductWithStockItem"/>
+  <xs:element name="getProductWithStockItemResponse" type="tns:getProductWithStockItemResponse"/>
+  <xs:element name="getProductsWithLowStock" type="tns:getProductsWithLowStock"/>
+  <xs:element name="getProductsWithLowStockResponse" type="tns:getProductsWithLowStockResponse"/>
+  <xs:element name="getProductsWithStockItems" type="tns:getProductsWithStockItems"/>
+  <xs:element name="getProductsWithStockItemsResponse" type="tns:getProductsWithStockItemsResponse"/>
+  <xs:element name="getStockItems" type="tns:getStockItems"/>
+  <xs:element name="getStockItemsResponse" type="tns:getStockItemsResponse"/>
+  <xs:element name="getStore" type="tns:getStore"/>
+  <xs:element name="getStoreResponse" type="tns:getStoreResponse"/>
+  <xs:element name="markProductsUnavailableInStock" type="tns:markProductsUnavailableInStock"/>
+  <xs:element name="markProductsUnavailableInStockResponse" type="tns:markProductsUnavailableInStockResponse"/>
+  <xs:element name="orderProducts" type="tns:orderProducts"/>
+  <xs:element name="orderProductsResponse" type="tns:orderProductsResponse"/>
+  <xs:element name="rollInReceivedOrder" type="tns:rollInReceivedOrder"/>
+  <xs:element name="rollInReceivedOrderResponse" type="tns:rollInReceivedOrderResponse"/>
+  <xs:element name="updateStockItem" type="tns:updateStockItem"/>
+  <xs:element name="updateStockItemResponse" type="tns:updateStockItemResponse"/>
+  <xs:complexType name="changePrice">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="stockItemTO" type="ns1:StockItemTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="changePriceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:ProductWithStockItemTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getOrder">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="orderID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getOrderResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:ComplexOrderTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createStockItem">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="stockItemTO" type="ns1:ProductWithStockItemTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createStockItemResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="markProductsUnavailableInStock">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="movedProductAmounts" type="ns1:ProductMovementTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="markProductsUnavailableInStockResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getStockItems">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" name="requiredProductTOs" type="ns1:ProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getStockItemsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ComplexOrderEntryTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getProductWithStockItem">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="productBarcode" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getProductWithStockItemResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:ProductWithStockItemTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getOutstandingOrders">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getOutstandingOrdersResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ComplexOrderTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getProductsWithLowStock">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getProductsWithLowStockResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ProductWithStockItemTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAllStoreProducts">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAllStoreProductsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ProductWithSupplierTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rollInReceivedOrder">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="orderID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rollInReceivedOrderResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getStore">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getStoreResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:StoreWithEnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="accountSale">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="sale" type="ns1:SaleTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="accountSaleResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getProductsWithStockItems">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getProductsWithStockItemsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ProductWithSupplierAndStockItemTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateStockItem">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="stockItemTO" type="ns1:StockItemTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateStockItemResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="orderProducts">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="complexOrder" type="ns1:ComplexOrderTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="orderProductsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ComplexOrderTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UpdateException" type="tns:UpdateException"/>
+  <xs:complexType name="UpdateException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NotInDatabaseException" type="tns:NotInDatabaseException"/>
+  <xs:complexType name="NotInDatabaseException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CreateException" type="tns:CreateException"/>
+  <xs:complexType name="CreateException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProductOutOfStockException" type="tns:ProductOutOfStockException"/>
+  <xs:complexType name="ProductOutOfStockException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NotImplementedException" type="tns:NotImplementedException"/>
+  <xs:complexType name="NotImplementedException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NoSuchProductException" type="tns:NoSuchProductException"/>
+  <xs:complexType name="NoSuchProductException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InvalidRollInRequestException" type="tns:InvalidRollInRequestException"/>
+  <xs:complexType name="InvalidRollInRequestException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

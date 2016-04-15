@@ -10,25 +10,25 @@ import javax.faces.event.ActionListener;
 import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.soap.SOAPFaultException;
 
-import org.cocome.logic.stub.CashBoxService;
-import org.cocome.logic.stub.CashDeskService;
-import org.cocome.logic.stub.BarcodeScannerService;
-import org.cocome.logic.stub.ExpressLightService;
-import org.cocome.logic.stub.CardReaderService;
-import org.cocome.logic.stub.IBarcodeScanner;
-import org.cocome.logic.stub.ICardReader;
-import org.cocome.logic.stub.ICashBox;
-import org.cocome.logic.stub.ICashDesk;
-import org.cocome.logic.stub.IExpressLight;
-import org.cocome.logic.stub.IPrinter;
-import org.cocome.logic.stub.IUserDisplay;
-import org.cocome.logic.stub.PrinterService;
-import org.cocome.logic.stub.UserDisplayService;
-import org.cocome.logic.stub.IllegalCashDeskStateException_Exception;
-import org.cocome.logic.stub.UnhandledException_Exception;
-import org.cocome.logic.stub.ProductOutOfStockException_Exception;
-import org.cocome.logic.stub.IllegalInputException_Exception;
-import org.cocome.logic.stub.NoSuchProductException_Exception;
+import org.cocome.cloud.logic.stub.ICashBoxService;
+import org.cocome.cloud.logic.stub.ICashDeskService;
+import org.cocome.cloud.logic.stub.IBarcodeScannerService;
+import org.cocome.cloud.logic.stub.IExpressLightService;
+import org.cocome.cloud.logic.stub.ICardReaderService;
+import org.cocome.cloud.logic.stub.IBarcodeScanner;
+import org.cocome.cloud.logic.stub.ICardReader;
+import org.cocome.cloud.logic.stub.ICashBox;
+import org.cocome.cloud.logic.stub.ICashDesk;
+import org.cocome.cloud.logic.stub.IExpressLight;
+import org.cocome.cloud.logic.stub.IPrinter;
+import org.cocome.cloud.logic.stub.IUserDisplay;
+import org.cocome.cloud.logic.stub.IPrinterService;
+import org.cocome.cloud.logic.stub.IUserDisplayService;
+import org.cocome.cloud.logic.stub.IllegalCashDeskStateException_Exception;
+import org.cocome.cloud.logic.stub.UnhandledException_Exception;
+import org.cocome.cloud.logic.stub.ProductOutOfStockException_Exception;
+import org.cocome.cloud.logic.stub.IllegalInputException_Exception;
+import org.cocome.cloud.logic.stub.NoSuchProductException_Exception;
 
 
 @ManagedBean
@@ -36,25 +36,25 @@ import org.cocome.logic.stub.NoSuchProductException_Exception;
 public class NewSaleProcess implements IUseCase {
 //	private static final Logger LOG = Logger.getLogger(NewSaleProcess.class);
 	
-	@WebServiceRef(CashBoxService.class)
+	@WebServiceRef(ICashBoxService.class)
 	ICashBox cashBox;
 	
-	@WebServiceRef(CashDeskService.class)
+	@WebServiceRef(ICashDeskService.class)
 	ICashDesk cashDesk;
 	
-	@WebServiceRef(BarcodeScannerService.class)
+	@WebServiceRef(IBarcodeScannerService.class)
 	IBarcodeScanner barcodeScanner;
 	
-	@WebServiceRef(ExpressLightService.class)
+	@WebServiceRef(IExpressLightService.class)
 	IExpressLight expressLight;
 	
-	@WebServiceRef(CardReaderService.class)
+	@WebServiceRef(ICardReaderService.class)
 	ICardReader cardReader;
 	
-	@WebServiceRef(PrinterService.class)
+	@WebServiceRef(IPrinterService.class)
 	IPrinter printer;
 	
-	@WebServiceRef(UserDisplayService.class)
+	@WebServiceRef(IUserDisplayService.class)
 	IUserDisplay userDisplay;
 	
 	private String enterpriseName;

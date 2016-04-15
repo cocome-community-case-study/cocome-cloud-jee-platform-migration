@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="IEnterpriseReportService" targetNamespace="http://reporting.enterprise.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://reporting.enterprise.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://reporting.enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseReport_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="NotInDatabaseException">
+    <wsdl:part name="NotInDatabaseException" element="tns:NotInDatabaseException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnterpriseDeliveryReportResponse">
+    <wsdl:part name="parameters" element="tns:getEnterpriseDeliveryReportResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStoreStockReportResponse">
+    <wsdl:part name="parameters" element="tns:getStoreStockReportResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getStoreStockReport">
+    <wsdl:part name="parameters" element="tns:getStoreStockReport">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnterpriseStockReportResponse">
+    <wsdl:part name="parameters" element="tns:getEnterpriseStockReportResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnterpriseDeliveryReport">
+    <wsdl:part name="parameters" element="tns:getEnterpriseDeliveryReport">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnterpriseStockReport">
+    <wsdl:part name="parameters" element="tns:getEnterpriseStockReport">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IEnterpriseReport">
+    <wsdl:operation name="getStoreStockReport">
+      <wsdl:input name="getStoreStockReport" message="tns:getStoreStockReport">
+    </wsdl:input>
+      <wsdl:output name="getStoreStockReportResponse" message="tns:getStoreStockReportResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnterpriseDeliveryReport">
+      <wsdl:input name="getEnterpriseDeliveryReport" message="tns:getEnterpriseDeliveryReport">
+    </wsdl:input>
+      <wsdl:output name="getEnterpriseDeliveryReportResponse" message="tns:getEnterpriseDeliveryReportResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnterpriseStockReport">
+      <wsdl:input name="getEnterpriseStockReport" message="tns:getEnterpriseStockReport">
+    </wsdl:input>
+      <wsdl:output name="getEnterpriseStockReportResponse" message="tns:getEnterpriseStockReportResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IEnterpriseReportServiceSoapBinding" type="tns:IEnterpriseReport">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getStoreStockReport">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getStoreStockReport">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getStoreStockReportResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnterpriseDeliveryReport">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getEnterpriseDeliveryReport">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEnterpriseDeliveryReportResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnterpriseStockReport">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getEnterpriseStockReport">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEnterpriseStockReportResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IEnterpriseReportService">
+    <wsdl:port name="IEnterpriseReportPort" binding="tns:IEnterpriseReportServiceSoapBinding">
+      <soap:address location="http://localhost:9090/IEnterpriseReportPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -259,14 +259,14 @@
 																				image="#{resource['icon/icon_shoppingcart_edit.png']}">
 																				<f:attribute name="id" value="#{s.storeTO.id}" />
 																			</h:commandButton>
-																			<h:commandButton action="#{createEnterprise.goToStore}"
+																			<h:commandButton action="#{createEnterprise.goToStore(s)}"
 																				styleClass="add-icon" rendered="#{not s.editingEnabled}" 
 																				actionListener="#{createEnterprise.attrListener}" id="gostore" title="Go To Store"
 																				image="#{resource['icon/icon_Shop.png']}">
-																				<f:attribute name="enterpriseName" value="#{createEnterprise.enterpriseName}" />
-																				<f:attribute name="storeId" value="#{createEnterprise.storeId}" />
-																				<f:attribute name="storeName" value="#{createEnterprise.storeName}" />
-																				<f:attribute name="storeLocation" value="#{createEnterprise.storeLocation}" />
+																				<f:attribute name="enterpriseName" value="#{s.enterpriseTO.name}" />
+																				<f:attribute name="storeId" value="#{s.storeTO.id}" />
+																				<f:attribute name="storeName" value="#{s.storeTO.name}" />
+																				<f:attribute name="storeLocation" value="#{s.storeTO.location}" />
 																			</h:commandButton>	
 																			<h:commandButton action="#{createEnterprise.saveStoreAction}" styleClass="add-icon" 
 																				rendered="#{s.editingEnabled}" title="Save" id="savestore"

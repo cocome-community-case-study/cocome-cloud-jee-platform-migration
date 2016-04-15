@@ -19,6 +19,7 @@ public class DummyAuthenticator implements IAuthenticator {
 		IPermission adminPermission = new DummyPermission("admin");
 		IPermission enterprisePermission = new DummyPermission("enterprise manager");
 		IPermission storePermission = new DummyPermission("store manager");
+		IPermission stockPermission = new DummyPermission("stock manager");
 		IPermission cashierPermission = new DummyPermission("cashier");
 		IPermission databasePermission = new DummyPermission("database manager");
 		
@@ -40,6 +41,7 @@ public class DummyAuthenticator implements IAuthenticator {
 		
 		IUser stockManager = new DummyUser("stockmanager", storeCredentials);
 		stockManager.addPermission(storePermission);
+		stockManager.addPermission(stockPermission);
 		
 		IUser cashier = new DummyUser("cashier", cashierCredentials);
 		cashier.addPermission(cashierPermission);

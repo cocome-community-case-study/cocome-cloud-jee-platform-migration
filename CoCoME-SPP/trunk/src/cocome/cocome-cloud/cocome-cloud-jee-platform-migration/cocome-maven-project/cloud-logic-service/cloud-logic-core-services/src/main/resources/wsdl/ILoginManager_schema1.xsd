@@ -1,0 +1,136 @@
+<xs:schema xmlns:ns1="http://usermanager.application.inventory.tradingsystem.cocome.org/" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:tns="http://usermanager.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://usermanager.webservice.logic.cocome.org/">
+  <xs:import namespace="http://usermanager.application.inventory.tradingsystem.cocome.org/" schemaLocation="ILoginManager_schema2.xsd"/>
+  <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="ILoginManager_schema3.xsd"/>
+  <xs:element name="CredentialTO" type="ns1:CredentialTO"/>
+  <xs:element name="CustomerWithStoreTO" type="ns2:CustomerWithStoreTO"/>
+  <xs:element name="StoreTO" type="ns2:StoreTO"/>
+  <xs:element name="UserTO" type="ns1:UserTO"/>
+  <xs:element name="checkCredentials" type="tns:checkCredentials"/>
+  <xs:element name="checkCredentialsResponse" type="tns:checkCredentialsResponse"/>
+  <xs:element name="createNewCustomer" type="tns:createNewCustomer"/>
+  <xs:element name="createNewCustomerResponse" type="tns:createNewCustomerResponse"/>
+  <xs:element name="createNewUser" type="tns:createNewUser"/>
+  <xs:element name="createNewUserResponse" type="tns:createNewUserResponse"/>
+  <xs:element name="getCustomerWithStoreTO" type="tns:getCustomerWithStoreTO"/>
+  <xs:element name="getCustomerWithStoreTOResponse" type="tns:getCustomerWithStoreTOResponse"/>
+  <xs:element name="getUserRoles" type="tns:getUserRoles"/>
+  <xs:element name="getUserRolesResponse" type="tns:getUserRolesResponse"/>
+  <xs:element name="getUserTO" type="tns:getUserTO"/>
+  <xs:element name="getUserTOResponse" type="tns:getUserTOResponse"/>
+  <xs:element name="removeAuthToken" type="tns:removeAuthToken"/>
+  <xs:element name="removeAuthTokenResponse" type="tns:removeAuthTokenResponse"/>
+  <xs:element name="requestAuthToken" type="tns:requestAuthToken"/>
+  <xs:element name="requestAuthTokenResponse" type="tns:requestAuthTokenResponse"/>
+  <xs:element name="updateCustomer" type="tns:updateCustomer"/>
+  <xs:element name="updateCustomerResponse" type="tns:updateCustomerResponse"/>
+  <xs:element name="updateUser" type="tns:updateUser"/>
+  <xs:element name="updateUserResponse" type="tns:updateUserResponse"/>
+  <xs:complexType name="requestAuthToken">
+    <xs:sequence>
+      <xs:element name="userTO" type="ns1:UserTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="requestAuthTokenResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:UserTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createNewUser">
+    <xs:sequence>
+      <xs:element name="userTO" type="ns1:UserTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createNewUserResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUserRoles">
+    <xs:sequence>
+      <xs:element name="username" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUserRolesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:Role"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="removeAuthToken">
+    <xs:sequence>
+      <xs:element name="userTO" type="ns1:UserTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="removeAuthTokenResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="checkCredentials">
+    <xs:sequence>
+      <xs:element name="userTO" type="ns1:UserTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="checkCredentialsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUserTO">
+    <xs:sequence>
+      <xs:element name="userTO" type="ns1:UserTO"/>
+      <xs:element name="username" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getUserTOResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:UserTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateUser">
+    <xs:sequence>
+      <xs:element name="userTO" type="ns1:UserTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateUserResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateCustomer">
+    <xs:sequence>
+      <xs:element name="customerTO" type="ns2:CustomerWithStoreTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateCustomerResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createNewCustomer">
+    <xs:sequence>
+      <xs:element name="newCustomerTO" type="ns2:CustomerWithStoreTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createNewCustomerResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCustomerWithStoreTO">
+    <xs:sequence>
+      <xs:element name="userTO" type="ns1:UserTO"/>
+      <xs:element name="username" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCustomerWithStoreTOResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns2:CustomerWithStoreTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NotInDatabaseException" type="tns:NotInDatabaseException"/>
+  <xs:complexType name="NotInDatabaseException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,38 @@
+<xs:schema xmlns:ns1="http://usermanager.webservice.logic.cocome.org/" xmlns:tns="http://usermanager.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://usermanager.application.inventory.tradingsystem.cocome.org/" version="1.0">
+
+  <xs:import namespace="http://usermanager.webservice.logic.cocome.org/" schemaLocation="ILoginManager_schema1.xsd"/>
+
+  <xs:complexType name="UserTO">
+    <xs:sequence>
+      <xs:element name="username" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" name="roles" type="tns:Role"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="credentials" type="tns:CredentialTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CredentialTO">
+    <xs:sequence>
+      <xs:element name="credentialString" type="xs:string"/>
+      <xs:element name="type" type="tns:CredentialType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="Role">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Customer"/>
+      <xs:enumeration value="Admin"/>
+      <xs:enumeration value="Cashier"/>
+      <xs:enumeration value="Store Manager"/>
+      <xs:enumeration value="Stock Manager"/>
+      <xs:enumeration value="Enterprise Manager"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="CredentialType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PASSWORD"/>
+      <xs:enumeration value="AUTH_TOKEN"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

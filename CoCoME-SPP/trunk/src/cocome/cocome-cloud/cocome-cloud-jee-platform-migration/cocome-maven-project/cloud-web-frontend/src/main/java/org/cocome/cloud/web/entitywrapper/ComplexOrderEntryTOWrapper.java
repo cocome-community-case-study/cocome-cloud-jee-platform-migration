@@ -1,11 +1,13 @@
 package org.cocome.cloud.web.entitywrapper;
 
+import java.util.Date;
+
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.cocome.logic.stub.ComplexOrderEntryTO;
-import org.cocome.logic.stub.ComplexOrderTO;
-import org.cocome.logic.stub.ProductWithSupplierTO;
+import org.cocome.tradingsystem.inventory.application.store.ComplexOrderEntryTO;
+import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 
 public class ComplexOrderEntryTOWrapper {
 
@@ -34,11 +36,11 @@ public class ComplexOrderEntryTOWrapper {
 		orderEntry.setProductTO(productTO);
 	}
 	
-	public XMLGregorianCalendar getOrderingDate() {
+	public Date getOrderingDate() {
 		return containingOrder.getOrderingDate();
 	}
 	
-	public XMLGregorianCalendar getDeliveryDate() {
+	public Date getDeliveryDate() {
 		return containingOrder.getDeliveryDate();
 	}
 	
@@ -47,7 +49,7 @@ public class ComplexOrderEntryTOWrapper {
 	}
 	
 	public boolean isArrived() {
-		int comparison = containingOrder.getDeliveryDate().compare(containingOrder.getOrderingDate());
+		int comparison = containingOrder.getDeliveryDate().compareTo(containingOrder.getOrderingDate());
 		return comparison == DatatypeConstants.GREATER || comparison == DatatypeConstants.EQUAL;
 	}
 	

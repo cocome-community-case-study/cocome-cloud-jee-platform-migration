@@ -23,17 +23,18 @@ import org.cocome.cloud.web.entitywrapper.EnterpriseTOWrapper;
 import org.cocome.cloud.web.entitywrapper.ProductTOWrapper;
 import org.cocome.cloud.web.entitywrapper.ProductWSSTOWrapper;
 import org.cocome.cloud.web.entitywrapper.StoreTOWrapper;
-import org.cocome.logic.stub.EnterpriseTO;
-import org.cocome.logic.stub.IEnterpriseManager;
-import org.cocome.logic.stub.IStoreManager;
-import org.cocome.logic.stub.ProductTO;
-import org.cocome.logic.stub.ProductWithStockItemTO;
-import org.cocome.logic.stub.StoreManagerService;
-import org.cocome.logic.stub.EnterpriseManagerService;
-import org.cocome.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.logic.stub.StoreWithEnterpriseTO;
-import org.cocome.logic.stub.UpdateException_Exception;
-import org.cocome.logic.stub.CreateException_Exception;
+import org.cocome.cloud.web.login.Login;
+import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO;
+import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
+import org.cocome.cloud.logic.stub.IEnterpriseManager;
+import org.cocome.cloud.logic.stub.IStoreManager;
+import org.cocome.cloud.logic.stub.IStoreManagerService;
+import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.cloud.logic.stub.UpdateException_Exception;
+import org.cocome.cloud.logic.stub.CreateException_Exception;
 
 
 
@@ -49,10 +50,10 @@ public class CreateEnterprise implements ActionListener, IUseCase {
 	@Inject
 	StockItemListFactory stockItemListFactory;
 	
-	@WebServiceRef(EnterpriseManagerService.class)
+	@WebServiceRef(IEnterpriseManagerService.class)
 	IEnterpriseManager enterpriseManager;
 	
-	@WebServiceRef(StoreManagerService.class)
+	@WebServiceRef(IStoreManagerService.class)
 	IStoreManager storeManager;
 	
 	private static Logger LOG = Logger.getLogger(CreateEnterprise.class);
@@ -523,7 +524,8 @@ public class CreateEnterprise implements ActionListener, IUseCase {
 		try {
 			storeManager.updateStockItem(Long.parseLong(getStoreId()), stockItem.getStockItemTO());
 			stockItemListFactory.setReloadNeeded(Long.parseLong(getStoreId()), true);
-		} catch (NotInDatabaseException_Exception | UpdateException_Exception e) {
+		} catch (NumberFormatException | NotInDatabaseException_Exception 
+				| UpdateException_Exception e) {
 			LOG.error("Got exception while updating stock item: " + e);
 			this.messages.add("Could not update the stock item!");
 			this.showMessage = true;
@@ -555,10 +557,9 @@ public class CreateEnterprise implements ActionListener, IUseCase {
 		return "getStores";
 	}
 
-	public String goToStore() {
-		StoreTOWrapper e = (StoreTOWrapper) data_stores.getRowData();
-		setEnterpriseName(e.getEnterpriseTO().getName());
-		setStore(e);
+	public String goToStore(StoreTOWrapper store) {
+		setEnterpriseName(store.getEnterpriseTO().getName());
+		setStore(store);
 		return "success_store";
 	}
 
@@ -659,8 +660,8 @@ public class CreateEnterprise implements ActionListener, IUseCase {
 	public void attrListener(ActionEvent event) {
 		this.enterpriseName = (String) event.getComponent().getAttributes()
 				.get("enterpriseName");
-		setStoreId((String) event.getComponent().getAttributes()
-				.get("storeId"));
+		setStoreId(String.valueOf(event.getComponent().getAttributes()
+				.get("storeId")));
 		setStoreName((String) event.getComponent().getAttributes()
 				.get("storeName"));
 		setStoreLocation((String) event.getComponent().getAttributes()
@@ -745,12 +746,13 @@ public class CreateEnterprise implements ActionListener, IUseCase {
 				stockItemListFactory.setReloadNeeded(Long.parseLong(getStoreId()), true);
 				messages.add("Stock item with barcode " + product.getBarcode() + ": Successfully created!");
 				sucessfullyCreated.add(item);
-			} catch (NumberFormatException | CreateException_Exception
-					| NotInDatabaseException_Exception e) {
+			} catch (NumberFormatException e) {
 				messages.add(product.getBarcode() + ": Error! " + e.getMessage());
 			} catch (SOAPFaultException e) {
 				messages.add(product.getBarcode() + ": Error! " + 
 						(e.getFault() == null ? "" :e.getFault().getDetail().toString()));
+			} catch (NotInDatabaseException_Exception | CreateException_Exception e) {
+				messages.add(product.getBarcode() + ": Error! " + e.getMessage());
 			}
 		}
 		

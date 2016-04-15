@@ -5,7 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.cocome.logic.stub.ComplexOrderEntryTO;
+import org.cocome.tradingsystem.inventory.application.store.ComplexOrderEntryTO;
+
 
 public class OrderItemList {
 	private HashMap<Long, ComplexOrderEntryTO> orderItems = new HashMap<Long, ComplexOrderEntryTO>();

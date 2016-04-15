@@ -1,0 +1,30 @@
+<xs:schema xmlns:ns1="http://usermanager.webservice.logic.cocome.org/" xmlns:ns2="http://usermanager.application.inventory.tradingsystem.cocome.org/" xmlns:tns="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://store.application.inventory.tradingsystem.cocome.org/" version="1.0">
+
+  <xs:import namespace="http://usermanager.webservice.logic.cocome.org/" schemaLocation="ILoginManager_schema1.xsd"/>
+
+  <xs:import namespace="http://usermanager.application.inventory.tradingsystem.cocome.org/" schemaLocation="ILoginManager_schema2.xsd"/>
+
+  <xs:complexType name="CustomerWithStoreTO">
+    <xs:complexContent>
+      <xs:extension base="ns2:UserTO">
+        <xs:sequence>
+          <xs:element name="id" type="xs:long"/>
+          <xs:element minOccurs="0" name="preferredStoreTO" type="tns:StoreTO"/>
+          <xs:element minOccurs="0" name="firstName" type="xs:string"/>
+          <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+          <xs:element minOccurs="0" name="mailAddress" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="creditCardInfos" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="StoreTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="location" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

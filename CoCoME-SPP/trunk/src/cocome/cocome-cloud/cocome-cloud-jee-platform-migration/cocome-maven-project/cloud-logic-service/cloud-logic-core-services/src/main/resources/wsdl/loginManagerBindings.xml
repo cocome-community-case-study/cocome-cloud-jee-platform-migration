@@ -1,0 +1,29 @@
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb"
+			xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:tns="http://loginmanager.webservice.logic.cocome.org/">
+			
+		<bindings if-exists="true" schemaLocation="ILoginManager_schema3.xsd">
+ 		    <bindings node="//xsd:complexType[@name='CustomerWithStoreTO']">
+		      <class ref="org.cocome.tradingsystem.inventory.application.store.CustomerWithStoreTO"/>
+		    </bindings>
+		    <bindings node="//xsd:complexType[@name='StoreTO']">
+		      <class ref="org.cocome.tradingsystem.inventory.application.store.StoreTO"/>
+		    </bindings>
+    	</bindings>
+    	
+    	<bindings if-exists="true" schemaLocation="ILoginManager_schema2.xsd">
+    		<bindings node="//xsd:complexType[@name='UserTO']">
+		      <class ref="org.cocome.tradingsystem.inventory.application.usermanager.UserTO"/>
+		    </bindings>
+		    <bindings node="//xsd:complexType[@name='CredentialTO']">
+		      <class ref="org.cocome.tradingsystem.inventory.application.usermanager.CredentialTO"/>
+		    </bindings>
+		    <bindings node="//xsd:simpleType[@name='Role']">
+		      <typesafeEnumClass ref="org.cocome.tradingsystem.inventory.application.usermanager.Role"/>
+		    </bindings>
+		    <bindings node="//xsd:simpleType[@name='CredentialType']">
+		      <typesafeEnumClass ref="org.cocome.tradingsystem.inventory.application.usermanager.CredentialType"/>
+		    </bindings>
+    	</bindings>
+    </bindings>

@@ -10,10 +10,10 @@ import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.log4j.Logger;
-import org.cocome.logic.stub.IStoreManager;
-import org.cocome.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.logic.stub.StoreManagerService;
-import org.cocome.logic.stub.StoreWithEnterpriseTO;
+import org.cocome.cloud.logic.stub.IStoreManager;
+import org.cocome.cloud.logic.stub.IStoreManagerService;
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 
 
 @ManagedBean
@@ -23,7 +23,7 @@ public class Login {
 	@Inject
 	IAuthenticator authenticator;
 	
-	@WebServiceRef(StoreManagerService.class)
+	@WebServiceRef(IStoreManagerService.class)
 	IStoreManager storeManager;
 	
 	private UIData data = new UIData();
@@ -206,11 +206,16 @@ public class Login {
 		return true;
 	}
 
-	private void fillStoreInformation(StoreWithEnterpriseTO storeTO) {
+	public void fillStoreInformation(StoreWithEnterpriseTO storeTO) {
+		LOG.debug(String.format(
+				"Filling new store information for user %s to [%s, %d, %s, %s].",
+				this.userName, storeTO.getEnterpriseTO().getName(),
+				storeTO.getId(), storeTO.getName(), storeTO.getLocation()));
 		this.enterpriseName = storeTO.getEnterpriseTO().getName();
 		this.storeId = String.valueOf(storeTO.getId());
 		this.storeName = storeTO.getName();
 		this.storeLocation = storeTO.getLocation();
+		this.ifStore = true;
 	}
 
 }

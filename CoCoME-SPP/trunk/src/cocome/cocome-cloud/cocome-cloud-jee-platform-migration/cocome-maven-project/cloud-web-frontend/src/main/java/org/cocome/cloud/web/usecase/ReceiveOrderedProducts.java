@@ -16,19 +16,19 @@ import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.cocome.cloud.web.entitywrapper.ComplexOrderEntryTOWrapper;
-import org.cocome.logic.stub.ComplexOrderEntryTO;
-import org.cocome.logic.stub.ComplexOrderTO;
-import org.cocome.logic.stub.IStoreManager;
-import org.cocome.logic.stub.StoreManagerService;
-import org.cocome.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.logic.stub.InvalidRollInRequestException_Exception;
-import org.cocome.logic.stub.UpdateException_Exception;
+import org.cocome.tradingsystem.inventory.application.store.ComplexOrderEntryTO;
+import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
+import org.cocome.cloud.logic.stub.IStoreManager;
+import org.cocome.cloud.logic.stub.IStoreManagerService;
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.cloud.logic.stub.InvalidRollInRequestException_Exception;
+import org.cocome.cloud.logic.stub.UpdateException_Exception;
 
 @ManagedBean
 @SessionScoped
 public class ReceiveOrderedProducts implements ActionListener, IUseCase {
 	
-	@WebServiceRef(StoreManagerService.class)
+	@WebServiceRef(IStoreManagerService.class)
 	IStoreManager storeManager;
 	
 	private UIData data = new UIData();
@@ -239,7 +239,7 @@ public class ReceiveOrderedProducts implements ActionListener, IUseCase {
 		long storeID = Long.parseLong(this.storeId);
 		try {
 			for (ComplexOrderTO order : storeManager.getOutstandingOrders(storeID)) {
-				for (ComplexOrderEntryTO orderEntry : order.getOrderEntries()) {
+				for (ComplexOrderEntryTO orderEntry : order.getOrderEntryTOs()) {
 					listOfReceProductOrder.add(new ComplexOrderEntryTOWrapper(orderEntry, order));
 				}
 			}
@@ -330,11 +330,11 @@ public class ReceiveOrderedProducts implements ActionListener, IUseCase {
 			return null;
 		}
 		
-		for (ComplexOrderEntryTO orderEntry : order.getOrderEntries()) {
+		for (ComplexOrderEntryTO orderEntry : order.getOrderEntryTOs()) {
 			listOfReceProductOrder.add(new ComplexOrderEntryTOWrapper(orderEntry, order));
 		}
 		
-		int comparison = order.getDeliveryDate().compare(order.getOrderingDate());
+		int comparison = order.getDeliveryDate().compareTo(order.getOrderingDate());
 		
 		if (comparison == DatatypeConstants.GREATER || comparison == DatatypeConstants.EQUAL) {
 			this.orderMessage = "Order has already arrived.";

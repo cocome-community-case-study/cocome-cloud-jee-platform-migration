@@ -1,0 +1,193 @@
+<xs:schema xmlns:tns="http://cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://cashdesk.cashdeskline.webservice.logic.cocome.org/">
+  <xs:element name="addItemToSale" type="tns:addItemToSale"/>
+  <xs:element name="addItemToSaleResponse" type="tns:addItemToSaleResponse"/>
+  <xs:element name="disableExpressMode" type="tns:disableExpressMode"/>
+  <xs:element name="disableExpressModeResponse" type="tns:disableExpressModeResponse"/>
+  <xs:element name="enableExpressMode" type="tns:enableExpressMode"/>
+  <xs:element name="enableExpressModeResponse" type="tns:enableExpressModeResponse"/>
+  <xs:element name="finishCashPayment" type="tns:finishCashPayment"/>
+  <xs:element name="finishCashPaymentResponse" type="tns:finishCashPaymentResponse"/>
+  <xs:element name="finishCreditCardPayment" type="tns:finishCreditCardPayment"/>
+  <xs:element name="finishCreditCardPaymentResponse" type="tns:finishCreditCardPaymentResponse"/>
+  <xs:element name="finishSale" type="tns:finishSale"/>
+  <xs:element name="finishSaleResponse" type="tns:finishSaleResponse"/>
+  <xs:element name="isInExpressMode" type="tns:isInExpressMode"/>
+  <xs:element name="isInExpressModeResponse" type="tns:isInExpressModeResponse"/>
+  <xs:element name="selectPaymentMode" type="tns:selectPaymentMode"/>
+  <xs:element name="selectPaymentModeResponse" type="tns:selectPaymentModeResponse"/>
+  <xs:element name="startCashPayment" type="tns:startCashPayment"/>
+  <xs:element name="startCashPaymentResponse" type="tns:startCashPaymentResponse"/>
+  <xs:element name="startCreditCardPayment" type="tns:startCreditCardPayment"/>
+  <xs:element name="startCreditCardPaymentResponse" type="tns:startCreditCardPaymentResponse"/>
+  <xs:element name="startSale" type="tns:startSale"/>
+  <xs:element name="startSaleResponse" type="tns:startSaleResponse"/>
+  <xs:complexType name="disableExpressMode">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="disableExpressModeResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="isInExpressMode">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="isInExpressModeResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="startCreditCardPayment">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="cardInfo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="startCreditCardPaymentResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="selectPaymentMode">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="mode" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="selectPaymentModeResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="finishCashPayment">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="finishCashPaymentResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="finishCreditCardPayment">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="pin" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="finishCreditCardPaymentResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="finishSale">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="finishSaleResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="startCashPayment">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="amount" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="startCashPaymentResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addItemToSale">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="barcode" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addItemToSaleResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="enableExpressMode">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="enableExpressModeResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="startSale">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="startSaleResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="cashDeskState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EXPECTING_SALE"/>
+      <xs:enumeration value="EXPECTING_ITEMS"/>
+      <xs:enumeration value="EXPECTING_PAYMENT"/>
+      <xs:enumeration value="PAYING_BY_CASH"/>
+      <xs:enumeration value="PAID_BY_CASH"/>
+      <xs:enumeration value="EXPECTING_CARD_INFO"/>
+      <xs:enumeration value="PAYING_BY_CREDIT_CARD"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="UnhandledException" type="tns:UnhandledException"/>
+  <xs:complexType name="UnhandledException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="IllegalCashDeskStateException" type="tns:IllegalCashDeskStateException"/>
+  <xs:complexType name="IllegalCashDeskStateException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="state" type="tns:cashDeskState"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="legalStates" type="tns:cashDeskState"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="IllegalInputException" type="tns:IllegalInputException"/>
+  <xs:complexType name="IllegalInputException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProductOutOfStockException" type="tns:ProductOutOfStockException"/>
+  <xs:complexType name="ProductOutOfStockException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NoSuchProductException" type="tns:NoSuchProductException"/>
+  <xs:complexType name="NoSuchProductException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

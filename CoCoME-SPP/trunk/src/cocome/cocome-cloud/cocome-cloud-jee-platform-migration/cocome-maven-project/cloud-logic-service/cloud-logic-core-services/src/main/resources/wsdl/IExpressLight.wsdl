@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="IExpressLightService" targetNamespace="http://expresslight.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://expresslight.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://expresslight.cashdesk.cashdeskline.webservice.logic.cocome.org/" schemaLocation="IExpressLight_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="isOnResponse">
+    <wsdl:part name="parameters" element="tns:isOnResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="turnExpressLightOff">
+    <wsdl:part name="parameters" element="tns:turnExpressLightOff">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnhandledException">
+    <wsdl:part name="UnhandledException" element="tns:UnhandledException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="turnExpressLightOn">
+    <wsdl:part name="parameters" element="tns:turnExpressLightOn">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="turnExpressLightOnResponse">
+    <wsdl:part name="parameters" element="tns:turnExpressLightOnResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isOn">
+    <wsdl:part name="parameters" element="tns:isOn">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="turnExpressLightOffResponse">
+    <wsdl:part name="parameters" element="tns:turnExpressLightOffResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IExpressLight">
+    <wsdl:operation name="turnExpressLightOff">
+      <wsdl:input name="turnExpressLightOff" message="tns:turnExpressLightOff">
+    </wsdl:input>
+      <wsdl:output name="turnExpressLightOffResponse" message="tns:turnExpressLightOffResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="turnExpressLightOn">
+      <wsdl:input name="turnExpressLightOn" message="tns:turnExpressLightOn">
+    </wsdl:input>
+      <wsdl:output name="turnExpressLightOnResponse" message="tns:turnExpressLightOnResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isOn">
+      <wsdl:input name="isOn" message="tns:isOn">
+    </wsdl:input>
+      <wsdl:output name="isOnResponse" message="tns:isOnResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IExpressLightServiceSoapBinding" type="tns:IExpressLight">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="turnExpressLightOff">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="turnExpressLightOff">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="turnExpressLightOffResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="turnExpressLightOn">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="turnExpressLightOn">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="turnExpressLightOnResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isOn">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isOn">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isOnResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IExpressLightService">
+    <wsdl:port name="IExpressLightPort" binding="tns:IExpressLightServiceSoapBinding">
+      <soap:address location="http://localhost:9090/IExpressLightPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

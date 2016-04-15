@@ -1,0 +1,117 @@
+<xs:schema xmlns:tns="http://cashbox.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://cashbox.cashdesk.cashdeskline.webservice.logic.cocome.org/">
+  <xs:element name="close" type="tns:close"/>
+  <xs:element name="closeResponse" type="tns:closeResponse"/>
+  <xs:element name="closeSilently" type="tns:closeSilently"/>
+  <xs:element name="closeSilentlyResponse" type="tns:closeSilentlyResponse"/>
+  <xs:element name="isOpen" type="tns:isOpen"/>
+  <xs:element name="isOpenResponse" type="tns:isOpenResponse"/>
+  <xs:element name="open" type="tns:open"/>
+  <xs:element name="openResponse" type="tns:openResponse"/>
+  <xs:element name="pressControlKey" type="tns:pressControlKey"/>
+  <xs:element name="pressControlKeyResponse" type="tns:pressControlKeyResponse"/>
+  <xs:element name="pressNumpadKey" type="tns:pressNumpadKey"/>
+  <xs:element name="pressNumpadKeyResponse" type="tns:pressNumpadKeyResponse"/>
+  <xs:complexType name="isOpen">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="isOpenResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="closeSilently">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="closeSilentlyResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="pressControlKey">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="keystroke" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pressControlKeyResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="close">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="closeResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pressNumpadKey">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element name="key" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pressNumpadKeyResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="open">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="openResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="cashDeskState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EXPECTING_SALE"/>
+      <xs:enumeration value="EXPECTING_ITEMS"/>
+      <xs:enumeration value="EXPECTING_PAYMENT"/>
+      <xs:enumeration value="PAYING_BY_CASH"/>
+      <xs:enumeration value="PAID_BY_CASH"/>
+      <xs:enumeration value="EXPECTING_CARD_INFO"/>
+      <xs:enumeration value="PAYING_BY_CREDIT_CARD"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="UnhandledException" type="tns:UnhandledException"/>
+  <xs:complexType name="UnhandledException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="IllegalCashDeskStateException" type="tns:IllegalCashDeskStateException"/>
+  <xs:complexType name="IllegalCashDeskStateException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="state" type="tns:cashDeskState"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="legalStates" type="tns:cashDeskState"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="IllegalInputException" type="tns:IllegalInputException"/>
+  <xs:complexType name="IllegalInputException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProductOutOfStockException" type="tns:ProductOutOfStockException"/>
+  <xs:complexType name="ProductOutOfStockException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
