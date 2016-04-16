@@ -37,12 +37,12 @@
 
 		<!-- deployment properties -->
 		<!-- TODO: Change according to your setup -->
-		<local.glassfish.home>/home/rju/glassfish4/glassfish</local.glassfish.home>
+		<!-- <local.glassfish.home>/home/rju/glassfish4/glassfish</local.glassfish.home> -->
 		<logic.registry.protocol>http</logic.registry.protocol>
-		<logic.registry.domain>cocome-registry</logic.registry.domain>
+		<logic.registry.domain>cocome-logic-gf4</logic.registry.domain>
 		<logic.registry.host>localhost</logic.registry.host>
-		<logic.registry.httpPort>8484</logic.registry.httpPort>
-		<logic.registry.adminPort>8448</logic.registry.adminPort>
+		<logic.registry.httpPort>8280</logic.registry.httpPort>
+		<logic.registry.adminPort>8248</logic.registry.adminPort>
 		<logic.registry.user>admin</logic.registry.user>
 		<!-- Hint: If no password is set for a domain, a password file is needed -->
 		<logic.registry.password />
@@ -52,10 +52,10 @@
 		<logic.registry.stubs.package>org.cocome.cloud.logic.registry.stub</logic.registry.stubs.package>
 
 		<logic.store.protocol>http</logic.store.protocol>
-		<logic.store.domain>cocome-store</logic.store.domain>
+		<logic.store.domain>cocome-logic-gf4</logic.store.domain>
 		<logic.store.host>localhost</logic.store.host>
-		<logic.store.httpPort>8383</logic.store.httpPort>
-		<logic.store.adminPort>8348</logic.store.adminPort>
+		<logic.store.httpPort>8280</logic.store.httpPort>
+		<logic.store.adminPort>8248</logic.store.adminPort>
 		<logic.store.user>admin</logic.store.user>
 		<logic.store.password />
 		<logic.store.passwordFile>${local.glassfish.passwordfile}</logic.store.passwordFile>
@@ -64,9 +64,9 @@
 		<logic.stubs.package>org.cocome.cloud.logic.stub</logic.stubs.package>
 
 		<logic.enterprise.protocol>http</logic.enterprise.protocol>
-		<logic.enterprise.domain>cocome-enterprise</logic.enterprise.domain>
+		<logic.enterprise.domain>cocome-logic-gf4</logic.enterprise.domain>
 		<logic.enterprise.host>localhost</logic.enterprise.host>
-		<logic.enterprise.httpPort>8282</logic.enterprise.httpPort>
+		<logic.enterprise.httpPort>8280</logic.enterprise.httpPort>
 		<logic.enterprise.adminPort>8248</logic.enterprise.adminPort>
 		<logic.enterprise.user>admin</logic.enterprise.user>
 		<logic.enterprise.password />
@@ -79,17 +79,17 @@
 		<logic.loginService>/LoginService</logic.loginService>
 		<logic.registryService>/RegistryService</logic.registryService>
 
-		<web.domain>cocome-frontend-gf4</web.domain>
+		<web.domain>cocome-web-frontend</web.domain>
 		<web.host>localhost</web.host>
-		<web.httpPort>8080</web.httpPort>
-		<web.adminPort>8048</web.adminPort>
+		<web.httpPort>8180</web.httpPort>
+		<web.adminPort>8148</web.adminPort>
 		<web.user>admin</web.user>
 		<web.password />
 		<web.passwordFile>${local.glassfish.frontend.passwordfile}</web.passwordFile>
 
 		<serviceadapter.protocol>http</serviceadapter.protocol>
 		<serviceadapter.host>localhost</serviceadapter.host>
-		<serviceadapter.port>8181</serviceadapter.port>
+		<serviceadapter.port>8380</serviceadapter.port>
 		<serviceadapter.baseDir>/de.kit.ipd.cocome.cloud.serviceadapter/Services</serviceadapter.baseDir>
 	</properties>
 
