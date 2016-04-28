@@ -9,7 +9,7 @@
 			<properties>
 				<!-- deployment properties -->
 				<local.glassfish.passwordfile></local.glassfish.passwordfile>
-				<!-- <local.glassfish.home>/home/rju/glassfish4/glassfish</local.glassfish.home> -->
+				<local.glassfish.home>/home/rju/glassfish4/glassfish</local.glassfish.home>
 
 				<!-- logic node deployment configuration -->
 				<logic.registry.protocol>http</logic.registry.protocol>
