@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>cloud-logic-service</artifactId>
-    <groupId>org.cocome</groupId>
-    <version>1.1</version>
-  </parent>
-  <artifactId>cloud-store-logic</artifactId>
-  <version>1.1</version>
-  <packaging>pom</packaging>
-  <name>cloud-store-logic</name>
-  
-  <modules>
-  	<module>store-logic-ear</module>
-	<module>store-logic-ejb</module>
-	<module>store-logic-webservice</module>
-	<module>store-logic-integrationtest</module>
-  </modules>
-  
-  <dependencyManagement>
-  	<dependencies>
-  		<dependency>
-  			<groupId>org.cocome</groupId>
-  			<artifactId>cloud-logic-enterprise-webservicestubs</artifactId>
-  			<version>1.1</version>
-  		</dependency>
-  	</dependencies>
-  </dependencyManagement>
-  
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>cloud-logic-service</artifactId>
+		<groupId>org.cocome</groupId>
+		<version>1.1</version>
+	</parent>
+	<artifactId>cloud-store-logic</artifactId>
+	<version>1.1</version>
+	<packaging>pom</packaging>
+	<name>cloud-store-logic</name>
+
+	<modules>
+		<module>store-logic-ear</module>
+		<module>store-logic-ejb</module>
+		<module>store-logic-webservice</module>
+<!-- 		<module>store-logic-integrationtest</module>		 -->
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.cocome</groupId>
+				<artifactId>cloud-logic-enterprise-webservicestubs</artifactId>
+				<version>1.1</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 </project>

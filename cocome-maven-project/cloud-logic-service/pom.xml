@@ -1,53 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>cloud-logic-service</artifactId>
 	<packaging>pom</packaging>
 	<name>cloud-logic-service</name>
 	<version>1.1</version>
-	
+
 	<parent>
-  		<groupId>org.cocome</groupId>
-  		<artifactId>cocome-maven-project</artifactId>
-  		<version>1.1</version>
-  	</parent>
-  	
-<modules>
-	<module>java-utils</module>
-	<module>cloud-logic-core-api</module>
-	<module>cloud-logic-core-impl</module>
-	<module>cloud-logic-core-services</module>
-	<module>cloud-registry-service</module>
-    <module>cloud-registry-client</module>
-	<module>cloud-enterprise-logic</module>
-    <module>cloud-store-logic</module>
-  </modules>
+		<groupId>org.cocome</groupId>
+		<artifactId>cocome-maven-project</artifactId>
+		<version>1.1</version>
+	</parent>
+
+	<modules>
+		<module>java-utils</module>
+		<module>cloud-logic-core-api</module>
+		<module>cloud-logic-core-impl</module>
+		<module>cloud-logic-core-services</module>
+		<module>cloud-registry-service</module>
+		<module>cloud-registry-client</module>
+		<module>cloud-enterprise-logic</module>
+		<module>cloud-store-logic</module>
+	</modules>
 
 	<build>
-			<plugins>
-<!-- 				<plugin>
-					<groupId>org.glassfish.maven.plugin</groupId>
-					<artifactId>maven-glassfish-plugin</artifactId>
-					<configuration>
-						<glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
-						<user>${logic.user}</user>
-						<adminPassword>${logic.password}</adminPassword>
-						<domain>
-							<name>${logic.domain}</name>
-							<host>${logic.host}</host>
-							<httpPort>${logic.httpPort}</httpPort>
-							<adminPort>${logic.adminPort}</adminPort>
-						</domain>
-						<components>
-							<component>
-								<name>${project.artifactId}</name>
-								<artifact>target/${project.artifactId}-${project.version}.${project.packaging}</artifact>
-							</component>
-						</components>
-						<debug>true</debug>
-						<echo>true</echo>
-					</configuration>
+		<plugins>
+			<!-- <plugin> <groupId>org.glassfish.maven.plugin</groupId> <artifactId>maven-glassfish-plugin</artifactId> 
+				<configuration> <glassfishDirectory>${local.glassfish.home}</glassfishDirectory> 
+				<user>${logic.user}</user> <adminPassword>${logic.password}</adminPassword> 
+				<domain> <name>${logic.domain}</name> <host>${logic.host}</host> <httpPort>${logic.httpPort}</httpPort> 
+				<adminPort>${logic.adminPort}</adminPort> </domain> <components> <component> 
+				<name>${project.artifactId}</name> <artifact>target/${project.artifactId}-${project.version}.${project.packaging}</artifact> 
+				</component> </components> <debug>true</debug> <echo>true</echo> </configuration> 
 				</plugin> -->
-			</plugins>
+		</plugins>
 	</build>
 </project>
