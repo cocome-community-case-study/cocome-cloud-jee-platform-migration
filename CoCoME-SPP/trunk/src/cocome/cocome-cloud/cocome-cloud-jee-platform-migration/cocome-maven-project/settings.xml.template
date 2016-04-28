@@ -5,6 +5,7 @@
 
 	<profiles>
 		<profile>
+			<id>cocome-context</id>
 			<properties>
 				<!-- deployment properties -->
 				<local.glassfish.passwordfile></local.glassfish.passwordfile>
@@ -66,4 +67,7 @@
 			</properties>
 		</profile>
 	</profiles>
+	<activeProfiles>
+		<activeProfile>cocome-context</activeProfile>
+	</activeProfiles>
 </settings>
