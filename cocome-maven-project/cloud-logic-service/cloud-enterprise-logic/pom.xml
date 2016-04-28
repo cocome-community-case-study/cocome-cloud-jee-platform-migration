@@ -9,7 +9,7 @@
   <artifactId>cloud-enterprise-logic</artifactId>
   <version>1.1</version>
   <packaging>pom</packaging>
-  <name>cloud-enterprise-logic</name>
+  <name>Cloud Enterprise Logic (Parent)</name>
   
   <modules>
   	<module>enterprise-logic-ear</module>

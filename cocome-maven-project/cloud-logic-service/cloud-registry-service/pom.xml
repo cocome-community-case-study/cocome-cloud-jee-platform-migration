@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
-   <parent>
-    <artifactId>cloud-logic-service</artifactId>
-    <groupId>org.cocome</groupId>
-    <version>1.1</version>
-  </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>cloud-logic-service</artifactId>
+		<groupId>org.cocome</groupId>
+		<version>1.1</version>
+	</parent>
 
-   <artifactId>cloud-registry-service</artifactId>
-   <packaging>war</packaging>
+	<artifactId>cloud-registry-service</artifactId>
+	<packaging>war</packaging>
 
-   <name>CoCoME Registry Service</name>
+	<name>Cloud Registry - Service</name>
 
-   <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-   </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-   <dependencies>
+	<dependencies>
 
-      
-      <dependency>
-        	<groupId>org.apache.logging.log4j</groupId>
-        	<artifactId>log4j-1.2-api</artifactId>
-        </dependency>
-      
-        <dependency>
-        	<groupId>org.jboss.spec</groupId>
-        	<artifactId>jboss-javaee-web-6.0</artifactId>
-        	<type>pom</type>
-        	<scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-logic-core-services</artifactId>
-        	<version>1.1</version>
-        </dependency>
-        
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-         <scope>test</scope>
-      </dependency>
 
-   </dependencies>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+		</dependency>
 
-   <build>
-      <plugins>
-         <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-            	<source>1.7</source>
-            	<target>1.7</target>
-            </configuration>
-         </plugin>
-         <plugin>
-            <artifactId>maven-war-plugin</artifactId>
-            <configuration>
-               <!-- Java EE 6 doesn't require web.xml, Maven needs to catch 
-                  up! -->
-               <failOnMissingWebXml>false</failOnMissingWebXml>
-            </configuration>
-         </plugin>
-         <plugin>
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-web-6.0</artifactId>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>cloud-logic-core-services</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
@@ -80,8 +80,8 @@
 					</execution>
 				</executions>
 			</plugin>
-         
-         <plugin>
+
+			<plugin>
 				<groupId>org.glassfish.maven.plugin</groupId>
 				<artifactId>maven-glassfish-plugin</artifactId>
 
@@ -89,7 +89,7 @@
 					<glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
 					<user>${logic.registry.user}</user>
 					<adminPassword>${logic.registry.password}</adminPassword>
-<!-- 					<passwordFile>${logic.registry.passwordFile}</passwordFile> -->
+					<!-- <passwordFile>${logic.registry.passwordFile}</passwordFile> -->
 					<domain>
 						<name>${logic.registry.domain}</name>
 						<host>${logic.registry.host}</host>
@@ -123,6 +123,6 @@
 					</execution>
 				</executions>
 			</plugin>
-      </plugins>
-   </build>
+		</plugins>
+	</build>
 </project>

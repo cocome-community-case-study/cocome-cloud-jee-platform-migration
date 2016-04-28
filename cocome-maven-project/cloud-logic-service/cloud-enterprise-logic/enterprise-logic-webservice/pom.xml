@@ -8,6 +8,8 @@
 	</parent>
 
 	<artifactId>enterprise-logic-webservice</artifactId>
+	<name>Enterprise Logic - Webservice</name>
+		
 	<packaging>war</packaging>
 
 
@@ -23,17 +25,17 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-logic-core-impl</artifactId>
-        	<version>1.1</version>
-        	<scope>provided</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-logic-core-services</artifactId>
-        	<version>1.1</version>
-        	<scope>provided</scope>
-        </dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>cloud-logic-core-impl</artifactId>
+			<version>1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>cloud-logic-core-services</artifactId>
+			<version>1.1</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-1.2-api</artifactId>
@@ -44,11 +46,6 @@
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
-		<!-- <dependency> <groupId>net.kieker-monitoring</groupId> <artifactId>kieker</artifactId> 
-			<version>1.12</version> </dependency> <dependency> <groupId>org.iobserve</groupId> 
-			<artifactId>monitoring</artifactId> <version>0.0.1-SNAPSHOT</version> </dependency> 
-			<dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjrt</artifactId> 
-			<version>1.8.7</version> </dependency> -->
 	</dependencies>
 
 	<build>
@@ -69,16 +66,6 @@
 						</compilerArguments> -->
 				</configuration>
 			</plugin>
-			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>aspectj-maven-plugin</artifactId> 
-				<version>1.8</version> <configuration> <complianceLevel>1.7</complianceLevel> 
-				<source>1.7</source> <target>1.7</target> <aspectLibraries> <aspectLibrary> 
-				<groupId>net.kieker-monitoring</groupId> <artifactId>kieker</artifactId> 
-				</aspectLibrary> </aspectLibraries> <xmlConfigured>${basedir}/src/main/resources/META-INF/aop.xml</xmlConfigured> 
-				<sources> <source> <basedir>${basedir}/src/main/java</basedir> <includes> 
-				<include>**/**.java</include> </includes> </source> </sources> </configuration> 
-				<executions> <execution> <goals> <goal>compile</goal> use this goal to weave 
-				all your main classes <goal>test-compile</goal> use this goal to weave all 
-				your test classes </goals> </execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -109,6 +96,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<name>enterprise-logic-webservice</name>
 </project>

@@ -2,18 +2,18 @@
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>cloud-logic-service</artifactId>
-    <groupId>org.cocome</groupId>
-    <version>1.1</version>
-  </parent>
-  <artifactId>cloud-registry-client</artifactId>
-  <version>1.1</version>
-  <packaging>jar</packaging>
-  <name>cloud-registry-client</name>
-  
-  	<build>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>cloud-logic-service</artifactId>
+		<groupId>org.cocome</groupId>
+		<version>1.1</version>
+	</parent>
+	<artifactId>cloud-registry-client</artifactId>
+	<version>1.1</version>
+	<packaging>jar</packaging>
+	<name>Cloud Registry - Client</name>
+
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -80,12 +80,12 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		 <dependency>
-        	<groupId>org.jboss.spec</groupId>
-        	<artifactId>jboss-javaee-all-6.0</artifactId>
-        	<scope>provided</scope>
-        </dependency>
-        <dependency>
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-all-6.0</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-1.2-api</artifactId>
 		</dependency>
@@ -95,5 +95,5 @@
 			<version>1.1</version>
 		</dependency>
 	</dependencies>
-  
+
 </project>

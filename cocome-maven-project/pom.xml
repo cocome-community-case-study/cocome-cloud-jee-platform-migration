@@ -6,7 +6,7 @@
 	<artifactId>cocome-maven-project</artifactId>
 	<packaging>pom</packaging>
 	<version>1.1</version>
-	<name>CoCoME maven parent</name>
+	<name>CoCoME (Parent and Release Engineering)</name>
 
 	<modules>
 		<module>cloud-logic-service</module>
@@ -15,9 +15,9 @@
 
 	<properties>
 		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++ -->
-		<!-- Static build properties                           -->
-		<!--                                                   -->
-		
+		<!-- Static build properties -->
+		<!-- -->
+
 		<java-version>1.7</java-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<ejb-spec-version>3.1</ejb-spec-version>
@@ -40,20 +40,20 @@
 		<cxf.version>3.1.6</cxf.version>
 
 		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++ -->
-		<!-- Site deployment properties                        -->
-		<!--                                                   -->
-		<!-- Site deployment properties must be configured in  -->
-		<!-- a settings.xml and used in a build as follows:    -->
-		<!--                                                   -->
-		<!-- mvn -s settings.xml GOAL                          -->
-		<!--                                                   -->
-		<!-- Refer to the settings.xml.template file in the    -->
-		<!-- project root directory.                           -->
+		<!-- Site deployment properties -->
+		<!-- -->
+		<!-- Site deployment properties must be configured in -->
+		<!-- a settings.xml and used in a build as follows: -->
+		<!-- -->
+		<!-- mvn -s settings.xml GOAL -->
+		<!-- -->
+		<!-- Refer to the settings.xml.template file in the -->
+		<!-- project root directory. -->
 
 		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++ -->
-		<!-- Static deployment properties                      -->
-		<!--                                                   -->
-		
+		<!-- Static deployment properties -->
+		<!-- -->
+
 		<logic.cashDeskService>/CashDeskService</logic.cashDeskService>
 		<logic.storeService>/StoreService</logic.storeService>
 		<logic.enterpriseService>/EnterpriseService</logic.enterpriseService>

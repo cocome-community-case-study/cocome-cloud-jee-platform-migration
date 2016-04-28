@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>cloud-logic-core-services</artifactId>
-	<name>cloud-logic-core-services java library</name>
+	<name>Cloud Logic Core - Services</name>
 	<packaging>jar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
