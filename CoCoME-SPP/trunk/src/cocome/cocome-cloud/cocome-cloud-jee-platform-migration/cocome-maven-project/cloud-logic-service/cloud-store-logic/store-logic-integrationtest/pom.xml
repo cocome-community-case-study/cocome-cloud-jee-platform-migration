@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>store-logic-integrationtest</artifactId>
     <packaging>jar</packaging>
-    <name>CoCoME logic integration tests</name>
+    <name>Logic Integration Tests</name>
     
   <parent>
   	<groupId>org.cocome</groupId>

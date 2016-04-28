@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>store-logic-ear</artifactId>
 	<packaging>ear</packaging>
 
-	<name>store-logic-ear</name>
+	<name>Store Logic - EAR</name>
 
 	<parent>
 		<groupId>org.cocome</groupId>
@@ -32,30 +32,15 @@
 			<type>ejb</type>
 		</dependency>
 		<dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-logic-core-services</artifactId>
-        	<version>1.1</version>
-        </dependency>
-        <dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-registry-client</artifactId>
-        	<version>1.1</version>
-        </dependency>
-<!--		<dependency>
-			<groupId>net.kieker-monitoring</groupId>
-			<artifactId>kieker</artifactId>
-			<version>1.12</version>
-		</dependency>
- 		<dependency>
-			<groupId>org.iobserve</groupId>
-			<artifactId>monitoring</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>org.cocome</groupId>
+			<artifactId>cloud-logic-core-services</artifactId>
+			<version>1.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.iobserve</groupId>
-			<artifactId>common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency> -->
+			<groupId>org.cocome</groupId>
+			<artifactId>cloud-registry-client</artifactId>
+			<version>1.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -75,7 +60,7 @@
 				<configuration>
 					<glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
 					<user>${logic.store.user}</user>
-					<!-- <adminPassword>${logic.password}</adminPassword> -->
+					<!-- <adminPassword>${logic.store.password}</adminPassword> -->
 					<passwordFile>${logic.store.passwordFile}</passwordFile>
 					<domain>
 						<name>${logic.store.domain}</name>

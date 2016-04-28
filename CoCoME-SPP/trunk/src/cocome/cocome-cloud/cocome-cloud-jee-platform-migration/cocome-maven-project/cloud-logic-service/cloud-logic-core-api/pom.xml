@@ -13,7 +13,7 @@
 	<artifactId>cloud-logic-core-api</artifactId>
 	<packaging>jar</packaging>
 
-	<name>cloud-logic-core-api</name>
+	<name>Cloud Logic Core - API</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

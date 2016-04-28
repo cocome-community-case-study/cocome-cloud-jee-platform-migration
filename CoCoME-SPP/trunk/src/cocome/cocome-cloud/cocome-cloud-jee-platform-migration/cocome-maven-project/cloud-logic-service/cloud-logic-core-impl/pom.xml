@@ -8,7 +8,7 @@
   </parent>
 
   <artifactId>cloud-logic-core-impl</artifactId>
-  <name>cloud-logic-core-impl java library</name>
+  <name>Cloud Logic Core - Implementation</name>
   <description>cloud-logic-core-impl</description>
   <packaging>ejb</packaging>
   
