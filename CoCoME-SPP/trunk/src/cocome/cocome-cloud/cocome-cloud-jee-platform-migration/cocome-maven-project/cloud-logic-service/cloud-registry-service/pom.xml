@@ -88,8 +88,8 @@
 				<configuration>
 					<glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
 					<user>${logic.registry.user}</user>
-					<!-- <adminPassword>${logic.password}</adminPassword> -->
-					<passwordFile>${logic.registry.passwordFile}</passwordFile>
+					<adminPassword>${logic.registry.password}</adminPassword>
+<!-- 					<passwordFile>${logic.registry.passwordFile}</passwordFile> -->
 					<domain>
 						<name>${logic.registry.domain}</name>
 						<host>${logic.registry.host}</host>
