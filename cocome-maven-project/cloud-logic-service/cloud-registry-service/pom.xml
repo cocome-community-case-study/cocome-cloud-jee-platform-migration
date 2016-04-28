@@ -88,8 +88,8 @@
 				<configuration>
 					<glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
 					<user>${logic.registry.user}</user>
-					<adminPassword>${logic.registry.password}</adminPassword>
-					<!-- <passwordFile>${logic.registry.passwordFile}</passwordFile> -->
+					<!-- <adminPassword>${logic.registry.password}</adminPassword> -->
+					<passwordFile>${logic.registry.passwordFile}</passwordFile>
 					<domain>
 						<name>${logic.registry.domain}</name>
 						<host>${logic.registry.host}</host>
@@ -110,7 +110,7 @@
 						<id>gf-undeploy</id>
 						<goals>
 							<goal>undeploy</goal>
-							<goal>stop-domain</goal>
+							
 						</goals>
 						<phase>clean</phase>
 					</execution>
