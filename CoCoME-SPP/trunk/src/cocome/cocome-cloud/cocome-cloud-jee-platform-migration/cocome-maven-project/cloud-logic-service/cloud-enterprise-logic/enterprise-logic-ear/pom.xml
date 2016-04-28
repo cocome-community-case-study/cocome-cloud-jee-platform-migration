@@ -77,7 +77,6 @@
 						<id>gf-undeploy</id>
 						<goals>
 							<goal>undeploy</goal>
-							<goal>stop-domain</goal>
 						</goals>
 						<phase>clean</phase>
 					</execution>
