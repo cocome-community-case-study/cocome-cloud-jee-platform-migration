@@ -1,0 +1,22 @@
+# Eclipse Setup
+
+CoCoME makes use of a wide range of Maven plug-ins including glassfish
+deployment, code generation, configuration, and others. To be able to
+process this information in Eclipse, several plug-ins and connectors 
+must be added to your Eclipse installation.
+
+## Prerequisites
+
+- Eclipse Mars.1 or later (other versions my work as well)
+- Maven2Eclipse connector (available via Eclipse Marketplace)
+- m2c connector for cxf 
+  Update Site: https://github.com/ryansmith4/m2e-cxf-codegen-connector.update/raw/master/org.eclipselabs.m2e.cxf.codegen.connector.update-site
+
+Please install all the necessary plug-ins and connectors.
+
+## Import project
+
+Use 'File' > 'Import' > 'Existing Maven Project' to import the CoCoME
+maven project.
+
+
