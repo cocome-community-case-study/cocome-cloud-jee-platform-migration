@@ -62,7 +62,6 @@
 
 	</properties>
 
-
 	<repositories>
 		<repository>
 			<id>maven-central</id>
@@ -127,6 +126,15 @@
 
 	<dependencyManagement>
 		<dependencies>
+
+			<!-- cargo plug-in for glassfish deployment -->
+			<dependency>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-core-container-glassfish</artifactId>
+				<version>1.4.19</version>
+			</dependency>
+
+
 			<dependency>
 				<groupId>org.jboss.spec</groupId>
 				<artifactId>jboss-javaee-all-6.0</artifactId>
