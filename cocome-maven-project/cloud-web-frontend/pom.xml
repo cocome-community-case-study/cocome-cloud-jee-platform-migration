@@ -82,16 +82,15 @@
 						<id>gf-undeploy</id>
 						<goals>
 							<goal>undeploy</goal>
-							<goal>stop-domain</goal>
 						</goals>
-						<phase>clean</phase>
+						<phase>post-clean</phase>
 					</execution>
 					<execution>
 						<id>gf-deploy</id>
 						<goals>
 							<goal>deploy</goal>
 						</goals>
-						<phase>package</phase>
+						<phase>install</phase>
 					</execution>
 				</executions>
 			</plugin>
