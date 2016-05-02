@@ -37,9 +37,9 @@ and undeployment.
 
 ## Important Information
 
-- `cocome-maven-project/doc/development-setup.txt` describes how to
+- `cocome-maven-project/doc/development-setup.md` describes how to
 	configure a fresh checkout
-- `cocome-maven-project/doc/deployment-setup.txt` explains the general
+- `cocome-maven-project/doc/deployment-setup.md` explains the general
 	setup of the CoCoME execution environment and how to deploy
 	and undeploy components
 - `cocome-maven-project/doc/eclipse-setup.txt` contains an collection of
