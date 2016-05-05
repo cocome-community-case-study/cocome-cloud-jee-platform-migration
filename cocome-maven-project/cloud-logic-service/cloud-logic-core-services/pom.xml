@@ -208,7 +208,7 @@
 							<sourceRoot>${project.build.directory}/generated-sources/src</sourceRoot>
 							<fork>true</fork>
 							<additionalJvmArgs>
-							-Djavax.xml.accessExternalSchema=all -Djavax.xml.accessExternalDTD=all
+								-Djavax.xml.accessExternalSchema=all -Djavax.xml.accessExternalDTD=all
 							</additionalJvmArgs>
 							<defaultOptions>
  								<extraargs>
@@ -219,7 +219,7 @@
 							</defaultOptions>
 							<wsdlOptions>
 								<wsdlOption>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/IEnterpriseManager.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/IEnterpriseManager.wsdl</wsdl>
 									<wsdlLocation>
 										${logic.enterprise.protocol}://${logic.enterprise.host}:${logic.enterprise.httpPort}${logic.enterprise.baseDir}${logic.enterpriseService}/IEnterpriseManager?wsdl
 									</wsdlLocation>
@@ -228,7 +228,7 @@
 									</bindingFiles>
 								</wsdlOption>
 								<wsdlOption>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/IEnterpriseReport.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/IEnterpriseReport.wsdl</wsdl>
 									<wsdlLocation>${logic.enterprise.protocol}://${logic.enterprise.host}:${logic.enterprise.httpPort}${logic.enterprise.baseDir}${logic.enterpriseService}/IEnterpriseReport?wsdl</wsdlLocation>
 									<bindingFiles>
 										<bindingFile>${project.basedir}/src/main/resources/wsdl/enterpriseReportBindings.xml</bindingFile>
@@ -236,50 +236,50 @@
 								</wsdlOption>
 								<wsdlOption>
 									<wsdlLocation>${logic.enterprise.protocol}://${logic.enterprise.host}:${logic.enterprise.httpPort}${logic.enterprise.baseDir}${logic.loginService}/ILoginManager?wsdl</wsdlLocation>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/ILoginManager.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/ILoginManager.wsdl</wsdl>
 									<bindingFiles>
 										<bindingFile>${project.basedir}/src/main/resources/wsdl/loginManagerBindings.xml</bindingFile>
 									</bindingFiles>
 								</wsdlOption>
 								<wsdlOption>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/ICashDesk.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/ICashDesk.wsdl</wsdl>
 									<wsdlLocation>
 										${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}${logic.cashDeskService}/ICashDesk?wsdl
 									</wsdlLocation>
 								</wsdlOption>
 								<wsdlOption>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/IBarcodeScanner.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/IBarcodeScanner.wsdl</wsdl>
 									<wsdlLocation>${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}${logic.cashDeskService}/IBarcodeScanner?wsdl</wsdlLocation>
 								</wsdlOption>
 								<wsdlOption>
 									<wsdlLocation>${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}${logic.cashDeskService}/ICardReader?wsdl</wsdlLocation>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/ICardReader.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/ICardReader.wsdl</wsdl>
 								</wsdlOption>
 								<wsdlOption>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/ICashBox.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/ICashBox.wsdl</wsdl>
 									<wsdlLocation>${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}${logic.cashDeskService}/ICashBox?wsdl</wsdlLocation>
 								</wsdlOption>
 								<wsdlOption>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/IExpressLight.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/IExpressLight.wsdl</wsdl>
 									<wsdlLocation>${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}${logic.cashDeskService}/IExpressLight?wsdl</wsdlLocation>
 								</wsdlOption>
 								<wsdlOption>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/IPrinter.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/IPrinter.wsdl</wsdl>
 									<wsdlLocation>${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}${logic.cashDeskService}/IPrinter?wsdl</wsdlLocation>
 								</wsdlOption>
 								<wsdlOption>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/IUserDisplay.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/IUserDisplay.wsdl</wsdl>
 									<wsdlLocation>${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}${logic.cashDeskService}/IUserDisplay?wsdl</wsdlLocation>
 								</wsdlOption>
 								<wsdlOption>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/IStoreManager.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/IStoreManager.wsdl</wsdl>
 									<wsdlLocation>${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}${logic.storeService}/IStoreManager?wsdl</wsdlLocation>
 									<bindingFiles>
-										<bindingFile>${project.basedir}/src/main/resources/wsdl/storeManagerBindings.xml</bindingFile>
+										<bindingFile>src/main/resources/wsdl/storeManagerBindings.xml</bindingFile>
 									</bindingFiles>
 								</wsdlOption>
 								<wsdlOption>
-									<wsdl>${project.basedir}/src/main/resources/wsdl/IURIRegistryManager.wsdl</wsdl>
+									<wsdl>src/main/resources/wsdl/IURIRegistryManager.wsdl</wsdl>
 									<wsdlLocation>${logic.registry.protocol}://${logic.registry.host}:${logic.registry.httpPort}${logic.registry.baseDir}${logic.registryService}/IURIRegistryManager?wsdl</wsdlLocation>
 								</wsdlOption>
 							</wsdlOptions>
@@ -290,6 +290,16 @@
 					</execution>
 				</executions>
 				<dependencies>
+					<dependency>
+						<groupId>com.sun.xml.bind</groupId>
+						<artifactId>jaxb-impl</artifactId>
+						<version>2.2.11</version>
+					</dependency>
+					<dependency>
+						<groupId>com.sun.xml.bind</groupId>
+						<artifactId>jaxb-xjc</artifactId>
+						<version>2.2.11</version>
+					</dependency>
 					<dependency>
 						<groupId>org.apache.cxf.xjcplugins</groupId>
 						<artifactId>cxf-xjc-wsdlextension</artifactId>
