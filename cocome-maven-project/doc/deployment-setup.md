@@ -14,11 +14,11 @@ five different nodes with one Glassfish server.
 
 For each containers the following parameter are relevant:
 - ip address (and hostname)
-- web port
-- admin port
-- domain
-- admin user name
-- admin password
+- http port (port used by the services in a deployment)
+- admin port (port used by the admin console)
+- domain (glassfish domain)
+- admin user name (name of the admin user)
+- admin password (passowrd of the admin user)
 
 As the deployment is now performed with the cargo maven plug-in, the
 specification of a password file is no longer an option and a local
