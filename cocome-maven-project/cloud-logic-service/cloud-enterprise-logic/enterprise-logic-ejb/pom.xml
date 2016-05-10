@@ -12,7 +12,7 @@
 		<artifactId>cloud-enterprise-logic</artifactId>
 		<version>1.1</version>
 	</parent>
-	
+
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 	</properties>
@@ -23,18 +23,18 @@
 			<artifactId>java.utils</artifactId>
 			<version>1.1</version>
 		</dependency>
-        <dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-logic-core-services</artifactId>
-        	<version>1.1</version>
-        	<scope>provided</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-logic-core-impl</artifactId>
-        	<version>1.1</version>
-        	<scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>cloud-logic-core-services</artifactId>
+			<version>1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>cloud-logic-core-impl</artifactId>
+			<version>1.1</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-1.2-api</artifactId>
@@ -44,7 +44,8 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
-			<!-- This dependency is necessary because the standard javaee library doesn't provide javadocs -->
+			<!-- This dependency is necessary because the standard javaee library 
+				doesn't provide javadocs -->
 			<groupId>org.jboss.spec</groupId>
 			<artifactId>jboss-javaee-all-6.0</artifactId>
 			<scope>provided</scope>
@@ -60,15 +61,14 @@
 		</dependency>
 	</dependencies>
 
-    <build>
-        <plugins>
+	<build>
+		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-<!-- 					<compilerArguments>
-						<endorseddirs>${endorsed.dir}</endorseddirs>
-					</compilerArguments> -->
+					<!-- <compilerArguments> <endorseddirs>${endorsed.dir}</endorseddirs> 
+						</compilerArguments> -->
 					<excludes>
 						<exclude>org/cocome/tradingsystem/inventory/data/generator/*.java</exclude>
 						<exclude>org/cocome/tradingsystem/util/Configuration.java</exclude>
@@ -110,7 +110,7 @@
 						<goals>
 							<goal>copy</goal>
 						</goals>
- 						<configuration>
+						<configuration>
 							<outputDirectory>${endorsed.dir}</outputDirectory>
 							<silent>true</silent>
 							<artifactItems>
@@ -125,9 +125,18 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
-				<executions> <execution> <id>attach-javadocs</id> <goals> <goal>jar</goal> 
-				</goals> </execution> </executions> </plugin> -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 				<artifactId>maven-javadoc-plugin</artifactId> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>attach-javadocs</id> -->
+<!-- 						<goals> -->
+<!-- 							<goal>jar</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 		</plugins>
 	</build>
 

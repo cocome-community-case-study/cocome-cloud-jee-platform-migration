@@ -28,7 +28,7 @@
                             <projectProperties>
                             	Change these settings according to the setup
                             	<value>wsdlLocationBaseURL=${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}/</value>
-                            	<value>serviceAdapterDatabaseURL=${serviceadapter.protocol}://${serviceadapter.host}:${serviceadapter.port}${serviceadapter.baseDir}/Database</value>
+                            	<value>serviceAdapterDatabaseURL=${serviceadapter.protocol}://${serviceadapter.host}:${serviceadapter.httpPort}${serviceadapter.baseDir}/Database</value>
                             </projectProperties>
                         </configuration>
                     </execution>

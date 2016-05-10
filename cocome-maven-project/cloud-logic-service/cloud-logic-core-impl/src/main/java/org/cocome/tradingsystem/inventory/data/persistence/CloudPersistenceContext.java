@@ -93,7 +93,7 @@ public class CloudPersistenceContext implements IPersistenceContextLocal {
 			postData.sendCreateQuery("enterprise", ServiceAdapterHeaders.ENTERPRISE_CREATE_HEADER, content);
 		} catch (IOException e) {
 			LOG.error("Could not execute post because of an IOException: " + e.getMessage());
-			throw new CreateException("Could not create entity!");
+			throw new CreateException("Could not create entity! " + e.getMessage());
 		}
 		
 		if(!postData.getResponse().contains("SUCCESS")) {

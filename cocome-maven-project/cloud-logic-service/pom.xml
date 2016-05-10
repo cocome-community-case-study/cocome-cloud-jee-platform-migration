@@ -14,7 +14,7 @@
 	</parent>
 
 	<modules>
-		<module>java-utils</module>
+		<module>java-old-utils</module>
 		<module>cloud-logic-core-api</module>
 		<module>cloud-logic-core-impl</module>
 		<module>cloud-logic-core-services</module>

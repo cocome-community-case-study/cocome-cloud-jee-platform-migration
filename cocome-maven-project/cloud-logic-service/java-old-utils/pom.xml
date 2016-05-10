@@ -9,9 +9,9 @@
 	</parent>
 
 	<groupId>de.kit.ipd</groupId>
-	<artifactId>java.utils</artifactId>
+	<artifactId>java-old-utils</artifactId>
 	
-	<name>KIT - Java Utils</name>
+	<name>KIT - Java Utils - Original</name>
 	
 	<build>
 		<sourceDirectory>src</sourceDirectory>
