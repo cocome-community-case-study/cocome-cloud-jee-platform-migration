@@ -4,36 +4,33 @@
 
 - Eclipse Mars
 - Maven2Eclipse connector (available via Eclipse Marketplace)
-- Clone the `cocome-cloud-jee-platform-migration` from the github
-  repository
-- Read the deployment-setup.txt
+- Check `Eclipse Setup.md` for further details on the setup of Eclipse
+- Read/Execute `Glassfish Setup.md` and consult `Deployment Setup.md`
 
-## Configuration of Eclipse
+## Checkout Projects
 
-Install of additional m2e components.
+- cocome-maven-project
+  `git clone https://github.com/cocome-community-case-study/cocome-cloud-jee-platform-migration.git`
+- service-adapter
+  `git https://github.com/cocome-community-case-study/cocome-cloud-jee-service-adapter.git`
 
-- Choose 'Help' > 'Install New Software ...'
-- Click on 'Add...' to add a new update site
-- Name the new update site `cxf m2e connector`
-- Enter `https://github.com/ryansmith4/m2e-cxf-codegen-connector.update/raw/master/org.eclipselabs.m2e.cxf.codegen.connector.update-site`
-  as URL
-- Select all of `m2e-cxf-codegen-connector`
-- Click 'Finish'
-- Follow the remaining process to install this component
-
-## Import Maven Project
+## Import Maven Projects
 
 - Choose 'File' > 'Import' > 'Existing Maven Projects'
 - Click 'Next'
-- Click 'Browse...' and select the root directory of the clone repository
+- Click 'Browse...' and select the root directory of the 
+  `cocome-cloud-jee-platform-migration` repository
 - Click 'Ok' in the directory dialog
 - Make sure all projects are checked in the displayed list
-  Note: if you have imported service-adapter before, the `java.utils`
-  will not be selectable, this is correct, as this sub project is contained
-  in both projects.
 - Click 'Finish'
 
+- Re-iterate this process with the root directory of the 
+  `cocome-cloud-jee-service-adapter` repository.
+
 ## Configure Project
+
+- Please consult `Glassfish Setup.md` and `Deployment Setup.md` before
+  configuring the two Maven-based CoCoME projects.
 
 - In the main project `cocome-maven-project` you may find a file called
   `settings.xml.template`
@@ -49,6 +46,27 @@ Install of additional m2e components.
   `8080`. However, in case you use one Glassfish server for multiple
   domains or you have configured you Glassfish servers with different
   admin and http ports, the you have to set these values properly.
+  
+- In the `service-adapter` project, proceed in a similar way
+  
+ ## Building CoCoME
+  
+ On command line you may build CoCoME as follows:
+ - Enter `maven-cocome-project`
+   `mvn -s settings.xml clean compile package`
+   You may execute these three steps also with separate Maven calls.
+ - Switch to the other repository and run Maven
+   `mvn -s settings.xml clean compile package`
+   
+The resulting packages can now been deployed by hand, via
+`mvn -s settings.xml install`(in both projects), or via the deployment
+script `deployment.sh`. Please read the `Deployment Setup.md`.
+
+  
+  
+  
+  
+  
 
 
 

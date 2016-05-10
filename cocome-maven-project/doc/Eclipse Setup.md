@@ -10,23 +10,18 @@ must be added to your Eclipse installation.
 - Eclipse Mars.1 or later (other versions my work as well)
 - Eclipse JavaEE extensions installed
 - Maven2Eclipse connector (available via Eclipse Marketplace)
-- m2c connector for cxf 
-  Update Site: https://github.com/ryansmith4/m2e-cxf-codegen-connector.update/raw/master/org.eclipselabs.m2e.cxf.codegen.connector.update-site
 
-Please install all the necessary plug-ins and connectors.
+## Configuration of Eclipse
 
-## Checkout Projects
+Install of additional m2e components.
 
-- cocome-maven-project
-  `git clone https://github.com/cocome-community-case-study/cocome-cloud-jee-platform-migration.git`
-- service-adapter
-  `git https://github.com/cocome-community-case-study/cocome-cloud-jee-service-adapter.git`
+- Choose 'Help' > 'Install New Software ...'
+- Click on 'Add...' to add a new update site
+- Name the new update site `cxf m2e connector`
+- Enter `https://github.com/ryansmith4/m2e-cxf-codegen-connector.update/raw/master/org.eclipselabs.m2e.cxf.codegen.connector.update-site`
+  as URL
+- Select all of `m2e-cxf-codegen-connector`
+- Click 'Finish'
+- Follow the remaining process to install this component
 
-## Import Projects
 
-Use 'File' > 'Import' > 'Existing Maven Project' to import the CoCoME
-maven projects.
-
-To work with CoCoME, it might be helpful to create your own branch for
-personal modifications. The remaining setup in Eclipse and other
-development IDEs is documented in `Development Setup.md`
