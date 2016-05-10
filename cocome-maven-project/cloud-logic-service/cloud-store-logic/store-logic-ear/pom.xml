@@ -41,6 +41,10 @@
 			<artifactId>cloud-registry-client</artifactId>
 			<version>1.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
