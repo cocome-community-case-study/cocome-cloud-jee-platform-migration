@@ -612,7 +612,7 @@ public class CreateEnterprise implements ActionListener, IUseCase {
 	}
 	
 	public String createStore()  {
-		if (!newStoreName.matches("[A-Z][A-Z]*[a-z]*")) {
+		if (!newStoreName.trim().matches("\\p{Lu}[\\p{L}+\\p{Zs}?\\p{L}*]+")) {
 			FacesContext
 					.getCurrentInstance()
 					.addMessage(
@@ -622,7 +622,7 @@ public class CreateEnterprise implements ActionListener, IUseCase {
 			return "create Store";
 		}
 
-		if (!newStoreLocation.matches("[A-Z][A-Z]*[a-z]*")) {
+		if (!newStoreLocation.trim().matches("\\p{Lu}[\\p{L}+\\p{Zs}?\\p{L}*]+")) {
 			FacesContext
 					.getCurrentInstance()
 					.addMessage(
