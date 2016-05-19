@@ -9,7 +9,6 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
-import org.cocome.cloud.web.entitywrapper.ProductOrderTOWrapper;
 import org.cocome.cloud.web.entitywrapper.StoreTOWrapper;
 
 
@@ -17,19 +16,10 @@ import org.cocome.cloud.web.entitywrapper.StoreTOWrapper;
 @SessionScoped
 public class ShowDeliveryReports implements ActionListener, IUseCase {
 	
-	private List<ProductOrderTOWrapper> listOfOrder;
 	private List<StoreTOWrapper> listOfStore;
 	private String enterpriseId;
 	private boolean showFeld = false;
 	private boolean showReport = false;
-
-	public List<ProductOrderTOWrapper> getListOfOrder() {
-		return listOfOrder;
-	}
-
-	public void setListOfOrder(List<ProductOrderTOWrapper> listOfOrder) {
-		this.listOfOrder = listOfOrder;
-	}
 
 	public List<StoreTOWrapper> getListOfStore() {
 		return listOfStore;
@@ -66,7 +56,6 @@ public class ShowDeliveryReports implements ActionListener, IUseCase {
 	@Override
 	public String invoke() throws Exception {
 		showFeld = true;
-		listOfOrder = new ArrayList<>();
 		listOfStore = new ArrayList<>();
 		return null;
 	}
@@ -170,7 +159,6 @@ public class ShowDeliveryReports implements ActionListener, IUseCase {
 	public String finish() {
 		showFeld = false;
 		showReport = false;
-		listOfOrder = new ArrayList<>();
 		listOfStore = new ArrayList<>();
 		enterpriseId = null;
 		return null;
