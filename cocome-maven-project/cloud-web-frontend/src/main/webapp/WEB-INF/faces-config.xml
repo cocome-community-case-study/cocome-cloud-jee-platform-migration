@@ -5,12 +5,15 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
     version="2.1">
-<!-- 	<application>
-		<message-bundle>resources.application</message-bundle>
+ 	<application>
 		<locale-config>
 			<default-locale>en</default-locale>
 		</locale-config>
-	</application> -->
+		<resource-bundle>
+			<base-name>cocome.frontend.Strings</base-name>
+			<var>strings</var>
+		</resource-bundle>
+	</application>
 	<navigation-rule>
 		<display-name>cocome_main</display-name>
 		<from-view-id>/cocome_main.jsp</from-view-id>

@@ -31,12 +31,14 @@ import javax.management.ImmutableDescriptor;
 public class NavigationMenu implements INavigationMenu, Serializable {
 	private static final long serialVersionUID = -6352541874730024270L;
 	
-	private static Map<NavigationStates, List<NavigationElement>> STATE_MAP;
+	private static Map<NavigationStates, List<INavigationElement>> STATE_MAP;
 	
-	private LinkedHashMap<NavigationElements, NavigationElement> elements = new LinkedHashMap<>();
+	private List<INavigationElement> elements;
 
 	@Inject
 	ILabelResolver labelResolver;
+	
+	private NavigationStates navigationState = NavigationStates.DEFAULT_VIEW;
 	
 
 	@PostConstruct
@@ -45,29 +47,32 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 			return;
 		}
 		
-		List<NavigationElement> enterpriseViewList = populateEnterpriseView();
+		List<INavigationElement> enterpriseViewList = populateEnterpriseView();
 		
-		List<NavigationElement> storeViewList = populateStoreView();
+		List<INavigationElement> storeViewList = populateStoreView();
 		
-		List<NavigationElement> cashpadViewList = populateCashpadView();
+		List<INavigationElement> cashpadViewList = populateCashpadView();
+		
+		List<INavigationElement> defaultViewList = populateDefaultView();
 		
 		STATE_MAP = new HashMap<>(NavigationStates.values().length, 1);
 		STATE_MAP.put(NavigationStates.ENTERPRISE_VIEW, enterpriseViewList);
 		STATE_MAP.put(NavigationStates.STORE_VIEW, storeViewList);
 		STATE_MAP.put(NavigationStates.CASHPAD_VIEW, cashpadViewList);
+		STATE_MAP.put(NavigationStates.DEFAULT_VIEW, defaultViewList);
 		STATE_MAP = Collections.unmodifiableMap(STATE_MAP);
 		
 	}
 
-	private List<NavigationElement> populateCashpadView() {
-		List<NavigationElement> cashpadViewList = new LinkedList<>();
-		cashpadViewList.add(new NavigationElement(NavigationElements.BACK, labelResolver));
+	private List<INavigationElement> populateCashpadView() {
+		List<INavigationElement> cashpadViewList = new LinkedList<>();
+		cashpadViewList.add(new NavigationElement(NavigationElements.MAIN_PAGE, labelResolver));
 		cashpadViewList.add(new NavigationElement(NavigationElements.LOGOUT, labelResolver));
 		return cashpadViewList;
 	}
 
-	private List<NavigationElement> populateStoreView() {
-		List<NavigationElement> storeViewList = new LinkedList<>();
+	private List<INavigationElement> populateStoreView() {
+		List<INavigationElement> storeViewList = new LinkedList<>();
 		storeViewList.add(new NavigationElement(NavigationElements.START_SALE, labelResolver));
 		storeViewList.add(new NavigationElement(NavigationElements.ORDER_PRODUCTS, labelResolver));
 		storeViewList.add(new NavigationElement(NavigationElements.SHOW_REPORTS, labelResolver));
@@ -77,12 +82,19 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		return storeViewList;
 	}
 
-	private List<NavigationElement> populateEnterpriseView() {
-		List<NavigationElement> enterpriseViewList = new LinkedList<>();
+	private List<INavigationElement> populateEnterpriseView() {
+		List<INavigationElement> enterpriseViewList = new LinkedList<>();
 		enterpriseViewList.add(new NavigationElement(NavigationElements.SHOW_ENTERPRISES, labelResolver));
 		enterpriseViewList.add(new NavigationElement(NavigationElements.CREATE_ENTERPRISE, labelResolver));
 		enterpriseViewList.add(new NavigationElement(NavigationElements.CREATE_PRODUCT, labelResolver));
 		enterpriseViewList.add(new NavigationElement(NavigationElements.SHOW_PRODUCTS, labelResolver));
+		// TODO test this version of labels, perhaps the label resolver is not needed
+		enterpriseViewList.add(new NavigationElement(NavigationElements.LOGOUT, "#{strings['navigation.logout.label']}", labelResolver));
+		return enterpriseViewList;
+	}
+	
+	private List<INavigationElement> populateDefaultView() {
+		List<INavigationElement> enterpriseViewList = new LinkedList<>();
 		enterpriseViewList.add(new NavigationElement(NavigationElements.LOGOUT, labelResolver));
 		return enterpriseViewList;
 	}
@@ -91,45 +103,21 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	 * @see org.cocome.cloud.shop.navigation.INavigationMenu#getElements()
 	 */
 	@Override
-	public List<NavigationElement> getElements() {
-		if (elements.isEmpty()) {
-			elements.put(NavigationElements.LOGOUT, new NavigationElement(
-					NavigationElements.LOGOUT.getNavigationOutcome(), labelResolver.getLabel(NavigationElements.LOGOUT.getNavigationOutcome())));
+	public List<INavigationElement> getElements() {
+		if (elements == null || elements.isEmpty()) {
+			elements = STATE_MAP.get(NavigationStates.DEFAULT_VIEW);
 		}
-		return new ArrayList<NavigationElement>(elements.values());
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.shop.navigation.INavigationMenu#removeElement(java.lang.String)
-	 */
-	@Override
-	public void removeElement(String viewID) {
-		elements.remove(viewID);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.shop.navigation.INavigationMenu#addElement(java.lang.String, org.cocome.cloud.shop.navigation.NavigationElement)
-	 */
-	@Override
-	public void addElement(String viewID, NavigationElement element) {
-		elements.put(viewID, element);
-	}
-
-	@Override
-	public void updateNavigationMenu(@Observes IUpdateNavigationEvent event) {
-		// TODO Auto-generated method stub
-		
+		return elements;
 	}
 
 	@Override
 	public void changeStateTo(NavigationStates newState) {
-		// TODO Auto-generated method stub
-		
+		navigationState = newState;
+		elements = STATE_MAP.get(navigationState);
 	}
 
 	@Override
 	public NavigationStates getCurrentState() {
-		// TODO Auto-generated method stub
-		return null;
+		return navigationState;
 	}
 }

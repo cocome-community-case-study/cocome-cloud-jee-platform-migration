@@ -6,6 +6,8 @@ import javax.ejb.Local;
 public interface IAuthenticator {	
 	public boolean checkCredentials(IUser user);
 	
+	public boolean checkCredential(String username, ICredential credential);
+	
 	public boolean checkHasPermission(IUser user, IPermission permission);
 
 }

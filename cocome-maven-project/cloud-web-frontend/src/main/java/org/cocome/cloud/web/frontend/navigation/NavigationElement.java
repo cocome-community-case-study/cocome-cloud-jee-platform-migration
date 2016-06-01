@@ -32,6 +32,10 @@ public class NavigationElement implements INavigationElement {
 		this.resolver = resolver;
 	}
 	
+	public NavigationElement(NavigationElements navElement, String displayText, ILabelResolver labelResolver) {
+		this(navElement.getNavigationOutcome(), displayText, labelResolver);
+	}
+
 	/* (non-Javadoc)
 	 * @see org.cocome.cloud.web.frontend.navigation.INavigationElement#getNavOutcome()
 	 */
