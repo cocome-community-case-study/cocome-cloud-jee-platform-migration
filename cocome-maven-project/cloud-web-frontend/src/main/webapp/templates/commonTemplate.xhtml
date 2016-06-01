@@ -5,9 +5,9 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
       
-   		<f:loadBundle basename="cocome.cloud.pickupshop.Strings" var="strings" />
+   		<f:loadBundle basename="cocome.frontend.Strings" var="strings" />
 		<h:head>
-		<title><ui:insert name="pageTitle"><h:outputText value="#{strings.defaultTitle}" /></ui:insert></title>
+		<title><ui:insert name="pageTitle"><h:outputText value="#{strings['page.title']}" /></ui:insert></title>
 		<style type="text/css">
 			body {
 				font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -101,19 +101,6 @@
     		
     		.header-small-text {
     			font-size: 11px;
-    			text-decoration: none;
-    		}
-    		
-    		.shopping-cart-button {
-    			background-image:url("#{resource['images:shopping_cart.svg']}");
-    			background-repeat: no-repeat;
-    			background-position: bottom;
-    			height: 40px;
-    			width: 32px;
-    			font-size: 14px;
-    			display: block;
-    			text-align: center;
-    			vertical-align: top;
     			text-decoration: none;
     		}
     		
