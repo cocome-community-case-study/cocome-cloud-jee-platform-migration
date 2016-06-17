@@ -50,7 +50,6 @@ public class Login {
 
 	public void setPassword(@NotNull String password) {
 		this.password = new PlainCredential(password);
-	}
 	
 	public String login() {
 		IUser storedUser = authenticator.checkCredential(username, password); 
@@ -65,23 +64,21 @@ public class Login {
 						"#{strings['login.failed.text']}", null));
 		LOG.warn(String.format("Failed login: username %s.", getUserName()));
 		return NavigationElements.LOGIN.getNavigationOutcome();
-	}
-
 	public String logout() {
 		this.username = "";
 		this.password = new PlainCredential("");
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return NavigationElements.LOGIN.getNavigationOutcome();
-	}
-
 	public boolean isLoggedIn() {
 		return loggedIn;
 	}
-
+	
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
-	}
-
+			setLoggedIn(true);
+			return true;
+		}
+		return false;
 	public NavigationViewStates getRequestedView() {
 		return requestedView;
 	}
@@ -92,7 +89,6 @@ public class Login {
 
 	public long getRequestedStoreId() {
 		return requestedStoreId;
-	}
 
 	public void setRequestedStoreId(long requestedStoreId) {
 		this.requestedStoreId = requestedStoreId;

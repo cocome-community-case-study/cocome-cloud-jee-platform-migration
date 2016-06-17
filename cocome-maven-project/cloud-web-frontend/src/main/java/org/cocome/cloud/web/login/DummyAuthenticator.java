@@ -76,6 +76,20 @@ public class DummyAuthenticator implements IAuthenticator {
 	}
 
 	@Override
+	public boolean checkCredential(String username, ICredential credential) {
+		if (credential != null) {
+			IUser storedUser = users.get(username);
+			
+			if (storedUser != null) {
+				LOG.debug("Found user, checking credentials...");
+				return storedUser.checkCredentials(credential);
+			}
+			LOG.warn("No user with name " + username + " found!");
+		}
+		return false;
+	}
+
+	@Override
 	public IUser checkCredential(String username, ICredential credential) {
 		if (credential != null) {
 			IUser storedUser = users.get(username);
