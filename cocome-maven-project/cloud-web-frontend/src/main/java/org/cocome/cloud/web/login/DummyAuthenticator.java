@@ -62,7 +62,7 @@ public class DummyAuthenticator implements IAuthenticator {
 	@Override
 	public boolean checkCredentials(IUser user) {
 		LOG.debug("Checking credentials of user...");
-		return checkCredential(user.getUsername(), user.getCredentials());
+		return checkCredential(user.getUsername(), user.getCredentials()) != null;
 	}
 
 	@Override
@@ -76,17 +76,19 @@ public class DummyAuthenticator implements IAuthenticator {
 	}
 
 	@Override
-	public boolean checkCredential(String username, ICredential credential) {
+	public IUser checkCredential(String username, ICredential credential) {
 		if (credential != null) {
 			IUser storedUser = users.get(username);
 			
 			if (storedUser != null) {
 				LOG.debug("Found user, checking credentials...");
-				return storedUser.checkCredentials(credential);
+				if(storedUser.checkCredentials(credential)) {
+					return storedUser;
+				}
 			}
 			LOG.warn("No user with name " + username + " found!");
 		}
-		return false;
+		return null;
 	}
 
 }

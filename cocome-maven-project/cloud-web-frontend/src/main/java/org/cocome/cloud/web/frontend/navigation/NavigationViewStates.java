@@ -1,6 +1,6 @@
 package org.cocome.cloud.web.frontend.navigation;
 
-public enum NavigationStates {
+public enum NavigationViewStates {
 	ENTERPRISE_VIEW,
 	STORE_VIEW,
 	CASHPAD_VIEW,

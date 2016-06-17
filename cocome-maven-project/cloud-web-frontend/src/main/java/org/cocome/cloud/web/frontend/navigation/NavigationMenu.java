@@ -1,24 +1,21 @@
 package org.cocome.cloud.web.frontend.navigation;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.management.ImmutableDescriptor;
+import javax.validation.constraints.NotNull;
+
+import org.cocome.cloud.web.events.ChangeViewEvent;
+import org.cocome.cloud.web.events.LoginEvent;
+import org.cocome.cloud.web.events.LogoutEvent;
 
 /**
  * Implements the navigation menu for the site.
@@ -31,14 +28,14 @@ import javax.management.ImmutableDescriptor;
 public class NavigationMenu implements INavigationMenu, Serializable {
 	private static final long serialVersionUID = -6352541874730024270L;
 	
-	private static Map<NavigationStates, List<INavigationElement>> STATE_MAP;
+	private static Map<NavigationViewStates, List<INavigationElement>> STATE_MAP;
 	
 	private List<INavigationElement> elements;
 
 	@Inject
 	ILabelResolver labelResolver;
 	
-	private NavigationStates navigationState = NavigationStates.DEFAULT_VIEW;
+	private NavigationViewStates navigationState = NavigationViewStates.DEFAULT_VIEW;
 	
 
 	@PostConstruct
@@ -55,11 +52,11 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		
 		List<INavigationElement> defaultViewList = populateDefaultView();
 		
-		STATE_MAP = new HashMap<>(NavigationStates.values().length, 1);
-		STATE_MAP.put(NavigationStates.ENTERPRISE_VIEW, enterpriseViewList);
-		STATE_MAP.put(NavigationStates.STORE_VIEW, storeViewList);
-		STATE_MAP.put(NavigationStates.CASHPAD_VIEW, cashpadViewList);
-		STATE_MAP.put(NavigationStates.DEFAULT_VIEW, defaultViewList);
+		STATE_MAP = new HashMap<>(NavigationViewStates.values().length, 1);
+		STATE_MAP.put(NavigationViewStates.ENTERPRISE_VIEW, enterpriseViewList);
+		STATE_MAP.put(NavigationViewStates.STORE_VIEW, storeViewList);
+		STATE_MAP.put(NavigationViewStates.CASHPAD_VIEW, cashpadViewList);
+		STATE_MAP.put(NavigationViewStates.DEFAULT_VIEW, defaultViewList);
 		STATE_MAP = Collections.unmodifiableMap(STATE_MAP);
 		
 	}
@@ -105,19 +102,31 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	@Override
 	public List<INavigationElement> getElements() {
 		if (elements == null || elements.isEmpty()) {
-			elements = STATE_MAP.get(NavigationStates.DEFAULT_VIEW);
+			elements = STATE_MAP.get(NavigationViewStates.DEFAULT_VIEW);
 		}
 		return elements;
 	}
 
 	@Override
-	public void changeStateTo(NavigationStates newState) {
+	public void changeStateTo(@NotNull NavigationViewStates newState) {
 		navigationState = newState;
 		elements = STATE_MAP.get(navigationState);
 	}
 
 	@Override
-	public NavigationStates getCurrentState() {
+	public NavigationViewStates getCurrentState() {
 		return navigationState;
+	}
+	
+	public void observeLoginEvent(@Observes LoginEvent loginEvent) {
+		changeStateTo(loginEvent.getRequestedView());
+	}
+	
+	public void observeLogoutEvent(@Observes LogoutEvent logoutEvent) {
+		changeStateTo(NavigationViewStates.DEFAULT_VIEW);
+	}
+	
+	public void observeChangeViewEvent(@Observes ChangeViewEvent changeEvent) {
+		changeStateTo(changeEvent.getNewViewState());
 	}
 }

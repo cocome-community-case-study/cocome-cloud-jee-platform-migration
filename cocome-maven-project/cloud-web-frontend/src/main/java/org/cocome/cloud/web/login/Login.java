@@ -1,20 +1,17 @@
 package org.cocome.cloud.web.login;
 
+import javax.enterprise.event.Event;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIData;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
-import javax.xml.ws.WebServiceRef;
-import javax.xml.ws.soap.SOAPFaultException;
-
+import javax.validation.constraints.NotNull;
 import org.apache.log4j.Logger;
-import org.cocome.cloud.logic.stub.IStoreManager;
-import org.cocome.cloud.logic.stub.IStoreManagerService;
-import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.cloud.web.events.LoginEvent;
+import org.cocome.cloud.web.events.LogoutEvent;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
-import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
+import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
 
 
 @ManagedBean
@@ -24,8 +21,16 @@ public class Login {
 	@Inject
 	IAuthenticator authenticator;
 	
-	private String username;
-	private ICredential password;
+	@Inject
+	Event<LoginEvent> loginEvent;
+	
+	@Inject
+	Event<LogoutEvent> logoutEvent;
+	
+	private String username = "";
+	private ICredential password = new PlainCredential("");
+	private NavigationViewStates requestedView = NavigationViewStates.ENTERPRISE_VIEW;
+	private long requestedStoreId;
 	
 	private boolean loggedIn = false;
 	
@@ -35,7 +40,7 @@ public class Login {
 		return username;
 	}
 
-	public void setUserName(String userName) {
+	public void setUserName(@NotNull String userName) {
 		this.username = userName;
 	}
 
@@ -43,21 +48,28 @@ public class Login {
 		return password.getCredentialString();
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(@NotNull String password) {
 		this.password = new PlainCredential(password);
 	}
 	
-	public boolean login() {
-		if (authenticator.checkCredential(username, password)) {
+	public String login() {
+		IUser storedUser = authenticator.checkCredential(username, password); 
+		if (storedUser != null) {
 			setLoggedIn(true);
-			return true;
+			loginEvent.fire(new LoginEvent(storedUser, requestedView));
+			LOG.info(String.format("Successful login: username %s.", getUserName()));
+			return NavigationElements.MAIN_PAGE.getNavigationOutcome();
 		}
-		return false;
+		FacesContext.getCurrentInstance().addMessage(null, 
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						"#{strings['login.failed.text']}", null));
+		LOG.warn(String.format("Failed login: username %s.", getUserName()));
+		return NavigationElements.LOGIN.getNavigationOutcome();
 	}
 
 	public String logout() {
-		this.username = null;
-		this.password = null;
+		this.username = "";
+		this.password = new PlainCredential("");
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return NavigationElements.LOGIN.getNavigationOutcome();
 	}
@@ -70,4 +82,26 @@ public class Login {
 		this.loggedIn = loggedIn;
 	}
 
+	public NavigationViewStates getRequestedView() {
+		return requestedView;
+	}
+
+	public void setRequestedView(NavigationViewStates requestedView) {
+		this.requestedView = requestedView;
+	}
+
+	public long getRequestedStoreId() {
+		return requestedStoreId;
+	}
+
+	public void setRequestedStoreId(long requestedStoreId) {
+		this.requestedStoreId = requestedStoreId;
+	}
+
+	public boolean isStoreRequired() {
+		if (requestedView != NavigationViewStates.ENTERPRISE_VIEW) {
+			return true;
+		}
+		return false;
+	}
 }

@@ -2,6 +2,8 @@ package org.cocome.cloud.web.frontend.navigation;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Interface representing the navigation menu on the site. 
  * 
@@ -26,12 +28,12 @@ public interface INavigationMenu {
 	 * 
 	 * @param newState - the new state to set
 	 */
-	void changeStateTo(NavigationStates newState);
+	void changeStateTo(@NotNull NavigationViewStates newState);
 	
 	/**
 	 * Returns the current state of this navigation menu.
 	 * 
 	 * @return the current state
 	 */
-	NavigationStates getCurrentState();
+	NavigationViewStates getCurrentState();
 }
