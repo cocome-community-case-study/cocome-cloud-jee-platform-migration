@@ -50,37 +50,44 @@ public class Login {
 
 	public void setPassword(@NotNull String password) {
 		this.password = new PlainCredential(password);
-			setLoggedIn(true);
-			return true;
+	}
 	
 	public String login() {
 		IUser storedUser = authenticator.checkCredential(username, password); 
+		
 		if (storedUser != null) {
 			setLoggedIn(true);
 			loginEvent.fire(new LoginEvent(storedUser, requestedView));
 			LOG.info(String.format("Successful login: username %s.", getUserName()));
 			return NavigationElements.MAIN_PAGE.getNavigationOutcome();
 		}
+		
 		FacesContext.getCurrentInstance().addMessage(null, 
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, 
 						"#{strings['login.failed.text']}", null));
+		
 		LOG.warn(String.format("Failed login: username %s.", getUserName()));
 		return NavigationElements.LOGIN.getNavigationOutcome();
+	}
+	
 	public String logout() {
 		this.username = "";
 		this.password = new PlainCredential("");
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return NavigationElements.LOGIN.getNavigationOutcome();
+	}
+		
 	public boolean isLoggedIn() {
 		return loggedIn;
+	}
 	
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
-			setLoggedIn(true);
-			return true;
-		return false;
+	}
+	
 	public NavigationViewStates getRequestedView() {
 		return requestedView;
+	}
 
 	public void setRequestedView(NavigationViewStates requestedView) {
 		this.requestedView = requestedView;
@@ -88,6 +95,7 @@ public class Login {
 
 	public long getRequestedStoreId() {
 		return requestedStoreId;
+	}
 
 	public void setRequestedStoreId(long requestedStoreId) {
 		this.requestedStoreId = requestedStoreId;
