@@ -50,6 +50,8 @@ public class Login {
 
 	public void setPassword(@NotNull String password) {
 		this.password = new PlainCredential(password);
+			setLoggedIn(true);
+			return true;
 	
 	public String login() {
 		IUser storedUser = authenticator.checkCredential(username, password); 
@@ -71,17 +73,14 @@ public class Login {
 		return NavigationElements.LOGIN.getNavigationOutcome();
 	public boolean isLoggedIn() {
 		return loggedIn;
-	}
 	
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
 			setLoggedIn(true);
 			return true;
-		}
 		return false;
 	public NavigationViewStates getRequestedView() {
 		return requestedView;
-	}
 
 	public void setRequestedView(NavigationViewStates requestedView) {
 		this.requestedView = requestedView;
