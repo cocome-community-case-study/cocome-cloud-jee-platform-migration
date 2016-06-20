@@ -11,10 +11,10 @@
     <url-pattern>/faces/*</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
-    <welcome-file>faces/login.jsp</welcome-file>
+    <welcome-file>faces/login.xhtml</welcome-file>
   </welcome-file-list>
-  <mime-mapping>
+<!--   <mime-mapping>
     <extension>jsp</extension>
     <mime-type>text/html</mime-type>
-  </mime-mapping>
+  </mime-mapping> -->
 </web-app>

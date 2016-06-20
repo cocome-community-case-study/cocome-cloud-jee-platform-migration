@@ -1,6 +1,7 @@
 package org.cocome.cloud.web.login;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -29,7 +30,10 @@ public class Login {
 	
 	private String username = "";
 	private ICredential password = new PlainCredential("");
-	private NavigationViewStates requestedView = NavigationViewStates.ENTERPRISE_VIEW;
+	private UserRole requestedRole = UserRole.ENTERPRISE_MANAGER;
+	
+	private IUser user = null;
+
 	private long requestedStoreId;
 	
 	private boolean loggedIn = false;
@@ -57,22 +61,31 @@ public class Login {
 		
 		if (storedUser != null) {
 			setLoggedIn(true);
-			loginEvent.fire(new LoginEvent(storedUser, requestedView));
+			user = storedUser;
+			loginEvent.fire(new LoginEvent(storedUser, requestedRole));
 			LOG.info(String.format("Successful login: username %s.", getUserName()));
 			return NavigationElements.MAIN_PAGE.getNavigationOutcome();
 		}
 		
-		FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-						"#{strings['login.failed.text']}", null));
+		FacesContext context = FacesContext.getCurrentInstance();
+		String message = context.getApplication().evaluateExpressionGet(
+				context, "#{strings['login.failed.text']}", String.class);
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+						message, null));
 		
 		LOG.warn(String.format("Failed login: username %s.", getUserName()));
 		return NavigationElements.LOGIN.getNavigationOutcome();
 	}
 	
 	public String logout() {
-		this.username = "";
-		this.password = new PlainCredential("");
+		username = "";
+		password = new PlainCredential("");
+		requestedRole = UserRole.ENTERPRISE_MANAGER;
+		requestedStoreId = 0;
+		
+		logoutEvent.fire(new LogoutEvent(user));
+		user = null;
+		
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return NavigationElements.LOGIN.getNavigationOutcome();
 	}
@@ -84,14 +97,6 @@ public class Login {
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
 	}
-	
-	public NavigationViewStates getRequestedView() {
-		return requestedView;
-	}
-
-	public void setRequestedView(NavigationViewStates requestedView) {
-		this.requestedView = requestedView;
-	}
 
 	public long getRequestedStoreId() {
 		return requestedStoreId;
@@ -101,10 +106,28 @@ public class Login {
 		this.requestedStoreId = requestedStoreId;
 	}
 
+	public UserRole getRequestedRole() {
+		return requestedRole;
+	}
+
+	public void setRequestedRole(UserRole requestedRole) {
+		this.requestedRole = requestedRole;
+	}
+	
 	public boolean isStoreRequired() {
-		if (requestedView != NavigationViewStates.ENTERPRISE_VIEW) {
+		if (requestedRole.associatedView() != NavigationViewStates.ENTERPRISE_VIEW) {
 			return true;
 		}
 		return false;
+	}
+
+	@Produces
+	@javax.enterprise.context.SessionScoped
+	public IUser getUser() {
+		return user;
+	}
+
+	public void setUser(IUser user) {
+		this.user = user;
 	}
 }

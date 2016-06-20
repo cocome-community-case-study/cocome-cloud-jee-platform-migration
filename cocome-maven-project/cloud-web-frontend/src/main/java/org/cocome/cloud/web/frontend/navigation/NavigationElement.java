@@ -1,5 +1,7 @@
 package org.cocome.cloud.web.frontend.navigation;
 
+import org.cocome.cloud.web.login.IPermission;
+
 /**
  * Represents an element inside an {@link INavigationMenu}.
  * 
@@ -10,6 +12,7 @@ public class NavigationElement implements INavigationElement {
 	private String navOutcome;
 	private String displayText;
 	private ILabelResolver resolver;
+	private String requiredPermission;
 	
 	/**
 	 * 
@@ -18,7 +21,7 @@ public class NavigationElement implements INavigationElement {
 	 * @param resolver
 	 */
 	public NavigationElement(NavigationElements navElement, ILabelResolver resolver) {
-		this(navElement.getNavigationOutcome(), null, resolver);
+		this(navElement.getNavigationOutcome(), null, navElement.getNeededPermission(), resolver);
 	}
 	
 	/**
@@ -26,14 +29,15 @@ public class NavigationElement implements INavigationElement {
 	 * @param navOutcome
 	 * @param displayText
 	 */
-	public NavigationElement(String navOutcome, String displayText, ILabelResolver resolver) {
+	public NavigationElement(String navOutcome, String displayText, String requiredPermission, ILabelResolver resolver) {
 		this.navOutcome = navOutcome;
 		this.displayText = displayText;
 		this.resolver = resolver;
+		this.requiredPermission = requiredPermission;
 	}
 	
-	public NavigationElement(NavigationElements navElement, String displayText, ILabelResolver labelResolver) {
-		this(navElement.getNavigationOutcome(), displayText, labelResolver);
+	public NavigationElement(NavigationElements navElement, String displayText, String requiredPermission, ILabelResolver labelResolver) {
+		this(navElement.getNavigationOutcome(), displayText, requiredPermission, labelResolver);
 	}
 
 	/* (non-Javadoc)
@@ -69,5 +73,14 @@ public class NavigationElement implements INavigationElement {
 	 */
 	public void setDisplayText(String displayText) {
 		this.displayText = displayText;
+	}
+
+	@Override
+	public String getRequiredPermission() {
+		return requiredPermission;
+	}
+
+	public void setRequiredPermission(String requiredPermission) {
+		this.requiredPermission = requiredPermission;
 	}
 }

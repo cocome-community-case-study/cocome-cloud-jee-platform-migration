@@ -11,5 +11,7 @@ public interface IUser {
 	
 	public boolean hasPermission(IPermission permission);
 	
+	public boolean hasPermission(String permission);
+	
 	public void addPermission(IPermission permission);
 }

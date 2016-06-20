@@ -3,6 +3,7 @@ package org.cocome.cloud.web.frontend.navigation;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotNull;
 import org.cocome.cloud.web.events.ChangeViewEvent;
 import org.cocome.cloud.web.events.LoginEvent;
 import org.cocome.cloud.web.events.LogoutEvent;
+import org.cocome.cloud.web.login.IUser;
 
 /**
  * Implements the navigation menu for the site.
@@ -34,6 +36,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
 	@Inject
 	ILabelResolver labelResolver;
+	
+	IUser currentUser;
 	
 	private NavigationViewStates navigationState = NavigationViewStates.DEFAULT_VIEW;
 	
@@ -64,7 +68,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	private List<INavigationElement> populateCashpadView() {
 		List<INavigationElement> cashpadViewList = new LinkedList<>();
 		cashpadViewList.add(new NavigationElement(NavigationElements.MAIN_PAGE, labelResolver));
-		cashpadViewList.add(new NavigationElement(NavigationElements.LOGOUT, labelResolver));
 		return cashpadViewList;
 	}
 
@@ -75,7 +78,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		storeViewList.add(new NavigationElement(NavigationElements.SHOW_REPORTS, labelResolver));
 		storeViewList.add(new NavigationElement(NavigationElements.CHANGE_PRICE, labelResolver));
 		storeViewList.add(new NavigationElement(NavigationElements.RECEIVE_PRODUCTS, labelResolver));
-		storeViewList.add(new NavigationElement(NavigationElements.LOGOUT, labelResolver));
 		return storeViewList;
 	}
 
@@ -85,14 +87,11 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		enterpriseViewList.add(new NavigationElement(NavigationElements.CREATE_ENTERPRISE, labelResolver));
 		enterpriseViewList.add(new NavigationElement(NavigationElements.CREATE_PRODUCT, labelResolver));
 		enterpriseViewList.add(new NavigationElement(NavigationElements.SHOW_PRODUCTS, labelResolver));
-		// TODO test this version of labels, perhaps the label resolver is not needed
-		enterpriseViewList.add(new NavigationElement(NavigationElements.LOGOUT, "#{strings['navigation.logout.label']}", labelResolver));
 		return enterpriseViewList;
 	}
 	
 	private List<INavigationElement> populateDefaultView() {
 		List<INavigationElement> enterpriseViewList = new LinkedList<>();
-		enterpriseViewList.add(new NavigationElement(NavigationElements.LOGOUT, labelResolver));
 		return enterpriseViewList;
 	}
 	
@@ -102,7 +101,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	@Override
 	public List<INavigationElement> getElements() {
 		if (elements == null || elements.isEmpty()) {
-			elements = STATE_MAP.get(NavigationViewStates.DEFAULT_VIEW);
+			elements = new LinkedList<>(STATE_MAP.get(NavigationViewStates.DEFAULT_VIEW));
 		}
 		return elements;
 	}
@@ -110,7 +109,23 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	@Override
 	public void changeStateTo(@NotNull NavigationViewStates newState) {
 		navigationState = newState;
-		elements = STATE_MAP.get(navigationState);
+		elements = new LinkedList<>(STATE_MAP.get(navigationState));
+		
+		Iterator<INavigationElement> iterator = elements.iterator();
+		
+		if (currentUser == null) {
+			navigationState = NavigationViewStates.DEFAULT_VIEW;
+			elements = STATE_MAP.get(NavigationViewStates.DEFAULT_VIEW);
+			return;
+		}
+		
+		while (iterator.hasNext()) {
+			INavigationElement element = iterator.next();
+			if (element.getRequiredPermission() != null &&
+					!currentUser.hasPermission(element.getRequiredPermission())) {
+				iterator.remove();
+			}
+		}
 	}
 
 	@Override
@@ -119,10 +134,12 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	}
 	
 	public void observeLoginEvent(@Observes LoginEvent loginEvent) {
+		this.currentUser = loginEvent.getUser();
 		changeStateTo(loginEvent.getRequestedView());
 	}
 	
 	public void observeLogoutEvent(@Observes LogoutEvent logoutEvent) {
+		this.currentUser = null;
 		changeStateTo(NavigationViewStates.DEFAULT_VIEW);
 	}
 	

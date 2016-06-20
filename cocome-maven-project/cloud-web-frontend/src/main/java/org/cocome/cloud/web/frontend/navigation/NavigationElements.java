@@ -1,12 +1,11 @@
 package org.cocome.cloud.web.frontend.navigation;
 
 public enum NavigationElements {
-	LOGOUT("logout", null),
 	LOGIN("login", null),
-	MAIN_PAGE("index", null),
+	MAIN_PAGE("main", null),
 	START_SALE("start_sale", "cashier"),
-	ORDER_PRODUCTS("order_products", "store manager"),
-	SHOW_REPORTS("show_reports", "store manager"),
+	ORDER_PRODUCTS("order_products", "stock manager"),
+	SHOW_REPORTS("show_reports", "stock manager"),
 	CHANGE_PRICE("change_price", "store manager"),
 	RECEIVE_PRODUCTS("receive_products", "stock manager"),
 	SHOW_ENTERPRISES("show_enterprises", "enterprise manager"),

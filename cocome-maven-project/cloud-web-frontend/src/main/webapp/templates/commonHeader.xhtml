@@ -19,12 +19,12 @@
 							<table width="100%">
 							<tbody>
 								<tr class="header-bold-text">
-									<td align="left" width="40%">
+									<td align="left" width="70%">
 										<ui:insert name="navigation">
 											<ui:include src="/templates/commonNavigation.xhtml" />
 										</ui:insert>
 									</td>
-									<td align="right" width="30%">
+									<td align="right" width="15%">
 										<h:panelGroup id="selectedShopInfo" rendered="#{storeInformation.storeSet}">
 										<h:outputText
 											value="#{storeInformation.activeStore.name}"/> 
@@ -32,15 +32,16 @@
 										</h:panelGroup>
 										
 										<h:outputText
-											value="#{strings.noStoreSelectedText}"
+											value="#{strings['navigation.no_store_selected.text']}"
 											rendered="#{not storeInformation.storeSet}" />
 									</td>
-									<td align="right" width="10%">
-									</td>
-									<td align="right" width="20%">
+									<td align="right" width="15%">
+										<h:form>
 										<h:panelGroup id="loginAccount">
-											<h:outputText value="#{strings['navigation.logged_in_as.text']} #{login.userName}"/>
+											<h:outputText value="#{strings['navigation.logged_in_as.text']} #{login.userName}"/><br/>
+											( <h:commandLink action="#{login.logout}" value="#{strings['navigation.logout.label']}"/> )
 										</h:panelGroup>
+										</h:form>
 									</td>
 								</tr>
 							</tbody>

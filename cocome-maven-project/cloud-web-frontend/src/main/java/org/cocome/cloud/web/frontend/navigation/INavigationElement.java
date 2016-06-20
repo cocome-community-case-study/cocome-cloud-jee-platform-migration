@@ -13,5 +13,11 @@ public interface INavigationElement {
 	 * @return
 	 */
 	String getDisplayText();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	String getRequiredPermission();
 
 }

@@ -29,6 +29,9 @@ public class DummyAuthenticator implements IAuthenticator {
 		ICredential cashierCredentials = new PlainCredential("cashier");
 		
 		IUser admin = new DummyUser("admin", adminCredentials);
+		admin.addPermission(cashierPermission);
+		admin.addPermission(stockPermission);
+		admin.addPermission(storePermission);
 		admin.addPermission(adminPermission);
 		admin.addPermission(enterprisePermission);
 		admin.addPermission(databasePermission);
@@ -38,10 +41,12 @@ public class DummyAuthenticator implements IAuthenticator {
 		
 		IUser storeManager = new DummyUser("storemanager", storeCredentials);
 		storeManager.addPermission(storePermission);
+		storeManager.addPermission(stockPermission);
+		storeManager.addPermission(cashierPermission);
 		
 		IUser stockManager = new DummyUser("stockmanager", storeCredentials);
-		stockManager.addPermission(storePermission);
 		stockManager.addPermission(stockPermission);
+		stockManager.addPermission(cashierPermission);
 		
 		IUser cashier = new DummyUser("cashier", cashierCredentials);
 		cashier.addPermission(cashierPermission);
@@ -85,8 +90,10 @@ public class DummyAuthenticator implements IAuthenticator {
 				if(storedUser.checkCredentials(credential)) {
 					return storedUser;
 				}
+				LOG.debug("Wrong credentials provided.");
+			} else {
+				LOG.warn("No user with name " + username + " found!");
 			}
-			LOG.warn("No user with name " + username + " found!");
 		}
 		return null;
 	}

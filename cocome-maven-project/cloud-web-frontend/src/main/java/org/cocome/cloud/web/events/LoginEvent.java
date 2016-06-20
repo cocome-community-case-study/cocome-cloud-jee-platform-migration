@@ -4,22 +4,23 @@ import javax.validation.constraints.NotNull;
 
 import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
 import org.cocome.cloud.web.login.IUser;
+import org.cocome.cloud.web.login.UserRole;
 
 public class LoginEvent {
 	private IUser user;
-	private NavigationViewStates requestedView;
+	private UserRole role;
 	
-	public LoginEvent(@NotNull IUser user, @NotNull NavigationViewStates requestedView) {
+	public LoginEvent(@NotNull IUser user, @NotNull UserRole role) {
 		this.user = user;
-		this.requestedView = requestedView;
+		this.role = role;
 	}
 	
-	public NavigationViewStates getRequestedView() {
-		return requestedView;
+	public UserRole getRole() {
+		return role;
 	}
 	
-	public void setRequestedView(@NotNull NavigationViewStates requestedView) {
-		this.requestedView = requestedView;
+	public void setRole(@NotNull UserRole role) {
+		this.role = role;
 	}
 
 	public IUser getUser() {
@@ -28,6 +29,10 @@ public class LoginEvent {
 
 	public void setUser(@NotNull IUser user) {
 		this.user = user;
+	}
+	
+	public NavigationViewStates getRequestedView() {
+		return role.associatedView();
 	}
 	
 }

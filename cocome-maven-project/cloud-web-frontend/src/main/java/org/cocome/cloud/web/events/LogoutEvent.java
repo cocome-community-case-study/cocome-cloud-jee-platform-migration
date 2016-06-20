@@ -5,6 +5,10 @@ import org.cocome.cloud.web.login.IUser;
 public class LogoutEvent {
 	private IUser user;
 
+	public LogoutEvent(IUser user) {
+		this.user = user;
+	}
+	
 	public IUser getUser() {
 		return user;
 	}
