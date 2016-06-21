@@ -13,6 +13,7 @@ import org.cocome.cloud.web.events.LoginEvent;
 import org.cocome.cloud.web.events.LogoutEvent;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
+import org.cocome.cloud.web.inventory.store.StoreInformation;
 
 
 @ManagedBean
@@ -34,7 +35,7 @@ public class Login {
 	
 	private IUser user = null;
 
-	private long requestedStoreId;
+	private long requestedStoreId = StoreInformation.STORE_ID_NOT_SET;
 	
 	private boolean loggedIn = false;
 	
@@ -62,7 +63,7 @@ public class Login {
 		if (storedUser != null) {
 			setLoggedIn(true);
 			user = storedUser;
-			loginEvent.fire(new LoginEvent(storedUser, requestedRole));
+			loginEvent.fire(new LoginEvent(storedUser, requestedRole, requestedStoreId));
 			LOG.info(String.format("Successful login: username %s.", getUserName()));
 			return NavigationElements.MAIN_PAGE.getNavigationOutcome();
 		}
@@ -99,7 +100,7 @@ public class Login {
 	}
 
 	public long getRequestedStoreId() {
-		return requestedStoreId;
+		return requestedStoreId == StoreInformation.STORE_ID_NOT_SET ? 0 : requestedStoreId;
 	}
 
 	public void setRequestedStoreId(long requestedStoreId) {

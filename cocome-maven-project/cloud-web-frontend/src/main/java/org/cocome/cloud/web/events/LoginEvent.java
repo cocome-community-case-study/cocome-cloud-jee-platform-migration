@@ -9,10 +9,12 @@ import org.cocome.cloud.web.login.UserRole;
 public class LoginEvent {
 	private IUser user;
 	private UserRole role;
+	private long storeID;
 	
-	public LoginEvent(@NotNull IUser user, @NotNull UserRole role) {
+	public LoginEvent(@NotNull IUser user, @NotNull UserRole role, long storeID) {
 		this.user = user;
 		this.role = role;
+		this.setStoreID(storeID);
 	}
 	
 	public UserRole getRole() {
@@ -33,6 +35,14 @@ public class LoginEvent {
 	
 	public NavigationViewStates getRequestedView() {
 		return role.associatedView();
+	}
+
+	public long getStoreID() {
+		return storeID;
+	}
+
+	public void setStoreID(long storeID) {
+		this.storeID = storeID;
 	}
 	
 }

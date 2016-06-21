@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:components="http://java.sun.com/jsf/composite/components">
+
+
+<h:body>
+
+	<ui:composition template="/templates/commonTemplate.xhtml">
+	
+		<ui:define name="body">
+			<h:dataTable value="#{enterpriseQuery.enterprises}" var="enterprise" 
+				styleClass="product-table"
+				headerClass="product-table-header"
+    			rowClasses="product-table-odd-row,product-table-even-row"
+    			columnClasses="product-table-text-col, product-table-text-col, 
+    				product-table-number-col, product-table-number-col, product-table-number-col">
+				<h:column>
+					<f:facet name="header">#{strings['enterprise.table.header_id']}</f:facet>
+					#{enterprise.id}
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{strings['enterprise.table.header_name']}</f:facet>
+					#{enterprise.name}
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{strings['enterprise.table.header_action']}</f:facet>
+					<h:link outcome="show_stores" styleClass="button show-stores-button" title="#{strings['enterprise.table.action.show_stores']}" />
+					<h:link outcome="create_store" styleClass="button create-store-button" title="#{strings['enterprise.table.action.create_store']}" />
+				</h:column>
+			</h:dataTable>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>

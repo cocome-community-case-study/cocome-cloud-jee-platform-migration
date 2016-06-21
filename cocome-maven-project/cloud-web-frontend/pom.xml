@@ -32,6 +32,11 @@
 			<version>1.1</version>
 		</dependency>
 		<dependency>
+			<groupId>org.cocome</groupId>
+			<artifactId>cloud-registry-client</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
 			<version>1.2-20</version>
