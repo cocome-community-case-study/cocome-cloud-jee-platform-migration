@@ -18,6 +18,7 @@
 		</f:metadata>
 
 		<ui:define name="body">
+			<h:form>
 			<h:dataTable value="#{enterpriseInformation.stores}" var="store"
 				styleClass="product-table" headerClass="product-table-header"
 				rowClasses="product-table-odd-row,product-table-even-row"
@@ -33,22 +34,39 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">#{strings['store.table.header_name']}</f:facet>
-					#{store.name}
+					<h:outputText value="#{store.name}" rendered="#{not store.editingEnabled}"/>
+					<h:inputText value="#{store.newName}" rendered="#{store.editingEnabled}"/>
 				</h:column>
 				<h:column>
 					<f:facet name="header">#{strings['store.table.header_loc']}</f:facet>
-					#{store.location}
+					<h:outputText value="#{store.location}" rendered="#{not store.editingEnabled}"/>
+					<h:inputText value="#{store.newLocation}" rendered="#{store.editingEnabled}" />
 				</h:column>
 				<h:column>
 					<f:facet name="header"></f:facet>
-					<h:link outcome="show_stores"
-						styleClass="button show-stores-button"
-						title="#{strings['enterprise.table.action.show_stores']}" />
-					<h:link outcome="create_store"
-						styleClass="button create-store-button"
-						title="#{strings['enterprise.table.action.create_store']}" />
+					<h:commandLink action="#{store.setEditingEnabled(true)}" styleClass="button"
+						title="#{strings['store.table.action.edit_store']}" rendered="#{not store.editingEnabled}">
+						<h:graphicImage value="#{resource['icon:icon_shoppingcart_edit.png']}" styleClass="button"/>						
+					</h:commandLink>
+					<h:commandLink action="#{storePersistence.updateStore(store)}" styleClass="button"
+						title="#{strings['store.table.action.save_store']}" rendered="#{store.editingEnabled}">
+						<h:graphicImage value="#{resource['icon:icon_save.png']}" styleClass="button"/>						
+					</h:commandLink>
+					<h:commandLink action="#{store.setEditingEnabled(false)}" styleClass="button"
+						title="#{strings['store.table.action.edit_store']}" rendered="#{store.editingEnabled}">
+						<h:graphicImage value="#{resource['icon:icon_reset.png']}" styleClass="button"/>
+					</h:commandLink>
+					<h:commandLink action="#{storeInformation.switchToStore(store, 'main')}" styleClass="button"
+						title="#{strings['store.table.action.goto_store']}" rendered="#{not store.editingEnabled}">
+						<h:graphicImage value="#{resource['icon:icon_shop.png']}" styleClass="button"/>						
+					</h:commandLink>
+					<h:commandLink action="#{storeInformation.switchToStore(store, 'show_stock')}" styleClass="button"
+						title="#{strings['store.table.action.goto_stock']}" rendered="#{not store.editingEnabled}">
+						<h:graphicImage value="#{resource['icon:icon_shoppingcart_add.png']}" styleClass="button"/>
+					</h:commandLink>
 				</h:column>
 			</h:dataTable>
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

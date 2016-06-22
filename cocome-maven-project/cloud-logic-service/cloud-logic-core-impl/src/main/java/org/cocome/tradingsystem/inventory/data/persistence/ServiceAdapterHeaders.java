@@ -13,7 +13,7 @@ public final class ServiceAdapterHeaders {
 	
 	public static final String STORE_CREATE_HEADER = "EnterpriseName;StoreName;StoreLocation";
 	
-	public static final String STORE_UPDATE_HEADER = "StoreId;StoreName;StoreLocation";
+	public static final String STORE_UPDATE_HEADER = "EnterpriseName;StoreId;StoreName;StoreLocation";
 	
 	public static final String PRODUCT_HEADER = "ProductBarcode;ProductName;ProductPurchasePrice";
 	

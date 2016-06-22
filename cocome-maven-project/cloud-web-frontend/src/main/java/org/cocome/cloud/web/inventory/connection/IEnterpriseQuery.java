@@ -3,6 +3,8 @@ package org.cocome.cloud.web.inventory.connection;
 import java.util.Collection;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.inventory.enterprise.Enterprise;
 import org.cocome.cloud.web.inventory.store.ProductWrapper;
@@ -33,4 +35,6 @@ public interface IEnterpriseQuery {
 	public ProductWrapper getProductByID(long productID) throws NotInDatabaseException_Exception;
 	
 	public ProductWrapper getProductByBarcode(long barcode) throws NotInDatabaseException_Exception;
+	
+	public boolean updateStore(@NotNull Store store);
 }

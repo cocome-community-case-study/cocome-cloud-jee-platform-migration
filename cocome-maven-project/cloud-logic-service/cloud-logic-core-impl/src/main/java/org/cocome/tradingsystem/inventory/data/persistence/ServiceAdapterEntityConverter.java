@@ -81,6 +81,8 @@ public class ServiceAdapterEntityConverter {
 
 	public static String getUpdateStoreContent(IStore store) {
 		StringBuilder content = new StringBuilder();
+		content.append(store.getEnterpriseName());
+		content.append(ServiceAdapterHeaders.SEPARATOR);
 		content.append(store.getId());
 		content.append(ServiceAdapterHeaders.SEPARATOR);
 		content.append(store.getName());

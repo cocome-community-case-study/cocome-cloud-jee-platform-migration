@@ -8,12 +8,14 @@ import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
+import javax.validation.constraints.NotNull;
 import javax.xml.ws.WebServiceRef;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.cloud.logic.stub.UpdateException_Exception;
 import org.cocome.cloud.web.inventory.enterprise.Enterprise;
 import org.cocome.cloud.web.inventory.store.ProductWrapper;
 import org.cocome.cloud.web.inventory.store.Store;
@@ -91,7 +93,8 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 			LinkedList<Store> stores = new LinkedList<Store>();
 
 			for (StoreWithEnterpriseTO store : enterpriseManager.queryStoresByEnterpriseID(ent.getId())) {
-				Store tempStore = new Store(store.getId(), store.getLocation(), store.getName());
+				Store tempStore = new Store(store.getId(), store.getEnterpriseTO(),
+						store.getLocation(), store.getName());
 				this.stores.put(tempStore.getID(), tempStore);
 				stores.add(tempStore);
 			}
@@ -145,5 +148,23 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	public ProductWrapper getProductByBarcode(long barcode) throws NotInDatabaseException_Exception {
 		ProductWrapper product = new ProductWrapper(enterpriseManager.getProductByBarcode(barcode));
 		return product;
+	}
+
+	@Override
+	public boolean updateStore(@NotNull Store store) {		
+		StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
+		storeTO.setId(store.getID());
+		storeTO.setLocation(store.getLocation());
+		storeTO.setName(store.getName());
+		storeTO.setEnterpriseTO(store.getEnterprise());
+		
+		try {
+			enterpriseManager.updateStore(storeTO);
+			stores.put(store.getID(), store);
+			return true;
+		} catch (NotInDatabaseException_Exception | UpdateException_Exception e) {
+			LOG.error(String.format("Exception while updating store: %s\n%s", e.getMessage(), e.getStackTrace()));
+			return false;
+		}
 	}
 }

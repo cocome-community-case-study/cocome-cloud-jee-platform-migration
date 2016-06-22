@@ -211,6 +211,14 @@ public interface IEnterpriseManager {
 			@XmlElement(required = true) @WebParam(name = "storeTO") StoreWithEnterpriseTO storeTO) 
 			throws CreateException;
 	
+	/**
+	 * Updates the store object. This method requires the EnterpriseTO to be present and to have 
+	 * at least the id attribute set. 
+	 * 
+	 * @param storeTO
+	 * @throws UpdateException
+	 * @throws NotInDatabaseException
+	 */
 	@WebMethod
 	public void updateStore(
 			@XmlElement(required = true) @WebParam(name = "storeTO") StoreWithEnterpriseTO storeTO) 

@@ -3,13 +3,17 @@ package org.cocome.cloud.web.inventory.store;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.cloud.web.events.ChangeViewEvent;
 import org.cocome.cloud.web.events.LoginEvent;
+import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
 import org.cocome.cloud.web.inventory.connection.IEnterpriseQuery;
 
 /**
@@ -31,6 +35,9 @@ public class StoreInformation implements IStoreInformation, Serializable {
 
 	@Inject
 	IEnterpriseQuery enterpriseQuery;
+	
+	@Inject
+	Event<ChangeViewEvent> changeViewEvent;
 	
 	
 	@Override
@@ -61,7 +68,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 		LOG.debug("Submit store was called");
 		if (isStoreSet()) {
 			hasChanged = true;
-			return "showStockItems";
+			return "main";
 		} else {
 			return "error";
 		}
@@ -74,5 +81,13 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	
 	public void observeLoginEvent(@Observes LoginEvent event) {
 		setActiveStoreID(event.getStoreID());
+	}
+
+	@Override
+	public String switchToStore(@NotNull Store store, String destination) {
+		setActiveStoreID(store.getID());
+		activeStore = store;
+		changeViewEvent.fire(new ChangeViewEvent(NavigationViewStates.STORE_VIEW));
+		return destination != null ? destination : "main";
 	}
 }
