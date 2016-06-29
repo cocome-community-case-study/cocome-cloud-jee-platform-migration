@@ -25,4 +25,7 @@ public interface IEnterpriseInformation {
 	public boolean isEnterpriseSubmitted();
 	public void setEnterpriseSubmitted(boolean submitted);
 	public boolean isEnterpriseSet();
+	
+	public void setNewEnterpriseName(String name);
+	public String getNewEnterpriseName();
 }

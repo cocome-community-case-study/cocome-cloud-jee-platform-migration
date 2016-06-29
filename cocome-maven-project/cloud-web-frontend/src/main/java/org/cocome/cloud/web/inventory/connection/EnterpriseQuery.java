@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.ws.WebServiceRef;
 
 import org.apache.log4j.Logger;
+import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
@@ -72,6 +73,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	public void updateEnterpriseInformation() {
 		this.enterprises = new HashMap<Long, Enterprise>();
 		
+		// TODO only update enterprises that are not already present 
 		for (EnterpriseTO enterprise : enterpriseManager.getEnterprises()) {
 			enterprises.put(enterprise.getId(), new Enterprise(enterprise.getId(), enterprise.getName()));
 		}
@@ -160,11 +162,48 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 		
 		try {
 			enterpriseManager.updateStore(storeTO);
-			stores.put(store.getID(), store);
-			return true;
 		} catch (NotInDatabaseException_Exception | UpdateException_Exception e) {
 			LOG.error(String.format("Exception while updating store: %s\n%s", e.getMessage(), e.getStackTrace()));
 			return false;
 		}
+		
+		stores.put(store.getID(), store);
+		return true;
+	}
+
+	@Override
+	public boolean createEnterprise(@NotNull String name) {
+		EnterpriseTO enterpriseTO;
+		
+		try {
+			enterpriseManager.createEnterprise(name);
+			enterpriseTO = enterpriseManager.queryEnterpriseByName(name);
+		} catch (CreateException_Exception | NotInDatabaseException_Exception e) {
+			LOG.error(String.format("Exception while creating enterprise: %s\n%s", 
+					e.getMessage(), e.getStackTrace()));
+			return false;
+		}
+		enterprises.put(enterpriseTO.getId(),
+				new Enterprise(enterpriseTO.getId(), enterpriseTO.getName()));
+		
+		return true;
+	}
+
+	@Override
+	public boolean createProduct(@NotNull String name, long barcode, double purchasePrice) {
+		ProductTO product = new ProductTO();
+		product.setBarcode(barcode);
+		product.setName(name);
+		product.setPurchasePrice(purchasePrice);
+		
+		try {
+			enterpriseManager.createProduct(product);
+		} catch (CreateException_Exception e) {
+			LOG.error(String.format("Exception while creating product: %s\n%s", 
+					e.getMessage(), e.getStackTrace()));
+			return false;
+		}
+	
+		return true;
 	}
 }

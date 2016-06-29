@@ -24,11 +24,20 @@ public class StorePersistence implements IStorePersistence {
 		store.updateStoreInformation();
 		if (enterpriseQuery.updateStore(store)) {
 			store.setEditingEnabled(false);
+			FacesContext.getCurrentInstance().addMessage(null, 
+					new FacesMessage(FacesMessage.SEVERITY_INFO, 
+							"Successfully updated the store!", null));
 			return null;
 		}
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error while updating the store!", null));
 		
 		return "error";
+	}
+
+	@Override
+	public String createStore(long enterpriseID, String name, String location) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

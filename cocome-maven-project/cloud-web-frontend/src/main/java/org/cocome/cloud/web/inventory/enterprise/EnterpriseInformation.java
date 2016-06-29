@@ -29,6 +29,8 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
 	private long activeEnterpriseID = Long.MIN_VALUE;
 	private Enterprise activeEnterprise;
 	
+	private String newEnterpriseName = null;
+	
 	private static final Logger LOG = Logger.getLogger(EnterpriseInformation.class);
 
 	@Inject
@@ -99,5 +101,15 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
 	public void setActiveEnterprise(@NotNull Enterprise enterprise) {
 		activeEnterpriseID = enterprise.getId();
 		this.activeEnterprise = enterprise;
+	}
+
+	@Override
+	public void setNewEnterpriseName(String name) {
+		newEnterpriseName = name;
+	}
+
+	@Override
+	public String getNewEnterpriseName() {
+		return newEnterpriseName;
 	}
 }

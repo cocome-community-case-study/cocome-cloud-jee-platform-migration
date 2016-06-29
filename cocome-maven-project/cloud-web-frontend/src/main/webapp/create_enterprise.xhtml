@@ -11,7 +11,14 @@
 	<ui:composition template="/templates/commonTemplate.xhtml">
 	
 		<ui:define name="body">
-			Create Enterprise
+			<h:form>
+			<p>
+			<h:outputText value="#{strings['enterprise.create.text']}" />
+			<h:inputText value="#{enterpriseInformation.newEnterpriseName}" />
+			</p>
+			<br/>
+			<h:commandButton action="#{enterprisePersistence.createEnterprise(enterpriseInformation.newEnterpriseName)}" value="#{strings['enterprise.create.button.label']}" />
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

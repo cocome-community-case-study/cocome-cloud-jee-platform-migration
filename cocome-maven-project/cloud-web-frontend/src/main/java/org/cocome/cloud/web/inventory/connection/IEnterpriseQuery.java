@@ -37,4 +37,8 @@ public interface IEnterpriseQuery {
 	public ProductWrapper getProductByBarcode(long barcode) throws NotInDatabaseException_Exception;
 	
 	public boolean updateStore(@NotNull Store store);
+	
+	public boolean createEnterprise(@NotNull String name);
+	
+	public boolean createProduct(@NotNull String name, long barcode, double purchasePrice);
 }
