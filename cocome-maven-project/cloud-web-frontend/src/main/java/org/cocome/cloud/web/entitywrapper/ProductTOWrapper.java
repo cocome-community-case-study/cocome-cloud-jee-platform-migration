@@ -29,7 +29,7 @@ public class ProductTOWrapper {
 		return productTO.getBarcode();
 	}
 	
-	public void setBarcode(long barcode) {
+	public void setBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode) {
 		productTO.setBarcode(barcode);
 	}
 	

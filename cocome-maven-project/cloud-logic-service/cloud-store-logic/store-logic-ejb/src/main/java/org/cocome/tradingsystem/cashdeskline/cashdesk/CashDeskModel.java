@@ -297,7 +297,7 @@ public class CashDeskModel implements Serializable, ICashDeskModelLocal {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void addItemToSale(final long barcode) throws IllegalCashDeskStateException, ProductOutOfStockException {
+	public void addItemToSale(final edu.kit.ipd.sdq.evaluation.Barcode barcode) throws IllegalCashDeskStateException, ProductOutOfStockException {
 		this.ensureStateIsLegal(ADD_ITEM_TO_SALE_STATES);
 
 		//
@@ -340,7 +340,7 @@ public class CashDeskModel implements Serializable, ICashDeskModelLocal {
 		return expressModeDisabled || itemCountUnderLimit;
 	}
 
-	private void sendInvalidProductBarcodeEvent(final long barcode) {
+	private void sendInvalidProductBarcodeEvent(final edu.kit.ipd.sdq.evaluation.Barcode barcode) {
 		invalidProductBarcodeEvents.fire(new InvalidProductBarcodeEvent(barcode));
 	}
 

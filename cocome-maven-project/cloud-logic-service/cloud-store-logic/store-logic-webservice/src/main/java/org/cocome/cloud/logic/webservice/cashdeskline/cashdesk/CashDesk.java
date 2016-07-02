@@ -90,7 +90,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 
 	@Override
 	public Set<Class<?>> addItemToSale(String cashDeskName, long storeID,
-			final long barcode) throws IllegalCashDeskStateException, 
+			final edu.kit.ipd.sdq.evaluation.Barcode barcode) throws IllegalCashDeskStateException, 
 				NoSuchProductException, UnhandledException, ProductOutOfStockException {
 		IContextRegistry context = getContextRegistry(cashDeskName, storeID);
 		

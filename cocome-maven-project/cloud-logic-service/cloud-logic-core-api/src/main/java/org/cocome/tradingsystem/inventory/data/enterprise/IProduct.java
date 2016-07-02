@@ -28,7 +28,7 @@ public interface IProduct {
 	 * @param barcode
 	 *            The barcode of the product
 	 */
-	void setBarcode(long barcode);
+	void setBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode);
 
 	/**
 	 * @return The name of the product

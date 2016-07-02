@@ -119,7 +119,7 @@ class CashDeskEventHandler implements ICashDeskEventConsumerLocal, Serializable 
 	 * {@inheritDoc}
 	 */
 	public void onEvent(@Observes ProductBarcodeScannedEvent event) throws IllegalCashDeskStateException, ProductOutOfStockException {
-		final long barcode = event.getBarcode();
+		final edu.kit.ipd.sdq.evaluation.Barcode barcode = event.getBarcode();
 		LOG.debug("\tbarcode: " + barcode);
 
 		//

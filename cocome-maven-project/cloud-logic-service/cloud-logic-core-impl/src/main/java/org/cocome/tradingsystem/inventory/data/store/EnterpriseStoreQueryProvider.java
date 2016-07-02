@@ -100,7 +100,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQueryLocal {
 	}
 
 	@Override
-	public IProduct queryProductByBarcode(long barcode) {
+	public IProduct queryProductByBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode) {
 		IProduct product = null;
 		try {
 			product = csvHelper.getProducts(

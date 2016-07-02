@@ -199,7 +199,7 @@ public interface IEnterpriseManager {
 	 */
 	@WebMethod
 	public ProductTO getProductByBarcode(
-			@XmlElement(required = true) @WebParam(name = "barcode") long barcode) throws NotInDatabaseException;
+			@XmlElement(required = true) @WebParam(name = "barcode") edu.kit.ipd.sdq.evaluation.Barcode barcode) throws NotInDatabaseException;
 	
 	@WebMethod
 	public void createEnterprise(

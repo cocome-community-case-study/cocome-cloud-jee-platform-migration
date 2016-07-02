@@ -35,6 +35,6 @@ public interface IBarcodeScannerLocal {
 	 * @param barcode
 	 * 		the scanned barcode
 	 */
-	void sendProductBarcode(long barcode);
+	void sendProductBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode);
 
 }

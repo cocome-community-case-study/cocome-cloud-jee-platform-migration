@@ -439,7 +439,7 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
 		for (final ProductAmountTO movedProduct : movedProducts
 				.getProductAmounts()) {
 			final ProductTO productTO = movedProduct.getProduct();
-			final long barcode = productTO.getBarcode();
+			final edu.kit.ipd.sdq.evaluation.Barcode barcode = productTO.getBarcode();
 			final IStockItem stockItem = __storeQuery.queryStockItem(storeID,
 					barcode);
 

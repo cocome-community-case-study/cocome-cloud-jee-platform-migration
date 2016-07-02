@@ -22,7 +22,7 @@ public interface IBarcodeScanner {
 	@WebMethod
 	Set<Class<?>> sendProductBarcode(@XmlElement(required = true) @WebParam(name = "cashDeskName") String cashDeskName, 
 			@XmlElement(required = true) @WebParam(name = "storeID") long storeID,
-			@XmlElement(required = true) @WebParam(name = "barcode") final long barcode) 
+			@XmlElement(required = true) @WebParam(name = "barcode") final edu.kit.ipd.sdq.evaluation.Barcode barcode) 
 					throws IllegalCashDeskStateException, NoSuchProductException, 
 						UnhandledException, ProductOutOfStockException;
 }

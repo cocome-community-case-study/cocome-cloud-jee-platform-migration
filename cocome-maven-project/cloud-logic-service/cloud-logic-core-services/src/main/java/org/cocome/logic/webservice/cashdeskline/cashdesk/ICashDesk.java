@@ -197,5 +197,5 @@ public interface ICashDesk {
 	 */
 	public Set<Class<?>> addItemToSale(@XmlElement(required = true) @WebParam(name = "cashDeskName") String cashDeskName,
 			@XmlElement(required = true) @WebParam(name = "storeID") long storeID,
-			@XmlElement(required = true) @WebParam(name = "barcode") long barcode) throws IllegalCashDeskStateException, NoSuchProductException, UnhandledException, ProductOutOfStockException;	
+			@XmlElement(required = true) @WebParam(name = "barcode") edu.kit.ipd.sdq.evaluation.Barcode barcode) throws IllegalCashDeskStateException, NoSuchProductException, UnhandledException, ProductOutOfStockException;	
 }

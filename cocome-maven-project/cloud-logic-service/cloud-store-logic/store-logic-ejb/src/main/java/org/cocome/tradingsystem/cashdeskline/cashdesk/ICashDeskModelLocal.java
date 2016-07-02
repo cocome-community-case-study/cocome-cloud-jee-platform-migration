@@ -55,7 +55,7 @@ public interface ICashDeskModelLocal {
 	 * 		the barcode of the item
 	 * @throws ProductOutOfStockException 
 	 */
-	public void addItemToSale(long barcode) throws IllegalCashDeskStateException, ProductOutOfStockException;
+	public void addItemToSale(edu.kit.ipd.sdq.evaluation.Barcode barcode) throws IllegalCashDeskStateException, ProductOutOfStockException;
 
 	/**
 	 * Finishes the current sale and sets the cash desk up to receive payment.

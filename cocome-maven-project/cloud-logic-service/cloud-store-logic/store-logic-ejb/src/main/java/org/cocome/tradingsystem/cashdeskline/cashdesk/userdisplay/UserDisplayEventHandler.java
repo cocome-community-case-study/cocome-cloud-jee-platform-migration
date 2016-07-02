@@ -114,7 +114,7 @@ class UserDisplayEventHandler implements IUserDisplayEventConsumerLocal, Seriali
 	 */
 	@Override
 	public void onEvent(@Observes InvalidProductBarcodeEvent event) {
-		final long barcode = event.getBarcode();
+		final edu.kit.ipd.sdq.evaluation.Barcode barcode = event.getBarcode();
 		LOG.debug("\tbarcode: " + barcode);
 
 		//

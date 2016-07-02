@@ -41,7 +41,7 @@ class Product implements Serializable, IProduct {
 
 	private long id;
 
-	private long barcode;
+	private edu.kit.ipd.sdq.evaluation.Barcode barcode;
 
 	private double purchasePrice;
 
@@ -92,7 +92,7 @@ class Product implements Serializable, IProduct {
 	 * @see org.cocome.tradingsystem.inventory.data.enterprise.IProduct#setBarcode(long)
 	 */
 	@Override
-	public void setBarcode(long barcode) {
+	public void setBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode) {
 		this.barcode = barcode;
 	}
 

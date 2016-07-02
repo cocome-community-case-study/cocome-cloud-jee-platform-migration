@@ -39,7 +39,7 @@ public class BarcodeScanner extends NamedCashDeskService implements IBarcodeScan
 	
 	@Override
 	public Set<Class<?>> sendProductBarcode(String cashDeskName, long storeID,
-			final long barcode) throws IllegalCashDeskStateException, 
+			final edu.kit.ipd.sdq.evaluation.Barcode barcode) throws IllegalCashDeskStateException, 
 				NoSuchProductException, UnhandledException, ProductOutOfStockException {
 		IContextRegistry context = getContextRegistry(cashDeskName, storeID);
 		

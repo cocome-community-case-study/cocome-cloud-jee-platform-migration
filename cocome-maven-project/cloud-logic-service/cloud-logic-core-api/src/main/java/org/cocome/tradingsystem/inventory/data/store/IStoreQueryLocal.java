@@ -105,7 +105,7 @@ public interface IStoreQueryLocal {
 	 * @return
 	 *         {@link Product} entity with the specified barcode, or {@code null} if there is no such product.
 	 */
-	public IProduct queryProductByBarcode(long barcode);
+	public IProduct queryProductByBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode);
 
 	/**
 	 * Queries the database for a {@link ProductOrder} with given identifier.

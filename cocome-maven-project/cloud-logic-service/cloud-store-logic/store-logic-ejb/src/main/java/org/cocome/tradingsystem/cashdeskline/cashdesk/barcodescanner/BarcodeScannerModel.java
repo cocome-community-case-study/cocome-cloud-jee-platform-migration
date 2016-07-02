@@ -46,7 +46,7 @@ public class BarcodeScannerModel implements IBarcodeScannerLocal {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void sendProductBarcode(final long barcode) {
+	public void sendProductBarcode(final edu.kit.ipd.sdq.evaluation.Barcode barcode) {
 		productBarcodeScannedEvent.fire(new ProductBarcodeScannedEvent(barcode));
 	}
 }

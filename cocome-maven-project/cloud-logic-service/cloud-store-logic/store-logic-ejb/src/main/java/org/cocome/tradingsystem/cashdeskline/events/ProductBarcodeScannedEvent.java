@@ -38,7 +38,7 @@ public class ProductBarcodeScannedEvent implements Serializable {
 
 	//
 
-	public ProductBarcodeScannedEvent(final long barcode) {
+	public ProductBarcodeScannedEvent(final edu.kit.ipd.sdq.evaluation.Barcode barcode) {
 		__barcode = barcode;
 	}
 

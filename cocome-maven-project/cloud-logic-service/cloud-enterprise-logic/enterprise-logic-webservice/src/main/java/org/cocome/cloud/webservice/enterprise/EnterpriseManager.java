@@ -398,7 +398,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 	
 	@Override
-	public ProductTO getProductByBarcode(long barcode) throws NotInDatabaseException {
+	public ProductTO getProductByBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode) throws NotInDatabaseException {
 		IProduct product = enterpriseQuery.queryProductByBarcode(barcode);
 		return enterpriseFactory.fillProductTO(product);
 	}
