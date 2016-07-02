@@ -84,7 +84,7 @@ class Product implements Serializable, IProduct {
 	 * @see org.cocome.tradingsystem.inventory.data.enterprise.IProduct#getBarcode()
 	 */
 	@Override
-	public long getBarcode() {
+	public edu.kit.ipd.sdq.evaluation.Barcode getBarcode() {
 		return barcode;
 	}
 

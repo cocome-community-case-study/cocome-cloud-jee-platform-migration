@@ -47,7 +47,7 @@ public interface IStoreInventoryLocal {
 	 *             given barcode in the store
 	 */
 	public ProductWithStockItemTO getProductWithStockItem(long storeID, 
-			long productBarcode
+	        edu.kit.ipd.sdq.evaluation.Barcode productBarcode
 			) throws NoSuchProductException;
 
 }

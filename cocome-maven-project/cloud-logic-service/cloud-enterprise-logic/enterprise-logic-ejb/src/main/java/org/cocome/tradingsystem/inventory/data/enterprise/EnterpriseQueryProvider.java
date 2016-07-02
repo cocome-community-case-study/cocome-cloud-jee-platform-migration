@@ -123,7 +123,7 @@ public class EnterpriseQueryProvider implements IEnterpriseQueryLocal {
 
 	@Override
 	public IProductSupplier querySupplierForProduct(long enterpriseID,
-			long productBarcode) throws NotInDatabaseException {
+	        edu.kit.ipd.sdq.evaluation.Barcode productBarcode) throws NotInDatabaseException {
 		ITradingEnterprise enterprise = queryEnterpriseById(enterpriseID);
 		
 		// Probably inefficient but not possible otherwise due to serviceadapter limitations
@@ -204,7 +204,7 @@ public class EnterpriseQueryProvider implements IEnterpriseQueryLocal {
 	}
 
 	@Override
-	public IProduct queryProductByBarcode(long productBarcode)
+	public IProduct queryProductByBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode)
 			throws NotInDatabaseException {
 		try {
 			IProduct product = csvHelper.getProducts(

@@ -459,7 +459,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 
 	@Override
-	public SupplierTO querySupplierForProduct(long enterpriseID, long productBarcode) throws NotInDatabaseException {
+	public SupplierTO querySupplierForProduct(long enterpriseID, edu.kit.ipd.sdq.evaluation.Barcode productBarcode) throws NotInDatabaseException {
 		IProductSupplier supplier = enterpriseQuery.querySupplierForProduct(enterpriseID, productBarcode);
 		return enterpriseFactory.fillSupplierTO(supplier);
 	}

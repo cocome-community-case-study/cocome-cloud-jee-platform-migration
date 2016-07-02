@@ -41,9 +41,9 @@ public interface IOrderEntry {
 	 */
 	void setProduct(IProduct product);
 
-	long getProductBarcode();
+	edu.kit.ipd.sdq.evaluation.Barcode getProductBarcode();
 
-	void setProductBarcode(long productBarcode);
+	void setProductBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode);
 
 	String toString();
 

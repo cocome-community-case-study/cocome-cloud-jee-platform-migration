@@ -233,7 +233,7 @@ public class StoreManager implements IStoreManager {
 	 * @see org.cocome.cloud.webservice.store.IStoreManager#getProductWithStockItem(long, long)
 	 */
 	@Override
-	public ProductWithStockItemTO getProductWithStockItem(long storeID, long productBarcode) 
+	public ProductWithStockItemTO getProductWithStockItem(long storeID, edu.kit.ipd.sdq.evaluation.Barcode productBarcode) 
 			throws NoSuchProductException, NotInDatabaseException {
 		setContextRegistry(storeID);
 		return storeInventory.getProductWithStockItem(storeID, productBarcode);

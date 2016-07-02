@@ -22,7 +22,7 @@ public interface IProduct {
 	/**
 	 * @return The barcode of the product
 	 */
-	long getBarcode();
+	edu.kit.ipd.sdq.evaluation.Barcode getBarcode();
 
 	/**
 	 * @param barcode

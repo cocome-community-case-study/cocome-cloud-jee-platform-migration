@@ -181,7 +181,7 @@ public interface IStoreQueryLocal {
 	 * @throws NotInDatabaseException 
 	 * 			if no order with the given information can be found
 	 */
-	public IProductOrder queryProductOrder(long storeId, long productBarcode, long amount)  
+	public IProductOrder queryProductOrder(long storeId, edu.kit.ipd.sdq.evaluation.Barcode productBarcode, long amount)  
 			throws NotInDatabaseException ;
 
 	/**
@@ -219,7 +219,7 @@ public interface IStoreQueryLocal {
 	 *         barcode, or {@code null} if the stock item could not be found.
 	 */
 	public IStockItem queryStockItem(
-			long storeId, long productBarcode
+			long storeId, edu.kit.ipd.sdq.evaluation.Barcode productBarcode
 			);
 
 	/**

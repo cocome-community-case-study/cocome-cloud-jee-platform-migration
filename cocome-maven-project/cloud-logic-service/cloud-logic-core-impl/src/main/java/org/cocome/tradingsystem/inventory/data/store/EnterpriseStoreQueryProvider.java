@@ -157,7 +157,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQueryLocal {
 	}
 
 	@Override
-	public IStockItem queryStockItem(long storeId, long productBarcode) {
+	public IStockItem queryStockItem(long storeId, edu.kit.ipd.sdq.evaluation.Barcode productBarcode) {
 		IStockItem item = null;
 		try {
 			item = csvHelper.getStockItems(
@@ -183,7 +183,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQueryLocal {
 
 	@Override
 	public IProductOrder queryProductOrder(long storeId,
-			long productBarcode, long amount) throws NotInDatabaseException {
+	        edu.kit.ipd.sdq.evaluation.Barcode productBarcode, long amount) throws NotInDatabaseException {
 		Collection<IProductOrder> productOrders = csvHelper.getProductOrders(
 				backendConnection.getProductOrder("amount==" + amount
 						+ "store.id==" + storeId 

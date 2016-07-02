@@ -110,7 +110,7 @@ public class CSVHelper implements IBackendConversionHelper {
 		
 		result.setStoreName(row.getColumns().get(1).getValue());
 		result.setStoreLocation(row.getColumns().get(2).getValue());
-		result.setProductBarcode(Long.parseLong(row.getColumns().get(3).getValue()));
+		result.setProductBarcode(edu.kit.ipd.sdq.evaluation.Barcode.parseInput(row.getColumns().get(3).getValue()));
 		result.setId(Long.parseLong(row.getColumns().get(4).getValue()));
 		result.setMinStock(Long.parseLong(row.getColumns().get(5).getValue()));
 		result.setMaxStock(Long.parseLong(row.getColumns().get(6).getValue()));
@@ -124,7 +124,7 @@ public class CSVHelper implements IBackendConversionHelper {
 	private IProduct getProductFromRow(Row<String> row) {
 		IProduct result = enterpriseFactory.getNewProduct();
 		
-		result.setBarcode(Long.parseLong(row.getColumns().get(0).getValue()));
+		result.setBarcode(edu.kit.ipd.sdq.evaluation.Barcode.parseInput(row.getColumns().get(0).getValue()));
 		result.setName(row.getColumns().get(1).getValue());
 		result.setPurchasePrice(Double.parseDouble(row.getColumns().get(2).getValue()));
 		
@@ -156,7 +156,7 @@ public class CSVHelper implements IBackendConversionHelper {
 		IOrderEntry result = storeFactory.getNewOrderEntry();
 		
 		result.setAmount(Long.parseLong(row.getColumns().get(7).getValue()));
-		result.setProductBarcode(Long.parseLong(row.getColumns().get(4).getValue()));
+		result.setProductBarcode(edu.kit.ipd.sdq.evaluation.Barcode.parseInput(row.getColumns().get(4).getValue()));
 		
 		return result;
 	}

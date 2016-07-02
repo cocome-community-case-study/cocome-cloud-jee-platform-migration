@@ -9,7 +9,7 @@ import org.cocome.tradingsystem.inventory.application.store.ComplexOrderEntryTO;
 
 
 public class OrderItemList {
-	private HashMap<Long, ComplexOrderEntryTO> orderItems = new HashMap<Long, ComplexOrderEntryTO>();
+	private HashMap<edu.kit.ipd.sdq.evaluation.Barcode, ComplexOrderEntryTO> orderItems = new HashMap<edu.kit.ipd.sdq.evaluation.Barcode, ComplexOrderEntryTO>();
 	
 	public List<ComplexOrderEntryTO> getOrderItems() {
 		return new ArrayList<ComplexOrderEntryTO>(orderItems.values());
@@ -22,11 +22,11 @@ public class OrderItemList {
 		}
 	}
 	
-	public ComplexOrderEntryTO getOrderByBarcode(long productBarcode) {
+	public ComplexOrderEntryTO getOrderByBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode) {
 		return orderItems.get(productBarcode);
 	}
 	
-	public void setOrderWithBarcode(long productBarcode, ComplexOrderEntryTO order) {
+	public void setOrderWithBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode, ComplexOrderEntryTO order) {
 		orderItems.put(productBarcode, order);
 	}
 	

@@ -110,7 +110,7 @@ public interface IStoreManager {
 	@WebMethod
 	public ProductWithStockItemTO getProductWithStockItem(
 			@XmlElement(required = true) @WebParam(name = "storeID") long storeID,
-			@XmlElement(required = true) @WebParam(name = "productBarcode") long productBarcode) 
+			@XmlElement(required = true) @WebParam(name = "productBarcode") edu.kit.ipd.sdq.evaluation.Barcode productBarcode) 
 					throws NoSuchProductException, NotInDatabaseException;
 
 }

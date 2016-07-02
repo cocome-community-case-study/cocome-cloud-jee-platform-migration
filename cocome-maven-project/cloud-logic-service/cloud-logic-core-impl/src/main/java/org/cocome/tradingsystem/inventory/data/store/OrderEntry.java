@@ -40,7 +40,7 @@ class OrderEntry implements Serializable, IOrderEntry {
 
 	private long amount;
 	
-	private long productBarcode;
+	private edu.kit.ipd.sdq.evaluation.Barcode productBarcode;
 
 	private IProduct product;
 
@@ -132,15 +132,15 @@ class OrderEntry implements Serializable, IOrderEntry {
 	 * @see org.cocome.tradingsystem.inventory.data.store.IOrderEntry#getProductBarcode()
 	 */
 	@Override
-	public long getProductBarcode() {
-		return (productBarcode == 0 && product != null) ? product.getBarcode() : productBarcode;
+	public edu.kit.ipd.sdq.evaluation.Barcode getProductBarcode() {
+		return (productBarcode == null && product != null) ? product.getBarcode() : productBarcode;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.cocome.tradingsystem.inventory.data.store.IOrderEntry#setProductBarcode(long)
 	 */
 	@Override
-	public void setProductBarcode(long productBarcode) {
+	public void setProductBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode) {
 		this.productBarcode = productBarcode;
 	}
 	

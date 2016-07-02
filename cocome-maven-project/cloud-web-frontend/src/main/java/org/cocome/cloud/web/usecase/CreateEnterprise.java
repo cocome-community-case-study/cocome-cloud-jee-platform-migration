@@ -685,7 +685,7 @@ public class CreateEnterprise implements ActionListener, IUseCase {
 		
 		ProductTO product = new ProductTO();
 		try {
-			product.setBarcode(Long.parseLong(productBarcode));
+			product.setBarcode(edu.kit.ipd.sdq.evaluation.Barcode.parseInput(productBarcode));
 			product.setName(productName);
 			product.setPurchasePrice(Double.parseDouble(purchasePrice));
 		} catch (NumberFormatException e) {

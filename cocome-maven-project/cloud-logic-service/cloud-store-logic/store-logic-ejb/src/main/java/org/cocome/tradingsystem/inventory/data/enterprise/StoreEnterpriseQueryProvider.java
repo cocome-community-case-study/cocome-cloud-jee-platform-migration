@@ -200,7 +200,7 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQueryLocal {
 	}
 
 	@Override
-	public IProduct queryProductByBarcode(long productBarcode) throws NotInDatabaseException {
+	public IProduct queryProductByBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode) throws NotInDatabaseException {
 		IEnterpriseManager enterpriseManager;
 		enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
 		try {
@@ -242,7 +242,7 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQueryLocal {
 	}
 
 	@Override
-	public IProductSupplier querySupplierForProduct(long enterpriseID, long productBarcode)
+	public IProductSupplier querySupplierForProduct(long enterpriseID, edu.kit.ipd.sdq.evaluation.Barcode productBarcode)
 			throws NotInDatabaseException {
 		IEnterpriseManager enterpriseManager;
 		enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);

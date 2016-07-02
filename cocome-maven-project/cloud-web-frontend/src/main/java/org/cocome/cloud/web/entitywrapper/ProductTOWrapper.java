@@ -25,7 +25,7 @@ public class ProductTOWrapper {
 		productTO.setName(name);
 	}
 	
-	public long getBarcode() {
+	public edu.kit.ipd.sdq.evaluation.Barcode getBarcode() {
 		return productTO.getBarcode();
 	}
 	

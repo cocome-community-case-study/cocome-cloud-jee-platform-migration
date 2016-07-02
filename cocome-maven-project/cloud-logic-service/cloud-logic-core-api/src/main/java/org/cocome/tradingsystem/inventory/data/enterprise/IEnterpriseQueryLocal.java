@@ -150,7 +150,7 @@ public interface IEnterpriseQueryLocal {
 	 * @throws NotInDatabaseException
 	 * 			if the product with the given barcode could not be found
 	 */
-	public IProduct queryProductByBarcode(long productBarcode) throws NotInDatabaseException; 
+	public IProduct queryProductByBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode) throws NotInDatabaseException; 
 	
 	/**
 	 * Retrieves the suppliers registered in this enterprise.
@@ -188,7 +188,7 @@ public interface IEnterpriseQueryLocal {
 	 * 			the first supplier found and null if none is found
 	 * @throws NotInDatabaseException 
 	 */
-	public IProductSupplier querySupplierForProduct(long enterpriseID, long productBarcode) throws NotInDatabaseException;
+	public IProductSupplier querySupplierForProduct(long enterpriseID, edu.kit.ipd.sdq.evaluation.Barcode productBarcode) throws NotInDatabaseException;
 	
 	/**
 	 * Retrieves the products registered in this enterprise for the given product supplier.

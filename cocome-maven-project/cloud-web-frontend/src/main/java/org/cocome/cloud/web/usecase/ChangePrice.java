@@ -39,7 +39,7 @@ public class ChangePrice implements ActionListener, IUseCase {
 	private String storeId;
 	private String storeName;
 	private String storeLocation;
-	private HashMap<Long, ProductWSSTOWrapper> stockItems;
+	private HashMap<edu.kit.ipd.sdq.evaluation.Barcode, ProductWSSTOWrapper> stockItems;
 	private String message;
 	private boolean showMessage = false;
 	private boolean showChangePrice = false;
@@ -122,7 +122,7 @@ public class ChangePrice implements ActionListener, IUseCase {
 	@Override
 	public String invoke() {
 		this.showChangePrice = true;
-		stockItems = new HashMap<Long, ProductWSSTOWrapper>();
+		stockItems = new HashMap<edu.kit.ipd.sdq.evaluation.Barcode, ProductWSSTOWrapper>();
 		try {
 			List<ProductWithSupplierAndStockItemTO> items = storeManager.getProductsWithStockItems(Integer.parseInt(storeId));
 			for (ProductWithSupplierAndStockItemTO item : items) {
@@ -204,7 +204,7 @@ public class ChangePrice implements ActionListener, IUseCase {
 		storeId = "";
 		storeName = "";
 		storeLocation = "";
-		stockItems = new HashMap<Long, ProductWSSTOWrapper>();
+		stockItems = new HashMap<edu.kit.ipd.sdq.evaluation.Barcode, ProductWSSTOWrapper>();
 		message = "";
 		showMessage = false;
 		showChangePrice = false;

@@ -111,9 +111,9 @@ public interface IStockItem {
 
 	void setStoreName(String storeName);
 
-	long getProductBarcode();
+	edu.kit.ipd.sdq.evaluation.Barcode getProductBarcode();
 
-	void setProductBarcode(long productBarcode);
+	void setProductBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode);
 
 	String getStoreLocation();
 

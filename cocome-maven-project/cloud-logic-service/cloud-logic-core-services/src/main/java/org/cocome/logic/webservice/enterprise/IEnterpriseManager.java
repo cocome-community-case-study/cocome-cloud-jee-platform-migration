@@ -188,7 +188,7 @@ public interface IEnterpriseManager {
 	@WebMethod
 	public SupplierTO querySupplierForProduct(
 			@XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseID, 
-			@XmlElement(required = true) @WebParam(name = "productBarcode")long productBarcode) throws NotInDatabaseException;
+			@XmlElement(required = true) @WebParam(name = "productBarcode")edu.kit.ipd.sdq.evaluation.Barcode productBarcode) throws NotInDatabaseException;
 	
 	/**
 	 * Retrieves the product with the given barcode if it is stored in the database.

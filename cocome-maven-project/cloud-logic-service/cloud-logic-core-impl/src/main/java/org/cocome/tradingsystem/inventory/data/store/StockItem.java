@@ -53,7 +53,7 @@ class StockItem implements Serializable, IStockItem {
 	
 	private String storeLocation;
 	
-	private long productBarcode;
+	private edu.kit.ipd.sdq.evaluation.Barcode productBarcode;
 
 	private IStore store;
 
@@ -224,7 +224,7 @@ class StockItem implements Serializable, IStockItem {
 	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#getProductBarcode()
 	 */
 	@Override
-	public long getProductBarcode() {
+	public edu.kit.ipd.sdq.evaluation.Barcode getProductBarcode() {
 		return productBarcode;
 	}
 
@@ -232,7 +232,7 @@ class StockItem implements Serializable, IStockItem {
 	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#setProductBarcode(long)
 	 */
 	@Override
-	public void setProductBarcode(long productBarcode) {
+	public void setProductBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode) {
 		this.productBarcode = productBarcode;
 	}
 
