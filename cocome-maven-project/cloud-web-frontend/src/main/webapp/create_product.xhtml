@@ -16,24 +16,30 @@
 					<tr>
 						<td><h:outputText
 								value="#{strings['product.create.name.text']}" /></td>
-						<td><h:inputText value="" binding="#{name}" /></td>
+						<td colspan="2"><h:inputText value="#{name}" required="true"/></td>
 					</tr>
 					<tr>
 						<td><h:outputText
 								value="#{strings['product.create.barcode.text']}" /></td>
-						<td><h:inputText value="" binding="#{barcode}" /></td>
+						<td colspan="2">
+							<h:inputText value="#{barcode}" required="true">
+								<f:converter converterId="javax.faces.Long"/>
+							</h:inputText>
+						</td>
 					</tr>
 					<tr>
 						<td><h:outputText
 								value="#{strings['product.create.purchase_price.text']}" /></td>
-						<td><h:inputText value="" binding="#{purchasePrice}" /></td>
+						<td>
+							<h:inputText value="#{purchasePrice}" required="true">
+								<f:converter converterId="javax.faces.Double"/>
+							</h:inputText>
+						</td>
+						<td><h:commandButton
+					action="#{enterprisePersistence.createProduct(name, barcode, purchasePrice)}"
+					value="#{strings['product.create.button.label']}" /></td>
 					</tr>
 				</table>
-				<br />
-				<h:commandButton
-					action="#{enterprisePersistence.createProduct(name, barcode, purchasePrice)}"
-					value="#{strings['product.create.button.label']}" />
-
 			</h:form>
 		</ui:define>
 	</ui:composition>

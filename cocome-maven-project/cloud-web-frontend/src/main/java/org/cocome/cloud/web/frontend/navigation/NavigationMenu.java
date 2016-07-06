@@ -85,8 +85,9 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		List<INavigationElement> enterpriseViewList = new LinkedList<>();
 		enterpriseViewList.add(new NavigationElement(NavigationElements.SHOW_ENTERPRISES, labelResolver));
 		enterpriseViewList.add(new NavigationElement(NavigationElements.CREATE_ENTERPRISE, labelResolver));
-		enterpriseViewList.add(new NavigationElement(NavigationElements.CREATE_PRODUCT, labelResolver));
 		enterpriseViewList.add(new NavigationElement(NavigationElements.SHOW_PRODUCTS, labelResolver));
+		enterpriseViewList.add(new NavigationElement(NavigationElements.CREATE_PRODUCT, labelResolver));
+		
 		return enterpriseViewList;
 	}
 	
@@ -107,7 +108,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	}
 
 	@Override
-	public void changeStateTo(@NotNull NavigationViewStates newState) {
+	public String changeStateTo(@NotNull NavigationViewStates newState) {
 		navigationState = newState;
 		elements = new LinkedList<>(STATE_MAP.get(navigationState));
 		
@@ -116,15 +117,26 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 		if (currentUser == null) {
 			navigationState = NavigationViewStates.DEFAULT_VIEW;
 			elements = STATE_MAP.get(NavigationViewStates.DEFAULT_VIEW);
-			return;
+			return NavigationElements.LOGIN.getNavigationOutcome();
 		}
 		
 		while (iterator.hasNext()) {
 			INavigationElement element = iterator.next();
 			if (element.getRequiredPermission() != null &&
-					!currentUser.hasPermission(element.getRequiredPermission())) {
+					!currentUser.hasPermissionString(element.getRequiredPermission())) {
 				iterator.remove();
 			}
+		}
+		
+		switch (newState) {
+			case CASHPAD_VIEW:
+				return NavigationElements.START_SALE.getNavigationOutcome();
+			case STORE_VIEW:
+				return NavigationElements.MAIN_PAGE.getNavigationOutcome();
+			case ENTERPRISE_VIEW:
+				return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
+			default:
+				return NavigationElements.LOGIN.getNavigationOutcome();
 		}
 	}
 

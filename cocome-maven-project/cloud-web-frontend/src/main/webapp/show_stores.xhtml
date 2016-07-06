@@ -16,6 +16,8 @@
 				converterMessage="#{strings['enterprise.conversion.error.text']}"
 				requiredMessage="#{strings['enterprise.required.text']}" />
 		</f:metadata>
+		
+		<f:ajax render="storeEnterpriseInfo"/>
 
 		<ui:define name="body">
 			<h:form>
@@ -23,11 +25,7 @@
 				styleClass="product-table" headerClass="product-table-header"
 				rowClasses="product-table-odd-row,product-table-even-row"
 				columnClasses="product-table-text-col, product-table-text-col, 
-    				 product-table-text-col, product-table-text-col, product-table-number-col">
-				<h:column>
-					<f:facet name="header">#{strings['enterprise.table.header_name']}</f:facet>
-					#{enterpriseInformation.activeEnterprise.name}
-				</h:column>
+					product-table-text-col, product-table-number-col">
 				<h:column>
 					<f:facet name="header">#{strings['store.table.header_id']}</f:facet>
 					#{store.ID}

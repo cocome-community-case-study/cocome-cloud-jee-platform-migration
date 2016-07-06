@@ -28,7 +28,7 @@ public interface INavigationMenu {
 	 * 
 	 * @param newState - the new state to set
 	 */
-	void changeStateTo(@NotNull NavigationViewStates newState);
+	String changeStateTo(@NotNull NavigationViewStates newState);
 	
 	/**
 	 * Returns the current state of this navigation menu.

@@ -62,7 +62,7 @@ public class DummyUser implements IUser {
 	}
 
 	@Override
-	public boolean hasPermission(String permission) {
+	public boolean hasPermissionString(String permission) {
 		IPermission checkPermission = new DummyPermission(permission);
 		return hasPermission(checkPermission);
 	}

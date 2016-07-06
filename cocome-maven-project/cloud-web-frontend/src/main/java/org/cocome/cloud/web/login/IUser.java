@@ -9,9 +9,9 @@ public interface IUser {
 	
 	public boolean checkCredentials(ICredential credentials);
 	
-	public boolean hasPermission(IPermission permission);
+	public boolean hasPermissionString(String permission);
 	
-	public boolean hasPermission(String permission);
+	public boolean hasPermission(IPermission permission);
 	
 	public void addPermission(IPermission permission);
 }
