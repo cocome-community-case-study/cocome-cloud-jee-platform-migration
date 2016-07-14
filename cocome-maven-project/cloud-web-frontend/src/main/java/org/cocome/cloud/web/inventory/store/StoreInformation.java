@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.events.ChangeViewEvent;
 import org.cocome.cloud.web.events.LoginEvent;
+import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
 import org.cocome.cloud.web.inventory.connection.IEnterpriseQuery;
 
@@ -68,7 +69,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 		LOG.debug("Submit store was called");
 		if (isStoreSet()) {
 			hasChanged = true;
-			return "main";
+			return NavigationElements.STORE_MAIN.getNavigationOutcome();
 		} else {
 			return "error";
 		}
@@ -88,6 +89,6 @@ public class StoreInformation implements IStoreInformation, Serializable {
 		setActiveStoreID(store.getID());
 		activeStore = store;
 		changeViewEvent.fire(new ChangeViewEvent(NavigationViewStates.STORE_VIEW));
-		return destination != null ? destination : "main";
+		return destination != null ? destination : NavigationElements.STORE_MAIN.getNavigationOutcome();
 	}
 }

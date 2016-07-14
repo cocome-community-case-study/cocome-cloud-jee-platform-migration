@@ -67,7 +67,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
 	private List<INavigationElement> populateCashpadView() {
 		List<INavigationElement> cashpadViewList = new LinkedList<>();
-		cashpadViewList.add(new NavigationElement(NavigationElements.MAIN_PAGE, labelResolver));
+		cashpadViewList.add(new NavigationElement(NavigationElements.ENTERPRISE_MAIN, labelResolver));
 		return cashpadViewList;
 	}
 
@@ -132,7 +132,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 			case CASHPAD_VIEW:
 				return NavigationElements.START_SALE.getNavigationOutcome();
 			case STORE_VIEW:
-				return NavigationElements.MAIN_PAGE.getNavigationOutcome();
+				return NavigationElements.STORE_MAIN.getNavigationOutcome();
 			case ENTERPRISE_VIEW:
 				return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
 			default:

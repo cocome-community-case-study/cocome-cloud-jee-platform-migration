@@ -65,7 +65,7 @@ public class Login {
 			user = storedUser;
 			loginEvent.fire(new LoginEvent(storedUser, requestedRole, requestedStoreId));
 			LOG.info(String.format("Successful login: username %s.", getUserName()));
-			return NavigationElements.MAIN_PAGE.getNavigationOutcome();
+			return NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome();
 		}
 		
 		FacesContext context = FacesContext.getCurrentInstance();
