@@ -1,7 +1,11 @@
 package org.cocome.cloud.web.inventory.store;
 
+import javax.validation.constraints.NotNull;
+
 public interface IStorePersistence {
-	public String updateStore(Store store);
+	public String updateStore(@NotNull Store store);
 	
-	public String createStore(long enterpriseID, String name, String location);
+	public String createStore(long enterpriseID, @NotNull String name, @NotNull String location);
+	
+	public String updateStockItemSalesPrice(@NotNull ProductWrapper stockItem, double newPrice);
 }

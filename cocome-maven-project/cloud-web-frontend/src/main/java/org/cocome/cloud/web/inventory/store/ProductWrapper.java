@@ -21,6 +21,10 @@ public class ProductWrapper {
 	
 	private Store originStore;
 	
+	private boolean editingEnabled = false;
+	
+	private double newSalesPrice;
+	
 	public ProductWrapper(ProductTO product) {
 		this.product = product;
 	}
@@ -29,6 +33,7 @@ public class ProductWrapper {
 		this(product);
 		this.stockItem = stockItem;
 		this.originStore = originStore;
+		this.newSalesPrice = stockItem.getSalesPrice();
 	}
 	
 	public void setStockItem(StockItemTO stockItem) {
@@ -76,5 +81,30 @@ public class ProductWrapper {
 	public StockItemTO getStockItemTO() {
 		return stockItem;
 	}
+
+	public boolean isEditingEnabled() {
+		return editingEnabled;
+	}
+
+	public void setEditingEnabled(boolean editingEnabled) {
+		LOG.debug(String.format("Editing enabled set to %b for item %s.", editingEnabled, product.getName()));
+		this.editingEnabled = editingEnabled;
+	}
 	
+	public void resetEditSalesPrice() {
+		newSalesPrice = stockItem.getSalesPrice();
+		setEditingEnabled(false);
+	}
+	
+	public void setNewSalesPrice(double newPrice) {
+		newSalesPrice = newPrice;
+	}
+	
+	public double getNewSalesPrice() {
+		return newSalesPrice;
+	}
+	
+	public void submitSalesPrice() {
+		
+	}
 }

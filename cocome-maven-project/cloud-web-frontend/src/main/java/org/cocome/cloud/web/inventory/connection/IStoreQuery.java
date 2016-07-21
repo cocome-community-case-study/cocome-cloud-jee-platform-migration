@@ -2,6 +2,8 @@ package org.cocome.cloud.web.inventory.connection;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.inventory.store.ProductWrapper;
 import org.cocome.cloud.web.inventory.store.Store;
@@ -13,9 +15,11 @@ import org.cocome.cloud.web.inventory.store.Store;
  * @author Robert Heinrich
  */
 public interface IStoreQuery {
-	public List<ProductWrapper> queryStockItems(Store store) throws NotInDatabaseException_Exception;
+	public List<ProductWrapper> queryStockItems(@NotNull Store store) throws NotInDatabaseException_Exception;
 	
-	public ProductWrapper getStockItemByProductID(Store store, long productID);
+	public ProductWrapper getStockItemByProductID(@NotNull Store store, long productID);
 	
-	public ProductWrapper getStockItemByBarcode(Store store, long barcode);
+	public ProductWrapper getStockItemByBarcode(@NotNull Store store, long barcode);
+	
+	public boolean updateStockItem(@NotNull Store store, @NotNull ProductWrapper stockItem);
 }

@@ -35,33 +35,31 @@ import org.cocome.tradingsystem.inventory.application.store.SaleTO;
 @RequestScoped
 public class StoreQuery implements IStoreQuery {
 	private static final Logger LOG = Logger.getLogger(StoreQuery.class);
-	
+
 	IStoreManager storeManager;
-	
+
 	@Inject
 	long defaultStoreIndex;
-	
+
 	@Inject
 	IApplicationHelper applicationHelper;
-	
+
 	private IStoreManager lookupStoreManager(long storeID) throws NotInDatabaseException_Exception {
 		try {
-			return applicationHelper.getComponent(
-					Names.getStoreManagerRegistryName(storeID), 
-					IStoreManagerService.SERVICE, 
-					IStoreManagerService.class).getIStoreManagerPort();
+			return applicationHelper.getComponent(Names.getStoreManagerRegistryName(storeID),
+					IStoreManagerService.SERVICE, IStoreManagerService.class).getIStoreManagerPort();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| MalformedURLException | NoSuchMethodException | SecurityException | NotBoundException_Exception e) {
 			if (storeID == defaultStoreIndex) {
-			LOG.error("Got exception while retrieving store manager location: " + e.getMessage());
-			e.printStackTrace();
-			throw new NotInDatabaseException_Exception(e.getMessage());
+				LOG.error("Got exception while retrieving store manager location: " + e.getMessage());
+				e.printStackTrace();
+				throw new NotInDatabaseException_Exception(e.getMessage());
 			} else {
 				return lookupStoreManager(defaultStoreIndex);
 			}
 		}
 	}
-	
+
 	@Override
 	public List<ProductWrapper> queryStockItems(Store store) throws NotInDatabaseException_Exception {
 		long storeID = store.getID();
@@ -84,5 +82,18 @@ public class StoreQuery implements IStoreQuery {
 	@Override
 	public ProductWrapper getStockItemByBarcode(Store store, long barcode) {
 		return null;
+	}
+
+	@Override
+	public boolean updateStockItem(Store store, ProductWrapper stockItem) {
+		long storeID = store.getID();
+		try {
+			storeManager = lookupStoreManager(storeID);
+			storeManager.updateStockItem(storeID, stockItem.getStockItemTO());
+			return true;
+		} catch (NotInDatabaseException_Exception | UpdateException_Exception e) {
+			LOG.error(String.format("Error while updating stock item: %s\n%s", e.getMessage(), e.getStackTrace()));
+		}
+		return false;
 	}
 }

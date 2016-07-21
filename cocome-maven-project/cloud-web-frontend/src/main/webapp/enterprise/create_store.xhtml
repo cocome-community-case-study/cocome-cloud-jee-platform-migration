@@ -1,36 +1,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:components="http://java.sun.com/jsf/composite/components">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:components="http://java.sun.com/jsf/composite/components">
 
 
 <h:body>
 
 	<ui:composition template="/templates/commonTemplate.xhtml">
-	
+		<f:metadata>
+			<f:viewParam name="enterprise_id"
+				value="#{enterpriseInformation.activeEnterprise}" required="true"
+				converter="#{enterpriseConverter}"
+				converterMessage="#{strings['enterprise.conversion.error.text']}"
+				requiredMessage="#{strings['enterprise.required.text']}" />
+		</f:metadata>
 		<ui:define name="body">
-			<h:dataTable value="#{enterpriseQuery.enterprises}" var="enterprise" 
-				styleClass="product-table"
-				headerClass="product-table-header"
-    			rowClasses="product-table-odd-row,product-table-even-row"
-    			columnClasses="product-table-text-col, product-table-text-col, 
-    				product-table-number-col, product-table-number-col, product-table-number-col">
-				<h:column>
-					<f:facet name="header">#{strings['enterprise.table.header_id']}</f:facet>
-					#{enterprise.id}
-				</h:column>
-				<h:column>
-					<f:facet name="header">#{strings['enterprise.table.header_name']}</f:facet>
-					#{enterprise.name}
-				</h:column>
-				<h:column>
-					<f:facet name="header">#{strings['enterprise.table.header_action']}</f:facet>
-					<h:link outcome="show_stores" styleClass="button show-stores-button" title="#{strings['enterprise.table.action.show_stores']}" />
-					<h:link outcome="create_store" styleClass="button create-store-button" title="#{strings['enterprise.table.action.create_store']}" />
-				</h:column>
-			</h:dataTable>
+			<h:form>
+				<table>
+					<tr>
+						<td><h:outputText
+								value="#{strings['store.create.name.text']}" /></td>
+						<td colspan="2"><h:inputText value="#{name}" required="true" /></td>
+					</tr>
+					<tr>
+						<td><h:outputText value="#{strings['store.create.location.text']}" /></td>
+						<td colspan="2"><h:inputText value="#{location}"
+								required="true" /></td>
+						<td><h:commandButton
+								action="#{storePersistence.createStore(enterpriseInformation.activeEnterpriseID, name, location)}"
+								value="#{strings['store.create.button.label']}" /></td>
+					</tr>
+				</table>
+			</h:form>
 		</ui:define>
 	</ui:composition>
 </h:body>

@@ -11,7 +11,7 @@
 	<ui:composition template="/templates/commonTemplate.xhtml">
 	
 		<ui:define name="body">
-			Welcome to the Store!
+			Welcome to the #{storeInformation.activeStore.name} Store at #{storeInformation.activeStore.location}!
 		</ui:define>
 	</ui:composition>
 </h:body>

@@ -1,6 +1,7 @@
 package org.cocome.cloud.web.inventory.store;
 
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
+import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 
 /**
  * Holds informtaion about a Store.
@@ -89,5 +90,19 @@ public class Store {
 	public void updateStoreInformation() {
 		name = newName;
 		location = newLocation;
+	}
+	
+	public static StoreWithEnterpriseTO createStoreTO(Store store) {
+		StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
+		storeTO.setEnterpriseTO(store.getEnterprise());
+		storeTO.setId(store.getID());
+		storeTO.setLocation(store.getLocation());
+		storeTO.setName(store.getName());
+		return storeTO;
+	}
+
+	public static Store fromStoreTO(StoreWithEnterpriseTO storeTO) {
+		return new Store(storeTO.getId(), storeTO.getEnterpriseTO(),
+				storeTO.getLocation(), storeTO.getName());
 	}
 }

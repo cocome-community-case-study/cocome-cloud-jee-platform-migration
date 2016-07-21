@@ -6,7 +6,7 @@ public enum NavigationElements {
 	STORE_MAIN("/store/main", null),
 	START_SALE("/store/start_sale", "cashier"),
 	ORDER_PRODUCTS("/store/order_products", "stock manager"),
-	SHOW_REPORTS("/store/show_reports", "stock manager"),
+	SHOW_STOCK("/store/show_stock", "stock manager"),
 	CHANGE_PRICE("/store/change_price", "store manager"),
 	RECEIVE_PRODUCTS("/store/receive_products", "stock manager"),
 	SHOW_ENTERPRISES("/enterprise/show_enterprises", "enterprise manager"),

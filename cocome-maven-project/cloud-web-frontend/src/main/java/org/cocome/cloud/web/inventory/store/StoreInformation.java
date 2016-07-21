@@ -1,10 +1,15 @@
 package org.cocome.cloud.web.inventory.store;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
@@ -16,6 +21,7 @@ import org.cocome.cloud.web.events.LoginEvent;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
 import org.cocome.cloud.web.inventory.connection.IEnterpriseQuery;
+import org.cocome.cloud.web.inventory.connection.IStoreQuery;
 
 /**
  * Holds information about the currently active store.
@@ -38,14 +44,23 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	IEnterpriseQuery enterpriseQuery;
 	
 	@Inject
+	IStoreQuery storeQuery;
+	
+	@Inject
 	Event<ChangeViewEvent> changeViewEvent;
 	
 	
 	@Override
-	public Store getActiveStore() throws NotInDatabaseException_Exception {
+	public Store getActiveStore() {
 		LOG.debug("Active store is being retrieved from the database");
 		if ((activeStore == null || hasChanged == true) && activeStoreID != STORE_ID_NOT_SET) {
-			activeStore = enterpriseQuery.getStoreByID(activeStoreID);
+			try {
+				activeStore = enterpriseQuery.getStoreByID(activeStoreID);
+			} catch (NotInDatabaseException_Exception e) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the store!", null));
+				return null;
+			}
 		} else {
 			hasChanged = false;
 		}
@@ -90,5 +105,30 @@ public class StoreInformation implements IStoreInformation, Serializable {
 		activeStore = store;
 		changeViewEvent.fire(new ChangeViewEvent(NavigationViewStates.STORE_VIEW));
 		return destination != null ? destination : NavigationElements.STORE_MAIN.getNavigationOutcome();
+	}
+
+	@Override
+	public List<ProductWrapper> getAllStockItems() {
+		if (isStoreSet()) {
+			try {
+				Store activeStore = getActiveStore();
+				if (activeStore != null) {
+					return storeQuery.queryStockItems(activeStore);
+				}
+			} catch (NotInDatabaseException_Exception e) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the stock items!", null));
+			}
+		}
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<ProductWrapper> getStockReport(long storeID) {
+		long currentStoreID = getActiveStoreID();
+		setActiveStoreID(storeID);
+		List<ProductWrapper> stockItems = getAllStockItems();
+		setActiveStoreID(currentStoreID);
+		return stockItems;
 	}
 }

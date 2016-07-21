@@ -41,4 +41,6 @@ public interface IEnterpriseQuery {
 	public boolean createEnterprise(@NotNull String name);
 	
 	public boolean createProduct(@NotNull String name, long barcode, double purchasePrice);
+	
+	public boolean createStore(long enterpriseID, @NotNull String name, @NotNull String location);
 }

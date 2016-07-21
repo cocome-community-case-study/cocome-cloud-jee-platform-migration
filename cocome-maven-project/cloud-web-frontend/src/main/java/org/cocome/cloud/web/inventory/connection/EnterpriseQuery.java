@@ -206,4 +206,22 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	
 		return true;
 	}
+
+	@Override
+	public boolean createStore(long enterpriseID, String name, String location) {
+		StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
+		storeTO.setEnterpriseTO(Enterprise.createEnterpriseTO(enterprises.get(enterpriseID)));
+		storeTO.setLocation(location);
+		storeTO.setName(name);
+		
+		try {
+			enterpriseManager.createStore(storeTO);
+		} catch (CreateException_Exception e) {
+			LOG.error(String.format("Exception while creating store: %s\n%s", 
+					e.getMessage(), e.getStackTrace()));
+			return false;
+		}
+	
+		return true;
+	}
 }

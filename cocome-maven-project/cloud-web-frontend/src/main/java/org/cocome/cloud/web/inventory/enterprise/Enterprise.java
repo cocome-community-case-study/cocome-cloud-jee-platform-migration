@@ -1,5 +1,9 @@
 package org.cocome.cloud.web.inventory.enterprise;
 
+import javax.validation.constraints.NotNull;
+
+import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
+
 /**
  * Holds information on an enterprise.
  * 
@@ -33,5 +37,26 @@ public class Enterprise {
 		this.name = name;
 	}
 	
-
+	/**
+	 * Creates a new EnterpriseTO object from an existing Enterprise object.
+	 * 
+	 * @param enterprise
+	 * @return
+	 */
+	public static EnterpriseTO createEnterpriseTO(@NotNull Enterprise enterprise) {
+		EnterpriseTO enterpriseTO = new EnterpriseTO();
+		enterpriseTO.setId(enterprise.getId());
+		enterpriseTO.setName(enterprise.getName());
+		return enterpriseTO;
+	}
+	
+	/**
+	 * Creates a new Enterprise object from an existing EnterpriseTO object.
+	 * 
+	 * @param enterpriseTO
+	 * @return
+	 */
+	public static Enterprise fromEnterpriseTO(@NotNull EnterpriseTO enterpriseTO) {
+		return new Enterprise(enterpriseTO.getId(), enterpriseTO.getName());
+	}
 }

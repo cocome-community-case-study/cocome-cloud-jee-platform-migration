@@ -1,5 +1,7 @@
 package org.cocome.cloud.web.inventory.store;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
@@ -15,10 +17,14 @@ public interface IStoreInformation {
 	
 	public void setActiveStoreID(long storeID);
 	public long getActiveStoreID();
-	public Store getActiveStore() throws NotInDatabaseException_Exception;
+	public Store getActiveStore();
 	public String submitStore();
 	
 	public boolean isStoreSet();
+	
+	public List<ProductWrapper> getAllStockItems();
+	
+	public List<ProductWrapper> getStockReport(long storeID);
 	
 	public String switchToStore(@NotNull Store store, String destination);
 }
