@@ -2,6 +2,7 @@ package org.cocome.cloud.web.inventory.store;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,13 +50,16 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	@Inject
 	Event<ChangeViewEvent> changeViewEvent;
 	
+	private List<ProductWrapper> stockItems = Collections.emptyList();
+	
 	
 	@Override
 	public Store getActiveStore() {
-		LOG.debug("Active store is being retrieved from the database");
 		if ((activeStore == null || hasChanged == true) && activeStoreID != STORE_ID_NOT_SET) {
 			try {
+				LOG.debug("Active store is being retrieved from the database");
 				activeStore = enterpriseQuery.getStoreByID(activeStoreID);
+				hasChanged = false;
 			} catch (NotInDatabaseException_Exception e) {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the store!", null));
@@ -70,8 +74,10 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	@Override
 	public void setActiveStoreID(long storeID) {
 		LOG.debug("Active store was set to id " + storeID);
-		activeStoreID = storeID;
-		hasChanged = true;
+		if (activeStoreID != storeID) {
+			activeStoreID = storeID;
+			hasChanged = true;
+		}
 	}
 
 	@Override
@@ -109,26 +115,39 @@ public class StoreInformation implements IStoreInformation, Serializable {
 
 	@Override
 	public List<ProductWrapper> getAllStockItems() {
-		if (isStoreSet()) {
-			try {
-				Store activeStore = getActiveStore();
-				if (activeStore != null) {
-					return storeQuery.queryStockItems(activeStore);
-				}
-			} catch (NotInDatabaseException_Exception e) {
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the stock items!", null));
-			}
-		}
-		return Collections.emptyList();
+		return stockItems;
 	}
 
 	@Override
 	public List<ProductWrapper> getStockReport(long storeID) {
 		long currentStoreID = getActiveStoreID();
 		setActiveStoreID(storeID);
+		updateStockItems();
 		List<ProductWrapper> stockItems = getAllStockItems();
 		setActiveStoreID(currentStoreID);
 		return stockItems;
+	}
+
+	@Override
+	public void updateStockItems() {
+		LOG.debug("Looking up stock items");
+		boolean updated = false;
+
+		if (isStoreSet()) {
+			try {
+				Store activeStore = getActiveStore();
+				if (activeStore != null) {
+					stockItems = storeQuery.queryStockItems(activeStore);
+					updated = true;
+				}
+			} catch (NotInDatabaseException_Exception e) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the stock items!", null));
+			}
+		}
+		
+		if (!updated) {
+			stockItems = Collections.emptyList();
+		}
 	}
 }

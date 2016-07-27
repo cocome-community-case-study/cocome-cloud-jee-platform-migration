@@ -48,7 +48,7 @@ public class ComplexOrderEntryTOWrapper {
 		return orderEntry;
 	}
 	
-	public boolean isArrived() {
+	public boolean hasArrived() {
 		int comparison = containingOrder.getDeliveryDate().compareTo(containingOrder.getOrderingDate());
 		return comparison == DatatypeConstants.GREATER || comparison == DatatypeConstants.EQUAL;
 	}

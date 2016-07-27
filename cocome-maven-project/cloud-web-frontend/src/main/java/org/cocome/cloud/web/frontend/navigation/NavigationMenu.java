@@ -74,9 +74,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 	private List<INavigationElement> populateStoreView() {
 		List<INavigationElement> storeViewList = new LinkedList<>();
 		storeViewList.add(new NavigationElement(NavigationElements.START_SALE, labelResolver));
-		storeViewList.add(new NavigationElement(NavigationElements.ORDER_PRODUCTS, labelResolver));
 		storeViewList.add(new NavigationElement(NavigationElements.SHOW_STOCK, labelResolver));
-		storeViewList.add(new NavigationElement(NavigationElements.CHANGE_PRICE, labelResolver));
+		storeViewList.add(new NavigationElement(NavigationElements.STOCK_REPORT, labelResolver));
 		storeViewList.add(new NavigationElement(NavigationElements.RECEIVE_PRODUCTS, labelResolver));
 		return storeViewList;
 	}

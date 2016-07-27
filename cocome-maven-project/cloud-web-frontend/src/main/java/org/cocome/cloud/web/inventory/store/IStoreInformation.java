@@ -24,6 +24,8 @@ public interface IStoreInformation {
 	
 	public List<ProductWrapper> getAllStockItems();
 	
+	public void updateStockItems();
+	
 	public List<ProductWrapper> getStockReport(long storeID);
 	
 	public String switchToStore(@NotNull Store store, String destination);

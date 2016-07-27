@@ -2,7 +2,9 @@ package org.cocome.cloud.web.inventory.store;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
+import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
 
 /**
  * Wraps the {@link ProductTO} and {@link StockItemTO} objects received from 
@@ -24,6 +26,8 @@ public class ProductWrapper {
 	private boolean editingEnabled = false;
 	
 	private double newSalesPrice;
+	
+	private boolean inCurrentOrder = false;
 	
 	public ProductWrapper(ProductTO product) {
 		this.product = product;
@@ -97,6 +101,7 @@ public class ProductWrapper {
 	}
 	
 	public void setNewSalesPrice(double newPrice) {
+		LOG.debug(String.format("New sales price set to %f", newPrice));
 		newSalesPrice = newPrice;
 	}
 	
@@ -105,6 +110,26 @@ public class ProductWrapper {
 	}
 	
 	public void submitSalesPrice() {
-		
+		LOG.debug(String.format("Setting sales price of %s to %f", product.getName(), newSalesPrice));
+		stockItem.setSalesPrice(newSalesPrice);
+		setEditingEnabled(false);
+	}
+
+	public boolean isInCurrentOrder() {
+		return inCurrentOrder;
+	}
+
+	public void setInCurrentOrder(boolean inCurrentOrder) {
+		this.inCurrentOrder = inCurrentOrder;
+	}
+	
+	public static ProductWithSupplierTO convertToProductTO(ProductWrapper product) {
+		ProductWithSupplierTO productTO = new ProductWithSupplierTO();
+		productTO.setBarcode(product.getBarcode());
+		productTO.setId(product.getID());
+		productTO.setName(product.getName());
+		productTO.setPurchasePrice(product.getProductTO().getPurchasePrice());
+		productTO.setSupplierTO(new SupplierTO());
+		return productTO;
 	}
 }

@@ -65,7 +65,7 @@ public class StorePersistence implements IStorePersistence {
 		return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
 	}
 	
-	public String updateStockItemSalesPrice(@NotNull ProductWrapper stockItem, double newPrice) {
+	public String updateStockItemSalesPrice(@NotNull ProductWrapper stockItem) {
 		stockItem.submitSalesPrice();
 		if (storeQuery.updateStockItem(stockItem.getOriginStore(), stockItem)) {
 			FacesContext.getCurrentInstance().addMessage(null,

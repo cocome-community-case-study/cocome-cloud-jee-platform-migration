@@ -494,15 +494,15 @@ function resizeInputText() {
 								<h:outputText value="Current Status" />
 							</f:facet>
 							
-							<h:outputText value="Arrived" rendered="#{r.arrived}" />
-							<h:outputText value="Pending" rendered="#{not r.arrived}" />
+							<h:outputText value="Arrived" rendered="#{r.hasArrived}" />
+							<h:outputText value="Pending" rendered="#{not r.hasArrived}" />
 						</h:column>
 						<h:column>
 						<f:facet name="header">
 								<h:outputText value="Action" />
 						</f:facet>
 							
-							<h:commandButton action="#{receiveOrderedProducts.rollInOrder}" title="Roll in order" styleClass="add-icon" rendered="#{not r.arrived}"
+							<h:commandButton action="#{receiveOrderedProducts.rollInOrder}" title="Roll in order" styleClass="add-icon" rendered="#{not r.hasArrived}"
 								image="#{resource['icon/icon_gear_check.png']}" />
 						</h:column>
 						
