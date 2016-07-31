@@ -1,5 +1,6 @@
 package org.cocome.tradingsystem.inventory.data.store;
 
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 
 public interface IOrderEntry {
@@ -41,9 +42,9 @@ public interface IOrderEntry {
 	 */
 	void setProduct(IProduct product);
 
-	edu.kit.ipd.sdq.evaluation.Barcode getProductBarcode();
+	Barcode getProductBarcode();
 
-	void setProductBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode);
+	void setProductBarcode(Barcode productBarcode);
 
 	String toString();
 

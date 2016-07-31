@@ -35,6 +35,7 @@ import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.java.Maps;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 
 /**
  * Utility class that fills the database and writes system configuration
@@ -51,11 +52,11 @@ public class DatabaseFiller {
 	//
 
 	private static final class ItemInfo {
-		final edu.kit.ipd.sdq.evaluation.Barcode barcode;
+		final Barcode barcode;
 		final long amount;
 		final ItemType type;
 
-		ItemInfo(final edu.kit.ipd.sdq.evaluation.Barcode barcode, final long amount, final ItemType type) {
+		ItemInfo(final Barcode barcode, final long amount, final ItemType type) {
 			this.barcode = barcode;
 			this.amount = amount;
 			this.type = type;

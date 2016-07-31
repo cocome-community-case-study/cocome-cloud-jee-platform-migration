@@ -19,6 +19,7 @@ import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
 import org.cocome.cloud.logic.stub.NotBoundException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.registry.service.Names;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
@@ -200,7 +201,7 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQueryLocal {
 	}
 
 	@Override
-	public IProduct queryProductByBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode) throws NotInDatabaseException {
+	public IProduct queryProductByBarcode(Barcode productBarcode) throws NotInDatabaseException {
 		IEnterpriseManager enterpriseManager;
 		enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
 		try {
@@ -242,7 +243,7 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQueryLocal {
 	}
 
 	@Override
-	public IProductSupplier querySupplierForProduct(long enterpriseID, edu.kit.ipd.sdq.evaluation.Barcode productBarcode)
+	public IProductSupplier querySupplierForProduct(long enterpriseID, Barcode productBarcode)
 			throws NotInDatabaseException {
 		IEnterpriseManager enterpriseManager;
 		enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);

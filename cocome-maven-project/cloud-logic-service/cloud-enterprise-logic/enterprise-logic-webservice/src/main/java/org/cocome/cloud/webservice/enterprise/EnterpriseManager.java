@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.enterprise.IEnterpriseManager;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
@@ -398,7 +399,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 	
 	@Override
-	public ProductTO getProductByBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode) throws NotInDatabaseException {
+	public ProductTO getProductByBarcode(Barcode barcode) throws NotInDatabaseException {
 		IProduct product = enterpriseQuery.queryProductByBarcode(barcode);
 		return enterpriseFactory.fillProductTO(product);
 	}
@@ -459,7 +460,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 
 	@Override
-	public SupplierTO querySupplierForProduct(long enterpriseID, edu.kit.ipd.sdq.evaluation.Barcode productBarcode) throws NotInDatabaseException {
+	public SupplierTO querySupplierForProduct(long enterpriseID, Barcode productBarcode) throws NotInDatabaseException {
 		IProductSupplier supplier = enterpriseQuery.querySupplierForProduct(enterpriseID, productBarcode);
 		return enterpriseFactory.fillSupplierTO(supplier);
 	}

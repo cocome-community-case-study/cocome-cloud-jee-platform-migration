@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 
@@ -197,5 +198,5 @@ public interface ICashDesk {
 	 */
 	public Set<Class<?>> addItemToSale(@XmlElement(required = true) @WebParam(name = "cashDeskName") String cashDeskName,
 			@XmlElement(required = true) @WebParam(name = "storeID") long storeID,
-			@XmlElement(required = true) @WebParam(name = "barcode") edu.kit.ipd.sdq.evaluation.Barcode barcode) throws IllegalCashDeskStateException, NoSuchProductException, UnhandledException, ProductOutOfStockException;	
+			@XmlElement(required = true) @WebParam(name = "barcode") Barcode barcode) throws IllegalCashDeskStateException, NoSuchProductException, UnhandledException, ProductOutOfStockException;	
 }

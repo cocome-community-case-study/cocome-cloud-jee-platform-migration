@@ -16,6 +16,7 @@ import org.cocome.tradingsystem.cashdeskline.cashdesk.ICashDeskModelLocal;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
 import org.cocome.tradingsystem.cashdeskline.datatypes.PaymentMode;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 import org.cocome.tradingsystem.util.mvc.IContentChangedListener;
@@ -90,7 +91,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 
 	@Override
 	public Set<Class<?>> addItemToSale(String cashDeskName, long storeID,
-			final edu.kit.ipd.sdq.evaluation.Barcode barcode) throws IllegalCashDeskStateException, 
+			final Barcode barcode) throws IllegalCashDeskStateException, 
 				NoSuchProductException, UnhandledException, ProductOutOfStockException {
 		IContextRegistry context = getContextRegistry(cashDeskName, storeID);
 		

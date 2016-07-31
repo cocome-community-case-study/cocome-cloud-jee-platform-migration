@@ -19,6 +19,7 @@ package org.cocome.tradingsystem.cashdeskline.events;
 import java.io.Serializable;
 
 import org.cocome.tradingsystem.cashdeskline.cashdesk.barcodescanner.BarcodeScannerModel;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 
 /**
  * Event emitted by the bar code scanner after it recognized and scanned a
@@ -34,15 +35,15 @@ public class ProductBarcodeScannedEvent implements Serializable {
 
 	//
 
-	private final edu.kit.ipd.sdq.evaluation.Barcode __barcode;
+	private final Barcode __barcode;
 
 	//
 
-	public ProductBarcodeScannedEvent(final edu.kit.ipd.sdq.evaluation.Barcode barcode) {
+	public ProductBarcodeScannedEvent(final Barcode barcode) {
 		__barcode = barcode;
 	}
 
-	public edu.kit.ipd.sdq.evaluation.Barcode getBarcode() {
+	public Barcode getBarcode() {
 		return __barcode;
 	}
 

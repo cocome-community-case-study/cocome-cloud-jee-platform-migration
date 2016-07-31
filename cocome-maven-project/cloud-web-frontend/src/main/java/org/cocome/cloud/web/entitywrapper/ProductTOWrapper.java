@@ -1,5 +1,6 @@
 package org.cocome.cloud.web.entitywrapper;
 
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 
 public class ProductTOWrapper {
@@ -25,11 +26,11 @@ public class ProductTOWrapper {
 		productTO.setName(name);
 	}
 	
-	public edu.kit.ipd.sdq.evaluation.Barcode getBarcode() {
+	public Barcode getBarcode() {
 		return productTO.getBarcode();
 	}
 	
-	public void setBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode) {
+	public void setBarcode(Barcode barcode) {
 		productTO.setBarcode(barcode);
 	}
 	

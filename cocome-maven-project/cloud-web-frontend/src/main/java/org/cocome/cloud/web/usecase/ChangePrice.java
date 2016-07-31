@@ -18,6 +18,7 @@ import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.web.entitywrapper.ProductWSSTOWrapper;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndStockItemTO;
 import org.cocome.cloud.logic.stub.IStoreManagerService;
 import org.cocome.cloud.logic.stub.IStoreManager;
@@ -39,7 +40,7 @@ public class ChangePrice implements ActionListener, IUseCase {
 	private String storeId;
 	private String storeName;
 	private String storeLocation;
-	private HashMap<edu.kit.ipd.sdq.evaluation.Barcode, ProductWSSTOWrapper> stockItems;
+	private HashMap<Barcode, ProductWSSTOWrapper> stockItems;
 	private String message;
 	private boolean showMessage = false;
 	private boolean showChangePrice = false;
@@ -122,7 +123,7 @@ public class ChangePrice implements ActionListener, IUseCase {
 	@Override
 	public String invoke() {
 		this.showChangePrice = true;
-		stockItems = new HashMap<edu.kit.ipd.sdq.evaluation.Barcode, ProductWSSTOWrapper>();
+		stockItems = new HashMap<Barcode, ProductWSSTOWrapper>();
 		try {
 			List<ProductWithSupplierAndStockItemTO> items = storeManager.getProductsWithStockItems(Integer.parseInt(storeId));
 			for (ProductWithSupplierAndStockItemTO item : items) {
@@ -204,7 +205,7 @@ public class ChangePrice implements ActionListener, IUseCase {
 		storeId = "";
 		storeName = "";
 		storeLocation = "";
-		stockItems = new HashMap<edu.kit.ipd.sdq.evaluation.Barcode, ProductWSSTOWrapper>();
+		stockItems = new HashMap<Barcode, ProductWSSTOWrapper>();
 		message = "";
 		showMessage = false;
 		showChangePrice = false;

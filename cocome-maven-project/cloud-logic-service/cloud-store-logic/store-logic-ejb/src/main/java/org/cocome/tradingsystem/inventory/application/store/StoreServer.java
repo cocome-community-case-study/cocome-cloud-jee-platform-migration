@@ -364,7 +364,7 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
 	 */
 	@Override
 	public ProductWithStockItemTO getProductWithStockItem(long storeID, 
-			final edu.kit.ipd.sdq.evaluation.Barcode productBarCode) throws NoSuchProductException {
+			final Barcode productBarCode) throws NoSuchProductException {
 		final IStockItem stockItem = __storeQuery.queryStockItem(storeID,
 				productBarCode);
 
@@ -439,7 +439,7 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
 		for (final ProductAmountTO movedProduct : movedProducts
 				.getProductAmounts()) {
 			final ProductTO productTO = movedProduct.getProduct();
-			final edu.kit.ipd.sdq.evaluation.Barcode barcode = productTO.getBarcode();
+			final Barcode barcode = productTO.getBarcode();
 			final IStockItem stockItem = __storeQuery.queryStockItem(storeID,
 					barcode);
 

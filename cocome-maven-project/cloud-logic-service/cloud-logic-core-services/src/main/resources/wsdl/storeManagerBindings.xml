@@ -3,6 +3,9 @@
 	xmlns:tns="http://enterprise.webservice.logic.cocome.org/">
 
 	<bindings if-exists="true" schemaLocation="IStoreManager_schema2.xsd">
+		<bindings node="//xsd:complexType[@name='Barcode']">
+			<class ref="org.cocome.tradingsystem.inventory.application.store.Barcode" />
+		</bindings>
 		<bindings node="//xsd:complexType[@name='ProductTO']">
 			<class
 				ref="org.cocome.tradingsystem.inventory.application.store.ProductTO" />

@@ -23,6 +23,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.qualifier.EnterpriseRequired;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
@@ -41,7 +42,7 @@ class Product implements Serializable, IProduct {
 
 	private long id;
 
-	private edu.kit.ipd.sdq.evaluation.Barcode barcode;
+	private Barcode barcode;
 
 	private double purchasePrice;
 
@@ -84,7 +85,7 @@ class Product implements Serializable, IProduct {
 	 * @see org.cocome.tradingsystem.inventory.data.enterprise.IProduct#getBarcode()
 	 */
 	@Override
-	public edu.kit.ipd.sdq.evaluation.Barcode getBarcode() {
+	public Barcode getBarcode() {
 		return barcode;
 	}
 
@@ -92,7 +93,7 @@ class Product implements Serializable, IProduct {
 	 * @see org.cocome.tradingsystem.inventory.data.enterprise.IProduct#setBarcode(long)
 	 */
 	@Override
-	public void setBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode) {
+	public void setBarcode(Barcode barcode) {
 		this.barcode = barcode;
 	}
 

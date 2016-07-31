@@ -18,6 +18,7 @@ package org.cocome.tradingsystem.inventory.data.generator;
 
 import java.util.List;
 
+
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
@@ -26,6 +27,7 @@ import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.java.Lists;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 
 /**
  * Generates primitive the trading system entities. This generator only handles
@@ -97,7 +99,7 @@ public class EntityGenerator {
 	//
 
 	List<Product> createProducts(
-			final String namePrefix, final edu.kit.ipd.sdq.evaluation.Barcode barcodeOffset, final int count
+			final String namePrefix, final Barcode barcodeOffset, final int count
 			) {
 		return _generateEntities(count, new Factory<Product>() {
 			@Override

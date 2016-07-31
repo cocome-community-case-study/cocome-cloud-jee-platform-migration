@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 /**
@@ -22,7 +23,7 @@ public interface IBarcodeScanner {
 	@WebMethod
 	Set<Class<?>> sendProductBarcode(@XmlElement(required = true) @WebParam(name = "cashDeskName") String cashDeskName, 
 			@XmlElement(required = true) @WebParam(name = "storeID") long storeID,
-			@XmlElement(required = true) @WebParam(name = "barcode") final edu.kit.ipd.sdq.evaluation.Barcode barcode) 
+			@XmlElement(required = true) @WebParam(name = "barcode") final Barcode barcode) 
 					throws IllegalCashDeskStateException, NoSuchProductException, 
 						UnhandledException, ProductOutOfStockException;
 }

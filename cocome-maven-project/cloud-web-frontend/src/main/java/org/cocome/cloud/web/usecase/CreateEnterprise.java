@@ -24,6 +24,7 @@ import org.cocome.cloud.web.entitywrapper.ProductTOWrapper;
 import org.cocome.cloud.web.entitywrapper.ProductWSSTOWrapper;
 import org.cocome.cloud.web.entitywrapper.StoreTOWrapper;
 import org.cocome.cloud.web.login.Login;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO;
@@ -685,7 +686,7 @@ public class CreateEnterprise implements ActionListener, IUseCase {
 		
 		ProductTO product = new ProductTO();
 		try {
-			product.setBarcode(edu.kit.ipd.sdq.evaluation.Barcode.parseInput(productBarcode));
+			product.setBarcode(Barcode.parseInput(productBarcode));
 			product.setName(productName);
 			product.setPurchasePrice(Double.parseDouble(purchasePrice));
 		} catch (NumberFormatException e) {

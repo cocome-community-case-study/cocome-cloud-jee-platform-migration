@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import javax.ejb.Local;
 
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -105,7 +106,7 @@ public interface IStoreQueryLocal {
 	 * @return
 	 *         {@link Product} entity with the specified barcode, or {@code null} if there is no such product.
 	 */
-	public IProduct queryProductByBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode);
+	public IProduct queryProductByBarcode(Barcode barcode);
 
 	/**
 	 * Queries the database for a {@link ProductOrder} with given identifier.
@@ -181,7 +182,7 @@ public interface IStoreQueryLocal {
 	 * @throws NotInDatabaseException 
 	 * 			if no order with the given information can be found
 	 */
-	public IProductOrder queryProductOrder(long storeId, edu.kit.ipd.sdq.evaluation.Barcode productBarcode, long amount)  
+	public IProductOrder queryProductOrder(long storeId, Barcode productBarcode, long amount)  
 			throws NotInDatabaseException ;
 
 	/**
@@ -219,7 +220,7 @@ public interface IStoreQueryLocal {
 	 *         barcode, or {@code null} if the stock item could not be found.
 	 */
 	public IStockItem queryStockItem(
-			long storeId, edu.kit.ipd.sdq.evaluation.Barcode productBarcode
+			long storeId, Barcode productBarcode
 			);
 
 	/**

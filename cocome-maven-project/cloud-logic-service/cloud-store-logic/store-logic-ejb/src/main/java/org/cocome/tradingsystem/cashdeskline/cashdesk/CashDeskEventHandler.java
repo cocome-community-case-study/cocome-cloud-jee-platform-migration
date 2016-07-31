@@ -33,6 +33,7 @@ import org.cocome.tradingsystem.cashdeskline.events.PaymentModeSelectedEvent;
 import org.cocome.tradingsystem.cashdeskline.events.ProductBarcodeScannedEvent;
 import org.cocome.tradingsystem.cashdeskline.events.SaleFinishedEvent;
 import org.cocome.tradingsystem.cashdeskline.events.SaleStartedEvent;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 
 
@@ -119,7 +120,7 @@ class CashDeskEventHandler implements ICashDeskEventConsumerLocal, Serializable 
 	 * {@inheritDoc}
 	 */
 	public void onEvent(@Observes ProductBarcodeScannedEvent event) throws IllegalCashDeskStateException, ProductOutOfStockException {
-		final edu.kit.ipd.sdq.evaluation.Barcode barcode = event.getBarcode();
+		final Barcode barcode = event.getBarcode();
 		LOG.debug("\tbarcode: " + barcode);
 
 		//

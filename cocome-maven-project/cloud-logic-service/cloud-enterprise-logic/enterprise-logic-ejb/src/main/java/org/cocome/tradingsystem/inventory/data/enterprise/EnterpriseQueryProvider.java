@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQueryLocal;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
 import org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper;
@@ -123,7 +124,7 @@ public class EnterpriseQueryProvider implements IEnterpriseQueryLocal {
 
 	@Override
 	public IProductSupplier querySupplierForProduct(long enterpriseID,
-	        edu.kit.ipd.sdq.evaluation.Barcode productBarcode) throws NotInDatabaseException {
+	        Barcode productBarcode) throws NotInDatabaseException {
 		ITradingEnterprise enterprise = queryEnterpriseById(enterpriseID);
 		
 		// Probably inefficient but not possible otherwise due to serviceadapter limitations
@@ -204,7 +205,7 @@ public class EnterpriseQueryProvider implements IEnterpriseQueryLocal {
 	}
 
 	@Override
-	public IProduct queryProductByBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode)
+	public IProduct queryProductByBarcode(Barcode productBarcode)
 			throws NotInDatabaseException {
 		try {
 			IProduct product = csvHelper.getProducts(

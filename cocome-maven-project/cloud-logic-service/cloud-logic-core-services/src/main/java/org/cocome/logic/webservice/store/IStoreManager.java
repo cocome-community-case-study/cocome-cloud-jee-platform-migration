@@ -8,6 +8,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderEntryTO;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
 import org.cocome.tradingsystem.inventory.application.store.InvalidRollInRequestException;
@@ -110,7 +111,7 @@ public interface IStoreManager {
 	@WebMethod
 	public ProductWithStockItemTO getProductWithStockItem(
 			@XmlElement(required = true) @WebParam(name = "storeID") long storeID,
-			@XmlElement(required = true) @WebParam(name = "productBarcode") edu.kit.ipd.sdq.evaluation.Barcode productBarcode) 
+			@XmlElement(required = true) @WebParam(name = "productBarcode") Barcode productBarcode) 
 					throws NoSuchProductException, NotInDatabaseException;
 
 }

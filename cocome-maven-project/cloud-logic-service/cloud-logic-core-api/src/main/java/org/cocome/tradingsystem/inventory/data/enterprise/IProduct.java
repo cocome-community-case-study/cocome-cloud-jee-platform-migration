@@ -1,5 +1,6 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 public interface IProduct {
@@ -22,13 +23,13 @@ public interface IProduct {
 	/**
 	 * @return The barcode of the product
 	 */
-	edu.kit.ipd.sdq.evaluation.Barcode getBarcode();
+	Barcode getBarcode();
 
 	/**
 	 * @param barcode
 	 *            The barcode of the product
 	 */
-	void setBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode);
+	void setBarcode(Barcode barcode);
 
 	/**
 	 * @return The name of the product

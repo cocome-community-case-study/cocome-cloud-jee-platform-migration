@@ -2,6 +2,7 @@ package org.cocome.cloud.logic.webservice.cashdeskline.cashdesk.barcodescanner;
 
 import java.util.Set;
 
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebService;
@@ -17,6 +18,7 @@ import org.cocome.tradingsystem.inventory.application.store.NoSuchProductExcepti
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 import org.cocome.tradingsystem.util.mvc.IContentChangedListener;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 
 /**
  * Webservice interface for the barcode scanner of a cash desk.
@@ -39,7 +41,7 @@ public class BarcodeScanner extends NamedCashDeskService implements IBarcodeScan
 	
 	@Override
 	public Set<Class<?>> sendProductBarcode(String cashDeskName, long storeID,
-			final edu.kit.ipd.sdq.evaluation.Barcode barcode) throws IllegalCashDeskStateException, 
+			final Barcode barcode) throws IllegalCashDeskStateException, 
 				NoSuchProductException, UnhandledException, ProductOutOfStockException {
 		IContextRegistry context = getContextRegistry(cashDeskName, storeID);
 		

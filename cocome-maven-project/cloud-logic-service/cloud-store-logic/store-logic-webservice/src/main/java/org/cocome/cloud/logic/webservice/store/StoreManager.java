@@ -46,6 +46,7 @@ import org.cocome.tradingsystem.util.scope.CashDeskRegistry;
 import org.cocome.tradingsystem.util.scope.ICashDeskRegistryFactory;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
 import org.cocome.tradingsystem.util.scope.RegistryKeys;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 
 @WebService(serviceName = "IStoreManagerService", 
 			name = "IStoreManager", 
@@ -233,7 +234,7 @@ public class StoreManager implements IStoreManager {
 	 * @see org.cocome.cloud.webservice.store.IStoreManager#getProductWithStockItem(long, long)
 	 */
 	@Override
-	public ProductWithStockItemTO getProductWithStockItem(long storeID, edu.kit.ipd.sdq.evaluation.Barcode productBarcode) 
+	public ProductWithStockItemTO getProductWithStockItem(long storeID, Barcode productBarcode) 
 			throws NoSuchProductException, NotInDatabaseException {
 		setContextRegistry(storeID);
 		return storeInventory.getProductWithStockItem(storeID, productBarcode);

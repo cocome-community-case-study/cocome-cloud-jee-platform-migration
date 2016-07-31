@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
 import org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper;
@@ -100,7 +101,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQueryLocal {
 	}
 
 	@Override
-	public IProduct queryProductByBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode) {
+	public IProduct queryProductByBarcode(Barcode barcode) {
 		IProduct product = null;
 		try {
 			product = csvHelper.getProducts(
@@ -157,7 +158,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQueryLocal {
 	}
 
 	@Override
-	public IStockItem queryStockItem(long storeId, edu.kit.ipd.sdq.evaluation.Barcode productBarcode) {
+	public IStockItem queryStockItem(long storeId, Barcode productBarcode) {
 		IStockItem item = null;
 		try {
 			item = csvHelper.getStockItems(
@@ -183,7 +184,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQueryLocal {
 
 	@Override
 	public IProductOrder queryProductOrder(long storeId,
-	        edu.kit.ipd.sdq.evaluation.Barcode productBarcode, long amount) throws NotInDatabaseException {
+	        Barcode productBarcode, long amount) throws NotInDatabaseException {
 		Collection<IProductOrder> productOrders = csvHelper.getProductOrders(
 				backendConnection.getProductOrder("amount==" + amount
 						+ "store.id==" + storeId 

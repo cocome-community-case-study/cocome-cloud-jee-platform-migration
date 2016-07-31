@@ -23,6 +23,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQueryLocal;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 
@@ -40,7 +41,7 @@ class OrderEntry implements Serializable, IOrderEntry {
 
 	private long amount;
 	
-	private edu.kit.ipd.sdq.evaluation.Barcode productBarcode;
+	private Barcode productBarcode;
 
 	private IProduct product;
 
@@ -132,7 +133,7 @@ class OrderEntry implements Serializable, IOrderEntry {
 	 * @see org.cocome.tradingsystem.inventory.data.store.IOrderEntry#getProductBarcode()
 	 */
 	@Override
-	public edu.kit.ipd.sdq.evaluation.Barcode getProductBarcode() {
+	public Barcode getProductBarcode() {
 		return (productBarcode == null && product != null) ? product.getBarcode() : productBarcode;
 	}
 
@@ -140,7 +141,7 @@ class OrderEntry implements Serializable, IOrderEntry {
 	 * @see org.cocome.tradingsystem.inventory.data.store.IOrderEntry#setProductBarcode(long)
 	 */
 	@Override
-	public void setProductBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode) {
+	public void setProductBarcode(Barcode productBarcode) {
 		this.productBarcode = productBarcode;
 	}
 	

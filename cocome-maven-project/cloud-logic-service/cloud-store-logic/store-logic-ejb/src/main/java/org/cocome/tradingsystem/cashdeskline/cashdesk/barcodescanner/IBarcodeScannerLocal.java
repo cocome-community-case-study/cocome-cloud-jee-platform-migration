@@ -18,6 +18,8 @@ package org.cocome.tradingsystem.cashdeskline.cashdesk.barcodescanner;
 
 import javax.ejb.Local;
 
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
+
 /**
  * Defines barcode scanner actions that can be triggered from outside.
  * 
@@ -35,6 +37,6 @@ public interface IBarcodeScannerLocal {
 	 * @param barcode
 	 * 		the scanned barcode
 	 */
-	void sendProductBarcode(edu.kit.ipd.sdq.evaluation.Barcode barcode);
+	void sendProductBarcode(Barcode barcode);
 
 }

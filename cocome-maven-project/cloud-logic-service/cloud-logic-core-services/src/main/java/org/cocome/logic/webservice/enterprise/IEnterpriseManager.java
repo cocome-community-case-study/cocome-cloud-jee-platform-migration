@@ -10,6 +10,7 @@ import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchema;
 
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
@@ -188,7 +189,7 @@ public interface IEnterpriseManager {
 	@WebMethod
 	public SupplierTO querySupplierForProduct(
 			@XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseID, 
-			@XmlElement(required = true) @WebParam(name = "productBarcode")edu.kit.ipd.sdq.evaluation.Barcode productBarcode) throws NotInDatabaseException;
+			@XmlElement(required = true) @WebParam(name = "productBarcode")Barcode productBarcode) throws NotInDatabaseException;
 	
 	/**
 	 * Retrieves the product with the given barcode if it is stored in the database.
@@ -199,7 +200,7 @@ public interface IEnterpriseManager {
 	 */
 	@WebMethod
 	public ProductTO getProductByBarcode(
-			@XmlElement(required = true) @WebParam(name = "barcode") edu.kit.ipd.sdq.evaluation.Barcode barcode) throws NotInDatabaseException;
+			@XmlElement(required = true) @WebParam(name = "barcode") Barcode barcode) throws NotInDatabaseException;
 	
 	@WebMethod
 	public void createEnterprise(

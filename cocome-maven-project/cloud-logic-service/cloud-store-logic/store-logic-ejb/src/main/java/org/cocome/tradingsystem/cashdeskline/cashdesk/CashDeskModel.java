@@ -48,6 +48,7 @@ import org.cocome.tradingsystem.cashdeskline.events.SaleSuccessEvent;
 import org.cocome.tradingsystem.external.DebitResult;
 import org.cocome.tradingsystem.external.IBankLocal;
 import org.cocome.tradingsystem.external.TransactionID;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.application.store.IStoreInventoryLocal;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
@@ -297,7 +298,7 @@ public class CashDeskModel implements Serializable, ICashDeskModelLocal {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void addItemToSale(final edu.kit.ipd.sdq.evaluation.Barcode barcode) throws IllegalCashDeskStateException, ProductOutOfStockException {
+	public void addItemToSale(final Barcode barcode) throws IllegalCashDeskStateException, ProductOutOfStockException {
 		this.ensureStateIsLegal(ADD_ITEM_TO_SALE_STATES);
 
 		//
@@ -340,7 +341,7 @@ public class CashDeskModel implements Serializable, ICashDeskModelLocal {
 		return expressModeDisabled || itemCountUnderLimit;
 	}
 
-	private void sendInvalidProductBarcodeEvent(final edu.kit.ipd.sdq.evaluation.Barcode barcode) {
+	private void sendInvalidProductBarcodeEvent(final Barcode barcode) {
 		invalidProductBarcodeEvents.fire(new InvalidProductBarcodeEvent(barcode));
 	}
 

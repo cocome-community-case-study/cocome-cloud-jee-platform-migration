@@ -1,5 +1,6 @@
 package org.cocome.tradingsystem.inventory.data.store;
 
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 
 public interface IStockItem {
@@ -111,9 +112,9 @@ public interface IStockItem {
 
 	void setStoreName(String storeName);
 
-	edu.kit.ipd.sdq.evaluation.Barcode getProductBarcode();
+	Barcode getProductBarcode();
 
-	void setProductBarcode(edu.kit.ipd.sdq.evaluation.Barcode productBarcode);
+	void setProductBarcode(Barcode productBarcode);
 
 	String getStoreLocation();
 

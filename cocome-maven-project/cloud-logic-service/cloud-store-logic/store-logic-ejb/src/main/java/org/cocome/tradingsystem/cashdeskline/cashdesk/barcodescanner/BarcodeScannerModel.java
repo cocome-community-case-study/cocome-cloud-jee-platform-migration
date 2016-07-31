@@ -21,6 +21,7 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.cocome.tradingsystem.cashdeskline.events.ProductBarcodeScannedEvent;
+import org.cocome.tradingsystem.inventory.application.store.Barcode;
 
 /**
  * Implements the cash desk barcode scanner model. The scanner does not consume
@@ -46,7 +47,7 @@ public class BarcodeScannerModel implements IBarcodeScannerLocal {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void sendProductBarcode(final edu.kit.ipd.sdq.evaluation.Barcode barcode) {
+	public void sendProductBarcode(final Barcode barcode) {
 		productBarcodeScannedEvent.fire(new ProductBarcodeScannedEvent(barcode));
 	}
 }
