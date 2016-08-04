@@ -54,7 +54,7 @@ public class StoreQuery implements IStoreQuery {
 	@Inject
 	IApplicationHelper applicationHelper;
 
-	private IStoreManager lookupStoreManager(long storeID) throws NotInDatabaseException_Exception {
+	public IStoreManager lookupStoreManager(long storeID) throws NotInDatabaseException_Exception {
 		try {
 			LOG.debug(String.format("Looking up responsible store manager for store %d", storeID));
 			return applicationHelper.getComponent(Names.getStoreManagerRegistryName(storeID),
@@ -72,7 +72,7 @@ public class StoreQuery implements IStoreQuery {
 	}
 
 	@Override
-	public List<ProductWrapper> queryStockItems(Store store) throws NotInDatabaseException_Exception {
+	public List<ProductWrapper> queryStockItems(@NotNull Store store) throws NotInDatabaseException_Exception {
 		long storeID = store.getID();
 		LOG.debug("Querying stock items: Looking up store server.");
 		storeManager = lookupStoreManager(storeID);
@@ -88,18 +88,18 @@ public class StoreQuery implements IStoreQuery {
 	}
 
 	@Override
-	public ProductWrapper getStockItemByProductID(Store store, long productID) {
+	public ProductWrapper getStockItemByProductID(@NotNull Store store, long productID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ProductWrapper getStockItemByBarcode(Store store, long barcode) {
+	public ProductWrapper getStockItemByBarcode(@NotNull Store store, long barcode) {
 		return null;
 	}
 
 	@Override
-	public boolean updateStockItem(Store store, ProductWrapper stockItem) {
+	public boolean updateStockItem(@NotNull Store store, @NotNull ProductWrapper stockItem) {
 		long storeID = store.getID();
 		try {
 			storeManager = lookupStoreManager(storeID);
@@ -143,7 +143,7 @@ public class StoreQuery implements IStoreQuery {
 	}
 
 	@Override
-	public List<ComplexOrderTO> getAllOrders(Store store) {
+	public List<ComplexOrderTO> getAllOrders(@NotNull Store store) {
 		long storeID = store.getID();
 		
 		try {
@@ -156,7 +156,7 @@ public class StoreQuery implements IStoreQuery {
 	}
 
 	@Override
-	public ComplexOrderTO getOrderByID(Store store, long orderID) {
+	public ComplexOrderTO getOrderByID(@NotNull Store store, long orderID) {
 		long storeID = store.getID();
 		
 		try {
@@ -169,7 +169,7 @@ public class StoreQuery implements IStoreQuery {
 	}
 
 	@Override
-	public boolean rollInOrder(Store store, long orderID) {
+	public boolean rollInOrder(@NotNull Store store, long orderID) {
 		long storeID = store.getID();
 		
 		try {
@@ -180,5 +180,20 @@ public class StoreQuery implements IStoreQuery {
 			LOG.error(String.format("Error while rolling in order: %s\n%s", e.getMessage(), e.getStackTrace()));
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean createStockItem(@NotNull Store store, @NotNull ProductWrapper product) {
+		long storeID = store.getID();
+		
+		try {
+			storeManager = lookupStoreManager(storeID);
+			ProductWithStockItemTO stockItemTO = ProductWrapper.convertToProductWithStockItemTO(product);
+			storeManager.createStockItem(storeID, stockItemTO);
+		} catch (CreateException_Exception | NotInDatabaseException_Exception e) {
+			LOG.error(String.format("Error while creating stock item: %s\n%s", e.getMessage(), e.getStackTrace()));
+			return false;
+		}
+		return true;
 	}
 }

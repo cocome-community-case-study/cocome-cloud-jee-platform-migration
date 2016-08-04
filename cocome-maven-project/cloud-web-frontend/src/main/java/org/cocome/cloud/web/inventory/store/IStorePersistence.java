@@ -7,5 +7,5 @@ public interface IStorePersistence {
 	
 	public String createStore(long enterpriseID, @NotNull String name, @NotNull String location);
 	
-	public String updateStockItemSalesPrice(@NotNull ProductWrapper stockItem);
+	public boolean updateStockItem(@NotNull ProductWrapper stockItem);
 }

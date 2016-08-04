@@ -12,16 +12,26 @@
 
 		<ui:define name="body">
 			<h:form>
-				<table>
+				<table width="100%">
 					<tr>
-						<td><h:outputText
-								value="#{strings['report.show.store_id.text']}" /></td>
-						<td><h:inputText value="#{storeID}" />
-							<h:commandButton action="#{showReportView.loadReport(storeID)}"
-								value="#{strings['report.show.submit.text']}" /></td>
+						<td align="left">
+							<table>
+								<tr>
+									<td><h:outputText
+											value="#{strings['report.show.store_id.text']}" /></td>
+									<td><h:inputText value="#{storeID}"
+											styleClass="input-number"
+											validator="#{showReportView.validateStoreID}" /> <h:commandButton
+											action="#{showReportView.loadReport(storeID)}"
+											value="#{strings['report.show.submit.text']}" /></td>
+								</tr>
+							</table>
+						</td>
 						<td></td>
 					</tr>
-					<tr><td height="20"></td></tr>
+					<tr>
+						<td height="20"></td>
+					</tr>
 					<tr>
 						<td colspan="4"><h:dataTable
 								value="#{storeInformation.allStockItems}" var="item"

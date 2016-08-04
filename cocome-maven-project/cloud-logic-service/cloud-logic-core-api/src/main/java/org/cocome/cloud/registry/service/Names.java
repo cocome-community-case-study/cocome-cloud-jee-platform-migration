@@ -22,6 +22,10 @@ package org.cocome.cloud.registry.service;
  * @author Lubomir Bulej
  */
 public final class Names {
+	public static String getCashDeskName(final int cashDeskIndex) {
+		return String.format("CashDesk%d", cashDeskIndex);
+	}
+	
 	private static String getStoreName(final long storeIndex) {
 		return String.format("Store%d", storeIndex);
 	}
@@ -58,6 +62,10 @@ public final class Names {
 		return String.format("ProductDispatcher.%s", dispatcherName);
 	}
 	
+	public static String getCashDeskRemoteName(final String storeName, final String cashDeskName) {
+		return String.format("%s/%s", storeName, cashDeskName);
+	}
+	
 	public static String getEnterpriseManagerRegistryName(final long enterpriseIndex) {
 		return getEnterpriseRemoteName(getEnterpriseManagerName(enterpriseIndex));
 	}
@@ -76,6 +84,10 @@ public final class Names {
 	
 	public static String getLoginManagerRegistryName(final long enterpriseIndex) {
 		return getEnterpriseRemoteName(getLoginManagerName(enterpriseIndex));
+	}
+	
+	public static String getCashDeskRegistryName(final long storeIndex, final int cashDeskIndex) {
+		return getCashDeskRemoteName(getStoreName(storeIndex), getCashDeskName(cashDeskIndex));
 	}
 
 }

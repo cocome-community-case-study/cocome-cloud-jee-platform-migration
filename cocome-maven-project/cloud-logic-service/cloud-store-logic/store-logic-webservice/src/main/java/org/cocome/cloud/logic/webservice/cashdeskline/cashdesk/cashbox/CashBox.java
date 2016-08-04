@@ -54,7 +54,7 @@ public class CashBox extends NamedCashDeskService implements ICashBox {
 
 	@Override
 	public Set<Class<?>> close(String cashDeskName, long storeID) throws IllegalCashDeskStateException, 
-			ProductOutOfStockException, UnhandledException {
+	UnhandledException {
 		IContextRegistry context = getContextRegistry(cashDeskName, storeID);
 		
 		AbstractCashDeskAction<Set<Class<?>>> action = new AbstractCashDeskAction<Set<Class<?>>>() {
@@ -63,12 +63,11 @@ public class CashBox extends NamedCashDeskService implements ICashBox {
 				cashBox.close();
 				return contentChanged.getChangedModels();
 			}
-			
 		};
 
 		try {
 			return invokeInContext(context, action);
-		} catch (NoSuchProductException | IllegalInputException e) {
+		} catch (NoSuchProductException | IllegalInputException | ProductOutOfStockException e) {
 			throw new UnhandledException(e);
 		}
 	}

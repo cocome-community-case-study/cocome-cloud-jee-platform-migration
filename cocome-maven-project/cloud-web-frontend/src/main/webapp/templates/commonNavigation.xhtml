@@ -14,7 +14,7 @@
 
 							<h:link outcome="#{navElement.navOutcome}"
 								value="#{navElement.displayText}"
-								styleClass="#{view.viewId eq ('/' += navElement.navOutcome += '.xhtml')? 'active-nav-element nav-element' : 'nav-element'}" />
+								styleClass="#{view.viewId eq (navElement.navOutcome += '.xhtml')? 'active-nav-element nav-element' : 'nav-element'}" />
 
 						</ui:repeat></td>
 				</tr>

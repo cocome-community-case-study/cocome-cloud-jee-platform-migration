@@ -272,7 +272,6 @@ public class NewSaleProcess implements IUseCase {
 			updateDisplayComponents();
 		} catch (NumberFormatException
 				| IllegalCashDeskStateException_Exception
-				| ProductOutOfStockException_Exception
 				| UnhandledException_Exception e) {
 			FacesContext.getCurrentInstance().addMessage("sale:pay-bar", 
 					new FacesMessage("Error", 

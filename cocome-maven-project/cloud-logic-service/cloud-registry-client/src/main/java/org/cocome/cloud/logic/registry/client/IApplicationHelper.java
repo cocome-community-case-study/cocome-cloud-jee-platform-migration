@@ -34,13 +34,13 @@ public interface IApplicationHelper {
 	 * @param remote
 	 */
 	void registerComponent(String name, URI location, boolean reregister);
-	
+
 	/**
 	 * 
 	 * @param name
 	 * @param location
 	 * @param reregister
-	 * @throws URISyntaxException 
+	 * @throws URISyntaxException
 	 */
 	void registerComponent(String name, String location, boolean reregister) throws URISyntaxException;
 
@@ -72,6 +72,18 @@ public interface IApplicationHelper {
 			SecurityException;
 
 	/**
+	 * Don't look up the location of the wsdl if it is already known.
+	 * 
+	 * @param wsdlLocation
+	 * @param serviceName
+	 * @param type
+	 * @return
+	 * @throws NotBoundException_Exception
+	 */
+	<T extends Service> T getComponentFromLocation(final URL wsdlLocation, final QName serviceName, Class<T> type)
+			throws NotBoundException_Exception;
+
+	/**
 	 * 
 	 * @param name
 	 * @return
@@ -88,5 +100,4 @@ public interface IApplicationHelper {
 	 * @throws NotBoundException_Exception
 	 */
 	URL getComponentURL(String name) throws MalformedURLException, NotBoundException_Exception;
-
 }

@@ -51,26 +51,19 @@ public class Configuration {
 	
 	@Produces
 	public String getString(InjectionPoint point) {
-		String propertyPath = point.getMember().getDeclaringClass().getPackage().getName();
-		String propertyName = point.getMember().getName();
-
-		String configPropertyPath = propertyPath + "." + propertyName;
-
-		String propertyValue = configData.getProperty(configPropertyPath);
-		log.debug("Retrieved property " + configPropertyPath + " with value " + propertyValue);
-
-		// Fall back to only the property name in case there is no property with
-		// the given package
-		if (propertyValue == null || propertyValue.isEmpty()) {
-			propertyValue = configData.getProperty(propertyName);
-			log.debug("Retrieved property " + propertyName + " with value " + propertyValue);
-		}
+		String propertyValue = readPropertyValue(point);
 
 		return (propertyValue == null) ? "" : propertyValue;
 	}
 	
 	@Produces
 	public long getLong(InjectionPoint point) {
+		String propertyValue = readPropertyValue(point);
+		
+		return (propertyValue == null || propertyValue.isEmpty()) ? Long.MIN_VALUE : Long.parseLong(propertyValue);
+	}
+
+	private String readPropertyValue(InjectionPoint point) {
 		String propertyPath = point.getMember().getDeclaringClass().getPackage().getName();
 		String propertyName = point.getMember().getName();
 		
@@ -85,7 +78,13 @@ public class Configuration {
 			propertyValue = configData.getProperty(propertyName);
 			log.debug("Retrieved property " + propertyName + " with value " + propertyValue);
 		}
+		return propertyValue;
+	}
+	
+	@Produces
+	public int getInteger(InjectionPoint point) {
+		String propertyValue = readPropertyValue(point);
 		
-		return (propertyValue == null || propertyValue.isEmpty()) ? Long.MIN_VALUE : Long.parseLong(propertyValue);
+		return (propertyValue == null || propertyValue.isEmpty()) ? Integer.MIN_VALUE : Integer.parseInt(propertyValue);
 	}
 }

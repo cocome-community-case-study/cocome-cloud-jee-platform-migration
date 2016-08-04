@@ -22,7 +22,7 @@ public interface ICashBox {
 	@WebMethod
 	public Set<Class<?>> close(@XmlElement(required = true) @WebParam(name = "cashDeskName") String cashDeskName, 
 			@XmlElement(required = true) @WebParam(name = "storeID") long storeID) throws IllegalCashDeskStateException, 
-			ProductOutOfStockException, UnhandledException;
+			UnhandledException;
 
 	@WebMethod
 	public boolean isOpen(@XmlElement(required = true) @WebParam(name = "cashDeskName") String cashDeskName,

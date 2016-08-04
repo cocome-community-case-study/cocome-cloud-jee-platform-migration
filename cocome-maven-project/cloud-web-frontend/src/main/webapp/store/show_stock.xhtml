@@ -11,7 +11,7 @@
 	<ui:composition template="/templates/commonTemplate.xhtml">
 
 		<f:metadata>
-			<f:viewAction action="#{storeInformation.updateStockItems}" />
+			<f:viewAction action="#{storeInformation.queryStockItems}" />
 		</f:metadata>
 
 		<ui:define name="body">
@@ -33,15 +33,39 @@
 					</h:column>
 					<h:column headerClass="product-table-header-right">
 						<f:facet name="header">#{strings['stock.table.header_min_stock']}</f:facet>
-					#{item.stockItemTO.minStock}
+						<h:outputText value="#{item.stockItemTO.minStock}"
+							rendered="#{not item.editingEnabled}" />
+						<h:inputText value="#{item.newMinAmount}"
+							rendered="#{item.editingEnabled}"
+							styleClass="product-table-number-col"
+							converterMessage="#{strings['stock.validation.numbers.text']}"
+							validator="#{showStockView.validatePositiveNumber}">
+							<f:converter converterId="javax.faces.Long" />
+						</h:inputText>
 					</h:column>
 					<h:column headerClass="product-table-header-right">
 						<f:facet name="header">#{strings['stock.table.header_max_stock']}</f:facet>
-					#{item.stockItemTO.maxStock}
+						<h:outputText value="#{item.stockItemTO.maxStock}"
+							rendered="#{not item.editingEnabled}" />
+						<h:inputText value="#{item.newMaxAmount}"
+							rendered="#{item.editingEnabled}"
+							styleClass="product-table-number-col"
+							converterMessage="#{strings['stock.validation.numbers.text']}"
+							validator="#{showStockView.validatePositiveNumber}">
+							<f:converter converterId="javax.faces.Long" />
+						</h:inputText>
 					</h:column>
 					<h:column headerClass="product-table-header-right">
 						<f:facet name="header">#{strings['stock.table.header_curr_stock']}</f:facet>
-					#{item.stockItemTO.amount}
+						<h:outputText value="#{item.stockItemTO.amount}"
+							rendered="#{not item.editingEnabled}" />
+						<h:inputText value="#{item.newAmount}"
+							rendered="#{item.editingEnabled}"
+							styleClass="product-table-number-col"
+							converterMessage="#{strings['stock.validation.numbers.text']}"
+							validator="#{showStockView.validatePositiveNumber}">
+							<f:converter converterId="javax.faces.Long" />
+						</h:inputText>
 					</h:column>
 					<h:column headerClass="product-table-header-right">
 						<f:facet name="header">#{strings['stock.table.header_sales_price']}</f:facet>
@@ -50,7 +74,9 @@
 							<f:convertNumber type="currency" currencySymbol="€" />
 						</h:outputText>
 						<h:inputText value="#{item.newSalesPrice}"
-							rendered="#{item.editingEnabled}">
+							rendered="#{item.editingEnabled}"
+							styleClass="product-table-number-col"
+							converterMessage="#{strings['stock.validation.price.text']}">
 							<f:converter converterId="javax.faces.Double" />
 						</h:inputText>
 					</h:column>
@@ -79,16 +105,14 @@
 								value="#{resource['icon:icon_shoppingcart_delete.png']}"
 								styleClass="button" />
 						</h:commandLink>
-						<h:commandLink
-							action="#{storePersistence.updateStockItemSalesPrice(item)}"
+						<h:commandLink action="#{showStockView.updateStockItem(item)}"
 							styleClass="button"
 							title="#{strings['stock.table.action.save_price']}"
 							rendered="#{item.editingEnabled}">
 							<h:graphicImage value="#{resource['icon:icon_save.png']}"
 								styleClass="button" />
 						</h:commandLink>
-						<h:commandLink action="#{item.resetEditSalesPrice()}"
-							styleClass="button"
+						<h:commandLink action="#{item.resetEdit()}" styleClass="button"
 							title="#{strings['stock.table.action.cancel']}"
 							rendered="#{item.editingEnabled}">
 							<h:graphicImage value="#{resource['icon:icon_reset.png']}"
@@ -97,11 +121,26 @@
 					</h:column>
 				</h:dataTable>
 			</h:form>
-			
-			<h:form rendered="#{stockOrderView.hasOrderProducts()}">
-				<h:commandButton action="#{stockOrderView.cancelOrder()}" value="#{strings['stock.order.wizard.cancel']}" styleClass="wizard-button-right"/>
-				<h:commandButton action="#{stockOrderView.showOrder()}" value="#{strings['stock.order.wizard.show']}" styleClass="wizard-button-right"/>
-				<h:commandButton action="#{stockOrderView.submitOrder()}" value="#{strings['stock.order.wizard.submit']}" styleClass="wizard-button-right"/>
+
+			<h:form>
+				<table width="100%">
+					<tr>
+						<td align="left"><h:button outcome="/store/add_stock"
+								value="#{strings['stock.add.button.label']}" /></td>
+						<td align="right"><h:panelGroup
+								rendered="#{stockOrderView.hasOrderProducts()}">
+								<h:commandButton action="#{stockOrderView.showOrder()}"
+									value="#{strings['stock.order.wizard.show']}"
+									styleClass="wizard-button-right" />
+								<h:commandButton action="#{stockOrderView.cancelOrder()}"
+									value="#{strings['stock.order.wizard.cancel']}"
+									styleClass="wizard-button-right" />
+								<h:commandButton action="#{stockOrderView.submitOrder()}"
+									value="#{strings['stock.order.wizard.submit']}"
+									styleClass="wizard-button-right" />
+							</h:panelGroup></td>
+					</tr>
+				</table>
 			</h:form>
 		</ui:define>
 	</ui:composition>

@@ -1,5 +1,6 @@
 package org.cocome.cloud.web.inventory.store;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -24,7 +25,11 @@ public interface IStoreInformation {
 	
 	public List<ProductWrapper> getAllStockItems();
 	
-	public void updateStockItems();
+	public Collection<ProductWrapper> getAllProductsWithStockItems();
+	
+	public void queryStockItems();
+	
+	public void queryProductsWithStockItems();
 	
 	public List<ProductWrapper> getStockReport(long storeID);
 	

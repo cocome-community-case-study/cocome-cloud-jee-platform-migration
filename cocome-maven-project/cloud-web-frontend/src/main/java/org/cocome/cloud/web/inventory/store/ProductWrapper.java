@@ -2,6 +2,7 @@ package org.cocome.cloud.web.inventory.store;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
@@ -26,6 +27,10 @@ public class ProductWrapper {
 	private boolean editingEnabled = false;
 	
 	private double newSalesPrice;
+	private long newAmount;
+	private long newMinAmount;
+	private long newMaxAmount;
+	
 	
 	private boolean inCurrentOrder = false;
 	
@@ -38,6 +43,9 @@ public class ProductWrapper {
 		this.stockItem = stockItem;
 		this.originStore = originStore;
 		this.newSalesPrice = stockItem.getSalesPrice();
+		this.newAmount = stockItem.getAmount();
+		this.newMaxAmount = stockItem.getMaxStock();
+		this.newMinAmount = stockItem.getMinStock();
 	}
 	
 	public void setStockItem(StockItemTO stockItem) {
@@ -95,8 +103,11 @@ public class ProductWrapper {
 		this.editingEnabled = editingEnabled;
 	}
 	
-	public void resetEditSalesPrice() {
+	public void resetEdit() {
 		newSalesPrice = stockItem.getSalesPrice();
+		newAmount = stockItem.getAmount();
+		newMaxAmount = stockItem.getMaxStock();
+		newMinAmount = stockItem.getMinStock();
 		setEditingEnabled(false);
 	}
 	
@@ -109,9 +120,12 @@ public class ProductWrapper {
 		return newSalesPrice;
 	}
 	
-	public void submitSalesPrice() {
+	public void submitEdit() {
 		LOG.debug(String.format("Setting sales price of %s to %f", product.getName(), newSalesPrice));
 		stockItem.setSalesPrice(newSalesPrice);
+		stockItem.setAmount(newAmount);
+		stockItem.setMaxStock(newMaxAmount);
+		stockItem.setMinStock(newMinAmount);
 		setEditingEnabled(false);
 	}
 
@@ -123,13 +137,65 @@ public class ProductWrapper {
 		this.inCurrentOrder = inCurrentOrder;
 	}
 	
-	public static ProductWithSupplierTO convertToProductTO(ProductWrapper product) {
-		ProductWithSupplierTO productTO = new ProductWithSupplierTO();
+	private static void fillProductTO(ProductTO productTO, ProductWrapper product) {
 		productTO.setBarcode(product.getBarcode());
 		productTO.setId(product.getID());
 		productTO.setName(product.getName());
 		productTO.setPurchasePrice(product.getProductTO().getPurchasePrice());
+	}
+	
+	public static ProductWithSupplierTO convertToProductTO(ProductWrapper product) {
+		ProductWithSupplierTO productTO = new ProductWithSupplierTO();
+		fillProductTO(productTO, product);
 		productTO.setSupplierTO(new SupplierTO());
 		return productTO;
+	}
+	
+	public static ProductWithStockItemTO convertToProductWithStockItemTO(ProductWrapper product) {
+		ProductWithStockItemTO productTO = new ProductWithStockItemTO();
+		fillProductTO(productTO, product);
+		
+		StockItemTO stockItemTO = product.getStockItemTO();
+		
+		if (stockItemTO == null) {
+			stockItemTO = getNewStockItemTO();
+		}
+		productTO.setStockItemTO(stockItemTO);
+		return productTO;
+	}
+
+	private static StockItemTO getNewStockItemTO() {
+		StockItemTO stockItemTO;
+		stockItemTO = new StockItemTO();
+		stockItemTO.setAmount(0);
+		stockItemTO.setIncomingAmount(0);
+		stockItemTO.setMaxStock(0);
+		stockItemTO.setMinStock(0);
+		stockItemTO.setSalesPrice(0.0);
+		return stockItemTO;
+	}
+
+	public long getNewAmount() {
+		return newAmount;
+	}
+
+	public void setNewAmount(long newAmount) {
+		this.newAmount = newAmount;
+	}
+
+	public long getNewMinAmount() {
+		return newMinAmount;
+	}
+
+	public void setNewMinAmount(long newMinAmount) {
+		this.newMinAmount = newMinAmount;
+	}
+
+	public long getNewMaxAmount() {
+		return newMaxAmount;
+	}
+
+	public void setNewMaxAmount(long newMaxAmount) {
+		this.newMaxAmount = newMaxAmount;
 	}
 }

@@ -1,10 +1,13 @@
 package org.cocome.cloud.web.inventory.store;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
@@ -32,37 +35,39 @@ import org.cocome.cloud.web.inventory.connection.IStoreQuery;
  */
 @Named
 @SessionScoped
-public class StoreInformation implements IStoreInformation, Serializable {	
+public class StoreInformation implements IStoreInformation, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOG = Logger.getLogger(StoreInformation.class);
-	
+
 	private long activeStoreID = IStoreInformation.STORE_ID_NOT_SET;
 	private Store activeStore;
 	private boolean hasChanged = false;
 
 	@Inject
 	IEnterpriseQuery enterpriseQuery;
-	
+
 	@Inject
 	IStoreQuery storeQuery;
-	
+
 	@Inject
 	Event<ChangeViewEvent> changeViewEvent;
-	
+
 	private List<ProductWrapper> stockItems = Collections.emptyList();
-	
-	
+
+	private Map<Long, ProductWrapper> productsWithStockItems = new LinkedHashMap<>();
+
 	@Override
 	public Store getActiveStore() {
 		if ((activeStore == null || hasChanged == true) && activeStoreID != STORE_ID_NOT_SET) {
+			LOG.debug("Active store is being retrieved from the database");
 			try {
-				LOG.debug("Active store is being retrieved from the database");
 				activeStore = enterpriseQuery.getStoreByID(activeStoreID);
 				hasChanged = false;
 			} catch (NotInDatabaseException_Exception e) {
 				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the store!", null));
+				context.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the store!", null));
 				return null;
 			}
 		} else {
@@ -100,7 +105,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	public boolean isStoreSet() {
 		return activeStoreID != IStoreInformation.STORE_ID_NOT_SET;
 	}
-	
+
 	public void observeLoginEvent(@Observes LoginEvent event) {
 		setActiveStoreID(event.getStoreID());
 	}
@@ -122,32 +127,61 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	public List<ProductWrapper> getStockReport(long storeID) {
 		long currentStoreID = getActiveStoreID();
 		setActiveStoreID(storeID);
-		updateStockItems();
+		queryStockItems();
 		List<ProductWrapper> stockItems = getAllStockItems();
 		setActiveStoreID(currentStoreID);
 		return stockItems;
 	}
 
 	@Override
-	public void updateStockItems() {
+	public void queryStockItems() {
 		LOG.debug("Looking up stock items");
 		boolean updated = false;
 
 		if (isStoreSet()) {
-			try {
-				Store activeStore = getActiveStore();
-				if (activeStore != null) {
-					stockItems = storeQuery.queryStockItems(activeStore);
-					updated = true;
-				}
-			} catch (NotInDatabaseException_Exception e) {
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the stock items!", null));
-			}
+			updated = updateStockItems();
 		}
-		
+
 		if (!updated) {
 			stockItems = Collections.emptyList();
+		}
+	}
+
+	private boolean updateStockItems() {
+		Store activeStore = getActiveStore();
+		if (activeStore != null) {
+			try {
+				stockItems = storeQuery.queryStockItems(activeStore);
+			} catch (NotInDatabaseException_Exception e) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the stock items!", null));
+				return false;
+			}
+			
+			mergeProductInformation();
+		}
+		return true;
+	}
+
+	private void mergeProductInformation() {
+		for (ProductWrapper stockItem : stockItems) {
+			productsWithStockItems.put(stockItem.getBarcode(), stockItem);
+		}
+	}
+
+	@Override
+	public Collection<ProductWrapper> getAllProductsWithStockItems() {
+		return productsWithStockItems.values();
+	}
+
+	@Override
+	public void queryProductsWithStockItems() {
+		updateStockItems();
+		for (ProductWrapper product : enterpriseQuery.getAllProducts()) {
+			if (!productsWithStockItems.containsKey(product.getBarcode())) {
+				productsWithStockItems.put(product.getBarcode(), product);
+			}
 		}
 	}
 }

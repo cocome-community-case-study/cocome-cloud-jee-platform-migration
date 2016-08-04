@@ -54,11 +54,11 @@
 						title="#{strings['store.table.action.edit_store']}" rendered="#{store.editingEnabled}">
 						<h:graphicImage value="#{resource['icon:icon_reset.png']}" styleClass="button"/>
 					</h:commandLink>
-					<h:commandLink action="#{storeInformation.switchToStore(store, '/store/main')}" styleClass="button"
+					<h:commandLink action="#{storeInformation.switchToStore(store, '/store/main?faces-redirect=true')}" styleClass="button"
 						title="#{strings['store.table.action.goto_store']}" rendered="#{not store.editingEnabled}">
 						<h:graphicImage value="#{resource['icon:icon_shop.png']}" styleClass="button"/>						
 					</h:commandLink>
-					<h:commandLink action="#{storeInformation.switchToStore(store, '/store/show_stock')}" styleClass="button"
+					<h:commandLink action="#{storeInformation.switchToStore(store, '/store/show_stock?faces-redirect=true')}" styleClass="button"
 						title="#{strings['store.table.action.goto_stock']}" rendered="#{not store.editingEnabled}">
 						<h:graphicImage value="#{resource['icon:icon_shoppingcart_add.png']}" styleClass="button"/>
 					</h:commandLink>

@@ -144,8 +144,23 @@ public class ApplicationHelper implements IApplicationHelper {
 
 		Constructor<T> resultConstructor = getServiceConstructor(type);
 
+		LOG.debug(String.format("Found component %s at location %s.", name, wsdlLocation.toString()));
+		
+		return createNewServiceInstance(wsdlLocation, serviceName, resultConstructor);
+	}
+	
+	@Override
+	public <T extends Service> T getComponentFromLocation(final URL wsdlLocation, final QName serviceName, Class<T> type) throws NotBoundException_Exception {
+		LOG.debug(String.format("Looking up component from location %s with service name %s and type %s.", wsdlLocation, serviceName.toString(), type.toString()));
+
+		Constructor<T> resultConstructor = getServiceConstructor(type);
+		
+		return createNewServiceInstance(wsdlLocation, serviceName, resultConstructor);
+	}
+
+	private <T extends Service> T createNewServiceInstance(final URL wsdlLocation, final QName serviceName,
+			Constructor<T> resultConstructor) throws NotBoundException_Exception {
 		try {
-			LOG.debug(String.format("Found component %s at location %s.", name, wsdlLocation.toString()));
 			T result = resultConstructor.newInstance(wsdlLocation, serviceName);
 			return result;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException

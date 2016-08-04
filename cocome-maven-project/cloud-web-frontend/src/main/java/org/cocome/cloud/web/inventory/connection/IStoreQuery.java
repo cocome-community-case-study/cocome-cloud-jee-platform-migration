@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.cocome.cloud.logic.stub.IStoreManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.inventory.store.OrderItem;
 import org.cocome.cloud.web.inventory.store.ProductWrapper;
@@ -33,4 +34,8 @@ public interface IStoreQuery {
 	public ComplexOrderTO getOrderByID(@NotNull Store store, long orderID);
 	
 	public boolean rollInOrder(@NotNull Store store, long orderID);
+
+	public boolean createStockItem(@NotNull Store store, @NotNull ProductWrapper product);
+	
+	public IStoreManager lookupStoreManager(long storeID) throws NotInDatabaseException_Exception;
 }

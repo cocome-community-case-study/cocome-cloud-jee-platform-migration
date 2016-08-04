@@ -23,12 +23,16 @@ public class StoreManagerStartup {
 	long defaultStoreIndex;
 	
 	@Inject
+	int defaultCashDeskIndex;
+	
+	@Inject
 	IApplicationHelper applicationHelper;
 	
 	@PostConstruct
 	private void registerStoreManager() {
 		try {
 			applicationHelper.registerComponent(Names.getStoreManagerRegistryName(defaultStoreIndex), storeManagerWSDL, false);
+			applicationHelper.registerComponent(Names.getCashDeskRegistryName(defaultStoreIndex, defaultCashDeskIndex), storeManagerWSDL, false);
 		} catch (URISyntaxException e) {
 			LOG.error("Error registering component: " + e.getMessage());
 		}

@@ -15,30 +15,29 @@ import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
 import org.cocome.cloud.web.inventory.store.StoreInformation;
 
-
 @ManagedBean
 @SessionScoped
 public class Login {
 
 	@Inject
 	IAuthenticator authenticator;
-	
+
 	@Inject
 	Event<LoginEvent> loginEvent;
-	
+
 	@Inject
 	Event<LogoutEvent> logoutEvent;
-	
+
 	private String username = "";
 	private ICredential password = new PlainCredential("");
 	private UserRole requestedRole = UserRole.ENTERPRISE_MANAGER;
-	
+
 	private IUser user = null;
 
 	private long requestedStoreId = StoreInformation.STORE_ID_NOT_SET;
-	
+
 	private boolean loggedIn = false;
-	
+
 	private static final Logger LOG = Logger.getLogger(Login.class);
 
 	public String getUserName() {
@@ -56,45 +55,46 @@ public class Login {
 	public void setPassword(@NotNull String password) {
 		this.password = new PlainCredential(password);
 	}
-	
+
 	public String login() {
-		IUser storedUser = authenticator.checkCredential(username, password); 
-		
+		IUser storedUser = authenticator.checkCredential(username, password);
+		String outcome;
+
 		if (storedUser != null) {
 			setLoggedIn(true);
 			user = storedUser;
 			loginEvent.fire(new LoginEvent(storedUser, requestedRole, requestedStoreId));
 			LOG.info(String.format("Successful login: username %s.", getUserName()));
-			return NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome();
+			outcome = isStoreRequired() ? NavigationElements.STORE_MAIN.getNavigationOutcome()
+					: NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome();
+		} else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			String message = context.getApplication().evaluateExpressionGet(context, "#{strings['login.failed.text']}",
+					String.class);
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+			outcome = NavigationElements.LOGIN.getNavigationOutcome();
+			LOG.warn(String.format("Failed login: username %s.", getUserName()));
 		}
-		
-		FacesContext context = FacesContext.getCurrentInstance();
-		String message = context.getApplication().evaluateExpressionGet(
-				context, "#{strings['login.failed.text']}", String.class);
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-						message, null));
-		
-		LOG.warn(String.format("Failed login: username %s.", getUserName()));
-		return NavigationElements.LOGIN.getNavigationOutcome();
+		return outcome;
 	}
-	
+
 	public String logout() {
 		username = "";
 		password = new PlainCredential("");
 		requestedRole = UserRole.ENTERPRISE_MANAGER;
 		requestedStoreId = 0;
-		
+
 		logoutEvent.fire(new LogoutEvent(user));
 		user = null;
-		
+
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return NavigationElements.LOGIN.getNavigationOutcome();
 	}
-		
+
 	public boolean isLoggedIn() {
 		return loggedIn;
 	}
-	
+
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
 	}
@@ -114,7 +114,7 @@ public class Login {
 	public void setRequestedRole(UserRole requestedRole) {
 		this.requestedRole = requestedRole;
 	}
-	
+
 	public boolean isStoreRequired() {
 		if (requestedRole.associatedView() != NavigationViewStates.ENTERPRISE_VIEW) {
 			return true;
