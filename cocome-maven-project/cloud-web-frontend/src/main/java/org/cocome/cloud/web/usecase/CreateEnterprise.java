@@ -23,7 +23,7 @@ import org.cocome.cloud.web.entitywrapper.EnterpriseTOWrapper;
 import org.cocome.cloud.web.entitywrapper.ProductTOWrapper;
 import org.cocome.cloud.web.entitywrapper.ProductWSSTOWrapper;
 import org.cocome.cloud.web.entitywrapper.StoreTOWrapper;
-import org.cocome.cloud.web.login.Login;
+import org.cocome.cloud.web.frontend.login.Login;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO;

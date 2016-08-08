@@ -1,6 +1,6 @@
 package org.cocome.cloud.web.frontend.navigation;
 
-import org.cocome.cloud.web.login.IPermission;
+import org.cocome.cloud.web.data.login.IPermission;
 
 /**
  * Represents an element inside an {@link INavigationMenu}.

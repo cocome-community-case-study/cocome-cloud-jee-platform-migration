@@ -14,10 +14,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
+import org.cocome.cloud.web.data.login.IUser;
 import org.cocome.cloud.web.events.ChangeViewEvent;
 import org.cocome.cloud.web.events.LoginEvent;
 import org.cocome.cloud.web.events.LogoutEvent;
-import org.cocome.cloud.web.login.IUser;
 
 /**
  * Implements the navigation menu for the site.

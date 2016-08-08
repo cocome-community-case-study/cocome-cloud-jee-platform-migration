@@ -171,6 +171,14 @@
     			text-align: left;
     		}
     		
+    		.error-message {
+    			color: red;
+    		}
+    		
+    		.info-message {
+    			color: #F9F9F9;
+    		}
+    		
 		</style>
 		</h:head>
 
@@ -195,7 +203,7 @@
 			<tbody>
 				<tr>
 					<td align="center" width="80%" valign="middle">
-						<h:messages />
+						<h:messages errorClass="error-message" fatalClass="error-message" warnClass="error-message" infoClass="info-message" showDetail="true" />
 						<ui:insert name="body">Page Body</ui:insert>
 					</td>
 				</tr>

@@ -11,7 +11,7 @@
 	<ui:composition template="/templates/commonTemplate.xhtml">
 
 		<ui:define name="body">
-			<h:panelGroup rendered="#{cashDeskView.setCashDeskName}">
+			<h:panelGroup rendered="#{cashDeskView.cashDeskNameNeeded}">
 				<h:form>
 					<table align="center">
 						<tr>
@@ -29,7 +29,7 @@
 			</h:panelGroup>
 			<h:form>
 				<h:panelGroup
-					rendered="#{not cashDeskView.setCashDeskName and cashDeskView.saleStarted}">
+					rendered="#{not cashDeskView.cashDeskNameNeeded and cashDeskView.saleStarted}">
 					<table width="100%">
 						<tr>
 							<td>
@@ -80,7 +80,7 @@
 
 													<tr>
 														<td><h:commandButton
-																action="#{newSaleProcess.enterCardInfo(cardInfo.value, pin.value)}"
+																action="#{cashDeskView.enterCardInfo(cardInfo, pin)}"
 																value="#{strings['cashdesk.payment.card.submit.button.label']}" />
 														</td>
 													</tr>
@@ -107,7 +107,7 @@
 												style="width: 150px"
 												value="#{strings['cashdesk.payment.card.start.button.label']}"
 												action="#{cashDeskView.startCardPayment}"
-												rendered="#{not newSaleProcess.inExpressMode}" /></td>
+												rendered="#{not cashDeskView.inExpressMode}" /></td>
 									</tr>
 									<tr>
 										<td align="right"><h:commandButton style="width: 150px"
@@ -123,78 +123,99 @@
 											<h:inputText id="barcodetext" style="width:145px"
 												value="#{cashDeskView.barcode}" /></td>
 									</tr>
-									<!-- <tr>
-									<td><h:commandButton style="width: 350px" value="#{strings['cashdesk.sale.scan.button.label']}"
-											action="" /></td>
-								</tr>
-								<tr>
-									<td align="center">
-										<table border="1">
-											<tr>
-												<td bgcolor="#E0E0E0">
-													<table border="0" cellpadding="0" cellspacing="2">
-														<tr>
-															<td><h:commandButton value="  7  "
-																	action="" styleClass="button" /></td>
-															<td><h:commandButton value="  8  "
-																	action="" styleClass="button" /></td>
-															<td><h:commandButton value="  9  "
-																	action="" styleClass="button" /></td>
-														</tr>
-														<tr>
-															<td><h:commandButton value="  4  "
-																	action="" styleClass="button" /></td>
-															<td><h:commandButton value="  5  "
-																	action="" styleClass="button" /></td>
-															<td><h:commandButton value="  6  "
-																	action="" styleClass="button" /></td>
-														</tr>
-														<tr>
-															<td><h:commandButton value="  1  "
-																	action="" styleClass="button" /></td>
-															<td><h:commandButton value="  2  "
-																	action="" styleClass="button" /></td>
-															<td><h:commandButton value="  3  "
-																	action="" styleClass="button" /></td>
-														</tr>
-														<tr>
-															<td><h:commandButton value="  C  "
-																	action=""
-																	styleClass="button"
-																	disabled="#{cashDeskView.barcode == ''}" /></td>
-															<td><h:commandButton value="  0  "
-																	action="" styleClass="button" /></td>
-															<td><h:commandButton value="   "
-																	action=""
-																	styleClass="button"
-																	disabled="#{newSaleProcess.barcode == ''}" /></td>
-														</tr>
-													</table>
-												</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-								<h:panelGroup rendered="#{cashDeskView.saleStarted}">
+									<tr>
+										<td><h:commandButton style="width: 350px"
+												value="#{strings['cashdesk.sale.scan.button.label']}"
+												action="#{cashDeskView.scanBarcode}" /></td>
+									</tr>
 									<tr>
 										<td align="center">
-											<table>
+											<table border="1">
 												<tr>
-													<td><h:dataTable
-															value="#{newSaleProcess.printerOut}" var="printerLine"
-															styleClass="jsfDataTablePrint"
-															headerClass="jsfDataTableHeader"
-															rowClasses="jsfDataTableOddRow,jsfDataTableEvenRow">
-															<h:column>
-																<h:outputText value="#{printerLine}" />
-															</h:column>
-														</h:dataTable>
+													<td bgcolor="#E0E0E0">
+														<table border="0" cellpadding="0" cellspacing="2">
+															<tr>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.7']}"
+																		action="#{cashDeskView.addDigitToBarcode('7')}"
+																		styleClass="button" /></td>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.8']}"
+																		action="#{cashDeskView.addDigitToBarcode('8')}"
+																		styleClass="button" /></td>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.9']}"
+																		action="#{cashDeskView.addDigitToBarcode('9')}"
+																		styleClass="button" /></td>
+															</tr>
+															<tr>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.4']}"
+																		action="#{cashDeskView.addDigitToBarcode('4')}"
+																		styleClass="button" /></td>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.5']}"
+																		action="#{cashDeskView.addDigitToBarcode('5')}"
+																		styleClass="button" /></td>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.6']}"
+																		action="#{cashDeskView.addDigitToBarcode('6')}"
+																		styleClass="button" /></td>
+															</tr>
+															<tr>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.1']}"
+																		action="#{cashDeskView.addDigitToBarcode('1')}"
+																		styleClass="button" /></td>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.2']}"
+																		action="#{cashDeskView.addDigitToBarcode('2')}"
+																		styleClass="button" /></td>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.3']}"
+																		action="#{cashDeskView.addDigitToBarcode('3')}"
+																		styleClass="button" /></td>
+															</tr>
+															<tr>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.clear']}"
+																		action="#{cashDeskView.clearBarcode}"
+																		styleClass="button"
+																		disabled="#{cashDeskView.barcode == ''}" /></td>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.0']}"
+																		action="cashDeskView.addDigitToBarcode('0')"
+																		styleClass="button" /></td>
+																<td><h:commandButton
+																		value="#{strings['cashdesk.barcode.numpad.backspace']}"
+																		action="#{cashDeskView.removeLastBarcodeDigit}"
+																		styleClass="button"
+																		disabled="#{cashDeskView.barcode == ''}" /></td>
+															</tr>
+														</table>
 													</td>
 												</tr>
 											</table>
 										</td>
-									</tr> 
-								</h:panelGroup>-->
+									</tr>
+									<h:panelGroup rendered="#{cashDeskView.saleStarted}">
+										<tr>
+											<td align="center">
+												<table>
+													<tr>
+														<td><h:dataTable value="#{cashDeskView.printerOutput}"
+																var="printerLine" styleClass="product-table"
+																headerClass="product-table-header"
+																rowClasses="product-table-odd-row, product-table-even-row">
+																<h:column>
+																	<h:outputText value="#{printerLine}" />
+																</h:column>
+															</h:dataTable></td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</h:panelGroup>
 								</table>
 							</td>
 						</tr>

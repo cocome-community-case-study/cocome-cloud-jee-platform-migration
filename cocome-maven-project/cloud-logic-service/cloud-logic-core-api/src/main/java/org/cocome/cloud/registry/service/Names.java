@@ -66,6 +66,10 @@ public final class Names {
 		return String.format("%s/%s", storeName, cashDeskName);
 	}
 	
+	public static String getCashDeskComponentRegistryName(final String cashDeskRemoteName, final String componentName) {
+		return String.format("%s-%s", cashDeskRemoteName, componentName);
+	}
+	
 	public static String getEnterpriseManagerRegistryName(final long enterpriseIndex) {
 		return getEnterpriseRemoteName(getEnterpriseManagerName(enterpriseIndex));
 	}
@@ -89,5 +93,4 @@ public final class Names {
 	public static String getCashDeskRegistryName(final long storeIndex, final int cashDeskIndex) {
 		return getCashDeskRemoteName(getStoreName(storeIndex), getCashDeskName(cashDeskIndex));
 	}
-
 }

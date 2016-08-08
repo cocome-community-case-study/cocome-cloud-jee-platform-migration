@@ -2,9 +2,9 @@ package org.cocome.cloud.web.events;
 
 import javax.validation.constraints.NotNull;
 
+import org.cocome.cloud.web.data.login.IUser;
+import org.cocome.cloud.web.data.login.UserRole;
 import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
-import org.cocome.cloud.web.login.IUser;
-import org.cocome.cloud.web.login.UserRole;
 
 public class LoginEvent {
 	private IUser user;

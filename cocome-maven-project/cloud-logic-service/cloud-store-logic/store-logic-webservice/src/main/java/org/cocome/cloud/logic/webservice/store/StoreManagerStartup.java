@@ -20,6 +20,27 @@ public class StoreManagerStartup {
 	String storeManagerWSDL;
 	
 	@Inject
+	String cashDeskWSDL;
+	
+	@Inject
+	String barcodeScannerWSDL;
+	
+	@Inject
+	String cardReaderWSDL;
+	
+	@Inject
+	String cashBoxWSDL;
+	
+	@Inject
+	String expressLightWSDL;
+	
+	@Inject
+	String printerWSDL;
+	
+	@Inject
+	String userDisplayWSDL;
+	
+	@Inject
 	long defaultStoreIndex;
 	
 	@Inject
@@ -32,7 +53,14 @@ public class StoreManagerStartup {
 	private void registerStoreManager() {
 		try {
 			applicationHelper.registerComponent(Names.getStoreManagerRegistryName(defaultStoreIndex), storeManagerWSDL, false);
-			applicationHelper.registerComponent(Names.getCashDeskRegistryName(defaultStoreIndex, defaultCashDeskIndex), storeManagerWSDL, false);
+			String cashDeskName = Names.getCashDeskRegistryName(defaultStoreIndex, defaultCashDeskIndex);
+			applicationHelper.registerComponent(cashDeskName, cashDeskWSDL, false);
+			applicationHelper.registerComponent(Names.getCashDeskComponentRegistryName(cashDeskName, "barcodeScanner"), barcodeScannerWSDL, false);
+			applicationHelper.registerComponent(Names.getCashDeskComponentRegistryName(cashDeskName, "cardReader"), cardReaderWSDL, false);
+			applicationHelper.registerComponent(Names.getCashDeskComponentRegistryName(cashDeskName, "cashBox"), cashBoxWSDL, false);
+			applicationHelper.registerComponent(Names.getCashDeskComponentRegistryName(cashDeskName, "expressLight"), expressLightWSDL, false);
+			applicationHelper.registerComponent(Names.getCashDeskComponentRegistryName(cashDeskName, "printer"), printerWSDL, false);
+			applicationHelper.registerComponent(Names.getCashDeskComponentRegistryName(cashDeskName, "userDisplay"), userDisplayWSDL, false);
 		} catch (URISyntaxException e) {
 			LOG.error("Error registering component: " + e.getMessage());
 		}
