@@ -18,11 +18,13 @@ public interface ICashDeskQuery {
 
 	public String getDisplayMessage(@NotNull String cashDeskName, long storeID)
 			throws UnhandledException_Exception, NotInDatabaseException_Exception;
-	
+
 	public String[] getPrinterOutput(@NotNull String cashDeskName, long storeID)
 			throws UnhandledException_Exception, NotInDatabaseException_Exception;
 
-	public boolean enterCashAmount(@NotNull String cashDeskName, long storeID, double amount);
+	public void enterCashAmount(@NotNull String cashDeskName, long storeID, double amount)
+			throws UnhandledException_Exception, IllegalCashDeskStateException_Exception,
+			NotInDatabaseException_Exception;
 
 	public void enterCardInfo(@NotNull String cashDeskName, long storeID, String cardInfo, int pin)
 			throws UnhandledException_Exception, IllegalCashDeskStateException_Exception,

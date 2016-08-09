@@ -2,16 +2,13 @@ package org.cocome.cloud.web.frontend.cashdesk;
 
 import java.io.Serializable;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.IllegalCashDeskStateException_Exception;
 import org.cocome.cloud.logic.stub.IllegalInputException_Exception;
 import org.cocome.cloud.logic.stub.NoSuchProductException_Exception;
@@ -24,11 +21,10 @@ import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.store.IStoreInformation;
 import org.cocome.cloud.web.util.Messages;
 
-@ConversationScoped
+@ViewScoped
 @ManagedBean
 public class CashDeskView implements Serializable {
 	private static final long serialVersionUID = -2512543291563857980L;
-	private static final Logger LOG = Logger.getLogger(CashDeskView.class);
 
 	private static final String[] EMPTY_OUTPUT = {};
 
@@ -39,20 +35,7 @@ public class CashDeskView implements Serializable {
 	ICashDeskQuery cashDeskQuery;
 
 	@Inject
-	Conversation conversation;
-
-	@Inject
-	CashDeskData cashDeskData;
-
-	@Inject
 	ICashDesk cashDesk;
-
-	@PostConstruct
-	public void initCashDesk() {
-		if (conversation.isTransient()) {
-			conversation.begin();
-		}
-	}
 
 	public String submitCashDeskName() {
 		cashDesk.setCashDeskNameNeeded(false);
@@ -66,16 +49,7 @@ public class CashDeskView implements Serializable {
 	}
 
 	private String getSalePageRedirectOutcome() {
-		String arguments;
-		if (!conversation.isTransient()) {
-			arguments = "?cid=" + conversation.getId();
-		} else {
-			arguments = "";
-		}
-
-		String redirectOutcome = NavigationElements.START_SALE.getNavigationOutcome() + arguments;
-
-		return redirectOutcome;
+		return NavigationElements.START_SALE.getNavigationOutcome();
 	}
 
 	public void setCashDeskName(String cashDeskName) {
@@ -91,72 +65,81 @@ public class CashDeskView implements Serializable {
 	}
 
 	public boolean isSaleStarted() {
-		return cashDeskData.isSaleStarted();
+		return cashDesk.isSaleStarted();
 	}
 
 	public boolean isInExpressMode() {
-		return cashDeskData.isInExpressMode();
+		return cashDesk.isInExpressMode();
 	}
 
 	public String getDisplayMessage() {
-		return cashDeskData.getDisplayMessage();
+		return cashDesk.getDisplayMessage();
 	}
 
 	public String[] getPrinterOutput() {
-		return cashDeskData.getPrinterOutput();
+		return cashDesk.getPrinterOutput();
 	}
 
 	public void updateExpressMode() {
+		String cashDeskName = cashDesk.getCashDeskName();
+		long storeID = storeInformation.getActiveStoreID();
+		
+		boolean expressMode = false;
+		
 		try {
-			cashDeskData.setInExpressMode(
-					cashDeskQuery.isInExpressMode(cashDesk.getCashDeskName(), storeInformation.getActiveStoreID()));
+			expressMode = cashDeskQuery.isInExpressMode(cashDeskName, storeID);
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
 			addFacesError(Messages.getLocalizedMessage("cashdesk.error.express.retrieve"));
-			cashDeskData.setInExpressMode(false);
 		}
+		
+		cashDesk.setInExpressMode(expressMode);
 	}
 
 	private void addFacesError(String errorString) {
 		FacesContext context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR",
-				errorString));
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", errorString));
 	}
 
 	public void updateDisplayMessage() {
+		String cashDeskName = cashDesk.getCashDeskName();
+		long storeID = storeInformation.getActiveStoreID();
+
+		String displayMessage = "";
+
 		try {
-			cashDeskData.setDisplayMessage(
-					cashDeskQuery.getDisplayMessage(cashDesk.getCashDeskName(), storeInformation.getActiveStoreID()));
+			displayMessage = cashDeskQuery.getDisplayMessage(cashDeskName, storeID);
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
 			addFacesError(Messages.getLocalizedMessage("cashdesk.error.display.retrieve"));
-			cashDeskData.setDisplayMessage("");
 		}
+		
+		cashDesk.setDisplayMessage(displayMessage);
 	}
 
 	public String enterCashAmount(double cashAmount) {
-		if (!cashDeskQuery.enterCashAmount(cashDesk.getCashDeskName(), storeInformation.getActiveStoreID(),
-				cashAmount)) {
-			addFacesError(Messages.getLocalizedMessage("cashdesk.error.cash_pay.failed"));
-		} else {
-			endConversation();
+		String cashDeskName = cashDesk.getCashDeskName();
+		long storeID = storeInformation.getActiveStoreID();
+
+		try {
+			cashDeskQuery.enterCashAmount(cashDeskName, storeID, cashAmount);
+		} catch (UnhandledException_Exception | NotInDatabaseException_Exception | IllegalCashDeskStateException_Exception e) {
+			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.cash_pay.failed"), e.getMessage()));
 		}
+		
 		updateDisplayAndPrinter();
 		updateExpressMode();
 		return getSalePageRedirectOutcome();
 	}
 
-	private void endConversation() {
-		if (!conversation.isTransient()) {
-			conversation.end();
-		}
-	}
-
 	public String enterCardInfo(String cardInfo, int pin) {
+		String cashDeskName = cashDesk.getCashDeskName();
+		long storeID = storeInformation.getActiveStoreID();
+
 		try {
-			cashDeskQuery.enterCardInfo(cashDesk.getCashDeskName(), storeInformation.getActiveStoreID(), cardInfo, pin);
-			endConversation();
+			cashDeskQuery.enterCardInfo(cashDeskName, storeID, cardInfo, pin);
 		} catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
 				| NotInDatabaseException_Exception e) {
-			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.card_pay.failed"), e.getMessage()));
+			addFacesError(
+					String.format(Messages.getLocalizedMessage("cashdesk.error.card_pay.failed"), e.getMessage()));
 		}
 		updateDisplayAndPrinter();
 		updateExpressMode();
@@ -164,16 +147,19 @@ public class CashDeskView implements Serializable {
 	}
 
 	public String startCashPayment() {
+		String cashDeskName = cashDesk.getCashDeskName();
+		long storeID = storeInformation.getActiveStoreID();
+
 		try {
-			cashDeskQuery.startCashPayment(cashDesk.getCashDeskName(), storeInformation.getActiveStoreID());
+			cashDeskQuery.startCashPayment(cashDeskName, storeID);
+			cashDesk.setAllItemsRegistered(true);
+			cashDesk.setCashPayment(true);
+			cashDesk.setCardPayment(false);
 		} catch (NotInDatabaseException_Exception | ProductOutOfStockException_Exception | UnhandledException_Exception
 				| IllegalCashDeskStateException_Exception | IllegalInputException_Exception e) {
-			addFacesError(String
-					.format(Messages.getLocalizedMessage("cashdesk.error.start_cash_pay.failed"), e.getMessage()));
+			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.start_cash_pay.failed"),
+					e.getMessage()));
 		}
-
-		cashDeskData.setCashPayment(true);
-		cashDeskData.setCardPayment(false);
 
 		updateDisplayAndPrinter();
 
@@ -181,16 +167,19 @@ public class CashDeskView implements Serializable {
 	}
 
 	public String startCardPayment() {
+		String cashDeskName = cashDesk.getCashDeskName();
+		long storeID = storeInformation.getActiveStoreID();
+
 		try {
-			cashDeskQuery.startCreditCardPayment(cashDesk.getCashDeskName(), storeInformation.getActiveStoreID());
+			cashDeskQuery.startCreditCardPayment(cashDeskName, storeID);
+			cashDesk.setAllItemsRegistered(true);
+			cashDesk.setCardPayment(true);
+			cashDesk.setCashPayment(false);
 		} catch (NotInDatabaseException_Exception | ProductOutOfStockException_Exception | UnhandledException_Exception
 				| IllegalCashDeskStateException_Exception | IllegalInputException_Exception e) {
-			addFacesError(String
-					.format(Messages.getLocalizedMessage("cashdesk.error.start_card_pay.failed"), e.getMessage()));
+			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.start_card_pay.failed"),
+					e.getMessage()));
 		}
-
-		cashDeskData.setCardPayment(true);
-		cashDeskData.setCashPayment(false);
 
 		updateDisplayAndPrinter();
 
@@ -198,28 +187,33 @@ public class CashDeskView implements Serializable {
 	}
 
 	public String resetSale() {
+		
+		String cashDeskName = cashDesk.getCashDeskName();
+		long storeID = storeInformation.getActiveStoreID();
+
 		try {
-			cashDeskQuery.startSale(cashDesk.getCashDeskName(), storeInformation.getActiveStoreID());
+			cashDeskQuery.startSale(cashDeskName, storeID);
+			cashDesk.setSaleStarted(true);
+			cashDesk.setCashPayment(false);
+			cashDesk.setCardPayment(false);
+			clearBarcode();
 		} catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
 				| NotInDatabaseException_Exception e) {
 			addFacesError(Messages.getLocalizedMessage("cashdesk.error.illegal_state.start_sale"));
 		}
 
-		cashDeskData.setSaleStarted(true);
-		cashDeskData.setCashPayment(false);
-		cashDeskData.setCardPayment(false);
-
+		
 		updateDisplayAndPrinter();
 
 		return getSalePageRedirectOutcome();
 	}
 
 	public boolean isCashPayment() {
-		return cashDeskData.isCashPayment();
+		return cashDesk.isCashPayment();
 	}
 
 	public boolean isCardPayment() {
-		return cashDeskData.isCardPayment();
+		return cashDesk.isCardPayment();
 	}
 
 	private void handleFailedValidationMessage(FacesContext context, UIComponent comp, String message) {
@@ -247,15 +241,15 @@ public class CashDeskView implements Serializable {
 	}
 
 	public String getBarcode() {
-		return cashDeskData.getBarcode();
+		return cashDesk.getBarcode();
 	}
 
 	public void setBarcode(String barcode) {
-		cashDeskData.setBarcode(barcode);
+		cashDesk.setBarcode(barcode);
 	}
 
 	private long convertBarcode() throws NumberFormatException {
-		long barcode = Long.parseLong(cashDeskData.getBarcode());
+		long barcode = Long.parseLong(cashDesk.getBarcode());
 		if (barcode < 0) {
 			throw new NumberFormatException("Barcode must be positive!");
 		}
@@ -273,8 +267,11 @@ public class CashDeskView implements Serializable {
 			return getSalePageRedirectOutcome();
 		}
 
+		String cashDeskName = cashDesk.getCashDeskName();
+		long storeID = storeInformation.getActiveStoreID();
+
 		try {
-			cashDeskQuery.enterBarcode(cashDesk.getCashDeskName(), storeInformation.getActiveStoreID(), barcode);
+			cashDeskQuery.enterBarcode(cashDeskName, storeID, barcode);
 			updatePrinterOutput();
 		} catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
 				| NotInDatabaseException_Exception | NoSuchProductException_Exception
@@ -286,25 +283,31 @@ public class CashDeskView implements Serializable {
 
 	public void addDigitToBarcode(char digit) {
 		// TODO Perhaps use a StringBuilder for this
-		cashDeskData.setBarcode(cashDeskData.getBarcode() + digit);
+		cashDesk.setBarcode(cashDesk.getBarcode() + digit);
 	}
 
 	public void clearBarcode() {
-		cashDeskData.setBarcode("");
+		cashDesk.setBarcode("");
 	}
 
 	public void removeLastBarcodeDigit() {
-		String barcode = cashDeskData.getBarcode();
-		cashDeskData.setBarcode(barcode.substring(0, barcode.length() - 2));
+		String barcode = cashDesk.getBarcode();
+		cashDesk.setBarcode(barcode.substring(0, barcode.length() - 2));
 	}
 
 	public void updatePrinterOutput() {
+		String cashDeskName = cashDesk.getCashDeskName();
+		long storeID = storeInformation.getActiveStoreID();
+
+		String[] printerOutput;
+
 		try {
-			cashDeskData.setPrinterOutput(
-					cashDeskQuery.getPrinterOutput(cashDesk.getCashDeskName(), storeInformation.getActiveStoreID()));
+			printerOutput = cashDeskQuery.getPrinterOutput(cashDeskName, storeID);
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
-			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.printer.retrieve"), e.getMessage()));
-			cashDeskData.setPrinterOutput(EMPTY_OUTPUT);
+			addFacesError(
+					String.format(Messages.getLocalizedMessage("cashdesk.error.printer.retrieve"), e.getMessage()));
+			printerOutput = EMPTY_OUTPUT;
 		}
+		cashDesk.setPrinterOutput(printerOutput);
 	}
 }

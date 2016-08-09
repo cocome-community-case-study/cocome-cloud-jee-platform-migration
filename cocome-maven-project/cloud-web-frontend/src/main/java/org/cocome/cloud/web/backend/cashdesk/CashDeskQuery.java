@@ -31,8 +31,8 @@ import org.cocome.cloud.logic.stub.UnhandledException_Exception;
 import org.cocome.cloud.registry.service.Names;
 
 @RequestScoped
-public class CashDesk implements ICashDeskQuery {
-	private static final Logger LOG = Logger.getLogger(CashDesk.class);
+public class CashDeskQuery implements ICashDeskQuery {
+	private static final Logger LOG = Logger.getLogger(CashDeskQuery.class);
 
 	ICashBox cashBox;
 
@@ -136,7 +136,9 @@ public class CashDesk implements ICashDeskQuery {
 			throws UnhandledException_Exception, NotInDatabaseException_Exception {
 		try {
 			lookupCashDeskComponents(storeID);
-			return userDisplay.getMessage(cashDeskName, storeID);
+			String message = userDisplay.getMessage(cashDeskName, storeID);
+			LOG.error(String.format("Got display message '%s'", message));
+			return message;
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
 			LOG.error(String.format("Exception while retrieving diplay message at cashdesk %s in store %d: %s\n%s",
 					cashDeskName, storeID, e.getMessage(), e.getStackTrace()));
@@ -149,21 +151,22 @@ public class CashDesk implements ICashDeskQuery {
 	}
 
 	@Override
-	public boolean enterCashAmount(String cashDeskName, long storeID, double amount) {
+	public void enterCashAmount(String cashDeskName, long storeID, double amount) throws UnhandledException_Exception, IllegalCashDeskStateException_Exception,
+			NotInDatabaseException_Exception {
 		try {
 			lookupCashDeskComponents(storeID);
 			cashDesk.startCashPayment(cashDeskName, storeID, amount);
 			cashBox.close(cashDeskName, storeID);
-			return true;
 		} catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
 				| NotInDatabaseException_Exception e) {
 			LOG.error(String.format("Exception while entering cash amount at cashdesk %s in store %d: %s\n%s",
 					cashDeskName, storeID, e.getMessage(), e.getStackTrace()));
+			throw e;
 		} catch (SOAPFaultException e) {
 			LOG.error(String.format("Exception while retrieving express mode state at cashdesk %s in store %d: %s\n%s",
 					cashDeskName, storeID, getSOAPFaultMessage(e), e.getStackTrace()));
+			throw new UnhandledException_Exception(getSOAPFaultMessage(e));
 		}
-		return false;
 	}
 
 	@Override
@@ -185,7 +188,7 @@ public class CashDesk implements ICashDeskQuery {
 			throw new UnhandledException_Exception(getSOAPFaultMessage(e));
 		}
 	}
-
+	
 	@Override
 	public void startCashPayment(String cashDeskName, long storeID)
 			throws NotInDatabaseException_Exception, ProductOutOfStockException_Exception, UnhandledException_Exception,

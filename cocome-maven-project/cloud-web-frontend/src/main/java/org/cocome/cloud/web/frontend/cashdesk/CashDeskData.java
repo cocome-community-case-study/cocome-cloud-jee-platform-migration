@@ -14,12 +14,15 @@ public class CashDeskData implements Serializable {
 	private boolean saleStarted = false;
 	private boolean cashPayment = false;
 	private boolean cardPayment = false;
+	private boolean saleSuccessful = false;
 
 	private String barcode;
 	
 	private boolean inExpressMode = false;
 	private String displayMessage = "";
 	private String[] printerOutput = {};
+	
+	
 
 	public boolean isSaleStarted() {
 		return saleStarted;
@@ -77,4 +80,11 @@ public class CashDeskData implements Serializable {
 		this.printerOutput = printerOutput;
 	}
 
+	public boolean isSaleSuccessful() {
+		return saleSuccessful;
+	}
+
+	public void setSaleSuccessful(boolean saleSuccessful) {
+		this.saleSuccessful = saleSuccessful;
+	}
 }

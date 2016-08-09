@@ -32,22 +32,22 @@
 					rendered="#{not cashDeskView.cashDeskNameNeeded and cashDeskView.saleStarted}">
 					<table width="100%">
 						<tr>
-							<td>
+							<td width="25%" style="vertical-align: top;">
 								<table align="left">
+									<tr>
+										<td align="left" style="vertical-align: top;"><b>#{strings['cashdesk.express_mode.label']}</b>
+											<h:graphicImage value="#{resource['image:blackBall.png']}"
+												rendered="#{not cashDeskView.inExpressMode}" 
+												styleClass="cashdesk-express-light"/> <h:graphicImage
+												value="#{resource['image:greenBall.png']}"
+												rendered="#{cashDeskView.inExpressMode}"
+												styleClass="cashdesk-express-light" /></td>
+									</tr>
 									<tr>
 										<td align="left"><b>#{strings['cashdesk.display.label']}</b>
 											<h:outputText id="result"
-												value="  #{cashDeskView.displayMessage}" /></td>
+												value="#{cashDeskView.displayMessage}" /></td>
 									</tr>
-									<tr>
-										<td align="left"><b>#{strings['cashdesk.express_mode.label']}</b>
-											<h:graphicImage value="#{resource['image:blackBall.png']}"
-												styleClass="button"
-												rendered="#{not cashDeskView.inExpressMode}" /> <h:graphicImage
-												value="#{resource['image:greenBall.png']}"
-												styleClass="button" rendered="#{cashDeskView.inExpressMode}" /></td>
-									</tr>
-
 									<tr>
 										<td align="left"><h:panelGroup
 												rendered="#{cashDeskView.cashPayment}">
@@ -56,7 +56,8 @@
 														<td><h:outputText
 																value="#{strings['cashdesk.payment.cash.label']}" /></td>
 														<td><h:inputText value="#{cashAmount}"
-																validator="#{cashDeskView.validateCashAmount}" /></td>
+																validator="#{cashDeskView.validateCashAmount}" 
+																styleClass="input-number"/></td>
 													</tr>
 													<tr>
 														<td><h:commandButton id="pay-sum"
@@ -69,13 +70,13 @@
 													<tr>
 														<td><h:outputText
 																value="#{strings['cashdesk.payment.card.number.label']}" />
-															<h:inputText id="cardInfo" value="#{cardInfo}" /></td>
+															<h:inputText id="cardInfo" value="#{cardInfo}" styleClass="input-number"/></td>
 													</tr>
 
 													<tr>
 														<td><h:outputText
 																value="#{strings['cashdesk.payment.card.pin.label']}" />
-															<h:inputText id="pin" value="#{pin}" /></td>
+															<h:inputText id="pin" value="#{pin}" styleClass="input-number"/></td>
 													</tr>
 
 													<tr>
@@ -87,37 +88,10 @@
 												</table>
 											</h:panelGroup></td>
 									</tr>
-
-
-
 								</table>
 							</td>
-						</tr>
-						<tr>
-							<td>
-								<table align="right">
-									<tr>
-										<td align="right"><h:commandButton id="pay-bar"
-												style="width: 150px"
-												value="#{strings['cashdesk.payment.cash.start.button.label']}"
-												action="#{cashDeskView.startCashPayment}" /></td>
-									</tr>
-									<tr>
-										<td align="right"><h:commandButton id="pay-card"
-												style="width: 150px"
-												value="#{strings['cashdesk.payment.card.start.button.label']}"
-												action="#{cashDeskView.startCardPayment}"
-												rendered="#{not cashDeskView.inExpressMode}" /></td>
-									</tr>
-									<tr>
-										<td align="right"><h:commandButton style="width: 150px"
-												value="#{strings['cashdesk.sale.start.button.label']}"
-												action="#{cashDeskView.resetSale}" /></td>
-									</tr>
-								</table>
-
+							<td width="50%">
 								<table align="center">
-
 									<tr>
 										<td align="center"><b>#{strings['cashdesk.sale.product.barcode.label']}</b>
 											<h:inputText id="barcodetext" style="width:145px"
@@ -138,89 +112,104 @@
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.7']}"
 																		action="#{cashDeskView.addDigitToBarcode('7')}"
-																		styleClass="button" /></td>
+																		styleClass="numpad-button" /></td>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.8']}"
 																		action="#{cashDeskView.addDigitToBarcode('8')}"
-																		styleClass="button" /></td>
+																		styleClass="numpad-button" /></td>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.9']}"
 																		action="#{cashDeskView.addDigitToBarcode('9')}"
-																		styleClass="button" /></td>
+																		styleClass="numpad-button" /></td>
 															</tr>
 															<tr>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.4']}"
 																		action="#{cashDeskView.addDigitToBarcode('4')}"
-																		styleClass="button" /></td>
+																		styleClass="numpad-button" /></td>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.5']}"
 																		action="#{cashDeskView.addDigitToBarcode('5')}"
-																		styleClass="button" /></td>
+																		styleClass="numpad-button" /></td>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.6']}"
 																		action="#{cashDeskView.addDigitToBarcode('6')}"
-																		styleClass="button" /></td>
+																		styleClass="numpad-button" /></td>
 															</tr>
 															<tr>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.1']}"
 																		action="#{cashDeskView.addDigitToBarcode('1')}"
-																		styleClass="button" /></td>
+																		styleClass="numpad-button" /></td>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.2']}"
 																		action="#{cashDeskView.addDigitToBarcode('2')}"
-																		styleClass="button" /></td>
+																		styleClass="numpad-button" /></td>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.3']}"
 																		action="#{cashDeskView.addDigitToBarcode('3')}"
-																		styleClass="button" /></td>
+																		styleClass="numpad-button" /></td>
 															</tr>
 															<tr>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.clear']}"
 																		action="#{cashDeskView.clearBarcode}"
-																		styleClass="button"
+																		styleClass="numpad-button"
 																		disabled="#{cashDeskView.barcode == ''}" /></td>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.0']}"
 																		action="cashDeskView.addDigitToBarcode('0')"
-																		styleClass="button" /></td>
+																		styleClass="numpad-button" /></td>
 																<td><h:commandButton
 																		value="#{strings['cashdesk.barcode.numpad.backspace']}"
 																		action="#{cashDeskView.removeLastBarcodeDigit}"
-																		styleClass="button"
+																		styleClass="numpad-button"
 																		disabled="#{cashDeskView.barcode == ''}" /></td>
 															</tr>
 														</table>
 													</td>
 												</tr>
 											</table>
+											<table align="center" width="100%">
+									<tr>
+										<td><h:dataTable value="#{cashDeskView.printerOutput}"
+												var="printerLine" styleClass="product-table"
+												rowClasses="product-table-odd-row, product-table-even-row"
+												columnClasses="center-text" width="50%" rendered="#{cashDeskView.saleStarted}">
+												<h:column>
+													<h:outputText value="#{printerLine}" />
+												</h:column>
+											</h:dataTable></td>
+									</tr>
+								</table>
 										</td>
 									</tr>
-									<h:panelGroup rendered="#{cashDeskView.saleStarted}">
-										<tr>
-											<td align="center">
-												<table>
-													<tr>
-														<td><h:dataTable value="#{cashDeskView.printerOutput}"
-																var="printerLine" styleClass="product-table"
-																headerClass="product-table-header"
-																rowClasses="product-table-odd-row, product-table-even-row">
-																<h:column>
-																	<h:outputText value="#{printerLine}" />
-																</h:column>
-															</h:dataTable></td>
-													</tr>
-												</table>
-											</td>
-										</tr>
-									</h:panelGroup>
+								</table>
+							</td>
+							<td width="25%" align="right" style="vertical-align: top;">
+								<table>
+									<tr>
+										<td align="right"><h:commandButton id="pay-bar"
+												style="width: 150px"
+												value="#{strings['cashdesk.payment.cash.start.button.label']}"
+												action="#{cashDeskView.startCashPayment}" /></td>
+									</tr>
+									<tr>
+										<td align="right"><h:commandButton id="pay-card"
+												style="width: 150px"
+												value="#{strings['cashdesk.payment.card.start.button.label']}"
+												action="#{cashDeskView.startCardPayment}"
+												rendered="#{not cashDeskView.inExpressMode}" /></td>
+									</tr>
+									<tr>
+										<td align="right"><h:commandButton style="width: 150px"
+												value="#{strings['cashdesk.sale.start.button.label']}"
+												action="#{cashDeskView.resetSale}" /></td>
+									</tr>
 								</table>
 							</td>
 						</tr>
 					</table>
-
 				</h:panelGroup>
 			</h:form>
 		</ui:define>
