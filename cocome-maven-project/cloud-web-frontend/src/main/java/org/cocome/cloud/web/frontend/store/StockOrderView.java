@@ -38,7 +38,7 @@ public class StockOrderView implements Serializable {
 	StockOrderData orderData;
 
 	@Inject
-	IStoreInformation storeInformation;
+	StoreInformation storeInformation;
 
 	@Inject
 	Conversation conversation;

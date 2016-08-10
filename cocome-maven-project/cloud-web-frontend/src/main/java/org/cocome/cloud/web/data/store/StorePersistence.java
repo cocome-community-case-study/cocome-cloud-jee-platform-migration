@@ -1,12 +1,8 @@
 package org.cocome.cloud.web.data.store;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.facelets.FaceletContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
@@ -14,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import org.apache.log4j.Logger;
 import org.cocome.cloud.web.backend.enterprise.IEnterpriseQuery;
 import org.cocome.cloud.web.backend.store.IStoreQuery;
-import org.cocome.cloud.web.frontend.enterprise.IEnterpriseInformation;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.util.Messages;
 

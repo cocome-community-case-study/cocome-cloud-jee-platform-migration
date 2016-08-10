@@ -10,7 +10,6 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import org.cocome.cloud.web.backend.store.IStoreQuery;
 import org.cocome.cloud.web.data.store.ProductWrapper;
 
 @ManagedBean
@@ -20,7 +19,7 @@ public class ShowReportView {
 	private List<ProductWrapper> stockItems;
 	
 	@Inject
-	IStoreInformation storeInformation;
+	StoreInformation storeInformation;
 
 	public long getStoreId() {
 		return storeId;

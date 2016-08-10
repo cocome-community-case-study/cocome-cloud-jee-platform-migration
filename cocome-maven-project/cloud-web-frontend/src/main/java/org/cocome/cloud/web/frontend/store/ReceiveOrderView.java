@@ -22,7 +22,7 @@ public class ReceiveOrderView {
 	IStoreQuery storeQuery;
 	
 	@Inject
-	IStoreInformation storeInformation;
+	StoreInformation storeInformation;
 	
 	private List<ComplexOrderTO> orders;
 	

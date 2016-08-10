@@ -1,5 +1,6 @@
 package org.cocome.cloud.web.frontend.login;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
@@ -11,14 +12,14 @@ import javax.validation.constraints.NotNull;
 import org.apache.log4j.Logger;
 import org.cocome.cloud.web.data.login.IAuthenticator;
 import org.cocome.cloud.web.data.login.ICredential;
+import org.cocome.cloud.web.data.login.ICredentialFactory;
 import org.cocome.cloud.web.data.login.IUser;
-import org.cocome.cloud.web.data.login.PlainCredential;
 import org.cocome.cloud.web.data.login.UserRole;
 import org.cocome.cloud.web.events.LoginEvent;
 import org.cocome.cloud.web.events.LogoutEvent;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
-import org.cocome.cloud.web.frontend.store.StoreInformation;
+import org.cocome.cloud.web.frontend.store.IStoreInformation;
 
 @ManagedBean
 @SessionScoped
@@ -26,6 +27,9 @@ public class Login {
 
 	@Inject
 	IAuthenticator authenticator;
+	
+	@Inject
+	ICredentialFactory credFactory;
 
 	@Inject
 	Event<LoginEvent> loginEvent;
@@ -34,16 +38,21 @@ public class Login {
 	Event<LogoutEvent> logoutEvent;
 
 	private String username = "";
-	private ICredential password = new PlainCredential("");
+	private ICredential password;
 	private UserRole requestedRole = UserRole.ENTERPRISE_MANAGER;
 
 	private IUser user = null;
 
-	private long requestedStoreId = StoreInformation.STORE_ID_NOT_SET;
+	private long requestedStoreId = IStoreInformation.STORE_ID_NOT_SET;
 
 	private boolean loggedIn = false;
 
 	private static final Logger LOG = Logger.getLogger(Login.class);
+	
+	@PostConstruct
+	private void init() {
+		password = credFactory.createPlainPassword("");
+	}
 
 	public String getUserName() {
 		return username;
@@ -58,7 +67,7 @@ public class Login {
 	}
 
 	public void setPassword(@NotNull String password) {
-		this.password = new PlainCredential(password);
+		this.password = credFactory.createPlainPassword(password);
 	}
 
 	public String login() {
@@ -85,7 +94,7 @@ public class Login {
 
 	public String logout() {
 		username = "";
-		password = new PlainCredential("");
+		password = credFactory.createPlainPassword("");
 		requestedRole = UserRole.ENTERPRISE_MANAGER;
 		requestedStoreId = 0;
 
@@ -105,7 +114,7 @@ public class Login {
 	}
 
 	public long getRequestedStoreId() {
-		return requestedStoreId == StoreInformation.STORE_ID_NOT_SET ? 0 : requestedStoreId;
+		return requestedStoreId == IStoreInformation.STORE_ID_NOT_SET ? 0 : requestedStoreId;
 	}
 
 	public void setRequestedStoreId(long requestedStoreId) {

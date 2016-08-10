@@ -24,7 +24,7 @@ public class ShowStockView {
 	IEnterpriseQuery enterpriseQuery;
 	
 	@Inject
-	IStoreInformation storeInformation;
+	StoreInformation storeInformation;
 	
 	public String createNewStockItem(ProductWrapper item) {
 		if (storeQuery.createStockItem(storeInformation.getActiveStore(), item)) {

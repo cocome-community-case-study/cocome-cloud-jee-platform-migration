@@ -1,6 +1,8 @@
 package org.cocome.cloud.web.backend.cashdesk;
 
-import javax.enterprise.context.RequestScoped;
+import java.io.Serializable;
+
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.xml.ws.soap.SOAPFaultException;
@@ -30,8 +32,10 @@ import org.cocome.cloud.logic.stub.ProductOutOfStockException_Exception;
 import org.cocome.cloud.logic.stub.UnhandledException_Exception;
 import org.cocome.cloud.registry.service.Names;
 
-@RequestScoped
-public class CashDeskQuery implements ICashDeskQuery {
+@SessionScoped
+public class CashDeskQuery implements Serializable, ICashDeskQuery {
+	private static final long serialVersionUID = 9146286507233255051L;
+
 	private static final Logger LOG = Logger.getLogger(CashDeskQuery.class);
 
 	ICashBox cashBox;
@@ -56,15 +60,25 @@ public class CashDeskQuery implements ICashDeskQuery {
 
 	@Inject
 	long defaultStoreIndex;
+	
+	private boolean initialized = false;
 
 	private String getSOAPFaultMessage(SOAPFaultException e) {
 		return e.getFault() != null ? e.getFault().getFaultString(): e.getMessage();
 	}
 	
 	private void lookupCashDeskComponents(long storeID) throws NotInDatabaseException_Exception {
+		if (initialized) {
+			// Save the lookup calls if already initialized.
+			// This may lead to errors if the store server is 
+			// relocated during a session.
+			return;
+		}
+		
 		LOG.debug(String.format("Looking up cash desk components for store %d", storeID));
 		try {
 			initCashDeskComponents(storeID);
+			initialized = true;
 		} catch (NotBoundException_Exception e) {
 			if (storeID == defaultStoreIndex) {
 				LOG.error("Got exception while retrieving store manager location: " + e.getMessage());
