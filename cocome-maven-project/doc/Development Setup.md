@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Eclipse Mars
+- Eclipse Nano
 - Maven2Eclipse connector (available via Eclipse Marketplace)
 - Check `Eclipse Setup.md` for further details on the setup of Eclipse
 - Read/Execute `Glassfish Setup.md` and consult `Deployment Setup.md`
