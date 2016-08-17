@@ -9,7 +9,7 @@ import javax.jws.WebService;
 import org.cocome.cloud.logic.webservice.AbstractCashDeskAction;
 import org.cocome.cloud.logic.webservice.NamedCashDeskService;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
-import org.cocome.logic.webservice.cashdeskline.cashdeskservice.cardreader.ICardReader;
+import org.cocome.logic.webservice.cashdeskline.cashdeskservice.cardreaderservice.ICardReader;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cardreader.ICardReaderLocal;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
@@ -26,7 +26,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
  */
 @WebService(serviceName = "ICardReaderService", 
 			name = "ICardReader", 
-			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdesk.cardreader.ICardReader",
+			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdeskservice.cardreaderservice.ICardReader",
 			targetNamespace = "http://cardreader.cashdesk.cashdeskline.webservice.logic.cocome.org/")
 @Stateless
 public class CardReader extends NamedCashDeskService implements ICardReader {

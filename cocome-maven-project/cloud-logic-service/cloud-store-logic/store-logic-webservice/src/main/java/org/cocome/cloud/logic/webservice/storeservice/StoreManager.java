@@ -49,7 +49,7 @@ import org.cocome.tradingsystem.util.scope.RegistryKeys;
 
 @WebService(serviceName = "IStoreManagerService", 
 			name = "IStoreManager", 
-			endpointInterface = "org.cocome.logic.webservice.store.IStoreManager",
+			endpointInterface = "org.cocome.logic.webservice.storeservice.IStoreManager",
 			targetNamespace = "http://store.webservice.logic.cocome.org/")
 @Stateless
 public class StoreManager implements IStoreManager {

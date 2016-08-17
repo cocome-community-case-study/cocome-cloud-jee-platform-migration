@@ -9,10 +9,6 @@
     <wsdl:part name="UnhandledException" element="tns:UnhandledException">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="ProductOutOfStockException">
-    <wsdl:part name="ProductOutOfStockException" element="tns:ProductOutOfStockException">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="pressNumpadKeyResponse">
     <wsdl:part name="parameters" element="tns:pressNumpadKeyResponse">
     </wsdl:part>
@@ -103,8 +99,6 @@
     </wsdl:input>
       <wsdl:output name="closeResponse" message="tns:closeResponse">
     </wsdl:output>
-      <wsdl:fault name="ProductOutOfStockException" message="tns:ProductOutOfStockException">
-    </wsdl:fault>
       <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
     </wsdl:fault>
       <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
@@ -185,9 +179,6 @@
       <wsdl:output name="closeResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-      <wsdl:fault name="ProductOutOfStockException">
-        <soap:fault name="ProductOutOfStockException" use="literal"/>
-      </wsdl:fault>
       <wsdl:fault name="UnhandledException">
         <soap:fault name="UnhandledException" use="literal"/>
       </wsdl:fault>

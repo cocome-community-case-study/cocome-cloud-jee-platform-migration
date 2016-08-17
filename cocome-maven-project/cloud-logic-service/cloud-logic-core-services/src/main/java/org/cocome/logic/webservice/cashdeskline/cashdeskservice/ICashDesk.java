@@ -24,7 +24,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
  * @author Robert Heinrich
  *
  */
-@WebService
+@WebService(targetNamespace = "http://cashdesk.cashdeskline.webservice.logic.cocome.org/")
 public interface ICashDesk {
 
 	/**

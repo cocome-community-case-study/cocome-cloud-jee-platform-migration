@@ -24,7 +24,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  */
 @WebService(serviceName= "ILoginManagerService", 
 			name = "ILoginManager", 
-			endpointInterface = "org.cocome.logic.webservice.usermanager.ILoginManager",
+			endpointInterface = "org.cocome.logic.webservice.usermanagerservice.ILoginManager",
 			targetNamespace = "http://usermanager.webservice.logic.cocome.org/")
 @Stateless
 public class LoginManager implements ILoginManager {

@@ -1,7 +1,5 @@
 package org.cocome.logic.webservice.usermanagerservice;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.jws.WebMethod;
@@ -20,7 +18,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-@WebService
+@WebService(targetNamespace = "http://usermanager.webservice.logic.cocome.org/")
 public interface ILoginManager {
 
 	@WebMethod

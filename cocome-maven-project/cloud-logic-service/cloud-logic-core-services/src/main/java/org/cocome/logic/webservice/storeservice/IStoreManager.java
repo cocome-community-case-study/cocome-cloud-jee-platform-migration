@@ -25,7 +25,7 @@ import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseT
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
-@WebService
+@WebService(targetNamespace = "http://store.webservice.logic.cocome.org/")
 public interface IStoreManager {
 
 	@WebMethod

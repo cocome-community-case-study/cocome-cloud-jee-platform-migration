@@ -272,12 +272,13 @@ public class CashDeskView implements Serializable {
 
 		try {
 			cashDeskQuery.enterBarcode(cashDeskName, storeID, barcode);
-			updatePrinterOutput();
 		} catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
 				| NotInDatabaseException_Exception | NoSuchProductException_Exception
 				| ProductOutOfStockException_Exception e) {
 			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.barcode.scan.failed"), e.getMessage()));
 		}
+		
+		updateDisplayAndPrinter();
 		return getSalePageRedirectOutcome();
 	}
 

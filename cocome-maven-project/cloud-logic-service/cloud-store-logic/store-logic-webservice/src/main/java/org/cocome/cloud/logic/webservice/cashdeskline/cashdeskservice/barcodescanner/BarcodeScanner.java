@@ -9,7 +9,7 @@ import javax.jws.WebService;
 import org.cocome.cloud.logic.webservice.AbstractCashDeskAction;
 import org.cocome.cloud.logic.webservice.NamedCashDeskService;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
-import org.cocome.logic.webservice.cashdeskline.cashdeskservice.barcodescanner.IBarcodeScanner;
+import org.cocome.logic.webservice.cashdeskline.cashdeskservice.barcodescannerservice.IBarcodeScanner;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.barcodescanner.IBarcodeScannerLocal;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
@@ -26,7 +26,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
  */
 @WebService(serviceName = "IBarcodeScannerService", 
 			name = "IBarcodeScanner", 
-			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdesk.barcodescanner.IBarcodeScanner",
+			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdeskservice.barcodescannerservice.IBarcodeScanner",
 			targetNamespace = "http://barcodescanner.cashdesk.cashdeskline.webservice.logic.cocome.org/")
 @Stateless
 public class BarcodeScanner extends NamedCashDeskService implements IBarcodeScanner {

@@ -7,7 +7,7 @@ import javax.jws.WebService;
 import org.cocome.cloud.logic.webservice.AbstractCashDeskAction;
 import org.cocome.cloud.logic.webservice.NamedCashDeskService;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
-import org.cocome.logic.webservice.cashdeskline.cashdeskservice.userdisplay.IUserDisplay;
+import org.cocome.logic.webservice.cashdeskline.cashdeskservice.userdisplayservice.IUserDisplay;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.userdisplay.IUserDisplayLocal;
@@ -18,7 +18,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
 
 @WebService(serviceName = "IUserDisplayService", 
 			name = "IUserDisplay", 
-			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdesk.userdisplay.IUserDisplay",
+			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdeskservice.userdisplayservice.IUserDisplay",
 			targetNamespace = "http://userdisplay.cashdesk.cashdeskline.webservice.logic.cocome.org/")
 @Stateless
 public class UserDisplay extends NamedCashDeskService implements IUserDisplay {

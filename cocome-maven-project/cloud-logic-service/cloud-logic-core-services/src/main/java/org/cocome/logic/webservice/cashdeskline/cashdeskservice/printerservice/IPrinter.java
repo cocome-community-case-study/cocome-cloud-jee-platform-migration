@@ -1,4 +1,4 @@
-package org.cocome.logic.webservice.cashdeskline.cashdeskservice.printer;
+package org.cocome.logic.webservice.cashdeskline.cashdeskservice.printerservice;
 
 import java.util.Set;
 
@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 
 
-@WebService
+@WebService(targetNamespace = "http://printer.cashdesk.cashdeskline.webservice.logic.cocome.org/")
 public interface IPrinter {
 	@WebMethod
 	public Set<Class<?>> tearOffPrintout(@XmlElement(required = true) @WebParam(name = "cashDeskName") String cashDeskName,

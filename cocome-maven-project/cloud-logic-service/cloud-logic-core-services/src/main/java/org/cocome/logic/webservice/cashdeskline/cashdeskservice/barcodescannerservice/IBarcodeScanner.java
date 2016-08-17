@@ -1,4 +1,4 @@
-package org.cocome.logic.webservice.cashdeskline.cashdeskservice.barcodescanner;
+package org.cocome.logic.webservice.cashdeskline.cashdeskservice.barcodescannerservice;
 
 import java.util.Set;
 
@@ -17,7 +17,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-@WebService
+@WebService(targetNamespace = "http://barcodescanner.cashdesk.cashdeskline.webservice.logic.cocome.org/")
 public interface IBarcodeScanner {
 	@WebMethod
 	Set<Class<?>> sendProductBarcode(@XmlElement(required = true) @WebParam(name = "cashDeskName") String cashDeskName, 

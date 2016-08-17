@@ -29,7 +29,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
  */
 @WebService(serviceName = "ICashDeskService", 
 			name = "ICashDesk", 
-			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdesk.ICashDesk",
+			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdeskservice.ICashDesk",
 			targetNamespace = "http://cashdesk.cashdeskline.webservice.logic.cocome.org/")
 @Stateless
 public class CashDesk extends NamedCashDeskService implements ICashDesk, Serializable {

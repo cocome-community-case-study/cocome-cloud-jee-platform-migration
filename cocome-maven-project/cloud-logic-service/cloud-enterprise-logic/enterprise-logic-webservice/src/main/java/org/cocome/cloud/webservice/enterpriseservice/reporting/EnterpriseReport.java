@@ -27,7 +27,7 @@ import org.cocome.tradingsystem.util.scope.RegistryKeys;
  */
 @WebService(serviceName = "IEnterpriseReportService", 
 			name = "IEnterpriseReport", 
-			endpointInterface = "org.cocome.logic.webservice.enterprise.reporting.IEnterpriseReport",
+			endpointInterface = "org.cocome.logic.webservice.enterpriseservice.reportingservice.IEnterpriseReport",
 			targetNamespace = "http://reporting.enterprise.webservice.logic.cocome.org/")
 @Stateless
 public class EnterpriseReport implements IEnterpriseReport {

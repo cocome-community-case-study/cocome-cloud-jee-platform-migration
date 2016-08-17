@@ -47,7 +47,7 @@ import org.cocome.tradingsystem.util.scope.RegistryKeys;
  */
 @WebService(serviceName = "IEnterpriseManagerService", 
 			name = "IEnterpriseManager", 
-			endpointInterface = "org.cocome.logic.webservice.enterprise.IEnterpriseManager",
+			endpointInterface = "org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager",
 			targetNamespace = "http://enterprise.webservice.logic.cocome.org/")
 @Stateless
 public class EnterpriseManager implements IEnterpriseManager {

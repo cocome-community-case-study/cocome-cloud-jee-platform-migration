@@ -9,7 +9,7 @@ import javax.jws.WebService;
 import org.cocome.cloud.logic.webservice.AbstractCashDeskAction;
 import org.cocome.cloud.logic.webservice.NamedCashDeskService;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
-import org.cocome.logic.webservice.cashdeskline.cashdeskservice.cashbox.ICashBox;
+import org.cocome.logic.webservice.cashdeskline.cashdeskservice.cashboxservice.ICashBox;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.ICashBoxLocal;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
@@ -22,7 +22,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
 
 @WebService(serviceName = "ICashBoxService", 
 			name = "ICashBox", 
-			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdesk.cashbox.ICashBox",
+			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdeskservice.cashboxservice.ICashBox",
 			targetNamespace = "http://cashbox.cashdesk.cashdeskline.webservice.logic.cocome.org/")
 @Stateless
 public class CashBox extends NamedCashDeskService implements ICashBox {

@@ -9,7 +9,7 @@ import javax.jws.WebService;
 import org.cocome.cloud.logic.webservice.AbstractCashDeskAction;
 import org.cocome.cloud.logic.webservice.NamedCashDeskService;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
-import org.cocome.logic.webservice.cashdeskline.cashdeskservice.printer.IPrinter;
+import org.cocome.logic.webservice.cashdeskline.cashdeskservice.printerservice.IPrinter;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.printer.IPrinterLocal;
@@ -20,7 +20,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
 
 @WebService(serviceName = "IPrinterService", 
 			name = "IPrinter", 
-			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdesk.printer.IPrinter",
+			endpointInterface = "org.cocome.logic.webservice.cashdeskline.cashdeskservice.printerservice.IPrinter",
 			targetNamespace = "http://printer.cashdesk.cashdeskline.webservice.logic.cocome.org/")
 @Stateless
 public class Printer extends NamedCashDeskService implements IPrinter {

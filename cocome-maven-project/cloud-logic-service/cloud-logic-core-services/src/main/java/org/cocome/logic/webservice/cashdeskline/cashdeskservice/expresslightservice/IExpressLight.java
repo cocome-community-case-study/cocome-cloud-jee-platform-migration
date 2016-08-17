@@ -1,4 +1,4 @@
-package org.cocome.logic.webservice.cashdeskline.cashdeskservice.expresslight;
+package org.cocome.logic.webservice.cashdeskline.cashdeskservice.expresslightservice;
 
 import java.util.Set;
 
@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 
 
-@WebService
+@WebService(targetNamespace = "http://expresslight.cashdesk.cashdeskline.webservice.logic.cocome.org/")
 public interface IExpressLight {
 	@WebMethod
 	public Set<Class<?>> turnExpressLightOn(@XmlElement(required = true) @WebParam(name = "cashDeskName") String cashDeskName,

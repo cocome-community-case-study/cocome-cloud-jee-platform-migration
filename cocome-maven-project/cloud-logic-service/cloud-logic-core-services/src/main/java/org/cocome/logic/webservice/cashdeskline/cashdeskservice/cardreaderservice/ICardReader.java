@@ -1,4 +1,4 @@
-package org.cocome.logic.webservice.cashdeskline.cashdeskservice.cardreader;
+package org.cocome.logic.webservice.cashdeskline.cashdeskservice.cardreaderservice;
 
 import java.util.Set;
 
@@ -16,7 +16,7 @@ import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateExcept
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-@WebService
+@WebService(targetNamespace = "http://cardreader.cashdesk.cashdeskline.webservice.logic.cocome.org/")
 public interface ICardReader {
 	@WebMethod
 	public Set<Class<?>> sendCreditCardInfo(@XmlElement(required = true) @WebParam(name = "cashDeskName") String cashDeskName,

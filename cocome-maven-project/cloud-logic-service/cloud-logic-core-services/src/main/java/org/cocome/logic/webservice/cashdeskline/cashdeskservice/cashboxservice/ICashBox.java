@@ -1,4 +1,4 @@
-package org.cocome.logic.webservice.cashdeskline.cashdeskservice.cashbox;
+package org.cocome.logic.webservice.cashdeskline.cashdeskservice.cashboxservice;
 
 import java.util.Set;
 
@@ -12,7 +12,7 @@ import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateExcept
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 
-@WebService
+@WebService(targetNamespace = "http://cashbox.cashdesk.cashdeskline.webservice.logic.cocome.org/")
 public interface ICashBox {
 	@WebMethod
 	public Set<Class<?>> open(@XmlElement(required = true) @WebParam(name = "cashDeskName") String cashDeskName, 
