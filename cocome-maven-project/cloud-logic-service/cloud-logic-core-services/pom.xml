@@ -196,8 +196,8 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.6</version>
 			</plugin>
-			
-    		<plugin>
+
+			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
 				<executions>
@@ -207,15 +207,19 @@
 						<configuration>
 							<sourceRoot>${project.build.directory}/generated-sources/src</sourceRoot>
 							<fork>true</fork>
+							<!-- The arguments should not be put on different lines 
+								because that results in errors when calling the java executable -->
 							<additionalJvmArgs>
 								-Djavax.xml.accessExternalSchema=all -Djavax.xml.accessExternalDTD=all
 							</additionalJvmArgs>
 							<defaultOptions>
- 								<extraargs>
+								<extraargs>
 									<extraarg>-xjc-extension</extraarg>
 									<extraarg>-xjc-verbose</extraarg>
 								</extraargs>
-								<packagenames><packagename>${logic.stubs.package}</packagename></packagenames>
+								<packagenames>
+									<packagename>${logic.stubs.package}</packagename>
+								</packagenames>
 							</defaultOptions>
 							<wsdlOptions>
 								<wsdlOption>
@@ -312,7 +316,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -332,6 +336,42 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.cxf
+										</groupId>
+										<artifactId>
+											cxf-java2ws-plugin
+										</artifactId>
+										<versionRange>
+											[3.1.7,)
+										</versionRange>
+										<goals>
+											<goal>java2ws</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<dependencies>

@@ -33,9 +33,9 @@
 													<h:form>
 													<h:commandLink action="#{navigationMenu.changeStateTo('ENTERPRISE_VIEW')}" 
 														value="#{enterpriseInformation.activeEnterprise.name}"
-														rendered="#{login.loggedIn and login.user.hasPermissionString('enterprise manager')}"/>
+														rendered="#{login.loggedIn and (login.user.hasPermissionString('enterprise manager'))}"/>
 													<h:outputText value="#{enterpriseInformation.activeEnterprise.name}"
-														rendered="#{not login.user.hasPermissionString('enterprise manager')}"/>
+														rendered="#{not (login.user.hasPermissionString('enterprise manager'))}"/>
 													</h:form>
 												</td>
 											</tr>

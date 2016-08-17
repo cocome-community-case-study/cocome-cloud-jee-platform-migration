@@ -13,7 +13,7 @@
 		<ui:define name="body">
 			<h:outputText
 				value="#{strings['order.show_order.select_product.text']}"
-				rendered="#{not stockOrderView.hasOrderProducts() and not stockOrderView.itemSelected}" />
+				rendered="#{not (stockOrderView.hasOrderProducts()) and not stockOrderView.itemSelected}" />
 			
 				<table width="100%">
 				<h:panelGroup rendered="#{stockOrderView.itemSelected}">
