@@ -15,7 +15,7 @@ import org.cocome.cloud.logic.stub.NoSuchProductException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.stub.ProductOutOfStockException_Exception;
 import org.cocome.cloud.logic.stub.UnhandledException_Exception;
-import org.cocome.cloud.web.backend.cashdesk.ICashDeskQuery;
+import org.cocome.cloud.web.connector.cashdeskconnector.ICashDeskQuery;
 import org.cocome.cloud.web.data.cashdesk.ICashDesk;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.store.IStoreInformation;

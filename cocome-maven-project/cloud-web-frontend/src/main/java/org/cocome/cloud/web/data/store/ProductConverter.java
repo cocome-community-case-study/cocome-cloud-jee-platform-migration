@@ -10,7 +10,7 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.backend.enterprise.IEnterpriseQuery;
+import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
 
 /**
  * Converts a product from the UI representation into a {@link ProductWrapper} 

@@ -8,8 +8,8 @@ import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
-import org.cocome.cloud.web.backend.enterprise.IEnterpriseQuery;
-import org.cocome.cloud.web.backend.store.IStoreQuery;
+import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
+import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.util.Messages;
 

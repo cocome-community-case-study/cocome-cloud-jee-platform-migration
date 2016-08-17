@@ -1,4 +1,4 @@
-package org.cocome.cloud.web.backend.enterprise;
+package org.cocome.cloud.web.connector.enterpriseconnector;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -6,7 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.cocome.cloud.web.backend.enterprise.IEnterpriseQuery;
+import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
 
 @Named
 @ApplicationScoped

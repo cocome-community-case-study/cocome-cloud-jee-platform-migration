@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
-import org.cocome.cloud.web.backend.enterprise.IEnterpriseQuery;
+import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
 
 /**
  * Converts an Enterprise from the UI representation into an {@link Enterprise} 

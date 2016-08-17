@@ -11,7 +11,7 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import org.cocome.cloud.web.backend.store.IStoreQuery;
+import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
 
 @ManagedBean

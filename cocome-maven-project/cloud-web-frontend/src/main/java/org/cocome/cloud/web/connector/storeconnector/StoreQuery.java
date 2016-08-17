@@ -1,4 +1,4 @@
-package org.cocome.cloud.web.backend.store;
+package org.cocome.cloud.web.connector.storeconnector;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;

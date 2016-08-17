@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
-import org.cocome.cloud.web.backend.store.IStoreQuery;
+import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
 import org.cocome.cloud.web.data.store.OrderItem;
 import org.cocome.cloud.web.data.store.ProductWrapper;
 import org.cocome.cloud.web.data.store.Store;

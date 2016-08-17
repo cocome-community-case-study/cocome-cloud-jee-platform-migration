@@ -1,4 +1,4 @@
-package org.cocome.cloud.web.backend.cashdesk;
+package org.cocome.cloud.web.connector.cashdeskconnector;
 
 import java.io.Serializable;
 
