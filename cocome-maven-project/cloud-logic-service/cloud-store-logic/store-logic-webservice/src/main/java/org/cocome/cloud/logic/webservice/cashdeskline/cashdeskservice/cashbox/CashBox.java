@@ -11,7 +11,7 @@ import org.cocome.cloud.logic.webservice.NamedCashDeskService;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.logic.webservice.cashdeskline.cashdeskservice.cashboxservice.ICashBox;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
-import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.ICashBoxLocal;
+import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.ICashBoxModel;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
 import org.cocome.tradingsystem.cashdeskline.datatypes.ControlKeyStroke;
 import org.cocome.tradingsystem.cashdeskline.datatypes.NumPadKeyStroke;
@@ -28,7 +28,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
 public class CashBox extends NamedCashDeskService implements ICashBox {
 	
 	@Inject
-	private ICashBoxLocal cashBox;
+	private ICashBoxModel cashBox;
 	
 	@Inject
 	private IContentChangedListener contentChanged;

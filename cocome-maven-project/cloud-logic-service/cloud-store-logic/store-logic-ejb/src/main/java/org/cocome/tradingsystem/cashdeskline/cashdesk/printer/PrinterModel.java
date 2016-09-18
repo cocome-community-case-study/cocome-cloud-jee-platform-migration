@@ -30,7 +30,7 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
  */
 @CashDeskSessionScoped
 public class PrinterModel
-		extends AbstractModel<PrinterModel> implements IPrinterLocal, Serializable {
+		extends AbstractModel<PrinterModel> implements IPrinterModel, Serializable {
 
 	/**
 	 * 

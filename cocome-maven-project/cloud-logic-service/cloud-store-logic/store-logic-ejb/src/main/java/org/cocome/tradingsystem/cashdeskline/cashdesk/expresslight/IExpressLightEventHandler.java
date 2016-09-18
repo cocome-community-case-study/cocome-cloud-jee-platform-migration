@@ -16,57 +16,40 @@
 
 package org.cocome.tradingsystem.cashdeskline.cashdesk.expresslight;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import javax.ejb.Local;
+
 import org.cocome.tradingsystem.cashdeskline.events.ExpressModeDisabledEvent;
 import org.cocome.tradingsystem.cashdeskline.events.ExpressModeEnabledEvent;
 
 /**
- * Implements the cash desk event handler for the express light model. The event
- * handler is similar to a controller in that it converts incoming cash desk
- * messages to actions on the express light model. However, there is no view
- * associated with the controller.
+ * Specifies events consumed by the express light component. Each event has to
+ * have a handler method with a single parameter of the same type as the
+ * consumed event. To ensure implementation of event handlers for all relevant
+ * event types, the express light component has to implement this interface.
  * 
- * @author Yannick Welsch
+ * @author Holger Klus
  * @author Lubomir Bulej
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-@Dependent
-class ExpressLightEventHandler implements IExpressLightEventHandler {
-
-	private static final Logger LOG =
-			Logger.getLogger(ExpressLightEventHandler.class);
-	
-	@Inject
-	private IExpressLightModel expressLight;
-
-	//
-	// Event handler methods
-	//
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes ExpressModeEnabledEvent event
-			) {
-		LOG.error("Received express mode enabled event");
-		this.expressLight.turnExpressLightOn();
-	}
+@Local
+interface IExpressLightEventHandler {
 
 	/**
-	 * {@inheritDoc}
+	 * Handles the given event.
+	 * 
+	 * @param event
+	 * 		the event to be handled
 	 */
-	@Override
-	public void onEvent(
-			@Observes ExpressModeDisabledEvent event
-			) {
-		LOG.error("Received express mode disabled event");
-		this.expressLight.turnExpressLightOff();
-	}
+	void onEvent(ExpressModeEnabledEvent event);
+
+	/**
+	 * Handles the given event.
+	 * 
+	 * @param event
+	 * 		the event to be handled
+	 */
+	void onEvent(ExpressModeDisabledEvent event);
 
 }

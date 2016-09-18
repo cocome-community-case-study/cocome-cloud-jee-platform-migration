@@ -12,7 +12,7 @@ import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.logic.webservice.cashdeskline.cashdeskservice.printerservice.IPrinter;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
-import org.cocome.tradingsystem.cashdeskline.cashdesk.printer.IPrinterLocal;
+import org.cocome.tradingsystem.cashdeskline.cashdesk.printer.IPrinterModel;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 import org.cocome.tradingsystem.util.mvc.IContentChangedListener;
@@ -26,7 +26,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
 public class Printer extends NamedCashDeskService implements IPrinter {
 
 	@Inject
-	private IPrinterLocal printer;
+	private IPrinterModel printer;
 	
 	@Inject
 	private IContentChangedListener contentChanged;

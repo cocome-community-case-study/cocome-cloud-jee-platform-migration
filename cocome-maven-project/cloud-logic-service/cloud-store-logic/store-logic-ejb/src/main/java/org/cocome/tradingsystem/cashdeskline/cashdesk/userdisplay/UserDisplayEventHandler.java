@@ -54,7 +54,7 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
  * @author Robert Heinrich
  */
 @CashDeskSessionScoped
-class UserDisplayEventHandler implements IUserDisplayEventConsumerLocal, Serializable {
+class UserDisplayEventHandler implements IUserDisplayEventHandler, Serializable {
 
 	/**
 	 * 
@@ -67,7 +67,7 @@ class UserDisplayEventHandler implements IUserDisplayEventConsumerLocal, Seriali
 	//
 
 	@Inject
-	private IUserDisplayLocal display;
+	private IUserDisplayModel display;
 
 	private final StringBuilder cashAmountInput = new StringBuilder();
 

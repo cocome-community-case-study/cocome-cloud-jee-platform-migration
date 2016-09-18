@@ -14,39 +14,36 @@
  * limitations under the License.
  ***************************************************************************/
 
-package org.cocome.tradingsystem.cashdeskline.cashdesk.barcodescanner;
+package org.cocome.tradingsystem.cashdeskline.cashdesk.cardreader;
 
-import javax.ejb.Stateless;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-
-import org.cocome.tradingsystem.cashdeskline.events.ProductBarcodeScannedEvent;
+import javax.ejb.Local;
 
 /**
- * Implements the cash desk barcode scanner model. The scanner does not consume
- * any events, instead it only produces {@link ProductBarcodeScannedEvent} events whenever a barcode is scanned.
+ * Defines card reader model actions that can be triggered from outside.
  * 
- * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-@Stateless
-public class BarcodeScannerModel implements IBarcodeScannerModel {
-	
-	@Inject
-	private Event<ProductBarcodeScannedEvent> productBarcodeScannedEvent;
-
-
-	//
-	// Barcode scanner model methods
-	//
+@Local
+public interface ICardReaderModel {
 
 	/**
-	 * {@inheritDoc}
+	 * Sends the event to notify other components that the
+	 * user entered his credit card info.
+	 * 
+	 * @param cardInfo
+	 * 		the card info entered
 	 */
-	@Override
-	public void sendProductBarcode(final long barcode) {
-		productBarcodeScannedEvent.fire(new ProductBarcodeScannedEvent(barcode));
-	}
+	void sendCreditCardInfo(String cardInfo);
+
+	/**
+	 * Notifies other components via an event that the
+	 * user entered his credit card pin
+	 * 
+	 * @param pin
+	 * 		the pin entered
+	 */
+	void sendCreditCardPin(int pin);
+
 }

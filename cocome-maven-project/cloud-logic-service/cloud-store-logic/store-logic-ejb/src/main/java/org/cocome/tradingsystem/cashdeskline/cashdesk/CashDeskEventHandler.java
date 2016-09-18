@@ -53,7 +53,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
  */
 
 @Dependent
-class CashDeskEventHandler implements ICashDeskEventConsumerLocal, Serializable {
+class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 
 	/**
 	 * 
@@ -63,7 +63,7 @@ class CashDeskEventHandler implements ICashDeskEventConsumerLocal, Serializable 
 	private static final Logger LOG = Logger.getLogger(CashDeskEventHandler.class);
 	
 	@Inject
-	private ICashDeskModelLocal cashDesk;
+	private ICashDeskModel cashDesk;
 	
 	//
 	// Event handler methods

@@ -73,7 +73,7 @@ import org.cocome.tradingsystem.util.scope.context.INamedSessionContext;
  */
 
 @CashDeskSessionScoped
-public class CashDeskModel implements Serializable, ICashDeskModelLocal {
+public class CashDeskModel implements Serializable, ICashDeskModel {
 
 	/**
 	 * 

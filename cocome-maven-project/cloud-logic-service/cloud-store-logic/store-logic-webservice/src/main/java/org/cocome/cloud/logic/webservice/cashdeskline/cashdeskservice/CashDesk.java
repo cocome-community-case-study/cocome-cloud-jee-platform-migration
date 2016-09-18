@@ -12,7 +12,7 @@ import org.cocome.cloud.logic.webservice.AbstractCashDeskAction;
 import org.cocome.cloud.logic.webservice.NamedCashDeskService;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.logic.webservice.cashdeskline.cashdeskservice.ICashDesk;
-import org.cocome.tradingsystem.cashdeskline.cashdesk.ICashDeskModelLocal;
+import org.cocome.tradingsystem.cashdeskline.cashdesk.ICashDeskModel;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
 import org.cocome.tradingsystem.cashdeskline.datatypes.PaymentMode;
@@ -42,7 +42,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 	private static final long serialVersionUID = 7718533004116788186L;
 	
 	@Inject
-	private ICashDeskModelLocal cashDeskModel;
+	private ICashDeskModel cashDeskModel;
 
 	@Inject
 	private IContentChangedListener contentChanged;

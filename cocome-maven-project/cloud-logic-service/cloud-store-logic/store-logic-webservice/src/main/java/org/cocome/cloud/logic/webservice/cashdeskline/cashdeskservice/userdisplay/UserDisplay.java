@@ -10,7 +10,7 @@ import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.logic.webservice.cashdeskline.cashdeskservice.userdisplayservice.IUserDisplay;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
-import org.cocome.tradingsystem.cashdeskline.cashdesk.userdisplay.IUserDisplayLocal;
+import org.cocome.tradingsystem.cashdeskline.cashdesk.userdisplay.IUserDisplayModel;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.userdisplay.MessageKind;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
@@ -24,7 +24,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
 public class UserDisplay extends NamedCashDeskService implements IUserDisplay {
 	
 	@Inject
-	private IUserDisplayLocal userDisplay;
+	private IUserDisplayModel userDisplay;
 
 	@Override
 	public String getMessage(String cashDeskName, long storeID) throws UnhandledException {

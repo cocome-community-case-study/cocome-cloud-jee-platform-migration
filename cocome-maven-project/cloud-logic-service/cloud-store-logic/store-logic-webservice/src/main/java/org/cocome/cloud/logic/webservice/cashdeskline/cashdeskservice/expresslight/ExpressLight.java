@@ -12,7 +12,7 @@ import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.logic.webservice.cashdeskline.cashdeskservice.expresslightservice.IExpressLight;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
-import org.cocome.tradingsystem.cashdeskline.cashdesk.expresslight.IExpressLightLocal;
+import org.cocome.tradingsystem.cashdeskline.cashdesk.expresslight.IExpressLightModel;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 import org.cocome.tradingsystem.util.mvc.IContentChangedListener;
@@ -26,7 +26,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
 public class ExpressLight extends NamedCashDeskService implements IExpressLight {
 
 	@Inject
-	private IExpressLightLocal expressLight;
+	private IExpressLightModel expressLight;
 	
 	@Inject
 	private IContentChangedListener contentChanged;

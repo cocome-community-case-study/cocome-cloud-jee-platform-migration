@@ -14,39 +14,43 @@
  * limitations under the License.
  ***************************************************************************/
 
-package org.cocome.tradingsystem.cashdeskline.cashdesk.barcodescanner;
+package org.cocome.tradingsystem.cashdeskline.cashdesk.userdisplay;
 
-import javax.ejb.Stateless;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-
-import org.cocome.tradingsystem.cashdeskline.events.ProductBarcodeScannedEvent;
+import javax.ejb.Local;
 
 /**
- * Implements the cash desk barcode scanner model. The scanner does not consume
- * any events, instead it only produces {@link ProductBarcodeScannedEvent} events whenever a barcode is scanned.
+ * Defines user display model actions that can be triggered from outside.
  * 
- * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-@Stateless
-public class BarcodeScannerModel implements IBarcodeScannerModel {
-	
-	@Inject
-	private Event<ProductBarcodeScannedEvent> productBarcodeScannedEvent;
-
-
-	//
-	// Barcode scanner model methods
-	//
+@Local
+public interface IUserDisplayModel {
 
 	/**
-	 * {@inheritDoc}
+	 * Sets the content of the user display to the given message.
+	 * 
+	 * @param messageKind
+	 * 		the message kind of the message
+	 * 
+	 * @param message
+	 * 		the message to display
 	 */
-	@Override
-	public void sendProductBarcode(final long barcode) {
-		productBarcodeScannedEvent.fire(new ProductBarcodeScannedEvent(barcode));
-	}
+	public void setContent(MessageKind messageKind, String message);
+
+	/**
+	 * 
+	 * @return
+	 * 		the currently displayed message on this display
+	 */
+	public String getMessage();
+
+	/**
+	 * 
+	 * @return
+	 * 		the message kind of the current message
+	 */
+	public MessageKind getMessageKind();
+
 }

@@ -34,7 +34,7 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
 
 @CashDeskSessionScoped
 public class ExpressLightModel
-		extends AbstractModel<ExpressLightModel> implements IExpressLightLocal, Serializable {
+		extends AbstractModel<ExpressLightModel> implements IExpressLightModel, Serializable {
 
 	/**
 	 * 

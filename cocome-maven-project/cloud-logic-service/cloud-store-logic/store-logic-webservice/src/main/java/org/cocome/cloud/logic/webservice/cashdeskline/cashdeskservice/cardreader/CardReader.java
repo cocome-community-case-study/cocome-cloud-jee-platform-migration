@@ -11,7 +11,7 @@ import org.cocome.cloud.logic.webservice.NamedCashDeskService;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.logic.webservice.cashdeskline.cashdeskservice.cardreaderservice.ICardReader;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
-import org.cocome.tradingsystem.cashdeskline.cashdesk.cardreader.ICardReaderLocal;
+import org.cocome.tradingsystem.cashdeskline.cashdesk.cardreader.ICardReaderModel;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
@@ -31,7 +31,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
 @Stateless
 public class CardReader extends NamedCashDeskService implements ICardReader {
 	@Inject
-	private ICardReaderLocal cardReader;
+	private ICardReaderModel cardReader;
 	
 	@Inject
 	private ContentChangedListener contentChanged;

@@ -11,7 +11,7 @@ import org.cocome.cloud.logic.webservice.NamedCashDeskService;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.logic.webservice.cashdeskline.cashdeskservice.barcodescannerservice.IBarcodeScanner;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
-import org.cocome.tradingsystem.cashdeskline.cashdesk.barcodescanner.IBarcodeScannerLocal;
+import org.cocome.tradingsystem.cashdeskline.cashdesk.barcodescanner.IBarcodeScannerModel;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
@@ -32,7 +32,7 @@ import org.cocome.tradingsystem.util.scope.IContextRegistry;
 public class BarcodeScanner extends NamedCashDeskService implements IBarcodeScanner {
 
 	@Inject
-	private IBarcodeScannerLocal barcodeScanner;
+	private IBarcodeScannerModel barcodeScanner;
 	
 	@Inject
 	private IContentChangedListener contentChanged;

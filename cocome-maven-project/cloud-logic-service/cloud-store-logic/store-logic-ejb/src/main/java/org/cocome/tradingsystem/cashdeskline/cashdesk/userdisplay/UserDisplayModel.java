@@ -31,7 +31,7 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
 
 @CashDeskSessionScoped
 public class UserDisplayModel
-		extends AbstractModel<UserDisplayModel> implements IUserDisplayLocal, Serializable {
+		extends AbstractModel<UserDisplayModel> implements IUserDisplayModel, Serializable {
 
 	//
 

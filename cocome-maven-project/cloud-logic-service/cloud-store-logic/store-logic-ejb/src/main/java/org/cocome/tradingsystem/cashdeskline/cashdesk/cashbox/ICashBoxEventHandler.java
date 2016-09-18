@@ -16,59 +16,40 @@
 
 package org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
+import javax.ejb.Local;
 
-import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.cashdeskline.events.CashBoxClosedEvent;
 import org.cocome.tradingsystem.cashdeskline.events.ChangeAmountCalculatedEvent;
 
 /**
- * Implements the cash desk event handler for the cash box model. The event
- * handler is similar to a controller in that it converts incoming cash desk
- * messages to actions on the cash box model. However, there is no view
- * associated with the controller.
+ * Specifies events consumed by the cash box component. Each event has to have a
+ * handler method with a single parameter of the same type as the consumed
+ * event. To ensure implementation of event handlers for all relevant event
+ * types, the cash box component has to implement this interface.
  * 
- * @author Yannick Welsch
+ * @author Holger Klus
  * @author Lubomir Bulej
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-
-@Dependent
-public class CashBoxEventHandler implements ICashBoxEventHandler {
-
-	private static final Logger LOG =
-			Logger.getLogger(CashBoxEventHandler.class);
-
-	//
-
-	@Inject
-	private ICashBoxModel cashBox;
-
-	//
-	// Event handler methods
-	//
+@Local
+interface ICashBoxEventHandler {
 
 	/**
-	 * {@inheritDoc}
+	 * Handles the given event.
+	 * 
+	 * @param event
+	 * 		the event to be handled
 	 */
-	@Override
-	public void onEvent(@Observes ChangeAmountCalculatedEvent event) {
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("\tchangeAmount: " + event.getChangeAmount());
-		}
-
-		this.cashBox.open();
-	}
-
+	void onEvent(ChangeAmountCalculatedEvent event);
+	
 	/**
-	 * {@inheritDoc}
+	 * Handles the given event.
+	 * 
+	 * @param event
+	 * 		the event to be handled
 	 */
-	@Override
-	public void onEvent(@Observes CashBoxClosedEvent event) {
-		this.cashBox.closeSilently();
-	}
+	/* XXX Only needed because of the testing code. */
+	void onEvent(CashBoxClosedEvent event);
 
 }

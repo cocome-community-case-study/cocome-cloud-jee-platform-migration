@@ -50,7 +50,7 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
  */
 
 @CashDeskSessionScoped
-public class CashBoxModel extends AbstractModel<CashBoxModel> implements ICashBoxLocal, Serializable {
+public class CashBoxModel extends AbstractModel<CashBoxModel> implements ICashBoxModel, Serializable {
 
 	/**
 	 * 

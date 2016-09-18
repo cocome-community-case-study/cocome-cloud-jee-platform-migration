@@ -45,7 +45,7 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
  */
 
 @CashDeskSessionScoped
-class PrinterEventHandler implements IPrinterEventConsumerLocal, Serializable {
+class PrinterEventHandler implements IPrinterEventHandler, Serializable {
 
 	/**
 	 * 
@@ -60,7 +60,7 @@ class PrinterEventHandler implements IPrinterEventConsumerLocal, Serializable {
 	//
 
 	@Inject
-	private IPrinterLocal printer;
+	private IPrinterModel printer;
 
 	//
 	// Controller state
