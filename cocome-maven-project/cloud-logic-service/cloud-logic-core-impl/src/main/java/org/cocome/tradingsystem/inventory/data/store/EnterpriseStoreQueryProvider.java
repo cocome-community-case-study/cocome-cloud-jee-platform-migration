@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
+import org.cocome.tradingsystem.remote.access.connection.QueryParameterEncoder;
 import org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -23,8 +24,8 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  *
  */
 @Stateless
-@Local(IStoreQueryLocal.class)
-public class EnterpriseStoreQueryProvider implements IStoreQueryLocal {
+@Local(IStoreQuery.class)
+public class EnterpriseStoreQueryProvider implements IStoreQuery {
 	
 	// TODO either cache the retrieved objects or provide faster queries which
 	// return objects with only the simple attribute types set and other queries which
@@ -40,6 +41,8 @@ public class EnterpriseStoreQueryProvider implements IStoreQueryLocal {
 	
 	@Override
 	public IStore queryStore(String name, String location) {
+		name = QueryParameterEncoder.encodeQueryString(name);
+		location = QueryParameterEncoder.encodeQueryString(location);
 		String locationQuery = "*";
 		
 		if (!location.equals("")) {

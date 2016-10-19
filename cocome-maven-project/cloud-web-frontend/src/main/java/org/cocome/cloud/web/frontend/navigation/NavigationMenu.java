@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
-import org.cocome.cloud.web.data.login.IUser;
+import org.cocome.cloud.web.data.logindata.IUser;
 import org.cocome.cloud.web.events.ChangeViewEvent;
 import org.cocome.cloud.web.events.LoginEvent;
 import org.cocome.cloud.web.events.LogoutEvent;

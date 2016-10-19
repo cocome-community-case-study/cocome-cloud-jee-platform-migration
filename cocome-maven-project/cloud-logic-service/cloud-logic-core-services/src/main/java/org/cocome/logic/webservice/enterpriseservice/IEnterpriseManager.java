@@ -82,6 +82,27 @@ public interface IEnterpriseManager {
 	public StoreWithEnterpriseTO queryStoreByEnterpriseID(
 			@XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseID,
 			@XmlElement(required = true) @WebParam(name = "storeID") long storeID) throws NotInDatabaseException;
+	
+	/**
+	 * Queries the database for a store with the given name in the given enterprise.
+	 * If there are multiple stores with the given name, all of them are returned. 
+	 * If there is no store with the given name, an empty collection is returned.
+	 * 
+	 * @param enterpriseId
+	 *            the unique identifier of a TradingEnterprise entity
+	 * @param storeName
+	 *            the name of a Store entity
+	 *            
+	 * @return All StoreWithEntepriseTO objects matching the given store name and 
+	 * 			  belonging to the given enterprise.
+	 * 
+	 * @throws NotInDatabaseException
+	 *             if a trading enterprise with the given id could not be found
+	 */
+	@WebMethod
+	public Collection<StoreWithEnterpriseTO> queryStoreByName(
+			@XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseID,
+			@XmlElement(required = true) @WebParam(name = "storeName") String storeName) throws NotInDatabaseException;
 
 	/**
 	 * @param supplier

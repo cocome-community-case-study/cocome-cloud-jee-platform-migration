@@ -23,7 +23,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQueryLocal;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 
 /**
@@ -47,9 +47,9 @@ class OrderEntry implements Serializable, IOrderEntry {
 //	private ProductOrder productOrder;
 	
 	@Inject
-	Instance<IStoreQueryLocal> storeQueryInstance;
+	Instance<IStoreQuery> storeQueryInstance;
 	
-	private IStoreQueryLocal storeQuery;
+	private IStoreQuery storeQuery;
 	
 	@PostConstruct
 	public void initOrderEntry() {

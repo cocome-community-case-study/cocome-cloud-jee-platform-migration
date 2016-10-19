@@ -28,8 +28,8 @@ import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 @Stateless
-@Local(IEnterpriseQueryLocal.class)
-public class StoreEnterpriseQueryProvider implements IEnterpriseQueryLocal {
+@Local(IEnterpriseQuery.class)
+public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
 	private static final Logger LOG = Logger.getLogger(StoreEnterpriseQueryProvider.class);
 
 	@Inject
@@ -293,6 +293,27 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQueryLocal {
 			enterpriseList.add(enterpriseFactory.convertToEnterprise(enterpriseTO));
 		}
 		return enterpriseList;
+	}
+
+	@Override
+	public Collection<IStore> queryStoreByName(long enterpriseID, String storeName) {
+		IEnterpriseManager enterpriseManager;
+		List<StoreWithEnterpriseTO> storeTOList;
+		
+		try {
+			enterpriseManager = lookupEnterpriseManager(enterpriseID);
+			storeTOList = enterpriseManager.queryStoreByName(enterpriseID, storeName);
+		} catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
+			LOG.error("Got error while looking up stores by name: " + e.getMessage());
+			return Collections.emptyList();
+		}
+
+		List<IStore> storeList = new ArrayList<>(storeTOList.size());
+
+		for (StoreWithEnterpriseTO storeTO : storeTOList) {
+			storeList.add(storeFactory.convertToStore(storeTO));
+		}
+		return storeList;
 	}
 
 }

@@ -50,7 +50,7 @@
 												value="#{stockOrderView.selectedItem.stockItemTO.amount}" /></td>
 										<td class="product-table-text-col"><h:inputText
 												value="#{orderAmount}" styleClass="input-number"
-												validator="#{stockOrderView.validateOrderAmount}" /> <h:commandButton
+												validator="#{numberValidator.validatePositiveLong}" /> <h:commandButton
 												action="#{stockOrderView.addOrderAmount(orderAmount)}"
 												value="#{strings['order.show_order.add_product.label']}" /></td>
 									</tr>

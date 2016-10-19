@@ -19,9 +19,9 @@
 							<table>
 								<tr>
 									<td><h:outputText value="#{strings['receive.order_id.text']}" /></td>
-									<td><h:inputText value="#{orderID}" styleClass="input-number" validator="#{receiveOrderView.validateOrderID}">
-											<f:validateRegex pattern="\d+"/>
-										</h:inputText>
+									<td><h:inputText value="#{orderID}" styleClass="input-number" 
+										validator="#{numberValidator.validatePositiveLong}" 
+										validatorMessage="#{strings['receive.validation.orderid.failed']}"/>
 									<h:commandButton
 								action="#{receiveOrderView.loadOrder(orderID)}"
 								value="#{strings['receive.find_order.label']}" /></td>

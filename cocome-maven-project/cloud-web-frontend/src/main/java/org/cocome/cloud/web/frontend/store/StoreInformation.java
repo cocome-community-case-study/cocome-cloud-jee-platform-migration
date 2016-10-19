@@ -20,8 +20,10 @@ import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
 import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
-import org.cocome.cloud.web.data.store.ProductWrapper;
-import org.cocome.cloud.web.data.store.Store;
+import org.cocome.cloud.web.data.enterprisedata.IEnterpriseDAO;
+import org.cocome.cloud.web.data.storedata.IStoreDAO;
+import org.cocome.cloud.web.data.storedata.ProductWrapper;
+import org.cocome.cloud.web.data.storedata.Store;
 import org.cocome.cloud.web.events.ChangeViewEvent;
 import org.cocome.cloud.web.events.LoginEvent;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
@@ -44,12 +46,18 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	private Store activeStore;
 	private boolean hasChanged = false;
 
-	@Inject
-	IEnterpriseQuery enterpriseQuery;
+//	@Inject
+//	IEnterpriseQuery enterpriseQuery;
+//
+//	@Inject
+//	IStoreQuery storeQuery;
 
 	@Inject
-	IStoreQuery storeQuery;
-
+	IStoreDAO storeDAO;
+	
+	@Inject
+	IEnterpriseDAO enterpriseDAO;
+	
 	@Inject
 	Event<ChangeViewEvent> changeViewEvent;
 
@@ -62,7 +70,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 		if ((activeStore == null || hasChanged == true) && activeStoreID != STORE_ID_NOT_SET) {
 			LOG.debug("Active store is being retrieved from the database");
 			try {
-				activeStore = enterpriseQuery.getStoreByID(activeStoreID);
+				activeStore = storeDAO.getStoreByID(activeStoreID);
 				hasChanged = false;
 			} catch (NotInDatabaseException_Exception e) {
 				FacesContext context = FacesContext.getCurrentInstance();
@@ -151,7 +159,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 		Store activeStore = getActiveStore();
 		if (activeStore != null) {
 			try {
-				stockItems = storeQuery.queryStockItems(activeStore);
+				stockItems = storeDAO.queryStockItems(activeStore);
 			} catch (NotInDatabaseException_Exception e) {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null,
@@ -178,7 +186,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	@Override
 	public void queryProductsWithStockItems() {
 		updateStockItems();
-		for (ProductWrapper product : enterpriseQuery.getAllProducts()) {
+		for (ProductWrapper product : enterpriseDAO.getAllProducts()) {
 			if (!productsWithStockItems.containsKey(product.getBarcode())) {
 				productsWithStockItems.put(product.getBarcode(), product);
 			}

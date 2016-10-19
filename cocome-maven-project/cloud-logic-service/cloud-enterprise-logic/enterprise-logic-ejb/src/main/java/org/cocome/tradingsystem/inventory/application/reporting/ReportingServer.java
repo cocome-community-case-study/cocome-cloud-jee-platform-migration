@@ -22,10 +22,10 @@ import java.util.Formatter;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQueryLocal;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQueryLocal;
+import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -45,10 +45,10 @@ public class ReportingServer implements IReportingLocal {
 	//
 
 	@EJB
-	private IStoreQueryLocal storeQuery;
+	private IStoreQuery storeQuery;
 
 	@EJB
-	private IEnterpriseQueryLocal enterpriseQuery;
+	private IEnterpriseQuery enterpriseQuery;
 
 
 	/**

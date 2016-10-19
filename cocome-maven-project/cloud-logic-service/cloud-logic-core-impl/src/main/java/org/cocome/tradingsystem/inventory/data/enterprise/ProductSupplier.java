@@ -47,9 +47,9 @@ class ProductSupplier implements Serializable, IProductSupplier {
 	private Collection<IProduct> products;
 	
 	@Inject
-	Instance<IEnterpriseQueryLocal> enterpriseQueryInstance;
+	Instance<IEnterpriseQuery> enterpriseQueryInstance;
 	
-	private IEnterpriseQueryLocal enterpriseQuery;
+	private IEnterpriseQuery enterpriseQuery;
 	
 	@Inject @EnterpriseRequired
 	private Instance<IContextRegistry> registry;

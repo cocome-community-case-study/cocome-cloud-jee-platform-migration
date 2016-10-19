@@ -22,12 +22,21 @@
 					<tr>
 						<td><h:outputText
 								value="#{strings['store.create.name.text']}" /></td>
-						<td colspan="2"><h:inputText value="#{name}" required="true" /></td>
+						<td colspan="2"><h:inputText value="#{name}" required="true"
+											validatorMessage="#{strings['store.create.validation.name.failed']}">
+								<f:validateLength minimum="3" maximum="30"/>
+								<f:validateRegex pattern="[^;]*" />
+							</h:inputText>
+						</td>
 					</tr>
 					<tr>
 						<td><h:outputText value="#{strings['store.create.location.text']}" /></td>
 						<td colspan="2"><h:inputText value="#{location}"
-								required="true" /></td>
+								required="true" validatorMessage="#{strings['store.create.validation.location.failed']}">
+								<f:validateLength minimum="3" maximum="30"/>
+								<f:validateRegex pattern="[^;]*" />
+							</h:inputText>		
+						</td>
 						<td><h:commandButton
 								action="#{storePersistence.createStore(enterpriseInformation.activeEnterpriseID, name, location)}"
 								value="#{strings['store.create.button.label']}" /></td>

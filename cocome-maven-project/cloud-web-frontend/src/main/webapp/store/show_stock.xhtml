@@ -38,8 +38,7 @@
 						<h:inputText value="#{item.newMinAmount}"
 							rendered="#{item.editingEnabled}"
 							styleClass="product-table-number-col"
-							converterMessage="#{strings['stock.validation.numbers.text']}"
-							validator="#{showStockView.validatePositiveNumber}">
+							converterMessage="#{strings['stock.validation.numbers.text']}">
 							<f:converter converterId="javax.faces.Long" />
 						</h:inputText>
 					</h:column>
@@ -50,8 +49,7 @@
 						<h:inputText value="#{item.newMaxAmount}"
 							rendered="#{item.editingEnabled}"
 							styleClass="product-table-number-col"
-							converterMessage="#{strings['stock.validation.numbers.text']}"
-							validator="#{showStockView.validatePositiveNumber}">
+							converterMessage="#{strings['stock.validation.numbers.text']}">
 							<f:converter converterId="javax.faces.Long" />
 						</h:inputText>
 					</h:column>
@@ -62,8 +60,7 @@
 						<h:inputText value="#{item.newAmount}"
 							rendered="#{item.editingEnabled}"
 							styleClass="product-table-number-col"
-							converterMessage="#{strings['stock.validation.numbers.text']}"
-							validator="#{showStockView.validatePositiveNumber}">
+							converterMessage="#{strings['stock.validation.numbers.text']}">
 							<f:converter converterId="javax.faces.Long" />
 						</h:inputText>
 					</h:column>

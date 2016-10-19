@@ -5,8 +5,8 @@ import java.util.Collection;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.enterprise.Enterprise;
-import org.cocome.cloud.web.data.store.Store;
+import org.cocome.cloud.web.data.enterprisedata.Enterprise;
+import org.cocome.cloud.web.data.storedata.Store;
 
 /**
  * Interface for information regarding the currently active enterprise.

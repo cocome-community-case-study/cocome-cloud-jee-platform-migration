@@ -6,8 +6,8 @@ import java.util.Map;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
 
-import org.cocome.cloud.web.data.store.OrderItem;
-import org.cocome.cloud.web.data.store.ProductWrapper;
+import org.cocome.cloud.web.data.storedata.OrderItem;
+import org.cocome.cloud.web.data.storedata.ProductWrapper;
 
 @Named
 @ConversationScoped

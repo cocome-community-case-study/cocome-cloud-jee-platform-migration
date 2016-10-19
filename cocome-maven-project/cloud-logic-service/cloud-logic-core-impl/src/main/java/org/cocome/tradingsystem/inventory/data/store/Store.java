@@ -25,7 +25,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQueryLocal;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -56,14 +56,14 @@ class Store implements Serializable, Comparable<IStore>, IStore {
 	private Collection<IStockItem> stockItems;
 	
 	@Inject
-	Instance<IStoreQueryLocal> storeQueryInstance;
+	Instance<IStoreQuery> storeQueryInstance;
 	
-	IStoreQueryLocal storeQuery;
+	IStoreQuery storeQuery;
 	
 	@Inject
-	Instance<IEnterpriseQueryLocal> enterpriseQueryInstance;
+	Instance<IEnterpriseQuery> enterpriseQueryInstance;
 	
-	IEnterpriseQueryLocal enterpriseQuery;
+	IEnterpriseQuery enterpriseQuery;
 	
 	/* (non-Javadoc)
 	 * @see org.cocome.tradingsystem.inventory.data.store.IStore#initStore()

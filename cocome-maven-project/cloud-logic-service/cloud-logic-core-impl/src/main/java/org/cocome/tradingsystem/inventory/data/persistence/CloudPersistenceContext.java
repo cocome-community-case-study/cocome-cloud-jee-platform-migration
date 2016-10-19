@@ -22,8 +22,8 @@ import org.cocome.tradingsystem.remote.access.connection.CSVBackendConnection;
 import org.cocome.tradingsystem.remote.access.connection.IPersistenceConnection;
 
 @Stateless
-@Local(IPersistenceContextLocal.class)
-public class CloudPersistenceContext implements IPersistenceContextLocal {
+@Local(IPersistenceContext.class)
+public class CloudPersistenceContext implements IPersistenceContext {
 	// TODO make these calls asynchronous by pushing them into a JMS queue
 	// and implement bean that asynchronously tries to persist the changes
 	

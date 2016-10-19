@@ -26,7 +26,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQueryLocal;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 
 /**
  * The ProductOrder class represents an ProductOrder of a Store in the database.
@@ -54,9 +54,9 @@ class ProductOrder implements Serializable, IProductOrder {
 	private IStore store;
 	
 	@Inject
-	Instance<IStoreQueryLocal> storeQueryInstance;
+	Instance<IStoreQuery> storeQueryInstance;
 	
-	private IStoreQueryLocal storeQuery;
+	private IStoreQuery storeQuery;
 	
 	@PostConstruct
 	private void initProductOrder() {

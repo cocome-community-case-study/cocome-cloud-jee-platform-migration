@@ -10,9 +10,10 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
-import org.cocome.cloud.web.data.enterprise.Enterprise;
-import org.cocome.cloud.web.data.store.Store;
+import org.cocome.cloud.web.data.enterprisedata.Enterprise;
+import org.cocome.cloud.web.data.enterprisedata.IEnterpriseDAO;
+import org.cocome.cloud.web.data.storedata.IStoreDAO;
+import org.cocome.cloud.web.data.storedata.Store;
 
 import java.io.Serializable;
 
@@ -35,19 +36,22 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
 	private static final Logger LOG = Logger.getLogger(EnterpriseInformation.class);
 
 	@Inject
-	IEnterpriseQuery enterpriseQuery;
+	IEnterpriseDAO enterpriseDAO;
+	
+	@Inject
+	IStoreDAO storeDAO;
 	
 	private boolean enterpriseSubmitted = false;
 	
 	@Override
 	public Collection<Enterprise> getEnterprises() {
-		return enterpriseQuery.getEnterprises();
+		return enterpriseDAO.getAllEnterprises();
 	}
 
 	@Override
 	public Collection<Store> getStores() throws NotInDatabaseException_Exception {
 		if (activeEnterpriseID != Long.MIN_VALUE) {
-			return enterpriseQuery.getStores(activeEnterpriseID);
+			return storeDAO.getStoresInEnterprise(activeEnterpriseID);
 		}
 		// TODO Throw custom exception to signal error here
 		return new LinkedList<Store>();
@@ -67,7 +71,7 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
 	@Override
 	public Enterprise getActiveEnterprise() {
 		if (activeEnterprise == null && activeEnterpriseID != Long.MIN_VALUE) {
-			activeEnterprise = enterpriseQuery.getEnterpriseByID(activeEnterpriseID);
+			activeEnterprise = enterpriseDAO.getEnterpriseByID(activeEnterpriseID);
 		}
 		return activeEnterprise;
 	}

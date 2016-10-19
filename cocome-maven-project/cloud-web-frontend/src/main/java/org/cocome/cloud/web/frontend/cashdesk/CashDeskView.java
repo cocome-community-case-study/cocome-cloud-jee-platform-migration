@@ -5,8 +5,6 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.cocome.cloud.logic.stub.IllegalCashDeskStateException_Exception;
@@ -15,11 +13,12 @@ import org.cocome.cloud.logic.stub.NoSuchProductException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.stub.ProductOutOfStockException_Exception;
 import org.cocome.cloud.logic.stub.UnhandledException_Exception;
-import org.cocome.cloud.web.connector.cashdeskconnector.ICashDeskQuery;
-import org.cocome.cloud.web.data.cashdesk.ICashDesk;
+import org.cocome.cloud.web.data.cashdeskdata.ICashDesk;
+import org.cocome.cloud.web.data.cashdeskdata.ICashDeskDAO;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.store.IStoreInformation;
-import org.cocome.cloud.web.util.Messages;
+import org.cocome.cloud.web.frontend.util.InputValidator;
+import org.cocome.cloud.web.frontend.util.Messages;
 
 @ViewScoped
 @ManagedBean
@@ -32,7 +31,7 @@ public class CashDeskView implements Serializable {
 	IStoreInformation storeInformation;
 
 	@Inject
-	ICashDeskQuery cashDeskQuery;
+	ICashDeskDAO cashDeskDAO;
 
 	@Inject
 	ICashDesk cashDesk;
@@ -87,7 +86,7 @@ public class CashDeskView implements Serializable {
 		boolean expressMode = false;
 		
 		try {
-			expressMode = cashDeskQuery.isInExpressMode(cashDeskName, storeID);
+			expressMode = cashDeskDAO.isInExpressMode(cashDeskName, storeID);
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
 			addFacesError(Messages.getLocalizedMessage("cashdesk.error.express.retrieve"));
 		}
@@ -107,7 +106,7 @@ public class CashDeskView implements Serializable {
 		String displayMessage = "";
 
 		try {
-			displayMessage = cashDeskQuery.getDisplayMessage(cashDeskName, storeID);
+			displayMessage = cashDeskDAO.getDisplayMessage(cashDeskName, storeID);
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
 			addFacesError(Messages.getLocalizedMessage("cashdesk.error.display.retrieve"));
 		}
@@ -120,7 +119,7 @@ public class CashDeskView implements Serializable {
 		long storeID = storeInformation.getActiveStoreID();
 
 		try {
-			cashDeskQuery.enterCashAmount(cashDeskName, storeID, cashAmount);
+			cashDeskDAO.enterCashAmount(cashDeskName, storeID, cashAmount);
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception | IllegalCashDeskStateException_Exception e) {
 			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.cash_pay.failed"), e.getMessage()));
 		}
@@ -135,7 +134,7 @@ public class CashDeskView implements Serializable {
 		long storeID = storeInformation.getActiveStoreID();
 
 		try {
-			cashDeskQuery.enterCardInfo(cashDeskName, storeID, cardInfo, pin);
+			cashDeskDAO.enterCardInfo(cashDeskName, storeID, cardInfo, pin);
 		} catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
 				| NotInDatabaseException_Exception e) {
 			addFacesError(
@@ -151,7 +150,7 @@ public class CashDeskView implements Serializable {
 		long storeID = storeInformation.getActiveStoreID();
 
 		try {
-			cashDeskQuery.startCashPayment(cashDeskName, storeID);
+			cashDeskDAO.startCashPayment(cashDeskName, storeID);
 			cashDesk.setAllItemsRegistered(true);
 			cashDesk.setCashPayment(true);
 			cashDesk.setCardPayment(false);
@@ -171,7 +170,7 @@ public class CashDeskView implements Serializable {
 		long storeID = storeInformation.getActiveStoreID();
 
 		try {
-			cashDeskQuery.startCreditCardPayment(cashDeskName, storeID);
+			cashDeskDAO.startCreditCardPayment(cashDeskName, storeID);
 			cashDesk.setAllItemsRegistered(true);
 			cashDesk.setCardPayment(true);
 			cashDesk.setCashPayment(false);
@@ -192,7 +191,7 @@ public class CashDeskView implements Serializable {
 		long storeID = storeInformation.getActiveStoreID();
 
 		try {
-			cashDeskQuery.startSale(cashDeskName, storeID);
+			cashDeskDAO.startSale(cashDeskName, storeID);
 			cashDesk.setSaleStarted(true);
 			cashDesk.setCashPayment(false);
 			cashDesk.setCardPayment(false);
@@ -216,30 +215,6 @@ public class CashDeskView implements Serializable {
 		return cashDesk.isCardPayment();
 	}
 
-	private void handleFailedValidationMessage(FacesContext context, UIComponent comp, String message) {
-		((UIInput) comp).setValid(false);
-		FacesMessage wrongInputMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", message);
-		context.addMessage(comp.getClientId(), wrongInputMessage);
-	}
-
-	public void validateCashAmount(FacesContext context, UIComponent comp, Object value) {
-		String input = (String) value;
-		double cashAmount;
-
-		try {
-			cashAmount = Double.parseDouble(input);
-		} catch (NumberFormatException e) {
-			handleFailedValidationMessage(context, comp,
-					Messages.getLocalizedMessage("cashdesk.validation.amount.failed"));
-			return;
-		}
-
-		if (cashAmount < 0) {
-			handleFailedValidationMessage(context, comp,
-					Messages.getLocalizedMessage("cashdesk.validation.amount.failed"));
-		}
-	}
-
 	public String getBarcode() {
 		return cashDesk.getBarcode();
 	}
@@ -261,7 +236,7 @@ public class CashDeskView implements Serializable {
 		try {
 			barcode = convertBarcode();
 		} catch (NumberFormatException e) {
-			handleFailedValidationMessage(FacesContext.getCurrentInstance(),
+			InputValidator.handleFailedValidationMessage(FacesContext.getCurrentInstance(),
 					FacesContext.getCurrentInstance().getViewRoot().findComponent("barcodetext"),
 					Messages.getLocalizedMessage("cashdesk.validation.barcode.failed"));
 			return getSalePageRedirectOutcome();
@@ -271,7 +246,7 @@ public class CashDeskView implements Serializable {
 		long storeID = storeInformation.getActiveStoreID();
 
 		try {
-			cashDeskQuery.enterBarcode(cashDeskName, storeID, barcode);
+			cashDeskDAO.enterBarcode(cashDeskName, storeID, barcode);
 		} catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
 				| NotInDatabaseException_Exception | NoSuchProductException_Exception
 				| ProductOutOfStockException_Exception e) {
@@ -303,7 +278,7 @@ public class CashDeskView implements Serializable {
 		String[] printerOutput;
 
 		try {
-			printerOutput = cashDeskQuery.getPrinterOutput(cashDeskName, storeID);
+			printerOutput = cashDeskDAO.getPrinterOutput(cashDeskName, storeID);
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
 			addFacesError(
 					String.format(Messages.getLocalizedMessage("cashdesk.error.printer.retrieve"), e.getMessage()));

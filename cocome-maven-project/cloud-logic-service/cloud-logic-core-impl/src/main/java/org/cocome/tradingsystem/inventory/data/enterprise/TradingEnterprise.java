@@ -47,9 +47,9 @@ class TradingEnterprise implements Serializable, ITradingEnterprise {
 	private Collection<IStore> stores;
 	
 	@Inject
-	Instance<IEnterpriseQueryLocal> enterpriseQueryInstance;
+	Instance<IEnterpriseQuery> enterpriseQueryInstance;
 	
-	private IEnterpriseQueryLocal enterpriseQuery;
+	private IEnterpriseQuery enterpriseQuery;
 	
 	
 	/* (non-Javadoc)

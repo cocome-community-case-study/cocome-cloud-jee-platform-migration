@@ -6,9 +6,9 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.enterprise.Enterprise;
-import org.cocome.cloud.web.data.store.ProductWrapper;
-import org.cocome.cloud.web.data.store.Store;
+import org.cocome.cloud.web.data.enterprisedata.Enterprise;
+import org.cocome.cloud.web.data.storedata.ProductWrapper;
+import org.cocome.cloud.web.data.storedata.Store;
 
 /**
  * Interface for the retrieval of enterprise and store related information from the backend.

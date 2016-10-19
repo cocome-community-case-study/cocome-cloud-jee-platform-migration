@@ -52,9 +52,9 @@ class Product implements Serializable, IProduct {
 	// Inject Instance here because otherwise CDI complains about 
 	// missing the implementation bean when deploying
 	@Inject
-	Instance<IEnterpriseQueryLocal> enterpriseQueryInstance;
+	Instance<IEnterpriseQuery> enterpriseQueryInstance;
 	
-	private IEnterpriseQueryLocal enterpriseQuery;
+	private IEnterpriseQuery enterpriseQuery;
 	
 	@Inject @EnterpriseRequired
 	private Instance<IContextRegistry> registry;

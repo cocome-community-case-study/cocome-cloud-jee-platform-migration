@@ -38,7 +38,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQueryLocal;
+import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
@@ -81,7 +81,7 @@ public class AmplCplexSolver implements IOptimizationSolverLocal {
 	//
 
 	@Inject
-	private IStoreQueryLocal __storeQuery;
+	private IStoreQuery __storeQuery;
 	
 	@Inject
 	IStoreDataFactory storeFactory;

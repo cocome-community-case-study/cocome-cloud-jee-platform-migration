@@ -38,12 +38,12 @@ import javax.inject.Provider;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQueryLocal;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
-import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContextLocal;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQueryLocal;
+import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
+import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.inventory.data.store.IOrderEntry;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
@@ -74,13 +74,13 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
 	//
 
 	@EJB
-	private IStoreQueryLocal __storeQuery;
+	private IStoreQuery __storeQuery;
 	
 	@EJB
-	private IEnterpriseQueryLocal __enterpriseQuery;
+	private IEnterpriseQuery __enterpriseQuery;
 
 	@EJB
-	private IPersistenceContextLocal pctx;
+	private IPersistenceContext pctx;
 	//
 
 	/** Contains the identifier of the corresponding store entity. */
@@ -213,7 +213,7 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
 	@Override
 	public List<ComplexOrderTO> orderProducts(long storeID, final ComplexOrderTO complexOrder) 
 			throws NotInDatabaseException, CreateException, UpdateException {
-		final IStoreQueryLocal sq = __storeQuery;
+		final IStoreQuery sq = __storeQuery;
 
 		final HashMap<Long, List<IOrderEntry>> ordersBySupplier = Maps
 				.newHashMap();

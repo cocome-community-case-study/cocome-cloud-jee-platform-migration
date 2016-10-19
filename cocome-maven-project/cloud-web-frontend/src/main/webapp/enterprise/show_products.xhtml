@@ -11,7 +11,7 @@
 	<ui:composition template="/templates/commonTemplate.xhtml">
 	
 		<ui:define name="body">
-			<h:dataTable value="#{enterpriseQuery.allProducts}" var="product"
+			<h:dataTable value="#{enterpriseDAO.allProducts}" var="product"
 				styleClass="product-table" headerClass="product-table-header"
 				rowClasses="product-table-odd-row,product-table-even-row"
 				columnClasses="product-table-text-col, product-table-text-col, 

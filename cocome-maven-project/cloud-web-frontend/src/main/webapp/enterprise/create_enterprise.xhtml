@@ -17,7 +17,12 @@
 						<td><h:outputText
 								value="#{strings['enterprise.create.text']}" /></td>
 						<td><h:inputText
-								value="#{enterpriseInformation.newEnterpriseName}" required="true"/></td>
+								value="#{enterpriseInformation.newEnterpriseName}" required="true"
+								validatorMessage="#{strings['enterprise.validation.name.failed']}">
+								<f:validateLength minimum="3" maximum="30"/>
+								<f:validateRegex pattern="[^;]*" />
+							</h:inputText>
+						</td>
 						<td><h:commandButton
 								action="#{enterprisePersistence.createEnterprise(enterpriseInformation.newEnterpriseName)}"
 								value="#{strings['enterprise.create.button.label']}" /></td>

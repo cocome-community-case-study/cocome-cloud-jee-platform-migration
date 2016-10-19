@@ -33,11 +33,11 @@ import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierT
 import org.cocome.tradingsystem.inventory.application.store.SaleTO;
 import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQueryLocal;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
-import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContextLocal;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQueryLocal;
+import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
+import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
@@ -63,13 +63,13 @@ public class StoreManager implements IStoreManager {
 	ICashDeskRegistryFactory contextFactory;
 	
 	@Inject
-	IStoreQueryLocal storeQuery;
+	IStoreQuery storeQuery;
 	
 	@Inject
-	IEnterpriseQueryLocal enterpriseQuery;
+	IEnterpriseQuery enterpriseQuery;
 	
 	@Inject
-	IPersistenceContextLocal persistenceContext;
+	IPersistenceContext persistenceContext;
 	
 	@Inject
 	IApplicationHelper applicationHelper;

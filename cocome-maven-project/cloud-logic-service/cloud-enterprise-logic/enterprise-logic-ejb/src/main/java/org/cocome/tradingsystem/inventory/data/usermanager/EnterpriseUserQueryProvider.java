@@ -10,9 +10,10 @@ import javax.inject.Provider;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQueryLocal;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQueryLocal;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
+import org.cocome.tradingsystem.remote.access.connection.QueryParameterEncoder;
 import org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.qualifier.Credential;
@@ -24,8 +25,8 @@ import org.cocome.tradingsystem.util.qualifier.Credential;
  * @author Robert Heinrich
  */
 @Stateless
-@Local(IUserQueryLocal.class)
-public class EnterpriseUserQueryProvider implements IUserQueryLocal {
+@Local(IUserQuery.class)
+public class EnterpriseUserQueryProvider implements IUserQuery {
 	private static final Logger LOG = Logger.getLogger(EnterpriseUserQueryProvider.class);
 	
 	@Inject
@@ -36,6 +37,8 @@ public class EnterpriseUserQueryProvider implements IUserQueryLocal {
 	
 	@Override
 	public IUser queryUserByName(String username) throws NotInDatabaseException {
+		username = QueryParameterEncoder.encodeQueryString(username);
+		
 		Collection<IUser> users = csvHelper.getUsers(
 				backendConnection.getUser("username=LIKE%20'" + username + "'"));
 		if (users.size() > 1) {
@@ -48,8 +51,9 @@ public class EnterpriseUserQueryProvider implements IUserQueryLocal {
 
 	@Override
 	public ICustomer queryCustomer(IUser user) throws NotInDatabaseException {
+		String encUsername = QueryParameterEncoder.encodeQueryString(user.getUsername());
 		Collection<ICustomer> customers = csvHelper.getCustomers(
-				backendConnection.getCustomer("user.username=LIKE%20'" + user.getUsername() + "'"));
+				backendConnection.getCustomer("user.username=LIKE%20'" + encUsername + "'"));
 		if (customers.size() > 1) {
 			LOG.warn("Query for customer with username " + user.getUsername() + " returned multiple matches!");
 		} else if (customers.size() == 0) {

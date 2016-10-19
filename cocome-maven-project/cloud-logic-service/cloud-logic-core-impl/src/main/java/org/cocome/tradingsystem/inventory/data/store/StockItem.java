@@ -60,9 +60,9 @@ class StockItem implements Serializable, IStockItem {
 	private IProduct product;
 	
 	@Inject
-	Instance<IStoreQueryLocal> storeQueryInstance;
+	Instance<IStoreQuery> storeQueryInstance;
 	
-	private IStoreQueryLocal storeQuery;
+	private IStoreQuery storeQuery;
 	
 	@PostConstruct
 	private void initStockItem() {

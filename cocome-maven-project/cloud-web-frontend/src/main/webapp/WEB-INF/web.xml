@@ -13,8 +13,7 @@
   <welcome-file-list>
     <welcome-file>faces/login.xhtml</welcome-file>
   </welcome-file-list>
-<!--   <mime-mapping>
-    <extension>jsp</extension>
-    <mime-type>text/html</mime-type>
-  </mime-mapping> -->
+   <error-page>
+  	<location>/faces/error.xhtml</location>
+  </error-page>
 </web-app>

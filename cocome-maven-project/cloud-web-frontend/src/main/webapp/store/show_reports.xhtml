@@ -21,7 +21,8 @@
 											value="#{strings['report.show.store_id.text']}" /></td>
 									<td><h:inputText value="#{storeID}"
 											styleClass="input-number"
-											validator="#{showReportView.validateStoreID}" /> <h:commandButton
+											validator="#{numberValidator.validatePositiveLong}" 
+											validatorMessage="#{strings['report.validation.storeid.failed']}"/> <h:commandButton
 											action="#{showReportView.loadReport(storeID)}"
 											value="#{strings['report.show.submit.text']}" /></td>
 								</tr>

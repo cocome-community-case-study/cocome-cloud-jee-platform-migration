@@ -4,13 +4,13 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 @Stateless
-public class CloudPersistence implements IPersistenceLocal {
+public class CloudPersistence implements IPersistence {
 
 	@EJB
-	private IPersistenceContextLocal persistenceContext;
+	private IPersistenceContext persistenceContext;
 	
 	@Override
-	public IPersistenceContextLocal getPersistenceContext() {
+	public IPersistenceContext getPersistenceContext() {
 		return persistenceContext;
 	}
 }

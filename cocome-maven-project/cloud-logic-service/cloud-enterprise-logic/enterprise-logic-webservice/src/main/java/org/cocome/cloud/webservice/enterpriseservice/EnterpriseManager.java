@@ -21,14 +21,14 @@ import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierT
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQueryLocal;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 //import org.cocome.tradingsystem.inventory.data.generator.ItemizedDatabaseFiller;
 //import org.cocome.tradingsystem.inventory.data.generator.StorizedDatabaseFiller;
 //import org.cocome.tradingsystem.inventory.data.generator.TestDatabaseFiller;
-import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContextLocal;
+import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
@@ -55,10 +55,10 @@ public class EnterpriseManager implements IEnterpriseManager {
 	private static final Logger LOG = Logger.getLogger(EnterpriseManager.class);
 	
 	@Inject
-	IEnterpriseQueryLocal enterpriseQuery;
+	IEnterpriseQuery enterpriseQuery;
 	
 	@Inject
-	IPersistenceContextLocal persistenceContext;
+	IPersistenceContext persistenceContext;
 	
 	@Inject
 	ICashDeskRegistryFactory registryFact;
@@ -462,6 +462,18 @@ public class EnterpriseManager implements IEnterpriseManager {
 	public SupplierTO querySupplierForProduct(long enterpriseID, long productBarcode) throws NotInDatabaseException {
 		IProductSupplier supplier = enterpriseQuery.querySupplierForProduct(enterpriseID, productBarcode);
 		return enterpriseFactory.fillSupplierTO(supplier);
+	}
+
+	@Override
+	public Collection<StoreWithEnterpriseTO> queryStoreByName(long enterpriseID, String storeName) throws NotInDatabaseException {
+		Collection<IStore> stores = enterpriseQuery.queryStoreByName(enterpriseID, storeName);
+		Collection<StoreWithEnterpriseTO> storeTOs = new ArrayList<>(stores.size());
+		
+		for (IStore store : stores) {
+			storeTOs.add(storeFactory.fillStoreWithEnterpriseTO(store));
+		}
+		
+		return storeTOs;
 	}
 
 }

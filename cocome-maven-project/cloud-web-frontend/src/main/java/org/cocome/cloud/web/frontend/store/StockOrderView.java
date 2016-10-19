@@ -18,11 +18,12 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
-import org.cocome.cloud.web.data.store.OrderItem;
-import org.cocome.cloud.web.data.store.ProductWrapper;
-import org.cocome.cloud.web.data.store.Store;
+import org.cocome.cloud.web.data.storedata.IStorePersistence;
+import org.cocome.cloud.web.data.storedata.OrderItem;
+import org.cocome.cloud.web.data.storedata.ProductWrapper;
+import org.cocome.cloud.web.data.storedata.Store;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
-import org.cocome.cloud.web.util.Messages;
+import org.cocome.cloud.web.frontend.util.Messages;
 
 @Named
 @ConversationScoped
@@ -32,13 +33,13 @@ public class StockOrderView implements Serializable {
 	private static final Logger LOG = Logger.getLogger(StockOrderView.class);
 
 	@Inject
-	IStoreQuery storeQuery;
-
-	@Inject
 	StockOrderData orderData;
 
 	@Inject
 	StoreInformation storeInformation;
+	
+	@Inject
+	IStorePersistence storePersistence;
 
 	@Inject
 	Conversation conversation;
@@ -97,7 +98,7 @@ public class StockOrderView implements Serializable {
 	public String submitOrder() {
 		Store currentStore = storeInformation.getActiveStore();
 		Collection<OrderItem> items = orderData.getItemMap().values();
-		if (storeQuery.orderProducts(currentStore, items)) {
+		if (storePersistence.orderProducts(currentStore, items)) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Order was placed successfully!"));
 			resetOrder();
 		} else {
@@ -185,7 +186,7 @@ public class StockOrderView implements Serializable {
 		ProductWrapper selectedItem = getSelectedItem();
 
 		// TODO Use some configurable percentage for flexibility when ordering
-		// more than the max stock
+		// more than the max stock instead of hard coded one
 		if ((selectedItem.getAmount() + orderAmount) > (selectedItem.getStockItemTO().getMaxStock() * 1.2)) {
 			handleFailedValidationMessage(context, comp, Messages.getLocalizedMessage("stock.order.validation.amount.exceed_max"));
 		}

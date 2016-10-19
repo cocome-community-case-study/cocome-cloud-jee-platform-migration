@@ -1,29 +1,32 @@
 package org.cocome.cloud.web.frontend.login;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 import org.apache.log4j.Logger;
-import org.cocome.cloud.web.data.login.IAuthenticator;
-import org.cocome.cloud.web.data.login.ICredential;
-import org.cocome.cloud.web.data.login.ICredentialFactory;
-import org.cocome.cloud.web.data.login.IUser;
-import org.cocome.cloud.web.data.login.UserRole;
+import org.cocome.cloud.web.data.logindata.IAuthenticator;
+import org.cocome.cloud.web.data.logindata.ICredential;
+import org.cocome.cloud.web.data.logindata.ICredentialFactory;
+import org.cocome.cloud.web.data.logindata.IUser;
+import org.cocome.cloud.web.data.logindata.UserRole;
 import org.cocome.cloud.web.events.LoginEvent;
 import org.cocome.cloud.web.events.LogoutEvent;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
 import org.cocome.cloud.web.frontend.store.IStoreInformation;
 
-@ManagedBean
+@Named
 @SessionScoped
-public class Login {
+public class Login implements Serializable {
+	private static final long serialVersionUID = 8680398263548700980L;
 
 	@Inject
 	IAuthenticator authenticator;

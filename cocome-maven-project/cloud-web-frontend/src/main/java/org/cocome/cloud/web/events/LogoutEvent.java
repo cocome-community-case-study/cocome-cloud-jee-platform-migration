@@ -1,6 +1,6 @@
 package org.cocome.cloud.web.events;
 
-import org.cocome.cloud.web.data.login.IUser;
+import org.cocome.cloud.web.data.logindata.IUser;
 
 public class LogoutEvent {
 	private IUser user;

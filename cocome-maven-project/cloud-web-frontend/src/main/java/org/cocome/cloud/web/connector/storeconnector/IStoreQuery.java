@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 
 import org.cocome.cloud.logic.stub.IStoreManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.store.OrderItem;
-import org.cocome.cloud.web.data.store.ProductWrapper;
-import org.cocome.cloud.web.data.store.Store;
+import org.cocome.cloud.web.data.storedata.OrderItem;
+import org.cocome.cloud.web.data.storedata.ProductWrapper;
+import org.cocome.cloud.web.data.storedata.Store;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
 
 /**

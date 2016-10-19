@@ -33,12 +33,20 @@
 				<h:column>
 					<f:facet name="header">#{strings['store.table.header_name']}</f:facet>
 					<h:outputText value="#{store.name}" rendered="#{not store.editingEnabled}"/>
-					<h:inputText value="#{store.newName}" rendered="#{store.editingEnabled}"/>
+					<h:inputText value="#{store.newName}" rendered="#{store.editingEnabled}"
+						validatorMessage="#{strings['store.create.validation.name.failed']}">
+						<f:validateLength minimum="3" maximum="30"/>
+						<f:validateRegex pattern="[^;]*" />
+					</h:inputText>
 				</h:column>
 				<h:column>
 					<f:facet name="header">#{strings['store.table.header_loc']}</f:facet>
 					<h:outputText value="#{store.location}" rendered="#{not store.editingEnabled}"/>
-					<h:inputText value="#{store.newLocation}" rendered="#{store.editingEnabled}" />
+					<h:inputText value="#{store.newLocation}" rendered="#{store.editingEnabled}" 
+						validatorMessage="#{strings['store.create.validation.location.failed']}" >
+						<f:validateLength minimum="3" maximum="30"/>
+						<f:validateRegex pattern="[^;]*" />
+					</h:inputText>
 				</h:column>
 				<h:column>
 					<f:facet name="header"></f:facet>

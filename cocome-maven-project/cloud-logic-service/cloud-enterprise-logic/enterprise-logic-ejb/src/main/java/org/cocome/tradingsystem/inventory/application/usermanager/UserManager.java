@@ -13,13 +13,13 @@ import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.store.CustomerWithStoreTO;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredentialFactory;
-import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContextLocal;
+import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQueryLocal;
+import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
-import org.cocome.tradingsystem.inventory.data.usermanager.IUserQueryLocal;
+import org.cocome.tradingsystem.inventory.data.usermanager.IUserQuery;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.qualifier.Credential;
 
@@ -34,13 +34,13 @@ class UserManager implements IAuthenticator, IUserManager {
 	private static final Logger LOG = Logger.getLogger(UserManager.class);
 	
 	@Inject
-	IUserQueryLocal userQuery;
+	IUserQuery userQuery;
 	
 	@Inject
-	IPersistenceContextLocal persistenceCtx;
+	IPersistenceContext persistenceCtx;
 	
 	@Inject
-	IStoreQueryLocal storeQuery;
+	IStoreQuery storeQuery;
 	
 	@Inject @Credential(CredentialType.AUTH_TOKEN)
 	ICredential authToken;

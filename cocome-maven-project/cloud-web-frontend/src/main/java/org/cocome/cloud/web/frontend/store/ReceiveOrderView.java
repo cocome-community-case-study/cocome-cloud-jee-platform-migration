@@ -6,12 +6,10 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-
-import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
+import org.cocome.cloud.web.data.storedata.IStoreDAO;
+import org.cocome.cloud.web.data.storedata.IStorePersistence;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
 
 @ManagedBean
@@ -19,19 +17,22 @@ import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
 // TODO use localized messages from properties file
 public class ReceiveOrderView {
 	@Inject
-	IStoreQuery storeQuery;
+	IStoreDAO storeDAO;
 	
+	@Inject
+	IStorePersistence storePersistence;
+
 	@Inject
 	StoreInformation storeInformation;
 	
 	private List<ComplexOrderTO> orders;
 	
 	public void loadAllOrders() {
-		orders = storeQuery.getAllOrders(storeInformation.getActiveStore());
+		orders = storeDAO.getAllOrders(storeInformation.getActiveStore());
 	}
 	
 	public void loadOrder(long orderId) {
-		ComplexOrderTO order = storeQuery.getOrderByID(storeInformation.getActiveStore(), orderId);
+		ComplexOrderTO order = storeDAO.getOrderByID(storeInformation.getActiveStore(), orderId);
 		if (order != null) {
 			orders = new LinkedList<>();
 			orders.add(order);
@@ -45,24 +46,12 @@ public class ReceiveOrderView {
 	}
 	
 	public String rollInOrder(ComplexOrderTO order) {
-		if (storeQuery.rollInOrder(storeInformation.getActiveStore(), order.getId())) {
+		if (storePersistence.rollInOrder(storeInformation.getActiveStore(), order.getId())) {
 			loadAllOrders();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Order was rolled in successfully!"));
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error while rolling in the order!"));
 		}
 		return null;
-	}
-	
-	public void validateOrderID(FacesContext context, UIComponent comp, Object value) {
-		String input = (String) value;
-		
-		try {
-			Long.parseLong(input);
-		} catch (NumberFormatException e) {
-			((UIInput) comp).setValid(false);
-			FacesMessage wrongInputMessage = new FacesMessage("Invalid order id, please input only numbers.");
-			context.addMessage(comp.getClientId(), wrongInputMessage);
-		}
 	}
 }
