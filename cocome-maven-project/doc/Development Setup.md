@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Eclipse Nano
+- Eclipse Neon
 - Maven2Eclipse connector (available via Eclipse Marketplace)
 - Check `Eclipse Setup.md` for further details on the setup of Eclipse
 - Read/Execute `Glassfish Setup.md` and consult `Deployment Setup.md`
@@ -12,7 +12,7 @@
 - cocome-maven-project
   `git clone https://github.com/cocome-community-case-study/cocome-cloud-jee-platform-migration.git`
 - service-adapter
-  `git https://github.com/cocome-community-case-study/cocome-cloud-jee-service-adapter.git`
+  `git clone https://github.com/cocome-community-case-study/cocome-cloud-jee-service-adapter.git`
 
 ## Import Maven Projects
 
