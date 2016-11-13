@@ -36,7 +36,7 @@ ${GLASSFISH}/README.txt`
 
 ## Configure Glassfish Instances
 
-We must create four Glassfish instances for all parts of CoCoME. You may
+We must create four Glassfish instances for all parts of CoCoME.(See below for details). You may
 create even one more. You can realize these instances either by
 definining mutliple domains in one Glassfish installation or by creating
 four or more separate Glassfish installations on different virtual or
@@ -69,11 +69,16 @@ See also: https://docs.oracle.com/cd/E19798-01/821-1758/6nmnj7pt9/index.html
 Note: You may not be able to select port numbers below 32000, as this
 can be prohibited by firewalls. 
 
+### Add 'server' overview to Perspective
+If you do not see 'servers' in your eclipse perspective got to 
+  Window -> Show View -> Other -> Server -> Servers
+
+
 ### Creating Domains with `asadmin`
 
 - Change to ${GLASSFISH}/glassfish 
-- Execute bin/asadmin as follows. The tool will prompt for a password.
-  You may leave that empty.
+- Execute bin/asadmin (Windows-Batchfile) as follows. The tool will prompt for a password.
+  You may leave that empty. (You probably need administrator rights).
 
 `bin/asadmin create-domain --portbase 8000 web`
 `bin/asadmin create-domain --portbase 8100 store`
@@ -85,6 +90,9 @@ Note: It is best to start each domain before creating the next when
 using this method. Otherwise both domains may end up using the same
 ports, for example for the jmx service, which will then cause a conflict
 if both domains are started on the same host.
+
+Add the serves to the eclipse perspective. Go to 'Servers' -> right click -> new -> Server -> Select Glassfish
+-> next -> domain path: browse -> find your created domain in ${GLASSFISH}/domains.
 
 ### Create domain using Eclipse
 
@@ -99,6 +107,8 @@ In the next step of this wizard click on the "+" signs to the right of
 the domain path field. This opens a new dialogue. In the name field 
 insert one of the domain names mentioned above. The domain directory
 should already point to ${GLASSFISH}/domains and should not be modified.
+Create a new folder within the  ${GLASSFISH}/domain folder and name it after your instance (eg. "store"). 
+Select this folder as domain directory and add the portbase number suggested below. 
 The portbase is used to compute the ports for this domain.
 Portbase + 80 is the port for accessing the application and portbase 
 + 48 is the port where the admin console will be available.
@@ -110,3 +120,5 @@ For this method we suggest the following portbases:
 - enterprise 8300
 - registry 8400 (registry is optional)
 
+If you get an error saying something like 'the portbase you are using is already in use' , try to find out which program uses it and 
+change it if possible.

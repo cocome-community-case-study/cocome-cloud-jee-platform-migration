@@ -4,6 +4,7 @@ Once you have successfully deployed the projects you can access the
 frontend under the following URL:
 
 `http://${web.host}:${web}.${web.httpPort}/cloud-web-frontend`
+  (eg.  http://localhost:8080/Cloud-web-frontend)
 
 Note that `${web.host}` and `${web.httpPort}` are the values you
 specified in the `settings.xml` (see `Development Setup.md`)

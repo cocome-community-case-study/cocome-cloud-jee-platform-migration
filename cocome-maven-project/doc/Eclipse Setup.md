@@ -8,8 +8,9 @@ must be added to your Eclipse installation.
 ## Prerequisites
 
 - Eclipse Mars.1 or later (other versions my work as well)
-- Eclipse JavaEE extensions installed
+- Eclipse JavaEE extensions installed ( http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/neon1a )
 - Maven2Eclipse connector (available via Eclipse Marketplace)
+- EGIT - Git Integration for Eclipse
 
 ## Configuration of Eclipse
 
