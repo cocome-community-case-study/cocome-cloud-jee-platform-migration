@@ -36,7 +36,7 @@ and undeployment.
 - [`cocome-maven-project/doc`](./cocome-maven-project/doc) documentation
 
 ## Important Information
-
+- [`Installation in a Nutshell`](./cocome-maven-project/doc/Installation in a nutshell.md) gives an overview of the installation process
 - [`Development Setup`](./cocome-maven-project/doc/Development Setup.md) describes how to
 	configure a fresh checkout
 - [`Deployment Setup`](./cocome-maven-project/doc/Deployment Setup.md) explains the general
