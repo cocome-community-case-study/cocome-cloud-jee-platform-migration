@@ -18,7 +18,7 @@ Properties -> Targeted Runtimes to the newly created glassfish server.
 'Java Errors'
 
 Add the JDK 7 path to your PATH environment variable if you have
-problems with running glassfish through the maven install command.
+problems with running Glassfish through the maven install command.
 
 'Buid Problems'
 
@@ -37,7 +37,7 @@ maven build. Therefore, you have to prepare the build as follows:
 
 `mvn -s settings.xml clean compile package`
 
-This must be done for both projects (see `Development Setup.md`). 
+This must be done for both projects (see [`Development Setup.md`](./Development Setup.md)). 
 Furthermore, you have to setup the script to work in your environment.
 Please refer to the in script documentation.
 

@@ -3,9 +3,8 @@
 ## Prerequisites
 
 - Eclipse Neon
-- Maven2Eclipse connector (available via Eclipse Marketplace)
-- Check `Eclipse Setup.md` for further details on the setup of Eclipse
-- Read/Execute `Glassfish Setup.md` and consult `Deployment Setup.md`
+- Check [`Eclipse Setup.md`](./Eclipse Setup.md) for further details on the setup of Eclipse
+- Read/Execute [`Glassfish Setup.md`](./Glassfish Setup.md) and consult [`Deployment Setup.md`](./Deployment Setup.md)
 
 ## Checkout Projects
 
@@ -16,10 +15,17 @@
   
   You can do this by using the Eclipse git plugin. Go to 'open persepective' -> select GIT -> clone a git repository -> enter both links mentioned above into URI https://github....
   
+### Alternative
+- You can directly check out and import the Maven Projects by selecting 'File' -> 'Import' -> 'Check out Maven Projects From SCM'
+- Click on 'Next'
+- In the next window, select 'git' as SCM. (If the 'git' option is not available, install the Sonatype m2e EGIT connector by clicking on 
+'m2e Marketplace' on the bottom left) In the URL field enter one of the above URLs.
+- Click on 'Next' and then 'Finish'. The projects will now be imported into your workspace.
+- You can now skip the 'Import Maven Projects' step
 
 ## Import Maven Projects
 
-- Choose 'File' > 'Import' > 'Existing Maven Projects'
+- Choose 'File' -> 'Import' -> 'Existing Maven Projects'
 - Click 'Next'
 - Click 'Browse...' and select the root directory of the 
   `cocome-cloud-jee-platform-migration` repository
@@ -45,47 +51,44 @@
 - Define the correct values for each deployment configuration. These are
   specifically `domain`, `host`, `adminPort`, `httpPort`, `protocol`,
   `user`, `password`
-- Normally the domain name has to be named after your glassfish server, host should be changed to 'localhost',
+- Normally the domain name has to be named after your Glassfish server, host should be changed to 'localhost' or the IP address of your Glassfish server,
   'adminPort' should be portbase+48 (eg. portbase is 8400 ->  'adminPort' is 8448)  , 'httpPort' should be portbase+80, 
-  'user' should be admin and the 'password' should be blank, if you didn't choose one while creating the glassfish domains 
+  'user' should be admin and the 'password' should be blank, if you didn't choose one while creating the Glassfish domains 
   (do not delete the password line).
   
 - However, in case you use one Glassfish server for multiple
   domains or you have configured you Glassfish servers with different
-  admin and http ports, the you have to set these values properly.
+  admin and http ports, then you have to set these values properly.
   
-- In the `service-adapter` project, proceed in a similar way (You also have to add a glassfish domain for this one). Therefore
-  read the README in th cocome-cloud-jee-service-adapter project.
+- In the `service-adapter` project, proceed in a similar way (You should to add a Glassfish domain for this one). Therefore
+  read the [README](https://github.com/cocome-community-case-study/cocome-cloud-jee-service-adapter) in the cocome-cloud-jee-service-adapter project.
   
- ## Building CoCoME
+## Building CoCoME
  
- Don't forget to start the glassfish servers. Go to 'servers'- perspective -> Right-click -> Start.
+Don't forget to start the Glassfish servers. Go to 'Servers'- perspective -> Right-click -> Start.
   
- On command line you may build CoCoME as follows:
- - Enter `maven-cocome-project`
-   `mvn -s settings.xml clean compile package`
-   You may execute these three steps also with separate Maven calls.
- - Switch to the other repository and run Maven
-   `mvn -s settings.xml clean compile package`
+On command line you may build CoCoME as follows:
+- Enter the `maven-cocome-project` folder
+  `mvn -s settings.xml clean compile package`
+  You may execute these three steps also with separate Maven calls.
+- Switch to the other repository and run Maven
+  `mvn -s settings.xml clean compile package`
    
    
- If you want to use the mvn commands with the eclipse plugin create the following setup:
- - right-click on cocome-maven-project -> Run As -> Build... ->     
-       goal: clean compile package  (without any symbols in between)
-       profiles: leave empty
-       user settings:  use the settings.xml from the actual project
+If you want to use the Maven commands from within Eclipse, create the following setup:
+- Right-click on cocome-maven-project -> Run As -> Build...
+- Set the following values:
+ - Goals: clean compile package
+ - Profiles: Leave empty
+ - User Settings:  Use your settings.xml from the actual project
      
    
-The resulting packages can now been deployed by hand, via
+The resulting packages can now be deployed by hand, via
 `mvn -s settings.xml install`(in both projects), or via the deployment
-script `deployment.sh`. Please read the `Deployment Setup.md`.
+script `deployment.sh`. Please read the [`Deployment Setup.md`](./Deployment Setup.md).
 
-  
-  
-  
-  
-  
+## Eclipse Errors
 
-
-
-
+Eclipse may show errors in a few projects because of missing classes. This is because some classes are 
+only generated by a Maven build. These errors will disappear after running the Maven build process 
+and right-click on `cocome-maven-project` -> 'Maven' -> 'Update Project' -> 'OK'.

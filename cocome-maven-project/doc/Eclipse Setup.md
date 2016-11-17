@@ -1,20 +1,22 @@
 # Eclipse Setup
 
-CoCoME makes use of a wide range of Maven plug-ins including glassfish
+CoCoME makes use of a wide range of Maven plug-ins including Glassfish
 deployment, code generation, configuration, and others. To be able to
 process this information in Eclipse, several plug-ins and connectors 
 must be added to your Eclipse installation.
 
-## Prerequisites
+## Installation Details
+- Eclipse Mars.1 or later for Java EE Developers (http://www.eclipse.org/downloads/packages/)
+- Maven2Eclipse connector for EGIT (available via Eclipse Marketplace)
+- EGIT - Git Integration for Eclipse (available via Eclipse Marketplace)
+- JBoss Tools - Collection of tools to help with Java EE development (optional but recommended, available via Eclipse Marketplace)
+- Glassfish Tools - Glassfish Server Integration for Eclipse (optional, available via Eclipse Marketplace)
 
-- Eclipse Mars.1 or later (other versions my work as well)
-- Eclipse JavaEE extensions installed ( http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/neon1a )
-- Maven2Eclipse connector (available via Eclipse Marketplace)
-- EGIT - Git Integration for Eclipse
+## Additional M2E CXF Connector
 
-## Configuration of Eclipse
-
-Install of additional m2e components.
+To add CXF support for m2e install the following connector. This is not strictly necessary, 
+but without it, Eclipse will show an error for the `cloud-logic-core-services` project.
+However, this error is purely cosmetic and does not influence the Maven build.
 
 - Choose 'Help' > 'Install New Software ...'
 - Click on 'Add...' to add a new update site

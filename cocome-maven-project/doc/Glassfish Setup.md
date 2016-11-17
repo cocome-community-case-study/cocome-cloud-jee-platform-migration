@@ -5,7 +5,7 @@ service. However, you may use other JavaEE platform providers.
 
 ## Prerequisits
 
-- Eclipse with Java EE support (installed)
+- Eclipse with Glassfish Tools (optional)
 - Glassfish 4.0 or higher (can be obtained from https://glassfish.java.net/)
 
 Quick Facts:
@@ -66,11 +66,11 @@ instance port is portbase + 80, https port is portbase + 81.
 
 See also: https://docs.oracle.com/cd/E19798-01/821-1758/6nmnj7pt9/index.html
 
-Note: You may not be able to select port numbers below 32000, as this
+Note: You may not be able to select port numbers below 3200, as this
 can be prohibited by firewalls. 
 
 ### Add 'server' overview to Perspective
-If you do not see 'servers' in your eclipse perspective got to 
+If you do not see 'servers' in your Eclipse perspective got to 
   Window -> Show View -> Other -> Server -> Servers
 
 
@@ -99,7 +99,7 @@ Add the serves to the eclipse perspective. Go to 'Servers' -> right click -> new
 If you installed the Glassfish Tools from the Oracle Enterprise Pack 
 for Eclipse you can create a new domain directly from within Eclipse. 
 To do this, open the Servers view in Eclipse and add a new server with 
-'Right-Click' -> 'New' -> 'Server''. In the wizard, select Glassfish in
+'Right-Click' -> 'New' -> 'Server'. In the wizard, select Glassfish in
 the version you use and enter cocome-logic or cocome-web as the server
 name.
 
