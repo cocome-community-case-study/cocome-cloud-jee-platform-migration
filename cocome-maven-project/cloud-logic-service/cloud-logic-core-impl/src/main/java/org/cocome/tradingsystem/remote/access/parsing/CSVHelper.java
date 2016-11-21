@@ -29,6 +29,7 @@ import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUserDataFactory;
+import org.cocome.tradingsystem.remote.access.connection.QueryParameterEncoder;
 
 import de.kit.ipd.java.utils.framework.table.Row;
 import de.kit.ipd.java.utils.parsing.csv.CSVParser;
@@ -55,6 +56,10 @@ public class CSVHelper implements IBackendConversionHelper {
 	
 	private static final Logger LOG = Logger.getLogger(CSVHelper.class);
 	
+	private String decodeString(String string) {
+		return QueryParameterEncoder.decodeQueryString(string);
+	}
+	
 	private void initCredFactory() {
 		if (credFactory == null) {
 			credFactory = credFactoryInstance.get();
@@ -71,16 +76,16 @@ public class CSVHelper implements IBackendConversionHelper {
 		IStore result = storeFactory.getNewStore();
 		
 		String enterpriseName = row.getColumns().get(0 + offset).getValue();
-		result.setEnterpriseName(enterpriseName.equals("null") ? null : enterpriseName);
+		result.setEnterpriseName(enterpriseName.equals("null") ? null : decodeString(enterpriseName));
 		
 		String id = row.getColumns().get(1 + offset).getValue();
 		result.setId(id.equals("null") ? Long.MIN_VALUE : Long.parseLong(id));
 		
 		String storeName = row.getColumns().get(2 + offset).getValue();
-		result.setName(storeName.equals("null") ? null : storeName);
+		result.setName(storeName.equals("null") ? null : decodeString(storeName));
 		
 		String storeLocation = row.getColumns().get(3 + offset).getValue();
-		result.setLocation(storeLocation.equals("null") ? null : storeLocation);
+		result.setLocation(storeLocation.equals("null") ? null : decodeString(storeLocation));
 		
 		return result;
 	}
@@ -92,7 +97,7 @@ public class CSVHelper implements IBackendConversionHelper {
 		
 		IProductSupplier result = enterpriseFactory.getNewProductSupplier();
 		result.setId(Long.parseLong(row.getColumns().get(2).getValue()));
-		result.setName(row.getColumns().get(3).getValue());
+		result.setName(decodeString(row.getColumns().get(3).getValue()));
 		return result;
 	}
 	
@@ -100,7 +105,7 @@ public class CSVHelper implements IBackendConversionHelper {
 		ITradingEnterprise result = enterpriseFactory.getNewTradingEnterprise();
 		
 		result.setId(Long.parseLong(row.getColumns().get(0).getValue()));
-		result.setName(row.getColumns().get(1).getValue());
+		result.setName(decodeString(row.getColumns().get(1).getValue()));
 		
 		return result;
 	}
@@ -108,8 +113,8 @@ public class CSVHelper implements IBackendConversionHelper {
 	private IStockItem getStockItemFromRow(Row<String> row) {
 		IStockItem result = storeFactory.getNewStockItem();
 		
-		result.setStoreName(row.getColumns().get(1).getValue());
-		result.setStoreLocation(row.getColumns().get(2).getValue());
+		result.setStoreName(decodeString(row.getColumns().get(1).getValue()));
+		result.setStoreLocation(decodeString(row.getColumns().get(2).getValue()));
 		result.setProductBarcode(Long.parseLong(row.getColumns().get(3).getValue()));
 		result.setId(Long.parseLong(row.getColumns().get(4).getValue()));
 		result.setMinStock(Long.parseLong(row.getColumns().get(5).getValue()));
@@ -125,7 +130,7 @@ public class CSVHelper implements IBackendConversionHelper {
 		IProduct result = enterpriseFactory.getNewProduct();
 		
 		result.setBarcode(Long.parseLong(row.getColumns().get(0).getValue()));
-		result.setName(row.getColumns().get(1).getValue());
+		result.setName(decodeString(row.getColumns().get(1).getValue()));
 		result.setPurchasePrice(Double.parseDouble(row.getColumns().get(2).getValue()));
 		
 		return result;
@@ -135,7 +140,7 @@ public class CSVHelper implements IBackendConversionHelper {
 		IProductSupplier result = enterpriseFactory.getNewProductSupplier();
 		
 		result.setId(Long.parseLong(row.getColumns().get(0).getValue()));
-		result.setName(row.getColumns().get(1).getValue());
+		result.setName(decodeString(row.getColumns().get(1).getValue()));
 		
 		return result;
 	}
@@ -144,8 +149,8 @@ public class CSVHelper implements IBackendConversionHelper {
 		IProductOrder result = storeFactory.getNewProductOrder();
 		
 		result.setId(Long.parseLong(row.getColumns().get(0).getValue()));
-		result.setStoreName(row.getColumns().get(2).getValue());
-		result.setStoreLocation(row.getColumns().get(3).getValue());
+		result.setStoreName(decodeString(row.getColumns().get(2).getValue()));
+		result.setStoreLocation(decodeString(row.getColumns().get(3).getValue()));
 		result.setDeliveryDate(TimeUtils.convertToDateObject(row.getColumns().get(5).getValue()));
 		result.setOrderingDate(TimeUtils.convertToDateObject(row.getColumns().get(6).getValue()));
 		
@@ -219,7 +224,7 @@ public class CSVHelper implements IBackendConversionHelper {
 		
 		ICustomer currentCustomer = getCustomerFromRow(row);
 		IUser currentUser = getUserFromRow(row, 9);
-		String currentCreditInfo = row.getColumns().get(4).getValue();
+		String currentCreditInfo = decodeString(row.getColumns().get(4).getValue());
 		IStore preferredStore = getStoreFromRow(row, 5);
 		ICustomer savedCustomer = customers.get(currentCustomer.getID());
 		
@@ -249,9 +254,9 @@ public class CSVHelper implements IBackendConversionHelper {
 		ICustomer result = userFactory.getNewCustomer();
 		
 		result.setID(Long.parseLong(row.getColumns().get(0).getValue()));
-		result.setFirstName(row.getColumns().get(1).getValue());
-		result.setLastName(row.getColumns().get(2).getValue());
-		result.setMailAddress(row.getColumns().get(3).getValue());
+		result.setFirstName(decodeString(row.getColumns().get(1).getValue()));
+		result.setLastName(decodeString(row.getColumns().get(2).getValue()));
+		result.setMailAddress(decodeString(row.getColumns().get(3).getValue()));
 		
 		return result;
 	}
@@ -328,14 +333,14 @@ public class CSVHelper implements IBackendConversionHelper {
 
 	private ICredential getCredentialFromRow(Row<String> row) {
 		initCredFactory();
-		CredentialType type = CredentialType.valueOf(row.getColumns().get(2).getValue().toUpperCase());
+		CredentialType type = CredentialType.valueOf(decodeString(row.getColumns().get(2).getValue().toUpperCase()));
 		ICredential cred = credFactory.getCredential(type);
-		cred.setCredentialString(row.getColumns().get(3).getValue());
+		cred.setCredentialString(decodeString(row.getColumns().get(3).getValue()));
 		return cred;
 	}
 
 	private Role getRoleFromRow(Row<String> row) {
-		return Role.valueOf(row.getColumns().get(4).getValue().toUpperCase());
+		return Role.valueOf(decodeString(row.getColumns().get(4).getValue().toUpperCase()));
 	}
 
 	private IUser getUserFromRow(Row<String> row) {
@@ -346,7 +351,7 @@ public class CSVHelper implements IBackendConversionHelper {
 		if (offset < 0) offset = 0;
 		
 		IUser user = userFactory.getNewUser();
-		user.setUsername(row.getColumns().get(1 + offset).getValue());
+		user.setUsername(decodeString(row.getColumns().get(1 + offset).getValue()));
 		
 		return user;
 	}

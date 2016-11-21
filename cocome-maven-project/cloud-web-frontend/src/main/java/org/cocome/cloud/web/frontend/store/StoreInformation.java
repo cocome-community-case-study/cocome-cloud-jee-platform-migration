@@ -122,6 +122,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	public String switchToStore(@NotNull Store store, String destination) {
 		setActiveStoreID(store.getID());
 		activeStore = store;
+		hasChanged = true;
 		changeViewEvent.fire(new ChangeViewEvent(NavigationViewStates.STORE_VIEW));
 		return destination != null ? destination : NavigationElements.STORE_MAIN.getNavigationOutcome();
 	}
@@ -173,6 +174,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	}
 
 	private void mergeProductInformation() {
+		productsWithStockItems = new LinkedHashMap<>();
 		for (ProductWrapper stockItem : stockItems) {
 			productsWithStockItems.put(stockItem.getBarcode(), stockItem);
 		}

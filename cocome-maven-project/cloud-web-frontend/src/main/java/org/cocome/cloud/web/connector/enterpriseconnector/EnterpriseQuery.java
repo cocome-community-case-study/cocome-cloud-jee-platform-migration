@@ -131,6 +131,11 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 		Store store = stores.get(storeID);
 
 		if (store == null) {
+			updateStoreInformation();
+			store = stores.get(storeID);
+		}
+		
+		if (store == null) {
 			throw new NotInDatabaseException_Exception("Store not found!");
 		}
 
@@ -232,7 +237,9 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 
 		for (StoreWithEnterpriseTO recStoreTO : storeTOs) {
 			if (storeTO.getLocation().equals(location)) {
-				stores.put(storeTO.getId(), new Store(recStoreTO.getId(), recStoreTO.getEnterpriseTO(), location, name));
+				Store recStore = new Store(recStoreTO.getId(), recStoreTO.getEnterpriseTO(), location, name);
+				stores.put(recStoreTO.getId(),recStore);
+				storeCollections.get(enterpriseID).add(recStore);
 			}
 		}
 

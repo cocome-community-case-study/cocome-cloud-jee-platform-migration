@@ -34,7 +34,7 @@
 						<td colspan="2"><h:inputText value="#{location}"
 								required="true" validatorMessage="#{strings['store.create.validation.location.failed']}">
 								<f:validateLength minimum="3" maximum="30"/>
-								<f:validateRegex pattern="[^;]*" />
+								<f:validateRegex pattern="#{strings['input.string.regex']}" />
 							</h:inputText>		
 						</td>
 						<td><h:commandButton
