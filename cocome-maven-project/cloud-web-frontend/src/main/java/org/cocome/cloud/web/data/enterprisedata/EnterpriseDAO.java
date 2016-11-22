@@ -18,12 +18,12 @@ public class EnterpriseDAO implements IEnterpriseDAO {
 	IEnterpriseQuery enterpriseQuery;
 	
 	@Override
-	public Collection<Enterprise> getAllEnterprises() {
+	public Collection<EnterpriseViewData> getAllEnterprises() {
 		return enterpriseQuery.getEnterprises();
 	}
 
 	@Override
-	public Enterprise getEnterpriseByID(long enterpriseID) {
+	public EnterpriseViewData getEnterpriseByID(long enterpriseID) {
 		return enterpriseQuery.getEnterpriseByID(enterpriseID);
 	}
 

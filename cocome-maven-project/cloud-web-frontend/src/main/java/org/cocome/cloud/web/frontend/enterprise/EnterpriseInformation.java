@@ -10,10 +10,10 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.enterprisedata.Enterprise;
+import org.cocome.cloud.web.data.enterprisedata.EnterpriseViewData;
 import org.cocome.cloud.web.data.enterprisedata.IEnterpriseDAO;
 import org.cocome.cloud.web.data.storedata.IStoreDAO;
-import org.cocome.cloud.web.data.storedata.Store;
+import org.cocome.cloud.web.data.storedata.StoreViewData;
 
 import java.io.Serializable;
 
@@ -29,7 +29,7 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
 	private static final long serialVersionUID = 1L;
 
 	private long activeEnterpriseID = Long.MIN_VALUE;
-	private Enterprise activeEnterprise;
+	private EnterpriseViewData activeEnterprise;
 	
 	private String newEnterpriseName = null;
 	
@@ -44,17 +44,17 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
 	private boolean enterpriseSubmitted = false;
 	
 	@Override
-	public Collection<Enterprise> getEnterprises() {
+	public Collection<EnterpriseViewData> getEnterprises() {
 		return enterpriseDAO.getAllEnterprises();
 	}
 
 	@Override
-	public Collection<Store> getStores() throws NotInDatabaseException_Exception {
+	public Collection<StoreViewData> getStores() throws NotInDatabaseException_Exception {
 		if (activeEnterpriseID != Long.MIN_VALUE) {
 			return storeDAO.getStoresInEnterprise(activeEnterpriseID);
 		}
 		// TODO Throw custom exception to signal error here
-		return new LinkedList<Store>();
+		return new LinkedList<StoreViewData>();
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
 	}
 
 	@Override
-	public Enterprise getActiveEnterprise() {
+	public EnterpriseViewData getActiveEnterprise() {
 		if (activeEnterprise == null && activeEnterpriseID != Long.MIN_VALUE) {
 			activeEnterprise = enterpriseDAO.getEnterpriseByID(activeEnterpriseID);
 		}
@@ -103,7 +103,7 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
 	}
 
 	@Override
-	public void setActiveEnterprise(@NotNull Enterprise enterprise) {
+	public void setActiveEnterprise(@NotNull EnterpriseViewData enterprise) {
 		activeEnterpriseID = enterprise.getId();
 		this.activeEnterprise = enterprise;
 	}

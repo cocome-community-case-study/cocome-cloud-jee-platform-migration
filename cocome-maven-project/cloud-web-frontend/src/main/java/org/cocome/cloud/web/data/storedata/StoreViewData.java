@@ -9,7 +9,7 @@ import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseT
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-public class Store {
+public class StoreViewData {
 	private long id;
 	private EnterpriseTO enterprise;
 	private String name;
@@ -18,7 +18,7 @@ public class Store {
 	private String newName;
 	private String newLocation;
 	
-	public Store(long id, EnterpriseTO enterprise, String location, String name) {
+	public StoreViewData(long id, EnterpriseTO enterprise, String location, String name) {
 		this.id = id;
 		setEnterprise(enterprise);
 		this.name = name;
@@ -92,7 +92,7 @@ public class Store {
 		location = newLocation;
 	}
 	
-	public static StoreWithEnterpriseTO createStoreTO(Store store) {
+	public static StoreWithEnterpriseTO createStoreTO(StoreViewData store) {
 		StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
 		storeTO.setEnterpriseTO(store.getEnterprise());
 		storeTO.setId(store.getID());
@@ -101,8 +101,8 @@ public class Store {
 		return storeTO;
 	}
 
-	public static Store fromStoreTO(StoreWithEnterpriseTO storeTO) {
-		return new Store(storeTO.getId(), storeTO.getEnterpriseTO(),
+	public static StoreViewData fromStoreTO(StoreWithEnterpriseTO storeTO) {
+		return new StoreViewData(storeTO.getId(), storeTO.getEnterpriseTO(),
 				storeTO.getLocation(), storeTO.getName());
 	}
 }

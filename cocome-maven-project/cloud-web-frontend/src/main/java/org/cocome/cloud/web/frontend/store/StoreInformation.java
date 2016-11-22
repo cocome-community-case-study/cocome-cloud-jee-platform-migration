@@ -23,7 +23,7 @@ import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
 import org.cocome.cloud.web.data.enterprisedata.IEnterpriseDAO;
 import org.cocome.cloud.web.data.storedata.IStoreDAO;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
-import org.cocome.cloud.web.data.storedata.Store;
+import org.cocome.cloud.web.data.storedata.StoreViewData;
 import org.cocome.cloud.web.events.ChangeViewEvent;
 import org.cocome.cloud.web.events.LoginEvent;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
@@ -43,7 +43,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	private static final Logger LOG = Logger.getLogger(StoreInformation.class);
 
 	private long activeStoreID = IStoreInformation.STORE_ID_NOT_SET;
-	private Store activeStore;
+	private StoreViewData activeStore;
 	private boolean hasChanged = false;
 
 //	@Inject
@@ -66,7 +66,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	private Map<Long, ProductWrapper> productsWithStockItems = new LinkedHashMap<>();
 
 	@Override
-	public Store getActiveStore() {
+	public StoreViewData getActiveStore() {
 		if ((activeStore == null || hasChanged == true) && activeStoreID != STORE_ID_NOT_SET) {
 			LOG.debug("Active store is being retrieved from the database");
 			try {
@@ -119,7 +119,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	}
 
 	@Override
-	public String switchToStore(@NotNull Store store, String destination) {
+	public String switchToStore(@NotNull StoreViewData store, String destination) {
 		setActiveStoreID(store.getID());
 		activeStore = store;
 		hasChanged = true;
@@ -157,7 +157,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	}
 
 	private boolean updateStockItems() {
-		Store activeStore = getActiveStore();
+		StoreViewData activeStore = getActiveStore();
 		if (activeStore != null) {
 			try {
 				stockItems = storeDAO.queryStockItems(activeStore);

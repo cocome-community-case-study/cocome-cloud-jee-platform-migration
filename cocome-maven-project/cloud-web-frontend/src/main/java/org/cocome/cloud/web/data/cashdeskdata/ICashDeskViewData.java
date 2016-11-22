@@ -1,6 +1,6 @@
 package org.cocome.cloud.web.data.cashdeskdata;
 
-public interface ICashDesk {
+public interface ICashDeskViewData {
 
 	String getCashDeskName();
 

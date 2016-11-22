@@ -21,7 +21,7 @@ import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
 import org.cocome.cloud.web.data.storedata.IStorePersistence;
 import org.cocome.cloud.web.data.storedata.OrderItem;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
-import org.cocome.cloud.web.data.storedata.Store;
+import org.cocome.cloud.web.data.storedata.StoreViewData;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.util.Messages;
 
@@ -96,7 +96,7 @@ public class StockOrderView implements Serializable {
 	}
 
 	public String submitOrder() {
-		Store currentStore = storeInformation.getActiveStore();
+		StoreViewData currentStore = storeInformation.getActiveStore();
 		Collection<OrderItem> items = orderData.getItemMap().values();
 		if (storePersistence.orderProducts(currentStore, items)) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Order was placed successfully!"));

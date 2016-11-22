@@ -27,7 +27,7 @@ public class StorePersistence implements IStorePersistence {
 	IStoreQuery storeQuery;
 
 	@Override
-	public String updateStore(@NotNull Store store) {
+	public String updateStore(@NotNull StoreViewData store) {
 		store.updateStoreInformation();
 		if (enterpriseQuery.updateStore(store)) {
 			store.setEditingEnabled(false);
@@ -59,22 +59,22 @@ public class StorePersistence implements IStorePersistence {
 	}
 
 	@Override
-	public boolean orderProducts(Store store, Collection<OrderItem> items) {
+	public boolean orderProducts(StoreViewData store, Collection<OrderItem> items) {
 		return storeQuery.orderProducts(store, items);
 	}
 
 	@Override
-	public boolean rollInOrder(Store store, long orderID) {
+	public boolean rollInOrder(StoreViewData store, long orderID) {
 		return storeQuery.rollInOrder(store, orderID);
 	}
 
 	@Override
-	public boolean createStockItem(Store store, ProductWrapper product) {
+	public boolean createStockItem(StoreViewData store, ProductWrapper product) {
 		return storeQuery.createStockItem(store, product);
 	}
 
 	@Override
-	public boolean updateStockItem(Store store, ProductWrapper stockItem) {
+	public boolean updateStockItem(StoreViewData store, ProductWrapper stockItem) {
 		return storeQuery.updateStockItem(store, stockItem);
 	}
 }

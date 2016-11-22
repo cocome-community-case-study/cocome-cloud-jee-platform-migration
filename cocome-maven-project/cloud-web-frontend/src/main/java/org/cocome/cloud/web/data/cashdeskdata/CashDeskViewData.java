@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 
 @SessionScoped
-public class CashDesk implements Serializable, ICashDesk {
+public class CashDeskViewData implements Serializable, ICashDeskViewData {
 	private static final long serialVersionUID = 2531025289417846417L;
 	
 	private String cashDeskName = "defaultCashDesk";

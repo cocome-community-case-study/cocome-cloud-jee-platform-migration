@@ -23,37 +23,37 @@ public class StoreDAO implements IStoreDAO {
 	StoreQuery storeQuery;
 
 	@Override
-	public Collection<Store> getStoresInEnterprise(long enterpriseID) throws NotInDatabaseException_Exception {
+	public Collection<StoreViewData> getStoresInEnterprise(long enterpriseID) throws NotInDatabaseException_Exception {
 		return enterpriseQuery.getStores(enterpriseID);
 	}
 
 	@Override
-	public Store getStoreByID(long storeID) throws NotInDatabaseException_Exception {
+	public StoreViewData getStoreByID(long storeID) throws NotInDatabaseException_Exception {
 		return enterpriseQuery.getStoreByID(storeID);
 	}
 
 	@Override
-	public List<ProductWrapper> queryStockItems(Store store) throws NotInDatabaseException_Exception {
+	public List<ProductWrapper> queryStockItems(StoreViewData store) throws NotInDatabaseException_Exception {
 		return storeQuery.queryStockItems(store);
 	}
 
 	@Override
-	public ProductWrapper getStockItemByProductID(Store store, long productID) {
+	public ProductWrapper getStockItemByProductID(StoreViewData store, long productID) {
 		return storeQuery.getStockItemByProductID(store, productID);
 	}
 
 	@Override
-	public ProductWrapper getStockItemByBarcode(Store store, long barcode) {
+	public ProductWrapper getStockItemByBarcode(StoreViewData store, long barcode) {
 		return storeQuery.getStockItemByBarcode(store, barcode);
 	}
 
 	@Override
-	public List<ComplexOrderTO> getAllOrders(Store store) {
+	public List<ComplexOrderTO> getAllOrders(StoreViewData store) {
 		return storeQuery.getAllOrders(store);
 	}
 
 	@Override
-	public ComplexOrderTO getOrderByID(Store store, long orderID) {
+	public ComplexOrderTO getOrderByID(StoreViewData store, long orderID) {
 		return storeQuery.getOrderByID(store, orderID);
 	}
 

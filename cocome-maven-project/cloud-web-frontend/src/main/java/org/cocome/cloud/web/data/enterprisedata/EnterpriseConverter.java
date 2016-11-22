@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
 
 /**
- * Converts an Enterprise from the UI representation into an {@link Enterprise} 
+ * Converts an Enterprise from the UI representation into an {@link EnterpriseViewData} 
  * object or vice versa. 
  * 
  * @author Tobias Pöppke
@@ -35,7 +35,7 @@ public class EnterpriseConverter implements Converter {
         }
 		
         Long enterpriseID = Long.valueOf(value);
-        Enterprise enterprise = null;
+        EnterpriseViewData enterprise = null;
 		enterprise = enterpriseQuery.getEnterpriseByID(enterpriseID); 
         
         if (enterprise == null) {
@@ -52,8 +52,8 @@ public class EnterpriseConverter implements Converter {
             return "";
         }
 
-        if (value instanceof Enterprise) {
-            Long enterpriseID = ((Enterprise) value).getId();
+        if (value instanceof EnterpriseViewData) {
+            Long enterpriseID = ((EnterpriseViewData) value).getId();
             return (enterpriseID != null) ? String.valueOf(enterpriseID) : null;
         } else {
             throw new ConverterException("The value is not a valid Enterprise instance: " + value);

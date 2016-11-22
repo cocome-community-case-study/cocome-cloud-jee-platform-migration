@@ -10,16 +10,16 @@ import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-public class Enterprise {
+public class EnterpriseViewData {
 	private long id;
 	private String name;
 	
-	public Enterprise() {
+	public EnterpriseViewData() {
 		id = 0;
 		name = "N/A";
 	}
 	
-	public Enterprise(long id, String name) {
+	public EnterpriseViewData(long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -43,7 +43,7 @@ public class Enterprise {
 	 * @param enterprise
 	 * @return
 	 */
-	public static EnterpriseTO createEnterpriseTO(@NotNull Enterprise enterprise) {
+	public static EnterpriseTO createEnterpriseTO(@NotNull EnterpriseViewData enterprise) {
 		EnterpriseTO enterpriseTO = new EnterpriseTO();
 		enterpriseTO.setId(enterprise.getId());
 		enterpriseTO.setName(enterprise.getName());
@@ -56,7 +56,7 @@ public class Enterprise {
 	 * @param enterpriseTO
 	 * @return
 	 */
-	public static Enterprise fromEnterpriseTO(@NotNull EnterpriseTO enterpriseTO) {
-		return new Enterprise(enterpriseTO.getId(), enterpriseTO.getName());
+	public static EnterpriseViewData fromEnterpriseTO(@NotNull EnterpriseTO enterpriseTO) {
+		return new EnterpriseViewData(enterpriseTO.getId(), enterpriseTO.getName());
 	}
 }

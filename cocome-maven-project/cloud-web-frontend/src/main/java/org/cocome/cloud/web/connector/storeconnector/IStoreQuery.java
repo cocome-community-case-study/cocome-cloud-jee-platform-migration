@@ -9,7 +9,7 @@ import org.cocome.cloud.logic.stub.IStoreManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.data.storedata.OrderItem;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
-import org.cocome.cloud.web.data.storedata.Store;
+import org.cocome.cloud.web.data.storedata.StoreViewData;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
 
 /**
@@ -19,23 +19,23 @@ import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
  * @author Robert Heinrich
  */
 public interface IStoreQuery {
-	public List<ProductWrapper> queryStockItems(@NotNull Store store) throws NotInDatabaseException_Exception;
+	public List<ProductWrapper> queryStockItems(@NotNull StoreViewData store) throws NotInDatabaseException_Exception;
 	
-	public ProductWrapper getStockItemByProductID(@NotNull Store store, long productID);
+	public ProductWrapper getStockItemByProductID(@NotNull StoreViewData store, long productID);
 	
-	public ProductWrapper getStockItemByBarcode(@NotNull Store store, long barcode);
+	public ProductWrapper getStockItemByBarcode(@NotNull StoreViewData store, long barcode);
 	
-	public boolean updateStockItem(@NotNull Store store, @NotNull ProductWrapper stockItem);
+	public boolean updateStockItem(@NotNull StoreViewData store, @NotNull ProductWrapper stockItem);
 	
-	public boolean orderProducts(@NotNull Store store, @NotNull Collection<OrderItem> items);
+	public boolean orderProducts(@NotNull StoreViewData store, @NotNull Collection<OrderItem> items);
 	
-	public List<ComplexOrderTO> getAllOrders(@NotNull Store store);
+	public List<ComplexOrderTO> getAllOrders(@NotNull StoreViewData store);
 	
-	public ComplexOrderTO getOrderByID(@NotNull Store store, long orderID);
+	public ComplexOrderTO getOrderByID(@NotNull StoreViewData store, long orderID);
 	
-	public boolean rollInOrder(@NotNull Store store, long orderID);
+	public boolean rollInOrder(@NotNull StoreViewData store, long orderID);
 
-	public boolean createStockItem(@NotNull Store store, @NotNull ProductWrapper product);
+	public boolean createStockItem(@NotNull StoreViewData store, @NotNull ProductWrapper product);
 	
 	public IStoreManager lookupStoreManager(long storeID) throws NotInDatabaseException_Exception;
 }

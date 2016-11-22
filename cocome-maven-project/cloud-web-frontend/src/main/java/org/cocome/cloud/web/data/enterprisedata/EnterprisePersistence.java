@@ -29,7 +29,7 @@ public class EnterprisePersistence implements IEnterprisePersistence {
 	}
 
 	@Override
-	public String updateEnterprise(Enterprise enterprise) {
+	public String updateEnterprise(EnterpriseViewData enterprise) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -17,9 +17,9 @@ import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.stub.UpdateException_Exception;
-import org.cocome.cloud.web.data.enterprisedata.Enterprise;
+import org.cocome.cloud.web.data.enterprisedata.EnterpriseViewData;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
-import org.cocome.cloud.web.data.storedata.Store;
+import org.cocome.cloud.web.data.storedata.StoreViewData;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
@@ -36,9 +36,9 @@ import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseT
 public class EnterpriseQuery implements IEnterpriseQuery {
 	private static final Logger LOG = Logger.getLogger(EnterpriseQuery.class);
 
-	private Map<Long, Enterprise> enterprises;
-	private Map<Long, Collection<Store>> storeCollections;
-	private Map<Long, Store> stores;
+	private Map<Long, EnterpriseViewData> enterprises;
+	private Map<Long, Collection<StoreViewData>> storeCollections;
+	private Map<Long, StoreViewData> stores;
 
 	@WebServiceRef(IEnterpriseManagerService.class)
 	IEnterpriseManager enterpriseManager;
@@ -50,7 +50,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	 * getEnterprises()
 	 */
 	@Override
-	public Collection<Enterprise> getEnterprises() {
+	public Collection<EnterpriseViewData> getEnterprises() {
 		if (enterprises != null) {
 			return enterprises.values();
 		}
@@ -67,22 +67,22 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	 * long)
 	 */
 	@Override
-	public Collection<Store> getStores(long enterpriseID) throws NotInDatabaseException_Exception {
+	public Collection<StoreViewData> getStores(long enterpriseID) throws NotInDatabaseException_Exception {
 		if (storeCollections == null) {
 			updateStoreInformation();
 		}
 
-		Collection<Store> storeCollection = storeCollections.get(enterpriseID);
-		return storeCollection != null ? storeCollection : new LinkedList<Store>();
+		Collection<StoreViewData> storeCollection = storeCollections.get(enterpriseID);
+		return storeCollection != null ? storeCollection : new LinkedList<StoreViewData>();
 	}
 
 	@Override
 	public void updateEnterpriseInformation() {
-		this.enterprises = new HashMap<Long, Enterprise>();
+		this.enterprises = new HashMap<Long, EnterpriseViewData>();
 
 		// TODO only update enterprises that are not already present
 		for (EnterpriseTO enterprise : enterpriseManager.getEnterprises()) {
-			enterprises.put(enterprise.getId(), new Enterprise(enterprise.getId(), enterprise.getName()));
+			enterprises.put(enterprise.getId(), new EnterpriseViewData(enterprise.getId(), enterprise.getName()));
 		}
 	}
 
@@ -95,15 +95,15 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 		// This collection has a fixed size depending on the number of
 		// enterprises,
 		// so we can set the initial capacity to this to avoid overhead
-		storeCollections = new HashMap<Long, Collection<Store>>((int) (enterprises.size() / 0.75) + 1);
+		storeCollections = new HashMap<Long, Collection<StoreViewData>>((int) (enterprises.size() / 0.75) + 1);
 
-		this.stores = new HashMap<Long, Store>();
+		this.stores = new HashMap<Long, StoreViewData>();
 
-		for (Enterprise ent : enterprises.values()) {
-			LinkedList<Store> stores = new LinkedList<Store>();
+		for (EnterpriseViewData ent : enterprises.values()) {
+			LinkedList<StoreViewData> stores = new LinkedList<StoreViewData>();
 
 			for (StoreWithEnterpriseTO store : enterpriseManager.queryStoresByEnterpriseID(ent.getId())) {
-				Store tempStore = new Store(store.getId(), store.getEnterpriseTO(), store.getLocation(),
+				StoreViewData tempStore = new StoreViewData(store.getId(), store.getEnterpriseTO(), store.getLocation(),
 						store.getName());
 				this.stores.put(tempStore.getID(), tempStore);
 				stores.add(tempStore);
@@ -113,7 +113,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	}
 
 	@Override
-	public Enterprise getEnterpriseByID(long enterpriseID) {
+	public EnterpriseViewData getEnterpriseByID(long enterpriseID) {
 		if (enterprises == null) {
 			updateEnterpriseInformation();
 		}
@@ -122,13 +122,13 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	}
 
 	@Override
-	public Store getStoreByID(long storeID) throws NotInDatabaseException_Exception {
+	public StoreViewData getStoreByID(long storeID) throws NotInDatabaseException_Exception {
 		LOG.debug("Retrieving store with id " + storeID);
 
 		if (stores == null) {
 			updateStoreInformation();
 		}
-		Store store = stores.get(storeID);
+		StoreViewData store = stores.get(storeID);
 
 		if (store == null) {
 			updateStoreInformation();
@@ -167,7 +167,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	}
 
 	@Override
-	public boolean updateStore(@NotNull Store store) {
+	public boolean updateStore(@NotNull StoreViewData store) {
 		StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
 		storeTO.setId(store.getID());
 		storeTO.setLocation(store.getLocation());
@@ -196,7 +196,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 			LOG.error(String.format("Exception while creating enterprise: %s\n%s", e.getMessage(), e.getStackTrace()));
 			return false;
 		}
-		enterprises.put(enterpriseTO.getId(), new Enterprise(enterpriseTO.getId(), enterpriseTO.getName()));
+		enterprises.put(enterpriseTO.getId(), new EnterpriseViewData(enterpriseTO.getId(), enterpriseTO.getName()));
 
 		return true;
 	}
@@ -221,7 +221,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	@Override
 	public boolean createStore(long enterpriseID, String name, String location) {
 		StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
-		storeTO.setEnterpriseTO(Enterprise.createEnterpriseTO(enterprises.get(enterpriseID)));
+		storeTO.setEnterpriseTO(EnterpriseViewData.createEnterpriseTO(enterprises.get(enterpriseID)));
 		storeTO.setLocation(location);
 		storeTO.setName(name);
 
@@ -237,7 +237,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 
 		for (StoreWithEnterpriseTO recStoreTO : storeTOs) {
 			if (storeTO.getLocation().equals(location)) {
-				Store recStore = new Store(recStoreTO.getId(), recStoreTO.getEnterpriseTO(), location, name);
+				StoreViewData recStore = new StoreViewData(recStoreTO.getId(), recStoreTO.getEnterpriseTO(), location, name);
 				stores.put(recStoreTO.getId(),recStore);
 				storeCollections.get(enterpriseID).add(recStore);
 			}

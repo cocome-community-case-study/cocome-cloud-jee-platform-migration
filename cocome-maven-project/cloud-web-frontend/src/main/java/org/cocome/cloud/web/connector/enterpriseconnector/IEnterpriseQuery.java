@@ -6,9 +6,9 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.enterprisedata.Enterprise;
+import org.cocome.cloud.web.data.enterprisedata.EnterpriseViewData;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
-import org.cocome.cloud.web.data.storedata.Store;
+import org.cocome.cloud.web.data.storedata.StoreViewData;
 
 /**
  * Interface for the retrieval of enterprise and store related information from the backend.
@@ -18,17 +18,17 @@ import org.cocome.cloud.web.data.storedata.Store;
  */
 public interface IEnterpriseQuery {
 
-	public Collection<Enterprise> getEnterprises();
+	public Collection<EnterpriseViewData> getEnterprises();
 
-	public Collection<Store> getStores(long enterpriseID) throws NotInDatabaseException_Exception;
+	public Collection<StoreViewData> getStores(long enterpriseID) throws NotInDatabaseException_Exception;
 
 	public void updateEnterpriseInformation();
 	
 	public void updateStoreInformation() throws NotInDatabaseException_Exception;
 	
-	public Enterprise getEnterpriseByID(long enterpriseID);
+	public EnterpriseViewData getEnterpriseByID(long enterpriseID);
 	
-	public Store getStoreByID(long storeID) throws NotInDatabaseException_Exception;
+	public StoreViewData getStoreByID(long storeID) throws NotInDatabaseException_Exception;
 	
 	public List<ProductWrapper> getAllProducts();
 	
@@ -36,7 +36,7 @@ public interface IEnterpriseQuery {
 	
 	public ProductWrapper getProductByBarcode(long barcode) throws NotInDatabaseException_Exception;
 	
-	public boolean updateStore(@NotNull Store store);
+	public boolean updateStore(@NotNull StoreViewData store);
 	
 	public boolean createEnterprise(@NotNull String name);
 	

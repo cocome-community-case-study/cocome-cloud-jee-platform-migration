@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
-import org.cocome.cloud.web.data.storedata.Store;
+import org.cocome.cloud.web.data.storedata.StoreViewData;
 
 /**
  * Interface to retrieve information about the currently active store.
@@ -22,7 +22,7 @@ public interface IStoreInformation {
 	
 	public void setActiveStoreID(long storeID);
 	public long getActiveStoreID();
-	public Store getActiveStore();
+	public StoreViewData getActiveStore();
 	public String submitStore();
 	
 	public boolean isStoreSet();
@@ -37,5 +37,5 @@ public interface IStoreInformation {
 	
 	public List<ProductWrapper> getStockReport(long storeID);
 	
-	public String switchToStore(@NotNull Store store, String destination);
+	public String switchToStore(@NotNull StoreViewData store, String destination);
 }

@@ -9,17 +9,17 @@ import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
 
 public interface IStoreDAO {
-	public Collection<Store> getStoresInEnterprise(long enterpriseID) throws NotInDatabaseException_Exception;
+	public Collection<StoreViewData> getStoresInEnterprise(long enterpriseID) throws NotInDatabaseException_Exception;
 	
-	public Store getStoreByID(long storeID) throws NotInDatabaseException_Exception;
+	public StoreViewData getStoreByID(long storeID) throws NotInDatabaseException_Exception;
 	
-	public List<ProductWrapper> queryStockItems(@NotNull Store store) throws NotInDatabaseException_Exception;
+	public List<ProductWrapper> queryStockItems(@NotNull StoreViewData store) throws NotInDatabaseException_Exception;
 	
-	public ProductWrapper getStockItemByProductID(@NotNull Store store, long productID);
+	public ProductWrapper getStockItemByProductID(@NotNull StoreViewData store, long productID);
 	
-	public ProductWrapper getStockItemByBarcode(@NotNull Store store, long barcode);
+	public ProductWrapper getStockItemByBarcode(@NotNull StoreViewData store, long barcode);
 	
-	public List<ComplexOrderTO> getAllOrders(@NotNull Store store);
+	public List<ComplexOrderTO> getAllOrders(@NotNull StoreViewData store);
 	
-	public ComplexOrderTO getOrderByID(@NotNull Store store, long orderID);
+	public ComplexOrderTO getOrderByID(@NotNull StoreViewData store, long orderID);
 }

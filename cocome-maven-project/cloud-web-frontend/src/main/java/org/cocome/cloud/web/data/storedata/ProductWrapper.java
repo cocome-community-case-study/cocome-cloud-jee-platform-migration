@@ -22,7 +22,7 @@ public class ProductWrapper {
 	// TODO should be included in the database product
 	private String description;
 	
-	private Store originStore;
+	private StoreViewData originStore;
 	
 	private boolean editingEnabled = false;
 	
@@ -38,7 +38,7 @@ public class ProductWrapper {
 		this.product = product;
 	}
 	
-	public ProductWrapper(ProductTO product, StockItemTO stockItem, Store originStore) {
+	public ProductWrapper(ProductTO product, StockItemTO stockItem, StoreViewData originStore) {
 		this(product);
 		this.stockItem = stockItem;
 		this.originStore = originStore;
@@ -76,11 +76,11 @@ public class ProductWrapper {
 		return product.getId();
 	}
 
-	public Store getOriginStore() {
+	public StoreViewData getOriginStore() {
 		return originStore;
 	}
 	
-	public void setOriginStore(Store store) {
+	public void setOriginStore(StoreViewData store) {
 		if (store != null) {
 			this.originStore = store;
 		}
