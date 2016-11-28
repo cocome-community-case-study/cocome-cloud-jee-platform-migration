@@ -180,7 +180,12 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 			LOG.error(String.format("Exception while updating store: %s\n%s", e.getMessage(), e.getStackTrace()));
 			return false;
 		}
-
+		
+		if (!checkStoresAvailable()) {
+			// Error occured while retrieving the stores
+			return false;
+		}
+		
 		stores.put(store.getID(), store);
 		return true;
 	}
@@ -235,6 +240,11 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 			return false;
 		}
 
+		if (!checkStoresAvailable()) {
+			// Error occured while retrieving the stores
+			return false;
+		}
+		
 		for (StoreWithEnterpriseTO recStoreTO : storeTOs) {
 			if (storeTO.getLocation().equals(location)) {
 				StoreViewData recStore = new StoreViewData(recStoreTO.getId(), recStoreTO.getEnterpriseTO(), location, name);
@@ -243,6 +253,17 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 			}
 		}
 
+		return true;
+	}
+
+	private boolean checkStoresAvailable() {
+		if (stores == null) {
+			try {
+				updateStoreInformation();
+			} catch (NotInDatabaseException_Exception e) {
+				return false;
+			}
+		}
 		return true;
 	}
 }
