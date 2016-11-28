@@ -88,9 +88,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 
 	@Override
 	public void updateStoreInformation() throws NotInDatabaseException_Exception {
-		if (this.enterprises == null) {
-			updateEnterpriseInformation();
-		}
+		checkEnterprisesAvailable();
 
 		// This collection has a fixed size depending on the number of
 		// enterprises,
@@ -114,9 +112,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 
 	@Override
 	public EnterpriseViewData getEnterpriseByID(long enterpriseID) {
-		if (enterprises == null) {
-			updateEnterpriseInformation();
-		}
+		checkEnterprisesAvailable();
 
 		return enterprises.get(enterpriseID);
 	}
@@ -192,6 +188,8 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 
 	@Override
 	public boolean createEnterprise(@NotNull String name) {
+		checkEnterprisesAvailable();
+		
 		EnterpriseTO enterpriseTO;
 
 		try {
@@ -201,6 +199,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 			LOG.error(String.format("Exception while creating enterprise: %s\n%s", e.getMessage(), e.getStackTrace()));
 			return false;
 		}
+		
 		enterprises.put(enterpriseTO.getId(), new EnterpriseViewData(enterpriseTO.getId(), enterpriseTO.getName()));
 
 		return true;
@@ -265,5 +264,11 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 			}
 		}
 		return true;
+	}
+	
+	private void checkEnterprisesAvailable() {
+		if (enterprises == null) {
+			updateEnterpriseInformation();
+		}
 	}
 }
