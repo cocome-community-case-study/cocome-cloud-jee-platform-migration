@@ -9,6 +9,102 @@
     <wsdl:part name="parameters" element="tns:fillStorizedDatabaseResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="createStoreResponse">
+    <wsdl:part name="parameters" element="tns:createStoreResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateStoreResponse">
+    <wsdl:part name="parameters" element="tns:updateStoreResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProductResponse">
+    <wsdl:part name="parameters" element="tns:updateProductResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryStoresByEnterpriseID">
+    <wsdl:part name="parameters" element="tns:queryStoresByEnterpriseID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateException">
+    <wsdl:part name="UpdateException" element="tns:UpdateException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryStoreByNameResponse">
+    <wsdl:part name="parameters" element="tns:queryStoreByNameResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryStoreByName">
+    <wsdl:part name="parameters" element="tns:queryStoreByName">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryStoreByEnterpriseID">
+    <wsdl:part name="parameters" element="tns:queryStoreByEnterpriseID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryEnterpriseByIdResponse">
+    <wsdl:part name="parameters" element="tns:queryEnterpriseByIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="fillTestDatabaseResponse">
+    <wsdl:part name="parameters" element="tns:fillTestDatabaseResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnterprisesResponse">
+    <wsdl:part name="parameters" element="tns:getEnterprisesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotInDatabaseException">
+    <wsdl:part name="NotInDatabaseException" element="tns:NotInDatabaseException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllEnterpriseProducts">
+    <wsdl:part name="parameters" element="tns:getAllEnterpriseProducts">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMeanTimeToDelivery">
+    <wsdl:part name="parameters" element="tns:getMeanTimeToDelivery">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMeanTimeToDeliveryResponse">
+    <wsdl:part name="parameters" element="tns:getMeanTimeToDeliveryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="querySupplierForProductResponse">
+    <wsdl:part name="parameters" element="tns:querySupplierForProductResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProductResponse">
+    <wsdl:part name="parameters" element="tns:createProductResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProductByBarcode">
+    <wsdl:part name="parameters" element="tns:getProductByBarcode">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="fillItemizedDatabaseResponse">
+    <wsdl:part name="parameters" element="tns:fillItemizedDatabaseResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryStoreByEnterpriseIDResponse">
+    <wsdl:part name="parameters" element="tns:queryStoreByEnterpriseIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="querySuppliersResponse">
+    <wsdl:part name="parameters" element="tns:querySuppliersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getProductByID">
+    <wsdl:part name="parameters" element="tns:getProductByID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnterprises">
+    <wsdl:part name="parameters" element="tns:getEnterprises">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="IOException">
+    <wsdl:part name="IOException" element="tns:IOException">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getSupplierByID">
     <wsdl:part name="parameters" element="tns:getSupplierByID">
     </wsdl:part>
@@ -21,36 +117,16 @@
     <wsdl:part name="parameters" element="tns:getProductsBySupplierResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="createStoreResponse">
-    <wsdl:part name="parameters" element="tns:createStoreResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="CreateException">
     <wsdl:part name="CreateException" element="tns:CreateException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateStoreResponse">
-    <wsdl:part name="parameters" element="tns:updateStoreResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateProductResponse">
-    <wsdl:part name="parameters" element="tns:updateProductResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllProductsResponse">
     <wsdl:part name="parameters" element="tns:getAllProductsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="queryStoresByEnterpriseID">
-    <wsdl:part name="parameters" element="tns:queryStoresByEnterpriseID">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="queryEnterpriseById">
     <wsdl:part name="parameters" element="tns:queryEnterpriseById">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="UpdateException">
-    <wsdl:part name="UpdateException" element="tns:UpdateException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateProduct">
@@ -69,14 +145,6 @@
     <wsdl:part name="parameters" element="tns:queryStoresByEnterpriseIDResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="queryStoreByEnterpriseID">
-    <wsdl:part name="parameters" element="tns:queryStoreByEnterpriseID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="queryEnterpriseByIdResponse">
-    <wsdl:part name="parameters" element="tns:queryEnterpriseByIdResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getSupplierByIDResponse">
     <wsdl:part name="parameters" element="tns:getSupplierByIDResponse">
     </wsdl:part>
@@ -85,32 +153,12 @@
     <wsdl:part name="parameters" element="tns:fillStorizedDatabase">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="fillTestDatabaseResponse">
-    <wsdl:part name="parameters" element="tns:fillTestDatabaseResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getAllEnterpriseProductsResponse">
     <wsdl:part name="parameters" element="tns:getAllEnterpriseProductsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getEnterprisesResponse">
-    <wsdl:part name="parameters" element="tns:getEnterprisesResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="NotInDatabaseException">
-    <wsdl:part name="NotInDatabaseException" element="tns:NotInDatabaseException">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="createEnterprise">
     <wsdl:part name="parameters" element="tns:createEnterprise">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAllEnterpriseProducts">
-    <wsdl:part name="parameters" element="tns:getAllEnterpriseProducts">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getMeanTimeToDelivery">
-    <wsdl:part name="parameters" element="tns:getMeanTimeToDelivery">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getProductsBySupplier">
@@ -121,20 +169,8 @@
     <wsdl:part name="parameters" element="tns:updateStore">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getMeanTimeToDeliveryResponse">
-    <wsdl:part name="parameters" element="tns:getMeanTimeToDeliveryResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getAllProducts">
     <wsdl:part name="parameters" element="tns:getAllProducts">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="querySupplierForProductResponse">
-    <wsdl:part name="parameters" element="tns:querySupplierForProductResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createProductResponse">
-    <wsdl:part name="parameters" element="tns:createProductResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryEnterpriseByName">
@@ -149,24 +185,8 @@
     <wsdl:part name="parameters" element="tns:getProductByIDResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getProductByBarcode">
-    <wsdl:part name="parameters" element="tns:getProductByBarcode">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="createProduct">
     <wsdl:part name="parameters" element="tns:createProduct">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fillItemizedDatabaseResponse">
-    <wsdl:part name="parameters" element="tns:fillItemizedDatabaseResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="queryStoreByEnterpriseIDResponse">
-    <wsdl:part name="parameters" element="tns:queryStoreByEnterpriseIDResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="querySuppliersResponse">
-    <wsdl:part name="parameters" element="tns:querySuppliersResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createEnterpriseResponse">
@@ -183,18 +203,6 @@
   </wsdl:message>
   <wsdl:message name="createStore">
     <wsdl:part name="parameters" element="tns:createStore">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getProductByID">
-    <wsdl:part name="parameters" element="tns:getProductByID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getEnterprises">
-    <wsdl:part name="parameters" element="tns:getEnterprises">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="IOException">
-    <wsdl:part name="IOException" element="tns:IOException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="IEnterpriseManager">
@@ -306,6 +314,14 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryStoreByName">
+      <wsdl:input name="queryStoreByName" message="tns:queryStoreByName">
+    </wsdl:input>
+      <wsdl:output name="queryStoreByNameResponse" message="tns:queryStoreByNameResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createProduct">
@@ -552,6 +568,18 @@
       </wsdl:fault>
       <wsdl:fault name="UpdateException">
         <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryStoreByName">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryStoreByName">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryStoreByNameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createProduct">
