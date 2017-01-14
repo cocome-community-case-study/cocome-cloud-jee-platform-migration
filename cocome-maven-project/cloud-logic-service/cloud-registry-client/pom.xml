@@ -9,7 +9,6 @@
 		<version>1.1</version>
 	</parent>
 	<artifactId>cloud-registry-client</artifactId>
-	<version>1.1</version>
 	<packaging>jar</packaging>
 	<name>Cloud Registry - Client</name>
 

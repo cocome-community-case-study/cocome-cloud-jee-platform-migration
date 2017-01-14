@@ -5,7 +5,6 @@
 	<artifactId>cloud-logic-service</artifactId>
 	<packaging>pom</packaging>
 	<name>Cloud Logic Service (Parent)</name>
-	<version>1.1</version>
 
 	<parent>
 		<groupId>org.cocome</groupId>
