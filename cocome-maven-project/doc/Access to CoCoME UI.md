@@ -32,3 +32,9 @@ You need to provide the ID of an existing store to do that
 which can be retrieved using the Database Manager view mentioned 
 in the paragraph above.
 
+##Notice
+In case you already deployed CoCoME and you want to restart the application 
+(for example after a shutdown of your PC), start the glassfish domains in 
+the following order: start database, start registry,start adapter, start the 
+rest (web, store, enterprise). Then, you will be able to access the UI as
+mentioned above.
