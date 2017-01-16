@@ -66,6 +66,7 @@
 ## Building CoCoME
  
 Don't forget to start the Glassfish servers. Go to 'Servers'- perspective -> Right-click -> Start.
+Very important: Whenever you start the glassfish domains, you have to do this in the following order: start database, start registry, start adapter, start the rest.
   
 On command line you may build CoCoME as follows:
 - Enter the `maven-cocome-project` folder
