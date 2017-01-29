@@ -51,7 +51,7 @@ On command line you may deploy CoCoME or one of the above sub-projects as follow
   `mvn -s settings.xml install`
   
 - To Undeploy CoCoME or a sub-project enter:
-  `mvn -s settings.xml cleant post-clean`
+  `mvn -s settings.xml clean post-clean`
    
 ### Eclipse Deployment
 To deploy CoCoME or one of the above sub-projects from within Eclipse, do the following:
