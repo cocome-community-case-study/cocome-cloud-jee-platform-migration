@@ -10,6 +10,7 @@ import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
 import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
@@ -27,7 +28,7 @@ public class StorePersistence implements IStorePersistence {
 	IStoreQuery storeQuery;
 
 	@Override
-	public String updateStore(@NotNull StoreViewData store) {
+	public String updateStore(@NotNull StoreViewData store) throws NotInDatabaseException_Exception {
 		store.updateStoreInformation();
 		if (enterpriseQuery.updateStore(store)) {
 			store.setEditingEnabled(false);
@@ -42,7 +43,7 @@ public class StorePersistence implements IStorePersistence {
 	}
 
 	@Override
-	public String createStore(long enterpriseID, @NotNull String name, @NotNull String location) {
+	public String createStore(long enterpriseID, @NotNull String name, @NotNull String location) throws NotInDatabaseException_Exception {
 		if (enterpriseQuery.createStore(enterpriseID, name, location)) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, Messages.getLocalizedMessage("store.create.success"), null));

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
 
 /**
@@ -36,7 +37,11 @@ public class EnterpriseConverter implements Converter {
 		
         Long enterpriseID = Long.valueOf(value);
         EnterpriseViewData enterprise = null;
-		enterprise = enterpriseQuery.getEnterpriseByID(enterpriseID); 
+		try {
+			enterprise = enterpriseQuery.getEnterpriseByID(enterpriseID);
+		} catch (NotInDatabaseException_Exception e) {
+			//do nothing
+		} 
         
         if (enterprise == null) {
         	throw new ConverterException("The value is not a valid Enterprise ID: " + value);

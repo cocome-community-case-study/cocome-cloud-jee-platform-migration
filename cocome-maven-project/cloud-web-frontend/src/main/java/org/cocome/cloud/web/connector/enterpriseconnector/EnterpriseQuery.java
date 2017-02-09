@@ -1,5 +1,7 @@
 package org.cocome.cloud.web.connector.enterpriseconnector;
 
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -7,16 +9,22 @@ import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 import javax.xml.ws.WebServiceRef;
 
 import org.apache.log4j.Logger;
+import org.cocome.cloud.logic.registry.client.IApplicationHelper;
 import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
+import org.cocome.cloud.logic.stub.IStoreManager;
+import org.cocome.cloud.logic.stub.IStoreManagerService;
+import org.cocome.cloud.logic.stub.NotBoundException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.stub.UpdateException_Exception;
+import org.cocome.cloud.registry.service.Names;
 import org.cocome.cloud.web.data.enterprisedata.EnterpriseViewData;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
@@ -40,8 +48,31 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	private Map<Long, Collection<StoreViewData>> storeCollections;
 	private Map<Long, StoreViewData> stores;
 
-	@WebServiceRef(IEnterpriseManagerService.class)
 	IEnterpriseManager enterpriseManager;
+	
+	@Inject
+	long defaultEnterpriseIndex;
+	
+	@Inject
+	IApplicationHelper applicationHelper;
+	
+	private IEnterpriseManager lookupEnterpriseManager(long enterpriseID) throws NotInDatabaseException_Exception {
+		try {
+			return applicationHelper.getComponent(
+					Names.getEnterpriseManagerRegistryName(enterpriseID), 
+					IEnterpriseManagerService.SERVICE, 
+					IEnterpriseManagerService.class).getIEnterpriseManagerPort();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| MalformedURLException | NoSuchMethodException | SecurityException | NotBoundException_Exception e) {
+			if (enterpriseID == defaultEnterpriseIndex) {
+			LOG.error("Got exception while retrieving enterprise manager location: " + e.getMessage());
+			e.printStackTrace();
+			throw new NotInDatabaseException_Exception(e.getMessage());
+			} else {
+				return lookupEnterpriseManager(defaultEnterpriseIndex);
+			}
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -50,7 +81,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	 * getEnterprises()
 	 */
 	@Override
-	public Collection<EnterpriseViewData> getEnterprises() {
+	public Collection<EnterpriseViewData> getEnterprises() throws NotInDatabaseException_Exception {
 		if (enterprises != null) {
 			return enterprises.values();
 		}
@@ -77,7 +108,8 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	}
 
 	@Override
-	public void updateEnterpriseInformation() {
+	public void updateEnterpriseInformation() throws NotInDatabaseException_Exception {
+		enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
 		this.enterprises = new HashMap<Long, EnterpriseViewData>();
 
 		// TODO only update enterprises that are not already present
@@ -96,10 +128,10 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 		storeCollections = new HashMap<Long, Collection<StoreViewData>>((int) (enterprises.size() / 0.75) + 1);
 
 		this.stores = new HashMap<Long, StoreViewData>();
-
+        
 		for (EnterpriseViewData ent : enterprises.values()) {
 			LinkedList<StoreViewData> stores = new LinkedList<StoreViewData>();
-
+			enterpriseManager = lookupEnterpriseManager(ent.getId());
 			for (StoreWithEnterpriseTO store : enterpriseManager.queryStoresByEnterpriseID(ent.getId())) {
 				StoreViewData tempStore = new StoreViewData(store.getId(), store.getEnterpriseTO(), store.getLocation(),
 						store.getName());
@@ -111,7 +143,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	}
 
 	@Override
-	public EnterpriseViewData getEnterpriseByID(long enterpriseID) {
+	public EnterpriseViewData getEnterpriseByID(long enterpriseID) throws NotInDatabaseException_Exception {
 		checkEnterprisesAvailable();
 
 		return enterprises.get(enterpriseID);
@@ -139,10 +171,11 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 		return store;
 	}
 
-	public List<ProductWrapper> getAllProducts() {
+	public List<ProductWrapper> getAllProducts() throws NotInDatabaseException_Exception {
 		// TODO should definitely be cached somehow, especially when there are
 		// lots of products
 		List<ProductWrapper> products = new LinkedList<ProductWrapper>();
+		enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
 		for (ProductTO product : enterpriseManager.getAllProducts()) {
 			ProductWrapper wrapper = new ProductWrapper(product);
 			products.add(wrapper);
@@ -152,24 +185,26 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 
 	@Override
 	public ProductWrapper getProductByID(long productID) throws NotInDatabaseException_Exception {
+		enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
 		ProductWrapper product = new ProductWrapper(enterpriseManager.getProductByID(productID));
 		return product;
 	}
 
 	@Override
 	public ProductWrapper getProductByBarcode(long barcode) throws NotInDatabaseException_Exception {
+		enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
 		ProductWrapper product = new ProductWrapper(enterpriseManager.getProductByBarcode(barcode));
 		return product;
 	}
 
 	@Override
-	public boolean updateStore(@NotNull StoreViewData store) {
+	public boolean updateStore(@NotNull StoreViewData store) throws NotInDatabaseException_Exception {
 		StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
 		storeTO.setId(store.getID());
 		storeTO.setLocation(store.getLocation());
 		storeTO.setName(store.getName());
 		storeTO.setEnterpriseTO(store.getEnterprise());
-
+		enterpriseManager = lookupEnterpriseManager(store.getEnterprise().getId());
 		try {
 			enterpriseManager.updateStore(storeTO);
 		} catch (NotInDatabaseException_Exception | UpdateException_Exception e) {
@@ -187,10 +222,11 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	}
 
 	@Override
-	public boolean createEnterprise(@NotNull String name) {
+	public boolean createEnterprise(@NotNull String name) throws NotInDatabaseException_Exception {
 		checkEnterprisesAvailable();
 		
 		EnterpriseTO enterpriseTO;
+		enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
 
 		try {
 			enterpriseManager.createEnterprise(name);
@@ -206,12 +242,12 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	}
 
 	@Override
-	public boolean createProduct(@NotNull String name, long barcode, double purchasePrice) {
+	public boolean createProduct(@NotNull String name, long barcode, double purchasePrice) throws NotInDatabaseException_Exception {
 		ProductTO product = new ProductTO();
 		product.setBarcode(barcode);
 		product.setName(name);
 		product.setPurchasePrice(purchasePrice);
-
+		enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
 		try {
 			enterpriseManager.createProduct(product);
 		} catch (CreateException_Exception e) {
@@ -223,14 +259,14 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 	}
 
 	@Override
-	public boolean createStore(long enterpriseID, String name, String location) {
+	public boolean createStore(long enterpriseID, String name, String location) throws NotInDatabaseException_Exception {
 		StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
 		storeTO.setEnterpriseTO(EnterpriseViewData.createEnterpriseTO(enterprises.get(enterpriseID)));
 		storeTO.setLocation(location);
 		storeTO.setName(name);
 
 		Collection<StoreWithEnterpriseTO> storeTOs;
-
+		enterpriseManager = lookupEnterpriseManager(enterpriseID);
 		try {
 			enterpriseManager.createStore(storeTO);
 			storeTOs = enterpriseManager.queryStoreByName(enterpriseID, name);
@@ -266,7 +302,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 		return true;
 	}
 	
-	private void checkEnterprisesAvailable() {
+	private void checkEnterprisesAvailable() throws NotInDatabaseException_Exception {
 		if (enterprises == null) {
 			updateEnterpriseInformation();
 		}

@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 
@@ -18,17 +19,17 @@ public class EnterpriseDAO implements IEnterpriseDAO {
 	IEnterpriseQuery enterpriseQuery;
 	
 	@Override
-	public Collection<EnterpriseViewData> getAllEnterprises() {
+	public Collection<EnterpriseViewData> getAllEnterprises() throws NotInDatabaseException_Exception {
 		return enterpriseQuery.getEnterprises();
 	}
 
 	@Override
-	public EnterpriseViewData getEnterpriseByID(long enterpriseID) {
+	public EnterpriseViewData getEnterpriseByID(long enterpriseID) throws NotInDatabaseException_Exception {
 		return enterpriseQuery.getEnterpriseByID(enterpriseID);
 	}
 
 	@Override
-	public List<ProductWrapper> getAllProducts() {
+	public List<ProductWrapper> getAllProducts() throws NotInDatabaseException_Exception {
 		return enterpriseQuery.getAllProducts();
 	}
 
