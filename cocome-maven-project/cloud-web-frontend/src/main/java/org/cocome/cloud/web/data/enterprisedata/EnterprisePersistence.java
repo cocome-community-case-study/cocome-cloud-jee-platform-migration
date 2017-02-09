@@ -6,6 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
 
 @Named
@@ -16,7 +17,7 @@ public class EnterprisePersistence implements IEnterprisePersistence {
 	IEnterpriseQuery enterpriseQuery;
 
 	@Override
-	public String createEnterprise(String name) {
+	public String createEnterprise(String name) throws NotInDatabaseException_Exception {
 		// TODO: Check if name is ok and doesn't include illegal characters
 		if (enterpriseQuery.createEnterprise(name)) {
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -41,7 +42,7 @@ public class EnterprisePersistence implements IEnterprisePersistence {
 	}
 
 	@Override
-	public String createProduct(String name, long barcode, double purchasePrice) {
+	public String createProduct(String name, long barcode, double purchasePrice) throws NotInDatabaseException_Exception {
 		// TODO: Check if name is ok and doesn't include illegal characters
 		if (enterpriseQuery.createProduct(name, barcode, purchasePrice)) {
 			FacesContext.getCurrentInstance().addMessage(null,

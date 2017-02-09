@@ -44,7 +44,7 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
 	private boolean enterpriseSubmitted = false;
 	
 	@Override
-	public Collection<EnterpriseViewData> getEnterprises() {
+	public Collection<EnterpriseViewData> getEnterprises() throws NotInDatabaseException_Exception {
 		return enterpriseDAO.getAllEnterprises();
 	}
 
@@ -69,7 +69,7 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
 	}
 
 	@Override
-	public EnterpriseViewData getActiveEnterprise() {
+	public EnterpriseViewData getActiveEnterprise() throws NotInDatabaseException_Exception {
 		if (activeEnterprise == null && activeEnterpriseID != Long.MIN_VALUE) {
 			activeEnterprise = enterpriseDAO.getEnterpriseByID(activeEnterpriseID);
 		}
