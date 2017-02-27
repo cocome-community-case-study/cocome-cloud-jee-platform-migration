@@ -62,6 +62,7 @@
   
 - In the `service-adapter` project, proceed in a similar way (You should to add a Glassfish domain for this one). Therefore
   read the [README](https://github.com/cocome-community-case-study/cocome-cloud-jee-service-adapter) in the cocome-cloud-jee-service-adapter project.
+- Make sure you refer to the same domain for `service adapter` in this setting file and in the setting file of the service-adapter.  
   
 ## Building CoCoME
  
