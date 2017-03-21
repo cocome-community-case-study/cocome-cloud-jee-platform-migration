@@ -1,0 +1,1246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<isa88:Enterprise xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:isa88="http://de/tum/mw/ais/isa88/v13" name="AIS" ObjectId="_N9mjUKaFEeaz3b70PfgmXg">
+    <site name="Garching" ObjectId="_PR4OoKaFEeaz3b70PfgmXg">
+        <area name="Repository" ObjectId="_TEe9kKaFEeaz3b70PfgmXg">
+            <ownedModule xsi:type="isa88:EquipmentModule" name="MonostableCylinder" ObjectId="_tWNk9KaFEeaz3b70PfgmXg">
+                <ownedProperty name="DI_Extended" ObjectId="_AfH6AKdLEea38cpq4uD9MQ" type="//@site.0/@area.0/@ownedModule.1"/>
+                <ownedProperty name="DI_Retracted" ObjectId="_A0xZ4KdLEea38cpq4uD9MQ" type="//@site.0/@area.0/@ownedModule.1"/>
+                <ownedProperty name="DO_Extend" ObjectId="_zcIIUKdLEea38cpq4uD9MQ" type="//@site.0/@area.0/@ownedModule.15"/>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="MonostableCylinder_ACT_Extend" ObjectId="_SHAhVKaIEeaz3b70PfgmXg" Body="//Calling the operation(s)
+DO_Extend := TRUE;
+MonostableCylinder_ACT_Extend.iState := 15;" is_implemented="true">
+                    <pre Body="TRUE"/>
+                    <post Body="DI_Extended = TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="MonostableCylinder_ACT_Retract" ObjectId="_Ss-8NKaIEeaz3b70PfgmXg" Body="//Calling the operation(s)
+DO_Extend := FALSE;
+MonostableCylinder_ACT_Retract.iState := 15;" is_implemented="true">
+                    <pre Body="TRUE"/>
+                    <post Body="DI_Retracted = TRUE"/>
+                </ownedGeneralOperation>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="ReedSwitch" ObjectId="_3mS4JKdKEea38cpq4uD9MQ" interface="//@site.0/@area.0/@interface.1"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="OpticalSensor" ObjectId="_NZqTVKaGEeaz3b70PfgmXg" interface="//@site.0/@area.0/@interface.1"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="InductiveSensor" ObjectId="_CGmDpKaGEeaz3b70PfgmXg" interface="//@site.0/@area.0/@interface.1"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="MicroSwitch" ObjectId="_F2YvJKaGEeaz3b70PfgmXg" interface="//@site.0/@area.0/@interface.1"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="WeightModule" ObjectId="_VoC1xLVHEeaY4dXP_3Igaw" interface="//@site.0/@area.0/@interface.4"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="OperationPanel" ObjectId="_KpKXAadJEea38cpq4uD9MQ"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="TurningTable" ObjectId="_mvjklKaGEeaz3b70PfgmXg">
+                <ownedProperty name="motor" ObjectId="_foLnUKaIEeaz3b70PfgmXg" type="//@site.0/@area.0/@ownedModule.10"/>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="VacuumGripper" ObjectId="_nZeERKaGEeaz3b70PfgmXg" interface="//@site.0/@area.0/@interface.2">
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="VacuumGripper_ACT_Intake" ObjectId="_o784xKaIEeaz3b70PfgmXg" Body="//Calling the operation(s)
+bValue := TRUE;
+VacuumGripper_ACT_Intake.iState := 15;" is_implemented="true">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="VacuumGripper_ACT_Release" ObjectId="_phJQhKaIEeaz3b70PfgmXg" Body="//Calling the operation(s)
+bValue := FALSE;
+VacuumGripper_ACT_Release.iState := 15;" is_implemented="true">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="PresenceSensor" ObjectId="_qpnw9KaHEeaz3b70PfgmXg" interface="//@site.0/@area.0/@interface.1"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="Motor" ObjectId="_xLHvFKaHEeaz3b70PfgmXg">
+                <ownedProperty name="DO_Forwards" ObjectId="_rcw0gLYyEeajUbxT8exq1Q" type="//@site.0/@area.0/@ownedModule.15"/>
+                <ownedProperty name="DO_Backwards" ObjectId="_sHXQsLYyEeajUbxT8exq1Q" type="//@site.0/@area.0/@ownedModule.15"/>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="Motor_ACT_Stop" ObjectId="_w_6vNKaIEeaz3b70PfgmXg" Body="//Calling the operation(s)
+DO_Forwards := FALSE;
+DO_Backwards := FALSE;
+Motor_ACT_Stop.iState := 15;" is_implemented="true">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="Motor_ACT_TurnBackwards" ObjectId="_xtSLhKaIEeaz3b70PfgmXg" Body="//Calling the operation(s)
+DO_Forwards := FALSE;
+DO_Backwards := TRUE;
+Motor_ACT_TurnBackwards.iState := 15;" is_implemented="true">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="Motor_ACT_TurnForwards" ObjectId="_yFtSlKaIEeaz3b70PfgmXg" Body="//Calling the operation(s)
+DO_Forwards := TRUE;
+DO_Backwards := FALSE;
+Motor_ACT_TurnForwards.iState := 15;" is_implemented="true">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="Potentiometer" ObjectId="_kF-oVKaIEeaz3b70PfgmXg"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="BistableCylinder" ObjectId="_9Hx45KaIEeaz3b70PfgmXg">
+                <ownedProperty name="DO_Extend" ObjectId="_SL0GQLdGEeacdbrS6yRVwA" type="//@site.0/@area.0/@ownedModule.15"/>
+                <ownedProperty name="DO_Retract" ObjectId="_ZKquwLdGEeacdbrS6yRVwA" type="//@site.0/@area.0/@ownedModule.15"/>
+                <ownedProperty name="DI_Extended" ObjectId="_ZbYEQLdGEeacdbrS6yRVwA" type="//@site.0/@area.0/@ownedModule.1"/>
+                <ownedProperty name="DI_Retracted" ObjectId="_ZrZdQLdGEeacdbrS6yRVwA" type="//@site.0/@area.0/@ownedModule.1"/>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="BistableCylinder_ACT_Retract" ObjectId="_Z-KoRLdGEeacdbrS6yRVwA" Body="//Calling the operation(s)
+DO_Extend := FALSE;
+DO_Retract := TRUE;
+BistableCylinder_ACT_Retract.iState := 15;" is_implemented="true">
+                    <pre Body="TRUE"/>
+                    <post Body="DI_Retracted"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="BistableCylinder_ACT_Extend" ObjectId="_aZtUxLdGEeacdbrS6yRVwA" Body="//Calling the operation(s)
+DO_Extend := TRUE;
+DO_Retract := FALSE;
+BistableCylinder_ACT_Extend.iState := 15;" is_implemented="true">
+                    <pre Body="TRUE"/>
+                    <post Body="DI_Extended"/>
+                </ownedGeneralOperation>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="PressureSensor" ObjectId="_ADifZKaJEeaz3b70PfgmXg" interface="//@site.0/@area.0/@interface.4"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="ProportionalValve" ObjectId="_Egpj5KaJEeaz3b70PfgmXg" interface="//@site.0/@area.0/@interface.5"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="Boolean_OUT" ObjectId="_x6zfhKdLEea38cpq4uD9MQ" interface="//@site.0/@area.0/@interface.2"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="Boolean_IN" ObjectId="_qe5itNzBEeaV9N7YIQ-L-Q" interface="//@site.0/@area.0/@interface.1"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="Boolean_INTERNAL" ObjectId="_x0HcxNzBEeaV9N7YIQ-L-Q" interface="//@site.0/@area.0/@interface.3"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="PositionCrane" ObjectId="_wCLgVLVJEeaY4dXP_3Igaw" interface="//@site.0/@area.0/@interface.4" Body=""/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="UltrasonicSensor" ObjectId="_Ve1cJLfIEeaRBbi42Wdu9g" interface="//@site.0/@area.0/@interface.4" Body=""/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="Ramp" ObjectId="_qAKyNLfIEeaRBbi42Wdu9g">
+                <ownedProperty name="DI_WPDetected" ObjectId="_u42YYLfIEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.9"/>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="SortingConveyor" ObjectId="_uSnpY7fJEeaRBbi42Wdu9g">
+                <ownedProperty name="conveyor" ObjectId="_NSYtMLfKEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.22"/>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="SortingConveyor_ACT_CheckWPType" ObjectId="_HSRvdLfLEeaRBbi42Wdu9g">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="SortingConveyor_ACT_ChangeTarget" ObjectId="_IE-XtLfLEeaRBbi42Wdu9g">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="Conveyor" ObjectId="_0FbVg7fJEeaRBbi42Wdu9g">
+                <ownedProperty name="DI_WPAtBeginning" ObjectId="_5nDLALfJEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.9"/>
+                <ownedProperty name="DI_WPAtEnd" ObjectId="_6T0xcLfJEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.9"/>
+                <ownedProperty name="motor" ObjectId="_7AWgQLfJEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.10"/>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="TargetType" ObjectId="_jT1yNLfKEeaRBbi42Wdu9g" interface="//@site.0/@area.0/@interface.4"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="eWPType" ObjectId="_tDbc9LfKEeaRBbi42Wdu9g" interface="//@site.0/@area.0/@interface.4"/>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="Switch" ObjectId="_d3uSVLfLEeaRBbi42Wdu9g">
+                <ownedProperty name="DI_Retracted" ObjectId="_f8wsMLfLEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.1"/>
+                <ownedProperty name="DI_Extended" ObjectId="_hFGNQLfLEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.1"/>
+                <ownedProperty name="DO_Extend" ObjectId="_hnehkLfLEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.15"/>
+                <ownedProperty name="DO_Retract" ObjectId="_iLGzELfLEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.15"/>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="Switch_ACT_Retract" ObjectId="_iw5AtLfLEeaRBbi42Wdu9g">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Phase" name="Switch_ACT_Extend" ObjectId="_jiv7dLfLEeaRBbi42Wdu9g">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:EquipmentModule" name="Real_INTERNAL" ObjectId="_0B_0JNzCEeaV9N7YIQ-L-Q" interface="//@site.0/@area.0/@interface.8"/>
+            <ownedModule xsi:type="isa88:Unit" name="LargeSortingConveyor" ObjectId="_V_Sh0aaFEeaz3b70PfgmXg">
+                <ownedProperty name="Initialized" ObjectId="_6HikINzEEeajaZUAm-GzzQ" type="//@site.0/@area.0/@ownedModule.17"/>
+                <ownedProperty name="WPDetected" ObjectId="__4GNgNzEEeajaZUAm-GzzQ" type="//@site.0/@area.0/@ownedModule.17"/>
+                <ownedProperty name="separator1" ObjectId="_2RP7YKaHEeaz3b70PfgmXg" type="//@site.0/@area.0/@ownedModule.0"/>
+                <ownedProperty name="separator2" ObjectId="_2ite0KaHEeaz3b70PfgmXg" type="//@site.0/@area.0/@ownedModule.0"/>
+                <ownedProperty name="separatorToPicAlpha" ObjectId="_weSqgMeSEea8O7BwjmpbMw" type="//@site.0/@area.0/@ownedModule.0"/>
+                <ownedProperty name="DI_WPLightBeginning" ObjectId="_RBeDgLfJEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.2"/>
+                <ownedProperty name="DI_WPLightAtRamp1" ObjectId="_DwS90LfIEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.2"/>
+                <ownedProperty name="DI_WPLightAtRamp2" ObjectId="_8KlJoLfHEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.2"/>
+                <ownedProperty name="DI_WPLightEnd" ObjectId="_PTRcULfJEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.2"/>
+                <ownedProperty name="DI_WPAtPicAlpha" ObjectId="_EklhgLfIEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.2"/>
+                <ownedProperty name="DI_MetallicWPAtRamp1" ObjectId="_FYWgwLfIEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.3"/>
+                <ownedProperty name="DI_MetallicWPAtRamp2" ObjectId="_GA_OELfIEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.3"/>
+                <ownedProperty name="ramp1" ObjectId="_F_b5cLfJEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.20"/>
+                <ownedProperty name="ramp2" ObjectId="_Gy-PMLfJEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.20"/>
+                <ownedProperty name="end" ObjectId="_MVmKQLfJEeaRBbi42Wdu9g" type="//@site.0/@area.0/@ownedModule.20"/>
+                <ownedProperty name="sortingConveyor" ObjectId="_CzT7AMeIEea8O7BwjmpbMw" type="//@site.0/@area.0/@ownedModule.21"/>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="LargeSortingConveyor_ACT_Init" ObjectId="_Y4XuVLfJEeaRBbi42Wdu9g">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="LargeSortingConveyor_ACT_LSCSortingWP" ObjectId="_ZzwYhLfJEeaRBbi42Wdu9g" Body="">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="ACT_DriveFromBaseToRamp1" ObjectId="_BjBQdMeLEea8O7BwjmpbMw" Body="//Calling the operation(s)
+CASE ACT_DriveFromBaseToRamp1.iState_internal OF
+	0:
+		IF _WPDetected.bValue THEN
+			ACT_DriveFromBaseToRamp1.iState_internal := 20;
+		ELSE
+			ACT_DriveFromBaseToRamp1.iState_internal := 5;
+		END_IF
+	5:
+		//Operation 1 (serial)
+		//Start Operation 1
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := TRUE);
+		IF DI_WPLightAtRamp1 THEN
+		_WPDetected.bValue := TRUE;
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+		delay(IN := FALSE);
+		delay.PT := T#370MS;
+ 		//Next operation
+		ACT_DriveFromBaseToRamp1.iState_internal := 10;
+		END_IF
+	10:
+		//Operation 2 (serial)
+		//Start Operation 2
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+			delay(IN := FALSE);
+			delay.PT := T#100MS;
+			ACT_DriveFromBaseToRamp1.iState_internal := 15;
+		END_IF
+	15:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+			_WPDetected.bValue := FALSE;
+			ACT_DriveFromBaseToRamp1.iState := 15;
+		END_IF
+
+	20:
+		//Routine if Operation was held after the WP has been detected
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnBackwards(iStart := TRUE);
+		IF DI_WPLightAtRamp1 THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnBackwards(iStart := FALSE);
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+			delay(IN := FALSE);
+			delay.PT := T#50MS;
+			ACT_DriveFromBaseToRamp1.iState_internal := 30;
+		END_IF
+	30:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := TRUE);
+			delay(IN := FALSE);
+			delay.PT := T#420MS;
+			ACT_DriveFromBaseToRamp1.iState_internal := 40;
+		END_IF
+	40:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+			delay(IN := FALSE);
+			delay.PT := T#50MS;
+			ACT_DriveFromBaseToRamp1.iState_internal := 15;
+		END_IF
+END_CASE" is_implemented="true" available_for_user="true" Holding_Routine="CASE ACT_DriveFromBaseToRamp1.iState_holding OF
+
+	0:
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnBackwards(iStart := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		ACT_DriveFromBaseToRamp1.iState_holding := 10;
+
+	10:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+			ACT_DriveFromBaseToRamp1.iState_holding := 20;
+			delay(IN := FALSE);
+		END_IF
+
+	20:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+			ACT_DriveFromBaseToRamp1.iState_internal := 0;
+			ACT_DriveFromBaseToRamp1.iState := 0;
+			ACT_DriveFromBaseToRamp1.sOperation.strResult := '-1000';
+		END_IF
+END_CASE" Reset_Routine="_WPDetected.bValue := FALSE;">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="ACT_DriveFromBaseToPicAlpha" ObjectId="_H9bIFMeLEea8O7BwjmpbMw" Body="//Calling the operation(s)
+CASE ACT_DriveFromBaseToRamp2.iState_internal OF
+	0:
+		delay(IN := FALSE);
+		ACT_DriveFromBaseToRamp2.iState_internal := 5;
+	5:
+		//Operation 1 (serial)
+		//Start Operation 1
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := TRUE);
+
+		IF DI_WPLightAtRamp2 THEN
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+		delay.PT := T#320MS;
+		//Next operation
+		ACT_DriveFromBaseToRamp2.iState_internal := 10;
+		END_IF
+	10:
+		//Operation 2 (serial)
+		//Start Operation 2
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+			delay(IN := FALSE);
+			ACT_DriveFromBaseToRamp2.iState_internal := 15;
+		END_IF
+	15:
+		delay.PT := T#100MS;
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+			ACT_DriveFromBaseToRamp2.iState := 15;
+		END_IF
+END_CASE" Holding_Routine="CASE ACT_DriveFromBaseToPicAlpha.iState_holding OF
+
+	0:
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnBackwards(iStart := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		ACT_DriveFromBaseToPicAlpha.iState_holding := 10;
+
+	10:
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+		delay(IN := TRUE);
+		IF delay.Q THEN
+		ACT_DriveFromBaseToPicAlpha.iState_holding := 20;
+		delay(IN := FALSE);
+		END_IF
+
+	20:
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			ACT_DriveFromBaseToPicAlpha.iState_internal := 0;
+			ACT_DriveFromBaseToPicAlpha.iState := 0;
+			ACT_DriveFromBaseToPicAlpha.sOperation.strResult := '-1000';
+		END_IF
+END_CASE" Reset_Routine="_WPDetected.bValue := FALSE;">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="ACT_DriveFromBaseToRamp2" ObjectId="_Lki_xMeLEea8O7BwjmpbMw" Body="//Calling the operation(s)
+CASE ACT_DriveFromBaseToRamp2.iState_internal OF
+	0:
+		IF _WPDetected.bValue THEN
+			ACT_DriveFromBaseToRamp2.iState_internal := 20;
+		ELSE
+			ACT_DriveFromBaseToRamp2.iState_internal := 5;
+		END_IF
+	5:
+		//Operation 1 (serial)
+		//Start Operation 1
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := TRUE);
+		IF DI_WPLightAtRamp2 THEN
+		_WPDetected.bValue := TRUE;
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+		delay(IN := FALSE);
+		delay.PT := T#930MS;
+ 		//Next operation
+		ACT_DriveFromBaseToRamp2.iState_internal := 10;
+		END_IF
+	10:
+		//Operation 2 (serial)
+		//Start Operation 2
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+			delay(IN := FALSE);
+			delay.PT := T#100MS;
+			ACT_DriveFromBaseToRamp2.iState_internal := 15;
+		END_IF
+	15:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+			_WPDetected.bValue := FALSE;
+			ACT_DriveFromBaseToRamp2.iState := 15;
+		END_IF
+
+	20:
+		//Routine if Operation was held after the WP has been detected
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnBackwards(iStart := TRUE);
+		IF DI_WPLightAtRamp2 THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnBackwards(iStart := FALSE);
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+			delay(IN := FALSE);
+			delay.PT := T#50MS;
+			ACT_DriveFromBaseToRamp2.iState_internal := 30;
+		END_IF
+	30:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := TRUE);
+			delay(IN := FALSE);
+			delay.PT := T#980MS;
+			ACT_DriveFromBaseToRamp2.iState_internal := 40;
+		END_IF
+	40:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+			delay(IN := FALSE);
+			delay.PT := T#50MS;
+			ACT_DriveFromBaseToRamp2.iState_internal := 15;
+		END_IF
+END_CASE" is_implemented="true" available_for_user="true" Holding_Routine="CASE ACT_DriveFromBaseToRamp2.iState_holding OF
+
+	0:
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnBackwards(iStart := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		ACT_DriveFromBaseToRamp2.iState_holding := 10;
+
+	10:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+			ACT_DriveFromBaseToRamp2.iState_holding := 20;
+			delay(IN := FALSE);
+		END_IF
+
+	20:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+			ACT_DriveFromBaseToRamp2.iState_internal := 0;
+			ACT_DriveFromBaseToRamp2.iState := 0;
+			ACT_DriveFromBaseToRamp2.sOperation.strResult := '-1000';
+		END_IF
+END_CASE" Reset_Routine="_WPDetected.bValue := FALSE;">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="ACT_DriveFromBaseToEnd" ObjectId="_vWQy1MePEea8O7BwjmpbMw" Body="//Calling the operation(s)
+CASE ACT_DriveFromBaseToEnd.iState_internal OF
+
+	0:
+		//Operation 1 (serial)
+		//Start Operation 1
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := TRUE);
+		IF _sortingConveyor._conveyor.DI_WPAtEnd THEN
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+		delay(IN := FALSE);
+		delay.PT := T#120MS;
+ 		//Next operation
+		ACT_DriveFromBaseToEnd.iState_internal := 10;
+		END_IF
+	10:
+		//Operation 2 (serial)
+		//Start Operation 2
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+			delay(IN := FALSE);
+			delay.PT := T#100MS;
+			ACT_DriveFromBaseToEnd.iState_internal := 15;
+		END_IF
+	15:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+			_WPDetected.bValue := FALSE;
+			ACT_DriveFromBaseToEnd.iState := 15;
+		END_IF
+END_CASE" is_implemented="true" available_for_user="true" Holding_Routine="CASE ACT_DriveFromBaseToEnd.iState_holding OF
+
+	0:
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_TurnBackwards(iStart := FALSE);
+		_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		ACT_DriveFromBaseToEnd.iState_holding := 10;
+
+	10:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+			ACT_DriveFromBaseToEnd.iState_holding := 20;
+			delay.PT := T#100MS;
+			delay(IN := FALSE);
+		END_IF
+
+	20:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			_sortingConveyor._conveyor._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+			ACT_DriveFromBaseToEnd.iState_internal := 0;
+			ACT_DriveFromBaseToEnd.iState := 0;
+			ACT_DriveFromBaseToEnd.sOperation.strResult := '-1000';
+		END_IF
+END_CASE">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="ACT_PushToRamp1" ObjectId="_AAOEJMePEea8O7BwjmpbMw" Body="//Calling the operation(s)
+CASE ACT_PushToRamp1.iState_internal OF
+	0:
+		//Operation 1 (serial)
+		//Start Operation 1
+		_separator1.METH_MonostableCylinder_ACT_Extend(iStart := TRUE);
+
+		IF ACT_PushToRamp1.abRes_trig[1] THEN
+		_separator1.METH_MonostableCylinder_ACT_Extend(iStart := FALSE);
+
+		//Next operation
+		ACT_PushToRamp1.iState_internal := 10;
+		END_IF
+
+	10:
+		//Operation 2 (serial)
+		//Start Operation 2
+		_separator1.METH_MonostableCylinder_ACT_Retract(iStart := TRUE);
+
+		IF ACT_PushToRamp1.abRes_trig[2] THEN
+		_separator1.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+
+		//Finished all operation
+		ACT_PushToRamp1.iState := 15;
+		END_IF
+
+END_CASE
+
+ACT_PushToRamp1.astrTemp[1] := _separator1.pMonostableCylinder_ACT_Extend_strResult;
+ACT_PushToRamp1.astrTemp[2] := _separator1.pMonostableCylinder_ACT_Retract_strResult;" is_implemented="true" available_for_user="true">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="ACT_PushToRamp2" ObjectId="_GS9NhMePEea8O7BwjmpbMw" Body="//Calling the operation(s)
+CASE ACT_PushToRamp2.iState_internal OF
+	0:
+		//Operation 1 (serial)
+		//Start Operation 1
+		_separator2.METH_MonostableCylinder_ACT_Extend(iStart := TRUE);
+
+		IF ACT_PushToRamp2.abRes_trig[1] THEN
+		_separator2.METH_MonostableCylinder_ACT_Extend(iStart := FALSE);
+
+		//Next operation
+		ACT_PushToRamp2.iState_internal := 10;
+		END_IF
+
+	10:
+		//Operation 2 (serial)
+		//Start Operation 2
+		_separator2.METH_MonostableCylinder_ACT_Retract(iStart := TRUE);
+
+		IF ACT_PushToRamp2.abRes_trig[2] THEN
+		_separator2.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+
+		//Finished all operation
+		ACT_PushToRamp2.iState := 15;
+		END_IF
+
+END_CASE
+
+ACT_PushToRamp2.astrTemp[1] := _separator2.pMonostableCylinder_ACT_Extend_strResult;
+ACT_PushToRamp2.astrTemp[2] := _separator2.pMonostableCylinder_ACT_Retract_strResult;" is_implemented="true" available_for_user="true">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="ACT_PushToPicAlpha" ObjectId="_Me055MePEea8O7BwjmpbMw" Body="//Calling the operation(s)
+CASE ACT_PushToPicAlpha.iState_internal OF
+	0:
+		//Operation 1 (serial)
+		//Start Operation 1
+		_separatorToPicAlpha.METH_MonostableCylinder_ACT_Extend(iStart := TRUE);
+
+		IF ACT_PushToPicAlpha.abRes_trig[1] THEN
+		_separatorToPicAlpha.METH_MonostableCylinder_ACT_Extend(iStart := FALSE);
+
+		//Next operation
+		ACT_PushToPicAlpha.iState_internal := 10;
+		END_IF
+
+	10:
+		//Operation 2 (serial)
+		//Start Operation 2
+		_separatorToPicAlpha.METH_MonostableCylinder_ACT_Retract(iStart := TRUE);
+
+		IF ACT_PushToPicAlpha.abRes_trig[2] THEN
+		_separatorToPicAlpha.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+
+		//Finished all operation
+		ACT_PushToPicAlpha.iState := 15;
+		END_IF
+
+END_CASE
+
+ACT_PushToPicAlpha.astrTemp[1] := _separatorToPicAlpha.pMonostableCylinder_ACT_Extend_strResult;
+ACT_PushToPicAlpha.astrTemp[2] := _separatorToPicAlpha.pMonostableCylinder_ACT_Retract_strResult;" is_implemented="true" available_for_user="true">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:Unit" name="Crane" ObjectId="_X_Z_caaFEeaz3b70PfgmXg" Body="_CurrentPositionInDegree.fValue := - _CurrentPosition.iValue/91.9333 + 266.856;">
+                <ownedProperty name="Initialized" ObjectId="_OpoE8NzBEeaV9N7YIQ-L-Q" type="//@site.0/@area.0/@ownedModule.17"/>
+                <ownedProperty name="CurrentPosition" ObjectId="_Dfb_sLVJEeaY4dXP_3Igaw" type="//@site.0/@area.0/@ownedModule.18"/>
+                <ownedProperty name="CurrentPositionInDegree" ObjectId="_DcsAgNzDEeaV9N7YIQ-L-Q" type="//@site.0/@area.0/@ownedModule.26"/>
+                <ownedProperty name="WPPickedUp" ObjectId="_CVpGELVJEeaY4dXP_3Igaw" type="//@site.0/@area.0/@ownedModule.9"/>
+                <ownedProperty name="liftingCylinder" ObjectId="_tPmxMKaGEeaz3b70PfgmXg" type="//@site.0/@area.0/@ownedModule.0"/>
+                <ownedProperty name="gripper" ObjectId="_s413AKaGEeaz3b70PfgmXg" type="//@site.0/@area.0/@ownedModule.8"/>
+                <ownedProperty name="table" ObjectId="_tjR7IKaGEeaz3b70PfgmXg" type="//@site.0/@area.0/@ownedModule.7"/>
+                <ownedProperty name="DI_OnStack" ObjectId="_t3xRcL1QEeaW8_6eKCXe-g" type="//@site.0/@area.0/@ownedModule.1"/>
+                <ownedProperty name="DI_OnConveyor" ObjectId="_uW_kEL1QEeaW8_6eKCXe-g" type="//@site.0/@area.0/@ownedModule.1"/>
+                <ownedProperty name="DI_OnStamp" ObjectId="_up-KcL1QEeaW8_6eKCXe-g" type="//@site.0/@area.0/@ownedModule.1"/>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="Crane_ACT_Init" ObjectId="_7eWu5KaGEeaz3b70PfgmXg" Body="//Calling the operation(s)
+CASE Crane_ACT_Init.iState_internal OF
+	0:
+		//Operation 1 (serial)
+		//Start Operation 1
+		IF _liftingCylinder.DI_Extended THEN
+			_liftingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := TRUE);
+			Crane_ACT_Init.iState_internal := 5;
+		ELSE
+			//Next operation
+			Crane_ACT_Init.iState_internal := 10;
+		END_IF
+
+	5:
+		IF Crane_ACT_Init.abRes_trig[1] THEN
+			_liftingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+			//Next operation
+			Crane_ACT_Init.iState_internal := 10;
+		END_IF
+	10:
+		//Operation 2 (serial)
+		//Start Operation 2
+		Initialized := TRUE;
+		METH_Crane_ACT_TurnToStack(iStart := TRUE);
+		Crane_ACT_Init.iState_internal := 20;
+	20:
+		IF Crane_ACT_Init.abRes_trig[2] THEN
+			METH_Crane_ACT_TurnToStack(iStart := FALSE);
+			//Next operation
+			Crane_ACT_Init.iState_internal := 30;
+		END_IF
+	30:
+		//Operation 3 (serial)
+		//Start Operation 3
+		METH_Crane_ACT_PutDownWP(iStart := TRUE);
+		Crane_ACT_Init.iState_internal := 40;
+	40:
+		IF Crane_ACT_Init.abRes_trig[3] THEN
+			METH_Crane_ACT_PutDownWP(iStart := FALSE);
+			//Finished all operation
+			Crane_ACT_Init.iState := 15;
+		END_IF
+
+END_CASE
+
+Crane_ACT_Init.astrTemp[1] := _liftingCylinder.pMonostableCylinder_ACT_Retract_strResult;
+Crane_ACT_Init.astrTemp[2] := pCrane_ACT_TurnToStack_strResult;
+Crane_ACT_Init.astrTemp[3] := pCrane_ACT_PutDownWP_strResult;" ownedGeneralOperation="//@site.0/@area.0/@ownedModule.28/@ownedGeneralOperation.4 //@site.0/@area.0/@ownedModule.0/@ownedGeneralOperation.1 //@site.0/@area.0/@ownedModule.8/@ownedGeneralOperation.1" is_implemented="true" available_for_user="true" Holding_Routine="CASE Crane_ACT_Init.iState_holding OF
+
+	0:
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		//Disable possible running METHODS
+		_liftingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+		METH_Crane_ACT_PutDownWP(iStart := FALSE);
+		METH_Crane_ACT_TurnToStack(iStart := FALSE);
+		Crane_ACT_Init.iState_holding := 10;
+		//Eventually stop actively certain axes etc. through call of methods
+
+	10:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			//Reset of operation
+			Crane_ACT_Init.iState_internal := 0;
+			Crane_ACT_Init.iState := 0;
+			Crane_ACT_Init.sOperation.strResult := '-1000';
+		END_IF
+END_CASE" Abort_Routine="Initialized := FALSE;">
+                    <pre Body="TRUE"/>
+                    <post Body="_CurrentPositionInDegree.fValue &lt; 1"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="Crane_ACT_PickUpWP" ObjectId="_8RrpRKaGEeaz3b70PfgmXg" Body="//Calling the operation(s)
+CASE Crane_ACT_PickUpWP.iState_internal OF
+	0:
+		IF _WPPickedUp.bValue THEN
+			Crane_ACT_PickUpWP.iState_internal := 20;
+		ELSE
+			//Operation 1 (serial)
+			//Start Operation 1
+			IF NOT _liftingCylinder.DI_Extended THEN
+			_liftingCylinder.METH_MonostableCylinder_ACT_Extend(iStart := TRUE);
+				Crane_ACT_PickUpWP.iState_internal := 5;
+			ELSE
+				//Next operation
+				Crane_ACT_PickUpWP.iState_internal := 10;
+			END_IF
+		END_IF
+	5:
+		IF Crane_ACT_PickUpWP.abRes_trig[1] THEN
+			_liftingCylinder.METH_MonostableCylinder_ACT_Extend(iStart := FALSE);
+			//Next operation
+			Crane_ACT_PickUpWP.iState_internal := 10;
+		END_IF
+
+	10:
+		//Operation 2 (serial)
+		//Start Operation 2
+		_gripper.METH_VacuumGripper_ACT_Intake(iStart := TRUE);
+
+		IF Crane_ACT_PickUpWP.abRes_trig[3] THEN
+		_gripper.METH_VacuumGripper_ACT_Intake(iStart := FALSE);
+
+		Crane_ACT_PickUpWP.iState_internal := 20;
+		END_IF
+
+	20:
+		//Operation 3 (serial)
+		//Start Operation 3
+		IF NOT _liftingCylinder.DI_Retracted THEN
+			_liftingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := TRUE);
+
+			IF Crane_ACT_PickUpWP.abRes_trig[2] THEN
+			_liftingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+			//Finished all operation
+			Crane_ACT_PickUpWP.iState := 15;
+			END_IF
+		ELSE
+			_liftingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+			//Finished all operation
+			Crane_ACT_PickUpWP.iState := 15;
+		END_IF
+
+END_CASE
+
+Crane_ACT_PickUpWP.astrTemp[1] := _liftingCylinder.pMonostableCylinder_ACT_Extend_strResult;
+Crane_ACT_PickUpWP.astrTemp[2] := _liftingCylinder.pMonostableCylinder_ACT_Retract_strResult;
+Crane_ACT_PickUpWP.astrTemp[3] := _gripper.pVacuumGripper_ACT_Intake_strResult;" ownedGeneralOperation="//@site.0/@area.0/@ownedModule.0/@ownedGeneralOperation.0 //@site.0/@area.0/@ownedModule.0/@ownedGeneralOperation.1 //@site.0/@area.0/@ownedModule.8/@ownedGeneralOperation.0 //@site.0/@area.0/@ownedModule.8/@ownedGeneralOperation.1" is_implemented="true" available_for_user="true" Holding_Routine="CASE Crane_ACT_PickUpWP.iState_holding OF
+
+	0:
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		_liftingCylinder.METH_MonostableCylinder_ACT_Extend(iStart := FALSE);
+		_liftingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+		_gripper.METH_VacuumGripper_ACT_Intake(iStart := FALSE);
+		Crane_ACT_PickUpWP.iState_holding := 10;
+
+	10:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			Crane_ACT_PickUpWP.iState_internal := 0;
+			Crane_ACT_PickUpWP.iState := 0;
+			Crane_ACT_PickUpWP.sOperation.strResult := '-1000';
+		END_IF
+END_CASE" Abort_Routine="Initialized := FALSE;">
+                    <pre Body="Initialized = TRUE"/>
+                    <post Body="WPPickedUp = TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="Crane_ACT_PutDownWP" ObjectId="_8rFAtKaGEeaz3b70PfgmXg" Body="//Calling the operation(s)
+CASE Crane_ACT_PutDownWP.iState_internal OF
+	0:
+		//Operation 1 (serial)
+		//Start Operation 1
+		IF NOT _WPPickedUp.bValue THEN
+			Crane_ACT_PutDownWP.iState_internal := 20;
+		ELSE
+			IF NOT _liftingCylinder.DI_Extended THEN
+				_liftingCylinder.METH_MonostableCylinder_ACT_Extend(iStart := TRUE);
+				Crane_ACT_PutDownWP.iState_internal := 5;
+			ELSE
+				//Next operation
+				Crane_ACT_PutDownWP.iState_internal := 10;
+			END_IF
+		END_IF
+	5:
+		IF Crane_ACT_PutDownWP.abRes_trig[1] THEN
+			_liftingCylinder.METH_MonostableCylinder_ACT_Extend(iStart := FALSE);
+			//Next operation
+			Crane_ACT_PutDownWP.iState_internal := 10;
+		END_IF
+	10:
+		//Operation 2 (serial)
+		//Start Operation 2
+		_gripper.METH_VacuumGripper_ACT_Release(iStart := TRUE);
+
+		IF Crane_ACT_PutDownWP.abRes_trig[3] THEN
+		_gripper.METH_VacuumGripper_ACT_Release(iStart := FALSE);
+
+		//Finished all operation
+		Crane_ACT_PutDownWP.iState_internal := 20;
+		END_IF
+
+	20:
+		//Operation 3 (serial)
+		//Start Operation 3
+		_liftingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := TRUE);
+
+		IF Crane_ACT_PutDownWP.abRes_trig[2] THEN
+		_liftingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+
+		//Finished all operation
+		Crane_ACT_PutDownWP.iState := 15;
+		END_IF
+
+END_CASE
+
+Crane_ACT_PutDownWP.astrTemp[1] := _liftingCylinder.pMonostableCylinder_ACT_Extend_strResult;
+Crane_ACT_PutDownWP.astrTemp[2] := _liftingCylinder.pMonostableCylinder_ACT_Retract_strResult;
+Crane_ACT_PutDownWP.astrTemp[3] := _gripper.pVacuumGripper_ACT_Release_strResult;" ownedGeneralOperation="//@site.0/@area.0/@ownedModule.0/@ownedGeneralOperation.0 //@site.0/@area.0/@ownedModule.0/@ownedGeneralOperation.1 //@site.0/@area.0/@ownedModule.8/@ownedGeneralOperation.0 //@site.0/@area.0/@ownedModule.8/@ownedGeneralOperation.1" is_implemented="true" available_for_user="true" Holding_Routine="CASE Crane_ACT_PutDownWP.iState_holding OF
+
+	0:
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		_liftingCylinder.METH_MonostableCylinder_ACT_Extend(iStart := FALSE);
+		_liftingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+		_gripper.METH_VacuumGripper_ACT_Release(iStart := FALSE);
+		Crane_ACT_PutDownWP.iState_holding := 10;
+
+	10:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			Crane_ACT_PutDownWP.iState_internal := 0;
+			Crane_ACT_PutDownWP.iState := 0;
+			Crane_ACT_PutDownWP.sOperation.strResult := '-1000';
+		END_IF
+END_CASE" Abort_Routine="Initialized := FALSE;">
+                    <pre Body="Initialized = TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="Crane_ACT_TurnToConveyor" ObjectId="_9AOxVKaGEeaz3b70PfgmXg" Body="//Calling the operation(s)
+CASE Crane_ACT_TurnToConveyor.iState_internal OF
+	0:
+		//Operation 1 (serial)
+		//Start Operation 1
+		IF _CurrentPositionInDegree.fValue &gt; 93 THEN
+			_table._motor.METH_Motor_ACT_TurnBackwards(iStart := TRUE);
+			Crane_ACT_TurnToConveyor.iState_internal := 5;
+		ELSE IF _CurrentPositionInDegree.fValue &lt; 87 THEN
+			_table._motor.METH_Motor_ACT_TurnForwards(iStart := TRUE);
+			Crane_ACT_TurnToConveyor.iState_internal := 5;
+		ELSE
+			Crane_ACT_TurnToConveyor.iState_internal := 15;
+		END_IF
+		END_IF
+	5:
+		IF (ABS(_CurrentPositionInDegree.fValue-90) &lt; 5) THEN
+			_table._motor.METH_Motor_ACT_TurnBackwards(iStart := FALSE);
+			_table._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+			Crane_ACT_TurnToConveyor.iState_internal := 10;
+		END_IF
+	10:
+		_table._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		Crane_ACT_TurnToConveyor.iState_internal := 15;
+	15:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			Crane_ACT_TurnToConveyor.iState_internal := 20;
+		END_IF
+	20:
+		_table._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		Crane_ACT_TurnToConveyor.iState := 15;
+
+END_CASE
+
+Crane_ACT_TurnToConveyor.astrTemp[1] := _liftingCylinder.pMonostableCylinder_ACT_Extend_strResult;
+Crane_ACT_TurnToConveyor.astrTemp[2] := _liftingCylinder.pMonostableCylinder_ACT_Retract_strResult;" ownedGeneralOperation="//@site.0/@area.0/@ownedModule.10/@ownedGeneralOperation.0 //@site.0/@area.0/@ownedModule.10/@ownedGeneralOperation.1 //@site.0/@area.0/@ownedModule.10/@ownedGeneralOperation.2" is_implemented="true" available_for_user="true" Holding_Routine="CASE Crane_ACT_TurnToConveyor.iState_holding OF
+
+	0:
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		_table._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+		_table._motor.METH_Motor_ACT_TurnBackwards(iStart := FALSE);
+		_table._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		Crane_ACT_TurnToConveyor.iState_holding := 10;
+
+	10:
+		_table._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+		delay(IN := TRUE);
+		IF delay.Q THEN
+		Crane_ACT_TurnToConveyor.iState_holding := 20;
+		delay.PT := T#50MS;
+		delay(IN := FALSE);
+		END_IF
+
+	20:
+		_table._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			Crane_ACT_TurnToConveyor.iState_internal := 0;
+			Crane_ACT_TurnToConveyor.iState := 0;
+			Crane_ACT_TurnToConveyor.sOperation.strResult := '-1000';
+		END_IF
+END_CASE" Abort_Routine="Initialized := FALSE;">
+                    <pre Body="Initialized = TRUE"/>
+                    <post Body="(89 &lt; CurrentPositionInDegree AND CurrentPositionInDegree &lt; 92)"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="Crane_ACT_TurnToStack" ObjectId="_AD14BLVIEeaY4dXP_3Igaw" Body="//Calling the operation(s)
+CASE Crane_ACT_TurnToStack.iState_internal OF
+	0:
+		//Operation 1 (serial)
+		//Start Operation 1
+		IF _CurrentPositionInDegree.fValue &gt; 3 THEN
+			_table._motor.METH_Motor_ACT_TurnBackwards(iStart := TRUE);
+			Crane_ACT_TurnToStack.iState_internal := 5;
+		ELSE
+			Crane_ACT_TurnToStack.iState_internal := 15;
+		END_IF
+	5:
+		IF _CurrentPositionInDegree.fValue &lt; 3 THEN
+			_table._motor.METH_Motor_ACT_TurnBackwards(iStart := FALSE);
+			Crane_ACT_TurnToStack.iState_internal := 10;
+		END_IF
+	10:
+		_table._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		Crane_ACT_TurnToStack.iState_internal := 15;
+	15:
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			Crane_ACT_TurnToStack.iState_internal := 20;
+		END_IF
+	20:
+		_table._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		Crane_ACT_TurnToStack.iState := 15;
+
+END_CASE" ownedGeneralOperation="//@site.0/@area.0/@ownedModule.10/@ownedGeneralOperation.0 //@site.0/@area.0/@ownedModule.10/@ownedGeneralOperation.1 //@site.0/@area.0/@ownedModule.10/@ownedGeneralOperation.2" is_implemented="true" available_for_user="true" Holding_Routine="CASE Crane_ACT_TurnToStack.iState_holding OF
+
+	0:
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		_table._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+		_table._motor.METH_Motor_ACT_TurnBackwards(iStart := FALSE);
+		_table._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		Crane_ACT_TurnToStack.iState_holding := 10;
+
+	10:
+		_table._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+		delay(IN := TRUE);
+		IF delay.Q THEN
+		Crane_ACT_TurnToStack.iState_holding := 20;
+		delay.PT := T#50MS;
+		delay(IN := FALSE);
+		END_IF
+
+	20:
+		_table._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			Crane_ACT_TurnToStack.iState_internal := 0;
+			Crane_ACT_TurnToStack.iState := 0;
+			Crane_ACT_TurnToStack.sOperation.strResult := '-1000';
+		END_IF
+END_CASE" Abort_Routine="Initialized := FALSE;">
+                    <pre Body="Initialized = TRUE"/>
+                    <post Body="CurrentPositionInDegree &lt; 1"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="Crane_ACT_TurnToStamp" ObjectId="_BBLqBLVIEeaY4dXP_3Igaw" Body="//Calling the operation(s)
+CASE Crane_ACT_TurnToStamp.iState_internal OF
+	0:
+		//Operation 1 (serial)
+		//Start Operation 1
+		IF _CurrentPositionInDegree.fValue &lt; 175 THEN
+			_table._motor.METH_Motor_ACT_TurnForwards(iStart := TRUE);
+			Crane_ACT_TurnToStamp.iState_internal := 5;
+		ELSE
+			Crane_ACT_TurnToStamp.iState_internal := 15;
+			delay(IN := FALSE);
+		END_IF
+	5:
+		IF _CurrentPositionInDegree.fValue &gt; 175 THEN
+			_table._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+			Crane_ACT_TurnToStamp.iState_internal := 10;
+		END_IF
+	10:
+		_table._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+		Crane_ACT_TurnToStamp.iState_internal := 15;
+		delay(IN := FALSE);
+	15:
+
+		delay.PT := T#100MS;
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			Crane_ACT_TurnToStamp.iState_internal := 20;
+		END_IF
+	20:
+		_table._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		Crane_ACT_TurnToStamp.iState := 15;
+
+END_CASE" ownedGeneralOperation="//@site.0/@area.0/@ownedModule.10/@ownedGeneralOperation.0 //@site.0/@area.0/@ownedModule.10/@ownedGeneralOperation.1 //@site.0/@area.0/@ownedModule.10/@ownedGeneralOperation.2" is_implemented="true" available_for_user="true" Holding_Routine="CASE Crane_ACT_TurnToStamp.iState_holding OF
+
+	0:
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		_table._motor.METH_Motor_ACT_TurnForwards(iStart := FALSE);
+		_table._motor.METH_Motor_ACT_TurnBackwards(iStart := FALSE);
+		_table._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		Crane_ACT_TurnToStamp.iState_holding := 10;
+
+	10:
+		_table._motor.METH_Motor_ACT_Stop(iStart := TRUE);
+		delay(IN := TRUE);
+		IF delay.Q THEN
+		Crane_ACT_TurnToStamp.iState_holding := 20;
+		delay.PT := T#50MS;
+		delay(IN := FALSE);
+		END_IF
+
+	20:
+		_table._motor.METH_Motor_ACT_Stop(iStart := FALSE);
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			Crane_ACT_TurnToStamp.iState_internal := 0;
+			Crane_ACT_TurnToStamp.iState := 0;
+			Crane_ACT_TurnToStamp.sOperation.strResult := '-1000';
+		END_IF
+END_CASE" Abort_Routine="Initialized := FALSE;">
+                    <pre Body="Initialized = TRUE"/>
+                    <post Body="CurrentPositionInDegree &gt; 179"/>
+                </ownedGeneralOperation>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:Unit" name="Stamp" ObjectId="_Y7oXIaaFEeaz3b70PfgmXg">
+                <ownedProperty name="Initialized" ObjectId="_2nYskNzDEeajaZUAm-GzzQ" type="//@site.0/@area.0/@ownedModule.17"/>
+                <ownedProperty name="WPStamped" ObjectId="_3QNnINzDEeajaZUAm-GzzQ" type="//@site.0/@area.0/@ownedModule.17"/>
+                <ownedProperty name="stampingCylinder" ObjectId="_IZMiwKaJEeaz3b70PfgmXg" type="//@site.0/@area.0/@ownedModule.0"/>
+                <ownedProperty name="slidingCylinder" ObjectId="_JBHeYKaJEeaz3b70PfgmXg" type="//@site.0/@area.0/@ownedModule.12"/>
+                <ownedProperty name="AO_SetPressure" ObjectId="_JRbyUKaJEeaz3b70PfgmXg" type="//@site.0/@area.0/@ownedModule.14"/>
+                <ownedProperty name="AI_CurrentPressure" ObjectId="_L89MwLdFEeacdbrS6yRVwA" type="//@site.0/@area.0/@ownedModule.13"/>
+                <ownedProperty name="DI_WPAvailable" ObjectId="_RDLfsLdFEeacdbrS6yRVwA" type="//@site.0/@area.0/@ownedModule.4"/>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="Stamp_ACT_Init" ObjectId="_ZPPS1KaJEeaz3b70PfgmXg" Body="//Calling the operation(s)
+CASE Stamp_ACT_Init.iState_internal OF
+	0:
+		//Operation 1 (parallel)
+		_slidingCylinder.METH_BistableCylinder_ACT_Extend(iStart := TRUE);
+
+		//Operation 2 (parallel)
+		_stampingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := TRUE);
+
+		Stamp_ACT_Init.iState_internal := 10;
+	10:
+
+		IF Stamp_ACT_Init.abRes_trig[1] THEN
+		_slidingCylinder.METH_BistableCylinder_ACT_Extend(iStart := FALSE);
+		END_IF
+
+		IF Stamp_ACT_Init.abRes_trig[2] THEN
+		_stampingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+		END_IF
+
+		//if all operations are finished
+		IF (Stamp_ACT_Init.abRes_trig[1] OR Stamp_ACT_Init.abRes_trig[2])
+			AND _slidingCylinder.pBistableCylinder_ACT_Extend_strResult &lt;&gt; '-111'
+			AND _stampingCylinder.pMonostableCylinder_ACT_Retract_strResult &lt;&gt; '-111'
+		THEN
+		Initialized := TRUE;
+		Stamp_ACT_Init.iState := 15;
+		END_IF
+
+END_CASE
+
+Stamp_ACT_Init.astrTemp[1] := _slidingCylinder.pBistableCylinder_ACT_Extend_strResult;
+Stamp_ACT_Init.astrTemp[2] := _stampingCylinder.pMonostableCylinder_ACT_Retract_strResult;" ownedGeneralOperation="//@site.0/@area.0/@ownedModule.0/@ownedGeneralOperation.1 //@site.0/@area.0/@ownedModule.12/@ownedGeneralOperation.1" is_implemented="true" available_for_user="true">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="Stamp_ACT_Stamp" ObjectId="_Zm491KaJEeaz3b70PfgmXg" Body="//Calling the operation(s)
+CASE Stamp_ACT_Stamp.iState_internal OF
+	0:
+		IF _WPStamped.bValue THEN
+			Stamp_ACT_Stamp.iState_internal := 60;
+		ELSE IF NOT _slidingCylinder.DI_Retracted THEN
+			//Operation 1
+			_slidingCylinder.METH_BistableCylinder_ACT_Retract(iStart := TRUE);
+			Stamp_ACT_Stamp.iState_internal := 10;
+		ELSE
+			Stamp_ACT_Stamp.iState_internal := 20;
+		END_IF END_IF
+	10:
+		//if Operation 1 is finished
+		IF Stamp_ACT_Stamp.abRes_trig[1] THEN
+		_slidingCylinder.METH_BistableCylinder_ACT_Retract(iStart := FALSE);
+		Stamp_ACT_Stamp.iState_internal := 20;
+		END_IF
+	20:
+		//Operation 2
+		_stampingCylinder.METH_MonostableCylinder_ACT_Extend(iStart := TRUE);
+		AO_SetPressure := 6000;
+		Stamp_ACT_Stamp.iState_internal := 30;
+	30:
+		//if Operation 2 is finished
+		IF Stamp_ACT_Stamp.abRes_trig[2] THEN
+		_stampingCylinder.METH_MonostableCylinder_ACT_Extend(iStart := FALSE);
+		Stamp_ACT_Stamp.iState_internal := 40;
+		_WPStamped.bValue := TRUE;
+		END_IF
+	40:
+		//Operation 3
+		_stampingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := TRUE);
+		AO_SetPressure := 0;
+		Stamp_ACT_Stamp.iState_internal := 50;
+	50:
+		//if Operation 3 is finished
+		IF Stamp_ACT_Stamp.abRes_trig[3] THEN
+		_stampingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+		Stamp_ACT_Stamp.iState_internal := 60;
+		END_IF
+	60:
+		//Operation 4
+		_slidingCylinder.METH_BistableCylinder_ACT_Extend(iStart := TRUE);
+		Stamp_ACT_Stamp.iState_internal := 70;
+	70:
+		//if Operation 4 is finished
+		IF Stamp_ACT_Stamp.abRes_trig[4] THEN
+		_slidingCylinder.METH_BistableCylinder_ACT_Extend(iStart := FALSE);
+		Stamp_ACT_Stamp.iState := 15;
+		END_IF
+
+END_CASE
+
+Stamp_ACT_Stamp.astrTemp[1] := _slidingCylinder.pBistableCylinder_ACT_Retract_strResult;
+Stamp_ACT_Stamp.astrTemp[2] := _stampingCylinder.pMonostableCylinder_ACT_Extend_strResult;
+Stamp_ACT_Stamp.astrTemp[3] := _stampingCylinder.pMonostableCylinder_ACT_Retract_strResult;
+Stamp_ACT_Stamp.astrTemp[4] := _slidingCylinder.pBistableCylinder_ACT_Extend_strResult;" ownedGeneralOperation="//@site.0/@area.0/@ownedModule.12/@ownedGeneralOperation.1 //@site.0/@area.0/@ownedModule.12/@ownedGeneralOperation.0 //@site.0/@area.0/@ownedModule.0/@ownedGeneralOperation.0 //@site.0/@area.0/@ownedModule.0/@ownedGeneralOperation.1" is_implemented="true" available_for_user="true" Holding_Routine="CASE Stamp_ACT_Stamp.iState_holding OF
+
+	0:
+		delay.PT := T#100MS;
+		delay(IN := FALSE);
+		_slidingCylinder.METH_BistableCylinder_ACT_Extend(iStart := FALSE);
+		_slidingCylinder.METH_BistableCylinder_ACT_Retract(iStart := FALSE);
+		_stampingCylinder.METH_MonostableCylinder_ACT_Extend(iStart := FALSE);
+		_stampingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+		AO_SetPressure := 0;
+		Stamp_ACT_Stamp.iState_holding := 10;
+
+	10:
+		_stampingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := TRUE);
+		delay(IN := TRUE);
+		IF delay.Q THEN
+		Stamp_ACT_Stamp.iState_holding := 20;
+		delay(IN := FALSE);
+		END_IF
+
+	20:
+		_stampingCylinder.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+		delay(IN := TRUE);
+		IF delay.Q THEN
+			Stamp_ACT_Stamp.iState_internal := 0;
+			Stamp_ACT_Stamp.iState := 0;
+			Stamp_ACT_Stamp.sOperation.strResult := '-1000';
+		END_IF
+END_CASE" Reset_Routine="_WPStamped.bValue := FALSE;" Abort_Routine="Initialized := FALSE;">
+                    <pre Body="Initialized = TRUE AND DI_WPAvailable = TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+            </ownedModule>
+            <ownedModule xsi:type="isa88:Unit" name="Stack" ObjectId="_YglZ4aaFEeaz3b70PfgmXg">
+                <ownedProperty name="Initialized" ObjectId="_EKu5oNzAEeaV9N7YIQ-L-Q" type="//@site.0/@area.0/@ownedModule.17"/>
+                <ownedProperty name="Empty" ObjectId="_41UEENzAEeaV9N7YIQ-L-Q" type="//@site.0/@area.0/@ownedModule.17"/>
+                <ownedProperty name="WPSeperated" ObjectId="_JgcaENzAEeaV9N7YIQ-L-Q" type="//@site.0/@area.0/@ownedModule.17"/>
+                <ownedProperty name="separator" ObjectId="_x1QjIKaFEeaz3b70PfgmXg" type="//@site.0/@area.0/@ownedModule.0"/>
+                <ownedProperty name="panel" ObjectId="_NuZCkKdJEea38cpq4uD9MQ" type="//@site.0/@area.0/@ownedModule.6"/>
+                <ownedProperty name="AI_WPWeight" ObjectId="_a3EU0LVGEeaY4dXP_3Igaw" type="//@site.0/@area.0/@ownedModule.5"/>
+                <ownedProperty name="DI_WPAvailable" ObjectId="_gEs3ULVGEeaY4dXP_3Igaw" type="//@site.0/@area.0/@ownedModule.4"/>
+                <ownedProperty name="DI_WPMetallic" ObjectId="_gfNpELVGEeaY4dXP_3Igaw" type="//@site.0/@area.0/@ownedModule.3"/>
+                <ownedProperty name="DI_WPLight" ObjectId="_ki2oMLVHEeaY4dXP_3Igaw" type="//@site.0/@area.0/@ownedModule.2"/>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="Stack_ACT_Init" ObjectId="_VU5EhKaGEeaz3b70PfgmXg" Body="//Calling the operation(s)
+CASE Stack_ACT_Init.iState_internal OF
+	0:
+		//Operation 1 (serial)
+		//Start Operation 1
+		_separator.METH_MonostableCylinder_ACT_Retract(iStart := TRUE);
+
+		IF Stack_ACT_Init.abRes_trig[1] THEN
+		_separator.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+
+		//Finished all operation
+		Initialized := TRUE;
+		Stack_ACT_Init.iState := 15;
+		END_IF
+
+END_CASE
+
+Stack_ACT_Init.astrTemp[1] := _separator.pMonostableCylinder_ACT_Retract_strResult;" ownedGeneralOperation="//@site.0/@area.0/@ownedModule.0/@ownedGeneralOperation.1" is_implemented="true" available_for_user="true">
+                    <pre Body="TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+                <ownedGeneralOperation xsi:type="isa88:Operation" name="Stack_ACT_ProvideWP" ObjectId="_WD3qZKaGEeaz3b70PfgmXg" Body="//Calling the operation(s)
+CASE Stack_ACT_ProvideWP.iState_internal OF
+	0:
+		IF _DI_WPAvailable.bValue THEN
+			Stack_ACT_ProvideWP.iState := 15;
+		ELSE
+		Stack_ACT_ProvideWP.iState_internal := 5;
+		END_IF
+
+	5:
+		//Operation 1 (serial)
+		//Start Operation 1
+		_separator.METH_MonostableCylinder_ACT_Extend(iStart := TRUE);
+
+		IF Stack_ACT_ProvideWP.abRes_trig[1] THEN
+		_separator.METH_MonostableCylinder_ACT_Extend(iStart := FALSE);
+
+		//Next operation
+		Stack_ACT_ProvideWP.iState_internal := 10;
+		END_IF
+
+	10:
+		//Operation 2 (serial)
+		//Start Operation 2
+		_separator.METH_MonostableCylinder_ACT_Retract(iStart := TRUE);
+
+		IF Stack_ACT_ProvideWP.abRes_trig[2] THEN
+		_separator.METH_MonostableCylinder_ACT_Retract(iStart := FALSE);
+
+		//Finished all operation
+		Stack_ACT_ProvideWP.iState := 15;
+		END_IF
+
+END_CASE
+
+Stack_ACT_ProvideWP.astrTemp[1] := _separator.pMonostableCylinder_ACT_Extend_strResult;
+
+Stack_ACT_ProvideWP.astrTemp[2] := _separator.pMonostableCylinder_ACT_Retract_strResult;" ownedGeneralOperation="//@site.0/@area.0/@ownedModule.0/@ownedGeneralOperation.0 //@site.0/@area.0/@ownedModule.0/@ownedGeneralOperation.1" is_implemented="true" available_for_user="true" Abort_Routine="Initialized := FALSE;">
+                    <pre Body="Initialized = TRUE"/>
+                    <post Body="TRUE"/>
+                </ownedGeneralOperation>
+            </ownedModule>
+            <interface name="ITF_Operation" ObjectId="_bS3m1asQEeapZZsBaiwx5A">
+                <ITF_property name="bAbortOperation" ObjectId="_nQ6T4KsVEeakzqEsSgpD5g" Type="BOOL" Direction="INTERNAL"/>
+                <ITF_property name="iStart" ObjectId="_nzpNgKsVEeakzqEsSgpD5g" Type="INT" Direction="INTERNAL"/>
+                <ITF_property name="strID" ObjectId="_oqVk8KsVEeakzqEsSgpD5g" Type="STRING" Direction="INTERNAL"/>
+                <ITF_property name="strResult" ObjectId="_2r9FkKsVEeakzqEsSgpD5g" Type="STRING" Direction="INTERNAL"/>
+            </interface>
+            <interface name="ITF_Value_BOOL_IN" ObjectId="_1nUyFasQEeapZZsBaiwx5A">
+                <ITF_property name="bValue" ObjectId="_A0WR4KsWEeakzqEsSgpD5g" Type="BOOL" Direction="IN"/>
+            </interface>
+            <interface name="ITF_Value_BOOL_OUT" ObjectId="_dK03dbyqEeaCcNkKXjvrEg">
+                <ITF_property name="bValue" ObjectId="_jOhfQLyqEeaCcNkKXjvrEg" Type="BOOL" Direction="OUT"/>
+            </interface>
+            <interface name="ITF_Value_BOOL_INTERNAL" ObjectId="_2EOABdzBEeaV9N7YIQ-L-Q">
+                <ITF_property name="bValue" ObjectId="_6CDukNzBEeaV9N7YIQ-L-Q" Type="BOOL" Direction="INTERNAL"/>
+            </interface>
+            <interface name="ITF_Value_INT_IN" ObjectId="_tprfRbVGEeaY4dXP_3Igaw">
+                <ITF_property name="iValue" ObjectId="_CQ5a4LVHEeaY4dXP_3Igaw" Type="INT" Direction="IN"/>
+            </interface>
+            <interface name="ITF_Value_INT_OUT" ObjectId="_QWTplb1OEeaDi51DikwW9Q">
+                <ITF_property name="iValue" ObjectId="_amm0sL1OEeaDi51DikwW9Q" Type="INT" Direction="OUT"/>
+            </interface>
+            <interface name="ITF_Value_REAL_OUT" ObjectId="_cATUlbdFEeacdbrS6yRVwA">
+                <ITF_property name="fValue" ObjectId="_fTF7ALdFEeacdbrS6yRVwA" Type="REAL" Direction="OUT"/>
+            </interface>
+            <interface name="ITF_Value_REAL_IN" ObjectId="_Q7Hm1b1OEeaDi51DikwW9Q">
+                <ITF_property name="fValue" ObjectId="_W51oAL1OEeaDi51DikwW9Q" Type="REAL" Direction="IN"/>
+            </interface>
+            <interface name="ITF_Value_REAL_INTERNAL" ObjectId="_M-_SpdzCEeaV9N7YIQ-L-Q">
+                <ITF_property name="fValue" ObjectId="_s3O2kNzCEeaV9N7YIQ-L-Q" Type="REAL" Direction="INTERNAL"/>
+            </interface>
+        </area>
+        <area name="Demonstrators" ObjectId="_mP5dgOJlEeagb8sOM2ZXYQ">
+            <ownedModule xsi:type="isa88:ProcessCell" name="XPPU" ObjectId="_2pF5geJlEeagb8sOM2ZXYQ">
+                <ownedProperty name="LargeSortingConveyor" ObjectId="_B4ApAOJmEeagb8sOM2ZXYQ" type="//@site.0/@area.0/@ownedModule.27"/>
+                <ownedProperty name="Crane" ObjectId="_GCYXsOJmEeagb8sOM2ZXYQ" type="//@site.0/@area.0/@ownedModule.28"/>
+                <ownedProperty name="Stamp" ObjectId="_LR1fIOJmEeagb8sOM2ZXYQ" type="//@site.0/@area.0/@ownedModule.29"/>
+                <ownedProperty name="Stack" ObjectId="_MdidQOJmEeagb8sOM2ZXYQ" type="//@site.0/@area.0/@ownedModule.30"/>
+            </ownedModule>
+        </area>
+    </site>
+</isa88:Enterprise>
