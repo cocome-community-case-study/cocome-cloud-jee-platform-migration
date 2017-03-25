@@ -106,7 +106,7 @@ public interface IDevice {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/history/timestamp/{operationid}")
+	@Path("/history/timestamp/{timestamp}")
 	List<HistoryEntry> getHistoryByTimeStemp(@PathParam("timestamp") String timestamp);
 
 	/*** Operation Execution Methods ***/
