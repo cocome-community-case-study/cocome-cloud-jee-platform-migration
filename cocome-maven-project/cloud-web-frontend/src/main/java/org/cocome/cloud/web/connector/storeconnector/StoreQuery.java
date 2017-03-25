@@ -5,11 +5,8 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -23,7 +20,6 @@ import org.cocome.cloud.logic.stub.IStoreManagerService;
 import org.cocome.cloud.logic.stub.InvalidRollInRequestException_Exception;
 import org.cocome.cloud.logic.stub.NotBoundException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.logic.stub.ProductOutOfStockException_Exception;
 import org.cocome.cloud.logic.stub.UpdateException_Exception;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.cloud.web.data.storedata.OrderItem;
@@ -33,7 +29,6 @@ import org.cocome.tradingsystem.inventory.application.store.ComplexOrderEntryTO;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndStockItemTO;
-import org.cocome.tradingsystem.inventory.application.store.SaleTO;
 
 /**
  * Implements the store query interface to retrieve store related information.
