@@ -43,6 +43,8 @@ public class EnterpriseManagerStartup {
 			
 			applicationHelper.registerComponent(Names.getLoginManagerRegistryName(defaultEnterpriseIndex),
 					loginManagerWSDL, false);
+			
+			LOG.error("########################################################################" + enterpriseServiceWSDL);
 		} catch (URISyntaxException e) {
 			LOG.error("Error registering components: " + e.getMessage());
 		}

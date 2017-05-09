@@ -4,10 +4,12 @@ import java.util.Collection;
 
 import javax.validation.constraints.NotNull;
 
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+
 public interface IStorePersistence {
-	public String updateStore(@NotNull StoreViewData store);
+	public String updateStore(@NotNull StoreViewData store) throws NotInDatabaseException_Exception;
 	
-	public String createStore(long enterpriseID, @NotNull String name, @NotNull String location);
+	public String createStore(long enterpriseID, @NotNull String name, @NotNull String location) throws NotInDatabaseException_Exception;
 	
 	public boolean updateStockItem(@NotNull ProductWrapper stockItem);
 	

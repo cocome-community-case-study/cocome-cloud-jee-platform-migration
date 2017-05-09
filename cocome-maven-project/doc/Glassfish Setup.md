@@ -22,6 +22,8 @@ This will usually create a domain named 'domain1'. We assume that you
 installed Glassfish in a directory represented by the variable
 ${GLASSFISH}, which we use in the remaineder of this document to refer 
 to the installation directory.
+In case you follow this installation, you can delete 'domain1' by
+simply removing the folder domain1 in glassfish/domains
 
 Note: in Unix/Linux path names use / and in Windows \. This may require
 escaping in certain places, i.e., \\ for a \.
@@ -45,13 +47,17 @@ physical machines.
 In detail these four or five instances are named:
 - web
 - store
-- adapter
+- adapter (this is for the jee-service-adapter project)
 - enterprise
 - registry (this is optional and can be installed along side the
   store component)
 
+In case you use one Glassfish installaion (which is recommended on one physical machine),
+you can name then as listed above. Proceed with "Creating domains with...".
 In case you choose separate Glassfish installations you still may name
 the individual domains as listed above or call them simply `cocome`.
+Anyway, the settings.xml of CoCoME, the service-adapter or the webshop need to match the
+domain names you have choosen.
 Either way you have to manage domains. Therefore, we provide a quick
 introduction for domain management.
 
@@ -82,7 +88,7 @@ If you do not see 'servers' in your Eclipse perspective got to
 
 `bin/asadmin create-domain --portbase 8000 web`
 `bin/asadmin create-domain --portbase 8100 store`
-`bin/asadmin create-domain --portbase 8200 adapter`
+`bin/asadmin create-domain --portbase 8200 adapter`  (this is for the service-adapter)
 `bin/asadmin create-domain --portbase 8300 enterprise`
 `bin/asadmin create-domain --portbase 8400 registry` (registry is optional)
 

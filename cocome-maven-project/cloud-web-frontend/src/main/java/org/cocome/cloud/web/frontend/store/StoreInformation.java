@@ -186,7 +186,7 @@ public class StoreInformation implements IStoreInformation, Serializable {
 	}
 
 	@Override
-	public void queryProductsWithStockItems() {
+	public void queryProductsWithStockItems() throws NotInDatabaseException_Exception {
 		updateStockItems();
 		for (ProductWrapper product : enterpriseDAO.getAllProducts()) {
 			if (!productsWithStockItems.containsKey(product.getBarcode())) {

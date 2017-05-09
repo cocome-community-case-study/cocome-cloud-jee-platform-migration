@@ -33,7 +33,7 @@ public interface IStoreInformation {
 	
 	public void queryStockItems();
 	
-	public void queryProductsWithStockItems();
+	public void queryProductsWithStockItems() throws NotInDatabaseException_Exception;
 	
 	public List<ProductWrapper> getStockReport(long storeID);
 	

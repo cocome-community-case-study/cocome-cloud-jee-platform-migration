@@ -23,6 +23,13 @@ for `cocome-maven-project` and `cocome-cloud-jee-service-adapter`:
 - admin user name (name of the admin user)
 - admin password (password of the admin user)
 
+## Important notice
+- In each case you need to start the glassfish domains before you can actually deploy 
+  something on them. Therefore, start each domain in the following order: start database, 
+  start registry,start adapter, start the rest (web, store, enterprise).
+- Whenever you want to start the domains, do it in this order.
+
+
 ## Maven based Deployment
 
 As the deployment is now performed with the cargo maven plug-in, the
@@ -44,7 +51,7 @@ On command line you may deploy CoCoME or one of the above sub-projects as follow
   `mvn -s settings.xml install`
   
 - To Undeploy CoCoME or a sub-project enter:
-  `mvn -s settings.xml cleant post-clean`
+  `mvn -s settings.xml clean post-clean`
    
 ### Eclipse Deployment
 To deploy CoCoME or one of the above sub-projects from within Eclipse, do the following:

@@ -35,6 +35,7 @@
 
 - Re-iterate this process with the root directory of the 
   `cocome-cloud-jee-service-adapter` repository.
+  DO NOT start building CoCoME until you finished this process for the service-adapter!
 
 ## Configure Project
 
@@ -62,10 +63,16 @@
   
 - In the `service-adapter` project, proceed in a similar way (You should to add a Glassfish domain for this one). Therefore
   read the [README](https://github.com/cocome-community-case-study/cocome-cloud-jee-service-adapter) in the cocome-cloud-jee-service-adapter project.
+<<<<<<< 0af5575f29912bbf758ba19a66bf9dadc3104756
+- Make sure you refer to the same domain for `service adapter` in this setting file and in the setting file of the service-adapter.  
+=======
+  Notice: the domain 'adapter' you propably created during glassfish setup is supposed to be the domain for the service-adapter project.
+>>>>>>> 5fc8f1dce60fadb70749b4fc50e5265114c9bf84
   
 ## Building CoCoME
  
 Don't forget to start the Glassfish servers. Go to 'Servers'- perspective -> Right-click -> Start.
+Very important: Whenever you start the glassfish domains, you have to do this in the following order: start database, start registry, start adapter, start the rest.
   
 On command line you may build CoCoME as follows:
 - Enter the `maven-cocome-project` folder

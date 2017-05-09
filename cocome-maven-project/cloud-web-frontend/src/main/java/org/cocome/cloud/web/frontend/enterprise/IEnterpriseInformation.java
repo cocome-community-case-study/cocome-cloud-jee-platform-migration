@@ -15,12 +15,12 @@ import org.cocome.cloud.web.data.storedata.StoreViewData;
  * @author Robert Heinrich
  */
 public interface IEnterpriseInformation {
-	public Collection<EnterpriseViewData> getEnterprises();
+	public Collection<EnterpriseViewData> getEnterprises() throws NotInDatabaseException_Exception;
 	public Collection<StoreViewData> getStores() throws NotInDatabaseException_Exception;
 	
 	public long getActiveEnterpriseID();
 	public void setActiveEnterpriseID(long enterpriseID);
-	public EnterpriseViewData getActiveEnterprise();
+	public EnterpriseViewData getActiveEnterprise() throws NotInDatabaseException_Exception;
 	public void setActiveEnterprise(@NotNull EnterpriseViewData enterprise);
 	public String submitActiveEnterprise();
 	public boolean isEnterpriseSubmitted();
