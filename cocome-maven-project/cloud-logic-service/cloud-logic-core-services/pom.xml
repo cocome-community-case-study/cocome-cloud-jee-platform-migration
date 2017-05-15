@@ -213,6 +213,7 @@
 								-Djavax.xml.accessExternalSchema=all -Djavax.xml.accessExternalDTD=all
 							</additionalJvmArgs>
 							<defaultOptions>
+								<faultSerialVersionUID>FQCN</faultSerialVersionUID>
 								<extraargs>
 									<extraarg>-xjc-extension</extraarg>
 									<extraarg>-xjc-verbose</extraarg>
