@@ -1,7 +1,5 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -12,8 +10,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
+import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
 import org.cocome.tradingsystem.remote.access.connection.QueryParameterEncoder;
 import org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper;

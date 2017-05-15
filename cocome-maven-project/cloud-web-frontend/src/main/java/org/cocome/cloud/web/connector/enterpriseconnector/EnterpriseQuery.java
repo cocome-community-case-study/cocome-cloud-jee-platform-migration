@@ -12,15 +12,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
-import javax.xml.ws.WebServiceRef;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
 import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
-import org.cocome.cloud.logic.stub.IStoreManager;
-import org.cocome.cloud.logic.stub.IStoreManagerService;
 import org.cocome.cloud.logic.stub.NotBoundException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.stub.UpdateException_Exception;

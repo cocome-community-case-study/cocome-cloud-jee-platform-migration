@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.usermanager.CredentialType;

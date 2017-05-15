@@ -3,9 +3,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
-import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
-import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 public interface IEnterpriseDataFactory {

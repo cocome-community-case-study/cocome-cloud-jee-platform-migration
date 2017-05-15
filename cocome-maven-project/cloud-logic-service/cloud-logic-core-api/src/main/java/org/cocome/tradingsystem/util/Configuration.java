@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;

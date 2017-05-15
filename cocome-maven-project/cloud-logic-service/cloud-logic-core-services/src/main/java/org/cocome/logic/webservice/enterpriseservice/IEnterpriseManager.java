@@ -8,14 +8,12 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchema;
 
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
-import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 /**

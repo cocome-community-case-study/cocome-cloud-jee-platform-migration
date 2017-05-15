@@ -1,8 +1,6 @@
 package org.cocome.cloud.web.data.storedata;
 
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderEntryTO;
-import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndStockItemTO;
-import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 
 public class OrderItem {
 	private ProductWrapper product;

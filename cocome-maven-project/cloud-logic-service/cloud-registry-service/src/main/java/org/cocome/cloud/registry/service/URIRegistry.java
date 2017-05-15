@@ -18,16 +18,13 @@ package org.cocome.cloud.registry.service;
 
 import java.net.URI;
 import java.rmi.NotBoundException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.ejb.Startup;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 
 import org.apache.log4j.Logger;
 

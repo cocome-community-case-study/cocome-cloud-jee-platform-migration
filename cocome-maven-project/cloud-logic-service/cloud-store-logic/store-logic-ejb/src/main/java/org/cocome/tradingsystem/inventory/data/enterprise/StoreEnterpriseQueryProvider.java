@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.inject.Inject;

@@ -2,7 +2,7 @@ package org.cocome.cloud.registry.service;
 
 import java.net.URI;
 import java.rmi.NotBoundException;
-import java.util.Map;
+import java.rmi.RemoteException;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -43,7 +43,7 @@ public interface IRegistry<T> {
 	 * application-wide RMI registry.
 	 * 
 	 * @param <T>
-	 *            generic type of the remote reference; must extend {@link Remote}
+	 *            generic type of the remote reference
 	 * @param name
 	 *            the name for the remote reference to look up
 	 * @return

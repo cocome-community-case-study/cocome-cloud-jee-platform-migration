@@ -1,8 +1,7 @@
 package org.cocome.tradingsystem.util.mvc;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 

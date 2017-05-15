@@ -23,7 +23,6 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 
 /**

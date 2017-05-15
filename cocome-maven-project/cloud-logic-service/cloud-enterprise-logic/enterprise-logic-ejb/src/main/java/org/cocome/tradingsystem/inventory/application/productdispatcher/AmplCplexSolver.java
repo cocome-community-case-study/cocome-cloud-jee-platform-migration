@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.ejb.EJBException;
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -38,10 +37,10 @@ import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
+import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**

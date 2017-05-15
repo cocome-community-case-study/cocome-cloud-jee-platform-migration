@@ -1,7 +1,5 @@
 package org.cocome.tradingsystem.inventory.application.store;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.ws.WebFault;
 
 import org.cocome.tradingsystem.util.exception.BaseException;

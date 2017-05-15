@@ -36,12 +36,11 @@ import org.cocome.cloud.registry.service.Names;
 import org.cocome.tradingsystem.inventory.application.store.ProductAmountTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductMovementTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreTO;
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
+import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.java.Maps;
 

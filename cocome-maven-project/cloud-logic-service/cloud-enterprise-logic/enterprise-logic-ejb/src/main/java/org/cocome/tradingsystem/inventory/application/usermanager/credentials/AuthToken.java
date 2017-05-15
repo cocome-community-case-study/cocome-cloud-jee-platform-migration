@@ -2,7 +2,6 @@ package org.cocome.tradingsystem.inventory.application.usermanager.credentials;
 
 import org.cocome.tradingsystem.inventory.application.usermanager.CredentialType;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
-import org.cocome.tradingsystem.util.qualifier.Credential;
 
 /**
  * Implements an authentication token credential that can be used instead of 

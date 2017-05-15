@@ -18,8 +18,6 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
-import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
 import org.cocome.cloud.web.data.enterprisedata.IEnterpriseDAO;
 import org.cocome.cloud.web.data.storedata.IStoreDAO;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;

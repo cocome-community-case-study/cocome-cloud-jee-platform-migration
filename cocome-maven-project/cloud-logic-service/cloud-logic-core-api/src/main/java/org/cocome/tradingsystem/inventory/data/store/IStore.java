@@ -2,8 +2,6 @@ package org.cocome.tradingsystem.inventory.data.store;
 
 import java.util.Collection;
 
-import javax.annotation.PostConstruct;
-
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 

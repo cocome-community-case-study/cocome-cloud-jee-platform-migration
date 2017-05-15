@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.ejb.CreateException;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebService;

@@ -18,7 +18,6 @@ import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
-import org.cocome.tradingsystem.remote.access.connection.CSVBackendConnection;
 import org.cocome.tradingsystem.remote.access.connection.IPersistenceConnection;
 
 @Stateless

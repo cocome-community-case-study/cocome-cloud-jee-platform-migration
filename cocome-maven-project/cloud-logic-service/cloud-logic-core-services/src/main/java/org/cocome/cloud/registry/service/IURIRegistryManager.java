@@ -2,9 +2,6 @@ package org.cocome.cloud.registry.service;
 
 import java.net.URI;
 import java.rmi.NotBoundException;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.jws.WebMethod;

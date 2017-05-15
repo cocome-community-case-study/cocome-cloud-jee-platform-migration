@@ -1,20 +1,12 @@
 package org.cocome.tradingsystem.inventory.data.usermanager;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.io.Serializable;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
-import javax.persistence.Inheritance;
 
 import org.cocome.tradingsystem.inventory.data.store.IStore;
-
-import java.io.Serializable;
 
 /**
  * Represents a customer of the pickup shop.

@@ -4,19 +4,13 @@ import java.util.Collection;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 import org.apache.log4j.Logger;
-import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
 import org.cocome.tradingsystem.remote.access.connection.QueryParameterEncoder;
 import org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-import org.cocome.tradingsystem.util.qualifier.Credential;
 
 /**
  * Provides the functionality to query users from the service adapter.

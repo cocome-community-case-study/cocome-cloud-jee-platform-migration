@@ -10,7 +10,6 @@ import javax.xml.bind.annotation.XmlElement;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
-import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 
 @WebService(targetNamespace = "http://cashbox.cashdesk.cashdeskline.webservice.logic.cocome.org/")
 public interface ICashBox {

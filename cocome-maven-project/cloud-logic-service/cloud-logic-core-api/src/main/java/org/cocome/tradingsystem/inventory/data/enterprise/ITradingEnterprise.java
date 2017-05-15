@@ -2,9 +2,6 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import java.util.Collection;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.Basic;
-
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 
 public interface ITradingEnterprise {
