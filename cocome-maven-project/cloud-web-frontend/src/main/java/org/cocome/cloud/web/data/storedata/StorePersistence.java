@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
-import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
 import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
@@ -19,11 +18,10 @@ import org.cocome.cloud.web.frontend.util.Messages;
 @Named
 @ApplicationScoped
 public class StorePersistence implements IStorePersistence {
-	private static final Logger LOG = Logger.getLogger(StorePersistence.class);
 
 	@Inject
 	IEnterpriseQuery enterpriseQuery;
-	
+
 	@Inject
 	IStoreQuery storeQuery;
 
@@ -54,7 +52,7 @@ public class StorePersistence implements IStorePersistence {
 
 		return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
 	}
-	
+
 	public boolean updateStockItem(@NotNull ProductWrapper stockItem) {
 		return storeQuery.updateStockItem(stockItem.getOriginStore(), stockItem);
 	}
