@@ -123,6 +123,7 @@ public class Lists {
 	 * @return
 	 *         new instance of ArrayList &gt;E&lt;
 	 */
+	@SafeVarargs
 	public static <E> List<E> newArrayList(
 			final Collection<E>... collections
 			) {
@@ -179,6 +180,7 @@ public class Lists {
 	 * @return
 	 *         new instance of LinkedList &gt;E&lt;
 	 */
+	@SafeVarargs
 	public static <E> LinkedList<E> newLinkedList(final E... items) {
 		return new LinkedList<E>(Arrays.asList(items));
 	}

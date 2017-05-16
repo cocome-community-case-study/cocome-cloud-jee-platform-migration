@@ -88,6 +88,7 @@ public class Sets {
 	 * @return
 	 *         new instance of EnumSet &gt;E&lt;
 	 */
+	@SafeVarargs
 	public static <E extends Enum<E>> Set<E> newEnumSet(final E... elements) {
 		//
 		// The following cast is OK, because the method will only accept enum

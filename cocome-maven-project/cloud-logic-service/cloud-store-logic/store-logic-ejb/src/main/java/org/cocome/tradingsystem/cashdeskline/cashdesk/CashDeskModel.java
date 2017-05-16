@@ -682,6 +682,7 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
 	 *            number of states
 	 * @return return an enum value set
 	 */
+	@SafeVarargs
 	private static <E extends Enum<E>> Set<E> setOfStates(final E... elements) {
 		return Collections.unmodifiableSet(Sets.newEnumSet(elements));
 	}

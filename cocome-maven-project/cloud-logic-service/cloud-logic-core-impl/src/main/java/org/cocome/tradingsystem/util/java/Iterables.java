@@ -39,7 +39,8 @@ public class Iterables {
 		// pure static class - not to be instantiated
 	}
 
-	/* ***********************************************************************
+	/*
+	 * ***********************************************************************
 	 * PUBLIC STATIC FIELDS
 	 * **********************************************************************
 	 */
@@ -51,19 +52,8 @@ public class Iterables {
 		}
 	}
 
-	public static final Iterator<?> EMPTY_ITERATOR = new ImmutableIterator() {
-		@Override
-		public boolean hasNext() {
-			return false;
-		}
-
-		@Override
-		public Object next() {
-			throw new NoSuchElementException();
-		}
-	};
-
-	/* ***********************************************************************
+	/*
+	 * ***********************************************************************
 	 * PUBLIC INTERFACEs
 	 * **********************************************************************
 	 */
@@ -81,7 +71,7 @@ public class Iterables {
 		 *            element to check, may be {@code null}
 		 * 
 		 * @return
-		 *         {@code true} if the element should be accepted, {@code false} otherwise
+		 * 		{@code true} if the element should be accepted, {@code false} otherwise
 		 */
 		boolean accept(E element);
 	}
@@ -100,7 +90,8 @@ public class Iterables {
 		void apply(E element);
 	}
 
-	/* ***********************************************************************
+	/*
+	 * ***********************************************************************
 	 * PUBLIC METHODS
 	 * **********************************************************************
 	 */
@@ -113,7 +104,7 @@ public class Iterables {
 	 * @param array
 	 *            the array to create iterable for
 	 * @return
-	 *         {@link Iterable} encapsulating the given array.
+	 * 		{@link Iterable} encapsulating the given array.
 	 */
 	public static <E> Iterable<E> iterable(final E[] array) {
 		return new Iterable<E>() {
@@ -134,7 +125,7 @@ public class Iterables {
 	 * @param array
 	 *            the array to create iterable for
 	 * @return
-	 *         {@link Iterable} encapsulating the given array in random fashion.
+	 * 		{@link Iterable} encapsulating the given array in random fashion.
 	 */
 	public static <E> Iterable<E> randomIterable(final E[] array) {
 		return Iterables.__randomIterable(Iterables.__randomAccessible(array));
@@ -150,7 +141,7 @@ public class Iterables {
 	 * @param array
 	 *            the array to create iterable for
 	 * @return
-	 *         Sampling {@link Iterable} encapsulating the given array.
+	 * 		Sampling {@link Iterable} encapsulating the given array.
 	 */
 	public static <E> Iterable<E> samplingIterable(final E[] array) {
 		return Iterables.__samplingIterable(Iterables.__randomAccessible(array));
@@ -166,7 +157,7 @@ public class Iterables {
 	 * @param collection
 	 *            the collection to create the iterable for
 	 * @return
-	 *         Random {@link Iterable} encapsulating the given collection.
+	 * 		Random {@link Iterable} encapsulating the given collection.
 	 */
 	public static <E> Iterable<E> randomIterable(final Collection<E> collection) {
 		return Iterables.__randomIterable(Iterables.__randomAccessible(Lists.newArrayList(collection)));
@@ -182,7 +173,7 @@ public class Iterables {
 	 * @param collection
 	 *            the collection to create the iterable for
 	 * @return
-	 *         Sampling {@link Iterable} encapsulating the given collection.
+	 * 		Sampling {@link Iterable} encapsulating the given collection.
 	 */
 	public static <E> Iterable<E> samplingIterable(final Collection<E> collection) {
 		return Iterables.__samplingIterable(Iterables.__randomAccessible(Lists.newArrayList(collection)));
@@ -196,7 +187,7 @@ public class Iterables {
 	 * @param array
 	 *            the source array to create the iterator for
 	 * @return
-	 *         {@link Iterator} encapsulating the given array
+	 * 		{@link Iterator} encapsulating the given array
 	 */
 	public static <E> Iterator<E> iterator(final E[] array) {
 		return new ArrayIterator<E>(array);
@@ -211,7 +202,7 @@ public class Iterables {
 	 * @param array
 	 *            the source array to create the iterator for
 	 * @return
-	 *         {@link Iterator} encapsulating the given array.
+	 * 		{@link Iterator} encapsulating the given array.
 	 */
 	public static <E> Iterator<E> randomIterator(final E[] array) {
 		return new RandomIterator<E>(Iterables.__randomAccessible(array));
@@ -226,7 +217,7 @@ public class Iterables {
 	 * @param array
 	 *            the source array to create the iterator for
 	 * @return
-	 *         Sampling {@link Iterator} encapsulating the given array.
+	 * 		Sampling {@link Iterator} encapsulating the given array.
 	 */
 	public static <E> Iterator<E> samplingIterator(final E[] array) {
 		return new RandomSampler<E>(Iterables.__randomAccessible(array));
@@ -241,7 +232,7 @@ public class Iterables {
 	 * @param collection
 	 *            the source collection to create the iterator for
 	 * @return
-	 *         {@link Iterator} encapsulating the given collection.
+	 * 		{@link Iterator} encapsulating the given collection.
 	 */
 	public static <E> Iterator<E> randomIterator(final Collection<E> collection) {
 		return new RandomIterator<E>(Iterables.__randomAccessible(Lists.newArrayList(collection)));
@@ -256,7 +247,7 @@ public class Iterables {
 	 * @param collection
 	 *            the source collection to create the iterator for
 	 * @return
-	 *         Sampling {@link Iterator} encapsulating the given collection.
+	 * 		Sampling {@link Iterator} encapsulating the given collection.
 	 */
 	public static <E> Iterator<E> samplingIterator(final Collection<E> collection) {
 		return new RandomSampler<E>(Iterables.__randomAccessible(Lists.newArrayList(collection)));
@@ -271,7 +262,7 @@ public class Iterables {
 	 * @param iterable
 	 *            the source iterable to create the iterator for
 	 * @return
-	 *         {@link Iterator} encapsulating the given iterable.
+	 * 		{@link Iterator} encapsulating the given iterable.
 	 */
 	public static <E> Iterator<E> randomIterator(final Iterable<E> iterable) {
 		return new RandomIterator<E>(Iterables.__randomAccessible(Lists.newArrayList(iterable)));
@@ -286,7 +277,7 @@ public class Iterables {
 	 * @param iterable
 	 *            the source iterable to create the iterator for
 	 * @return
-	 *         {@link Iterator} encapsulating the given iterable.
+	 * 		{@link Iterator} encapsulating the given iterable.
 	 */
 	public static <E> Iterator<E> samplingIterator(final Iterable<E> iterable) {
 		return new RandomSampler<E>(Iterables.__randomAccessible(Lists.newArrayList(iterable)));
@@ -301,7 +292,17 @@ public class Iterables {
 	 * @return Empty iterator.
 	 */
 	public static <E> Iterator<E> emptyIterator() {
-		return (Iterator<E>) EMPTY_ITERATOR;
+		return new ImmutableIterator<E>() {
+			@Override
+			public boolean hasNext() {
+				return false;
+			}
+
+			@Override
+			public E next() {
+				throw new NoSuchElementException();
+			}
+		};
 	}
 
 	/**
@@ -316,11 +317,10 @@ public class Iterables {
 	 * @param filter
 	 *            object encapsulating the filtering method
 	 * @return
-	 *         filtering {@link Iterable} returning elements from the source array
+	 * 		filtering {@link Iterable} returning elements from the source array
 	 */
 	public static <E> Iterable<E> filter(
-			final E[] array, final Filter<E> filter
-			) {
+			final E[] array, final Filter<E> filter) {
 		return new Iterable<E>() {
 			@Override
 			public Iterator<E> iterator() {
@@ -341,11 +341,10 @@ public class Iterables {
 	 * @param filter
 	 *            object encapsulating the filtering method
 	 * @return
-	 *         filtering {@link Iterable} returning elements from the source iterable
+	 * 		filtering {@link Iterable} returning elements from the source iterable
 	 */
 	public static <E> Iterable<E> filter(
-			final Iterable<E> iterable, final Filter<E> filter
-			) {
+			final Iterable<E> iterable, final Filter<E> filter) {
 		return new Iterable<E>() {
 			@Override
 			public Iterator<E> iterator() {
@@ -367,8 +366,7 @@ public class Iterables {
 	 * @see Lambda
 	 */
 	public static <E> void apply(
-			final E[] array, final Lambda<E> lambda
-			) {
+			final E[] array, final Lambda<E> lambda) {
 		for (final E element : array) {
 			lambda.apply(element);
 		}
@@ -387,14 +385,14 @@ public class Iterables {
 	 * @see Lambda
 	 */
 	public static <E> void apply(
-			final Iterable<E> iterable, final Lambda<E> lambda
-			) {
+			final Iterable<E> iterable, final Lambda<E> lambda) {
 		for (final E element : iterable) {
 			lambda.apply(element);
 		}
 	}
 
-	/* ***********************************************************************
+	/*
+	 * ***********************************************************************
 	 * PRIVATE STATIC CLASS: FilteringIterator
 	 * **********************************************************************
 	 */
@@ -455,7 +453,8 @@ public class Iterables {
 		}
 	}
 
-	/* *******************************************************************
+	/*
+	 * *******************************************************************
 	 * PRIVATE STATIC CLASS: ArrayIterator
 	 * ******************************************************************
 	 */
@@ -501,7 +500,8 @@ public class Iterables {
 		}
 	}
 
-	/* *******************************************************************
+	/*
+	 * *******************************************************************
 	 * PRIVATE STATIC CLASS: RandomAccessible
 	 * ******************************************************************
 	 */
@@ -537,8 +537,7 @@ public class Iterables {
 
 	//
 
-	public static <E, T extends List<E>, RandomAccess>
-			RandomAccessible<E> __randomAccessible(final T list) {
+	public static <E, T extends List<E>, RandomAccess> RandomAccessible<E> __randomAccessible(final T list) {
 		return new RandomAccessible<E>() {
 			@Override
 			public E get(final int index) {
@@ -557,14 +556,14 @@ public class Iterables {
 		};
 	}
 
-	/* *******************************************************************
+	/*
+	 * *******************************************************************
 	 * PRIVATE STATIC CLASS: RandomSampler
 	 * ******************************************************************
 	 */
 
 	private static <E> Iterable<E> __samplingIterable(
-			final RandomAccessible<E> elements
-			) {
+			final RandomAccessible<E> elements) {
 		return new Iterable<E>() {
 			@Override
 			public Iterator<E> iterator() {
@@ -615,14 +614,14 @@ public class Iterables {
 
 	}
 
-	/* *******************************************************************
+	/*
+	 * *******************************************************************
 	 * PRIVATE STATIC CLASS: RandomIterator
 	 * ******************************************************************
 	 */
 
 	private static <E> Iterable<E> __randomIterable(
-			final RandomAccessible<E> elements
-			) {
+			final RandomAccessible<E> elements) {
 		return new Iterable<E>() {
 			@Override
 			public Iterator<E> iterator() {
