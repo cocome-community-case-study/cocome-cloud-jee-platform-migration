@@ -57,8 +57,6 @@ import org.cocome.tradingsystem.util.java.Maps;
 @Stateless
 public class ProductDispatcherServer implements IProductDispatcherLocal {
 
-	private static long serialVersionUID = -4570575471689265815L;
-
 	private static Logger LOG =
 			Logger.getLogger(ProductDispatcherServer.class);
 
