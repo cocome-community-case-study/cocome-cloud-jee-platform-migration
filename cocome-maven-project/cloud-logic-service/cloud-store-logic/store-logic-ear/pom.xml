@@ -56,13 +56,32 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<modules>
+						<ejbModule>
+							<groupId>org.cocome</groupId>
+							<artifactId>store-logic-ejb</artifactId>
+							<unpack>true</unpack>
+						</ejbModule>
+						<ejbModule>
+							<groupId>org.cocome</groupId>
+							<artifactId>cloud-logic-core-impl</artifactId>
+							<unpack>true</unpack>
+						</ejbModule>
+						<webModule>
+							<groupId>org.cocome</groupId>
+							<artifactId>store-logic-webservice</artifactId>
+							<unpack>true</unpack>
+						</webModule>
+					</modules>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>
 				<artifactId>cargo-maven2-plugin</artifactId>
 				<version>1.4.9</version>
 				<configuration>
-					<wait>true</wait>
+					<!-- <wait>true</wait> -->
 					<container>
 						<containerId>glassfish4x</containerId>
 						<type>remote</type>
