@@ -83,9 +83,6 @@ public interface IEnterpriseQuery {
 	 * @param enterpriseID
 	 *    		the unique identifier of a TradingEnterprise entity
 	 *            
-	 * @param storeID
-	 * 			the unique identifier of the Store entity
-	 * 
 	 * @return A list of stores with the given name or an empty list, if none was found.
 	 */
 	public Collection<IStore> queryStoreByName(

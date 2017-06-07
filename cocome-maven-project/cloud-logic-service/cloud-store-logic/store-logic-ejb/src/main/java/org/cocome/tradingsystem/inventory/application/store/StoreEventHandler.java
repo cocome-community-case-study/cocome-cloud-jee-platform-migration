@@ -24,7 +24,7 @@ import org.cocome.tradingsystem.cashdeskline.events.AccountSaleEvent;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 /**
- * Store server event handler. Handles events supported by the store inventory
+ * Store server event dao. Handles events supported by the store inventory
  * application.
  * 
  * @author Lubomir Bulej
@@ -38,7 +38,7 @@ public class StoreEventHandler
 
 
 	//
-	// Event handler methods
+	// Event dao methods
 	//
 
 	/**
