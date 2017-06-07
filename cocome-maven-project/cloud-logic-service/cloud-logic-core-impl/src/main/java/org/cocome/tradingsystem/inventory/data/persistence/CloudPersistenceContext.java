@@ -89,7 +89,7 @@ public class CloudPersistenceContext implements IPersistenceContext {
 	public void createEntity(ITradingEnterprise enterprise) throws CreateException {
 		String content = ServiceAdapterEntityConverter.getCreateEnterpriseContent(enterprise);
 		try {
-			postData.sendCreateQuery("enterprise", ServiceAdapterHeaders.ENTERPRISE_CREATE_HEADER, content);
+			postData.sendCreateQuery("TradingEnterprise", ServiceAdapterHeaders.ENTERPRISE_CREATE_HEADER, content);
 		} catch (IOException e) {
 			LOG.error("Could not execute post because of an IOException: " + e.getMessage());
 			throw new CreateException("Could not create entity! " + e.getMessage());
@@ -120,7 +120,7 @@ public class CloudPersistenceContext implements IPersistenceContext {
 		String content = ServiceAdapterEntityConverter.getUpdateEnterpriseContent(enterprise);
 		
 		try {
-			postData.sendUpdateQuery("Enterprise", ServiceAdapterHeaders.ENTERPRISE_UPDATE_HEADER, content);
+			postData.sendUpdateQuery("TradingEnterprise", ServiceAdapterHeaders.ENTERPRISE_UPDATE_HEADER, content);
 		} catch (IOException e) {
 			// TODO perhaps throw this exception to caller?
 			LOG.error("Could not execute post because of an IOException: " + e.getMessage());
