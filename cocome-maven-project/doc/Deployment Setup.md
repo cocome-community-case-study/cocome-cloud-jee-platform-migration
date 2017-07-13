@@ -14,14 +14,15 @@ multiple domains with server, all deployable containers can be put on
 one server each in its own domain. However in this document, we use
 five different nodes with one Glassfish server.
 
-For each part, the following parameters are relevant and are set in the settings.xml
+For each part, the following parameters are relevant and are set in the **settings.xml**
 for `cocome-maven-project` and `cocome-cloud-jee-service-adapter`:
-- ip address (and hostname)
-- http port (port used by the services in a deployment)
-- admin port (port used by the admin console)
-- domain (Glassfish domain)
-- admin user name (name of the admin user)
-- admin password (password of the admin user)
+
+* host (usually "localhost", can be ip adress when you deployed parts of cocome on a different machine)
+* http port (port used by the services in a deployment; portbase + 80)
+* admin port (port used by the admin console; portbase + 48)
+* domain (Glassfish domain, ex.:  registry)
+* admin user name (name of the admin user; usually: admin)
+* admin password (password of the admin user; usually no password )
 
 ## Important notice
 - In each case you need to start the glassfish domains before you can actually deploy 
@@ -33,20 +34,21 @@ for `cocome-maven-project` and `cocome-cloud-jee-service-adapter`:
 ## Maven based Deployment
 
 As the deployment is now performed with the cargo maven plug-in, the
-specification of a password file is no longer an option and a local
-Glassfish installation is not necessary. Instead the password field in the 
+specification of a password file is no longer an option. Instead the password field in the 
 settings.xml can be left empty.
 
-You can either deploy all parts of CoCoME in one go, or each part separately.
+You can either deploy all parts of CoCoME in one go(which is recommended!), or each part separately.
 To deploy CoCoME as a whole, execute the following commands in the `cocome-maven-project` folder.
 
 To deploy one of the sub-projects, execute the commands in its corresponding folder: 
+
  - `cloud-web-frontend` for the frontend part
  - `enterprise-logic-ear`, `store-logic-ear` for the enterprise and store logic parts 
  - `cloud-registry-service` for the registry.
 
 ### Command Line Deployment
 On command line you may deploy CoCoME or one of the above sub-projects as follows:
+
 - Enter the project folder to deploy CoCoME and run
   `mvn -s settings.xml install`
   
@@ -55,6 +57,7 @@ On command line you may deploy CoCoME or one of the above sub-projects as follow
    
 ### Eclipse Deployment
 To deploy CoCoME or one of the above sub-projects from within Eclipse, do the following:
+
 - Right-click on cocome-maven-project -> Run As -> Build...
 - Set the following values:
  - Goals: install
@@ -62,6 +65,7 @@ To deploy CoCoME or one of the above sub-projects from within Eclipse, do the fo
  - User Settings:  Use your settings.xml from the actual project
  
 To undeploy CoCoME or a sub-project:
+
 - Right-click on cocome-maven-project -> Run As -> Build...
 - Set the following values:
  - Goals: clean post-clean
