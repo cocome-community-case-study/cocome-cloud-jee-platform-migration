@@ -28,7 +28,17 @@
 				<logic.store.user>admin</logic.store.user>
 				<logic.store.password>admin</logic.store.password>
 				<logic.store.baseDir />
-				
+
+				<!-- plant node deployment configuration -->
+                <logic.plant.protocol>http</logic.plant.protocol>
+                <logic.plant.domain>cocome</logic.plant.domain>
+                <logic.plant.host>192.168.48.236</logic.plant.host>
+                <logic.plant.httpPort>8080</logic.plant.httpPort>
+                <logic.plant.adminPort>4848</logic.plant.adminPort>
+                <logic.plant.user>admin</logic.plant.user>
+                <logic.plant.password>admin</logic.plant.password>
+                <logic.plant.baseDir />
+
 				<logic.stubs.package>org.cocome.cloud.logic.stub</logic.stubs.package>
 		
 				<!--  enterprise node deployment configuration -->

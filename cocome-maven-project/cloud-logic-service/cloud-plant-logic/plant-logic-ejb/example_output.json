@@ -1,0 +1,330 @@
+[
+  {
+    "operationId": "_1_2_1_P2_O1",
+    "executionId": "015160e2-c9c1-4932-8dde-60f16c216830",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_Init",
+    "timestamp": "2016-12-20T06:30:24.878Z",
+    "action": "START",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O1",
+    "executionId": "015160e2-c9c1-4932-8dde-60f16c216830",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_Init",
+    "timestamp": "2016-12-20T06:30:27.436Z",
+    "action": "COMPLETE",
+    "resultCode": 100
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "e01c650a-80f1-470f-9345-5422e36787b3",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:30:38.478Z",
+    "action": "START",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "e01c650a-80f1-470f-9345-5422e36787b3",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:30:40.909Z",
+    "action": "COMPLETE",
+    "resultCode": 100
+  },
+  {
+    "operationId": "_1_2_1_P2_O1",
+    "executionId": "ab962ce1-2bf7-467a-902b-a6c0566eb89b",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_Init",
+    "timestamp": "2016-12-20T06:38:33.003Z",
+    "action": "START",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O1",
+    "executionId": "ab962ce1-2bf7-467a-902b-a6c0566eb89b",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_Init",
+    "timestamp": "2016-12-20T06:38:35.653Z",
+    "action": "COMPLETE",
+    "resultCode": 100
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "ba9b0b9a-3be8-489b-b02f-dcb2a830e298",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:39:07.624Z",
+    "action": "START",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "ba9b0b9a-3be8-489b-b02f-dcb2a830e298",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:39:10.017Z",
+    "action": "COMPLETE",
+    "resultCode": 100
+  },
+  {
+    "operationId": "_1_2_1_P2_O1",
+    "executionId": "bc961267-bc70-4047-a766-4f4049da9715",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_Init",
+    "timestamp": "2016-12-20T06:40:16.121Z",
+    "action": "START",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O1",
+    "executionId": "bc961267-bc70-4047-a766-4f4049da9715",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_Init",
+    "timestamp": "2016-12-20T06:40:17.015Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "066b7a65-f19f-4993-86da-1c33946abf20",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:41:42.072Z",
+    "action": "START",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "066b7a65-f19f-4993-86da-1c33946abf20",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:41:42.945Z",
+    "action": "HOLD",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "066b7a65-f19f-4993-86da-1c33946abf20",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:41:43.070Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "a6ec3f74-8c4e-4ce7-ab0f-74d19bd3b8dd",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:42:34.271Z",
+    "action": "START",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "a6ec3f74-8c4e-4ce7-ab0f-74d19bd3b8dd",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:42:35.190Z",
+    "action": "HOLD",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "a6ec3f74-8c4e-4ce7-ab0f-74d19bd3b8dd",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:42:35.314Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T06:43:02.402Z",
+    "action": "SET_AUTOMATIC_MODE",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T06:46:46.180Z",
+    "action": "SET_MANUAL_MODE",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "613c1d3d-9c49-4bc2-901f-edf26415f945",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:46:46.928Z",
+    "action": "START",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "613c1d3d-9c49-4bc2-901f-edf26415f945",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:46:47.076Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "3e29320f-3bba-4e02-86e4-4a9f4bda99ee",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:52:56.270Z",
+    "action": "START",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "3e29320f-3bba-4e02-86e4-4a9f4bda99ee",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:52:57.377Z",
+    "action": "HOLD",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "3e29320f-3bba-4e02-86e4-4a9f4bda99ee",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T06:52:57.488Z",
+    "action": "RESTART",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O4",
+    "executionId": "3e29320f-3bba-4e02-86e4-4a9f4bda99ee",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_TurnToConveyor",
+    "timestamp": "2016-12-20T07:05:38.479Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:06:28.417Z",
+    "action": "SET_AUTOMATIC_MODE",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:06:29.246Z",
+    "action": "SET_MANUAL_MODE",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:12:51.783Z",
+    "action": "SET_AUTOMATIC_MODE",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "fa18dd80-28b8-4932-baae-38e73b168d16",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:12:52.618Z",
+    "action": "BATCH_START",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "_1_2_1_P2_O1",
+    "executionId": "fa18dd80-28b8-4932-baae-38e73b168d16",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_Init",
+    "timestamp": "2016-12-20T07:12:52.898Z",
+    "action": "START",
+    "resultCode": 80
+  },
+  {
+    "operationId": "_1_2_1_P2_O1",
+    "executionId": "fa18dd80-28b8-4932-baae-38e73b168d16",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_Init",
+    "timestamp": "2016-12-20T07:12:54.535Z",
+    "action": "COMPLETE",
+    "resultCode": 100
+  },
+  {
+    "operationId": "_1_2_1_P2_O1",
+    "executionId": "fa18dd80-28b8-4932-baae-38e73b168d16",
+    "resolvedOperationPath": "AIS/Garching/Demonstrators/XPPU/Crane/Crane/Crane_ACT_Init",
+    "timestamp": "2016-12-20T07:18:04.913Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:18:05.068Z",
+    "action": "BATCH_COMPLETE",
+    "resultCode": 500
+  },
+  {
+    "operationId": "",
+    "executionId": "",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:22:43.510Z",
+    "action": "SET_MANUAL_MODE",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:22:44.321Z",
+    "action": "SET_AUTOMATIC_MODE",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "5056be48-d9b1-4d4e-a2e5-5e421e96049b",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:22:44.455Z",
+    "action": "BATCH_START",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "5056be48-d9b1-4d4e-a2e5-5e421e96049b",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:22:44.654Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "5056be48-d9b1-4d4e-a2e5-5e421e96049b",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:25:32.088Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "5056be48-d9b1-4d4e-a2e5-5e421e96049b",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:27:11.564Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "5056be48-d9b1-4d4e-a2e5-5e421e96049b",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:27:12.997Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "5056be48-d9b1-4d4e-a2e5-5e421e96049b",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:27:13.837Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  },
+  {
+    "operationId": "",
+    "executionId": "5056be48-d9b1-4d4e-a2e5-5e421e96049b",
+    "resolvedOperationPath": "",
+    "timestamp": "2016-12-20T07:27:14.608Z",
+    "action": "ABORT",
+    "resultCode": -2147483648
+  }
+]

@@ -72,6 +72,7 @@ IFS=$'\n'
 
 for I in `cat << EOF
 192.168.48.206 cloud-web-frontend
+192.168.48.236 plant-logic-ear
 192.168.48.236 store-logic-ear
 192.168.48.236 cloud-registry-service
 192.168.48.232 enterprise-logic-ear
