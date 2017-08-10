@@ -13,7 +13,6 @@ import java.util.Collection;
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-//TODO: Why does this interface exist?
 public interface IEnterpriseInformation {
     Collection<EnterpriseViewData> getEnterprises() throws NotInDatabaseException_Exception;
 
