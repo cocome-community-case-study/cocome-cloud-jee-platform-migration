@@ -59,7 +59,7 @@ public class EnterpriseConverter implements Converter {
 
         if (value instanceof EnterpriseViewData) {
             Long enterpriseID = ((EnterpriseViewData) value).getId();
-            return (enterpriseID != null) ? String.valueOf(enterpriseID) : null;
+            return String.valueOf(enterpriseID);
         } else {
             throw new ConverterException("The value is not a valid Enterprise instance: " + value);
         }
