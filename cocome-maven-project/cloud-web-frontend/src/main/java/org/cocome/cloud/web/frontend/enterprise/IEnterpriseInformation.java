@@ -14,19 +14,20 @@ import org.cocome.cloud.web.data.storedata.StoreViewData;
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
+//TODO: Why does this interface exist?
 public interface IEnterpriseInformation {
-	public Collection<EnterpriseViewData> getEnterprises() throws NotInDatabaseException_Exception;
-	public Collection<StoreViewData> getStores() throws NotInDatabaseException_Exception;
+	 Collection<EnterpriseViewData> getEnterprises() throws NotInDatabaseException_Exception;
+	Collection<StoreViewData> getStores() throws NotInDatabaseException_Exception;
 	
-	public long getActiveEnterpriseID();
-	public void setActiveEnterpriseID(long enterpriseID);
-	public EnterpriseViewData getActiveEnterprise() throws NotInDatabaseException_Exception;
-	public void setActiveEnterprise(@NotNull EnterpriseViewData enterprise);
-	public String submitActiveEnterprise();
-	public boolean isEnterpriseSubmitted();
-	public void setEnterpriseSubmitted(boolean submitted);
-	public boolean isEnterpriseSet();
+	long getActiveEnterpriseID();
+	void setActiveEnterpriseID(long enterpriseID);
+	EnterpriseViewData getActiveEnterprise() throws NotInDatabaseException_Exception;
+	void setActiveEnterprise(@NotNull EnterpriseViewData enterprise);
+	String submitActiveEnterprise();
+	boolean isEnterpriseSubmitted();
+	void setEnterpriseSubmitted(boolean submitted);
+	boolean isEnterpriseSet();
 	
-	public void setNewEnterpriseName(String name);
-	public String getNewEnterpriseName();
+	void setNewEnterpriseName(String name);
+	String getNewEnterpriseName();
 }
