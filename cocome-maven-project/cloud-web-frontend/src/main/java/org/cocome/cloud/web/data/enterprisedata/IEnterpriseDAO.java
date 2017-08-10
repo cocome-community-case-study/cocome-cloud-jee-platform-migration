@@ -7,9 +7,9 @@ import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 
 public interface IEnterpriseDAO {
-	public Collection<EnterpriseViewData> getAllEnterprises() throws NotInDatabaseException_Exception;
-	
-	public EnterpriseViewData getEnterpriseByID(long enterpriseID) throws NotInDatabaseException_Exception;
-	
-	public List<ProductWrapper> getAllProducts() throws NotInDatabaseException_Exception;
+    Collection<EnterpriseViewData> getAllEnterprises() throws NotInDatabaseException_Exception;
+
+    EnterpriseViewData getEnterpriseByID(long enterpriseID) throws NotInDatabaseException_Exception;
+
+    List<ProductWrapper> getAllProducts() throws NotInDatabaseException_Exception;
 }
