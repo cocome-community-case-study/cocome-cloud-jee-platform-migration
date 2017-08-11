@@ -18,24 +18,24 @@ import org.cocome.cloud.web.data.storedata.StoreViewData;
  */
 @Named
 public interface IStoreInformation {
-	public static final long STORE_ID_NOT_SET = Long.MIN_VALUE;
+	long STORE_ID_NOT_SET = Long.MIN_VALUE;
 	
-	public void setActiveStoreID(long storeID);
-	public long getActiveStoreID();
-	public StoreViewData getActiveStore();
-	public String submitStore();
+	void setActiveStoreID(long storeID);
+	long getActiveStoreID();
+	StoreViewData getActiveStore();
+	String submitStore();
 	
-	public boolean isStoreSet();
+	boolean isStoreSet();
 	
-	public List<ProductWrapper> getAllStockItems();
+	List<ProductWrapper> getAllStockItems();
 	
-	public Collection<ProductWrapper> getAllProductsWithStockItems();
+	Collection<ProductWrapper> getAllProductsWithStockItems();
 	
-	public void queryStockItems();
+	void queryStockItems();
 	
-	public void queryProductsWithStockItems() throws NotInDatabaseException_Exception;
+	void queryProductsWithStockItems() throws NotInDatabaseException_Exception;
 	
-	public List<ProductWrapper> getStockReport(long storeID);
+	List<ProductWrapper> getStockReport(long storeID);
 	
-	public String switchToStore(@NotNull StoreViewData store, String destination);
+	String switchToStore(@NotNull StoreViewData store, String destination);
 }
