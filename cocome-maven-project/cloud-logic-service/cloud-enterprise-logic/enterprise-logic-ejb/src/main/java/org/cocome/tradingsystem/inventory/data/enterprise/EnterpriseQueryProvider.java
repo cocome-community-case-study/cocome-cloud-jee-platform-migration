@@ -1,15 +1,7 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
-
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-
 import org.apache.log4j.Logger;
+import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -17,46 +9,53 @@ import org.cocome.tradingsystem.remote.access.connection.QueryParameterEncoder;
 import org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+
 @Stateless
 @Local(IEnterpriseQuery.class)
 public class EnterpriseQueryProvider implements IEnterpriseQuery {
 
-	private static final Logger LOG = Logger.getLogger(EnterpriseQueryProvider.class);
+    private static final Logger LOG = Logger.getLogger(EnterpriseQueryProvider.class);
 
-	@Inject
-	IBackendQuery backendConnection;
+    @Inject
+    IBackendQuery backendConnection;
 
-	@Inject
-	IStoreQuery storeQuery;
+    @Inject
+    IStoreQuery storeQuery;
 
-	@Inject
-	IBackendConversionHelper csvHelper;
+    @Inject
+    IBackendConversionHelper csvHelper;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ITradingEnterprise queryEnterpriseById(long enterpriseID) throws NotInDatabaseException {
-		LOG.debug("Trying to retrieve enterprise with id " + enterpriseID);
-		try {
-			String backendMessage = backendConnection.getEnterprises("id==" + enterpriseID);
-			LOG.debug("Backend response: " + backendMessage);
-			ITradingEnterprise enterprise = csvHelper.getEnterprises(backendMessage).iterator().next();
-			return enterprise;
-		} catch (NoSuchElementException e) {
-			throw new NotInDatabaseException("Enterprise with ID " + enterpriseID + " could not be found!");
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ITradingEnterprise queryEnterpriseById(long enterpriseID) throws NotInDatabaseException {
+        LOG.debug("Trying to retrieve enterprise with id " + enterpriseID);
+        try {
+            String backendMessage = backendConnection.getEnterprises("id==" + enterpriseID);
+            LOG.debug("Backend response: " + backendMessage);
+            return csvHelper.getEnterprises(backendMessage).iterator().next();
+        } catch (NoSuchElementException e) {
+            throw new NotInDatabaseException("Enterprise with ID " + enterpriseID + " could not be found!");
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public long getMeanTimeToDelivery(IProductSupplier supplier, ITradingEnterprise enterprise) {
-		long mttd = 0;
-		try {
-			/*
-			 * mttd = (long) database.query(
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public long getMeanTimeToDelivery(IProductSupplier supplier, ITradingEnterprise enterprise) {
+        long mttd = 0;
+        try {
+            /*
+             * mttd = (long) database.query(
 			 * "SELECT productorder FROM ProductOrder AS productorder " +
 			 * "WHERE productorder.deliveryDate IS NOT NULL " + "AND EXISTS (" +
 			 * "SELECT orderentry FROM OrderEntry AS orderentry " +
@@ -68,158 +67,174 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
 			 * "JOIN store.enterprise e WHERE productorder.store = store " +
 			 * "AND e.id = " + enterprise.getId() + ")").get(0);
 			 */
-			// TODO compute this here...
-			LOG.error("Tried to obtain mean time to delivery, but this is not available at the moment!");
+            // TODO compute this here...
+            LOG.error("Tried to obtain mean time to delivery, but this is not available at the moment!");
 
-		} catch (NoSuchElementException e) {
-			// Means the query returned nothing, so don't crash and return 0 as
-			// mttd
-		}
-		return mttd;
-	}
+        } catch (NoSuchElementException e) {
+            // Means the query returned nothing, so don't crash and return 0 as
+            // mttd
+        }
+        return mttd;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Collection<IProduct> queryAllProducts(long enterpriseID) {
-		// Because the backend doesn't allow joins, it is neccessary to first
-		// get the stores
-		Collection<IStore> stores = queryStoresByEnterpriseId(enterpriseID);
-		Collection<IProduct> products = new LinkedList<IProduct>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection<IProduct> queryAllProducts(long enterpriseID) {
+        // Because the backend doesn't allow joins, it is neccessary to first
+        // get the stores
+        Collection<IStore> stores = queryStoresByEnterpriseId(enterpriseID);
+        Collection<IProduct> products = new LinkedList<>();
 
-		for (IStore store : stores) {
-			products.addAll(storeQuery.queryProducts(store.getId()));
-		}
+        for (IStore store : stores) {
+            products.addAll(storeQuery.queryProducts(store.getId()));
+        }
 
-		return products;
-	}
+        return products;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Collection<IProductSupplier> querySuppliers(long enterpriseID) throws NotInDatabaseException {
-		ITradingEnterprise enterprise = queryEnterpriseById(enterpriseID);
+    /**
+     * {@inheritDoc}
+     */
+    public Collection<IProductSupplier> querySuppliers(long enterpriseID) throws NotInDatabaseException {
+        ITradingEnterprise enterprise = queryEnterpriseById(enterpriseID);
 
-		return enterprise.getSuppliers();
-	}
+        return enterprise.getSuppliers();
+    }
 
-	@Override
-	public ITradingEnterprise queryEnterpriseByName(String enterpriseName) throws NotInDatabaseException {
-		enterpriseName = QueryParameterEncoder.encodeQueryString(enterpriseName);
-		
-		try {
-			ITradingEnterprise enterprise = csvHelper
-					.getEnterprises(backendConnection.getEnterprises("name=LIKE%20'" + enterpriseName + "'")).iterator()
-					.next();
-			return enterprise;
-		} catch (NoSuchElementException e) {
-			throw new NotInDatabaseException("No enterprise with name '" + enterpriseName + "' was found!");
-		}
-	}
+    @Override
+    public ITradingEnterprise queryEnterpriseByName(String enterpriseName) throws NotInDatabaseException {
+        enterpriseName = QueryParameterEncoder.encodeQueryString(enterpriseName);
 
-	@Override
-	public IProductSupplier querySupplierForProduct(long enterpriseID, long productBarcode)
-			throws NotInDatabaseException {
-		ITradingEnterprise enterprise = queryEnterpriseById(enterpriseID);
+        try {
+            return csvHelper
+                    .getEnterprises(backendConnection.getEnterprises("name=LIKE%20'" + enterpriseName + "'")).iterator()
+                    .next();
+        } catch (NoSuchElementException e) {
+            throw new NotInDatabaseException("No enterprise with name '" + enterpriseName + "' was found!");
+        }
+    }
 
-		// Probably inefficient but not possible otherwise due to serviceadapter
-		// limitations
-		for (IProductSupplier supplier : enterprise.getSuppliers()) {
-			for (IProduct product : supplier.getProducts()) {
-				if (product.getBarcode() == productBarcode) {
-					return supplier;
-				}
-			}
-		}
-		return null;
-	}
+    @Override
+    public IProductSupplier querySupplierForProduct(long enterpriseID, long productBarcode)
+            throws NotInDatabaseException {
+        ITradingEnterprise enterprise = queryEnterpriseById(enterpriseID);
 
-	@Override
-	public Collection<IProduct> queryProductsBySupplier(long enterpriseID, long productSupplierID)
-			throws NotInDatabaseException {
-		ITradingEnterprise enterprise = queryEnterpriseById(enterpriseID);
+        // Probably inefficient but not possible otherwise due to serviceadapter
+        // limitations
+        for (IProductSupplier supplier : enterprise.getSuppliers()) {
+            for (IProduct product : supplier.getProducts()) {
+                if (product.getBarcode() == productBarcode) {
+                    return supplier;
+                }
+            }
+        }
+        return null;
+    }
 
-		for (IProductSupplier supplier : enterprise.getSuppliers()) {
-			if (supplier.getId() == productSupplierID) {
-				return csvHelper.getProducts(backendConnection.getProducts("supplier.id==" + supplier.getId()));
-			}
-		}
+    @Override
+    public Collection<IProduct> queryProductsBySupplier(long enterpriseID, long productSupplierID)
+            throws NotInDatabaseException {
+        ITradingEnterprise enterprise = queryEnterpriseById(enterpriseID);
 
-		return Collections.emptyList();
-	}
+        for (IProductSupplier supplier : enterprise.getSuppliers()) {
+            if (supplier.getId() == productSupplierID) {
+                return csvHelper.getProducts(backendConnection.getProducts("supplier.id==" + supplier.getId()));
+            }
+        }
 
-	@Override
-	public Collection<IStore> queryStoresByEnterpriseId(long enterpriseID) {
-		Collection<IStore> stores = csvHelper.getStores(backendConnection.getStores("enterprise.id==" + enterpriseID));
-		return stores;
-	}
+        return Collections.emptyList();
+    }
 
-	@Override
-	public Collection<ITradingEnterprise> queryAllEnterprises() {
-		Collection<ITradingEnterprise> enterprises = csvHelper
-				.getEnterprises(backendConnection.getEnterprises("name=LIKE%20'*'"));
-		return enterprises;
-	}
+    @Override
+    public Collection<IStore> queryStoresByEnterpriseId(long enterpriseID) {
+        return csvHelper.getStores(backendConnection.getStores("enterprise.id==" + enterpriseID));
+    }
 
-	@Override
-	public IStore queryStoreByEnterprise(long enterpriseID, long storeID) throws NotInDatabaseException {
-		try {
-			IStore store = csvHelper
-					.getStores(backendConnection.getStores("id==" + storeID + ";Store.enterprise.id==" + enterpriseID))
-					.iterator().next();
-			return store;
-		} catch (NoSuchElementException e) {
-			throw new NotInDatabaseException("No matching store found in database!");
-		}
-	}
+    @Override
+    public Collection<IPlant> queryPlantsByEnterpriseId(long enterpriseID) {
+        return csvHelper.getPlants(backendConnection.getPlants("enterprise.id==" + enterpriseID));
+    }
 
-	@Override
-	public IProductSupplier querySupplierByID(long supplierID) throws NotInDatabaseException {
-		try {
-			IProductSupplier supplier = csvHelper
-					.getProductSuppliers(backendConnection.getProductSupplier("id==" + supplierID)).iterator().next();
-			return supplier;
-		} catch (NoSuchElementException e) {
-			throw new NotInDatabaseException("No matching supplier found in database!");
-		}
-	}
+    @Override
+    public IPlant queryPlantByEnterprise(long enterpriseID, long plantID) throws NotInDatabaseException {
+        try {
+            return csvHelper
+                    .getPlants(backendConnection.getPlants("id==" + plantID + ";Plant.enterprise.id==" + enterpriseID))
+                    .iterator().next();
+        } catch (NoSuchElementException e) {
+            throw new NotInDatabaseException("No matching store found in database!");
+        }
+    }
 
-	@Override
-	public IProduct queryProductByID(long productID) throws NotInDatabaseException {
-		try {
-			IProduct product = csvHelper.getProducts(backendConnection.getProducts("id==" + productID)).iterator()
-					.next();
-			return product;
-		} catch (NoSuchElementException e) {
-			throw new NotInDatabaseException("No matching product found in database!");
-		}
-	}
+    @Override
+    public Collection<ITradingEnterprise> queryAllEnterprises() {
+        return csvHelper
+                .getEnterprises(backendConnection.getEnterprises("name=LIKE%20'*'"));
+    }
 
-	@Override
-	public IProduct queryProductByBarcode(long productBarcode) throws NotInDatabaseException {
-		try {
-			IProduct product = csvHelper.getProducts(backendConnection.getProducts("barcode==" + productBarcode))
-					.iterator().next();
-			return product;
-		} catch (NoSuchElementException e) {
-			throw new NotInDatabaseException("No matching product found in database!");
-		}
-	}
+    @Override
+    public IStore queryStoreByEnterprise(long enterpriseID, long storeID) throws NotInDatabaseException {
+        try {
+            return csvHelper
+                    .getStores(backendConnection.getStores("id==" + storeID + ";Store.enterprise.id==" + enterpriseID))
+                    .iterator().next();
+        } catch (NoSuchElementException e) {
+            throw new NotInDatabaseException("No matching store found in database!");
+        }
+    }
 
-	@Override
-	public Collection<IProduct> queryAllProducts() {
-		Collection<IProduct> products = csvHelper.getProducts(backendConnection.getProducts("name=LIKE%20'*'"));
+    @Override
+    public IProductSupplier querySupplierByID(long supplierID) throws NotInDatabaseException {
+        try {
+            return csvHelper
+                    .getProductSuppliers(backendConnection.getProductSupplier("id==" + supplierID)).iterator().next();
+        } catch (NoSuchElementException e) {
+            throw new NotInDatabaseException("No matching supplier found in database!");
+        }
+    }
 
-		return products;
-	}
+    @Override
+    public IProduct queryProductByID(long productID) throws NotInDatabaseException {
+        try {
+            return csvHelper.getProducts(backendConnection.getProducts("id==" + productID)).iterator()
+                    .next();
+        } catch (NoSuchElementException e) {
+            throw new NotInDatabaseException("No matching product found in database!");
+        }
+    }
 
-	@Override
-	public Collection<IStore> queryStoreByName(long enterpriseID, String storeName) {
-		storeName = QueryParameterEncoder.encodeQueryString(storeName);
-		Collection<IStore> stores = csvHelper
-				.getStores(backendConnection.getStores("name=LIKE%20'" + storeName + "';Store.enterprise.id==" + enterpriseID));
-		return stores;
-	}
+    @Override
+    public IProduct queryProductByBarcode(long productBarcode) throws NotInDatabaseException {
+        try {
+            return csvHelper.getProducts(backendConnection.getProducts("barcode==" + productBarcode))
+                    .iterator().next();
+        } catch (NoSuchElementException e) {
+            throw new NotInDatabaseException("No matching product found in database!");
+        }
+    }
+
+    @Override
+    public Collection<IProduct> queryAllProducts() {
+        return csvHelper.getProducts(backendConnection.getProducts("name=LIKE%20'*'"));
+    }
+
+    @Override
+    public Collection<IStore> queryStoreByName(long enterpriseID, String storeName) {
+        storeName = QueryParameterEncoder.encodeQueryString(storeName);
+        return csvHelper
+                .getStores(backendConnection.getStores("name=LIKE%20'" + storeName
+                        + "';Store.enterprise.id==" + enterpriseID));
+    }
+
+    @Override
+    public Collection<IPlant> queryPlantByName(long enterpriseID, String plantName) {
+        plantName = QueryParameterEncoder.encodeQueryString(plantName);
+        return csvHelper
+                .getPlants(backendConnection.getPlants("name=LIKE%20'" + plantName
+                        + "';Plant.enterprise.id==" + enterpriseID));
+
+    }
 
 }

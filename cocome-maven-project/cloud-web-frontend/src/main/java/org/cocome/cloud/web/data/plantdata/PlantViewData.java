@@ -1,15 +1,13 @@
-package org.cocome.cloud.web.data.storedata;
+package org.cocome.cloud.web.data.plantdata;
 
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
-import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 
 /**
- * Holds informtaion about a Store.
+ * Holds informtaion about a Plant.
  *
- * @author Tobias Pöppke
- * @author Robert Heinrich
+ * @author Rudolf Biczok
  */
-public class StoreViewData {
+public class PlantViewData {
     private long id;
     private EnterpriseTO enterprise;
     private String name;
@@ -18,7 +16,7 @@ public class StoreViewData {
     private String newName;
     private String newLocation;
 
-    public StoreViewData(long id, EnterpriseTO enterprise, String location, String name) {
+    public PlantViewData(long id, EnterpriseTO enterprise, String location, String name) {
         this.id = id;
         setEnterprise(enterprise);
         this.name = name;
@@ -87,22 +85,8 @@ public class StoreViewData {
         this.newLocation = newLocation;
     }
 
-    void updateStoreInformation() {
+    void updatePlantInformation() {
         name = newName;
         location = newLocation;
-    }
-
-    public static StoreWithEnterpriseTO createStoreTO(StoreViewData store) {
-        StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
-        storeTO.setEnterpriseTO(store.getEnterprise());
-        storeTO.setId(store.getID());
-        storeTO.setLocation(store.getLocation());
-        storeTO.setName(store.getName());
-        return storeTO;
-    }
-
-    public static StoreViewData fromStoreTO(StoreWithEnterpriseTO storeTO) {
-        return new StoreViewData(storeTO.getId(), storeTO.getEnterpriseTO(),
-                storeTO.getLocation(), storeTO.getName());
     }
 }

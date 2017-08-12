@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager;
+import org.cocome.tradingsystem.inventory.application.plant.PlantWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
@@ -29,6 +30,8 @@ import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 //import org.cocome.tradingsystem.inventory.data.generator.TestDatabaseFiller;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
+import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -62,15 +65,6 @@ public class EnterpriseManager implements IEnterpriseManager {
 	@Inject
 	ICashDeskRegistryFactory registryFact;
 	
-//	@EJB
-//	StorizedDatabaseFiller storizedFiller;
-//	
-//	@EJB
-//	ItemizedDatabaseFiller itemizedFiller;
-//	
-//	@EJB
-//	TestDatabaseFiller testFiller;
-	
 	@Inject
 	IApplicationHelper applicationHelper;
 	
@@ -88,7 +82,10 @@ public class EnterpriseManager implements IEnterpriseManager {
 	
 	@Inject
 	IStoreDataFactory storeFactory;
-	
+
+    @Inject
+    IPlantDataFactory plantFactory;
+
 	@Inject
 	long defaultEnterpriseIndex;
 	
@@ -217,7 +214,22 @@ public class EnterpriseManager implements IEnterpriseManager {
 		}
 	}
 
-	@Override
+    @Override
+    public void createPlant(PlantWithEnterpriseTO plantTO) throws CreateException {
+        IPlant store = plantFactory.getNewPlant();
+        store.setEnterpriseId(plantTO.getEnterpriseTO().getId());
+        store.setLocation(plantTO.getLocation());
+        store.setName(plantTO.getName());
+        try {
+            persistenceContext.createEntity(store);
+        } catch (CreateException e) {
+            LOG.error("Got CreateException: " + e);
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
 	public Collection<EnterpriseTO> getEnterprises() {
 		Collection<ITradingEnterprise> enterprises = enterpriseQuery.queryAllEnterprises();
 		Collection<EnterpriseTO> enterpriseTOs = new ArrayList<EnterpriseTO>(enterprises.size());
@@ -243,6 +255,24 @@ public class EnterpriseManager implements IEnterpriseManager {
 			}
 		}
 		return storeTOs;
+	}
+
+	@Override
+	public Collection<PlantWithEnterpriseTO> queryPlantsByEnterpriseID(long enterpriseId)
+			throws NotInDatabaseException {
+        setContextRegistry(enterpriseId);
+        Collection<IPlant> plants = enterpriseQuery.queryPlantsByEnterpriseId(enterpriseId);
+        Collection<PlantWithEnterpriseTO> plantTOs = new ArrayList<>(plants.size());
+        for(IPlant plant : plants) {
+            try {
+                plantTOs.add(plantFactory.fillPlantWithEnterpriseTO(plant));
+            } catch (NotInDatabaseException e) {
+                LOG.error("Got NotInDatabaseException: " + e);
+                e.printStackTrace();
+                throw e;
+            }
+        }
+        return plantTOs;
 	}
 
 	@Override
@@ -281,6 +311,43 @@ public class EnterpriseManager implements IEnterpriseManager {
 			throw e;
 		}
 	}
+
+    @Override
+    public void updatePlant(PlantWithEnterpriseTO plantTO)
+            throws NotInDatabaseException, UpdateException {
+        IPlant plant;
+        try {
+            plant = enterpriseQuery.queryPlantByEnterprise(
+                    plantTO.getEnterpriseTO().getId(), plantTO.getId());
+        } catch (NotInDatabaseException e) {
+            LOG.error("Got NotInDatabaseException: " + e);
+            e.printStackTrace();
+            throw e;
+        }
+
+        ITradingEnterprise enterprise;
+        try {
+            enterprise = enterpriseQuery.queryEnterpriseById(
+                    plantTO.getEnterpriseTO().getId());
+        } catch (NotInDatabaseException e) {
+            LOG.error("Got NotInDatabaseException: " + e);
+            e.printStackTrace();
+            throw e;
+        }
+
+        plant.setEnterprise(enterprise);
+        plant.setEnterpriseId(enterprise.getId());
+        plant.setLocation(plantTO.getLocation());
+        plant.setName(plantTO.getName());
+
+        try {
+            persistenceContext.updateEntity(plant);
+        } catch (UpdateException e) {
+            LOG.error("Got UpdateException: " + e);
+            e.printStackTrace();
+            throw e;
+        }
+    }
 
 	@Override
 	public void createProduct(ProductTO productTO) 
@@ -428,7 +495,13 @@ public class EnterpriseManager implements IEnterpriseManager {
 				enterpriseQuery.queryStoreByEnterprise(enterpriseID, storeID));
 	}
 
-	@Override
+    @Override
+    public PlantWithEnterpriseTO queryPlantByEnterpriseID(long enterpriseId, long plantId) throws NotInDatabaseException {
+        return plantFactory.fillPlantWithEnterpriseTO(
+                enterpriseQuery.queryPlantByEnterprise(enterpriseId, plantId));
+    }
+
+    @Override
 	public Collection<ProductTO> getProductsBySupplier(long enterpriseID, long supplierID)
 			throws NotInDatabaseException {
 		Collection<IProduct> products = enterpriseQuery.queryProductsBySupplier(enterpriseID, supplierID); 
@@ -474,5 +547,17 @@ public class EnterpriseManager implements IEnterpriseManager {
 		
 		return storeTOs;
 	}
+
+    @Override
+    public Collection<PlantWithEnterpriseTO> queryPlantByName(long enterpriseId, String plantName) throws NotInDatabaseException {
+        Collection<IPlant> plants = enterpriseQuery.queryPlantByName(enterpriseId, plantName);
+        Collection<PlantWithEnterpriseTO> plantTOs = new ArrayList<>(plants.size());
+
+        for (IPlant store : plants) {
+            plantTOs.add(plantFactory.fillPlantWithEnterpriseTO(store));
+        }
+
+        return plantTOs;
+    }
 
 }

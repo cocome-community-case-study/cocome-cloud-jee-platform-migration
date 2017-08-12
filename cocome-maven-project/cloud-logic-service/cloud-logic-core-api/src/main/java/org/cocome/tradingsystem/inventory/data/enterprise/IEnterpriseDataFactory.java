@@ -8,25 +8,25 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 public interface IEnterpriseDataFactory {
 
-	public IProduct getNewProduct();
+    IProduct getNewProduct();
 
-	public IProductSupplier getNewProductSupplier();
+    IProductSupplier getNewProductSupplier();
 
-	public ITradingEnterprise getNewTradingEnterprise();
+    ITradingEnterprise getNewTradingEnterprise();
 
-	public IProduct convertToProduct(ProductTO productTO);
+    IProduct convertToProduct(ProductTO productTO);
 
-	public ITradingEnterprise convertToEnterprise(EnterpriseTO enterpriseTO);
+    ITradingEnterprise convertToEnterprise(EnterpriseTO enterpriseTO);
 
-	public IProductSupplier convertToSupplier(SupplierTO supplierTO);
+    IProductSupplier convertToSupplier(SupplierTO supplierTO);
 
-	public SupplierTO fillSupplierTO(IProductSupplier supplier);
+    SupplierTO fillSupplierTO(IProductSupplier supplier);
 
-	public EnterpriseTO fillEnterpriseTO(ITradingEnterprise enterprise);
+    EnterpriseTO fillEnterpriseTO(ITradingEnterprise enterprise);
 
-	public ProductTO fillProductTO(IProduct product);
-	
-	public ProductWithSupplierTO fillProductWithSupplierTO(
-			IProduct product) throws NotInDatabaseException;
+    ProductTO fillProductTO(IProduct product);
+
+    ProductWithSupplierTO fillProductWithSupplierTO(
+            IProduct product) throws NotInDatabaseException;
 
 }

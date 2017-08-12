@@ -2,6 +2,7 @@ package org.cocome.cloud.web.frontend.enterprise;
 
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.data.enterprisedata.EnterpriseViewData;
+import org.cocome.cloud.web.data.plantdata.PlantViewData;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
 
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,8 @@ public interface IEnterpriseInformation {
     Collection<EnterpriseViewData> getEnterprises() throws NotInDatabaseException_Exception;
 
     Collection<StoreViewData> getStores() throws NotInDatabaseException_Exception;
+
+    Collection<PlantViewData> getPlants() throws NotInDatabaseException_Exception;
 
     long getActiveEnterpriseID();
 
