@@ -65,18 +65,6 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<!-- <compilerArguments> <endorseddirs>${endorsed.dir}</endorseddirs> 
-						</compilerArguments> -->
-					<excludes>
-						<exclude>org/cocome/tradingsystem/inventory/data/generator/*.java</exclude>
-						<exclude>org/cocome/tradingsystem/util/Configuration.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ejb-plugin</artifactId>
 				<configuration>
 					<generateClient>true</generateClient>
