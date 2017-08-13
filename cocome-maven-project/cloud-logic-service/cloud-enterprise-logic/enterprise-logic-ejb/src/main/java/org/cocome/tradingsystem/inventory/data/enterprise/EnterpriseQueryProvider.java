@@ -154,14 +154,15 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public Collection<IPlant> queryPlantsByEnterpriseId(long enterpriseID) {
-        return csvHelper.getPlants(backendConnection.getPlants("enterprise.id==" + enterpriseID));
+        return csvHelper.getPlants(backendConnection.getEntity("Plant", "enterprise.id==" + enterpriseID));
     }
 
     @Override
     public IPlant queryPlantByEnterprise(long enterpriseID, long plantID) throws NotInDatabaseException {
         try {
             return csvHelper
-                    .getPlants(backendConnection.getPlants("id==" + plantID + ";Plant.enterprise.id==" + enterpriseID))
+                    .getPlants(backendConnection.getEntity("Plant",
+                            "id==" + plantID + ";Plant.enterprise.id==" + enterpriseID))
                     .iterator().next();
         } catch (NoSuchElementException e) {
             throw new NotInDatabaseException("No matching store found in database!");
@@ -232,7 +233,7 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     public Collection<IPlant> queryPlantByName(long enterpriseID, String plantName) {
         plantName = QueryParameterEncoder.encodeQueryString(plantName);
         return csvHelper
-                .getPlants(backendConnection.getPlants("name=LIKE%20'" + plantName
+                .getPlants(backendConnection.getEntity("Plant","name=LIKE%20'" + plantName
                         + "';Plant.enterprise.id==" + enterpriseID));
 
     }

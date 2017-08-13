@@ -45,7 +45,7 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
         }
 
         List<IPlant> plants = (List<IPlant>) csvHelper.getPlants(
-                backendConnection.getPlants("name=LIKE%20'" + name + "';Plant.location=LIKE%20'" + locationQuery + "'"));
+                backendConnection.getEntity("Plant", "name=LIKE%20'" + name + "';Plant.location=LIKE%20'" + locationQuery + "'"));
 
         if (plants.size() > 1) {
             LOG.warn("More than one plant with name " + name +
@@ -63,7 +63,7 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
     public IPlant queryPlantById(long plantId) throws NotInDatabaseException {
         try {
             return csvHelper.getPlants(
-                    backendConnection.getPlants("id==" + plantId)).iterator().next();
+                    backendConnection.getEntity("Plant", "id==" + plantId)).iterator().next();
         } catch (NoSuchElementException e) {
             throw new NotInDatabaseException(
                     "Plant with ID " + plantId + " could not be found!");

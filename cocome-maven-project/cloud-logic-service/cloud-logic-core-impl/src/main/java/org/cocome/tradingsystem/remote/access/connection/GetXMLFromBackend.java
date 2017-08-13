@@ -45,7 +45,7 @@ public class GetXMLFromBackend implements IBackendQuery {
         this.message = message;
     }
 
-    public String getXMLFromBackend(String urlString) {
+    private String getXMLFromBackend(String urlString) {
         String note = "init";
         try {
 
@@ -65,7 +65,7 @@ public class GetXMLFromBackend implements IBackendQuery {
             note = "buffer def " + in.toString();
             String inputLine;
 
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
             note = "string buf " + response.toString();
             while ((inputLine = in.readLine()) != null) {
 
@@ -131,14 +131,7 @@ public class GetXMLFromBackend implements IBackendQuery {
         return csv.getCSV();
     }
 
-    @Override
-    public String getPlants(String cond) {
-        MessageToCSV csv = new MessageToCSV(
-                getXMLFromBackend(getURLToBackend() + "?query.select=entity.type=Plant;Plant." + cond));
-        return csv.getCSV();
-    }
-
-        /* (non-Javadoc)
+    /* (non-Javadoc)
      * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#getStockItems(java.lang.String)
      */
     @Override
@@ -174,7 +167,11 @@ public class GetXMLFromBackend implements IBackendQuery {
     @Override
     public String getEntity(String entity, String cond) {
         MessageToCSV csv = new MessageToCSV(
-                getXMLFromBackend(getURLToBackend() + "?query.select=entity.type=" + entity + ";" + cond));
+                getXMLFromBackend(String.format("%s?query.select=entity.type=%s;%s.%s",
+                        getURLToBackend(),
+                        entity,
+                        entity,
+                        cond)));
         return csv.getCSV();
     }
 
