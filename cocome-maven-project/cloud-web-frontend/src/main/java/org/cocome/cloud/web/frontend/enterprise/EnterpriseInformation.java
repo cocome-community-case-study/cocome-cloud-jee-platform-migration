@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.data.enterprisedata.EnterpriseViewData;
 import org.cocome.cloud.web.data.enterprisedata.IEnterpriseDAO;
-import org.cocome.cloud.web.data.plantdata.IPlantDAO;
+import org.cocome.cloud.web.data.plantdata.PlantDAO;
 import org.cocome.cloud.web.data.plantdata.PlantViewData;
 import org.cocome.cloud.web.data.storedata.IStoreDAO;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
@@ -42,7 +42,7 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
     IStoreDAO storeDAO;
 
     @Inject
-    IPlantDAO plantDAO;
+    PlantDAO plantDAO;
 
     private boolean enterpriseSubmitted = false;
 

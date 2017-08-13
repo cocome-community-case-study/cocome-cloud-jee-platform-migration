@@ -11,17 +11,15 @@ import java.util.Collection;
 
 @Named
 @RequestScoped
-public class PlantDAO implements IPlantDAO {
+public class PlantDAO {
 
     @Inject
     EnterpriseQuery enterpriseQuery;
 
-    @Override
     public Collection<PlantViewData> getPlantsInEnterprise(long enterpriseID) throws NotInDatabaseException_Exception {
         return enterpriseQuery.getPlants(enterpriseID);
     }
 
-    @Override
     public PlantViewData getPlantByID(long plantID) throws NotInDatabaseException_Exception {
         return enterpriseQuery.getPlantByID(plantID);
     }
