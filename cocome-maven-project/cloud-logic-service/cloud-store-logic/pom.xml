@@ -15,11 +15,6 @@
 		<module>store-logic-ear</module>
 		<module>store-logic-ejb</module>
 		<module>store-logic-webservice</module>
-		<!-- 
-			TODO: the integration test is not working as the necessary build and
-			packaging of the other packages is not complete.
-		-->
-<!-- 		<module>store-logic-integrationtest</module>		 -->
 	</modules>
 
 	<dependencyManagement>
