@@ -19,7 +19,6 @@
 package org.cocome.tradingsystem.inventory.data.plant;
 
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.PlantWithEnterpriseTO;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
@@ -28,10 +27,8 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 public interface IPlantDataFactory {
     IPlant convertToPlant(PlantTO plantTO);
 
-    PlantTO fillPlantTO(IPlant plant);
-
     IPlant getNewPlant();
 
-    PlantWithEnterpriseTO fillPlantWithEnterpriseTO(
+    PlantTO fillPlantTO(
             IPlant plant) throws NotInDatabaseException;
 }

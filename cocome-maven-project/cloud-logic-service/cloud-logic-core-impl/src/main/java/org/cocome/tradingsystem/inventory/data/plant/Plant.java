@@ -36,7 +36,7 @@ import java.io.Serializable;
  */
 
 @Dependent
-class Plant implements Serializable, Comparable<IPlant>, IPlant {
+class Plant implements Serializable, IPlant {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = Logger.getLogger(Plant.class);
@@ -60,7 +60,6 @@ class Plant implements Serializable, Comparable<IPlant>, IPlant {
     @PostConstruct
     public void initPlant() {
         enterpriseQuery = enterpriseQueryInstance.get();
-
         enterprise = null;
     }
 
@@ -111,21 +110,6 @@ class Plant implements Serializable, Comparable<IPlant>, IPlant {
     @Override
     public String toString() {
         return "[Id:" + getId() + ",Name:" + this.getName() + ",Location:" + this.getLocation() + "]";
-    }
-
-    @Override
-    public int compareTo(IPlant o) {
-        try {
-            if (this.getEnterprise().getName().equals(o.getEnterprise().getName())
-                    && this.getName().equals(o.getName())
-                    && this.getLocation().equals(o.getLocation())
-                    ) {
-                return 0;
-            }
-        } catch (NotInDatabaseException e) {
-            return 0;
-        }
-        return 1;
     }
 
     @Override

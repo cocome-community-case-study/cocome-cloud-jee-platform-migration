@@ -13,20 +13,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  *************************************************************************
  */
 
 package org.cocome.tradingsystem.inventory.application.plant;
 
+import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
+
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 
 /**
- * Transfer object for plant data only.
+ * Transfer object for plant and enterprise data.
  *
  * @author Rudolf Biczok
  */
+
 @XmlType(name = "PlantTO",
         namespace = "http://plant.application.inventory.tradingsystem.cocome.org/")
 @XmlRootElement(name = "PlantTO")
@@ -44,14 +46,15 @@ public class PlantTO implements Serializable {
     @XmlElement(name = "location", required = true)
     private String __location;
 
-    //
+    @XmlElement(name = "enterpriseTO", required = true)
+    private EnterpriseTO __enterpriseTO;
 
     /**
      * Gets the entity identifier of this store.
      *
      * @return Store entity identifier.
      */
-    public final long getId() {
+    public long getId() {
         return __id;
     }
 
@@ -60,7 +63,7 @@ public class PlantTO implements Serializable {
      *
      * @param id store entity identifier
      */
-    public final void setId(final long id) {
+    public void setId(final long id) {
         __id = id;
     }
 
@@ -69,7 +72,7 @@ public class PlantTO implements Serializable {
      *
      * @return Store name.
      */
-    public final String getName() {
+    public String getName() {
         return __name;
     }
 
@@ -78,7 +81,7 @@ public class PlantTO implements Serializable {
      *
      * @param name store name
      */
-    public final void setName(final String name) {
+    public void setName(final String name) {
         __name = name;
     }
 
@@ -87,7 +90,7 @@ public class PlantTO implements Serializable {
      *
      * @return Store location.
      */
-    public final String getLocation() {
+    public String getLocation() {
         return __location;
     }
 
@@ -96,8 +99,26 @@ public class PlantTO implements Serializable {
      *
      * @param location store location
      */
-    public final void setLocation(final String location) {
+    public void setLocation(final String location) {
         __location = location;
+    }
+
+    /**
+     * Gets the enterprise the store belongs to.
+     *
+     * @return Enterprise TO this store belongs to.
+     */
+    public EnterpriseTO getEnterpriseTO() {
+        return __enterpriseTO;
+    }
+
+    /**
+     * Sets the enterprise the store belongs to.
+     *
+     * @param enterpriseTO transfer object of the corresponding enterprise
+     */
+    public void setEnterpriseTO(final EnterpriseTO enterpriseTO) {
+        __enterpriseTO = enterpriseTO;
     }
 
 }

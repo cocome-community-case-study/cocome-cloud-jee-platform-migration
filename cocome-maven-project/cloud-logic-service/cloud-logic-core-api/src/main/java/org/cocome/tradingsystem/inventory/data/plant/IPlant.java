@@ -59,8 +59,6 @@ public interface IPlant {
 
 	String toString();
 
-	int compareTo(IPlant o);
-
 	long getEnterpriseId();
 
 	void setEnterpriseId(long enterpriseId);

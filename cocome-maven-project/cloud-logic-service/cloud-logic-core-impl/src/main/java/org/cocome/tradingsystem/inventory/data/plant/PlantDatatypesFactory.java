@@ -2,7 +2,6 @@ package org.cocome.tradingsystem.inventory.data.plant;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.PlantWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -35,19 +34,9 @@ class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public PlantTO fillPlantTO(IPlant store) {
-        final PlantTO result = new PlantTO();
-        result.setId(store.getId());
-        result.setName(store.getName());
-        result.setLocation(store.getLocation());
-
-        return result;
-    }
-
-    @Override
-    public PlantWithEnterpriseTO fillPlantWithEnterpriseTO(IPlant store)
+    public PlantTO fillPlantTO(IPlant store)
             throws NotInDatabaseException {
-        final PlantWithEnterpriseTO result = new PlantWithEnterpriseTO();
+        final PlantTO result = new PlantTO();
         result.setId(store.getId());
         result.setName(store.getName());
         result.setLocation(store.getLocation());

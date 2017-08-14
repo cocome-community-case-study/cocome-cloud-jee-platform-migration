@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager;
-import org.cocome.tradingsystem.inventory.application.plant.PlantWithEnterpriseTO;
+import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
@@ -219,7 +219,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 
     @Override
-    public void createPlant(PlantWithEnterpriseTO plantTO) throws CreateException {
+    public void createPlant(PlantTO plantTO) throws CreateException {
         IPlant store = plantFactory.getNewPlant();
         store.setEnterpriseId(plantTO.getEnterpriseTO().getId());
         store.setLocation(plantTO.getLocation());
@@ -262,14 +262,14 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 
 	@Override
-	public Collection<PlantWithEnterpriseTO> queryPlantsByEnterpriseID(long enterpriseId)
+	public Collection<PlantTO> queryPlantsByEnterpriseID(long enterpriseId)
 			throws NotInDatabaseException {
         setContextRegistry(enterpriseId);
         Collection<IPlant> plants = plantQuery.queryPlantsByEnterpriseId(enterpriseId);
-        Collection<PlantWithEnterpriseTO> plantTOs = new ArrayList<>(plants.size());
+        Collection<PlantTO> plantTOs = new ArrayList<>(plants.size());
         for(IPlant plant : plants) {
             try {
-                plantTOs.add(plantFactory.fillPlantWithEnterpriseTO(plant));
+                plantTOs.add(plantFactory.fillPlantTO(plant));
             } catch (NotInDatabaseException e) {
                 LOG.error("Got NotInDatabaseException: " + e);
                 e.printStackTrace();
@@ -317,7 +317,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 
     @Override
-    public void updatePlant(PlantWithEnterpriseTO plantTO)
+    public void updatePlant(PlantTO plantTO)
             throws NotInDatabaseException, UpdateException {
         IPlant plant;
         try {
@@ -500,8 +500,8 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 
     @Override
-    public PlantWithEnterpriseTO queryPlantByEnterpriseID(long enterpriseId, long plantId) throws NotInDatabaseException {
-        return plantFactory.fillPlantWithEnterpriseTO(
+    public PlantTO queryPlantByEnterpriseID(long enterpriseId, long plantId) throws NotInDatabaseException {
+        return plantFactory.fillPlantTO(
                 plantQuery.queryPlantByEnterprise(enterpriseId, plantId));
     }
 
@@ -553,13 +553,13 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 
     @Override
-    public Collection<PlantWithEnterpriseTO> queryPlantByName(long enterpriseId, String plantName)
+    public Collection<PlantTO> queryPlantByName(long enterpriseId, String plantName)
             throws NotInDatabaseException {
         Collection<IPlant> plants = plantQuery.queryPlantByName(enterpriseId, plantName);
-        Collection<PlantWithEnterpriseTO> plantTOs = new ArrayList<>(plants.size());
+        Collection<PlantTO> plantTOs = new ArrayList<>(plants.size());
 
         for (IPlant store : plants) {
-            plantTOs.add(plantFactory.fillPlantWithEnterpriseTO(store));
+            plantTOs.add(plantFactory.fillPlantTO(store));
         }
 
         return plantTOs;
