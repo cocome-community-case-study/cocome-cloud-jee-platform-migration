@@ -1,4 +1,5 @@
-/***************************************************************************
+/*
+ *************************************************************************
  * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,12 +13,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- ***************************************************************************/
+ *************************************************************************
+ */
 
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.reporting.IReportingLocal;
-import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -55,26 +56,6 @@ public interface IEnterpriseQuery {
             long enterpriseID);
 
     /**
-     * Retrieves all plants belonging to this enterprise from the database.
-     *
-     * @param enterpriseID the unique identifier of a TradingEnterprise entity
-     * @return All plants found in the given enterprise or an empty collection
-     */
-    Collection<IPlant> queryPlantsByEnterpriseId(
-            long enterpriseID);
-
-    /**
-     * Retrieves a specific plant belonging to this enterprise from the database.
-     *
-     * @param enterpriseID the unique identifier of a TradingEnterprise entity
-     * @param plantID      the unique identifier of the Store entity
-     * @return The Plant if found
-     * @throws NotInDatabaseException if no Plant could be found in the given enterprise
-     */
-    IPlant queryPlantByEnterprise(
-            long enterpriseID, long plantID) throws NotInDatabaseException;
-
-    /**
      * Retrieves a specific store belonging to this enterprise from the database.
      *
      * @param enterpriseID the unique identifier of a TradingEnterprise entity
@@ -94,15 +75,6 @@ public interface IEnterpriseQuery {
      */
     Collection<IStore> queryStoreByName(
             long enterpriseID, String storeName);
-
-    /**
-     * Retrieves a specific plant belonging to this enterprise from the database.
-     *
-     * @param enterpriseID the unique identifier of a TradingEnterprise entity
-     * @return A list of plants with the given name or an empty list, if none was found.
-     */
-    Collection<IPlant> queryPlantByName(
-            long enterpriseID, String plantName);
 
     /**
      * Retrieves an enterprise with the given name from the database.

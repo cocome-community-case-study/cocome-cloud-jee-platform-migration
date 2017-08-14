@@ -67,9 +67,8 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
 	@Override
 	public IStore queryStoreById(long storeId) throws NotInDatabaseException {
 		try {
-			IStore store = csvHelper.getStores(
-					backendConnection.getStores("id==" + storeId)).iterator().next();			
-			return store;
+			return csvHelper.getStores(
+					backendConnection.getStores("id==" + storeId)).iterator().next();
 		} catch (NoSuchElementException e) {
 			throw new NotInDatabaseException(
 					"Store with ID " + storeId + " could not be found!");
@@ -80,9 +79,8 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
 	@Override
 	public IStockItem queryStockItemById(long stockItemId) throws NotInDatabaseException {
 		try {
-			IStockItem item = csvHelper.getStockItems(
+			return csvHelper.getStockItems(
 					backendConnection.getStockItems("id==" + stockItemId)).iterator().next();
-			return item;
 		} catch  (NoSuchElementException e) {
 			throw new NotInDatabaseException("StockItem with ID " 
 					+ stockItemId + " could not be found!");
@@ -91,9 +89,8 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
 
 	@Override
 	public IProduct queryProductById(long productId) throws NotInDatabaseException {
-		IProduct product = null;
 		try {
-			product = csvHelper.getProducts(
+			final IProduct product = csvHelper.getProducts(
 					backendConnection.getProducts("id==" + productId)).iterator().next();
 			product.setId(productId);
 			return product;
@@ -128,7 +125,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
 
 	@Override
 	public Collection<IProduct> queryProducts(long storeId) {
-		Collection<IProduct> products = new LinkedList<IProduct>();
+		Collection<IProduct> products = new LinkedList<>();
 		for (IStockItem item : queryAllStockItems(storeId)) {
 			products = csvHelper.getProducts(
 					backendConnection.getProducts("barcode==" + item.getProductBarcode()));
@@ -138,25 +135,22 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
 
 	@Override
 	public Collection<IProductOrder> queryOutstandingOrders(long storeId) {
-		Collection<IProductOrder> productOrders = csvHelper.getProductOrders(
+		return csvHelper.getProductOrders(
 				backendConnection.getProductOrder("store.id==" + storeId + ";ProductOrder.deliveryDate=<e.orderingDate"));
-		return productOrders;
 	}
 
 	@Override
 	public Collection<IStockItem> queryAllStockItems(long storeId) {
-		Collection<IStockItem> stockItems = csvHelper.getStockItems(
+		return csvHelper.getStockItems(
 				backendConnection.getStockItems("store.id==" + storeId));
-		return stockItems;
 	}
 
 	@Override
 	public Collection<IStockItem> queryLowStockItems(long storeId) {
 		// Hacky way to get the result. We have to use e.minStock as comparison because
 		// using StockItem.minStock will not be parsed and the query will return an error
-		Collection<IStockItem> stockItems = csvHelper.getStockItems(
+		return csvHelper.getStockItems(
 				backendConnection.getStockItems("store.id==" + storeId + ";StockItem.amount=<e.minStock"));
-		return stockItems;
 	}
 
 	@Override
@@ -175,7 +169,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
 	@Override
 	public Collection<IStockItem> queryStockItemsByProductId(long storeId,
 			long[] productIds) {
-		List<IStockItem> items = new LinkedList<IStockItem>();
+		List<IStockItem> items = new LinkedList<>();
 		for (long productId : productIds) {
 			Collection<IStockItem> stockItems = csvHelper.getStockItems(
 					backendConnection.getStockItems("store.id==" + storeId + ";product.id==" + productId));
@@ -201,8 +195,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
 
 	@Override
 	public Collection<IProductOrder> queryAllOrders(long storeId) {
-		Collection<IProductOrder> productOrders = csvHelper.getProductOrders(
+		return csvHelper.getProductOrders(
 				backendConnection.getProductOrder("store.id==" + storeId));
-		return productOrders;
 	}
 }

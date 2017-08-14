@@ -1,4 +1,5 @@
-/***************************************************************************
+/*
+ *************************************************************************
  * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,13 +13,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- ***************************************************************************/
+ *************************************************************************
+ */
 
 package org.cocome.tradingsystem.inventory.data.plant;
 
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.ejb.Local;
+import java.util.Collection;
 
 /**
  * This interface provides methods for querying the database.
@@ -29,23 +32,32 @@ import javax.ejb.Local;
 public interface IPlantQuery {
 
     /**
-     * Queries the database for a {@link IPlant} entity with given name and location.
-     * If more than one entity match these criteria, the first match will be returned.
+     * Retrieves a specific plant belonging to this enterprise from the database.
      *
-     * @param name     plant name
-     * @param location plant location, may contain wildcard characters and may be empty.
-     * @return {@link IPlant} entity or {@code null} if there is no plant with
-     * the given name and location.
+     * @param enterpriseID the unique identifier of a TradingEnterprise entity
+     * @return A list of plants with the given name or an empty list, if none was found.
      */
-    IPlant queryPlant(String name, String location);
+    Collection<IPlant> queryPlantByName(
+            long enterpriseID, String plantName);
 
     /**
-     * Returns a {@link IPlant} entity corresponding to the given unique identifier.
+     * Retrieves all plants belonging to this enterprise from the database.
      *
-     * @param storeId unique identifier of a {@link IPlant} entity
-     * @return {@link IPlant} entity
-     * @throws NotInDatabaseException if a plant with the given id could not be found
+     * @param enterpriseID the unique identifier of a TradingEnterprise entity
+     * @return All plants found in the given enterprise or an empty collection
      */
-    IPlant queryPlantById(long storeId) throws NotInDatabaseException;
+    Collection<IPlant> queryPlantsByEnterpriseId(
+            long enterpriseID);
+
+    /**
+     * Retrieves a specific plant belonging to this enterprise from the database.
+     *
+     * @param enterpriseID the unique identifier of a TradingEnterprise entity
+     * @param plantID      the unique identifier of the Store entity
+     * @return The Plant if found
+     * @throws NotInDatabaseException if no Plant could be found in the given enterprise
+     */
+    IPlant queryPlantByEnterprise(
+            long enterpriseID, long plantID) throws NotInDatabaseException;
 
 }

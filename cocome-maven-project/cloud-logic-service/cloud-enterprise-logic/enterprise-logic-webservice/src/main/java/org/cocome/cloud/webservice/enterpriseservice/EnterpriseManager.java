@@ -32,6 +32,7 @@ import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -58,7 +59,10 @@ public class EnterpriseManager implements IEnterpriseManager {
 	
 	@Inject
 	IEnterpriseQuery enterpriseQuery;
-	
+
+    @Inject
+    IPlantQuery plantQuery;
+
 	@Inject
 	IPersistenceContext persistenceContext;
 	
@@ -232,7 +236,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
 	public Collection<EnterpriseTO> getEnterprises() {
 		Collection<ITradingEnterprise> enterprises = enterpriseQuery.queryAllEnterprises();
-		Collection<EnterpriseTO> enterpriseTOs = new ArrayList<EnterpriseTO>(enterprises.size());
+		Collection<EnterpriseTO> enterpriseTOs = new ArrayList<>(enterprises.size());
 		for(ITradingEnterprise enterprise : enterprises) {
 			enterpriseTOs.add(enterpriseFactory.fillEnterpriseTO(enterprise));
 		}
@@ -244,7 +248,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 			throws NotInDatabaseException {
 		setContextRegistry(enterpriseId);
 		Collection<IStore> stores = enterpriseQuery.queryStoresByEnterpriseId(enterpriseId);
-		Collection<StoreWithEnterpriseTO> storeTOs = new ArrayList<StoreWithEnterpriseTO>(stores.size());
+		Collection<StoreWithEnterpriseTO> storeTOs = new ArrayList<>(stores.size());
 		for(IStore store : stores) {
 			try {
 				storeTOs.add(storeFactory.fillStoreWithEnterpriseTO(store));
@@ -261,7 +265,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 	public Collection<PlantWithEnterpriseTO> queryPlantsByEnterpriseID(long enterpriseId)
 			throws NotInDatabaseException {
         setContextRegistry(enterpriseId);
-        Collection<IPlant> plants = enterpriseQuery.queryPlantsByEnterpriseId(enterpriseId);
+        Collection<IPlant> plants = plantQuery.queryPlantsByEnterpriseId(enterpriseId);
         Collection<PlantWithEnterpriseTO> plantTOs = new ArrayList<>(plants.size());
         for(IPlant plant : plants) {
             try {
@@ -317,7 +321,7 @@ public class EnterpriseManager implements IEnterpriseManager {
             throws NotInDatabaseException, UpdateException {
         IPlant plant;
         try {
-            plant = enterpriseQuery.queryPlantByEnterprise(
+            plant = plantQuery.queryPlantByEnterprise(
                     plantTO.getEnterpriseTO().getId(), plantTO.getId());
         } catch (NotInDatabaseException e) {
             LOG.error("Got NotInDatabaseException: " + e);
@@ -411,7 +415,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 	@Override
 	public Collection<ProductTO> getAllProducts() {
 		Collection<IProduct> products = enterpriseQuery.queryAllProducts(); 
-		Collection<ProductTO> productTOs = new ArrayList<ProductTO>(products.size());
+		Collection<ProductTO> productTOs = new ArrayList<>(products.size());
 		
 		for (IProduct product : products) {
 			productTOs.add(enterpriseFactory.fillProductTO(product));
@@ -498,7 +502,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public PlantWithEnterpriseTO queryPlantByEnterpriseID(long enterpriseId, long plantId) throws NotInDatabaseException {
         return plantFactory.fillPlantWithEnterpriseTO(
-                enterpriseQuery.queryPlantByEnterprise(enterpriseId, plantId));
+                plantQuery.queryPlantByEnterprise(enterpriseId, plantId));
     }
 
     @Override
@@ -549,8 +553,9 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 
     @Override
-    public Collection<PlantWithEnterpriseTO> queryPlantByName(long enterpriseId, String plantName) throws NotInDatabaseException {
-        Collection<IPlant> plants = enterpriseQuery.queryPlantByName(enterpriseId, plantName);
+    public Collection<PlantWithEnterpriseTO> queryPlantByName(long enterpriseId, String plantName)
+            throws NotInDatabaseException {
+        Collection<IPlant> plants = plantQuery.queryPlantByName(enterpriseId, plantName);
         Collection<PlantWithEnterpriseTO> plantTOs = new ArrayList<>(plants.size());
 
         for (IPlant store : plants) {

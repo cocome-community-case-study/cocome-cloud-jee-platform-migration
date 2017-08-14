@@ -19,7 +19,7 @@
         <module>cloud-logic-core-services</module>
         <module>cloud-registry-service</module>
         <module>cloud-registry-client</module>
-        <!--<module>cloud-plant-logic</module>-->
+        <module>cloud-plant-logic</module>
         <module>cloud-enterprise-logic</module>
         <module>cloud-store-logic</module>
     </modules>

@@ -2,6 +2,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -18,8 +19,8 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 @Stateless
-@Local(IEnterpriseQuery.class)
-public class EnterpriseQueryProvider implements IEnterpriseQuery {
+@Local({IEnterpriseQuery.class, IPlantQuery.class})
+public class EnterpriseQueryProvider implements IEnterpriseQuery, IPlantQuery {
 
     private static final Logger LOG = Logger.getLogger(EnterpriseQueryProvider.class);
 
@@ -169,6 +170,16 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
         }
     }
 
+
+    @Override
+    public Collection<IPlant> queryPlantByName(long enterpriseID, String plantName) {
+        plantName = QueryParameterEncoder.encodeQueryString(plantName);
+        return csvHelper
+                .getPlants(backendConnection.getEntity("Plant","name=LIKE%20'" + plantName
+                        + "';Plant.enterprise.id==" + enterpriseID));
+
+    }
+
     @Override
     public Collection<ITradingEnterprise> queryAllEnterprises() {
         return csvHelper
@@ -227,15 +238,6 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
         return csvHelper
                 .getStores(backendConnection.getStores("name=LIKE%20'" + storeName
                         + "';Store.enterprise.id==" + enterpriseID));
-    }
-
-    @Override
-    public Collection<IPlant> queryPlantByName(long enterpriseID, String plantName) {
-        plantName = QueryParameterEncoder.encodeQueryString(plantName);
-        return csvHelper
-                .getPlants(backendConnection.getEntity("Plant","name=LIKE%20'" + plantName
-                        + "';Plant.enterprise.id==" + enterpriseID));
-
     }
 
 }

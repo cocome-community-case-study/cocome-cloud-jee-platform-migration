@@ -7,13 +7,10 @@ import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
 import org.cocome.cloud.logic.stub.NotBoundException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.registry.service.Names;
-import org.cocome.tradingsystem.inventory.application.plant.PlantWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
-import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -44,9 +41,6 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Inject
     IStoreDataFactory storeFactory;
-
-    @Inject
-    IPlantDataFactory plantFactory;
 
     private IEnterpriseManager lookupEnterpriseManager(long enterpriseID) throws NotInDatabaseException {
         IEnterpriseManagerService enterpriseService;
@@ -87,36 +81,6 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
 
         try {
             return enterpriseFactory.convertToEnterprise(enterpriseManager.queryEnterpriseById(enterpriseID));
-        } catch (NotInDatabaseException_Exception e) {
-            throw new NotInDatabaseException(e.getFaultInfo().getMessage());
-        }
-    }
-
-    @Override
-    public Collection<IPlant> queryPlantsByEnterpriseId(long enterpriseID) {
-        IEnterpriseManager enterpriseManager;
-        List<PlantWithEnterpriseTO> plantTOList;
-        try {
-            enterpriseManager = lookupEnterpriseManager(enterpriseID);
-            plantTOList = enterpriseManager.queryPlantsByEnterpriseID(enterpriseID);
-        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
-            LOG.error("Got error while looking up stores by enterprise: " + e.getMessage());
-            return Collections.emptyList();
-        }
-
-        List<IPlant> storeList = new ArrayList<>(plantTOList.size());
-
-        for (PlantWithEnterpriseTO plantTO : plantTOList) {
-            storeList.add(plantFactory.convertToPlant(plantTO));
-        }
-        return storeList;
-    }
-
-    @Override
-    public IPlant queryPlantByEnterprise(long enterpriseID, long plantID) throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
-        try {
-            return plantFactory.convertToPlant(enterpriseManager.queryPlantByEnterpriseID(enterpriseID, plantID));
         } catch (NotInDatabaseException_Exception e) {
             throw new NotInDatabaseException(e.getFaultInfo().getMessage());
         }
@@ -349,26 +313,4 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
         }
         return storeList;
     }
-
-    @Override
-    public Collection<IPlant> queryPlantByName(long enterpriseID, String plantName) {
-        IEnterpriseManager enterpriseManager;
-        List<PlantWithEnterpriseTO> plantTOList;
-
-        try {
-            enterpriseManager = lookupEnterpriseManager(enterpriseID);
-            plantTOList = enterpriseManager.queryPlantByName(enterpriseID, plantName);
-        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
-            LOG.error("Got error while looking up plants by name: " + e.getMessage());
-            return Collections.emptyList();
-        }
-
-        List<IPlant> plantList = new ArrayList<>(plantTOList.size());
-
-        for (PlantWithEnterpriseTO plantTO : plantTOList) {
-            plantList.add(plantFactory.convertToPlant(plantTO));
-        }
-        return plantList;
-    }
-
 }
