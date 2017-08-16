@@ -1,18 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>cloud-logic-service</artifactId>
-    <groupId>org.cocome</groupId>
-    <version>1.1</version>
-  </parent>
-  <artifactId>cloud-enterprise-logic</artifactId>
-  <packaging>pom</packaging>
-  <name>Cloud Enterprise Logic (Parent)</name>
-  
-  <modules>
-  	<module>enterprise-logic-ear</module>
-  	<module>enterprise-logic-ejb</module>
-  	<module>enterprise-logic-webservice</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>cloud-logic-service</artifactId>
+        <groupId>org.cocome</groupId>
+        <version>1.1</version>
+    </parent>
+    <artifactId>cloud-enterprise-logic</artifactId>
+    <packaging>pom</packaging>
+    <name>Cloud Enterprise Logic (Parent)</name>
+
+    <properties>
+        <arquillian.version>1.1.13.Final</arquillian.version>
+        <arquillian.glassfish.version>1.0.0.Final</arquillian.glassfish.version>
+        <glassfish.embedded.version>4.1.2</glassfish.embedded.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>${arquillian.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>enterprise-logic-ear</module>
+        <module>enterprise-logic-ejb</module>
+        <module>enterprise-logic-webservice</module>
+    </modules>
 </project>
