@@ -7,7 +7,7 @@ import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
 import org.cocome.cloud.logic.stub.NotBoundException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.registry.service.Names;
-import org.cocome.tradingsystem.inventory.application.plant.PlantWithEnterpriseTO;
+import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -77,7 +77,7 @@ public class PlantQueryProvider implements IPlantQuery {
     @Override
     public Collection<IPlant> queryPlantsByEnterpriseId(long enterpriseID) {
         IEnterpriseManager enterpriseManager;
-        List<PlantWithEnterpriseTO> plantTOList;
+        List<PlantTO> plantTOList;
         try {
             enterpriseManager = lookupEnterpriseManager(enterpriseID);
             plantTOList = enterpriseManager.queryPlantsByEnterpriseID(enterpriseID);
@@ -88,7 +88,7 @@ public class PlantQueryProvider implements IPlantQuery {
 
         List<IPlant> plantList = new ArrayList<>(plantTOList.size());
 
-        for (PlantWithEnterpriseTO plantTO : plantTOList) {
+        for (PlantTO plantTO : plantTOList) {
             plantList.add(plantFactory.convertToPlant(plantTO));
         }
         return plantList;
@@ -107,7 +107,7 @@ public class PlantQueryProvider implements IPlantQuery {
     @Override
     public Collection<IPlant> queryPlantByName(long enterpriseID, String plantName) {
         IEnterpriseManager enterpriseManager;
-        List<PlantWithEnterpriseTO> plantTOList;
+        List<PlantTO> plantTOList;
 
         try {
             enterpriseManager = lookupEnterpriseManager(enterpriseID);
@@ -119,7 +119,7 @@ public class PlantQueryProvider implements IPlantQuery {
 
         List<IPlant> plantList = new ArrayList<>(plantTOList.size());
 
-        for (PlantWithEnterpriseTO plantTO : plantTOList) {
+        for (PlantTO plantTO : plantTOList) {
             plantList.add(plantFactory.convertToPlant(plantTO));
         }
         return plantList;

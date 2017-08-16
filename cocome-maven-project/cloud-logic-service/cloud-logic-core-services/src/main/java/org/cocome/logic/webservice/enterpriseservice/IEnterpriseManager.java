@@ -1,6 +1,6 @@
 package org.cocome.logic.webservice.enterpriseservice;
 
-import org.cocome.tradingsystem.inventory.application.plant.PlantWithEnterpriseTO;
+import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -52,7 +52,7 @@ public interface IEnterpriseManager {
      * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
      */
     @WebMethod
-    Collection<PlantWithEnterpriseTO> queryPlantsByEnterpriseID(
+    Collection<PlantTO> queryPlantsByEnterpriseID(
             @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId) throws NotInDatabaseException;
 
     /**
@@ -75,7 +75,7 @@ public interface IEnterpriseManager {
      * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
      */
     @WebMethod
-    PlantWithEnterpriseTO queryPlantByEnterpriseID(
+    PlantTO queryPlantByEnterpriseID(
             @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId,
             @XmlElement(required = true) @WebParam(name = "plantID") long plantId) throws NotInDatabaseException;
 
@@ -108,7 +108,7 @@ public interface IEnterpriseManager {
      * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
      */
     @WebMethod
-    Collection<PlantWithEnterpriseTO> queryPlantByName(
+    Collection<PlantTO> queryPlantByName(
             @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId,
             @XmlElement(required = true) @WebParam(name = "PlantName") String plantName) throws NotInDatabaseException;
 
@@ -230,7 +230,7 @@ public interface IEnterpriseManager {
 
     @WebMethod
     void createPlant(
-            @XmlElement(required = true) @WebParam(name = "plantTO") PlantWithEnterpriseTO plantTO)
+            @XmlElement(required = true) @WebParam(name = "plantTO") PlantTO plantTO)
             throws CreateException;
 
     /**
@@ -256,7 +256,7 @@ public interface IEnterpriseManager {
      */
     @WebMethod
     void updatePlant(
-            @XmlElement(required = true) @WebParam(name = "plantTO") PlantWithEnterpriseTO plantTO)
+            @XmlElement(required = true) @WebParam(name = "plantTO") PlantTO plantTO)
             throws UpdateException, NotInDatabaseException;
 
     @WebMethod

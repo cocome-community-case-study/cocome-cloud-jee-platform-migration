@@ -91,7 +91,7 @@
   </xs:complexType>
   <xs:complexType name="queryPlantByEnterpriseIDResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="ns2:PlantWithEnterpriseTO"/>
+      <xs:element minOccurs="0" name="return" type="ns2:PlantTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryStoresByEnterpriseID">
@@ -116,7 +116,7 @@
   </xs:complexType>
   <xs:complexType name="updatePlant">
     <xs:sequence>
-      <xs:element name="plantTO" type="ns2:PlantWithEnterpriseTO"/>
+      <xs:element name="plantTO" type="ns2:PlantTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="updatePlantResponse">
@@ -159,7 +159,7 @@
   </xs:complexType>
   <xs:complexType name="queryPlantsByEnterpriseIDResponse">
     <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:PlantWithEnterpriseTO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:PlantTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryStoreByEnterpriseID">
@@ -241,7 +241,7 @@
   </xs:complexType>
   <xs:complexType name="createPlant">
     <xs:sequence>
-      <xs:element name="plantTO" type="ns2:PlantWithEnterpriseTO"/>
+      <xs:element name="plantTO" type="ns2:PlantTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createPlantResponse">
@@ -285,7 +285,7 @@
   </xs:complexType>
   <xs:complexType name="queryPlantByNameResponse">
     <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:PlantWithEnterpriseTO"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:PlantTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createProduct">

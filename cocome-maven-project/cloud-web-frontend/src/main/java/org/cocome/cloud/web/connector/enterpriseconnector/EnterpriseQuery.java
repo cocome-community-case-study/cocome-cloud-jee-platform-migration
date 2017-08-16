@@ -8,7 +8,7 @@ import org.cocome.cloud.web.data.enterprisedata.EnterpriseViewData;
 import org.cocome.cloud.web.data.plantdata.PlantViewData;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
-import org.cocome.tradingsystem.inventory.application.plant.PlantWithEnterpriseTO;
+import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
@@ -159,7 +159,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         for (EnterpriseViewData ent : enterprises.values()) {
             LinkedList<PlantViewData> plants = new LinkedList<>();
             enterpriseManager = lookupEnterpriseManager(ent.getId());
-            for (PlantWithEnterpriseTO plant : enterpriseManager.queryPlantsByEnterpriseID(ent.getId())) {
+            for (PlantTO plant : enterpriseManager.queryPlantsByEnterpriseID(ent.getId())) {
                 PlantViewData tempPlant = new PlantViewData(plant.getId(), plant.getEnterpriseTO(), plant.getLocation(),
                         plant.getName());
                 this.plants.put(tempPlant.getID(), tempPlant);
@@ -270,7 +270,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 
     @Override
     public boolean updatePlant(PlantViewData plant) throws NotInDatabaseException_Exception {
-        PlantWithEnterpriseTO storeTO = new PlantWithEnterpriseTO();
+        PlantTO storeTO = new PlantTO();
         storeTO.setId(plant.getID());
         storeTO.setLocation(plant.getLocation());
         storeTO.setName(plant.getName());
@@ -365,12 +365,12 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 
     @Override
     public boolean createPlant(long enterpriseID, String name, String location) throws NotInDatabaseException_Exception {
-        PlantWithEnterpriseTO plantTO = new PlantWithEnterpriseTO();
+        PlantTO plantTO = new PlantTO();
         plantTO.setEnterpriseTO(EnterpriseViewData.createEnterpriseTO(enterprises.get(enterpriseID)));
         plantTO.setLocation(location);
         plantTO.setName(name);
 
-        Collection<PlantWithEnterpriseTO> plantTOs;
+        Collection<PlantTO> plantTOs;
         enterpriseManager = lookupEnterpriseManager(enterpriseID);
         try {
             enterpriseManager.createPlant(plantTO);
@@ -385,7 +385,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
             return false;
         }
 
-        for (PlantWithEnterpriseTO recPlantTO : plantTOs) {
+        for (PlantTO recPlantTO : plantTOs) {
             if (plantTO.getLocation().equals(location)) {
                 PlantViewData recPlant = new PlantViewData(recPlantTO.getId(), recPlantTO.getEnterpriseTO(), location, name);
                 plants.put(recPlantTO.getId(), recPlant);

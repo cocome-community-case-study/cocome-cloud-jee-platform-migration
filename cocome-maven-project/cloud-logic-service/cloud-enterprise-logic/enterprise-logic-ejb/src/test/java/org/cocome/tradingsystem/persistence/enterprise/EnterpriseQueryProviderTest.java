@@ -1,8 +1,10 @@
 package org.cocome.tradingsystem.persistence.enterprise;
 
-import org.cocome.tradingsystem.persistence.plant.IPlantDataFactory;
-import org.cocome.tradingsystem.persistence.store.IStoreQuery;
-import org.cocome.tradingsystem.persistence.usermanager.IUserDataFactory;
+import org.cocome.tradingsystem.inventory.data.enterprise.EnterpriseQueryProvider;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
+import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
+import org.cocome.tradingsystem.inventory.data.usermanager.IUserDataFactory;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
 import org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper;
 import org.cocome.tradingsystem.util.Configuration;

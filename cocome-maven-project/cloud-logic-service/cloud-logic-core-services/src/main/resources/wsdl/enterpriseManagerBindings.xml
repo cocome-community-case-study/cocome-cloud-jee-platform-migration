@@ -25,9 +25,6 @@
 		    </bindings>
 		</bindings>
         <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema2.xsd">
-            <bindings node="//xsd:complexType[@name='PlantWithEnterpriseTO']">
-                <class ref="org.cocome.tradingsystem.inventory.application.plant.PlantWithEnterpriseTO"/>
-            </bindings>
             <bindings node="//xsd:complexType[@name='PlantTO']">
                 <class ref="org.cocome.tradingsystem.inventory.application.plant.PlantTO"/>
             </bindings>
