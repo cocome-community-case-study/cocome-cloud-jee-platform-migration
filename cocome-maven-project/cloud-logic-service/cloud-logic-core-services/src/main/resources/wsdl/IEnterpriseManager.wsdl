@@ -5,10 +5,6 @@
   <import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema3.xsd"/>
 </schema>
   </wsdl:types>
-  <wsdl:message name="fillStorizedDatabaseResponse">
-    <wsdl:part name="parameters" element="tns:fillStorizedDatabaseResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="createStoreResponse">
     <wsdl:part name="parameters" element="tns:createStoreResponse">
     </wsdl:part>
@@ -57,16 +53,16 @@
     <wsdl:part name="parameters" element="tns:queryEnterpriseByIdResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="fillTestDatabaseResponse">
-    <wsdl:part name="parameters" element="tns:fillTestDatabaseResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getEnterprisesResponse">
     <wsdl:part name="parameters" element="tns:getEnterprisesResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="NotInDatabaseException">
     <wsdl:part name="NotInDatabaseException" element="tns:NotInDatabaseException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteEnterpriseResponse">
+    <wsdl:part name="parameters" element="tns:deleteEnterpriseResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllEnterpriseProducts">
@@ -105,16 +101,16 @@
     <wsdl:part name="parameters" element="tns:queryPlantByEnterpriseIDResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="fillItemizedDatabaseResponse">
-    <wsdl:part name="parameters" element="tns:fillItemizedDatabaseResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="queryStoreByEnterpriseIDResponse">
     <wsdl:part name="parameters" element="tns:queryStoreByEnterpriseIDResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="querySuppliersResponse">
     <wsdl:part name="parameters" element="tns:querySuppliersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteEnterprise">
+    <wsdl:part name="parameters" element="tns:deleteEnterprise">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getProductByID">
@@ -135,10 +131,6 @@
   </wsdl:message>
   <wsdl:message name="getSupplierByID">
     <wsdl:part name="parameters" element="tns:getSupplierByID">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fillItemizedDatabase">
-    <wsdl:part name="parameters" element="tns:fillItemizedDatabase">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getProductsBySupplierResponse">
@@ -179,10 +171,6 @@
   </wsdl:message>
   <wsdl:message name="getSupplierByIDResponse">
     <wsdl:part name="parameters" element="tns:getSupplierByIDResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="fillStorizedDatabase">
-    <wsdl:part name="parameters" element="tns:fillStorizedDatabase">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createPlantResponse">
@@ -237,10 +225,6 @@
     <wsdl:part name="parameters" element="tns:queryEnterpriseByNameResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="fillTestDatabase">
-    <wsdl:part name="parameters" element="tns:fillTestDatabase">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="createStore">
     <wsdl:part name="parameters" element="tns:createStore">
     </wsdl:part>
@@ -252,18 +236,6 @@
       <wsdl:output name="getSupplierByIDResponse" message="tns:getSupplierByIDResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="fillItemizedDatabase">
-      <wsdl:input name="fillItemizedDatabase" message="tns:fillItemizedDatabase">
-    </wsdl:input>
-      <wsdl:output name="fillItemizedDatabaseResponse" message="tns:fillItemizedDatabaseResponse">
-    </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
-    </wsdl:fault>
-      <wsdl:fault name="IOException" message="tns:IOException">
-    </wsdl:fault>
-      <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryPlantByEnterpriseID">
@@ -340,18 +312,6 @@
       <wsdl:output name="queryStoreByEnterpriseIDResponse" message="tns:queryStoreByEnterpriseIDResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="fillStorizedDatabase">
-      <wsdl:input name="fillStorizedDatabase" message="tns:fillStorizedDatabase">
-    </wsdl:input>
-      <wsdl:output name="fillStorizedDatabaseResponse" message="tns:fillStorizedDatabaseResponse">
-    </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
-    </wsdl:fault>
-      <wsdl:fault name="IOException" message="tns:IOException">
-    </wsdl:fault>
-      <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createEnterprise">
@@ -450,16 +410,16 @@
       <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="fillTestDatabase">
-      <wsdl:input name="fillTestDatabase" message="tns:fillTestDatabase">
+    <wsdl:operation name="deleteEnterprise">
+      <wsdl:input name="deleteEnterprise" message="tns:deleteEnterprise">
     </wsdl:input>
-      <wsdl:output name="fillTestDatabaseResponse" message="tns:fillTestDatabaseResponse">
+      <wsdl:output name="deleteEnterpriseResponse" message="tns:deleteEnterpriseResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
-      <wsdl:fault name="IOException" message="tns:IOException">
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
-      <wsdl:fault name="CreateException" message="tns:CreateException">
+      <wsdl:fault name="IOException" message="tns:IOException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createStore">
@@ -497,24 +457,6 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="fillItemizedDatabase">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="fillItemizedDatabase">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="fillItemizedDatabaseResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException">
-        <soap:fault name="NotInDatabaseException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="IOException">
-        <soap:fault name="IOException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="CreateException">
-        <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryPlantByEnterpriseID">
@@ -629,24 +571,6 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="fillStorizedDatabase">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="fillStorizedDatabase">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="fillStorizedDatabaseResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException">
-        <soap:fault name="NotInDatabaseException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="IOException">
-        <soap:fault name="IOException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="CreateException">
-        <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createEnterprise">
@@ -793,22 +717,22 @@
         <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="fillTestDatabase">
+    <wsdl:operation name="deleteEnterprise">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="fillTestDatabase">
+      <wsdl:input name="deleteEnterprise">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="fillTestDatabaseResponse">
+      <wsdl:output name="deleteEnterpriseResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
       <wsdl:fault name="IOException">
         <soap:fault name="IOException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="CreateException">
-        <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createStore">

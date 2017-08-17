@@ -1,3 +1,21 @@
+/*
+ *************************************************************************
+ * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *************************************************************************
+ */
+
 package org.cocome.tradingsystem.inventory.data.persistence;
 
 import org.apache.log4j.Logger;
@@ -141,7 +159,6 @@ public class CloudPersistenceContext implements IPersistenceContext {
         if (!postData.getResponse().contains("SUCCESS")) {
             throw new UpdateException("Could not update entity!");
         }
-
     }
 
     @Override
@@ -254,48 +271,6 @@ public class CloudPersistenceContext implements IPersistenceContext {
     }
 
     @Override
-    public void createEntity(Object entity) throws CreateException {
-        if (entity instanceof ITradingEnterprise) {
-            createEntity((ITradingEnterprise) entity);
-        } else if (entity instanceof IStore) {
-            createEntity((IStore) entity);
-        } else if (entity instanceof IPlant) {
-            createEntity((IPlant) entity);
-        } else if (entity instanceof IProduct) {
-            createEntity((IProduct) entity);
-        } else if (entity instanceof IProductOrder) {
-            createEntity((IProductOrder) entity);
-        } else if (entity instanceof IStockItem) {
-            createEntity((IStockItem) entity);
-        } else if (entity instanceof IProductSupplier) {
-            createEntity((IProductSupplier) entity);
-        } else {
-            throw new CreateException("The entity with class " + entity.getClass() + " is not recognized and can not be created!");
-        }
-    }
-
-    @Override
-    public void updateEntity(Object entity) throws UpdateException {
-        if (entity instanceof ITradingEnterprise) {
-            updateEntity((ITradingEnterprise) entity);
-        } else if (entity instanceof IStore) {
-            updateEntity((IStore) entity);
-        } else if (entity instanceof IPlant) {
-            updateEntity((IPlant) entity);
-        } else if (entity instanceof IProduct) {
-            updateEntity((IProduct) entity);
-        } else if (entity instanceof IProductOrder) {
-            updateEntity((IProductOrder) entity);
-        } else if (entity instanceof IStockItem) {
-            updateEntity((IStockItem) entity);
-        } else if (entity instanceof IProductSupplier) {
-            updateEntity((IProductSupplier) entity);
-        } else {
-            throw new UpdateException("The entity with class " + entity.getClass() + " is not recognized and can not be updated!");
-        }
-    }
-
-    @Override
     public void createEntity(IUser user) throws CreateException {
         String content = ServiceAdapterEntityConverter.getUserContent(user);
         try {
@@ -368,5 +343,21 @@ public class CloudPersistenceContext implements IPersistenceContext {
         }
     }
 
+    @Override
+    public void deleteEntity(ITradingEnterprise enterprise) throws UpdateException {
+        String content = ServiceAdapterEntityConverter.getUpdateEnterpriseContent(enterprise);
 
+        try {
+            postData.sendDeleteQuery("TradingEnterprise", ServiceAdapterHeaders.ENTERPRISE_UPDATE_HEADER, content);
+        } catch (IOException e) {
+            // TODO perhaps throw this exception to caller?
+            LOG.error("Could not execute post because of an IOException: " + e.getMessage());
+            throw new UpdateException("Could not delete entity!", e);
+        }
+
+        if (!postData.getResponse().contains("SUCCESS")) {
+            throw new UpdateException("Could not delete entity!");
+        }
+
+    }
 }

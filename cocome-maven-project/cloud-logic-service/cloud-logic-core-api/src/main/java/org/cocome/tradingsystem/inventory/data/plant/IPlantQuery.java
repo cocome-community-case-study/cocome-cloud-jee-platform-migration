@@ -59,5 +59,4 @@ public interface IPlantQuery {
      */
     IPlant queryPlantByEnterprise(
             long enterpriseID, long plantID) throws NotInDatabaseException;
-
 }

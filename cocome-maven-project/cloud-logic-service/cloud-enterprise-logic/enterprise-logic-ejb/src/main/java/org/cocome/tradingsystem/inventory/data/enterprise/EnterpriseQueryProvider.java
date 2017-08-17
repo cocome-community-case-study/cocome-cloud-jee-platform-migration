@@ -170,14 +170,12 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery, IPlantQuery {
         }
     }
 
-
     @Override
     public Collection<IPlant> queryPlantByName(long enterpriseID, String plantName) {
         plantName = QueryParameterEncoder.encodeQueryString(plantName);
         return csvHelper
                 .getPlants(backendConnection.getEntity("Plant","name=LIKE%20'" + plantName
                         + "';Plant.enterprise.id==" + enterpriseID));
-
     }
 
     @Override

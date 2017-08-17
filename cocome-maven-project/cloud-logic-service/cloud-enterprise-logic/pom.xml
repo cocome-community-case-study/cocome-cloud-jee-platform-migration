@@ -11,24 +11,6 @@
     <packaging>pom</packaging>
     <name>Cloud Enterprise Logic (Parent)</name>
 
-    <properties>
-        <arquillian.version>1.1.13.Final</arquillian.version>
-        <arquillian.glassfish.version>1.0.0.Final</arquillian.glassfish.version>
-        <glassfish.embedded.version>4.1.2</glassfish.embedded.version>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>${arquillian.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <modules>
         <module>enterprise-logic-ear</module>
         <module>enterprise-logic-ejb</module>

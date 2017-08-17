@@ -1,3 +1,21 @@
+/*
+ *************************************************************************
+ * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *************************************************************************
+ */
+
 package org.cocome.cloud.webservice.enterpriseservice;
 
 import java.io.IOException;
@@ -25,9 +43,6 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
-//import org.cocome.tradingsystem.inventory.data.generator.ItemizedDatabaseFiller;
-//import org.cocome.tradingsystem.inventory.data.generator.StorizedDatabaseFiller;
-//import org.cocome.tradingsystem.inventory.data.generator.TestDatabaseFiller;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
@@ -121,10 +136,8 @@ public class EnterpriseManager implements IEnterpriseManager {
 				enterpriseServiceWSDL, false);
 		applicationHelper.registerComponent(Names.getEnterpriseManagerRegistryName(enterprise.getName()),
 				enterpriseServiceWSDL, false);
-		
 		applicationHelper.registerComponent(Names.getEnterpriseReportingRegistryName(enterprise.getId()),
 				enterpriseReportingWSDL, false);
-		
 		applicationHelper.registerComponent(Names.getLoginManagerRegistryName(enterprise.getId()),
 				loginManagerWSDL, false);
 	}
@@ -424,44 +437,6 @@ public class EnterpriseManager implements IEnterpriseManager {
 	}
 
 	@Override
-	public void fillTestDatabase(int storeCount, int cashDesksPerStore, String dirString) 
-			throws NotInDatabaseException, CreateException, IOException {
-//		try {
-//			testFiller.fillDatabase(storeCount, cashDesksPerStore, dirString);
-//		} catch (NotInDatabaseException | CreateException | IOException e) {
-//			LOG.error("Got an exception while filling the test database: " + e);
-//			e.printStackTrace();
-//			throw e;
-//		}
-	}
-
-	@Override
-	public void fillItemizedDatabase(int stockItemCount, int cashDesksPerStore, String dirString) 
-			throws NotInDatabaseException, CreateException, IOException {
-//		try {
-//			itemizedFiller.fillDatabase(stockItemCount, cashDesksPerStore, dirString);
-//		} catch (NotInDatabaseException | CreateException | IOException e) {
-//			LOG.error("Got an exception while filling the itemized database: " + e);
-//			e.printStackTrace();
-//			throw e;
-//		}
-	}
-
-	@Override
-	public void fillStorizedDatabase(int storeCount, int cashDesksPerStore, String dirString) 
-			throws NotInDatabaseException, CreateException, IOException {
-//		try {
-//			storizedFiller.fillDatabase(storeCount, cashDesksPerStore,
-//					dirString);
-//		} catch (NotInDatabaseException | CreateException | IOException e) {
-//			LOG.error("Got an exception while filling the itemized database: "
-//					+ e);
-//			e.printStackTrace();
-//			throw e;
-//		}
-	}
-
-	@Override
 	public ProductTO getProductByID(long productID) throws NotInDatabaseException {
 		IProduct product = enterpriseQuery.queryProductByID(productID);
 		return enterpriseFactory.fillProductTO(product);
@@ -564,5 +539,24 @@ public class EnterpriseManager implements IEnterpriseManager {
 
         return plantTOs;
     }
+
+	@Override
+	public void deleteEnterprise(EnterpriseTO enterpriseTO) throws NotInDatabaseException, UpdateException, IOException {
+        ITradingEnterprise enterprise;
+        try {
+            enterprise = enterpriseQuery.queryEnterpriseById(enterpriseTO.getId());
+        } catch (NotInDatabaseException e) {
+            LOG.error("Got NotInDatabaseException: " + e);
+            e.printStackTrace();
+            throw e;
+        }
+
+	    try {
+            persistenceContext.deleteEntity(enterprise);
+        } catch (UpdateException e) {
+            LOG.error("Got UpdateException: " + e.getMessage(), e);
+            throw e;
+        }
+	}
 
 }

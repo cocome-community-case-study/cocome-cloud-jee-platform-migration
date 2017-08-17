@@ -1,4 +1,5 @@
-/***************************************************************************
+/*
+ *************************************************************************
  * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,27 +13,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- ***************************************************************************/
+ *************************************************************************
+ */
 
 package org.cocome.tradingsystem.inventory.data.persistence;
-
-import javax.ejb.Local;
 
 /**
  * This interface is used by the application layer to handle persistence
  * 
- * @author Yannick Welsch
+ * @author Rudolf Biczok
  */
-@Local
 public interface IPersistence {
 
-	/**
-	 * Returns a {@link IPersistenceContext} instances that allows to start
-	 * transactions and persist objects.
-	 * 
-	 * @return
-	 *         new {@link IPersistenceContext} instance
-	 */
-	public IPersistenceContext getPersistenceContext();
+	String queryEntity(String condition);
+
+	void deleteEntity(long enterpriseID) throws UpdateException;
 
 }
