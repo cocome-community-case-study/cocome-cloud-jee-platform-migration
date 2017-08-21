@@ -25,6 +25,7 @@ import org.cocome.tradingsystem.util.java.DualIterator;
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
+@Deprecated
 public class ServiceAdapterEntityConverter {
     private static String encodeString(String string) {
         // If the string is encoded there are problems with the

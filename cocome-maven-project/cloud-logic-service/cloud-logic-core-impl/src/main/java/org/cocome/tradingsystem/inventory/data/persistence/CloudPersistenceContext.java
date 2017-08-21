@@ -34,6 +34,7 @@ import javax.ejb.*;
 import javax.inject.Inject;
 import java.io.IOException;
 
+@Deprecated
 @Stateless
 @Local(IPersistenceContext.class)
 public class CloudPersistenceContext implements IPersistenceContext {
