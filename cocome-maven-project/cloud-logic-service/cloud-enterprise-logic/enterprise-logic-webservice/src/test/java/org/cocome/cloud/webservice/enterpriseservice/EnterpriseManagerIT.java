@@ -10,6 +10,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.List;
+
 public class EnterpriseManagerIT {
 
     private static IEnterpriseManager em;
@@ -42,7 +44,10 @@ public class EnterpriseManagerIT {
         plant.setLocation("Some Location");
         plant.setEnterpriseTO(enterprise);
         em.createPlant(plant);
-        for(final PlantTO plantTO : em.queryPlantsByEnterpriseID(enterprise.getId())) {
+        List<PlantTO> plants = em.queryPlantsByEnterpriseID(enterprise.getId());
+        Assert.assertNotNull(plants);
+        Assert.assertFalse(plants.isEmpty());
+        for(final PlantTO plantTO : plants) {
             em.deletePlant(plantTO);
         }
         em.deleteEnterprise(enterprise);
