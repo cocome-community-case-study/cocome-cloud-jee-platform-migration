@@ -41,21 +41,19 @@ public class ServiceAdapterEntityConverter {
      * @return a String representation of the stock item
      */
     public static String getStockItemContent(IStockItem stockItem) {
-        StringBuilder content = new StringBuilder();
-        content.append(stockItem.getStore().getId());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(stockItem.getProductBarcode());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(stockItem.getMinStock());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(stockItem.getMaxStock());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(stockItem.getIncomingAmount());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(stockItem.getAmount());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(stockItem.getSalesPrice());
-        return content.toString();
+        return String.valueOf(stockItem.getStore().getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getProductBarcode() +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getMinStock() +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getMaxStock() +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getIncomingAmount() +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getAmount() +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getSalesPrice();
     }
 
     /**
@@ -91,9 +89,7 @@ public class ServiceAdapterEntityConverter {
      * @return a String representation of the enterprise to be created
      */
     public static String getCreateEnterpriseContent(ITradingEnterprise enterprise) {
-        StringBuilder content = new StringBuilder();
-        content.append(encodeString(enterprise.getName()));
-        return content.toString();
+        return encodeString(enterprise.getName());
     }
 
     /**
@@ -103,11 +99,9 @@ public class ServiceAdapterEntityConverter {
      * @return a String representation of the enterprise to be updated
      */
     public static String getUpdateEnterpriseContent(ITradingEnterprise enterprise) {
-        StringBuilder content = new StringBuilder();
-        content.append(enterprise.getId());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(encodeString(enterprise.getName()));
-        return content.toString();
+        return String.valueOf(enterprise.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(enterprise.getName());
     }
 
     /**
@@ -117,13 +111,11 @@ public class ServiceAdapterEntityConverter {
      * @return a String representation of the store to be created
      */
     public static String getCreateStoreContent(IStore store) {
-        StringBuilder content = new StringBuilder();
-        content.append(encodeString(store.getEnterpriseName()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(encodeString(store.getName()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(encodeString(store.getLocation()));
-        return content.toString();
+        return encodeString(store.getEnterpriseName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(store.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(store.getLocation());
     }
 
 
@@ -134,15 +126,13 @@ public class ServiceAdapterEntityConverter {
      * @return a String representation of the updated store
      */
     public static String getUpdateStoreContent(IStore store) {
-        StringBuilder content = new StringBuilder();
-        content.append(encodeString(store.getEnterpriseName()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(store.getId());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(encodeString(store.getName()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(encodeString(store.getLocation()));
-        return content.toString();
+        return encodeString(store.getEnterpriseName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                store.getId() +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(store.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(store.getLocation());
     }
 
     /**
@@ -152,9 +142,7 @@ public class ServiceAdapterEntityConverter {
      * @return a String representation of the supplier to be created
      */
     public static String getCreateSupplierContent(IProductSupplier supplier) {
-        StringBuilder content = new StringBuilder();
-        content.append(encodeString(supplier.getName()));
-        return content.toString();
+        return encodeString(supplier.getName());
     }
 
     /**
@@ -164,11 +152,9 @@ public class ServiceAdapterEntityConverter {
      * @return a String representation of the updated store
      */
     public static String getUpdateSupplierContent(IProductSupplier supplier) {
-        StringBuilder content = new StringBuilder();
-        content.append(supplier.getId());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(encodeString(supplier.getName()));
-        return content.toString();
+        return String.valueOf(supplier.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(supplier.getName());
     }
 
     /**
@@ -178,13 +164,11 @@ public class ServiceAdapterEntityConverter {
      * @return a String representation of the product
      */
     public static String getProductContent(IProduct product) {
-        StringBuilder content = new StringBuilder();
-        content.append(product.getBarcode());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(encodeString(product.getName()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(product.getPurchasePrice());
-        return content.toString();
+        return String.valueOf(product.getBarcode()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(product.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                product.getPurchasePrice();
     }
 
     /**
