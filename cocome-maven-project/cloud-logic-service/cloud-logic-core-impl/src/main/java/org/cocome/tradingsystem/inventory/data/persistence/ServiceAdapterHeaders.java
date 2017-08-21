@@ -11,10 +11,6 @@ public final class ServiceAdapterHeaders {
 
     static final String ENTERPRISE_UPDATE_HEADER = "EnterpriseId;EnterpriseName";
 
-    static final String PLANT_CREATE_HEADER = "TradingEnterpriseId;PlantName;PlantLocation";
-
-    static final String PLANT_UPDATE_HEADER = "TradingEnterpriseId;PlantId;PlantName;PlantLocation";
-
     static final String STORE_CREATE_HEADER = "EnterpriseName;StoreName;StoreLocation";
 
     static final String STORE_UPDATE_HEADER = "EnterpriseName;StoreId;StoreName;StoreLocation";
@@ -25,7 +21,7 @@ public final class ServiceAdapterHeaders {
 
     static final String PRODUCTSUPPLIER_UPDATE_HEADER = "ProductSupplierId;ProductSupplierName";
 
-    static final String SEPARATOR = ";";
+    public static final String SEPARATOR = ";";
 
     static final String USER_CREATE_HEADER = "UserName;CredentialType;CredentialString;Role";
 

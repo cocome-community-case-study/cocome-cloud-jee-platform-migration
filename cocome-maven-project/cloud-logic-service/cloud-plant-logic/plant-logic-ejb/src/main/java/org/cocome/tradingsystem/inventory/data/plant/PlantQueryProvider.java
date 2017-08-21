@@ -125,4 +125,9 @@ public class PlantQueryProvider implements IPlantQuery {
         return plantList;
     }
 
+    @Override
+    public IPlant queryPlantById(long plantID) throws NotInDatabaseException {
+       throw new UnsupportedOperationException("FIXME");
+    }
+
 }

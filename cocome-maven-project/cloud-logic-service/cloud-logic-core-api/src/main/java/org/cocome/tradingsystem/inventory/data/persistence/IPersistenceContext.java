@@ -128,22 +128,6 @@ public interface IPersistenceContext {
     void createEntity(IProduct product) throws CreateException;
 
     /**
-     * Creates a new plant in the database.
-     *
-     * @param plant the plant to create
-     * @throws CreateException
-     */
-    void createEntity(IPlant plant) throws CreateException;
-
-    /**
-     * Updates a plant with the new values given.
-     *
-     * @param plant the updated product
-     * @throws UpdateException
-     */
-    void updateEntity(IPlant plant) throws UpdateException;
-
-    /**
      * Updates a product with the new values given.
      *
      * @param product the updated product
@@ -185,9 +169,8 @@ public interface IPersistenceContext {
 
     /**
      * Deletes the enterprise from the database
-     * @param enterprise the enterprise id
+     * @param enterprise the enterprise to delete
      * @throws UpdateException if deletion failed
      */
     void deleteEntity(ITradingEnterprise enterprise) throws UpdateException;
-
 }

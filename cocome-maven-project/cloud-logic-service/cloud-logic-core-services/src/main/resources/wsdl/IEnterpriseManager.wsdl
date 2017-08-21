@@ -61,6 +61,10 @@
     <wsdl:part name="NotInDatabaseException" element="tns:NotInDatabaseException">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deletePlant">
+    <wsdl:part name="parameters" element="tns:deletePlant">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="deleteEnterpriseResponse">
     <wsdl:part name="parameters" element="tns:deleteEnterpriseResponse">
     </wsdl:part>
@@ -167,6 +171,10 @@
   </wsdl:message>
   <wsdl:message name="queryStoresByEnterpriseIDResponse">
     <wsdl:part name="parameters" element="tns:queryStoresByEnterpriseIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePlantResponse">
+    <wsdl:part name="parameters" element="tns:deletePlantResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSupplierByIDResponse">
@@ -320,6 +328,18 @@
       <wsdl:output name="createEnterpriseResponse" message="tns:createEnterpriseResponse">
     </wsdl:output>
       <wsdl:fault name="CreateException" message="tns:CreateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deletePlant">
+      <wsdl:input name="deletePlant" message="tns:deletePlant">
+    </wsdl:input>
+      <wsdl:output name="deletePlantResponse" message="tns:deletePlantResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+      <wsdl:fault name="IOException" message="tns:IOException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getAllEnterpriseProducts">
@@ -583,6 +603,24 @@
       </wsdl:output>
       <wsdl:fault name="CreateException">
         <soap:fault name="CreateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deletePlant">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deletePlant">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deletePlantResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IOException">
+        <soap:fault name="IOException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getAllEnterpriseProducts">

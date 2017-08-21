@@ -174,8 +174,19 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery, IPlantQuery {
     public Collection<IPlant> queryPlantByName(long enterpriseID, String plantName) {
         plantName = QueryParameterEncoder.encodeQueryString(plantName);
         return csvHelper
-                .getPlants(backendConnection.getEntity("Plant","name=LIKE%20'" + plantName
+                .getPlants(backendConnection.getEntity("Plant", "name=LIKE%20'" + plantName
                         + "';Plant.enterprise.id==" + enterpriseID));
+    }
+
+    @Override
+    public IPlant queryPlantById(long plantID) throws NotInDatabaseException {
+        try {
+            return csvHelper
+                    .getPlants(backendConnection.getEntity("Plant", "id==" + plantID))
+                    .iterator().next();
+        } catch (NoSuchElementException e) {
+            throw new NotInDatabaseException("No matching store found in database!");
+        }
     }
 
     @Override

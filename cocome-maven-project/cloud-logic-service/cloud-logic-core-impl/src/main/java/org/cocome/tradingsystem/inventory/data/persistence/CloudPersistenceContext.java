@@ -115,21 +115,6 @@ public class CloudPersistenceContext implements IPersistenceContext {
     }
 
     @Override
-    public void createEntity(IPlant plant) throws CreateException {
-        String content = ServiceAdapterEntityConverter.getCreatePlantContent(plant);
-        try {
-            postData.sendCreateQuery("Plant", ServiceAdapterHeaders.PLANT_CREATE_HEADER, content);
-        } catch (IOException e) {
-            LOG.error("Could not execute post because of an IOException: " + e.getMessage());
-            throw new CreateException("Could not create entity!");
-        }
-
-        if (postData.getResponse().contains("FAIL") || !postData.getResponse().contains("SUCCESS")) {
-            throw new CreateException("Could not create entity!");
-        }
-    }
-
-    @Override
     public void createEntity(IProductOrder productOrder) throws CreateException {
         String content = ServiceAdapterEntityConverter.getProductOrderContent(productOrder);
         try {
@@ -173,22 +158,6 @@ public class CloudPersistenceContext implements IPersistenceContext {
 
         if (!postData.getResponse().contains("SUCCESS")) {
             throw new CreateException("Could not create entity!");
-        }
-    }
-
-    @Override
-    public void updateEntity(IPlant plant) throws UpdateException {
-        String content = ServiceAdapterEntityConverter.getUpdatePlantContent(plant);
-
-        try {
-            postData.sendUpdateQuery("Plant", ServiceAdapterHeaders.PLANT_UPDATE_HEADER, content);
-        } catch (IOException e) {
-            LOG.error("Could not execute post because of an IOException: " + e.getMessage());
-            throw new UpdateException("Could not create entity!", e);
-        }
-
-        if (!postData.getResponse().contains("SUCCESS")) {
-            throw new UpdateException("Could not update entity!");
         }
     }
 
@@ -358,6 +327,5 @@ public class CloudPersistenceContext implements IPersistenceContext {
         if (!postData.getResponse().contains("SUCCESS")) {
             throw new UpdateException("Could not delete entity!");
         }
-
     }
 }

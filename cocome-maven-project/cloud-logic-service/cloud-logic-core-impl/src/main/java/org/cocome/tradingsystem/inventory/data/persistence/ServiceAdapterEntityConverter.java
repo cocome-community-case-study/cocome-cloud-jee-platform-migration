@@ -126,21 +126,6 @@ public class ServiceAdapterEntityConverter {
         return content.toString();
     }
 
-    /**
-     * Returns a string containing all needed information to create a new enterprise.
-     *
-     * @param plant
-     * @return a String representation of the plant to be created
-     */
-    public static String getCreatePlantContent(IPlant plant) {
-        StringBuilder content = new StringBuilder();
-        content.append(plant.getEnterpriseId());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(encodeString(plant.getName()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(encodeString(plant.getLocation()));
-        return content.toString();
-    }
 
     /**
      * Returns a string containing all needed information to update a store.
@@ -157,24 +142,6 @@ public class ServiceAdapterEntityConverter {
         content.append(encodeString(store.getName()));
         content.append(ServiceAdapterHeaders.SEPARATOR);
         content.append(encodeString(store.getLocation()));
-        return content.toString();
-    }
-
-    /**
-     * Returns a string containing all needed information to update a store.
-     *
-     * @param plant
-     * @return a String representation of the updated store
-     */
-    public static String getUpdatePlantContent(IPlant plant) {
-        StringBuilder content = new StringBuilder();
-        content.append(plant.getEnterpriseId());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(plant.getId());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(encodeString(plant.getName()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
-        content.append(encodeString(plant.getLocation()));
         return content.toString();
     }
 

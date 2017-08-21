@@ -17,6 +17,8 @@
   <xs:element name="createStoreResponse" type="tns:createStoreResponse"/>
   <xs:element name="deleteEnterprise" type="tns:deleteEnterprise"/>
   <xs:element name="deleteEnterpriseResponse" type="tns:deleteEnterpriseResponse"/>
+  <xs:element name="deletePlant" type="tns:deletePlant"/>
+  <xs:element name="deletePlantResponse" type="tns:deletePlantResponse"/>
   <xs:element name="getAllEnterpriseProducts" type="tns:getAllEnterpriseProducts"/>
   <xs:element name="getAllEnterpriseProductsResponse" type="tns:getAllEnterpriseProductsResponse"/>
   <xs:element name="getAllProducts" type="tns:getAllProducts"/>
@@ -165,6 +167,14 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createEnterpriseResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="deletePlant">
+    <xs:sequence>
+      <xs:element name="plantTO" type="ns2:PlantTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deletePlantResponse">
     <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="getAllEnterpriseProducts">

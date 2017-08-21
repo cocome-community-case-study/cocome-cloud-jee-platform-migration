@@ -18,15 +18,37 @@
 
 package org.cocome.tradingsystem.inventory.data.persistence;
 
+import javax.ejb.CreateException;
+
 /**
- * This interface is used by the application layer to handle persistence
- * 
+ * Interface for classes that handles Create, Update, Delete operations by directly calling the
+ * with service adapter module
+ *
  * @author Rudolf Biczok
  */
-public interface IPersistence {
+public interface IPersistence<T> {
+    /**
+     * Stores a new entity to the database.
+     *
+     * @param entity the entity to create
+     * @throws CreateException if creation failed
+     */
+    void createEntity(T entity) throws CreateException;
 
-	String queryEntity(String condition);
+    /**
+     * Updates an entity with the new values given.
+     *
+     * @param entity the entity to update
+     * @throws UpdateException if update failed
+     */
+    void updateEntity(T entity) throws UpdateException;
 
-	void deleteEntity(long enterpriseID) throws UpdateException;
+    /**
+     * Deletes the entity from the database
+     *
+     * @param entity the entity to delete
+     * @throws UpdateException if deletion failed
+     */
+    void deleteEntity(T entity) throws UpdateException;
 
 }

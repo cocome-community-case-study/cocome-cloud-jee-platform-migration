@@ -97,7 +97,6 @@ public interface IEnterpriseManager {
             @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId,
             @XmlElement(required = true) @WebParam(name = "plantID") long plantId) throws NotInDatabaseException;
 
-
     /**
      * Queries the database for a store with the given name in the given enterprise.
      * If there are multiple stores with the given name, all of them are returned.
@@ -293,5 +292,11 @@ public interface IEnterpriseManager {
     @WebMethod
     void deleteEnterprise(
             @XmlElement(required = true) @WebParam(name = "enterpriseTO") EnterpriseTO enterpriseTO)
+            throws NotInDatabaseException, UpdateException, IOException;
+
+    @WebMethod
+    void deletePlant(
+            @XmlElement(required = true)
+            @WebParam(name = "plantTO") PlantTO plantTO)
             throws NotInDatabaseException, UpdateException, IOException;
 }
