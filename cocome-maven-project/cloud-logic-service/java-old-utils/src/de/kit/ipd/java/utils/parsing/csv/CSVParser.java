@@ -21,7 +21,6 @@ import de.kit.ipd.java.utils.parsing.csv.CSVLexer.State4;
 import de.kit.ipd.java.utils.parsing.csv.CSVLexer.State5;
 import de.kit.ipd.java.utils.parsing.csv.CSVLexer.State6;
 
-
 public class CSVParser implements Parser<Table<String>>, LexerVisitor<CharSequence> {
 	
 	/**************************************************************************

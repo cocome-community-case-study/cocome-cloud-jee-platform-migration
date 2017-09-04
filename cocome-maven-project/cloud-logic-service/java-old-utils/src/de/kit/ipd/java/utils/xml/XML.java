@@ -355,14 +355,14 @@ public final class XML {
 					switch (node.getNodeType()) {
 					case Node.ATTRIBUTE_NODE:
 						option = visitor.visitAttr(node);
-						if(option!=XMLOption.BREAK && !node.getTextContent().isEmpty()){
+						if(option!= XMLOption.BREAK && !node.getTextContent().isEmpty()){
 							option = visitor.visitAttr(node.getTextContent());
 						}
 						visitedNodes.add(node);
 						break;
 					case Node.ELEMENT_NODE:
 						option = visitor.visitNode(node);
-						if(option!=XMLOption.BREAK && !node.getTextContent().isEmpty()){
+						if(option!= XMLOption.BREAK && !node.getTextContent().isEmpty()){
 							option = visitor.visitNode(node.getTextContent());
 						}
 						visitedNodes.add(node);
@@ -407,13 +407,13 @@ public final class XML {
 					switch (node.getNodeType()) {
 					case Node.ATTRIBUTE_NODE:
 						option = visitor.visitAttr(node);
-						if(option!=XMLOption.BREAK && !node.getTextContent().isEmpty()){
+						if(option!= XMLOption.BREAK && !node.getTextContent().isEmpty()){
 							option = visitor.visitAttr(node.getTextContent());
 						}
 						break;
 					case Node.ELEMENT_NODE:
 						option = visitor.visitNode(node);
-						if(option!=XMLOption.BREAK && !node.getTextContent().isEmpty()){
+						if(option!= XMLOption.BREAK && !node.getTextContent().isEmpty()){
 							option = visitor.visitNode(node.getTextContent());
 						}
 						break;
