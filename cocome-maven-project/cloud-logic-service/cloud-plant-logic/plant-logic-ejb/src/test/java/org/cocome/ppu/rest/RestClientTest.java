@@ -1,8 +1,6 @@
 package org.cocome.ppu.rest;
 
-import java.util.Collections;
-import java.util.List;
-
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -10,7 +8,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Integration test for {@link IDevice}
@@ -21,7 +20,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 public class RestClientTest {
 
     // Given
-    public static IDevice ppuDevice = JAXRSClientFactory.create("http://129.187.88.30:4567/", IDevice.class,
+    private static IDevice ppuDevice = JAXRSClientFactory.create("http://129.187.88.30:4567/", IDevice.class,
             Collections.singletonList(new JacksonJsonProvider()));
 
     @BeforeClass
@@ -213,8 +212,18 @@ public class RestClientTest {
     @Test
     public void testBatchExecution() throws InterruptedException {
         // When
-        final String[] opts = {"_1_2_1_P2_O1", "_1_2_1_P4_O2", "_1_2_1_P2_O2", "_1_2_1_P2_O6", "_1_2_1_P2_O3",
-                "_1_2_1_P3_O2", "_1_2_1_P2_O2", "_1_2_1_P2_O4", "_1_2_1_P2_O3", "_1_2_1_P1_O3", "_1_2_1_P1_O7"};
+        final String[] opts = {
+                "_1_2_1_P2_O1",
+                "_1_2_1_P4_O2",
+                "_1_2_1_P2_O2",
+                "_1_2_1_P2_O6",
+                "_1_2_1_P2_O3",
+                "_1_2_1_P3_O2",
+                "_1_2_1_P2_O2",
+                "_1_2_1_P2_O4",
+                "_1_2_1_P2_O3",
+                "_1_2_1_P1_O3",
+                "_1_2_1_P1_O7"};
         ppuDevice.switchToAutomaticMode();
         final HistoryEntry batchRet = ppuDevice.startOperationsInBatch(String.join(";", opts));
         ppuDevice.abortOperation(batchRet.getExecutionId());
@@ -225,7 +234,58 @@ public class RestClientTest {
                 batchRet.getAction());
         Assert.assertEquals("Last entry of history of batch execution should have ABORT state",
                 HistoryAction.ABORT, batchHistory.get(batchHistory.size() - 1).getAction());
+        //ppuDevice.switchToManualMode();
+    }
+
+    //@Test
+    public void complexTest1() throws InterruptedException {
+        // When
+        final String[] opts = {
+                "_1_2_1_P2_O1",
+                "_1_2_1_P4_O2",
+                "_1_2_1_P2_O2",
+                "_1_2_1_P2_O6",
+                "_1_2_1_P2_O3",
+                "_1_2_1_P3_O2",
+                "_1_2_1_P2_O2",
+                "_1_2_1_P2_O4",
+                "_1_2_1_P2_O3",
+                "_1_2_1_P1_O3",
+                "_1_2_1_P1_O7"};
+        ppuDevice.switchToAutomaticMode();
+        final HistoryEntry batchRet = ppuDevice.startOperationsInBatch(String.join(";", opts));
+
+        int count = 0;
+        while (count < 10) {
+            Thread.sleep(1000*5);
+            System.err.println(ppuDevice.getHistoryByExecutionId(batchRet.getExecutionId()));
+            count++;
+        }
         ppuDevice.switchToManualMode();
+    }
+
+    // @Test
+    public void complexTest2() throws InterruptedException {
+        // When
+        final String[] opts = {
+                "_1_2_1_P2_O1",
+                "_1_2_1_P4_O2",
+                "_1_2_1_P2_O2",
+                "_1_2_1_P2_O6",
+                "_1_2_1_P2_O3",
+                "_1_2_1_P3_O2",
+                "_1_2_1_P2_O2",
+                "_1_2_1_P2_O4",
+                "_1_2_1_P2_O3",
+                "_1_2_1_P1_O3",
+                "_1_2_1_P1_O7"};
+        ppuDevice.switchToAutomaticMode();
+        System.err.println(ppuDevice.startOperationsInBatch(String.join(";", opts)));
+        System.err.println(ppuDevice.startOperationsInBatch(String.join(";", opts)));
+        //System.err.println(ppuDevice.startOperationsInBatch(String.join(";", opts)));
+        //System.err.println(ppuDevice.startOperationsInBatch(String.join(";", opts)));
+
+        //ppuDevice.switchToManualMode();
     }
 
 }
