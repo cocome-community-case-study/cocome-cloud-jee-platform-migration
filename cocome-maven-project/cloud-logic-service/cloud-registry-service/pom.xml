@@ -85,7 +85,7 @@
 				<artifactId>cargo-maven2-plugin</artifactId>
 				<version>1.4.9</version>
 				<configuration>
-					<wait>true</wait>
+					<!-- <wait>true</wait> -->
 					<container>
 						<containerId>glassfish4x</containerId>
 						<type>remote</type>
