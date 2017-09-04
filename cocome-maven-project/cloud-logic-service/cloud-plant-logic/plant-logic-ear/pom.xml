@@ -56,6 +56,25 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<modules>
+						<ejbModule>
+							<groupId>org.cocome</groupId>
+							<artifactId>plant-logic-ejb</artifactId>
+							<unpack>true</unpack>
+						</ejbModule>
+						<ejbModule>
+							<groupId>org.cocome</groupId>
+							<artifactId>plant-logic-core-impl</artifactId>
+							<unpack>true</unpack>
+						</ejbModule>
+						<webModule>
+							<groupId>org.cocome</groupId>
+							<artifactId>plant-logic-webservice</artifactId>
+							<unpack>true</unpack>
+						</webModule>
+					</modules>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.cargo</groupId>
