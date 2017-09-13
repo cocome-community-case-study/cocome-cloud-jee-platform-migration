@@ -65,7 +65,7 @@
 						</ejbModule>
 						<ejbModule>
 							<groupId>org.cocome</groupId>
-							<artifactId>plant-logic-core-impl</artifactId>
+							<artifactId>cloud-logic-core-impl</artifactId>
 							<unpack>true</unpack>
 						</ejbModule>
 						<webModule>
