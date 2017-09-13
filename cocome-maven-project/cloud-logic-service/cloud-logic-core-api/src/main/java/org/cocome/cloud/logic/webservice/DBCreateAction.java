@@ -6,7 +6,7 @@ import javax.ejb.CreateException;
 public interface DBCreateAction {
 
     /**
-     * Executes an DB CUD operation (Create / Update / Delete)
+     * Executes an operation that inserts entities into the persistence layer
      */
     void perform() throws CreateException;
 }
