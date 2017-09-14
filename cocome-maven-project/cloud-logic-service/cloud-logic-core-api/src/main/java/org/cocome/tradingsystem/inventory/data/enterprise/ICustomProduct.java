@@ -18,34 +18,23 @@
 
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
-import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
-import org.cocome.tradingsystem.inventory.application.store.ProductTO;
-
-import javax.xml.bind.annotation.XmlElement;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
 
 /**
  * Represents a customizable product
  *
  * @author Rudolf Biczok
  */
-public class ICustomProduct extends ProductTO {
-    private static final long serialVersionUID = 5315366349773650L;
-
-    @XmlElement(name = "recipe", required = true)
-    private RecipeTO recipe;
+public interface ICustomProduct extends IAbstractProduct {
 
     /**
      * @return return the production recipe
      */
-    public RecipeTO getRecipe() {
-        return recipe;
-    }
+    IRecipe getRecipe();
 
     /**
      * @param recipe the production recipe
      */
-    public void setRecipe(RecipeTO recipe) {
-        this.recipe = recipe;
-    }
+    void setRecipe(IRecipe recipe);
 
 }
