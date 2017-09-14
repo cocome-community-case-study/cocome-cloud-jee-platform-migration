@@ -89,7 +89,7 @@ public class CSVHelper implements IBackendConversionHelper {
     private IPlant getPlantFromRow(Row<String> row, int offset) {
         if (offset < 0) offset = 0;
 
-        IPlant result = plantFactory.getNewInstance();
+        IPlant result = plantFactory.getNewPlant();
 
         String enterpriseId = row.getColumns().get(offset).getValue();
         result.setEnterpriseId(enterpriseId.equals("null") ? Long.MIN_VALUE : Long.parseLong(enterpriseId));

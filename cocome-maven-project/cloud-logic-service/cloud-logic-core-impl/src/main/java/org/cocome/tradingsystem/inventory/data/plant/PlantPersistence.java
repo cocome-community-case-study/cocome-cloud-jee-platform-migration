@@ -1,7 +1,6 @@
 package org.cocome.tradingsystem.inventory.data.plant;
 
 import org.cocome.tradingsystem.inventory.data.persistence.AbstractPersistence;
-import org.cocome.tradingsystem.inventory.data.persistence.ServiceAdapterHeaders;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -34,17 +33,17 @@ public class PlantPersistence extends AbstractPersistence<IPlant> implements IPl
     }
 
     @Override
-    protected String getContentHeader() {
+    protected String getContentHeader(IPlant entity) {
         return "TradingEnterpriseId;PlantName;PlantLocation";
     }
 
     @Override
-    protected String getContentHeaderWithId() {
+    protected String getContentHeaderWithId(IPlant entity) {
         return "TradingEnterpriseId;PlantId;PlantName;PlantLocation";
     }
 
     @Override
-    protected String getEntityName() {
+    protected String getEntityName(IPlant entity) {
         return "Plant";
     }
 }

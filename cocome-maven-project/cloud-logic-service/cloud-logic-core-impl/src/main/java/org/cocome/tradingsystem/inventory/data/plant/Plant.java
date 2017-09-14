@@ -56,7 +56,6 @@ class Plant implements Serializable, IPlant {
 
     private IEnterpriseQuery enterpriseQuery;
 
-    @Override
     @PostConstruct
     public void initPlant() {
         enterpriseQuery = enterpriseQueryInstance.get();

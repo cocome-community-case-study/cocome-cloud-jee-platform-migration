@@ -68,7 +68,6 @@ class Store implements Serializable, Comparable<IStore>, IStore {
 	/* (non-Javadoc)
 	 * @see org.cocome.tradingsystem.inventory.data.store.IStore#initStore()
 	 */
-	@Override
 	@PostConstruct
 	public void initStore() {
 		storeQuery = storeQueryInstance.get();

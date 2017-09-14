@@ -57,7 +57,6 @@ class ProductSupplier implements Serializable, IProductSupplier {
 	/* (non-Javadoc)
 	 * @see org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier#initProductSupplier()
 	 */
-	@Override
 	@PostConstruct
 	public void initProductSupplier() {
 		enterpriseQuery = enterpriseQueryInstance.get();

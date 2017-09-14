@@ -20,13 +20,13 @@ class PlantDatatypesFactory implements IPlantDataFactory {
     IEnterpriseDataFactory enterpriseDatatypes;
 
     @Override
-    public IPlant getNewInstance() {
+    public IPlant getNewPlant() {
         return plantProvider.get();
     }
 
     @Override
     public IPlant convertFromTO(PlantTO storeTO) {
-        IPlant store = getNewInstance();
+        IPlant store = getNewPlant();
         store.setName(storeTO.getName());
         store.setLocation(storeTO.getLocation());
         store.setId(storeTO.getId());

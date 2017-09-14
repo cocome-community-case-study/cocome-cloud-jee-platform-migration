@@ -55,7 +55,6 @@ class TradingEnterprise implements Serializable, ITradingEnterprise {
 	/* (non-Javadoc)
 	 * @see org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise#initTradingEnterprise()
 	 */
-	@Override
 	@PostConstruct
 	public void initTradingEnterprise() {
 		enterpriseQuery = enterpriseQueryInstance.get();

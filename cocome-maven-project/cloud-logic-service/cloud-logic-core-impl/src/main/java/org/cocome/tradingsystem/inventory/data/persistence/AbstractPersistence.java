@@ -32,7 +32,7 @@ public abstract class AbstractPersistence<T> implements IPersistence<T> {
     public void createEntity(T entity) throws CreateException {
         String content = convertToSubmittableContent(entity);
         try {
-            postData.sendCreateQuery(getEntityName(), getContentHeader(), content);
+            postData.sendCreateQuery(getEntityName(entity), getContentHeader(entity), content);
         } catch (IOException e) {
             // TODO perhaps throw this exception to caller?
             LOG.error("Could not execute post because of an IOException: " + e.getMessage());
@@ -49,7 +49,7 @@ public abstract class AbstractPersistence<T> implements IPersistence<T> {
     public void updateEntity(T entity) throws UpdateException {
         String content = convertToSubmittableContentWithId(entity);
         try {
-            postData.sendUpdateQuery(getEntityName(), getContentHeaderWithId(), content);
+            postData.sendUpdateQuery(getEntityName(entity), getContentHeaderWithId(entity), content);
         } catch (IOException e) {
             // TODO perhaps throw this exception to caller?
             LOG.error("Could not execute post because of an IOException: " + e.getMessage());
@@ -65,7 +65,7 @@ public abstract class AbstractPersistence<T> implements IPersistence<T> {
     public void deleteEntity(T entity) throws UpdateException {
         String content = convertToSubmittableContentWithId(entity);
         try {
-            postData.sendDeleteQuery(getEntityName(), getContentHeaderWithId(), content);
+            postData.sendDeleteQuery(getEntityName(entity), getContentHeaderWithId(entity), content);
         } catch (IOException e) {
             // TODO perhaps throw this exception to caller?
             LOG.error("Could not execute post because of an IOException: " + e.getMessage());
@@ -81,9 +81,9 @@ public abstract class AbstractPersistence<T> implements IPersistence<T> {
 
     protected abstract String convertToSubmittableContentWithId(T entity);
 
-    protected abstract String getContentHeader();
+    protected abstract String getContentHeader(T entity);
 
-    protected abstract String getContentHeaderWithId();
+    protected abstract String getContentHeaderWithId(T entity);
 
-    protected abstract String getEntityName();
+    protected abstract String getEntityName(T entity);
 }
