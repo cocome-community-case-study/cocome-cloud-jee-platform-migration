@@ -20,8 +20,12 @@ package org.cocome.cloud.webservice.enterpriseservice;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
+import org.cocome.cloud.logic.webservice.DBCreateAction;
+import org.cocome.cloud.logic.webservice.DBObjectSupplier;
+import org.cocome.cloud.logic.webservice.DBUpdateAction;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
@@ -137,17 +141,10 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public EnterpriseTO queryEnterpriseById(long enterpriseId) throws NotInDatabaseException {
         setContextRegistry(enterpriseId);
-        ITradingEnterprise enterprise;
-        try {
-            enterprise = enterpriseQuery
-                    .queryEnterpriseById(enterpriseId);
-        } catch (NotInDatabaseException e) {
-            LOG.error("Got NotInDatabaseException for enterprise: " + e);
-            e.printStackTrace();
-            throw e;
-        }
-        EnterpriseTO enterpriseTO = enterpriseFactory.fillEnterpriseTO(enterprise);
-        return enterpriseTO;
+        final ITradingEnterprise enterprise =
+                saveFetchFromDB(() -> enterpriseQuery
+                        .queryEnterpriseById(enterpriseId));
+        return enterpriseFactory.fillEnterpriseTO(enterprise);
     }
 
     @Override
@@ -181,7 +178,7 @@ public class EnterpriseManager implements IEnterpriseManager {
             throw e;
         }
 
-        Collection<ProductTO> productTOs = new ArrayList<ProductTO>(products.size());
+        Collection<ProductTO> productTOs = new ArrayList<>(products.size());
 
         for (IProduct product : products) {
             productTOs.add(enterpriseFactory.fillProductTO(product));
@@ -225,17 +222,12 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public void createPlant(PlantTO plantTO) throws CreateException {
-        IPlant store = plantFactory.getNewPlant();
+        IPlant store = plantFactory.getNewInstance();
         store.setEnterpriseId(plantTO.getEnterpriseTO().getId());
         store.setLocation(plantTO.getLocation());
         store.setName(plantTO.getName());
-        try {
-            plantPersistence.createEntity(store);
-        } catch (CreateException e) {
-            LOG.error("Got CreateException: " + e);
-            e.printStackTrace();
-            throw e;
-        }
+
+        saveDBCreateAction(() -> plantPersistence.createEntity(store));
     }
 
     @Override
@@ -274,7 +266,7 @@ public class EnterpriseManager implements IEnterpriseManager {
         Collection<PlantTO> plantTOs = new ArrayList<>(plants.size());
         for (IPlant plant : plants) {
             try {
-                plantTOs.add(plantFactory.fillPlantTO(plant));
+                plantTOs.add(plantFactory.convertToTO(plant));
             } catch (NotInDatabaseException e) {
                 LOG.error("Got NotInDatabaseException: " + e);
                 e.printStackTrace();
@@ -324,35 +316,45 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public void updatePlant(PlantTO plantTO)
             throws NotInDatabaseException, UpdateException {
-        IPlant plant;
-        try {
-            plant = plantQuery.queryPlantByEnterprise(
-                    plantTO.getEnterpriseTO().getId(), plantTO.getId());
-        } catch (NotInDatabaseException e) {
-            LOG.error("Got NotInDatabaseException: " + e);
-            e.printStackTrace();
-            throw e;
-        }
+        final IPlant plant = saveFetchFromDB(() -> plantQuery.queryPlantById(
+                plantTO.getId()));
 
-        ITradingEnterprise enterprise;
-        try {
-            enterprise = enterpriseQuery.queryEnterpriseById(
-                    plantTO.getEnterpriseTO().getId());
-        } catch (NotInDatabaseException e) {
-            LOG.error("Got NotInDatabaseException: " + e);
-            e.printStackTrace();
-            throw e;
-        }
+        final ITradingEnterprise enterprise = saveFetchFromDB(() ->
+                enterpriseQuery.queryEnterpriseById(
+                        plantTO.getEnterpriseTO().getId()));
 
         plant.setEnterprise(enterprise);
         plant.setEnterpriseId(enterprise.getId());
         plant.setLocation(plantTO.getLocation());
         plant.setName(plantTO.getName());
 
+        saveDBUpdateAction(() -> plantPersistence.updateEntity(plant));
+    }
+
+    private <T> T saveFetchFromDB(DBObjectSupplier<T> supplier) throws NotInDatabaseException {
         try {
-            plantPersistence.updateEntity(plant);
+            return supplier.get();
+        } catch (NotInDatabaseException e) {
+            LOG.error("Got NotInDatabaseException: " + e, e);
+            throw e;
+        }
+    }
+
+    private void saveDBUpdateAction(DBUpdateAction action) throws UpdateException {
+        try {
+            action.perform();
         } catch (UpdateException e) {
-            LOG.error("Got UpdateException: " + e);
+            LOG.error("Got UpdateException: " + e, e);
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    private void saveDBCreateAction(DBCreateAction action) throws CreateException {
+        try {
+            action.perform();
+        } catch (CreateException e) {
+            LOG.error("Got CreateException: " + e, e);
             e.printStackTrace();
             throw e;
         }
@@ -366,13 +368,12 @@ public class EnterpriseManager implements IEnterpriseManager {
         product.setName(productTO.getName());
         product.setPurchasePrice(productTO.getPurchasePrice());
 
-        try {
-            persistenceContext.createEntity(product);
-        } catch (CreateException e) {
-            LOG.error("Got CreateException: " + e);
-            e.printStackTrace();
-            throw e;
-        }
+        saveDBCreateAction(() -> persistenceContext.createEntity(product));
+    }
+
+    @Override
+    public void createCustomProduct(CustomProductTO customProductTO) throws CreateException {
+
     }
 
     @Override
@@ -408,13 +409,7 @@ public class EnterpriseManager implements IEnterpriseManager {
             product.setSupplier(supplier);
         }
 
-        try {
-            persistenceContext.updateEntity(product);
-        } catch (UpdateException e) {
-            LOG.error("Got UpdateException: " + e);
-            e.printStackTrace();
-            throw e;
-        }
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(product));
     }
 
     @Override
@@ -468,8 +463,8 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public PlantTO queryPlantByEnterpriseID(long enterpriseId, long plantId) throws NotInDatabaseException {
-        return plantFactory.fillPlantTO(
-                plantQuery.queryPlantByEnterprise(enterpriseId, plantId));
+        return plantFactory.convertToTO(
+                plantQuery.queryPlantById(plantId));
     }
 
     @Override
@@ -526,7 +521,7 @@ public class EnterpriseManager implements IEnterpriseManager {
         Collection<PlantTO> plantTOs = new ArrayList<>(plants.size());
 
         for (IPlant store : plants) {
-            plantTOs.add(plantFactory.fillPlantTO(store));
+            plantTOs.add(plantFactory.convertToTO(store));
         }
 
         return plantTOs;
@@ -534,39 +529,15 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public void deleteEnterprise(EnterpriseTO enterpriseTO) throws NotInDatabaseException, UpdateException, IOException {
-        ITradingEnterprise enterprise;
-        try {
-            enterprise = enterpriseQuery.queryEnterpriseById(enterpriseTO.getId());
-        } catch (NotInDatabaseException e) {
-            LOG.error("Got NotInDatabaseException: " + e);
-            e.printStackTrace();
-            throw e;
-        }
-
-        try {
-            persistenceContext.deleteEntity(enterprise);
-        } catch (UpdateException e) {
-            LOG.error("Got UpdateException: " + e.getMessage(), e);
-            throw e;
-        }
+        final ITradingEnterprise enterprise = saveFetchFromDB(() ->
+                enterpriseQuery.queryEnterpriseById(enterpriseTO.getId()));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(enterprise));
     }
 
     @Override
     public void deletePlant(PlantTO plantTO) throws NotInDatabaseException, UpdateException, IOException {
-        IPlant plant;
-        try {
-            plant = plantQuery.queryPlantById(plantTO.getId());
-        } catch (NotInDatabaseException e) {
-            LOG.error("Got NotInDatabaseException: " + e, e);
-            throw e;
-        }
-
-        try {
-            plantPersistence.deleteEntity(plant);
-        } catch (UpdateException e) {
-            LOG.error("Got UpdateException: " + e.getMessage(), e);
-            throw e;
-        }
+        final IPlant plant = saveFetchFromDB(() -> plantQuery.queryPlantById(plantTO.getId()));
+        saveDBUpdateAction(() -> plantPersistence.deleteEntity(plant));
     }
 
 }

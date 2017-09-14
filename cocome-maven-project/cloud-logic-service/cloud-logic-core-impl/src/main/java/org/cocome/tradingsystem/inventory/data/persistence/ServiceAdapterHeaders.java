@@ -1,5 +1,6 @@
 package org.cocome.tradingsystem.inventory.data.persistence;
 
+@Deprecated
 public final class ServiceAdapterHeaders {
     static final String PRODUCTORDER_HEADER = "ProductOrderId;StoreId;ProductBarcode;"
             + "OrderDeliveryDate;OrderOrderingDate;OrderAmount";
@@ -20,8 +21,6 @@ public final class ServiceAdapterHeaders {
     static final String PRODUCTSUPPLIER_CREATE_HEADER = "ProductSupplierName";
 
     static final String PRODUCTSUPPLIER_UPDATE_HEADER = "ProductSupplierId;ProductSupplierName";
-
-    public static final String SEPARATOR = ";";
 
     static final String USER_CREATE_HEADER = "UserName;CredentialType;CredentialString;Role";
 

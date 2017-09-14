@@ -148,42 +148,12 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public Collection<IProduct> queryAllProducts(long enterpriseID) throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager;
-        List<ProductTO> productTOList;
-        try {
-            enterpriseManager = lookupEnterpriseManager(enterpriseID);
-            productTOList = enterpriseManager.getAllEnterpriseProducts(enterpriseID);
-        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
-            LOG.error("Got error while looking up stores by enterprise: " + e.getMessage());
-            return Collections.emptyList();
-        }
-
-        List<IProduct> productList = new ArrayList<>(productTOList.size());
-
-        for (ProductTO productTO : productTOList) {
-            productList.add(enterpriseFactory.convertToProduct(productTO));
-        }
-        return productList;
+        return queryAllProductsImpl(enterpriseID);
     }
 
     @Override
     public Collection<IProduct> queryAllProducts() {
-        IEnterpriseManager enterpriseManager;
-        List<ProductTO> productTOList;
-        try {
-            enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
-            productTOList = enterpriseManager.getAllEnterpriseProducts(defaultEnterpriseIndex);
-        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
-            LOG.error("Got error while looking up stores by enterprise: " + e.getMessage());
-            return Collections.emptyList();
-        }
-
-        List<IProduct> productList = new ArrayList<>(productTOList.size());
-
-        for (ProductTO productTO : productTOList) {
-            productList.add(enterpriseFactory.convertToProduct(productTO));
-        }
-        return productList;
+        return queryAllProductsImpl(defaultEnterpriseIndex);
     }
 
     @Override
@@ -312,5 +282,24 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
             storeList.add(storeFactory.convertToStore(storeTO));
         }
         return storeList;
+    }
+
+    private Collection<IProduct> queryAllProductsImpl(final long enterpriseId) {
+        IEnterpriseManager enterpriseManager;
+        List<ProductTO> productTOList;
+        try {
+            enterpriseManager = lookupEnterpriseManager(enterpriseId);
+            productTOList = enterpriseManager.getAllEnterpriseProducts(enterpriseId);
+        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
+            LOG.error("Got error while looking up stores by enterprise: " + e.getMessage());
+            return Collections.emptyList();
+        }
+
+        List<IProduct> productList = new ArrayList<>(productTOList.size());
+
+        for (ProductTO productTO : productTOList) {
+            productList.add(enterpriseFactory.convertToProduct(productTO));
+        }
+        return productList;
     }
 }

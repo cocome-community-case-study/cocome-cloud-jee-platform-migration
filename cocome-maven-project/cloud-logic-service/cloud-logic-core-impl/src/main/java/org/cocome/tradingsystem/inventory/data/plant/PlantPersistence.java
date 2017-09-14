@@ -16,20 +16,20 @@ public class PlantPersistence extends AbstractPersistence<IPlant> implements IPl
     @Override
     protected String convertToSubmittableContent(IPlant entity) {
         return String.valueOf(entity.getEnterpriseId()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 encodeString(entity.getName()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 encodeString(entity.getLocation());
     }
 
     @Override
     protected String convertToSubmittableContentWithId(IPlant entity) {
         return String.valueOf(entity.getEnterpriseId()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 entity.getId() +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 encodeString(entity.getName()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 encodeString(entity.getLocation());
     }
 

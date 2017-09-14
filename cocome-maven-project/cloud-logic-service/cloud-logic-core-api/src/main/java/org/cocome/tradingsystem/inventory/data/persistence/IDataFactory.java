@@ -16,19 +16,19 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant;
+package org.cocome.tradingsystem.inventory.data.persistence;
 
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.data.persistence.IDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
+ * @param <T1> the used between subsystem communication
+ * @param <T2> the transfer object type
  * @author Rudolf Bictok
  */
-public interface IPlantDataFactory extends IDataFactory<IPlant, PlantTO> {
-    IPlant convertFromTO(PlantTO plantTO);
+public interface IDataFactory<T1, T2> {
+    T1 convertFromTO(T2 transferObj);
 
-    IPlant getNewInstance();
+    T1 getNewInstance();
 
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
+    T2 convertToTO(T1 obj) throws NotInDatabaseException;
 }

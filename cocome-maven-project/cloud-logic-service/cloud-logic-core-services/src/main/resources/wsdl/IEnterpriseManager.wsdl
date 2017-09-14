@@ -2,7 +2,7 @@
 <wsdl:definitions name="IEnterpriseManagerService" targetNamespace="http://enterprise.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://enterprise.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
 <schema xmlns="http://www.w3.org/2001/XMLSchema">
-  <import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema3.xsd"/>
+  <import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema4.xsd"/>
 </schema>
   </wsdl:types>
   <wsdl:message name="createStoreResponse">
@@ -35,6 +35,10 @@
   </wsdl:message>
   <wsdl:message name="queryStoreByName">
     <wsdl:part name="parameters" element="tns:queryStoreByName">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCustomProduct">
+    <wsdl:part name="parameters" element="tns:createCustomProduct">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryPlantsByEnterpriseID">
@@ -79,6 +83,10 @@
   </wsdl:message>
   <wsdl:message name="querySupplierForProductResponse">
     <wsdl:part name="parameters" element="tns:querySupplierForProductResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCustomProductResponse">
+    <wsdl:part name="parameters" element="tns:createCustomProductResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getMeanTimeToDeliveryResponse">
@@ -304,6 +312,14 @@
       <wsdl:output name="querySupplierForProductResponse" message="tns:querySupplierForProductResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createCustomProduct">
+      <wsdl:input name="createCustomProduct" message="tns:createCustomProduct">
+    </wsdl:input>
+      <wsdl:output name="createCustomProductResponse" message="tns:createCustomProductResponse">
+    </wsdl:output>
+      <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryPlantsByEnterpriseID">
@@ -567,6 +583,18 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createCustomProduct">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createCustomProduct">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createCustomProductResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CreateException">
+        <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryPlantsByEnterpriseID">

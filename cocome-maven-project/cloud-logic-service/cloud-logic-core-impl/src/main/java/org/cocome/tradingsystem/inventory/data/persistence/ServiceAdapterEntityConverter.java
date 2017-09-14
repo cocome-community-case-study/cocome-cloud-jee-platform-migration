@@ -43,17 +43,17 @@ public class ServiceAdapterEntityConverter {
      */
     public static String getStockItemContent(IStockItem stockItem) {
         return String.valueOf(stockItem.getStore().getId()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 stockItem.getProductBarcode() +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 stockItem.getMinStock() +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 stockItem.getMaxStock() +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 stockItem.getIncomingAmount() +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 stockItem.getAmount() +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 stockItem.getSalesPrice();
     }
 
@@ -67,16 +67,16 @@ public class ServiceAdapterEntityConverter {
         StringBuilder content = new StringBuilder();
         for (IOrderEntry entry : productOrder.getOrderEntries()) {
             content.append(productOrder.getId());
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(productOrder.getStore().getId());
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(entry.getProductBarcode());
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(productOrder.getDeliveryDate() == null ? "00-00-0000"
                     : TimeUtils.convertToStringDate(productOrder.getDeliveryDate()));
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(TimeUtils.convertToStringDate(productOrder.getOrderingDate()));
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(entry.getAmount());
             content.append("\n");
         }
@@ -101,7 +101,7 @@ public class ServiceAdapterEntityConverter {
      */
     public static String getUpdateEnterpriseContent(ITradingEnterprise enterprise) {
         return String.valueOf(enterprise.getId()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 encodeString(enterprise.getName());
     }
 
@@ -113,9 +113,9 @@ public class ServiceAdapterEntityConverter {
      */
     public static String getCreateStoreContent(IStore store) {
         return encodeString(store.getEnterpriseName()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 encodeString(store.getName()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 encodeString(store.getLocation());
     }
 
@@ -128,11 +128,11 @@ public class ServiceAdapterEntityConverter {
      */
     public static String getUpdateStoreContent(IStore store) {
         return encodeString(store.getEnterpriseName()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 store.getId() +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 encodeString(store.getName()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 encodeString(store.getLocation());
     }
 
@@ -154,7 +154,7 @@ public class ServiceAdapterEntityConverter {
      */
     public static String getUpdateSupplierContent(IProductSupplier supplier) {
         return String.valueOf(supplier.getId()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 encodeString(supplier.getName());
     }
 
@@ -166,9 +166,9 @@ public class ServiceAdapterEntityConverter {
      */
     public static String getProductContent(IProduct product) {
         return String.valueOf(product.getBarcode()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 encodeString(product.getName()) +
-                ServiceAdapterHeaders.SEPARATOR +
+                AbstractPersistence.SEPARATOR +
                 product.getPurchasePrice();
     }
 
@@ -185,11 +185,11 @@ public class ServiceAdapterEntityConverter {
 
         for (DualElement<ICredential, Role> dual : iterator) {
             content.append(encodeString(user.getUsername()));
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(dual.getFirstElement().getType());
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(encodeString(dual.getFirstElement().getCredentialString()));
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(encodeString(dual.getSecondElement().label().toUpperCase()));
         }
 
@@ -206,21 +206,21 @@ public class ServiceAdapterEntityConverter {
         StringBuilder content = new StringBuilder();
 
         content.append(encodeString(customer.getFirstName()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
+        content.append(AbstractPersistence.SEPARATOR);
         content.append(encodeString(customer.getLastName()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
+        content.append(AbstractPersistence.SEPARATOR);
         content.append(encodeString(customer.getMailAddress()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
+        content.append(AbstractPersistence.SEPARATOR);
 
         if (customer.getPreferredStore() != null) {
             content.append(encodeString(customer.getPreferredStore().getEnterpriseName()));
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(customer.getPreferredStore().getId());
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(encodeString(customer.getPreferredStore().getName()));
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(encodeString(customer.getPreferredStore().getLocation()));
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
         }
 
         // Mail address is used as username for customers
@@ -239,23 +239,23 @@ public class ServiceAdapterEntityConverter {
         StringBuilder content = new StringBuilder();
 
         content.append(customer.getID());
-        content.append(ServiceAdapterHeaders.SEPARATOR);
+        content.append(AbstractPersistence.SEPARATOR);
         content.append(encodeString(customer.getFirstName()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
+        content.append(AbstractPersistence.SEPARATOR);
         content.append(encodeString(customer.getLastName()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
+        content.append(AbstractPersistence.SEPARATOR);
         content.append(encodeString(customer.getMailAddress()));
-        content.append(ServiceAdapterHeaders.SEPARATOR);
+        content.append(AbstractPersistence.SEPARATOR);
 
         if (customer.getPreferredStore() != null) {
             content.append(encodeString(customer.getPreferredStore().getEnterpriseName()));
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(customer.getPreferredStore().getId());
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(encodeString(customer.getPreferredStore().getName()));
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
             content.append(encodeString(customer.getPreferredStore().getLocation()));
-            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(AbstractPersistence.SEPARATOR);
         }
 
         // Mail address is used as username for customers

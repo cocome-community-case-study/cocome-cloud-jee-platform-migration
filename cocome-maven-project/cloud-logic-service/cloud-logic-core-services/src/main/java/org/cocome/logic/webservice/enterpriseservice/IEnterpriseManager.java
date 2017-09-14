@@ -18,6 +18,7 @@
 
 package org.cocome.logic.webservice.enterpriseservice;
 
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
@@ -279,6 +280,11 @@ public interface IEnterpriseManager {
     @WebMethod
     void createProduct(
             @XmlElement(required = true) @WebParam(name = "productTO") ProductTO productTO)
+            throws CreateException;
+
+    @WebMethod
+    void createCustomProduct(
+            @XmlElement(required = true) @WebParam(name = "customProductTO") CustomProductTO customProductTO)
             throws CreateException;
 
     @WebMethod

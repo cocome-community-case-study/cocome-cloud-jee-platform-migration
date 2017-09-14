@@ -9,10 +9,13 @@ import java.io.IOException;
 
 /**
  * Abstract class for implementing persistence classes
+ *
  * @author Rudolf Biczok
  */
 public abstract class AbstractPersistence<T> implements IPersistence<T> {
     private static final Logger LOG = Logger.getLogger(AbstractPersistence.class);
+
+    public static final String SEPARATOR = ";";
 
     @Inject
     IPersistenceConnection postData;
@@ -40,7 +43,6 @@ public abstract class AbstractPersistence<T> implements IPersistence<T> {
             throw new CreateException("Could not create entity!");
         }
     }
-
 
 
     @Override

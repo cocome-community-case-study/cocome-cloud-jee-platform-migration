@@ -1,16 +1,60 @@
-<xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://plant.application.inventory.tradingsystem.cocome.org/" version="1.0">
+<xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:ns2="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:tns="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
-  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema3.xsd"/>
+  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema4.xsd"/>
+
+  <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema3.xsd"/>
 
   <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema1.xsd"/>
 
-  <xs:complexType name="PlantTO">
+  <xs:complexType name="RecipeTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" name="operations" type="tns:PlantOperationTO"/>
+      <xs:element maxOccurs="unbounded" name="parameterInteractions" type="tns:ParameterInteractionTO"/>
+      <xs:element maxOccurs="unbounded" name="inputInteractions" type="tns:EntryPointInteractionTO"/>
+      <xs:element maxOccurs="unbounded" name="outputInteractions" type="tns:EntryPointInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PlantOperationTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>
-      <xs:element name="location" type="xs:string"/>
-      <xs:element name="enterpriseTO" type="ns2:EnterpriseTO"/>
+      <xs:element name="plant" type="ns2:PlantTO"/>
+      <xs:element maxOccurs="unbounded" name="inputEntryPoint" type="tns:EntryPointTO"/>
+      <xs:element maxOccurs="unbounded" name="outputEntryPoint" type="tns:EntryPointTO"/>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EntryPointTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ParameterInteractionTO">
+    <xs:complexContent>
+      <xs:extension base="tns:IIdentifiableTO">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="IIdentifiableTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="from" type="xs:anyType"/>
+      <xs:element name="to" type="xs:anyType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EntryPointInteractionTO">
+    <xs:complexContent>
+      <xs:extension base="tns:IIdentifiableTO">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
 </xs:schema>

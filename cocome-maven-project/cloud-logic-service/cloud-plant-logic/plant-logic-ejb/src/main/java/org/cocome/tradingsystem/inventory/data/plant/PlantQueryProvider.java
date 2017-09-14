@@ -8,7 +8,9 @@ import org.cocome.cloud.logic.stub.NotBoundException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
+import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.ejb.Local;
@@ -89,7 +91,7 @@ public class PlantQueryProvider implements IPlantQuery {
         List<IPlant> plantList = new ArrayList<>(plantTOList.size());
 
         for (PlantTO plantTO : plantTOList) {
-            plantList.add(plantFactory.convertToPlant(plantTO));
+            plantList.add(plantFactory.convertFromTO(plantTO));
         }
         return plantList;
     }
@@ -98,7 +100,7 @@ public class PlantQueryProvider implements IPlantQuery {
     public IPlant queryPlantByEnterprise(long enterpriseID, long plantID) throws NotInDatabaseException {
         IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
         try {
-            return plantFactory.convertToPlant(enterpriseManager.queryPlantByEnterpriseID(enterpriseID, plantID));
+            return plantFactory.convertFromTO(enterpriseManager.queryPlantByEnterpriseID(enterpriseID, plantID));
         } catch (NotInDatabaseException_Exception e) {
             throw new NotInDatabaseException(e.getFaultInfo().getMessage());
         }
@@ -120,14 +122,20 @@ public class PlantQueryProvider implements IPlantQuery {
         List<IPlant> plantList = new ArrayList<>(plantTOList.size());
 
         for (PlantTO plantTO : plantTOList) {
-            plantList.add(plantFactory.convertToPlant(plantTO));
+            plantList.add(plantFactory.convertFromTO(plantTO));
         }
         return plantList;
     }
 
     @Override
     public IPlant queryPlantById(long plantID) throws NotInDatabaseException {
-       throw new UnsupportedOperationException("FIXME");
+        IEnterpriseManager enterpriseManager;
+        enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+        try {
+            return plantFactory.convertFromTO(enterpriseManager.queryPlantByEnterpriseID(defaultEnterpriseIndex, plantID));
+        } catch (NotInDatabaseException_Exception e) {
+            throw new NotInDatabaseException(e.getFaultInfo().getMessage());
+        }
     }
 
 }

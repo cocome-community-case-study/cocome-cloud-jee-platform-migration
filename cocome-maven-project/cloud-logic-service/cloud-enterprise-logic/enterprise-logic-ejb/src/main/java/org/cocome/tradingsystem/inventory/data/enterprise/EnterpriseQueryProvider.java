@@ -25,13 +25,13 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery, IPlantQuery {
     private static final Logger LOG = Logger.getLogger(EnterpriseQueryProvider.class);
 
     @Inject
-    IBackendQuery backendConnection;
+    private IBackendQuery backendConnection;
 
     @Inject
-    IStoreQuery storeQuery;
+    private IStoreQuery storeQuery;
 
     @Inject
-    IBackendConversionHelper csvHelper;
+    private IBackendConversionHelper csvHelper;
 
     /**
      * {@inheritDoc}

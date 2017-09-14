@@ -20,13 +20,13 @@ class PlantDatatypesFactory implements IPlantDataFactory {
     IEnterpriseDataFactory enterpriseDatatypes;
 
     @Override
-    public IPlant getNewPlant() {
+    public IPlant getNewInstance() {
         return plantProvider.get();
     }
 
     @Override
-    public IPlant convertToPlant(PlantTO storeTO) {
-        IPlant store = getNewPlant();
+    public IPlant convertFromTO(PlantTO storeTO) {
+        IPlant store = getNewInstance();
         store.setName(storeTO.getName());
         store.setLocation(storeTO.getLocation());
         store.setId(storeTO.getId());
@@ -34,7 +34,7 @@ class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public PlantTO fillPlantTO(IPlant store)
+    public PlantTO convertToTO(IPlant store)
             throws NotInDatabaseException {
         final PlantTO result = new PlantTO();
         result.setId(store.getId());
