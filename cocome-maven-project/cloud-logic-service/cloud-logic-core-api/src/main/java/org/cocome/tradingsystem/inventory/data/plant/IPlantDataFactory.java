@@ -19,15 +19,14 @@
 package org.cocome.tradingsystem.inventory.data.plant;
 
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.inventory.data.persistence.IDataConverter;
 
 /**
  * @author Rudolf Bictok
  */
-public interface IPlantDataFactory {
-    IPlant convertFromTO(PlantTO plantTO);
-
+public interface IPlantDataFactory extends IDataConverter<IPlant, PlantTO> {
+    /**
+     * @return an new {@link IPlant} instance
+     */
     IPlant getNewPlant();
-
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
 }
