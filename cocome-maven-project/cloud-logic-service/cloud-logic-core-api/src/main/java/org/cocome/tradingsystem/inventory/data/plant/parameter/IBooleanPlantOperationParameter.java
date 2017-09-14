@@ -16,18 +16,15 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant;
+package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.IBooleanParameterTO;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 
 /**
- * @author Rudolf Bictok
+ * Abstract class of {@link IBooleanParameter} for {@link IPlantOperation}
+ *
+ * @author Rudolf Biczok
  */
-public interface IPlantDataFactory {
-    IPlant convertFromTO(PlantTO plantTO);
-
-    IPlant getNewPlant();
-
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
+public interface IBooleanPlantOperationParameter extends IPlantOperationParameter, IBooleanParameterTO {
 }

@@ -16,18 +16,25 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant;
+package org.cocome.tradingsystem.inventory.data.plant.expression;
 
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+
+import java.util.List;
 
 /**
- * @author Rudolf Bictok
+ * Plant-local expression that represents a constant list of operations
+ *
+ * @author Rudolf Bicozok
  */
-public interface IPlantDataFactory {
-    IPlant convertFromTO(PlantTO plantTO);
+public interface IConstExpression extends IExpression {
+    /**
+     * @return the list of operations that are supposed to be executed
+     */
+    List<IProductionUnitOperation> getOperations();
 
-    IPlant getNewPlant();
-
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
+    /**
+     * @param operations the list of operations that are supposed to be executed
+     */
+    void setOperations(List<IProductionUnitOperation> operations);
 }

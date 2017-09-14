@@ -16,18 +16,17 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant;
+package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+
+import javax.xml.bind.annotation.*;
 
 /**
- * @author Rudolf Bictok
+ * Represents a product customization parameter.
+ *
+ * @author Rudolf Biczok
  */
-public interface IPlantDataFactory {
-    IPlant convertFromTO(PlantTO plantTO);
+public interface ICustomProductParameter extends IParameter {
 
-    IPlant getNewPlant();
-
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
 }

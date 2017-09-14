@@ -16,19 +16,16 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.persistence;
+package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import javax.xml.bind.annotation.*;
+import java.util.Set;
 
 /**
- * @param <T1> the used between subsystem communication
- * @param <T2> the transfer object type
- * @author Rudolf Bictok
+ * Gives the user a finite number of options to customize a product
+ *
+ * @author Rudolf Biczok
  */
-public interface IDataFactory<T1, T2> {
-    T1 convertFromTO(T2 transferObj);
-
-    T1 getNewInstance();
-
-    T2 convertToTO(T1 obj) throws NotInDatabaseException;
+public interface INorminalCustomProductParameter extends ICustomProductParameter,
+        INorminalParameter {
 }

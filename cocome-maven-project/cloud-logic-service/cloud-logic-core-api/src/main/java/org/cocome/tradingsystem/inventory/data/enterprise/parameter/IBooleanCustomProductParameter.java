@@ -16,18 +16,17 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant;
+package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
- * @author Rudolf Bictok
+ * Represents a boolean parameter for custom producer
+ *
+ * @author Rudolf Biczok
  */
-public interface IPlantDataFactory {
-    IPlant convertFromTO(PlantTO plantTO);
-
-    IPlant getNewPlant();
-
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
+public interface IBooleanCustomProductParameter extends ICustomProductParameter, IBooleanParameter {
 }

@@ -1,66 +1,63 @@
 package org.cocome.tradingsystem.inventory.data.plant;
 
+import org.cocome.tradingsystem.inventory.data.INameable;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
-public interface IPlant {
+public interface IPlant extends INameable {
 
-	void initPlant();
+    /**
+     * @return A unique identifier for Store objects
+     */
+    @Override
+    long getId();
 
-	/**
-	 * @return A unique identifier for Store objects
-	 */
-	long getId();
+    /**
+     * @param id A unique identifier for Store objects
+     */
+    @Override
+    void setId(long id);
 
-	/**
-	 * @param id
-	 *            A unique identifier for Store objects
-	 */
-	void setId(long id);
+    /**
+     * Returns the name of the store.
+     *
+     * @return Store name.
+     */
+    @Override
+    String getName();
 
-	/**
-	 * Returns the name of the store.
-	 * 
-	 * @return Store name.
-	 */
-	String getName();
+    /**
+     * @param name the name of the Store
+     */
+    @Override
+    void setName(String name);
 
-	/**
-	 * @param name
-	 *            the name of the Store
-	 */
-	void setName(String name);
+    /**
+     * Returns the location of the store.
+     *
+     * @return Store location.
+     */
+    String getLocation();
 
-	/**
-	 * Returns the location of the store.
-	 * 
-	 * @return Store location.
-	 */
-	String getLocation();
+    /**
+     * Sets the location of the store.
+     *
+     * @param location store location
+     */
+    void setLocation(String location);
 
-	/**
-	 * Sets the location of the store.
-	 * 
-	 * @param location
-	 *            store location
-	 */
-	void setLocation(String location);
+    /**
+     * @return The enterprise which the Store belongs to
+     */
+    ITradingEnterprise getEnterprise() throws NotInDatabaseException;
 
-	/**
-	 * @return The enterprise which the Store belongs to
-	 */
-	ITradingEnterprise getEnterprise() throws NotInDatabaseException;
+    /**
+     * @param enterprise The enterprise which the Store belongs to
+     */
+    void setEnterprise(ITradingEnterprise enterprise);
 
-	/**
-	 * @param enterprise
-	 *            The enterprise which the Store belongs to
-	 */
-	void setEnterprise(ITradingEnterprise enterprise);
+    long getEnterpriseId();
 
-	String toString();
-
-	long getEnterpriseId();
-
-	void setEnterpriseId(long enterpriseId);
+    void setEnterpriseId(long enterpriseId);
 
 }

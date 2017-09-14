@@ -16,18 +16,24 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant;
+package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.inventory.data.INameable;
 
 /**
- * @author Rudolf Bictok
+ * Represents a product customization parameter
+ *
+ * @author Rudolf Biczok
  */
-public interface IPlantDataFactory {
-    IPlant convertFromTO(PlantTO plantTO);
+public interface IParameter extends INameable {
 
-    IPlant getNewPlant();
+    /**
+     * @return The the parameter category
+     */
+    String getCategory();
 
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
+    /**
+     * @param category The parameter category
+     */
+    void setCategory(String category);
 }

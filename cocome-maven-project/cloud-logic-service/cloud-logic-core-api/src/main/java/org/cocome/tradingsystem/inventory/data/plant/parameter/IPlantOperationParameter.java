@@ -16,18 +16,25 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant;
+package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameter;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 
 /**
- * @author Rudolf Bictok
+ * Specialized interface of {@link IParameter} for {@link IPlantOperation}
+ *
+ * @author Rudolf Biczok
  */
-public interface IPlantDataFactory {
-    IPlant convertFromTO(PlantTO plantTO);
+public interface IPlantOperationParameter extends IParameter {
 
-    IPlant getNewPlant();
+    /**
+     * @return the corresponding plant operation
+     */
+    IPlantOperation getPlantOperation();
 
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
+    /**
+     * @param plantOperation the corresponding plant operation
+     */
+    void setPlantOperation(IPlantOperation plantOperation);
 }

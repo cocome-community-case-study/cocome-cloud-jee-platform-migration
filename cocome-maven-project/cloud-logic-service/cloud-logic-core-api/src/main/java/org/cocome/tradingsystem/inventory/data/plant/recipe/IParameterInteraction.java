@@ -16,18 +16,20 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant;
+package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 
 /**
- * @author Rudolf Bictok
+ * Used to connect parameters from {@link CustomProductTO} and {@link IPlantOperation}.
+ * Other subsystems are supposed to copy the customer's parameter values to the plant
+ * operation based on this mapping
+ *
+ * @author Rudolf Biczok
  */
-public interface IPlantDataFactory {
-    IPlant convertFromTO(PlantTO plantTO);
-
-    IPlant getNewPlant();
-
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
+public interface IParameterInteraction extends IInteractionEntity<
+        ICustomProductParameter,
+        IPlantOperationParameter> {
 }

@@ -1,45 +1,46 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
-import java.util.Collection;
-
+import org.cocome.tradingsystem.inventory.data.INameable;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
-public interface IProductSupplier {
+import java.util.Collection;
 
-	void initProductSupplier();
+public interface IProductSupplier extends INameable {
 
-	/**
-	 * @return A unique identifier for ProductSupplier objects
-	 */
-	long getId();
 
-	/**
-	 * @param id
-	 *            A unique identifier for ProductSupplier objects
-	 */
-	void setId(long id);
+    /**
+     * @return A unique identifier for ProductSupplier objects
+     */
+    @Override
+    long getId();
 
-	/**
-	 * @return The name of the ProductSupplier
-	 */
-	String getName();
+    /**
+     * @param id A unique identifier for ProductSupplier objects
+     */
+    @Override
+    void setId(long id);
 
-	/**
-	 * @param name
-	 *            The name of the ProductSupplier
-	 */
-	void setName(String name);
+    /**
+     * @return The name of the ProductSupplier
+     */
+    @Override
+    String getName();
 
-	/**
-	 * @return The list of Products provided by the ProductSupplier
-	 * @throws NotInDatabaseException 
-	 */
-	Collection<IProduct> getProducts() throws NotInDatabaseException;
+    /**
+     * @param name The name of the ProductSupplier
+     */
+    @Override
+    void setName(String name);
 
-	/**
-	 * @param products
-	 *            The list of Products provided by the ProductSupplier
-	 */
-	void setProducts(Collection<IProduct> products);
+    /**
+     * @return The list of Products provided by the ProductSupplier
+     * @throws NotInDatabaseException
+     */
+    Collection<IProduct> getProducts() throws NotInDatabaseException;
+
+    /**
+     * @param products The list of Products provided by the ProductSupplier
+     */
+    void setProducts(Collection<IProduct> products);
 
 }

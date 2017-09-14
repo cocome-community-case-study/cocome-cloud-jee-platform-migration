@@ -16,18 +16,25 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant;
+package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
+import org.cocome.tradingsystem.inventory.data.INameable;
 
 /**
- * @author Rudolf Bictok
+ * Represents a class of production unity utilizing a specific set of {@link IProductionUnitOperation}
+ *
+ * @author Rudolf Biczok
  */
-public interface IPlantDataFactory {
-    IPlant convertFromTO(PlantTO plantTO);
+public interface IProductionUnitClass extends INameable {
 
-    IPlant getNewPlant();
+    /**
+     * @return The enterprise which the Plant belongs to
+     */
+    EnterpriseTO getEnterprise();
 
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
+    /**
+     * @param enterprise The enterprise which the Plant belongs to
+     */
+    void setEnterprise(final EnterpriseTO enterprise);
 }

@@ -16,18 +16,22 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant;
+package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import java.util.Set;
 
 /**
- * @author Rudolf Bictok
+ * Gives the user a finite number of options to customize a product
+ * @author Rudolf Biczok
  */
-public interface IPlantDataFactory {
-    IPlant convertFromTO(PlantTO plantTO);
+public interface INorminalParameter extends IParameter {
+    /**
+     * @return the available options for this parameter
+     */
+    Set<String> getOptions();
 
-    IPlant getNewPlant();
-
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
+    /**
+     * @param options the available options for this parameter
+     */
+    void setOptions(final Set<String> options);
 }

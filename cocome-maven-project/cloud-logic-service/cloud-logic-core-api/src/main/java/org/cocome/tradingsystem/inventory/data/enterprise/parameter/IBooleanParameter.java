@@ -16,18 +16,12 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant;
-
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
 /**
- * @author Rudolf Bictok
+ * Represents a customization that can either be turned on or off.
+ * (e.g. yogurt with extra chocolate sprinkles or not)
+ * @author Rudolf Biczok
  */
-public interface IPlantDataFactory {
-    IPlant convertFromTO(PlantTO plantTO);
-
-    IPlant getNewPlant();
-
-    PlantTO convertToTO(IPlant plant) throws NotInDatabaseException;
+public interface IBooleanParameter extends IParameter {
 }
