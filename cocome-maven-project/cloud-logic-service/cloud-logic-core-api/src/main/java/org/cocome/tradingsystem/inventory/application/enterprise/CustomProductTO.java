@@ -24,14 +24,9 @@ import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import javax.xml.bind.annotation.*;
 
 /**
- * A transfer object class for transferring basic product and additional
- * supplier information between client and the service-oriented application
- * layer. It contains either copies of persisted data which are transferred to
- * the client, or data which is transferred from the client to the application
- * layer to be processed and persisted.
+ * Transfer object of an customizable product
  *
- * @author Sebastian Herold
- * @author Lubomir Bulej
+ * @author Rudolf Biczok
  */
 @XmlType(
         name = "CustomProductTO",

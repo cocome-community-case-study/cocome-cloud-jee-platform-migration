@@ -21,8 +21,6 @@ package org.cocome.tradingsystem.inventory.application.plant.parameter;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.IParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.*;
 
 /**
@@ -52,8 +50,6 @@ public class PlantOperationParameterTO implements IParameterTO {
      * @return The id.
      */
     @Override
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public long getId() {
         return id;
     }
@@ -70,7 +66,6 @@ public class PlantOperationParameterTO implements IParameterTO {
      * @return The parameter name
      */
     @Override
-    @Basic
     public String getName() {
         return name;
     }
@@ -86,7 +81,7 @@ public class PlantOperationParameterTO implements IParameterTO {
     /**
      * @return The the parameter category
      */
-    @Basic
+    @Override
     public String getCategory() {
         return category;
     }
@@ -94,6 +89,7 @@ public class PlantOperationParameterTO implements IParameterTO {
     /**
      * @param category The parameter category
      */
+    @Override
     public void setCategory(String category) {
         this.category = category;
     }
@@ -101,8 +97,6 @@ public class PlantOperationParameterTO implements IParameterTO {
     /**
      * @return the corresponding plant operation
      */
-    @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
     public PlantOperationTO getPlantOperation() {
         return plantOperation;
     }
