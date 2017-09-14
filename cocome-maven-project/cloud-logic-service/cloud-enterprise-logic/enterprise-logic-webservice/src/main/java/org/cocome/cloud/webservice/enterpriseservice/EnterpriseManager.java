@@ -222,7 +222,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public void createPlant(PlantTO plantTO) throws CreateException {
-        IPlant store = plantFactory.getNewInstance();
+        IPlant store = plantFactory.getNewPlant();
         store.setEnterpriseId(plantTO.getEnterpriseTO().getId());
         store.setLocation(plantTO.getLocation());
         store.setName(plantTO.getName());
@@ -329,35 +329,6 @@ public class EnterpriseManager implements IEnterpriseManager {
         plant.setName(plantTO.getName());
 
         saveDBUpdateAction(() -> plantPersistence.updateEntity(plant));
-    }
-
-    private <T> T saveFetchFromDB(DBObjectSupplier<T> supplier) throws NotInDatabaseException {
-        try {
-            return supplier.get();
-        } catch (NotInDatabaseException e) {
-            LOG.error("Got NotInDatabaseException: " + e, e);
-            throw e;
-        }
-    }
-
-    private void saveDBUpdateAction(DBUpdateAction action) throws UpdateException {
-        try {
-            action.perform();
-        } catch (UpdateException e) {
-            LOG.error("Got UpdateException: " + e, e);
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
-    private void saveDBCreateAction(DBCreateAction action) throws CreateException {
-        try {
-            action.perform();
-        } catch (CreateException e) {
-            LOG.error("Got CreateException: " + e, e);
-            e.printStackTrace();
-            throw e;
-        }
     }
 
     @Override
@@ -540,4 +511,32 @@ public class EnterpriseManager implements IEnterpriseManager {
         saveDBUpdateAction(() -> plantPersistence.deleteEntity(plant));
     }
 
+    private <T> T saveFetchFromDB(DBObjectSupplier<T> supplier) throws NotInDatabaseException {
+        try {
+            return supplier.get();
+        } catch (NotInDatabaseException e) {
+            LOG.error("Got NotInDatabaseException: " + e, e);
+            throw e;
+        }
+    }
+
+    private void saveDBUpdateAction(DBUpdateAction action) throws UpdateException {
+        try {
+            action.perform();
+        } catch (UpdateException e) {
+            LOG.error("Got UpdateException: " + e, e);
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    private void saveDBCreateAction(DBCreateAction action) throws CreateException {
+        try {
+            action.perform();
+        } catch (CreateException e) {
+            LOG.error("Got CreateException: " + e, e);
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }
