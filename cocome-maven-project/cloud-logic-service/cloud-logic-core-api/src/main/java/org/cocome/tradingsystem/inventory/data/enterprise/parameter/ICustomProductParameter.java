@@ -18,9 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
-import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
-
-import javax.xml.bind.annotation.*;
+import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 
 /**
  * Represents a product customization parameter.
@@ -29,4 +27,7 @@ import javax.xml.bind.annotation.*;
  */
 public interface ICustomProductParameter extends IParameter {
 
+    ICustomProduct getCustomProduct();
+
+    void setCustomProduct(ICustomProduct customProduct);
 }

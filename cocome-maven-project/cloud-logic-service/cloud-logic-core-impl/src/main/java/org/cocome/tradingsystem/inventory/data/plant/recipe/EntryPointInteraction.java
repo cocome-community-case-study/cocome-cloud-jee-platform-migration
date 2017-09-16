@@ -16,26 +16,16 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant.productionunit;
+package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
-import org.cocome.tradingsystem.inventory.data.INameable;
-import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
- * Represents a class of production unity utilizing a specific set of {@link IProductionUnitOperation}
- *
  * @author Rudolf Biczok
  */
-public interface IProductionUnitClass extends INameable {
-
-    /**
-     * @return The enterprise which the Plant belongs to
-     */
-    ITradingEnterprise getEnterprise();
-
-    /**
-     * @param enterprise The enterprise which the Plant belongs to
-     */
-    void setEnterprise(final ITradingEnterprise enterprise);
+public class EntryPointInteraction extends InteractionEntity<IEntryPoint, IEntryPoint> {
+    private static final long serialVersionUID = 1L;
 }

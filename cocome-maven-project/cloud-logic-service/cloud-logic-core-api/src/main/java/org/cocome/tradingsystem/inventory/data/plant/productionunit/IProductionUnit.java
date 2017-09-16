@@ -18,11 +18,8 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
-import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
-
-import javax.xml.bind.annotation.*;
+import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 
 /**
  * This class represents a Product in the database
@@ -34,7 +31,7 @@ public interface IProductionUnit extends IIdentifiable {
     /**
      * @return Production unit location.
      */
-     String getLocation();
+    String getLocation();
 
     /**
      * @param location Production unit location
@@ -64,10 +61,10 @@ public interface IProductionUnit extends IIdentifiable {
     /**
      * @return the plant that owns this production unit
      */
-    PlantTO getPlant();
+    IPlant getPlant();
 
     /**
      * @param plant the plant that owns this production unit
      */
-    void setPlant(PlantTO plant);
+    void setPlant(IPlant plant);
 }

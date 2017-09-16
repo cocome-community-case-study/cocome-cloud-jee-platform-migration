@@ -16,26 +16,13 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant.productionunit;
-
-import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
-import org.cocome.tradingsystem.inventory.data.INameable;
-import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
 /**
- * Represents a class of production unity utilizing a specific set of {@link IProductionUnitOperation}
+ * Represents a boolean parameter for custom producer
  *
  * @author Rudolf Biczok
  */
-public interface IProductionUnitClass extends INameable {
-
-    /**
-     * @return The enterprise which the Plant belongs to
-     */
-    ITradingEnterprise getEnterprise();
-
-    /**
-     * @param enterprise The enterprise which the Plant belongs to
-     */
-    void setEnterprise(final ITradingEnterprise enterprise);
+public class BooleanCustomProductParameter extends CustomProductParameter implements IBooleanCustomProductParameter {
+    private static final long serialVersionUID = -2577328715744776645L;
 }

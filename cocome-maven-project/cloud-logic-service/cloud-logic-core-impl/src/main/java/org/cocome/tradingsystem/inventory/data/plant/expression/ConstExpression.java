@@ -16,26 +16,27 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant.productionunit;
+package org.cocome.tradingsystem.inventory.data.plant.expression;
 
-import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
-import org.cocome.tradingsystem.inventory.data.INameable;
-import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+
+import java.util.List;
 
 /**
- * Represents a class of production unity utilizing a specific set of {@link IProductionUnitOperation}
+ * Plant-local expression that represents a constant list of operations
  *
- * @author Rudolf Biczok
+ * @author Rudolf Bicozok
  */
-public interface IProductionUnitClass extends INameable {
+public class ConstExpression extends Expression implements IConstExpression {
+    private static final long serialVersionUID = 1L;
 
-    /**
-     * @return The enterprise which the Plant belongs to
-     */
-    ITradingEnterprise getEnterprise();
+    private List<IProductionUnitOperation> operations;
 
-    /**
-     * @param enterprise The enterprise which the Plant belongs to
-     */
-    void setEnterprise(final ITradingEnterprise enterprise);
+    public List<IProductionUnitOperation> getOperations() {
+        return operations;
+    }
+
+    public void setOperations(List<IProductionUnitOperation> operations) {
+        this.operations = operations;
+    }
 }

@@ -16,26 +16,16 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant.productionunit;
+package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
-import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
-import org.cocome.tradingsystem.inventory.data.INameable;
-import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 
 /**
- * Represents a class of production unity utilizing a specific set of {@link IProductionUnitOperation}
+ * Abstract class of {@link IBooleanPlantOperationParameter} for {@link IPlantOperation}
  *
  * @author Rudolf Biczok
  */
-public interface IProductionUnitClass extends INameable {
-
-    /**
-     * @return The enterprise which the Plant belongs to
-     */
-    ITradingEnterprise getEnterprise();
-
-    /**
-     * @param enterprise The enterprise which the Plant belongs to
-     */
-    void setEnterprise(final ITradingEnterprise enterprise);
+public class BooleanPlantOperationParameter extends PlantOperationParameter implements IBooleanPlantOperationParameter {
+    private static final long serialVersionUID = -2577328715744776645L;
 }

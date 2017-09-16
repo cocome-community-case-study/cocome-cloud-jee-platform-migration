@@ -16,26 +16,28 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant.productionunit;
+package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
-import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
-import org.cocome.tradingsystem.inventory.data.INameable;
-import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import java.util.Set;
 
 /**
- * Represents a class of production unity utilizing a specific set of {@link IProductionUnitOperation}
+ * Gives the user a finite number of options to customize a product
  *
  * @author Rudolf Biczok
  */
-public interface IProductionUnitClass extends INameable {
+public class NorminalCustomProductParameter extends CustomProductParameter
+        implements INorminalCustomProductParameter {
+    private static final long serialVersionUID = -2577328715744776645L;
 
-    /**
-     * @return The enterprise which the Plant belongs to
-     */
-    ITradingEnterprise getEnterprise();
+    private Set<String> options;
 
-    /**
-     * @param enterprise The enterprise which the Plant belongs to
-     */
-    void setEnterprise(final ITradingEnterprise enterprise);
+    @Override
+    public Set<String> getOptions() {
+        return options;
+    }
+
+    @Override
+    public void setOptions(final Set<String> options) {
+        this.options = options;
+    }
 }

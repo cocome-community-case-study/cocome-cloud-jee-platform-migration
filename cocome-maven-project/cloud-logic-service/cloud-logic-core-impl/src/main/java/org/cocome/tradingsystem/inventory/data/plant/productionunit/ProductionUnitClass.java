@@ -18,24 +18,68 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
-import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
-import org.cocome.tradingsystem.inventory.data.INameable;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 
+import java.io.Serializable;
+
 /**
- * Represents a class of production unity utilizing a specific set of {@link IProductionUnitOperation}
+ * Represents a class of production unity utilizing a specific set of {@link ProductionUnitOperation}
  *
  * @author Rudolf Biczok
  */
-public interface IProductionUnitClass extends INameable {
+public class ProductionUnitClass implements Serializable, IProductionUnitClass {
+
+    private static final long serialVersionUID = -2577328715744776645L;
+
+    private long id;
+    private String name;
+    private ITradingEnterprise enterprise;
+
+    /**
+     * @return The id.
+     */
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    /**
+     * @param id Identifier value.
+     */
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return The name of the product
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name The name of the product
+     */
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * @return The enterprise which the Plant belongs to
      */
-    ITradingEnterprise getEnterprise();
+    @Override
+    public ITradingEnterprise getEnterprise() {
+        return this.enterprise;
+    }
 
     /**
      * @param enterprise The enterprise which the Plant belongs to
      */
-    void setEnterprise(final ITradingEnterprise enterprise);
+    @Override
+    public void setEnterprise(final ITradingEnterprise enterprise) {
+        this.enterprise = enterprise;
+    }
 }
