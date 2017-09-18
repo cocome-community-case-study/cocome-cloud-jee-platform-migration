@@ -206,15 +206,15 @@ public class CSVHelper implements IBackendConversionHelper {
         CSVParser parser = new CSVParser();
         parser.parse(input);
 
-        LinkedList<IPlant> stores = new LinkedList<>();
+        LinkedList<IPlant> plants = new LinkedList<>();
 
         if (parser.getModel().getRows().size() > 0) {
             for (Row<String> row : parser.getModel().getRows()) {
-                stores.add(getPlantFromRow(row));
+                plants.add(getPlantFromRow(row));
             }
         }
 
-        return stores;
+        return plants;
     }
 
     /* (non-Javadoc)
