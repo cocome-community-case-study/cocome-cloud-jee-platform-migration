@@ -1,5 +1,6 @@
 package org.cocome.tradingsystem.remote.access.parsing;
 
+import de.kit.ipd.java.utils.framework.table.Column;
 import de.kit.ipd.java.utils.framework.table.Row;
 import de.kit.ipd.java.utils.parsing.csv.CSVParser;
 import de.kit.ipd.java.utils.time.TimeUtils;
@@ -24,6 +25,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 @RequestScoped
@@ -78,25 +81,6 @@ public class CSVHelper implements IBackendConversionHelper {
 
         String storeLocation = row.getColumns().get(3 + offset).getValue();
         result.setLocation(storeLocation.equals("null") ? null : decodeString(storeLocation));
-
-        return result;
-    }
-
-    private IPlant getPlantFromRow(Row<String> row) {
-
-        IPlant result = plantFactory.getNewPlant();
-
-        String enterpriseId = row.getColumns().get(0).getValue();
-        result.setEnterpriseId(enterpriseId.equals("null") ? Long.MIN_VALUE : Long.parseLong(enterpriseId));
-
-        String id = row.getColumns().get(1).getValue();
-        result.setId(id.equals("null") ? Long.MIN_VALUE : Long.parseLong(id));
-
-        String plantName = row.getColumns().get(2).getValue();
-        result.setName(plantName.equals("null") ? null : decodeString(plantName));
-
-        String plantLocation = row.getColumns().get(3).getValue();
-        result.setLocation(plantLocation.equals("null") ? null : decodeString(plantLocation));
 
         return result;
     }
@@ -177,9 +161,6 @@ public class CSVHelper implements IBackendConversionHelper {
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper#getStores(java.lang.String)
-     */
     @Override
     public Collection<IStore> getStores(String input) {
         CSVParser parser = new CSVParser();
@@ -198,23 +179,21 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Override
     public Collection<IPlant> getPlants(String input) {
-        CSVParser parser = new CSVParser();
-        parser.parse(input);
+        return rowToCollection(input, row -> {
+            IPlant result = plantFactory.getNewPlant();
 
-        LinkedList<IPlant> plants = new LinkedList<>();
+            result.setEnterpriseId(fetchId(row.getColumns().get(0)));
 
-        if (parser.getModel().getRows().size() > 0) {
-            for (Row<String> row : parser.getModel().getRows()) {
-                plants.add(getPlantFromRow(row));
-            }
-        }
+            result.setId(fetchId(row.getColumns().get(1)));
 
-        return plants;
+            result.setName(fetchString(row.getColumns().get(2)));
+
+            result.setLocation(fetchString(row.getColumns().get(3)));
+
+            return result;
+        });
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper#getCustomers(java.lang.String)
-     */
     @Override
     public Collection<ICustomer> getCustomers(String input) {
         LOG.debug("Parsing customer from input: " + input);
@@ -288,9 +267,6 @@ public class CSVHelper implements IBackendConversionHelper {
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper#getUsers(java.lang.String)
-     */
     @Override
     public Collection<IUser> getUsers(String input) {
         CSVParser parser = new CSVParser();
@@ -383,9 +359,6 @@ public class CSVHelper implements IBackendConversionHelper {
         return user;
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper#getEnterprises(java.lang.String)
-     */
     @Override
     public Collection<ITradingEnterprise> getEnterprises(String input) {
         CSVParser parser = new CSVParser();
@@ -444,9 +417,6 @@ public class CSVHelper implements IBackendConversionHelper {
         // If an enterprise was found but the current product supplier is null, just do nothing
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper#getStockItems(java.lang.String)
-     */
     @Override
     public Collection<IStockItem> getStockItems(String input) {
         CSVParser parser = new CSVParser();
@@ -463,9 +433,6 @@ public class CSVHelper implements IBackendConversionHelper {
         return stockItems;
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper#getProducts(java.lang.String)
-     */
     @Override
     public Collection<IProduct> getProducts(String input) {
         CSVParser parser = new CSVParser();
@@ -482,9 +449,6 @@ public class CSVHelper implements IBackendConversionHelper {
         return products;
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper#getProductSuppliers(java.lang.String)
-     */
     @Override
     public Collection<IProductSupplier> getProductSuppliers(String input) {
         CSVParser parser = new CSVParser();
@@ -501,9 +465,6 @@ public class CSVHelper implements IBackendConversionHelper {
         return productSuppliers;
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper#getProductOrders(java.lang.String)
-     */
     @Override
     public Collection<IProductOrder> getProductOrders(String input) {
         CSVParser parser = new CSVParser();
@@ -549,4 +510,34 @@ public class CSVHelper implements IBackendConversionHelper {
         }
         // If an order was found but the current order entry is null, just do nothing
     }
+
+    private <T> Collection<T> rowToCollection(String input, Function<Row<String>, T> rowConverter) {
+        CSVParser parser = new CSVParser();
+        parser.parse(input);
+
+        return parser.getModel().getRows().stream()
+                .map(rowConverter)
+                .collect(Collectors.toList());
+    }
+
+    private long fetchId(Column<String> column) {
+        return fetchColVal(
+                column,
+                Long::parseLong,
+                Long.MIN_VALUE);
+    }
+
+    private String fetchString(Column<String> column) {
+        return fetchColVal(
+                column,
+                this::decodeString,
+                null);
+    }
+
+    private <T> T fetchColVal(Column<String> column, Function<String, T> columnValueConverter,
+                              T defaultVal) {
+        String strValue = column.getValue();
+        return strValue.equals("null") ? defaultVal : columnValueConverter.apply(strValue);
+    }
+
 }
