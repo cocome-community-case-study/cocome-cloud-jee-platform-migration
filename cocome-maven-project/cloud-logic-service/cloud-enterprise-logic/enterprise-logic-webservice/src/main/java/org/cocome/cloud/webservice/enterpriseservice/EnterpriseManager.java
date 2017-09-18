@@ -34,7 +34,6 @@ import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantPersistence;
-import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -67,9 +66,6 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Inject
     IEnterpriseQuery enterpriseQuery;
-
-    @Inject
-    IPlantQuery plantQuery;
 
     @Inject
     IPlantPersistence plantPersistence;
@@ -262,7 +258,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     public Collection<PlantTO> queryPlantsByEnterpriseID(long enterpriseId)
             throws NotInDatabaseException {
         setContextRegistry(enterpriseId);
-        Collection<IPlant> plants = plantQuery.queryPlantsByEnterpriseId(enterpriseId);
+        Collection<IPlant> plants = enterpriseQuery.queryPlantsByEnterpriseId(enterpriseId);
         Collection<PlantTO> plantTOs = new ArrayList<>(plants.size());
         for (IPlant plant : plants) {
             try {
@@ -316,12 +312,13 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public void updatePlant(PlantTO plantTO)
             throws NotInDatabaseException, UpdateException {
-        final IPlant plant = saveFetchFromDB(() -> plantQuery.queryPlantById(
-                plantTO.getId()));
-
         final ITradingEnterprise enterprise = saveFetchFromDB(() ->
                 enterpriseQuery.queryEnterpriseById(
                         plantTO.getEnterpriseTO().getId()));
+
+        final IPlant plant = saveFetchFromDB(() -> enterpriseQuery.queryPlantByEnterprise(
+                enterprise.getId(),
+                plantTO.getId()));
 
         plant.setEnterprise(enterprise);
         plant.setEnterpriseId(enterprise.getId());
@@ -435,7 +432,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public PlantTO queryPlantByEnterpriseID(long enterpriseId, long plantId) throws NotInDatabaseException {
         return plantFactory.convertToTO(
-                plantQuery.queryPlantById(plantId));
+                enterpriseQuery.queryPlantByEnterprise(enterpriseId, plantId));
     }
 
     @Override
@@ -488,7 +485,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public Collection<PlantTO> queryPlantByName(long enterpriseId, String plantName)
             throws NotInDatabaseException {
-        Collection<IPlant> plants = plantQuery.queryPlantByName(enterpriseId, plantName);
+        Collection<IPlant> plants = enterpriseQuery.queryPlantByName(enterpriseId, plantName);
         Collection<PlantTO> plantTOs = new ArrayList<>(plants.size());
 
         for (IPlant store : plants) {
@@ -507,7 +504,8 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public void deletePlant(PlantTO plantTO) throws NotInDatabaseException, UpdateException, IOException {
-        final IPlant plant = saveFetchFromDB(() -> plantQuery.queryPlantById(plantTO.getId()));
+        final IPlant plant = saveFetchFromDB(() -> enterpriseQuery.queryPlantByEnterprise(plantTO.getEnterpriseTO().getId(),
+                plantTO.getId()));
         saveDBUpdateAction(() -> plantPersistence.deleteEntity(plant));
     }
 

@@ -31,42 +31,4 @@ import java.util.Collection;
 @Local
 public interface IPlantQuery {
 
-    /**
-     * Retrieves a specific plant belonging to this enterprise from the database.
-     *
-     * @param enterpriseID the unique identifier of a TradingEnterprise entity
-     * @param plantName    the name of the target plant
-     * @return A list of plants with the given name or an empty list, if none was found.
-     */
-    Collection<IPlant> queryPlantByName(
-            long enterpriseID, String plantName);
-
-    /**
-     * Retrieves a specific plant belonging to this enterprise from the database.
-     *
-     * @param plantID the unique identifier of a Plant entity
-     * @return A list of plants with the given name or an empty list, if none was found.
-     * @throws NotInDatabaseException if no Plant could be found in the given enterprise
-     */
-    IPlant queryPlantById(long plantID) throws NotInDatabaseException;
-
-    /**
-     * Retrieves all plants belonging to this enterprise from the database.
-     *
-     * @param enterpriseID the unique identifier of a TradingEnterprise entity
-     * @return All plants found in the given enterprise or an empty collection
-     */
-    Collection<IPlant> queryPlantsByEnterpriseId(
-            long enterpriseID);
-
-    /**
-     * Retrieves a specific plant belonging to this enterprise from the database.
-     *
-     * @param enterpriseID the unique identifier of a TradingEnterprise entity
-     * @param plantID      the unique identifier of the Store entity
-     * @return The Plant if found
-     * @throws NotInDatabaseException if no Plant could be found in the given enterprise
-     */
-    IPlant queryPlantByEnterprise(
-            long enterpriseID, long plantID) throws NotInDatabaseException;
 }

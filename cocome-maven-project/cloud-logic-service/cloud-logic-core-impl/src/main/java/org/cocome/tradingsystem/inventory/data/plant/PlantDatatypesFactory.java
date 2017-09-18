@@ -25,24 +25,28 @@ class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public IPlant convertFromTO(PlantTO storeTO) {
-        IPlant store = getNewPlant();
-        store.setName(storeTO.getName());
-        store.setLocation(storeTO.getLocation());
-        store.setId(storeTO.getId());
-        return store;
+    public IPlant convertFromTO(PlantTO plantTO) {
+        IPlant plant = getNewPlant();
+        plant.setName(plantTO.getName());
+        plant.setLocation(plantTO.getLocation());
+        plant.setId(plantTO.getId());
+        plant.setEnterpriseId(plantTO.getEnterpriseTO().getId());
+        return plant;
     }
 
     @Override
-    public PlantTO convertToTO(IPlant store)
+    public PlantTO convertToTO(IPlant plant)
             throws NotInDatabaseException {
         final PlantTO result = new PlantTO();
-        result.setId(store.getId());
-        result.setName(store.getName());
-        result.setLocation(store.getLocation());
-        result.setEnterpriseTO(enterpriseDatatypes.fillEnterpriseTO(store.getEnterprise()));
+        result.setId(plant.getId());
+        result.setName(plant.getName());
+        result.setLocation(plant.getLocation());
+        result.setEnterpriseTO(enterpriseDatatypes.fillEnterpriseTO(plant.getEnterprise()));
 
-        LOG.debug(String.format("Got plant with id %d, name %s and enterprise %s.", result.getId(), result.getName(), result.getEnterpriseTO().getName()));
+        LOG.debug(String.format("Got plant with id %d, name %s and enterprise %s.",
+                result.getId(),
+                result.getName(),
+                result.getEnterpriseTO().getName()));
 
         return result;
     }

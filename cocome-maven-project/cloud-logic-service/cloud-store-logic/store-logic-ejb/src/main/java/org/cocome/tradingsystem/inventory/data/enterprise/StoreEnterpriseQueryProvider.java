@@ -7,10 +7,13 @@ import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
 import org.cocome.cloud.logic.stub.NotBoundException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.registry.service.Names;
+import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
+import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -38,6 +41,9 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Inject
     IEnterpriseDataFactory enterpriseFactory;
+
+    @Inject
+    IPlantDataFactory plantFactory;
 
     @Inject
     IStoreDataFactory storeFactory;
@@ -261,6 +267,57 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
             enterpriseList.add(enterpriseFactory.convertToEnterprise(enterpriseTO));
         }
         return enterpriseList;
+    }
+
+    @Override
+    public Collection<IPlant> queryPlantByName(long enterpriseID, String plantName) {
+        IEnterpriseManager enterpriseManager;
+        List<PlantTO> plantTOList;
+
+        try {
+            enterpriseManager = lookupEnterpriseManager(enterpriseID);
+            plantTOList = enterpriseManager.queryPlantByName(enterpriseID, plantName);
+        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
+            LOG.error("Got error while looking up plants by name: " + e.getMessage());
+            return Collections.emptyList();
+        }
+
+        List<IPlant> plantList = new ArrayList<>(plantTOList.size());
+
+        for (PlantTO plantTO : plantTOList) {
+            plantList.add(plantFactory.convertFromTO(plantTO));
+        }
+        return plantList;
+    }
+
+    @Override
+    public Collection<IPlant> queryPlantsByEnterpriseId(long enterpriseID) {
+        IEnterpriseManager enterpriseManager;
+        List<PlantTO> plantTOList;
+        try {
+            enterpriseManager = lookupEnterpriseManager(enterpriseID);
+            plantTOList = enterpriseManager.queryPlantsByEnterpriseID(enterpriseID);
+        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
+            LOG.error("Got error while looking up plants by enterprise: " + e.getMessage());
+            return Collections.emptyList();
+        }
+
+        List<IPlant> plantList = new ArrayList<>(plantTOList.size());
+
+        for (PlantTO plantTO : plantTOList) {
+            plantList.add(plantFactory.convertFromTO(plantTO));
+        }
+        return plantList;
+    }
+
+    @Override
+    public IPlant queryPlantByEnterprise(long enterpriseID, long plantID) throws NotInDatabaseException {
+        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
+        try {
+            return plantFactory.convertFromTO(enterpriseManager.queryPlantByEnterpriseID(enterpriseID, plantID));
+        } catch (NotInDatabaseException_Exception e) {
+            throw new NotInDatabaseException(e.getFaultInfo().getMessage());
+        }
     }
 
     @Override

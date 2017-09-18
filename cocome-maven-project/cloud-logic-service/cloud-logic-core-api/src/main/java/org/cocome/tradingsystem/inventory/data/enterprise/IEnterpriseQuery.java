@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.reporting.IReportingLocal;
+import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -181,5 +182,35 @@ public interface IEnterpriseQuery {
      * empty one if no enterprise was found
      */
     Collection<ITradingEnterprise> queryAllEnterprises();
+
+    /**
+     * Retrieves a specific plant belonging to this enterprise from the database.
+     *
+     * @param enterpriseID the unique identifier of a TradingEnterprise entity
+     * @param plantName    the name of the target plant
+     * @return A list of plants with the given name or an empty list, if none was found.
+     */
+    Collection<IPlant> queryPlantByName(
+            long enterpriseID, String plantName);
+
+    /**
+     * Retrieves all plants belonging to this enterprise from the database.
+     *
+     * @param enterpriseID the unique identifier of a TradingEnterprise entity
+     * @return All plants found in the given enterprise or an empty collection
+     */
+    Collection<IPlant> queryPlantsByEnterpriseId(
+            long enterpriseID);
+
+    /**
+     * Retrieves a specific plant belonging to this enterprise from the database.
+     *
+     * @param enterpriseID the unique identifier of a TradingEnterprise entity
+     * @param plantID      the unique identifier of the Store entity
+     * @return The Plant if found
+     * @throws NotInDatabaseException if no Plant could be found in the given enterprise
+     */
+    IPlant queryPlantByEnterprise(
+            long enterpriseID, long plantID) throws NotInDatabaseException;
 
 }

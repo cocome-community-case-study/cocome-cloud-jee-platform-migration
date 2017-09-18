@@ -2,7 +2,6 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -19,8 +18,8 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 @Stateless
-@Local({IEnterpriseQuery.class, IPlantQuery.class})
-public class EnterpriseQueryProvider implements IEnterpriseQuery, IPlantQuery {
+@Local
+public class EnterpriseQueryProvider implements IEnterpriseQuery {
 
     private static final Logger LOG = Logger.getLogger(EnterpriseQueryProvider.class);
 
@@ -33,9 +32,6 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery, IPlantQuery {
     @Inject
     private IBackendConversionHelper csvHelper;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ITradingEnterprise queryEnterpriseById(long enterpriseID) throws NotInDatabaseException {
         LOG.debug("Trying to retrieve enterprise with id " + enterpriseID);
@@ -48,9 +44,6 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery, IPlantQuery {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public long getMeanTimeToDelivery(IProductSupplier supplier, ITradingEnterprise enterprise) {
         long mttd = 0;
@@ -78,9 +71,6 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery, IPlantQuery {
         return mttd;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Collection<IProduct> queryAllProducts(long enterpriseID) {
         // Because the backend doesn't allow joins, it is neccessary to first
@@ -95,9 +85,7 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery, IPlantQuery {
         return products;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Collection<IProductSupplier> querySuppliers(long enterpriseID) throws NotInDatabaseException {
         ITradingEnterprise enterprise = queryEnterpriseById(enterpriseID);
 
@@ -176,17 +164,6 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery, IPlantQuery {
         return csvHelper
                 .getPlants(backendConnection.getEntity("Plant", "name=LIKE%20'" + plantName
                         + "';Plant.enterprise.id==" + enterpriseID));
-    }
-
-    @Override
-    public IPlant queryPlantById(long plantID) throws NotInDatabaseException {
-        try {
-            return csvHelper
-                    .getPlants(backendConnection.getEntity("Plant", "id==" + plantID))
-                    .iterator().next();
-        } catch (NoSuchElementException e) {
-            throw new NotInDatabaseException("No matching store found in database!");
-        }
     }
 
     @Override
