@@ -47,6 +47,9 @@ public class EnterpriseManagerIT {
         List<PlantTO> plants = em.queryPlantsByEnterpriseID(enterprise.getId());
         Assert.assertNotNull(plants);
         Assert.assertFalse(plants.isEmpty());
+        final PlantTO singleInstance = em.queryPlantByEnterpriseID(enterprise.getId(),plants.get(0).getId());
+        Assert.assertNotNull(singleInstance);
+        Assert.assertEquals(plants.get(0).getId(), singleInstance.getId());
         for(final PlantTO plantTO : plants) {
             em.deletePlant(plantTO);
         }
