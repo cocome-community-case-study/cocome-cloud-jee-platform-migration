@@ -83,24 +83,19 @@ public class CSVHelper implements IBackendConversionHelper {
     }
 
     private IPlant getPlantFromRow(Row<String> row) {
-        return getPlantFromRow(row, 0);
-    }
-
-    private IPlant getPlantFromRow(Row<String> row, int offset) {
-        if (offset < 0) offset = 0;
 
         IPlant result = plantFactory.getNewPlant();
 
-        String enterpriseId = row.getColumns().get(offset).getValue();
+        String enterpriseId = row.getColumns().get(0).getValue();
         result.setEnterpriseId(enterpriseId.equals("null") ? Long.MIN_VALUE : Long.parseLong(enterpriseId));
 
-        String id = row.getColumns().get(1 + offset).getValue();
+        String id = row.getColumns().get(1).getValue();
         result.setId(id.equals("null") ? Long.MIN_VALUE : Long.parseLong(id));
 
-        String plantName = row.getColumns().get(2 + offset).getValue();
+        String plantName = row.getColumns().get(2).getValue();
         result.setName(plantName.equals("null") ? null : decodeString(plantName));
 
-        String plantLocation = row.getColumns().get(3 + offset).getValue();
+        String plantLocation = row.getColumns().get(3).getValue();
         result.setLocation(plantLocation.equals("null") ? null : decodeString(plantLocation));
 
         return result;
