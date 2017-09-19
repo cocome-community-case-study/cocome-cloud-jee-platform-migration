@@ -37,19 +37,19 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
     private static final Logger LOG = Logger.getLogger(StoreEnterpriseQueryProvider.class);
 
     @Inject
-    long defaultEnterpriseIndex;
+    private long defaultEnterpriseIndex;
 
     @Inject
-    IApplicationHelper applicationHelper;
+    private IApplicationHelper applicationHelper;
 
     @Inject
-    IEnterpriseDataFactory enterpriseFactory;
+    private IEnterpriseDataFactory enterpriseFactory;
 
     @Inject
-    IPlantDataFactory plantFactory;
+    private IPlantDataFactory plantFactory;
 
     @Inject
-    IStoreDataFactory storeFactory;
+    private IStoreDataFactory storeFactory;
 
     private IEnterpriseManager lookupEnterpriseManager(long enterpriseID) throws NotInDatabaseException {
         IEnterpriseManagerService enterpriseService;
@@ -153,6 +153,18 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
             LOG.error("Error querying mean time to delivery: " + e.getFaultInfo().getMessage());
             return 0;
         }
+    }
+
+    @Override
+    public Collection<ICustomProduct> queryAllCustomProducts(long enterpriseID) throws NotInDatabaseException {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public Collection<ICustomProduct> queryAllCustomProducts() {
+        //TODO
+        return null;
     }
 
     @Override
@@ -308,12 +320,6 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<ICustomProduct> queryCustomProductsByEnterpriseId(long enterpriseID) {
-        //TODO
-        return null;
-    }
-
-    @Override
     public IPlant queryPlantByEnterprise(long enterpriseID, long plantID) throws NotInDatabaseException {
         IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
         try {
@@ -334,10 +340,17 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public ICustomProduct queryCustomProductByEnterprise(long enterpriseID, long customProductID) throws NotInDatabaseException {
+    public ICustomProduct queryCustomProductByID(long productID) throws NotInDatabaseException {
         //TODO
         return null;
     }
+
+    @Override
+    public ICustomProduct queryCustomProductByBarcode(long productBarcode) throws NotInDatabaseException {
+        //TODO
+        return null;
+    }
+
 
     @Override
     public Collection<IStore> queryStoreByName(long enterpriseID, String storeName) {
