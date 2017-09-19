@@ -18,8 +18,15 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
+import org.apache.log4j.Logger;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
@@ -27,59 +34,74 @@ import java.io.Serializable;
  *
  * @author Rudolf Biczok
  */
+@Dependent
 public class ProductionUnitClass implements Serializable, IProductionUnitClass {
 
     private static final long serialVersionUID = -2577328715744776645L;
 
+    private static final Logger LOG = Logger.getLogger(ProductionUnitClass.class);
+
     private long id;
+    private long enterpriseId;
     private String name;
     private ITradingEnterprise enterprise;
 
-    /**
-     * @return The id.
-     */
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    @PostConstruct
+    public void init() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        enterprise = null;
+    }
+
     @Override
     public long getId() {
         return id;
     }
 
-    /**
-     * @param id Identifier value.
-     */
     @Override
     public void setId(long id) {
         this.id = id;
     }
 
-    /**
-     * @return The name of the product
-     */
     @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name The name of the product
-     */
     @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * @return The enterprise which the Plant belongs to
-     */
     @Override
-    public ITradingEnterprise getEnterprise() {
-        return this.enterprise;
+    public ITradingEnterprise getEnterprise() throws NotInDatabaseException {
+        if (enterprise == null) {
+            enterprise = enterpriseQuery.queryEnterpriseById(enterpriseId);
+            LOG.debug(String.format(
+                    "Retrieved enterprise [%d, %s] for production unit class %s",
+                    enterprise.getId(),
+                    enterprise.getName(),
+                    name));
+        }
+        return enterprise;
     }
 
-    /**
-     * @param enterprise The enterprise which the Plant belongs to
-     */
     @Override
     public void setEnterprise(final ITradingEnterprise enterprise) {
         this.enterprise = enterprise;
+    }
+
+    @Override
+    public long getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    @Override
+    public void setEnterpriseId(long enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 }

@@ -6,6 +6,7 @@ import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
 import org.cocome.cloud.logic.stub.NotBoundException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
@@ -14,6 +15,7 @@ import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseT
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 @Stateless
 @Local(IEnterpriseQuery.class)
@@ -285,39 +288,55 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
         List<IPlant> plantList = new ArrayList<>(plantTOList.size());
 
         for (PlantTO plantTO : plantTOList) {
-            plantList.add(plantFactory.convertFromTO(plantTO));
+            plantList.add(plantFactory.convertToPlant(plantTO));
         }
         return plantList;
     }
 
     @Override
     public Collection<IPlant> queryPlantsByEnterpriseId(long enterpriseID) {
-        IEnterpriseManager enterpriseManager;
-        List<PlantTO> plantTOList;
-        try {
-            enterpriseManager = lookupEnterpriseManager(enterpriseID);
-            plantTOList = enterpriseManager.queryPlantsByEnterpriseID(enterpriseID);
-        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
-            LOG.error("Got error while looking up plants by enterprise: " + e.getMessage());
-            return Collections.emptyList();
-        }
+        return queryCollection(enterpriseID,
+                enterpriseManager -> enterpriseManager.queryPlantsByEnterpriseID(enterpriseID),
+                plantFactory::convertToPlant);
+    }
 
-        List<IPlant> plantList = new ArrayList<>(plantTOList.size());
+    @Override
+    public Collection<IProductionUnitClass> queryProductionUnitClassesByEnterpriseId(long enterpriseID) {
+        return queryCollection(enterpriseID,
+                enterpriseManager -> enterpriseManager.queryProductionUnitClassesByEnterpriseID(enterpriseID),
+                plantFactory::convertToProductionUnitClass);
+    }
 
-        for (PlantTO plantTO : plantTOList) {
-            plantList.add(plantFactory.convertFromTO(plantTO));
-        }
-        return plantList;
+    @Override
+    public Collection<ICustomProduct> queryCustomProductsByEnterpriseId(long enterpriseID) {
+        //TODO
+        return null;
     }
 
     @Override
     public IPlant queryPlantByEnterprise(long enterpriseID, long plantID) throws NotInDatabaseException {
         IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
         try {
-            return plantFactory.convertFromTO(enterpriseManager.queryPlantByEnterpriseID(enterpriseID, plantID));
+            return plantFactory.convertToPlant(enterpriseManager.queryPlantByEnterpriseID(enterpriseID, plantID));
         } catch (NotInDatabaseException_Exception e) {
             throw new NotInDatabaseException(e.getFaultInfo().getMessage());
         }
+    }
+
+    @Override
+    public IProductionUnitClass queryProductionUnitClassByEnterprise(long enterpriseID, long productionUnitClassID) throws NotInDatabaseException {
+        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
+        try {
+            return plantFactory.convertToProductionUnitClass(enterpriseManager.queryProductionUnitClassByEnterpriseID(enterpriseID, productionUnitClassID));
+        } catch (NotInDatabaseException_Exception e) {
+            throw new NotInDatabaseException(e.getFaultInfo().getMessage());
+        }
+    }
+
+    @Override
+    public ICustomProduct queryCustomProductByEnterprise(long enterpriseID, long customProductID) throws NotInDatabaseException {
+        //TODO
+        return null;
     }
 
     @Override
@@ -348,7 +367,7 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
             enterpriseManager = lookupEnterpriseManager(enterpriseId);
             productTOList = enterpriseManager.getAllEnterpriseProducts(enterpriseId);
         } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
-            LOG.error("Got error while looking up stores by enterprise: " + e.getMessage());
+            LOG.error("Got error while looking up entities: " + e.getMessage());
             return Collections.emptyList();
         }
 
@@ -359,4 +378,26 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
         }
         return productList;
     }
+
+    private <T1, T2> Collection<T1> queryCollection(final long enterpriseID,
+                                                   final ThrowingFunction<IEnterpriseManager, List<T2>, NotInDatabaseException_Exception> supplier,
+                                                   final Function<T2, T1> converter) {
+        IEnterpriseManager enterpriseManager;
+        List<T2> toList;
+        try {
+            enterpriseManager = lookupEnterpriseManager(enterpriseID);
+            toList = supplier.apply(enterpriseManager);
+        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
+            LOG.error("Got error while looking up plants by enterprise: " + e.getMessage(), e);
+            return Collections.emptyList();
+        }
+
+        List<T1> instanceList = new ArrayList<>(toList.size());
+
+        for (T2 plantTO : toList) {
+            instanceList.add(converter.apply(plantTO));
+        }
+        return instanceList;
+    }
+
 }

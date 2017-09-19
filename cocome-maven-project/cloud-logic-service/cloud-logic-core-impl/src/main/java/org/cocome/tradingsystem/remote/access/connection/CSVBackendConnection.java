@@ -40,15 +40,13 @@ public class CSVBackendConnection implements IPersistenceConnection {
     private String message;
 
     private String getSetDataBackendURL() {
-        String url = "http://" + backendHost + ":" + backendPort + backendSetDataURL;
-        return url;
+        return "http://" + backendHost + ":" + backendPort + backendSetDataURL;
     }
 
     private HttpURLConnection getURLConnection(String type, String entity) throws IOException {
         URL url = new URL(getSetDataBackendURL() +
                 "?query." + type + "=" + entity);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        return con;
+        return (HttpURLConnection) url.openConnection();
     }
 
     private void setConnectionAttributes(HttpURLConnection con, String requestMethod) throws ProtocolException {
@@ -71,7 +69,7 @@ public class CSVBackendConnection implements IPersistenceConnection {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
 
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);

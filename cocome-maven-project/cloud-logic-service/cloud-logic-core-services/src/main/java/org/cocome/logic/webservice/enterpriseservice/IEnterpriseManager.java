@@ -20,6 +20,7 @@ package org.cocome.logic.webservice.enterpriseservice;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -67,12 +68,22 @@ public interface IEnterpriseManager {
 
     /**
      * @param enterpriseId the unique identifier of a TradingEnterprise entity
-     * @return A collection of PlantWithEntepriseTO objects belonging to the given enterprise.
+     * @return A collection of {@link PlantTO} objects belonging to the given enterprise.
      * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
      */
     @WebMethod
     Collection<PlantTO> queryPlantsByEnterpriseID(
             @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId) throws NotInDatabaseException;
+
+    /**
+     * @param enterpriseId the unique identifier of a TradingEnterprise entity
+     * @return A collection of {@link ProductionUnitClassTO} objects belonging to the given enterprise.
+     * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
+     */
+    @WebMethod
+    Collection<ProductionUnitClassTO> queryProductionUnitClassesByEnterpriseID(
+            @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId) throws NotInDatabaseException;
+
 
     /**
      * @param enterpriseId the unique identifier of a TradingEnterprise entity
@@ -97,6 +108,18 @@ public interface IEnterpriseManager {
     PlantTO queryPlantByEnterpriseID(
             @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId,
             @XmlElement(required = true) @WebParam(name = "plantID") long plantId) throws NotInDatabaseException;
+
+    /**
+     * @param enterpriseId          the unique identifier of a TradingEnterprise entity
+     * @param productionUnitClassId the unique identifier of a {@link ProductionUnitClassTO} entity
+     * @return A {@link ProductionUnitClassTO} object with the given store identifier and
+     * belonging to the given enterprise.
+     * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
+     */
+    @WebMethod
+    ProductionUnitClassTO queryProductionUnitClassByEnterpriseID(
+            @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId,
+            @XmlElement(required = true) @WebParam(name = "productionUnitClassID") long productionUnitClassId) throws NotInDatabaseException;
 
     /**
      * Queries the database for a store with the given name in the given enterprise.
@@ -164,6 +187,30 @@ public interface IEnterpriseManager {
      */
     @WebMethod
     Collection<ProductTO> getAllProducts();
+
+    /**
+     * Retrieves all products that are sold in this enterprise.
+     * Note that there is no information included about the stores in which
+     * this product is available.
+     *
+     * @param enterpriseId The enterprise for which all products should be retrieved
+     * @return All {@code ProductTO}s available in the given enterprise
+     * @throws NotInDatabaseException
+     */
+    @WebMethod
+    Collection<CustomProductTO> getAllEnterpriseCustomProducts(
+            @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId)
+            throws NotInDatabaseException;
+
+    /**
+     * Retrieves all products that are registered in the database.
+     * Note that there is no information included about the stores in which
+     * these products are available.
+     *
+     * @return All {@code ProductTO}s available or an empty collection if there are none
+     */
+    @WebMethod
+    Collection<CustomProductTO> getAllCustomProducts();
 
     /**
      * Retrieves the product with the given ID if it is stored in the database.
@@ -251,6 +298,17 @@ public interface IEnterpriseManager {
             @XmlElement(required = true) @WebParam(name = "plantTO") PlantTO plantTO)
             throws CreateException;
 
+    @WebMethod
+    void createCustomProduct(
+            @XmlElement(required = true) @WebParam(name = "customProductTO") CustomProductTO customProductTO)
+            throws CreateException;
+
+    @WebMethod
+    void createProductionUnitClass(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitClassTO") ProductionUnitClassTO productionUnitClassTO)
+            throws CreateException;
+
     /**
      * Updates the store object. This method requires the EnterpriseTO to be present and to have
      * at least the id attribute set.
@@ -283,13 +341,20 @@ public interface IEnterpriseManager {
             throws CreateException;
 
     @WebMethod
-    void createCustomProduct(
-            @XmlElement(required = true) @WebParam(name = "customProductTO") CustomProductTO customProductTO)
-            throws CreateException;
-
-    @WebMethod
     void updateProduct(
             @XmlElement(required = true) @WebParam(name = "productTO") ProductWithSupplierTO productTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void updateCustomProduct(
+            @XmlElement(required = true) @WebParam(name = "customProductTO") CustomProductTO customProductTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void updateProductionUnitClass(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitClassTO")
+                    ProductionUnitClassTO productionUnitClassTO)
             throws UpdateException, NotInDatabaseException;
 
     @WebMethod
@@ -304,5 +369,17 @@ public interface IEnterpriseManager {
     void deletePlant(
             @XmlElement(required = true)
             @WebParam(name = "plantTO") PlantTO plantTO)
+            throws NotInDatabaseException, UpdateException, IOException;
+
+    @WebMethod
+    void deleteProductionUnitClass(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitClassTO") ProductionUnitClassTO productionUnitClassTO)
+            throws NotInDatabaseException, UpdateException, IOException;
+
+    @WebMethod
+    void deleteCustomProduct(
+            @XmlElement(required = true)
+            @WebParam(name = "customProductTO") CustomProductTO customProductTO)
             throws NotInDatabaseException, UpdateException, IOException;
 }

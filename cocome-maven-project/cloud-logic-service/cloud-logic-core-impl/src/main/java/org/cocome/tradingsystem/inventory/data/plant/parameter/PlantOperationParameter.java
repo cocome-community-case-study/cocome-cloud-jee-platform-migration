@@ -21,6 +21,7 @@ package org.cocome.tradingsystem.inventory.data.plant.parameter;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.IParameterTO;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 
+import javax.enterprise.context.Dependent;
 import java.io.Serializable;
 
 /**
@@ -28,6 +29,7 @@ import java.io.Serializable;
  *
  * @author Rudolf Biczok
  */
+@Dependent
 public class PlantOperationParameter implements Serializable, IPlantOperationParameter {
 
     private static final long serialVersionUID = -2577328715744776645L;

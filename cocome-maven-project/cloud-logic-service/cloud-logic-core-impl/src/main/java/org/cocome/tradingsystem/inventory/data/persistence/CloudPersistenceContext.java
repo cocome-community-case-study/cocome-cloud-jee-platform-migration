@@ -19,10 +19,12 @@
 package org.cocome.tradingsystem.inventory.data.persistence;
 
 import org.apache.log4j.Logger;
+import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -34,7 +36,6 @@ import javax.ejb.*;
 import javax.inject.Inject;
 import java.io.IOException;
 
-@Deprecated
 @Stateless
 @Local(IPersistenceContext.class)
 public class CloudPersistenceContext implements IPersistenceContext {
@@ -46,7 +47,7 @@ public class CloudPersistenceContext implements IPersistenceContext {
     private static final Logger LOG = Logger.getLogger(CloudPersistenceContext.class);
 
     @Inject
-    IPersistenceConnection postData;
+    private IPersistenceConnection postData;
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -319,6 +320,117 @@ public class CloudPersistenceContext implements IPersistenceContext {
 
         try {
             postData.sendDeleteQuery("TradingEnterprise", ServiceAdapterHeaders.ENTERPRISE_UPDATE_HEADER, content);
+        } catch (IOException e) {
+            // TODO perhaps throw this exception to caller?
+            LOG.error("Could not execute post because of an IOException: " + e.getMessage());
+            throw new UpdateException("Could not delete entity!", e);
+        }
+
+        if (!postData.getResponse().contains("SUCCESS")) {
+            throw new UpdateException("Could not delete entity!");
+        }
+    }
+
+    @Override
+    public void deleteEntity(IPlant plant) throws UpdateException {
+        deleteEntity("Plant",
+                ServiceAdapterEntityConverter.getUpdatePlantContent(plant),
+                ServiceAdapterHeaders.PLANT_UPDATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IPlant plant) throws UpdateException {
+        updateEntity("Plant",
+                ServiceAdapterEntityConverter.getUpdatePlantContent(plant),
+                ServiceAdapterHeaders.PLANT_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IPlant plant) throws CreateException {
+        createEntity("Plant",
+                ServiceAdapterEntityConverter.getCreatePlantContent(plant),
+                ServiceAdapterHeaders.PLANT_CREATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IProductionUnitClass puc) throws UpdateException {
+        deleteEntity("ProductionUnitClass",
+                ServiceAdapterEntityConverter.getUpdateProductionUnitClassContent(puc),
+                ServiceAdapterHeaders.PRODUCTIONUNITCLASS_UPDATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IProductionUnitClass puc) throws UpdateException {
+        updateEntity("ProductionUnitClass",
+                ServiceAdapterEntityConverter.getUpdateProductionUnitClassContent(puc),
+                ServiceAdapterHeaders.PRODUCTIONUNITCLASS_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IProductionUnitClass puc) throws CreateException {
+        createEntity("ProductionUnitClass",
+                ServiceAdapterEntityConverter.getCreateProductionUnitClassContent(puc),
+                ServiceAdapterHeaders.PRODUCTIONUNITCLASS_CREATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(ICustomProduct customProduct) throws CreateException {
+        createEntity("CustomProduct",
+                ServiceAdapterEntityConverter.getCreateCustomProductContent(customProduct),
+                ServiceAdapterHeaders.CUSTOMPRODUCT_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(ICustomProduct customProduct) throws UpdateException {
+        updateEntity("CustomProduct",
+                ServiceAdapterEntityConverter.getUpdateCustomProductContent(customProduct),
+                ServiceAdapterHeaders.CUSTOMPRODUCT_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(ICustomProduct customProduct) throws UpdateException {
+        deleteEntity("CustomProduct",
+                ServiceAdapterEntityConverter.getUpdateCustomProductContent(customProduct),
+                ServiceAdapterHeaders.CUSTOMPRODUCT_UPDATE_HEADER);
+    }
+
+    private void createEntity(String entityTypeName,
+                              String content,
+                              String header) throws CreateException {
+        try {
+            postData.sendCreateQuery(entityTypeName, header, content);
+        } catch (IOException e) {
+            // TODO perhaps throw this exception to caller?
+            LOG.error("Could not execute post because of an IOException: " + e.getMessage());
+            throw new CreateException("Could not create entity!");
+        }
+
+        if (!postData.getResponse().contains("SUCCESS")) {
+            throw new CreateException("Could not create entity!");
+        }
+    }
+
+    private void updateEntity(String entityTypeName,
+                              String content,
+                              String header) throws UpdateException {
+        try {
+            postData.sendUpdateQuery(entityTypeName, header, content);
+        } catch (IOException e) {
+            // TODO perhaps throw this exception to caller?
+            LOG.error("Could not execute post because of an IOException: " + e.getMessage());
+            throw new UpdateException("Could not update entity!", e);
+        }
+
+        if (!postData.getResponse().contains("SUCCESS")) {
+            throw new UpdateException("Could not update entity!");
+        }
+    }
+
+    private void deleteEntity(String entityTypeName,
+                              String content,
+                              String header) throws UpdateException {
+        try {
+            postData.sendDeleteQuery(entityTypeName, header, content);
         } catch (IOException e) {
             // TODO perhaps throw this exception to caller?
             LOG.error("Could not execute post because of an IOException: " + e.getMessage());

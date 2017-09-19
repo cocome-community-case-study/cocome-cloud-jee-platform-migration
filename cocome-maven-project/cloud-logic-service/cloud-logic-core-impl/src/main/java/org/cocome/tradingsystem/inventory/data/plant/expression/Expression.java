@@ -2,6 +2,7 @@ package org.cocome.tradingsystem.inventory.data.plant.expression;
 
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 
+import javax.enterprise.context.Dependent;
 import java.io.Serializable;
 
 /**
@@ -9,6 +10,7 @@ import java.io.Serializable;
  *
  * @author Rudolf Biczok
  */
+@Dependent
 public class Expression implements Serializable, IExpression {
     private static final long serialVersionUID = 1L;
 

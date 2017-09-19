@@ -52,7 +52,7 @@ class Plant implements Serializable, IPlant {
     private ITradingEnterprise enterprise;
 
     @Inject
-    Instance<IEnterpriseQuery> enterpriseQueryInstance;
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
 
     private IEnterpriseQuery enterpriseQuery;
 

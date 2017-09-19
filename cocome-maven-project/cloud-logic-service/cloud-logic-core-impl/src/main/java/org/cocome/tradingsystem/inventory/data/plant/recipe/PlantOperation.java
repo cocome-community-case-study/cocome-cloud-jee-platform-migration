@@ -22,6 +22,7 @@ import org.cocome.tradingsystem.inventory.application.INameableTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 
+import javax.enterprise.context.Dependent;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Collection;
@@ -31,6 +32,7 @@ import java.util.Collection;
  *
  * @author Rudolf Biczok
  */
+@Dependent
 public class PlantOperation implements Serializable, IPlantOperation {
     private static final long serialVersionUID = 1L;
 

@@ -3,10 +3,12 @@ package org.cocome.tradingsystem.inventory.data.persistence;
 import de.kit.ipd.java.utils.time.TimeUtils;
 import org.cocome.tradingsystem.inventory.application.usermanager.Role;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
+import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.store.IOrderEntry;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
@@ -25,8 +27,7 @@ import org.cocome.tradingsystem.util.java.DualIterator;
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-@Deprecated
-public class ServiceAdapterEntityConverter {
+class ServiceAdapterEntityConverter {
     private static String encodeString(String string) {
         // If the string is encoded there are problems with the
         // queries because of the way the service adapter handles
@@ -38,84 +39,102 @@ public class ServiceAdapterEntityConverter {
     /**
      * Returns a string containing information about the given stock item.
      *
-     * @param stockItem
+     * @param stockItem the stock item to convert
      * @return a String representation of the stock item
      */
-    public static String getStockItemContent(IStockItem stockItem) {
+    static String getStockItemContent(IStockItem stockItem) {
         return String.valueOf(stockItem.getStore().getId()) +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 stockItem.getProductBarcode() +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 stockItem.getMinStock() +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 stockItem.getMaxStock() +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 stockItem.getIncomingAmount() +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 stockItem.getAmount() +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 stockItem.getSalesPrice();
     }
 
     /**
      * Returns a string containing information about the given product order.
      *
-     * @param productOrder
+     * @param productOrder the product order to convert
      * @return a String representation of the product order
      */
-    public static String getProductOrderContent(IProductOrder productOrder) {
+    static String getProductOrderContent(IProductOrder productOrder) {
         StringBuilder content = new StringBuilder();
         for (IOrderEntry entry : productOrder.getOrderEntries()) {
             content.append(productOrder.getId());
-            content.append(AbstractPersistence.SEPARATOR);
+            content.append(ServiceAdapterHeaders.SEPARATOR);
             content.append(productOrder.getStore().getId());
-            content.append(AbstractPersistence.SEPARATOR);
+            content.append(ServiceAdapterHeaders.SEPARATOR);
             content.append(entry.getProductBarcode());
-            content.append(AbstractPersistence.SEPARATOR);
+            content.append(ServiceAdapterHeaders.SEPARATOR);
             content.append(productOrder.getDeliveryDate() == null ? "00-00-0000"
                     : TimeUtils.convertToStringDate(productOrder.getDeliveryDate()));
-            content.append(AbstractPersistence.SEPARATOR);
+            content.append(ServiceAdapterHeaders.SEPARATOR);
             content.append(TimeUtils.convertToStringDate(productOrder.getOrderingDate()));
-            content.append(AbstractPersistence.SEPARATOR);
+            content.append(ServiceAdapterHeaders.SEPARATOR);
             content.append(entry.getAmount());
             content.append("\n");
         }
         return content.toString();
     }
 
+    static String getCreatePlantContent(IPlant entity) {
+        return String.valueOf(entity.getEnterpriseId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(entity.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(entity.getLocation());
+    }
+
+    static String getUpdatePlantContent(IPlant entity) {
+        return String.valueOf(entity.getEnterpriseId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                entity.getId() +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(entity.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(entity.getLocation());
+    }
+
     /**
      * Returns a string containing all needed information to create a new enterprise.
      *
-     * @param enterprise
+     * @param enterprise the enterprise to convert
      * @return a String representation of the enterprise to be created
      */
-    public static String getCreateEnterpriseContent(ITradingEnterprise enterprise) {
+    static String getCreateEnterpriseContent(ITradingEnterprise enterprise) {
         return encodeString(enterprise.getName());
     }
 
     /**
      * Returns a string containing all necessary information to update an enterprise.
      *
-     * @param enterprise
+     * @param enterprise the enterprise to convert
      * @return a String representation of the enterprise to be updated
      */
-    public static String getUpdateEnterpriseContent(ITradingEnterprise enterprise) {
+    static String getUpdateEnterpriseContent(ITradingEnterprise enterprise) {
         return String.valueOf(enterprise.getId()) +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 encodeString(enterprise.getName());
     }
 
     /**
      * Returns a string containing all needed information to create a new enterprise.
      *
-     * @param store
+     * @param store the store to convert
      * @return a String representation of the store to be created
      */
-    public static String getCreateStoreContent(IStore store) {
+    static String getCreateStoreContent(IStore store) {
         return encodeString(store.getEnterpriseName()) +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 encodeString(store.getName()) +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 encodeString(store.getLocation());
     }
 
@@ -123,73 +142,73 @@ public class ServiceAdapterEntityConverter {
     /**
      * Returns a string containing all needed information to update a store.
      *
-     * @param store
+     * @param store the store to convert
      * @return a String representation of the updated store
      */
-    public static String getUpdateStoreContent(IStore store) {
+    static String getUpdateStoreContent(IStore store) {
         return encodeString(store.getEnterpriseName()) +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 store.getId() +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 encodeString(store.getName()) +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 encodeString(store.getLocation());
     }
 
     /**
      * Returns a string containing all needed information to create a new supplier.
      *
-     * @param supplier
+     * @param supplier the supplier to convert
      * @return a String representation of the supplier to be created
      */
-    public static String getCreateSupplierContent(IProductSupplier supplier) {
+    static String getCreateSupplierContent(IProductSupplier supplier) {
         return encodeString(supplier.getName());
     }
 
     /**
      * Returns a string containing all needed information to update a supplier.
      *
-     * @param supplier
+     * @param supplier the supplier to convert
      * @return a String representation of the updated store
      */
-    public static String getUpdateSupplierContent(IProductSupplier supplier) {
+    static String getUpdateSupplierContent(IProductSupplier supplier) {
         return String.valueOf(supplier.getId()) +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 encodeString(supplier.getName());
     }
 
     /**
      * Returns a string containing information about the given product.
      *
-     * @param product
+     * @param product the product to convert
      * @return a String representation of the product
      */
-    public static String getProductContent(IProduct product) {
+    static String getProductContent(IProduct product) {
         return String.valueOf(product.getBarcode()) +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 encodeString(product.getName()) +
-                AbstractPersistence.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
                 product.getPurchasePrice();
     }
 
     /**
      * Returns a string containing information about the given user.
      *
-     * @param user
+     * @param user the user to convert
      * @return a String representation of the user
      */
-    public static String getUserContent(IUser user) {
+    static String getUserContent(IUser user) {
         StringBuilder content = new StringBuilder();
 
         DualIterator<ICredential, Role> iterator = new DualIterator<>(user.getCredentials().values(), user.getRoles());
 
         for (DualElement<ICredential, Role> dual : iterator) {
             content.append(encodeString(user.getUsername()));
-            content.append(AbstractPersistence.SEPARATOR);
+            content.append(ServiceAdapterHeaders.SEPARATOR);
             content.append(dual.getFirstElement().getType());
-            content.append(AbstractPersistence.SEPARATOR);
+            content.append(ServiceAdapterHeaders.SEPARATOR);
             content.append(encodeString(dual.getFirstElement().getCredentialString()));
-            content.append(AbstractPersistence.SEPARATOR);
+            content.append(ServiceAdapterHeaders.SEPARATOR);
             content.append(encodeString(dual.getSecondElement().label().toUpperCase()));
         }
 
@@ -199,29 +218,20 @@ public class ServiceAdapterEntityConverter {
     /**
      * Returns a string containing information about the given customer.
      *
-     * @param customer
+     * @param customer the user to convert
      * @return a String representation of the customer
      */
-    public static String getCustomerContent(ICustomer customer) {
+    static String getCustomerContent(ICustomer customer) {
         StringBuilder content = new StringBuilder();
 
         content.append(encodeString(customer.getFirstName()));
-        content.append(AbstractPersistence.SEPARATOR);
+        content.append(ServiceAdapterHeaders.SEPARATOR);
         content.append(encodeString(customer.getLastName()));
-        content.append(AbstractPersistence.SEPARATOR);
+        content.append(ServiceAdapterHeaders.SEPARATOR);
         content.append(encodeString(customer.getMailAddress()));
-        content.append(AbstractPersistence.SEPARATOR);
+        content.append(ServiceAdapterHeaders.SEPARATOR);
 
-        if (customer.getPreferredStore() != null) {
-            content.append(encodeString(customer.getPreferredStore().getEnterpriseName()));
-            content.append(AbstractPersistence.SEPARATOR);
-            content.append(customer.getPreferredStore().getId());
-            content.append(AbstractPersistence.SEPARATOR);
-            content.append(encodeString(customer.getPreferredStore().getName()));
-            content.append(AbstractPersistence.SEPARATOR);
-            content.append(encodeString(customer.getPreferredStore().getLocation()));
-            content.append(AbstractPersistence.SEPARATOR);
-        }
+        appendPrefferedStore(customer, content);
 
         // Mail address is used as username for customers
         content.append(encodeString(customer.getMailAddress()));
@@ -232,35 +242,75 @@ public class ServiceAdapterEntityConverter {
     /**
      * Returns a string containing all needed information to update a customer.
      *
-     * @param customer
+     * @param customer the customer to convert
      * @return a String representation of the updated customer
      */
-    public static String getUpdateCustomerContent(ICustomer customer) {
+    static String getUpdateCustomerContent(ICustomer customer) {
         StringBuilder content = new StringBuilder();
 
         content.append(customer.getID());
-        content.append(AbstractPersistence.SEPARATOR);
+        content.append(ServiceAdapterHeaders.SEPARATOR);
         content.append(encodeString(customer.getFirstName()));
-        content.append(AbstractPersistence.SEPARATOR);
+        content.append(ServiceAdapterHeaders.SEPARATOR);
         content.append(encodeString(customer.getLastName()));
-        content.append(AbstractPersistence.SEPARATOR);
+        content.append(ServiceAdapterHeaders.SEPARATOR);
         content.append(encodeString(customer.getMailAddress()));
-        content.append(AbstractPersistence.SEPARATOR);
+        content.append(ServiceAdapterHeaders.SEPARATOR);
 
-        if (customer.getPreferredStore() != null) {
-            content.append(encodeString(customer.getPreferredStore().getEnterpriseName()));
-            content.append(AbstractPersistence.SEPARATOR);
-            content.append(customer.getPreferredStore().getId());
-            content.append(AbstractPersistence.SEPARATOR);
-            content.append(encodeString(customer.getPreferredStore().getName()));
-            content.append(AbstractPersistence.SEPARATOR);
-            content.append(encodeString(customer.getPreferredStore().getLocation()));
-            content.append(AbstractPersistence.SEPARATOR);
-        }
+        appendPrefferedStore(customer, content);
 
         // Mail address is used as username for customers
         content.append(encodeString(customer.getMailAddress()));
 
         return content.toString();
+    }
+
+    static String getUpdateProductionUnitClassContent(IProductionUnitClass puc) {
+        return String.valueOf(puc.getEnterpriseId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                puc.getId() +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(puc.getName());
+    }
+
+    static String getCreateProductionUnitClassContent(IProductionUnitClass puc) {
+        return String.valueOf(puc.getEnterpriseId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(puc.getName());
+    }
+
+    static String getCreateCustomProductContent(ICustomProduct customProduct) {
+        return String.valueOf(customProduct.getBarcode()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(customProduct.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                customProduct.getPurchasePrice() +
+                ServiceAdapterHeaders.SEPARATOR +
+                customProduct.getRecipeId();
+    }
+
+    static String getUpdateCustomProductContent(ICustomProduct customProduct) {
+        return String.valueOf(customProduct.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(customProduct.getBarcode()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(customProduct.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                customProduct.getPurchasePrice() +
+                ServiceAdapterHeaders.SEPARATOR +
+                customProduct.getRecipeId();
+    }
+
+    private static void appendPrefferedStore(ICustomer customer, StringBuilder content) {
+        if (customer.getPreferredStore() != null) {
+            content.append(encodeString(customer.getPreferredStore().getEnterpriseName()));
+            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(customer.getPreferredStore().getId());
+            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(encodeString(customer.getPreferredStore().getName()));
+            content.append(ServiceAdapterHeaders.SEPARATOR);
+            content.append(encodeString(customer.getPreferredStore().getLocation()));
+            content.append(ServiceAdapterHeaders.SEPARATOR);
+        }
     }
 }

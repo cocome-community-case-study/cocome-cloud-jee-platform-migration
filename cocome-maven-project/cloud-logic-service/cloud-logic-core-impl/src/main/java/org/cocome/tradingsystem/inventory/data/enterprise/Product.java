@@ -34,7 +34,6 @@ import javax.inject.Inject;
  * @author Yannick Welsch
  * @author Tobias Pöppke
  */
-
 @Dependent
 class Product extends AbstractProduct implements IProduct {
     private static final long serialVersionUID = -2577328715744776645L;
@@ -44,7 +43,7 @@ class Product extends AbstractProduct implements IProduct {
     // Inject Instance here because otherwise CDI complains about
     // missing the implementation bean when deploying
     @Inject
-    Instance<IEnterpriseQuery> enterpriseQueryInstance;
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
 
     private IEnterpriseQuery enterpriseQuery;
 

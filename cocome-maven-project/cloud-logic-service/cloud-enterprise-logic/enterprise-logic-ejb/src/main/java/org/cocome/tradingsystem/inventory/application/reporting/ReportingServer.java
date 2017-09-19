@@ -113,7 +113,7 @@ public class ReportingServer implements IReportingLocal {
 
 	private void appendDeliveryReport(ITradingEnterprise enterprise,
 			Formatter output) throws NotInDatabaseException {
-		this.appendTableHeader(output, "Supplier ID", "Supplier Name",
+		this.appendTableHeader(output, "ThrowingSupplier ID", "ThrowingSupplier Name",
 				"Mean Time To Delivery");
 
 		for (IProductSupplier supplier : enterpriseQuery.querySuppliers(enterprise.getId())) {

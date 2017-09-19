@@ -24,11 +24,16 @@
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema3.xsd">
+        <bindings node="//xsd:complexType[@name='ProductionUnitClassTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO"/>
+        </bindings>
+    </bindings>
+    <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema4.xsd">
         <bindings node="//xsd:complexType[@name='PlantTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.PlantTO"/>
         </bindings>
     </bindings>
-    <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema5.xsd">
+    <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema6.xsd">
         <bindings node="//xsd:complexType[@name='CustomProductTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO"/>
         </bindings>

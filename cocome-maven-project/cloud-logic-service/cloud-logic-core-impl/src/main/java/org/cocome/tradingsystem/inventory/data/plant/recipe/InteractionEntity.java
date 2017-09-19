@@ -21,6 +21,7 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.inventory.data.INameable;
 
+import javax.enterprise.context.Dependent;
 import java.io.Serializable;
 
 /**

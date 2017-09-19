@@ -5,6 +5,7 @@ import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -38,25 +39,52 @@ public class EnterpriseManagerIT {
 
     @Test
     public void createAndDeletePlant() throws Exception {
-        final EnterpriseTO enterprise = getOrCreateEnterprise("TestEnterprise");
+        final EnterpriseTO enterprise = getOrCreateEnterprise();
         PlantTO plant = new PlantTO();
         plant.setName("Plant1");
         plant.setLocation("Some Location");
         plant.setEnterpriseTO(enterprise);
         em.createPlant(plant);
-        List<PlantTO> plants = em.queryPlantsByEnterpriseID(enterprise.getId());
+
+        final List<PlantTO> plants = em.queryPlantsByEnterpriseID(enterprise.getId());
         Assert.assertNotNull(plants);
         Assert.assertFalse(plants.isEmpty());
-        final PlantTO singleInstance = em.queryPlantByEnterpriseID(enterprise.getId(),plants.get(0).getId());
+
+        final PlantTO singleInstance = em.queryPlantByEnterpriseID(enterprise.getId(), plants.get(0).getId());
         Assert.assertNotNull(singleInstance);
         Assert.assertEquals(plants.get(0).getId(), singleInstance.getId());
-        for(final PlantTO plantTO : plants) {
+        Assert.assertEquals(plants.get(0).getName(), singleInstance.getName());
+        Assert.assertEquals(plants.get(0).getLocation(), singleInstance.getLocation());
+        for (final PlantTO plantTO : plants) {
             em.deletePlant(plantTO);
         }
         em.deleteEnterprise(enterprise);
     }
 
-    private EnterpriseTO getOrCreateEnterprise(final String enterpriseName) throws CreateException_Exception, NotInDatabaseException_Exception {
+    @Test
+    public void createAndDeleteProductionUnitClass() throws Exception {
+        final EnterpriseTO enterprise = getOrCreateEnterprise();
+        final ProductionUnitClassTO puc = new ProductionUnitClassTO();
+        puc.setName("PUC1");
+        puc.setEnterprise(enterprise);
+        em.createProductionUnitClass(puc);
+
+        final List<ProductionUnitClassTO> pucs = em.queryProductionUnitClassesByEnterpriseID(enterprise.getId());
+        Assert.assertNotNull(pucs);
+        Assert.assertFalse(pucs.isEmpty());
+
+        final ProductionUnitClassTO singleInstance = em.queryProductionUnitClassByEnterpriseID(enterprise.getId(), pucs.get(0).getId());
+        Assert.assertNotNull(singleInstance);
+        Assert.assertEquals(pucs.get(0).getId(), singleInstance.getId());
+        Assert.assertEquals(pucs.get(0).getName(), singleInstance.getName());
+        for (final ProductionUnitClassTO instance : pucs) {
+            em.deleteProductionUnitClass(instance);
+        }
+        em.deleteEnterprise(enterprise);
+    }
+
+    private EnterpriseTO getOrCreateEnterprise() throws CreateException_Exception, NotInDatabaseException_Exception {
+        final String enterpriseName = "TestEnterprise";
         final EnterpriseTO enterprise;
         try {
             enterprise = em.queryEnterpriseByName(enterpriseName);

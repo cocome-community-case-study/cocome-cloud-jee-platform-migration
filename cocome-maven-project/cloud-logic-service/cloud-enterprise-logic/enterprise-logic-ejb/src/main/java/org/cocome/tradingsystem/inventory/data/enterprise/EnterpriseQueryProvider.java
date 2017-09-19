@@ -2,6 +2,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -69,6 +70,18 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
             // mttd
         }
         return mttd;
+    }
+
+    @Override
+    public Collection<ICustomProduct> queryAllCustomProducts(long enterpriseID) throws NotInDatabaseException {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public Collection<ICustomProduct> queryAllCustomProducts() {
+        //TODO
+        return null;
     }
 
     @Override
@@ -147,6 +160,13 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public Collection<IProductionUnitClass> queryProductionUnitClassesByEnterpriseId(long enterpriseID) {
+        return csvHelper.getProductionUnitClasses(backendConnection.getEntity(
+                "ProductionUnitClass",
+                "enterprise.id==" + enterpriseID));
+    }
+
+    @Override
     public IPlant queryPlantByEnterprise(long enterpriseID, long plantID) throws NotInDatabaseException {
         try {
             return csvHelper
@@ -154,9 +174,34 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
                             "id==" + plantID + ";Plant.enterprise.id==" + enterpriseID))
                     .iterator().next();
         } catch (NoSuchElementException e) {
-            throw new NotInDatabaseException("No matching store found in database!");
+            throw new NotInDatabaseException("No matching plant found in database!");
         }
     }
+
+    @Override
+    public IProductionUnitClass queryProductionUnitClassByEnterprise(long enterpriseID, long productionUnitClassID) throws NotInDatabaseException {
+        try {
+            return csvHelper
+                    .getProductionUnitClasses(backendConnection.getEntity("ProductionUnitClass",
+                            "id==" + productionUnitClassID + ";ProductionUnitClass.enterprise.id==" + enterpriseID))
+                    .iterator().next();
+        } catch (NoSuchElementException e) {
+            throw new NotInDatabaseException("No matching production unit class found in database!");
+        }
+    }
+
+    @Override
+    public ICustomProduct queryCustomProductByID(long productID) throws NotInDatabaseException {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public ICustomProduct queryCustomProductByBarcode(long productBarcode) throws NotInDatabaseException {
+        //TODO
+        return null;
+    }
+
 
     @Override
     public Collection<IPlant> queryPlantByName(long enterpriseID, String plantName) {

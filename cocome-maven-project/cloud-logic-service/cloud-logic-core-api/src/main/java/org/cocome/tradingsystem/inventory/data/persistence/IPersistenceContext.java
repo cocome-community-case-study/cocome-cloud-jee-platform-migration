@@ -18,10 +18,12 @@
 
 package org.cocome.tradingsystem.inventory.data.persistence;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -37,6 +39,7 @@ import javax.ejb.Local;
  * @author Yannick Welsch
  * @author Tobias Pöppke
  */
+//TODO javadoc
 @Local
 public interface IPersistenceContext {
     /**
@@ -173,4 +176,22 @@ public interface IPersistenceContext {
      * @throws UpdateException if deletion failed
      */
     void deleteEntity(ITradingEnterprise enterprise) throws UpdateException;
+
+    void deleteEntity(IPlant plant) throws UpdateException;
+
+    void updateEntity(IPlant plant) throws UpdateException;
+
+    void createEntity(IPlant plant) throws CreateException;
+
+    void deleteEntity(IProductionUnitClass puc) throws UpdateException;
+
+    void updateEntity(IProductionUnitClass puc) throws UpdateException;
+
+    void createEntity(IProductionUnitClass puc) throws CreateException;
+
+    void createEntity(ICustomProduct customProduct) throws CreateException;
+
+    void updateEntity(ICustomProduct customProduct) throws UpdateException;
+
+    void deleteEntity(ICustomProduct customProduct) throws UpdateException;
 }

@@ -18,6 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
+import javax.enterprise.context.Dependent;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,7 @@ import java.io.Serializable;
  *
  * @author Rudolf Biczok
  */
+@Dependent
 public class ProductionUnitOperation implements Serializable, IProductionUnitOperation {
 
     private static final long serialVersionUID = 1L;

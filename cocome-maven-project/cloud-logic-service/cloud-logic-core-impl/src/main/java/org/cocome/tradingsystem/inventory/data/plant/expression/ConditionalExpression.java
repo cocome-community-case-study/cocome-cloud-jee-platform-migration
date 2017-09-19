@@ -20,6 +20,7 @@ package org.cocome.tradingsystem.inventory.data.plant.expression;
 
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 
+import javax.enterprise.context.Dependent;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ import java.util.List;
  *
  * @author Rudolf Biczok
  */
+@Dependent
 public class ConditionalExpression extends Expression implements IConditionalExpression {
     private static final long serialVersionUID = 1L;
 

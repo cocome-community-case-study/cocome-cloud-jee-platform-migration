@@ -18,13 +18,9 @@
 
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
-import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
-import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
 
 import javax.enterprise.context.Dependent;
-import javax.xml.bind.annotation.*;
-import java.io.Serializable;
 
 /**
  * Transfer object of an customizable product
@@ -36,19 +32,26 @@ public class CustomProduct extends AbstractProduct implements ICustomProduct {
     private static final long serialVersionUID = 1L;
 
     private IRecipe recipe;
+    private long recipeId;
 
-    /**
-     * @return return the production recipe
-     */
+    @Override
     public IRecipe getRecipe() {
         return recipe;
     }
 
-    /**
-     * @param recipe the production recipe
-     */
+    @Override
     public void setRecipe(IRecipe recipe) {
         this.recipe = recipe;
+    }
+
+    @Override
+    public long getRecipeId() {
+        return recipeId;
+    }
+
+    @Override
+    public void setRecipeId(long recipeId) {
+        this.recipeId = recipeId;
     }
 
 }

@@ -1,7 +1,9 @@
 package org.cocome.tradingsystem.inventory.data.persistence;
 
-@Deprecated
-public final class ServiceAdapterHeaders {
+final class ServiceAdapterHeaders {
+
+    static final String SEPARATOR = ";";
+
     static final String PRODUCTORDER_HEADER = "ProductOrderId;StoreId;ProductBarcode;"
             + "OrderDeliveryDate;OrderOrderingDate;OrderAmount";
 
@@ -11,6 +13,10 @@ public final class ServiceAdapterHeaders {
     static final String ENTERPRISE_CREATE_HEADER = "EnterpriseName";
 
     static final String ENTERPRISE_UPDATE_HEADER = "EnterpriseId;EnterpriseName";
+
+    static final String PLANT_CREATE_HEADER = "TradingEnterpriseId;PlantName;PlantLocation";
+
+    static final String PLANT_UPDATE_HEADER = "TradingEnterpriseId;PlantId;PlantName;PlantLocation";
 
     static final String STORE_CREATE_HEADER = "EnterpriseName;StoreName;StoreLocation";
 
@@ -39,4 +45,13 @@ public final class ServiceAdapterHeaders {
     static final String CUSTOMER_UPDATE_HEADER_WITH_STORE = "CustomerId;FirstName;LastName;MailAddress;"
             + "PreferredStoreEnterpriseName;PreferredStoreId;PreferredStoreName;PreferredStoreLocation;"
             + "UserName";
+    static final String PRODUCTIONUNITCLASS_UPDATE_HEADER = "TradingEnterpriseId;ProductionUnitClassId;"
+            + "ProductionUnitClassName";
+    static final String PRODUCTIONUNITCLASS_CREATE_HEADER = "TradingEnterpriseId;ProductionUnitClassName";
+
+    static final String CUSTOMPRODUCT_CREATE_HEADER = "CustomProductBarcode;CustomProductLocation;"
+            + "CustomProductPurchasePrice;RecipeId";
+
+    static final String CUSTOMPRODUCT_UPDATE_HEADER = "CustomProductId;CustomProductBarcode;CustomProductLocation;"
+            + "CustomProductPurchasePrice;RecipeId";
 }

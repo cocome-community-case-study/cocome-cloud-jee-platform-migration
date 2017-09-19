@@ -21,11 +21,14 @@ package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 
+import javax.enterprise.context.Dependent;
+
 /**
  * Abstract class of {@link IBooleanPlantOperationParameter} for {@link IPlantOperation}
  *
  * @author Rudolf Biczok
  */
+@Dependent
 public class BooleanPlantOperationParameter extends PlantOperationParameter implements IBooleanPlantOperationParameter {
     private static final long serialVersionUID = -2577328715744776645L;
 }

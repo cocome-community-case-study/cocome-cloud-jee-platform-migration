@@ -15,6 +15,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
@@ -33,19 +34,19 @@ import java.util.stream.Collectors;
 public class CSVHelper implements IBackendConversionHelper {
 
     @Inject
-    IEnterpriseDataFactory enterpriseFactory;
+    private IEnterpriseDataFactory enterpriseFactory;
 
     @Inject
-    IStoreDataFactory storeFactory;
+    private IStoreDataFactory storeFactory;
 
     @Inject
-    IPlantDataFactory plantFactory;
+    private IPlantDataFactory plantFactory;
 
     @Inject
-    IUserDataFactory userFactory;
+    private IUserDataFactory userFactory;
 
     @Inject
-    Instance<ICredentialFactory> credFactoryInstance;
+    private Instance<ICredentialFactory> credFactoryInstance;
 
     private ICredentialFactory credFactory;
 
@@ -488,6 +489,19 @@ public class CSVHelper implements IBackendConversionHelper {
         } else {
             return productOrders.values();
         }
+    }
+
+    @Override
+    public Collection<IProductionUnitClass> getProductionUnitClasses(String input) {
+        return rowToCollection(input, row -> {
+            final IProductionUnitClass result = plantFactory.getNewProductionUnitClass();
+
+            result.setEnterpriseId(fetchId(row.getColumns().get(0)));
+            result.setId(fetchId(row.getColumns().get(1)));
+            result.setName(fetchString(row.getColumns().get(2)));
+
+            return result;
+        });
     }
 
     private void extractProductOrderRow(

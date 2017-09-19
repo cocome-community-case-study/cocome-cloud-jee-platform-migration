@@ -24,6 +24,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProdu
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.PlantOperationParameter;
 
+import javax.enterprise.context.Dependent;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -36,6 +37,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author Rudolf Biczok
  */
+@Dependent
 public class ParameterInteraction extends InteractionEntity<
         ICustomProductParameter,
         IPlantOperationParameter> {

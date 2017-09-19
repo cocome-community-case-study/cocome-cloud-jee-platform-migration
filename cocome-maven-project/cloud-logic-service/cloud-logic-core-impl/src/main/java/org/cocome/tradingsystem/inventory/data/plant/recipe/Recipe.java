@@ -18,6 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import javax.enterprise.context.Dependent;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -26,6 +27,7 @@ import java.util.Collection;
  *
  * @author Rudolf Biczok
  */
+@Dependent
 public class Recipe implements Serializable, IRecipe {
     private static final long serialVersionUID = 1L;
 

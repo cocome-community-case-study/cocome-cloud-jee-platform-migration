@@ -28,5 +28,4 @@ public interface IEnterpriseDataFactory {
 
     ProductWithSupplierTO fillProductWithSupplierTO(
             IProduct product) throws NotInDatabaseException;
-
 }

@@ -18,9 +18,9 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
-import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.INameable;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
  * Represents a class of production unity utilizing a specific set of {@link IProductionUnitOperation}
@@ -32,10 +32,21 @@ public interface IProductionUnitClass extends INameable {
     /**
      * @return The enterprise which the Plant belongs to
      */
-    ITradingEnterprise getEnterprise();
+    ITradingEnterprise getEnterprise() throws NotInDatabaseException;
 
     /**
      * @param enterprise The enterprise which the Plant belongs to
      */
     void setEnterprise(final ITradingEnterprise enterprise);
+
+    /**
+     * @return the id of the corresponding enterprise
+     */
+    long getEnterpriseId();
+
+    /**
+     * @param enterpriseId the id of the corresponding enterprise
+     */
+    void setEnterpriseId(long enterpriseId);
+
 }

@@ -18,11 +18,13 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import javax.enterprise.context.Dependent;
 import java.io.Serializable;
 
 /**
  * Used to connection ports between {@link IPlantOperation}
  */
+@Dependent
 public class EntryPoint implements Serializable, IEntryPoint {
     private static final long serialVersionUID = 1L;
 

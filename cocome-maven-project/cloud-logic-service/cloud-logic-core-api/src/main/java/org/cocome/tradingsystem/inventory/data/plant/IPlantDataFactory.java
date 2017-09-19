@@ -18,15 +18,31 @@
 
 package org.cocome.tradingsystem.inventory.data.plant;
 
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.data.persistence.IDataConverter;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
+import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
+ * Data conversion and creation utility for plant management
  * @author Rudolf Bictok
  */
-public interface IPlantDataFactory extends IDataConverter<IPlant, PlantTO> {
-    /**
-     * @return an new {@link IPlant} instance
-     */
+public interface IPlantDataFactory {
     IPlant getNewPlant();
+
+    IProductionUnitClass getNewProductionUnitClass();
+
+    ICustomProduct getNewCustomProduct();
+
+    IPlant convertToPlant(PlantTO plantTO);
+
+    IProductionUnitClass convertToProductionUnitClass(ProductionUnitClassTO puc);
+
+    PlantTO fillPlantTO(IPlant plant) throws NotInDatabaseException;
+
+    ProductionUnitClassTO fillProductionUnitClassTO(IProductionUnitClass puc) throws NotInDatabaseException;
+
+    CustomProductTO fillCustomProductTO(ICustomProduct product);
 }

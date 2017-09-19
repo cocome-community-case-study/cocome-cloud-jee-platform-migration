@@ -37,4 +37,14 @@ public interface ICustomProduct extends IAbstractProduct {
      */
     void setRecipe(IRecipe recipe);
 
+    /**
+     * @return the id of the corresponding enterprise
+     */
+    long getRecipeId();
+
+    /**
+     * @param enterpriseId the id of the corresponding enterprise
+     */
+    void setRecipeId(long enterpriseId);
+
 }

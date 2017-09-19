@@ -21,6 +21,7 @@ package org.cocome.tradingsystem.inventory.data.plant.parameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 
+import javax.enterprise.context.Dependent;
 import java.util.Set;
 
 /**
@@ -28,6 +29,7 @@ import java.util.Set;
  *
  * @author Rudolf Biczok
  */
+@Dependent
 public class NorminalPlantOperationParameter extends PlantOperationParameter implements INorminalPlantOperationParameter {
     private static final long serialVersionUID = -2577328715744776645L;
 

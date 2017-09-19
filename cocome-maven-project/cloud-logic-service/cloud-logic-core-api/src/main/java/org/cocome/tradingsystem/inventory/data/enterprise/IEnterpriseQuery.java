@@ -20,6 +20,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.reporting.IReportingLocal;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -97,6 +98,27 @@ public interface IEnterpriseQuery {
      */
     long getMeanTimeToDelivery(IProductSupplier supplier,
                                ITradingEnterprise enterprise);
+
+    /**
+     * Retrieves all products that are sold in this enterprise.
+     * Note that there is no information included about the stores in which
+     * this product is available.
+     *
+     * @param enterpriseID The enterprise for which all products should be retrieved
+     * @return All {@code CustomProduct}s available in the given enterprise
+     * @throws EntityNotFoundException if the trading enterprise with the given id could not be found
+     */
+    Collection<ICustomProduct> queryAllCustomProducts(long enterpriseID) throws NotInDatabaseException;
+
+    /**
+     * Retrieves all customizable products available.
+     * Note that there is no information included about the stores in which
+     * this product is available.
+     *
+     * @return All {@code CustomProduct}s available in the database or an
+     * empty collection if there are none
+     */
+    Collection<ICustomProduct> queryAllCustomProducts();
 
     /**
      * Retrieves all products that are sold in this enterprise.
@@ -203,6 +225,14 @@ public interface IEnterpriseQuery {
             long enterpriseID);
 
     /**
+     * Retrieves all production unit classes belonging to this enterprise from the database.
+     *
+     * @param enterpriseID the unique identifier of a TradingEnterprise entity
+     * @return All plants found in the given enterprise or an empty collection
+     */
+    Collection<IProductionUnitClass> queryProductionUnitClassesByEnterpriseId(long enterpriseID);
+
+    /**
      * Retrieves a specific plant belonging to this enterprise from the database.
      *
      * @param enterpriseID the unique identifier of a TradingEnterprise entity
@@ -213,4 +243,32 @@ public interface IEnterpriseQuery {
     IPlant queryPlantByEnterprise(
             long enterpriseID, long plantID) throws NotInDatabaseException;
 
+    /**
+     * Retrieves a specific {@link IProductionUnitClass} belonging to this enterprise from the database.
+     *
+     * @param enterpriseID          the unique identifier of a TradingEnterprise entity
+     * @param productionUnitClassID the unique identifier of the {@link IProductionUnitClass} entity
+     * @return The {@link IProductionUnitClass} if found
+     * @throws NotInDatabaseException if no {@link IProductionUnitClass} could be found in the given enterprise
+     */
+    IProductionUnitClass queryProductionUnitClassByEnterprise(
+            long enterpriseID, long productionUnitClassID) throws NotInDatabaseException;
+
+    /**
+     * Retrieves the custom product with the given id.
+     *
+     * @param productID The id of the product which should be retrieved
+     * @return The product if it is found
+     * @throws NotInDatabaseException if the product with the given id could not be found
+     */
+    ICustomProduct queryCustomProductByID(long productID) throws NotInDatabaseException;
+
+    /**
+     * Retrieves the custom product with the given barcode.
+     *
+     * @param productBarcode The barcode of the product which should be retrieved
+     * @return The product if it is found
+     * @throws NotInDatabaseException if the product with the given barcode could not be found
+     */
+    ICustomProduct queryCustomProductByBarcode(long productBarcode) throws NotInDatabaseException;
 }
