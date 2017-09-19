@@ -30,12 +30,18 @@
   <xs:element name="createProductionUnitClassResponse" type="tns:createProductionUnitClassResponse"/>
   <xs:element name="createStore" type="tns:createStore"/>
   <xs:element name="createStoreResponse" type="tns:createStoreResponse"/>
+  <xs:element name="deleteCustomProduct" type="tns:deleteCustomProduct"/>
+  <xs:element name="deleteCustomProductResponse" type="tns:deleteCustomProductResponse"/>
   <xs:element name="deleteEnterprise" type="tns:deleteEnterprise"/>
   <xs:element name="deleteEnterpriseResponse" type="tns:deleteEnterpriseResponse"/>
   <xs:element name="deletePlant" type="tns:deletePlant"/>
   <xs:element name="deletePlantResponse" type="tns:deletePlantResponse"/>
   <xs:element name="deleteProductionUnitClass" type="tns:deleteProductionUnitClass"/>
   <xs:element name="deleteProductionUnitClassResponse" type="tns:deleteProductionUnitClassResponse"/>
+  <xs:element name="getAllCustomProducts" type="tns:getAllCustomProducts"/>
+  <xs:element name="getAllCustomProductsResponse" type="tns:getAllCustomProductsResponse"/>
+  <xs:element name="getAllEnterpriseCustomProducts" type="tns:getAllEnterpriseCustomProducts"/>
+  <xs:element name="getAllEnterpriseCustomProductsResponse" type="tns:getAllEnterpriseCustomProductsResponse"/>
   <xs:element name="getAllEnterpriseProducts" type="tns:getAllEnterpriseProducts"/>
   <xs:element name="getAllEnterpriseProductsResponse" type="tns:getAllEnterpriseProductsResponse"/>
   <xs:element name="getAllProducts" type="tns:getAllProducts"/>
@@ -52,10 +58,6 @@
   <xs:element name="getProductsBySupplierResponse" type="tns:getProductsBySupplierResponse"/>
   <xs:element name="getSupplierByID" type="tns:getSupplierByID"/>
   <xs:element name="getSupplierByIDResponse" type="tns:getSupplierByIDResponse"/>
-  <xs:element name="queryCustomProductByEnterpriseID" type="tns:queryCustomProductByEnterpriseID"/>
-  <xs:element name="queryCustomProductByEnterpriseIDResponse" type="tns:queryCustomProductByEnterpriseIDResponse"/>
-  <xs:element name="queryCustomProductsByEnterpriseID" type="tns:queryCustomProductsByEnterpriseID"/>
-  <xs:element name="queryCustomProductsByEnterpriseIDResponse" type="tns:queryCustomProductsByEnterpriseIDResponse"/>
   <xs:element name="queryEnterpriseById" type="tns:queryEnterpriseById"/>
   <xs:element name="queryEnterpriseByIdResponse" type="tns:queryEnterpriseByIdResponse"/>
   <xs:element name="queryEnterpriseByName" type="tns:queryEnterpriseByName"/>
@@ -214,6 +216,22 @@
       <xs:element minOccurs="0" name="return" type="ns1:StoreWithEnterpriseTO"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="deleteCustomProduct">
+    <xs:sequence>
+      <xs:element name="customProductTO" type="ns5:CustomProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteCustomProductResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getAllCustomProducts">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getAllCustomProductsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns5:CustomProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="createEnterprise">
     <xs:sequence>
       <xs:element name="enterpriseName" type="xs:string"/>
@@ -296,27 +314,6 @@
       <xs:element minOccurs="0" name="return" type="ns1:EnterpriseTO"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="queryCustomProductByEnterpriseID">
-    <xs:sequence>
-      <xs:element name="enterpriseID" type="xs:long"/>
-      <xs:element name="customProductID" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryCustomProductByEnterpriseIDResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="ns5:CustomProductTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryCustomProductsByEnterpriseID">
-    <xs:sequence>
-      <xs:element name="enterpriseID" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryCustomProductsByEnterpriseIDResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns5:CustomProductTO"/>
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="querySuppliers">
     <xs:sequence>
       <xs:element name="enterpriseID" type="xs:long"/>
@@ -335,6 +332,16 @@
   <xs:complexType name="queryProductionUnitClassesByEnterpriseIDResponse">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns3:ProductionUnitClassTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAllEnterpriseCustomProducts">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAllEnterpriseCustomProductsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns5:CustomProductTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getProductByBarcode">
