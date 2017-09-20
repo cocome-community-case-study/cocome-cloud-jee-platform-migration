@@ -16,6 +16,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
@@ -499,6 +500,19 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setEnterpriseId(fetchId(row.getColumns().get(0)));
             result.setId(fetchId(row.getColumns().get(1)));
             result.setName(fetchString(row.getColumns().get(2)));
+
+            return result;
+        });
+    }
+
+    @Override
+    public Collection<IProductionUnitOperation> getProductionUnitOperations(String input) {
+        return rowToCollection(input, row -> {
+            final IProductionUnitOperation result = plantFactory.getNewProductionUnitOperation();
+
+            result.setId(fetchId(row.getColumns().get(0)));
+            result.setOperationId(fetchString(row.getColumns().get(1)));
+            result.setProductionUnitClassId(fetchId(row.getColumns().get(2)));
 
             return result;
         });

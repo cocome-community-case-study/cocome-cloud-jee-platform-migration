@@ -15,6 +15,7 @@
   <xs:element name="ProductTO" type="ns1:ProductTO"/>
   <xs:element name="ProductWithSupplierTO" type="ns1:ProductWithSupplierTO"/>
   <xs:element name="ProductionUnitClassTO" type="ns3:ProductionUnitClassTO"/>
+  <xs:element name="ProductionUnitOperationTO" type="ns3:ProductionUnitOperationTO"/>
   <xs:element name="RecipeTO" type="ns4:RecipeTO"/>
   <xs:element name="StoreTO" type="ns1:StoreTO"/>
   <xs:element name="SupplierTO" type="ns1:SupplierTO"/>
@@ -28,6 +29,8 @@
   <xs:element name="createProductResponse" type="tns:createProductResponse"/>
   <xs:element name="createProductionUnitClass" type="tns:createProductionUnitClass"/>
   <xs:element name="createProductionUnitClassResponse" type="tns:createProductionUnitClassResponse"/>
+  <xs:element name="createProductionUnitOperation" type="tns:createProductionUnitOperation"/>
+  <xs:element name="createProductionUnitOperationResponse" type="tns:createProductionUnitOperationResponse"/>
   <xs:element name="createStore" type="tns:createStore"/>
   <xs:element name="createStoreResponse" type="tns:createStoreResponse"/>
   <xs:element name="deleteCustomProduct" type="tns:deleteCustomProduct"/>
@@ -38,6 +41,8 @@
   <xs:element name="deletePlantResponse" type="tns:deletePlantResponse"/>
   <xs:element name="deleteProductionUnitClass" type="tns:deleteProductionUnitClass"/>
   <xs:element name="deleteProductionUnitClassResponse" type="tns:deleteProductionUnitClassResponse"/>
+  <xs:element name="deleteProductionUnitOperation" type="tns:deleteProductionUnitOperation"/>
+  <xs:element name="deleteProductionUnitOperationResponse" type="tns:deleteProductionUnitOperationResponse"/>
   <xs:element name="getAllCustomProducts" type="tns:getAllCustomProducts"/>
   <xs:element name="getAllCustomProductsResponse" type="tns:getAllCustomProductsResponse"/>
   <xs:element name="getAllEnterpriseCustomProducts" type="tns:getAllEnterpriseCustomProducts"/>
@@ -62,16 +67,20 @@
   <xs:element name="queryEnterpriseByIdResponse" type="tns:queryEnterpriseByIdResponse"/>
   <xs:element name="queryEnterpriseByName" type="tns:queryEnterpriseByName"/>
   <xs:element name="queryEnterpriseByNameResponse" type="tns:queryEnterpriseByNameResponse"/>
-  <xs:element name="queryPlantByEnterpriseID" type="tns:queryPlantByEnterpriseID"/>
-  <xs:element name="queryPlantByEnterpriseIDResponse" type="tns:queryPlantByEnterpriseIDResponse"/>
+  <xs:element name="queryPlantByID" type="tns:queryPlantByID"/>
+  <xs:element name="queryPlantByIDResponse" type="tns:queryPlantByIDResponse"/>
   <xs:element name="queryPlantByName" type="tns:queryPlantByName"/>
   <xs:element name="queryPlantByNameResponse" type="tns:queryPlantByNameResponse"/>
   <xs:element name="queryPlantsByEnterpriseID" type="tns:queryPlantsByEnterpriseID"/>
   <xs:element name="queryPlantsByEnterpriseIDResponse" type="tns:queryPlantsByEnterpriseIDResponse"/>
-  <xs:element name="queryProductionUnitClassByEnterpriseID" type="tns:queryProductionUnitClassByEnterpriseID"/>
-  <xs:element name="queryProductionUnitClassByEnterpriseIDResponse" type="tns:queryProductionUnitClassByEnterpriseIDResponse"/>
+  <xs:element name="queryProductionUnitClassByID" type="tns:queryProductionUnitClassByID"/>
+  <xs:element name="queryProductionUnitClassByIDResponse" type="tns:queryProductionUnitClassByIDResponse"/>
   <xs:element name="queryProductionUnitClassesByEnterpriseID" type="tns:queryProductionUnitClassesByEnterpriseID"/>
   <xs:element name="queryProductionUnitClassesByEnterpriseIDResponse" type="tns:queryProductionUnitClassesByEnterpriseIDResponse"/>
+  <xs:element name="queryProductionUnitOperationByID" type="tns:queryProductionUnitOperationByID"/>
+  <xs:element name="queryProductionUnitOperationByIDResponse" type="tns:queryProductionUnitOperationByIDResponse"/>
+  <xs:element name="queryProductionUnitOperationsByEnterpriseID" type="tns:queryProductionUnitOperationsByEnterpriseID"/>
+  <xs:element name="queryProductionUnitOperationsByEnterpriseIDResponse" type="tns:queryProductionUnitOperationsByEnterpriseIDResponse"/>
   <xs:element name="queryStoreByEnterpriseID" type="tns:queryStoreByEnterpriseID"/>
   <xs:element name="queryStoreByEnterpriseIDResponse" type="tns:queryStoreByEnterpriseIDResponse"/>
   <xs:element name="queryStoreByName" type="tns:queryStoreByName"/>
@@ -90,8 +99,20 @@
   <xs:element name="updateProductResponse" type="tns:updateProductResponse"/>
   <xs:element name="updateProductionUnitClass" type="tns:updateProductionUnitClass"/>
   <xs:element name="updateProductionUnitClassResponse" type="tns:updateProductionUnitClassResponse"/>
+  <xs:element name="updateProductionUnitOperation" type="tns:updateProductionUnitOperation"/>
+  <xs:element name="updateProductionUnitOperationResponse" type="tns:updateProductionUnitOperationResponse"/>
   <xs:element name="updateStore" type="tns:updateStore"/>
   <xs:element name="updateStoreResponse" type="tns:updateStoreResponse"/>
+  <xs:complexType name="queryPlantByID">
+    <xs:sequence>
+      <xs:element name="plantID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantByIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns2:PlantTO"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="getSupplierByID">
     <xs:sequence>
       <xs:element name="supplierID" type="xs:long"/>
@@ -100,17 +121,6 @@
   <xs:complexType name="getSupplierByIDResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="ns1:SupplierTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryPlantByEnterpriseID">
-    <xs:sequence>
-      <xs:element name="enterpriseID" type="xs:long"/>
-      <xs:element name="plantID" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryPlantByEnterpriseIDResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="ns2:PlantTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryStoresByEnterpriseID">
@@ -224,6 +234,22 @@
   <xs:complexType name="deleteCustomProductResponse">
     <xs:sequence/>
   </xs:complexType>
+  <xs:complexType name="createProductionUnitOperation">
+    <xs:sequence>
+      <xs:element name="productionUnitOperationTO" type="ns3:ProductionUnitOperationTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createProductionUnitOperationResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="updateProductionUnitOperation">
+    <xs:sequence>
+      <xs:element name="productionUnitOperationTO" type="ns3:ProductionUnitOperationTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateProductionUnitOperationResponse">
+    <xs:sequence/>
+  </xs:complexType>
   <xs:complexType name="getAllCustomProducts">
     <xs:sequence/>
   </xs:complexType>
@@ -334,6 +360,16 @@
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns3:ProductionUnitClassTO"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="queryProductionUnitOperationsByEnterpriseID">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryProductionUnitOperationsByEnterpriseIDResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns3:ProductionUnitOperationTO"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="getAllEnterpriseCustomProducts">
     <xs:sequence>
       <xs:element name="enterpriseID" type="xs:long"/>
@@ -397,6 +433,14 @@
   <xs:complexType name="deleteEnterpriseResponse">
     <xs:sequence/>
   </xs:complexType>
+  <xs:complexType name="deleteProductionUnitOperation">
+    <xs:sequence>
+      <xs:element name="productionUnitOperationTO" type="ns3:ProductionUnitOperationTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteProductionUnitOperationResponse">
+    <xs:sequence/>
+  </xs:complexType>
   <xs:complexType name="createStore">
     <xs:sequence>
       <xs:element name="storeTO" type="ns1:StoreWithEnterpriseTO"/>
@@ -415,13 +459,12 @@
       <xs:element minOccurs="0" name="return" type="ns1:ProductTO"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="queryProductionUnitClassByEnterpriseID">
+  <xs:complexType name="queryProductionUnitClassByID">
     <xs:sequence>
-      <xs:element name="enterpriseID" type="xs:long"/>
       <xs:element name="productionUnitClassID" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="queryProductionUnitClassByEnterpriseIDResponse">
+  <xs:complexType name="queryProductionUnitClassByIDResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="ns3:ProductionUnitClassTO"/>
     </xs:sequence>
@@ -432,6 +475,16 @@
   <xs:complexType name="getEnterprisesResponse">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:EnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryProductionUnitOperationByID">
+    <xs:sequence>
+      <xs:element name="productionUnitOperationID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryProductionUnitOperationByIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns3:ProductionUnitOperationTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:element name="NotInDatabaseException" type="tns:NotInDatabaseException"/>

@@ -21,6 +21,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 import org.cocome.tradingsystem.inventory.application.reporting.IReportingLocal;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -164,7 +165,7 @@ public interface IEnterpriseQuery {
      *
      * @param enterpriseID the id of the enterprise for which to retrieve the suppliers
      * @return all suppliers found and an empty collection if none is found
-     * @throws NotInDatabaseException
+     * @throws NotInDatabaseException if the given supplier is not in the database
      */
     Collection<IProductSupplier> querySuppliers(long enterpriseID) throws NotInDatabaseException;
 
@@ -183,7 +184,7 @@ public interface IEnterpriseQuery {
      * @param enterpriseID   the id of the enterprise for which to retrieve the suppliers
      * @param productBarcode the barcode of the product to look for
      * @return the first supplier found and null if none is found
-     * @throws NotInDatabaseException
+     * @throws NotInDatabaseException if the given supplier could not be found in the database
      */
     IProductSupplier querySupplierForProduct(long enterpriseID, long productBarcode) throws NotInDatabaseException;
 
@@ -193,7 +194,7 @@ public interface IEnterpriseQuery {
      * @param enterpriseID      the id of the enterprise for which to retrieve the suppliers
      * @param productSupplierID the id of the product supplier
      * @return a collection of available products for the given supplier
-     * @throws NotInDatabaseException
+     * @throws NotInDatabaseException if the given supplier could not be found in the database
      */
     Collection<IProduct> queryProductsBySupplier(long enterpriseID, long productSupplierID) throws NotInDatabaseException;
 
@@ -228,31 +229,44 @@ public interface IEnterpriseQuery {
      * Retrieves all production unit classes belonging to this enterprise from the database.
      *
      * @param enterpriseID the unique identifier of a TradingEnterprise entity
-     * @return All plants found in the given enterprise or an empty collection
+     * @return All {@link IProductionUnitClass} found in the given enterprise or an empty collection
      */
     Collection<IProductionUnitClass> queryProductionUnitClassesByEnterpriseId(long enterpriseID);
 
     /**
-     * Retrieves a specific plant belonging to this enterprise from the database.
+     * Retrieves all production unit operations belonging to this enterprise from the database.
      *
      * @param enterpriseID the unique identifier of a TradingEnterprise entity
+     * @return All {@link IProductionUnitOperation} found in the given enterprise or an empty collection
+     */
+    Collection<IProductionUnitOperation> queryProductionUnitOperationsByEnterpriseId(long enterpriseID);
+
+    /**
+     * Retrieves a specific plant belonging to this enterprise from the database.
+     *
      * @param plantID      the unique identifier of the Store entity
      * @return The Plant if found
      * @throws NotInDatabaseException if no Plant could be found in the given enterprise
      */
-    IPlant queryPlantByEnterprise(
-            long enterpriseID, long plantID) throws NotInDatabaseException;
+    IPlant queryPlant(long plantID) throws NotInDatabaseException;
 
     /**
      * Retrieves a specific {@link IProductionUnitClass} belonging to this enterprise from the database.
      *
-     * @param enterpriseID          the unique identifier of a TradingEnterprise entity
      * @param productionUnitClassID the unique identifier of the {@link IProductionUnitClass} entity
      * @return The {@link IProductionUnitClass} if found
      * @throws NotInDatabaseException if no {@link IProductionUnitClass} could be found in the given enterprise
      */
-    IProductionUnitClass queryProductionUnitClassByEnterprise(
-            long enterpriseID, long productionUnitClassID) throws NotInDatabaseException;
+    IProductionUnitClass queryProductionUnitClass(long productionUnitClassID) throws NotInDatabaseException;
+
+    /**
+     * Retrieves a specific {@link IProductionUnitClass} belonging to this enterprise from the database.
+     *
+     * @param productionUnitOperationId the unique identifier of the {@link IProductionUnitOperation} entity
+     * @return The {@link IProductionUnitOperation} if found
+     * @throws NotInDatabaseException if no {@link IProductionUnitOperation} could be found in the given enterprise
+     */
+    IProductionUnitOperation queryProductionUnitOperation(long productionUnitOperationId) throws NotInDatabaseException;
 
     /**
      * Retrieves the custom product with the given id.

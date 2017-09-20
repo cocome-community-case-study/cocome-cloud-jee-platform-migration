@@ -25,6 +25,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -138,7 +139,6 @@ public class CloudPersistenceContext implements IPersistenceContext {
         try {
             postData.sendUpdateQuery("TradingEnterprise", ServiceAdapterHeaders.ENTERPRISE_UPDATE_HEADER, content);
         } catch (IOException e) {
-            // TODO perhaps throw this exception to caller?
             LOG.error("Could not execute post because of an IOException: " + e.getMessage());
             throw new UpdateException("Could not update entity!", e);
         }
@@ -321,7 +321,6 @@ public class CloudPersistenceContext implements IPersistenceContext {
         try {
             postData.sendDeleteQuery("TradingEnterprise", ServiceAdapterHeaders.ENTERPRISE_UPDATE_HEADER, content);
         } catch (IOException e) {
-            // TODO perhaps throw this exception to caller?
             LOG.error("Could not execute post because of an IOException: " + e.getMessage());
             throw new UpdateException("Could not delete entity!", e);
         }
@@ -394,13 +393,33 @@ public class CloudPersistenceContext implements IPersistenceContext {
                 ServiceAdapterHeaders.CUSTOMPRODUCT_UPDATE_HEADER);
     }
 
+    @Override
+    public void createEntity(IProductionUnitOperation operation) throws CreateException {
+        createEntity("ProductionUnitOperation",
+                ServiceAdapterEntityConverter.getCreateProductionUnitOperationContent(operation),
+                ServiceAdapterHeaders.PRODUCTIONUNITOPERATION_CREATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IProductionUnitOperation operation) throws UpdateException {
+        deleteEntity("ProductionUnitOperation",
+                ServiceAdapterEntityConverter.getUpdateProductionUnitOperationContent(operation),
+                ServiceAdapterHeaders.PRODUCTIONUNITOPERATION_UPDATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IProductionUnitOperation operation) throws UpdateException {
+        updateEntity("ProductionUnitOperation",
+                ServiceAdapterEntityConverter.getUpdateProductionUnitOperationContent(operation),
+                ServiceAdapterHeaders.PRODUCTIONUNITOPERATION_UPDATE_HEADER);
+    }
+
     private void createEntity(String entityTypeName,
                               String content,
                               String header) throws CreateException {
         try {
             postData.sendCreateQuery(entityTypeName, header, content);
         } catch (IOException e) {
-            // TODO perhaps throw this exception to caller?
             LOG.error("Could not execute post because of an IOException: " + e.getMessage());
             throw new CreateException("Could not create entity!");
         }
@@ -416,7 +435,6 @@ public class CloudPersistenceContext implements IPersistenceContext {
         try {
             postData.sendUpdateQuery(entityTypeName, header, content);
         } catch (IOException e) {
-            // TODO perhaps throw this exception to caller?
             LOG.error("Could not execute post because of an IOException: " + e.getMessage());
             throw new UpdateException("Could not update entity!", e);
         }
@@ -432,7 +450,6 @@ public class CloudPersistenceContext implements IPersistenceContext {
         try {
             postData.sendDeleteQuery(entityTypeName, header, content);
         } catch (IOException e) {
-            // TODO perhaps throw this exception to caller?
             LOG.error("Could not execute post because of an IOException: " + e.getMessage());
             throw new UpdateException("Could not delete entity!", e);
         }

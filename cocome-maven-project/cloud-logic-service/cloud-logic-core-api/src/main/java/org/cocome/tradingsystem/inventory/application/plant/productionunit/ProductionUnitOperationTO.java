@@ -36,11 +36,11 @@ public class ProductionUnitOperationTO implements IIdentifiableTO {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlElement(name = "enterprise", required = true)
+    @XmlElement(name = "id", required = true)
     private long id;
-    @XmlElement(name = "enterprise", required = true)
+    @XmlElement(name = "name", required = true)
     private String operationId;
-    @XmlElement(name = "enterprise", required = true)
+    @XmlElement(name = "productionUnitClass", required = true)
     private ProductionUnitClassTO productionUnitClass;
 
     /**

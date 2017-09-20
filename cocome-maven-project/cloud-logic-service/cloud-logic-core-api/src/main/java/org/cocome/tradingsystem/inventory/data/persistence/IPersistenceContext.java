@@ -24,6 +24,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -194,4 +195,10 @@ public interface IPersistenceContext {
     void updateEntity(ICustomProduct customProduct) throws UpdateException;
 
     void deleteEntity(ICustomProduct customProduct) throws UpdateException;
+
+    void createEntity(IProductionUnitOperation operation) throws CreateException;
+
+    void deleteEntity(IProductionUnitOperation operation) throws UpdateException;
+
+    void updateEntity(IProductionUnitOperation operation) throws UpdateException;
 }

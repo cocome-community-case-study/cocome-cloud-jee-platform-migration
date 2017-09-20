@@ -2,14 +2,14 @@
 
   <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema5.xsd"/>
 
-  <xs:complexType name="SupplierTO">
+  <xs:complexType name="EnterpriseTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="EnterpriseTO">
+  <xs:complexType name="SupplierTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>

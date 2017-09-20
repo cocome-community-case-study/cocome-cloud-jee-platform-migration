@@ -54,4 +54,9 @@ final class ServiceAdapterHeaders {
 
     static final String CUSTOMPRODUCT_UPDATE_HEADER = "CustomProductId;CustomProductBarcode;CustomProductLocation;"
             + "CustomProductPurchasePrice;RecipeId";
+
+    static final String  PRODUCTIONUNITOPERATION_CREATE_HEADER = "ProductionUnitOperationOID;ProductionUnitClassId";
+
+    static final String  PRODUCTIONUNITOPERATION_UPDATE_HEADER = "ProductionUnitOperationId;ProductionUnitOperationOID;"
+            + "ProductionUnitClassId";
 }

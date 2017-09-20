@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
  * Represents an atomic operation on a production unit
@@ -40,10 +41,21 @@ public interface IProductionUnitOperation extends IIdentifiable {
     /**
      * @return the associated {@link IProductionUnitClass}
      */
-    IProductionUnitClass getProductionUnitClass();
+    IProductionUnitClass getProductionUnitClass() throws NotInDatabaseException;
 
     /**
      * @param productionUnitClass the associated production unit class
      */
     void setProductionUnitClass(IProductionUnitClass productionUnitClass);
+
+
+    /**
+     * @return id of the associated {@link IProductionUnitClass}
+     */
+    long getProductionUnitClassId();
+
+    /**
+     * @param productionUnitClassId id of the associated production unit class
+     */
+    void setProductionUnitClassId(long productionUnitClassId);
 }

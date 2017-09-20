@@ -29,6 +29,7 @@ import org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
@@ -36,6 +37,7 @@ import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -81,13 +83,13 @@ public class EnterpriseManager implements IEnterpriseManager {
     private IApplicationHelper applicationHelper;
 
     @Inject
-    String enterpriseServiceWSDL;
+    private String enterpriseServiceWSDL;
 
     @Inject
-    String enterpriseReportingWSDL;
+    private String enterpriseReportingWSDL;
 
     @Inject
-    String loginManagerWSDL;
+    private String loginManagerWSDL;
 
     @Inject
     private IEnterpriseDataFactory enterpriseFactory;
@@ -260,6 +262,13 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
+    public Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByEnterpriseID(long enterpriseId) throws NotInDatabaseException {
+        return this.queryCollectionByEnterpriseID(enterpriseId,
+                enterpriseQuery::queryProductionUnitOperationsByEnterpriseId,
+                plantFactory::fillProductionUnitOperationTO);
+    }
+
+    @Override
     public void updateStore(StoreWithEnterpriseTO storeTO)
             throws NotInDatabaseException, UpdateException {
         IStore store;
@@ -303,9 +312,7 @@ public class EnterpriseManager implements IEnterpriseManager {
                 enterpriseQuery.queryEnterpriseById(
                         plantTO.getEnterpriseTO().getId()));
 
-        final IPlant plant = saveFetchFromDB(() -> enterpriseQuery.queryPlantByEnterprise(
-                enterprise.getId(),
-                plantTO.getId()));
+        final IPlant plant = saveFetchFromDB(() -> enterpriseQuery.queryPlant(plantTO.getId()));
 
         plant.setEnterprise(enterprise);
         plant.setEnterpriseId(enterprise.getId());
@@ -343,6 +350,16 @@ public class EnterpriseManager implements IEnterpriseManager {
         puc.setId(productionUnitClassTO.getId());
         puc.setName(productionUnitClassTO.getName());
         puc.setEnterpriseId(productionUnitClassTO.getEnterprise().getId());
+
+        saveDBCreateAction(() -> persistenceContext.createEntity(puc));
+    }
+
+    @Override
+    public void createProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws CreateException {
+        final IProductionUnitOperation puc = plantFactory.getNewProductionUnitOperation();
+        puc.setId(productionUnitOperationTO.getId());
+        puc.setOperationId(productionUnitOperationTO.getOperationId());
+        puc.setProductionUnitClassId(productionUnitOperationTO.getProductionUnitClass().getId());
 
         saveDBCreateAction(() -> persistenceContext.createEntity(puc));
     }
@@ -427,8 +444,7 @@ public class EnterpriseManager implements IEnterpriseManager {
                 enterpriseQuery.queryEnterpriseById(
                         productionUnitClassTO.getEnterprise().getId()));
 
-        final IProductionUnitClass plant = saveFetchFromDB(() -> enterpriseQuery.queryProductionUnitClassByEnterprise(
-                enterprise.getId(),
+        final IProductionUnitClass plant = saveFetchFromDB(() -> enterpriseQuery.queryProductionUnitClass(
                 productionUnitClassTO.getId()));
 
         plant.setEnterprise(enterprise);
@@ -436,6 +452,22 @@ public class EnterpriseManager implements IEnterpriseManager {
         plant.setName(productionUnitClassTO.getName());
 
         saveDBUpdateAction(() -> persistenceContext.updateEntity(plant));
+    }
+
+    @Override
+    public void updateProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO)
+            throws UpdateException, NotInDatabaseException {
+        final IProductionUnitClass puc = saveFetchFromDB(() ->
+                enterpriseQuery.queryProductionUnitClass(
+                        productionUnitOperationTO.getProductionUnitClass().getId()));
+
+        final IProductionUnitOperation operation = saveFetchFromDB(() -> enterpriseQuery.queryProductionUnitOperation(
+                productionUnitOperationTO.getId()));
+
+        operation.setProductionUnitClass(puc);
+        operation.setOperationId(productionUnitOperationTO.getOperationId());
+
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(operation));
     }
 
     @Override
@@ -505,15 +537,22 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public PlantTO queryPlantByEnterpriseID(long enterpriseId, long plantId) throws NotInDatabaseException {
+    public PlantTO queryPlantByID(long plantId) throws NotInDatabaseException {
         return plantFactory.fillPlantTO(
-                enterpriseQuery.queryPlantByEnterprise(enterpriseId, plantId));
+                enterpriseQuery.queryPlant(plantId));
     }
 
     @Override
-    public ProductionUnitClassTO queryProductionUnitClassByEnterpriseID(long enterpriseId, long productionUnitClassId) throws NotInDatabaseException {
+    public ProductionUnitClassTO queryProductionUnitClassByID(long productionUnitClassId) throws NotInDatabaseException {
         return plantFactory.fillProductionUnitClassTO(
-                enterpriseQuery.queryProductionUnitClassByEnterprise(enterpriseId, productionUnitClassId));
+                enterpriseQuery.queryProductionUnitClass(productionUnitClassId));
+    }
+
+    @Override
+    public ProductionUnitOperationTO queryProductionUnitOperationByID(long productionUnitOperationId) throws NotInDatabaseException {
+        return plantFactory.fillProductionUnitOperationTO(
+                enterpriseQuery.queryProductionUnitOperation(productionUnitOperationId));
+
     }
 
     @Override
@@ -585,15 +624,15 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public void deletePlant(PlantTO plantTO) throws NotInDatabaseException, UpdateException, IOException {
-        final IPlant plant = saveFetchFromDB(() -> enterpriseQuery.queryPlantByEnterprise(plantTO.getEnterpriseTO().getId(),
-                plantTO.getId()));
+        final IPlant plant = saveFetchFromDB(() -> enterpriseQuery.queryPlant(plantTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(plant));
     }
 
     @Override
-    public void deleteProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws NotInDatabaseException, UpdateException, IOException {
-        final IProductionUnitClass puc = saveFetchFromDB(() -> enterpriseQuery.queryProductionUnitClassByEnterprise(productionUnitClassTO.getEnterprise().getId(),
-                productionUnitClassTO.getId()));
+    public void deleteProductionUnitClass(ProductionUnitClassTO productionUnitClassTO)
+            throws NotInDatabaseException, UpdateException, IOException {
+        final IProductionUnitClass puc = saveFetchFromDB(()
+                -> enterpriseQuery.queryProductionUnitClass(productionUnitClassTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(puc));
     }
 
@@ -601,6 +640,14 @@ public class EnterpriseManager implements IEnterpriseManager {
     public void deleteCustomProduct(CustomProductTO customProductTO) throws NotInDatabaseException, UpdateException, IOException {
         final ICustomProduct customProduct = saveFetchFromDB(() -> queryCustomProduct(customProductTO));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(customProduct));
+    }
+
+    @Override
+    public void deleteProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO)
+            throws NotInDatabaseException, UpdateException, IOException {
+        final IProductionUnitOperation puc = saveFetchFromDB(() -> enterpriseQuery.queryProductionUnitOperation(
+                productionUnitOperationTO.getId()));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(puc));
     }
 
     private ICustomProduct queryCustomProduct(CustomProductTO customProductTO) throws NotInDatabaseException {

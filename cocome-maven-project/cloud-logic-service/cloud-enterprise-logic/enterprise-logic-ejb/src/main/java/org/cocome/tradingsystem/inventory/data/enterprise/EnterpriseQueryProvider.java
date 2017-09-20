@@ -3,6 +3,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -17,6 +18,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
 
 @Stateless
 @Local
@@ -167,26 +169,22 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public IPlant queryPlantByEnterprise(long enterpriseID, long plantID) throws NotInDatabaseException {
-        try {
-            return csvHelper
-                    .getPlants(backendConnection.getEntity("Plant",
-                            "id==" + plantID + ";Plant.enterprise.id==" + enterpriseID))
-                    .iterator().next();
-        } catch (NoSuchElementException e) {
-            throw new NotInDatabaseException("No matching plant found in database!");
-        }
+    public IPlant queryPlant(long plantID) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getPlants, "Plant", plantID);
     }
 
     @Override
-    public IProductionUnitClass queryProductionUnitClassByEnterprise(long enterpriseID, long productionUnitClassID) throws NotInDatabaseException {
+    public IProductionUnitClass queryProductionUnitClass(long productionUnitClassID) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getProductionUnitClasses, "ProductionUnitClass", productionUnitClassID);
+    }
+
+    private <T> T getSingleEntity(Function<String, Collection<T>> converter,
+                                  String entity,
+                                  long entityId) throws NotInDatabaseException {
         try {
-            return csvHelper
-                    .getProductionUnitClasses(backendConnection.getEntity("ProductionUnitClass",
-                            "id==" + productionUnitClassID + ";ProductionUnitClass.enterprise.id==" + enterpriseID))
-                    .iterator().next();
+            return converter.apply(backendConnection.getEntity(entity, "id==" + entityId)).iterator().next();
         } catch (NoSuchElementException e) {
-            throw new NotInDatabaseException("No matching production unit class found in database!");
+            throw new NotInDatabaseException(String.format("No matching entity of type %s found in database!", entity));
         }
     }
 
@@ -202,6 +200,20 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
         return null;
     }
 
+    @Override
+    public Collection<IProductionUnitOperation> queryProductionUnitOperationsByEnterpriseId(long enterpriseID) {
+        return csvHelper.getProductionUnitOperations(backendConnection.getEntity(
+                "ProductionUnitOperation",
+                "productionUnitClass.enterprise.id==" + enterpriseID));
+    }
+
+    @Override
+    public IProductionUnitOperation queryProductionUnitOperation(long productionUnitOperationId) throws NotInDatabaseException {
+        return getSingleEntity(
+                csvHelper::getProductionUnitOperations,
+                "ProductionUnitOperation",
+                productionUnitOperationId);
+    }
 
     @Override
     public Collection<IPlant> queryPlantByName(long enterpriseID, String plantName) {

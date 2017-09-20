@@ -4,10 +4,13 @@ import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitOperation;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.enterprise.context.Dependent;
@@ -23,6 +26,9 @@ class PlantDatatypesFactory implements IPlantDataFactory {
 
     @Inject
     private Provider<ProductionUnitClass> productionUnitClassProvider;
+
+    @Inject
+    private Provider<ProductionUnitOperation> productionUnitOperationProvider;
 
     @Inject
     private IEnterpriseDataFactory enterpriseDatatypes;
@@ -44,6 +50,11 @@ class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
+    public IProductionUnitOperation getNewProductionUnitOperation() {
+        return productionUnitOperationProvider.get();
+    }
+
+    @Override
     public IPlant convertToPlant(PlantTO plantTO) {
         IPlant plant = getNewPlant();
         plant.setName(plantTO.getName());
@@ -60,6 +71,15 @@ class PlantDatatypesFactory implements IPlantDataFactory {
         pucTO.setId(puc.getId());
         pucTO.setEnterpriseId(puc.getEnterprise().getId());
         return pucTO;
+    }
+
+    @Override
+    public IProductionUnitOperation convertToProductionUnitOperation(ProductionUnitOperationTO operationTO) {
+        IProductionUnitOperation operation = getNewProductionUnitOperation();
+        operation.setId(operationTO.getId());
+        operation.setOperationId(operationTO.getOperationId());
+        operation.setProductionUnitClassId(operationTO.getProductionUnitClass().getId());
+        return operation;
     }
 
     @Override
@@ -86,6 +106,17 @@ class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(puc.getId());
         result.setName(puc.getName());
         result.setEnterprise(enterpriseDatatypes.fillEnterpriseTO(puc.getEnterprise()));
+
+        return result;
+    }
+
+    @Override
+    public ProductionUnitOperationTO fillProductionUnitOperationTO(IProductionUnitOperation operation)
+            throws NotInDatabaseException {
+        final ProductionUnitOperationTO result = new ProductionUnitOperationTO();
+        result.setId(operation.getId());
+        result.setOperationId(operation.getOperationId());
+        result.setProductionUnitClass(fillProductionUnitClassTO(operation.getProductionUnitClass()));
 
         return result;
     }

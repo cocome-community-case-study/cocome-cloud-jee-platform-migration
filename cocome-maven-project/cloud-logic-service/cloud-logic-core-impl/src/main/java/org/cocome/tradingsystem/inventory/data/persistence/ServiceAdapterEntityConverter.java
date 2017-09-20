@@ -9,6 +9,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.store.IOrderEntry;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
@@ -299,6 +300,20 @@ class ServiceAdapterEntityConverter {
                 customProduct.getPurchasePrice() +
                 ServiceAdapterHeaders.SEPARATOR +
                 customProduct.getRecipeId();
+    }
+
+    static String getCreateProductionUnitOperationContent(IProductionUnitOperation operation) {
+        return String.valueOf(operation.getOperationId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                operation.getProductionUnitClassId();
+    }
+
+    static String getUpdateProductionUnitOperationContent(IProductionUnitOperation operation) {
+        return String.valueOf(operation.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(operation.getOperationId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                operation.getProductionUnitClassId();
     }
 
     private static void appendPrefferedStore(ICustomer customer, StringBuilder content) {

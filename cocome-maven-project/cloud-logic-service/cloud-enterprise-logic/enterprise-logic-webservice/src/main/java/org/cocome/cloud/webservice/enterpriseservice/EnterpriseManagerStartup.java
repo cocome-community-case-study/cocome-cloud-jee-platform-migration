@@ -34,19 +34,19 @@ public class EnterpriseManagerStartup {
     private static final Logger LOG = Logger.getLogger(EnterpriseManagerStartup.class);
 
     @Inject
-    IApplicationHelper applicationHelper;
+    private IApplicationHelper applicationHelper;
 
     @Inject
-    String enterpriseServiceWSDL;
+    private String enterpriseServiceWSDL;
 
     @Inject
-    String enterpriseReportingWSDL;
+    private String enterpriseReportingWSDL;
 
     @Inject
-    String loginManagerWSDL;
+    private String loginManagerWSDL;
 
     @Inject
-    long defaultEnterpriseIndex;
+    private long defaultEnterpriseIndex;
 
     @PostConstruct
     private void registerEnterpriseManagerComponents() {

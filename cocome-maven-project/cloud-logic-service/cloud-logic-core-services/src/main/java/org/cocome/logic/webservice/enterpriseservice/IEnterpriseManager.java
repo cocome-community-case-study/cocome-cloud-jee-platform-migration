@@ -21,6 +21,7 @@ package org.cocome.logic.webservice.enterpriseservice;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -40,7 +41,6 @@ import java.util.Collection;
 @WebService(targetNamespace = "http://enterprise.webservice.logic.cocome.org/")
 public interface IEnterpriseManager {
     /**
-     * @param enterpriseId the unique identifier of a TradingEnterprise entity
      * @return A EnterpriseTO object with the specified id.
      * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
      */
@@ -84,6 +84,14 @@ public interface IEnterpriseManager {
     Collection<ProductionUnitClassTO> queryProductionUnitClassesByEnterpriseID(
             @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId) throws NotInDatabaseException;
 
+    /**
+     * @param enterpriseId the unique identifier of a TradingEnterprise entity
+     * @return A collection of {@link ProductionUnitOperationTO} objects belonging to the given enterprise.
+     * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
+     */
+    @WebMethod
+    Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByEnterpriseID(
+            @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId) throws NotInDatabaseException;
 
     /**
      * @param enterpriseId the unique identifier of a TradingEnterprise entity
@@ -98,28 +106,37 @@ public interface IEnterpriseManager {
             @XmlElement(required = true) @WebParam(name = "storeID") long storeId) throws NotInDatabaseException;
 
     /**
-     * @param enterpriseId the unique identifier of a TradingEnterprise entity
      * @param plantId      the unique identifier of a Plant entity
      * @return A PlantWithEntepriseTO object with the given store identifier and
      * belonging to the given enterprise.
      * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
      */
     @WebMethod
-    PlantTO queryPlantByEnterpriseID(
-            @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId,
+    PlantTO queryPlantByID(
             @XmlElement(required = true) @WebParam(name = "plantID") long plantId) throws NotInDatabaseException;
 
     /**
-     * @param enterpriseId          the unique identifier of a TradingEnterprise entity
      * @param productionUnitClassId the unique identifier of a {@link ProductionUnitClassTO} entity
      * @return A {@link ProductionUnitClassTO} object with the given store identifier and
      * belonging to the given enterprise.
      * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
      */
     @WebMethod
-    ProductionUnitClassTO queryProductionUnitClassByEnterpriseID(
-            @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId,
-            @XmlElement(required = true) @WebParam(name = "productionUnitClassID") long productionUnitClassId) throws NotInDatabaseException;
+    ProductionUnitClassTO queryProductionUnitClassByID(
+            @XmlElement(required = true) @WebParam(name = "productionUnitClassID") long productionUnitClassId)
+            throws NotInDatabaseException;
+
+    /**
+     * @param productionUnitOperationId the unique identifier of a {@link ProductionUnitOperationTO} entity
+     * @return A {@link ProductionUnitOperationTO} object with the given store identifier and
+     * belonging to the given enterprise.
+     * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
+     */
+    @WebMethod
+    ProductionUnitOperationTO queryProductionUnitOperationByID(
+            @XmlElement(required = true) @WebParam(name = "productionUnitOperationID") long productionUnitOperationId)
+            throws NotInDatabaseException;
+
 
     /**
      * Queries the database for a store with the given name in the given enterprise.
@@ -309,6 +326,12 @@ public interface IEnterpriseManager {
             @WebParam(name = "productionUnitClassTO") ProductionUnitClassTO productionUnitClassTO)
             throws CreateException;
 
+    @WebMethod
+    void createProductionUnitOperation(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitOperationTO") ProductionUnitOperationTO productionUnitOperationTO)
+            throws CreateException;
+
     /**
      * Updates the store object. This method requires the EnterpriseTO to be present and to have
      * at least the id attribute set.
@@ -358,6 +381,13 @@ public interface IEnterpriseManager {
             throws UpdateException, NotInDatabaseException;
 
     @WebMethod
+    void updateProductionUnitOperation(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitOperationTO")
+                    ProductionUnitOperationTO productionUnitOperationTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
     Collection<EnterpriseTO> getEnterprises();
 
     @WebMethod
@@ -381,5 +411,11 @@ public interface IEnterpriseManager {
     void deleteCustomProduct(
             @XmlElement(required = true)
             @WebParam(name = "customProductTO") CustomProductTO customProductTO)
+            throws NotInDatabaseException, UpdateException, IOException;
+
+    @WebMethod
+    void deleteProductionUnitOperation(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitOperationTO") ProductionUnitOperationTO productionUnitOperationTO)
             throws NotInDatabaseException, UpdateException, IOException;
 }

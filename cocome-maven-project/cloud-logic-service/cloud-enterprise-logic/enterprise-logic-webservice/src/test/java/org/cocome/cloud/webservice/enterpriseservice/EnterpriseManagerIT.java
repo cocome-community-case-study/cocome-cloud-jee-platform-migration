@@ -6,7 +6,10 @@ import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitOperation;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -38,7 +41,7 @@ public class EnterpriseManagerIT {
     }
 
     @Test
-    public void createAndDeletePlant() throws Exception {
+    public void testCRUDForPlant() throws Exception {
         final EnterpriseTO enterprise = getOrCreateEnterprise();
         PlantTO plant = new PlantTO();
         plant.setName("Plant1");
@@ -50,7 +53,7 @@ public class EnterpriseManagerIT {
         Assert.assertNotNull(plants);
         Assert.assertFalse(plants.isEmpty());
 
-        final PlantTO singleInstance = em.queryPlantByEnterpriseID(enterprise.getId(), plants.get(0).getId());
+        final PlantTO singleInstance = em.queryPlantByID(plants.get(0).getId());
         Assert.assertNotNull(singleInstance);
         Assert.assertEquals(plants.get(0).getId(), singleInstance.getId());
         Assert.assertEquals(plants.get(0).getName(), singleInstance.getName());
@@ -62,7 +65,7 @@ public class EnterpriseManagerIT {
     }
 
     @Test
-    public void createAndDeleteProductionUnitClass() throws Exception {
+    public void testCRUDForProductionUnitClass() throws Exception {
         final EnterpriseTO enterprise = getOrCreateEnterprise();
         final ProductionUnitClassTO puc = new ProductionUnitClassTO();
         puc.setName("PUC1");
@@ -73,13 +76,51 @@ public class EnterpriseManagerIT {
         Assert.assertNotNull(pucs);
         Assert.assertFalse(pucs.isEmpty());
 
-        final ProductionUnitClassTO singleInstance = em.queryProductionUnitClassByEnterpriseID(enterprise.getId(), pucs.get(0).getId());
+        final ProductionUnitClassTO singleInstance = em.queryProductionUnitClassByID(pucs.get(0).getId());
         Assert.assertNotNull(singleInstance);
         Assert.assertEquals(pucs.get(0).getId(), singleInstance.getId());
         Assert.assertEquals(pucs.get(0).getName(), singleInstance.getName());
         for (final ProductionUnitClassTO instance : pucs) {
             em.deleteProductionUnitClass(instance);
         }
+        em.deleteEnterprise(enterprise);
+    }
+
+    @Test
+    public void testCRUDForProductionUnitOperation() throws Exception {
+        final EnterpriseTO enterprise = getOrCreateEnterprise();
+        final ProductionUnitClassTO createPuc = new ProductionUnitClassTO();
+        createPuc.setName("PUC1");
+        createPuc.setEnterprise(enterprise);
+        em.createProductionUnitClass(createPuc);
+        final ProductionUnitClassTO puc = em.queryProductionUnitClassesByEnterpriseID(enterprise.getId()).get(0);
+
+        final ProductionUnitOperationTO operation1 = new ProductionUnitOperationTO();
+        operation1.setOperationId("__OP1");
+        operation1.setProductionUnitClass(puc);
+        em.createProductionUnitOperation(operation1);
+
+        final ProductionUnitOperationTO operation2 = new ProductionUnitOperationTO();
+        operation2.setOperationId("__OP2");
+        operation2.setProductionUnitClass(puc);
+        em.createProductionUnitOperation(operation2);
+
+        final List<ProductionUnitOperationTO> operations =
+                em.queryProductionUnitOperationsByEnterpriseID(enterprise.getId());
+        Assert.assertNotNull(operations);
+        Assert.assertFalse(operations.isEmpty());
+        //Assert.assertEquals(2, operations.size());
+
+        final ProductionUnitOperationTO singleInstance =
+                em.queryProductionUnitOperationByID(operations.get(1).getId());
+        Assert.assertNotNull(singleInstance);
+        Assert.assertEquals(operations.get(1).getId(), singleInstance.getId());
+        Assert.assertEquals(operations.get(1).getOperationId(), singleInstance.getOperationId());
+        for (final ProductionUnitOperationTO instance : operations) {
+            em.deleteProductionUnitOperation(instance);
+        }
+        Assert.assertTrue(em.queryProductionUnitOperationsByEnterpriseID(enterprise.getId()).isEmpty());
+        em.deleteProductionUnitClass(puc);
         em.deleteEnterprise(enterprise);
     }
 

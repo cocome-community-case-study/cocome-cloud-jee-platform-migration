@@ -5,6 +5,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -14,15 +15,6 @@ import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 import java.util.Collection;
 
 public interface IBackendConversionHelper {
-
-    /**
-     * Converts a CSV response from the backend to a list of Store objects.
-     * The enterprise, suppliers and productItems attributes in the Stores are left as
-     * null and have to be filled separately.
-     *
-     * @param input the csv string to be parsed
-     * @return a collection of stores contained in the string
-     */
     Collection<IStore> getStores(String input);
 
     Collection<IPlant> getPlants(String input);
@@ -42,4 +34,6 @@ public interface IBackendConversionHelper {
     Collection<IProductOrder> getProductOrders(String input);
 
     Collection<IProductionUnitClass> getProductionUnitClasses(String productionUnitClass);
+
+    Collection<IProductionUnitOperation> getProductionUnitOperations(String productionUnitOperation);
 }

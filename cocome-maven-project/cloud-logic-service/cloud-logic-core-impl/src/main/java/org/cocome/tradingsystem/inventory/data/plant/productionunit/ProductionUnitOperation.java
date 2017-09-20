@@ -18,7 +18,13 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
@@ -33,7 +39,19 @@ public class ProductionUnitOperation implements Serializable, IProductionUnitOpe
 
     private long id;
     private String operationId;
+    private long productionUnitClassId;
     private IProductionUnitClass productionUnitClass;
+
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    @PostConstruct
+    public void init() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        productionUnitClass = null;
+    }
 
     @Override
     public long getId() {
@@ -56,12 +74,25 @@ public class ProductionUnitOperation implements Serializable, IProductionUnitOpe
     }
 
     @Override
-    public IProductionUnitClass getProductionUnitClass() {
+    public IProductionUnitClass getProductionUnitClass() throws NotInDatabaseException {
+        if (productionUnitClass == null) {
+            productionUnitClass = enterpriseQuery.queryProductionUnitClass(productionUnitClassId);
+        }
         return productionUnitClass;
     }
 
     @Override
     public void setProductionUnitClass(IProductionUnitClass productionUnitClass) {
         this.productionUnitClass = productionUnitClass;
+    }
+
+    @Override
+    public long getProductionUnitClassId() {
+        return productionUnitClassId;
+    }
+
+    @Override
+    public void setProductionUnitClassId(long productionUnitClassId) {
+        this.productionUnitClassId = productionUnitClassId;
     }
 }

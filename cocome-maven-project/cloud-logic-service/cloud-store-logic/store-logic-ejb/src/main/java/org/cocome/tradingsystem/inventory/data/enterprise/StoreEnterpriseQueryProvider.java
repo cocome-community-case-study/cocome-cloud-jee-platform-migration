@@ -16,6 +16,7 @@ import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -320,20 +321,20 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public IPlant queryPlantByEnterprise(long enterpriseID, long plantID) throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
+    public IPlant queryPlant(long plantID) throws NotInDatabaseException {
+        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
         try {
-            return plantFactory.convertToPlant(enterpriseManager.queryPlantByEnterpriseID(enterpriseID, plantID));
+            return plantFactory.convertToPlant(enterpriseManager.queryPlantByID(plantID));
         } catch (NotInDatabaseException_Exception e) {
             throw new NotInDatabaseException(e.getFaultInfo().getMessage());
         }
     }
 
     @Override
-    public IProductionUnitClass queryProductionUnitClassByEnterprise(long enterpriseID, long productionUnitClassID) throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
+    public IProductionUnitClass queryProductionUnitClass(long productionUnitClassID) throws NotInDatabaseException {
+        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
         try {
-            return plantFactory.convertToProductionUnitClass(enterpriseManager.queryProductionUnitClassByEnterpriseID(enterpriseID, productionUnitClassID));
+            return plantFactory.convertToProductionUnitClass(enterpriseManager.queryProductionUnitClassByID(productionUnitClassID));
         } catch (NotInDatabaseException_Exception e) {
             throw new NotInDatabaseException(e.getFaultInfo().getMessage());
         }
@@ -349,6 +350,25 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
     public ICustomProduct queryCustomProductByBarcode(long productBarcode) throws NotInDatabaseException {
         //TODO
         return null;
+    }
+
+    @Override
+    public Collection<IProductionUnitOperation> queryProductionUnitOperationsByEnterpriseId(long enterpriseID) {
+        return queryCollection(enterpriseID,
+                enterpriseManager -> enterpriseManager.queryProductionUnitOperationsByEnterpriseID(enterpriseID),
+                plantFactory::convertToProductionUnitOperation);
+    }
+
+    @Override
+    public IProductionUnitOperation queryProductionUnitOperation(long productionUnitOperationID)
+            throws NotInDatabaseException {
+        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+        try {
+            return plantFactory.convertToProductionUnitOperation(
+                    enterpriseManager.queryProductionUnitOperationByID(productionUnitOperationID));
+        } catch (NotInDatabaseException_Exception e) {
+            throw new NotInDatabaseException(e.getFaultInfo().getMessage());
+        }
     }
 
 
