@@ -12,9 +12,9 @@ import java.io.Serializable;
  * @author Rudolf Biczok
  */
 @XmlType(
-        name = "ConditionalExpressionTO",
+        name = "ExpressionTO",
         namespace = "http://expression.plant.application.inventory.tradingsystem.cocome.org")
-@XmlRootElement(name = "ConditionalExpressionTO")
+@XmlRootElement(name = "ExpressionTO")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ExpressionTO implements Serializable, IIdentifiableTO {
     private static final long serialVersionUID = 1L;

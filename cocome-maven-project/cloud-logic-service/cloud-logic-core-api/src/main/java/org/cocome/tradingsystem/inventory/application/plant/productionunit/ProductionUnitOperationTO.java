@@ -37,32 +37,10 @@ public class ProductionUnitOperationTO extends ExpressionTO {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlElement(name = "id", required = true)
-    private long id;
     @XmlElement(name = "name", required = true)
     private String operationId;
     @XmlElement(name = "productionUnitClass", required = true)
     private ProductionUnitClassTO productionUnitClass;
-
-    /**
-     * Gets identifier value
-     *
-     * @return The identifier value.
-     */
-    @Override
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Sets identifier.
-     *
-     * @param id Identifier value.
-     */
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
 
     /**
      * @return The operation id unique to the production plant

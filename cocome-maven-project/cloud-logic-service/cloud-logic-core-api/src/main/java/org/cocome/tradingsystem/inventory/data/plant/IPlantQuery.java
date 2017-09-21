@@ -18,10 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.plant;
 
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-
 import javax.ejb.Local;
-import java.util.Collection;
 
 /**
  * This interface provides methods for querying the database.

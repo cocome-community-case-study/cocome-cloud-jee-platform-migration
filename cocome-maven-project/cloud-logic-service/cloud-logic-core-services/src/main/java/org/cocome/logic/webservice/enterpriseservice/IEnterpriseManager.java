@@ -138,17 +138,6 @@ public interface IEnterpriseManager {
             throws NotInDatabaseException;
 
     /**
-     * @param productionUnitOperationId the unique identifier of a {@link ProductionUnitOperationTO} entity
-     * @return A {@link ProductionUnitOperationTO} object with the given store identifier and
-     * belonging to the given enterprise.
-     * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
-     */
-    @WebMethod
-    ProductionUnitOperationTO queryConstExpressionID(
-            @XmlElement(required = true) @WebParam(name = "productionUnitOperationID") long productionUnitOperationId)
-            throws NotInDatabaseException;
-
-    /**
      * Queries the database for a store with the given name in the given enterprise.
      * If there are multiple stores with the given name, all of them are returned.
      * If there is no store with the given name, an empty collection is returned.
