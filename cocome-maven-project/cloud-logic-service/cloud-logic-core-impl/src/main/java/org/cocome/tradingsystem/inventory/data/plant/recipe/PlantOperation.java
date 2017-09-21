@@ -18,14 +18,13 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.application.INameableTO;
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 
 import javax.enterprise.context.Dependent;
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents an operation provided by an plant
@@ -39,6 +38,7 @@ public class PlantOperation implements Serializable, IPlantOperation {
     private long id;
     private String name;
     private IPlant plant;
+    private List<IExpression> expressions;
     private Collection<IEntryPoint> inputEntryPoint;
     private Collection<IEntryPoint> outputEntryPoint;
 
@@ -90,5 +90,15 @@ public class PlantOperation implements Serializable, IPlantOperation {
     @Override
     public void setPlant(IPlant plant) {
         this.plant = plant;
+    }
+
+    @Override
+    public List<IExpression> getExpressions() {
+        return expressions;
+    }
+
+    @Override
+    public void setExpressions(List<IExpression> expressions) {
+        this.expressions = expressions;
     }
 }

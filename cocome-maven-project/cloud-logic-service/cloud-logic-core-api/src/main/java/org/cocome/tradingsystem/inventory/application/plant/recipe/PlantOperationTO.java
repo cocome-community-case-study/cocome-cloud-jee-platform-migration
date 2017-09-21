@@ -20,10 +20,12 @@ package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.INameableTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents an operation provided by an plant
@@ -44,6 +46,9 @@ public class PlantOperationTO implements Serializable, INameableTO {
     private String name;
     @XmlElement(name = "plant", required = true)
     private PlantTO plant;
+
+    @XmlElement(name = "expressions", required = true)
+    private List<ExpressionTO> expressions;
     @XmlElement(name = "inputEntryPoint", required = true)
     private Collection<EntryPointTO> inputEntryPoint;
     @XmlElement(name = "outputEntryPoint", required = true)
@@ -124,4 +129,19 @@ public class PlantOperationTO implements Serializable, INameableTO {
     public void setPlant(PlantTO plant) {
         this.plant = plant;
     }
+
+    /**
+     * @return returns the list of expressions used to execute this operation
+     */
+    public List<ExpressionTO> getExpressions() {
+        return expressions;
+    }
+
+    /**
+     * @param expressions the list of expressions used to execute this operation
+     */
+    public void setExpressions(List<ExpressionTO> expressions) {
+        this.expressions = expressions;
+    }
+
 }

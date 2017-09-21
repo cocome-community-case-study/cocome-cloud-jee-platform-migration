@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.application.plant.productionunit;
 
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
+import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
 
 import javax.xml.bind.annotation.*;
 
@@ -32,7 +33,7 @@ import javax.xml.bind.annotation.*;
         namespace = "http://productionunit.plant.application.inventory.tradingsystem.cocome.org")
 @XmlRootElement(name = "ProductionUnitOperationTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProductionUnitOperationTO implements IIdentifiableTO {
+public class ProductionUnitOperationTO extends ExpressionTO {
 
     private static final long serialVersionUID = 1L;
 

@@ -20,8 +20,10 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.INameable;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents an operation provided by an plant
@@ -59,4 +61,14 @@ public interface IPlantOperation extends INameable {
      * @param plant the plant that owns this production unit
      */
     void setPlant(IPlant plant);
+
+    /**
+     * @return the list of expressions used to execute this operation
+     */
+    List<IExpression> getExpressions();
+
+    /**
+     * @param expressions the list of expressions used to execute this operation
+     */
+    void setExpressions(List<IExpression> expressions);
 }

@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
@@ -26,7 +27,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  *
  * @author Rudolf Biczok
  */
-public interface IProductionUnitOperation extends IIdentifiable {
+public interface IProductionUnitOperation extends IExpression {
 
     /**
      * @return The operation id unique to the production plant

@@ -21,8 +21,6 @@ public class ExpressionTO implements Serializable, IIdentifiableTO {
 
     @XmlElement(name = "id", required = true)
     private long id;
-    @XmlElement(name = "plantOperation", required = true)
-    private PlantOperationTO plantOperation;
 
     /**
      * @return A unique identifier of this Plant.
@@ -38,19 +36,4 @@ public class ExpressionTO implements Serializable, IIdentifiableTO {
     public void setId(final long id) {
         this.id = id;
     }
-
-    /**
-     * @return the associated plant operation
-     */
-    public PlantOperationTO getPlantOperation() {
-        return plantOperation;
-    }
-
-    /**
-     * @param plantOperation the associated plant operation
-     */
-    public void setPlantOperation(PlantOperationTO plantOperation) {
-        this.plantOperation = plantOperation;
-    }
-
 }
