@@ -8,8 +8,6 @@ import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitClass;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitOperation;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

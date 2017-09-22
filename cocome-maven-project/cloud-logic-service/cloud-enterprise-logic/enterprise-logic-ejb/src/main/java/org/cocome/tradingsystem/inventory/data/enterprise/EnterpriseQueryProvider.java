@@ -2,8 +2,6 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -162,32 +160,8 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IProductionUnitClass> queryProductionUnitClassesByEnterpriseId(long enterpriseID) {
-        return csvHelper.getProductionUnitClasses(backendConnection.getEntity(
-                "ProductionUnitClass",
-                "enterprise.id==" + enterpriseID));
-    }
-
-    @Override
     public IPlant queryPlant(long plantID) throws NotInDatabaseException {
         return getSingleEntity(csvHelper::getPlants, "Plant", plantID);
-    }
-
-    @Override
-    public IProductionUnitClass queryProductionUnitClass(long productionUnitClassID) throws NotInDatabaseException {
-        return getSingleEntity(csvHelper::getProductionUnitClasses, "ProductionUnitClass", productionUnitClassID);
-    }
-
-    private <T> T getSingleEntity(Function<String, Collection<T>> converter,
-                                  String entity,
-                                  long entityId) throws NotInDatabaseException {
-        try {
-            return converter.apply(backendConnection.getEntity(entity, "id==" + entityId)).iterator().next();
-        } catch (NoSuchElementException e) {
-            throw new NotInDatabaseException(String.format(
-                    "No matching entity of type '%s' and id '%d' found in database!",
-                    entity, entityId));
-        }
     }
 
     @Override
@@ -200,21 +174,6 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     public ICustomProduct queryCustomProductByBarcode(long productBarcode) throws NotInDatabaseException {
         //TODO
         return null;
-    }
-
-    @Override
-    public Collection<IProductionUnitOperation> queryProductionUnitOperationsByEnterpriseId(long enterpriseID) {
-        return csvHelper.getProductionUnitOperations(backendConnection.getEntity(
-                "ProductionUnitOperation",
-                "productionUnitClass.enterprise.id==" + enterpriseID));
-    }
-
-    @Override
-    public IProductionUnitOperation queryProductionUnitOperation(long productionUnitOperationId) throws NotInDatabaseException {
-        return getSingleEntity(
-                csvHelper::getProductionUnitOperations,
-                "ProductionUnitOperation",
-                productionUnitOperationId);
     }
 
     @Override
@@ -285,4 +244,15 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
                         + "';Store.enterprise.id==" + enterpriseID));
     }
 
+    private <T> T getSingleEntity(Function<String, Collection<T>> converter,
+                                  String entity,
+                                  long entityId) throws NotInDatabaseException {
+        try {
+            return converter.apply(backendConnection.getEntity(entity, "id==" + entityId)).iterator().next();
+        } catch (NoSuchElementException e) {
+            throw new NotInDatabaseException(String.format(
+                    "No matching entity of type '%s' and id '%d' found in database!",
+                    entity, entityId));
+        }
+    }
 }

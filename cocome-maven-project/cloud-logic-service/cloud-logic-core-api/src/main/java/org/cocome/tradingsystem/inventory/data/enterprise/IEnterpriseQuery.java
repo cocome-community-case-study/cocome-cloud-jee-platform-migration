@@ -226,22 +226,6 @@ public interface IEnterpriseQuery {
             long enterpriseID);
 
     /**
-     * Retrieves all production unit classes belonging to this enterprise from the database.
-     *
-     * @param enterpriseID the unique identifier of a TradingEnterprise entity
-     * @return All {@link IProductionUnitClass} found in the given enterprise or an empty collection
-     */
-    Collection<IProductionUnitClass> queryProductionUnitClassesByEnterpriseId(long enterpriseID);
-
-    /**
-     * Retrieves all production unit operations belonging to this enterprise from the database.
-     *
-     * @param enterpriseID the unique identifier of a TradingEnterprise entity
-     * @return All {@link IProductionUnitOperation} found in the given enterprise or an empty collection
-     */
-    Collection<IProductionUnitOperation> queryProductionUnitOperationsByEnterpriseId(long enterpriseID);
-
-    /**
      * Retrieves a specific plant belonging to this enterprise from the database.
      *
      * @param plantID      the unique identifier of the Store entity
@@ -249,24 +233,6 @@ public interface IEnterpriseQuery {
      * @throws NotInDatabaseException if no Plant could be found in the given enterprise
      */
     IPlant queryPlant(long plantID) throws NotInDatabaseException;
-
-    /**
-     * Retrieves a specific {@link IProductionUnitClass} belonging to this enterprise from the database.
-     *
-     * @param productionUnitClassID the unique identifier of the {@link IProductionUnitClass} entity
-     * @return The {@link IProductionUnitClass} if found
-     * @throws NotInDatabaseException if no {@link IProductionUnitClass} could be found in the given enterprise
-     */
-    IProductionUnitClass queryProductionUnitClass(long productionUnitClassID) throws NotInDatabaseException;
-
-    /**
-     * Retrieves a specific {@link IProductionUnitClass} belonging to this enterprise from the database.
-     *
-     * @param productionUnitOperationId the unique identifier of the {@link IProductionUnitOperation} entity
-     * @return The {@link IProductionUnitOperation} if found
-     * @throws NotInDatabaseException if no {@link IProductionUnitOperation} could be found in the given enterprise
-     */
-    IProductionUnitOperation queryProductionUnitOperation(long productionUnitOperationId) throws NotInDatabaseException;
 
     /**
      * Retrieves the custom product with the given id.

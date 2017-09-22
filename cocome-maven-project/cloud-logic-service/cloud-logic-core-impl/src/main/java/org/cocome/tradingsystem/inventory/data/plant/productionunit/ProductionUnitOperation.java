@@ -18,7 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -43,13 +43,13 @@ public class ProductionUnitOperation implements Serializable, IProductionUnitOpe
     private IProductionUnitClass productionUnitClass;
 
     @Inject
-    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+    private Instance<IPlantQuery> plantQueryInstance;
 
-    private IEnterpriseQuery enterpriseQuery;
+    private IPlantQuery plantQuery;
 
     @PostConstruct
     public void init() {
-        enterpriseQuery = enterpriseQueryInstance.get();
+        plantQuery = plantQueryInstance.get();
         productionUnitClass = null;
     }
 
@@ -76,7 +76,7 @@ public class ProductionUnitOperation implements Serializable, IProductionUnitOpe
     @Override
     public IProductionUnitClass getProductionUnitClass() throws NotInDatabaseException {
         if (productionUnitClass == null) {
-            productionUnitClass = enterpriseQuery.queryProductionUnitClass(productionUnitClassId);
+            productionUnitClass = plantQuery.queryProductionUnitClass(productionUnitClassId);
         }
         return productionUnitClass;
     }
