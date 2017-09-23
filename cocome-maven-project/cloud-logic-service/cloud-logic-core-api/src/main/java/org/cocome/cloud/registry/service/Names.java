@@ -18,79 +18,91 @@ package org.cocome.cloud.registry.service;
 
 /**
  * Utility class for deriving RMI and JNDI names from component names.
- * 
+ *
  * @author Lubomir Bulej
  */
 public final class Names {
-	public static String getCashDeskName(final int cashDeskIndex) {
-		return String.format("CashDesk%d", cashDeskIndex);
-	}
-	
-	private static String getStoreName(final long storeIndex) {
-		return String.format("Store%d", storeIndex);
-	}
-	
-	private static String getEnterpriseManagerName(final long enterpriseIndex) {
-		return String.format("EnterpriseManager%d", enterpriseIndex);
-	}
-	
-	private static String getEnterpriseReportingName(final long enterpriseIndex) {
-		return String.format("EnterpriseReporting%d", enterpriseIndex);
-	}
-	
-	private static String getLoginManagerName(final long enterpriseIndex) {
-		return String.format("LoginManager%d", enterpriseIndex);
-	}
-	
-	public static String getBankRemoteName(final String bankName) {
-		return String.format("Bank.%s", bankName);
-	}
+    public static String getCashDeskName(final int cashDeskIndex) {
+        return String.format("CashDesk%d", cashDeskIndex);
+    }
 
-	private static String getEnterpriseRemoteName(final String enterpriseName) {
-		return String.format("EnterpriseApplication.%s", enterpriseName);
-	}
-	
-	private static String getStoreRemoteName(final String storeName) {
-		return String.format("StoreApplication.%s", storeName);
-	}
+    private static String getStoreName(final long storeIndex) {
+        return String.format("Store%d", storeIndex);
+    }
 
-	private static String getReportingRemoteName(final String reportingName) {
-		return String.format("ReportingApplication.%s", reportingName);
-	}
+    private static String getPlantName(final long plantIndex) {
+        return String.format("Plant%d", plantIndex);
+    }
 
-	public static String getProductDispatcherRemoteName(final String dispatcherName) {
-		return String.format("ProductDispatcher.%s", dispatcherName);
-	}
-	
-	public static String getCashDeskRemoteName(final String storeName, final String cashDeskName) {
-		return String.format("%s/%s", storeName, cashDeskName);
-	}
-	
-	public static String getCashDeskComponentRegistryName(final String cashDeskRemoteName, final String componentName) {
-		return String.format("%s-%s", cashDeskRemoteName, componentName);
-	}
-	
-	public static String getEnterpriseManagerRegistryName(final long enterpriseIndex) {
-		return getEnterpriseRemoteName(getEnterpriseManagerName(enterpriseIndex));
-	}
-	
-	public static String getEnterpriseManagerRegistryName(final String enterpriseName) {
-		return getEnterpriseRemoteName(String.format("EnterpriseManager.%s", enterpriseName));
-	}
-	
-	public static String getEnterpriseReportingRegistryName(final long enterpriseIndex) {
-		return getReportingRemoteName(getEnterpriseReportingName(enterpriseIndex));
-	}
-	
-	public static String getStoreManagerRegistryName(final long storeIndex) {
-		return getStoreRemoteName(getStoreName(storeIndex));
-	}
-	
-	public static String getLoginManagerRegistryName(final long enterpriseIndex) {
-		return getEnterpriseRemoteName(getLoginManagerName(enterpriseIndex));
-	}
-	
-	public static String getCashDeskRegistryName(final long storeIndex, final int cashDeskIndex) {
-		return getCashDeskRemoteName(getStoreName(storeIndex), getCashDeskName(cashDeskIndex));
-	}
+    private static String getEnterpriseManagerName(final long enterpriseIndex) {
+        return String.format("EnterpriseManager%d", enterpriseIndex);
+    }
+
+    private static String getEnterpriseReportingName(final long enterpriseIndex) {
+        return String.format("EnterpriseReporting%d", enterpriseIndex);
+    }
+
+    private static String getLoginManagerName(final long enterpriseIndex) {
+        return String.format("LoginManager%d", enterpriseIndex);
+    }
+
+    public static String getBankRemoteName(final String bankName) {
+        return String.format("Bank.%s", bankName);
+    }
+
+    private static String getEnterpriseRemoteName(final String enterpriseName) {
+        return String.format("EnterpriseApplication.%s", enterpriseName);
+    }
+
+    private static String getStoreRemoteName(final String storeName) {
+        return String.format("StoreApplication.%s", storeName);
+    }
+
+    private static String getPlantRemoteName(final String plantName) {
+        return String.format("PlantApplication.%s", plantName);
+    }
+
+    private static String getReportingRemoteName(final String reportingName) {
+        return String.format("ReportingApplication.%s", reportingName);
+    }
+
+    public static String getProductDispatcherRemoteName(final String dispatcherName) {
+        return String.format("ProductDispatcher.%s", dispatcherName);
+    }
+
+    public static String getCashDeskRemoteName(final String storeName, final String cashDeskName) {
+        return String.format("%s/%s", storeName, cashDeskName);
+    }
+
+    public static String getCashDeskComponentRegistryName(final String cashDeskRemoteName, final String componentName) {
+        return String.format("%s-%s", cashDeskRemoteName, componentName);
+    }
+
+    public static String getEnterpriseManagerRegistryName(final long enterpriseIndex) {
+        return getEnterpriseRemoteName(getEnterpriseManagerName(enterpriseIndex));
+    }
+
+    public static String getEnterpriseManagerRegistryName(final String enterpriseName) {
+        return getEnterpriseRemoteName(String.format("EnterpriseManager.%s", enterpriseName));
+    }
+
+    public static String getEnterpriseReportingRegistryName(final long enterpriseIndex) {
+        return getReportingRemoteName(getEnterpriseReportingName(enterpriseIndex));
+    }
+
+    public static String getStoreManagerRegistryName(final long storeIndex) {
+        return getStoreRemoteName(getStoreName(storeIndex));
+    }
+
+    public static String getPlantManagerRegistryName(final long plantIndex) {
+        return getPlantRemoteName(getPlantName(plantIndex));
+    }
+
+    public static String getLoginManagerRegistryName(final long enterpriseIndex) {
+        return getEnterpriseRemoteName(getLoginManagerName(enterpriseIndex));
+    }
+
+    public static String getCashDeskRegistryName(final long storeIndex, final int cashDeskIndex) {
+        return getCashDeskRemoteName(getStoreName(storeIndex), getCashDeskName(cashDeskIndex));
+    }
 }

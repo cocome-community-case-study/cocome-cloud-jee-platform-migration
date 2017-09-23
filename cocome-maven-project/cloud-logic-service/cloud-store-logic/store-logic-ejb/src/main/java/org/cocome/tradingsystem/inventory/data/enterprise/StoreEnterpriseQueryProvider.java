@@ -314,27 +314,10 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IProductionUnitClass> queryProductionUnitClassesByEnterpriseId(long enterpriseID) {
-        return queryCollection(enterpriseID,
-                enterpriseManager -> enterpriseManager.queryProductionUnitClassesByEnterpriseID(enterpriseID),
-                plantFactory::convertToProductionUnitClass);
-    }
-
-    @Override
     public IPlant queryPlant(long plantID) throws NotInDatabaseException {
         IEnterpriseManager enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
         try {
             return plantFactory.convertToPlant(enterpriseManager.queryPlantByID(plantID));
-        } catch (NotInDatabaseException_Exception e) {
-            throw new NotInDatabaseException(e.getFaultInfo().getMessage());
-        }
-    }
-
-    @Override
-    public IProductionUnitClass queryProductionUnitClass(long productionUnitClassID) throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
-        try {
-            return plantFactory.convertToProductionUnitClass(enterpriseManager.queryProductionUnitClassByID(productionUnitClassID));
         } catch (NotInDatabaseException_Exception e) {
             throw new NotInDatabaseException(e.getFaultInfo().getMessage());
         }
@@ -351,26 +334,6 @@ public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
         //TODO
         return null;
     }
-
-    @Override
-    public Collection<IProductionUnitOperation> queryProductionUnitOperationsByEnterpriseId(long enterpriseID) {
-        return queryCollection(enterpriseID,
-                enterpriseManager -> enterpriseManager.queryProductionUnitOperationsByEnterpriseID(enterpriseID),
-                plantFactory::convertToProductionUnitOperation);
-    }
-
-    @Override
-    public IProductionUnitOperation queryProductionUnitOperation(long productionUnitOperationID)
-            throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
-        try {
-            return plantFactory.convertToProductionUnitOperation(
-                    enterpriseManager.queryProductionUnitOperationByID(productionUnitOperationID));
-        } catch (NotInDatabaseException_Exception e) {
-            throw new NotInDatabaseException(e.getFaultInfo().getMessage());
-        }
-    }
-
 
     @Override
     public Collection<IStore> queryStoreByName(long enterpriseID, String storeName) {

@@ -179,6 +179,18 @@
 					</execution>
 
 					<execution>
+						<id>PlantManagerWS</id>
+						<phase>process-classes</phase>
+						<configuration>
+							<className>org.cocome.logic.webservice.plantservice.IPlantManager</className>
+							<outputFile>${project.basedir}/src/main/resources/wsdl/IPlantManager.wsdl</outputFile>
+						</configuration>
+						<goals>
+							<goal>java2ws</goal>
+						</goals>
+					</execution>
+
+					<execution>
 						<id>URIRegistryManagerWS</id>
 						<phase>process-classes</phase>
 						<configuration>
@@ -207,7 +219,7 @@
 						<configuration>
 							<sourceRoot>${project.build.directory}/generated-sources/src</sourceRoot>
 							<fork>true</fork>
-							<!-- The arguments should not be put on different lines 
+							<!-- The arguments should not be put on different lines
 								because that results in errors when calling the java executable -->
 							<additionalJvmArgs>
 								-Djavax.xml.accessExternalSchema=all -Djavax.xml.accessExternalDTD=all
@@ -281,6 +293,13 @@
 									<wsdlLocation>${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}${logic.storeService}/IStoreManager?wsdl</wsdlLocation>
 									<bindingFiles>
 										<bindingFile>src/main/resources/wsdl/storeManagerBindings.xml</bindingFile>
+									</bindingFiles>
+								</wsdlOption>
+								<wsdlOption>
+									<wsdl>src/main/resources/wsdl/IPlantManager.wsdl</wsdl>
+									<wsdlLocation>${logic.plant.protocol}://${logic.plant.host}:${logic.plant.httpPort}${logic.plant.baseDir}${logic.plantService}/IPlantManager?wsdl</wsdlLocation>
+									<bindingFiles>
+										<bindingFile>src/main/resources/wsdl/plantManagerBindings.xml</bindingFile>
 									</bindingFiles>
 								</wsdlOption>
 								<wsdlOption>
@@ -364,7 +383,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>

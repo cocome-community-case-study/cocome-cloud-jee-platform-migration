@@ -57,6 +57,7 @@
 
         <logic.cashDeskService>/CashDeskService</logic.cashDeskService>
         <logic.storeService>/StoreService</logic.storeService>
+        <logic.plantService>/PlantService</logic.plantService>
         <logic.enterpriseService>/EnterpriseService</logic.enterpriseService>
         <logic.loginService>/LoginService</logic.loginService>
         <logic.registryService>/RegistryService</logic.registryService>

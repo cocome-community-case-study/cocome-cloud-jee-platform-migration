@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="IPlantManagerService" targetNamespace="http://plant.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://plant.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://plant.webservice.logic.cocome.org/" schemaLocation="IPlantManager_schema3.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="CreateException">
+    <wsdl:part name="CreateException" element="tns:CreateException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateException">
+    <wsdl:part name="UpdateException" element="tns:UpdateException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryProductionUnitOperationsByEnterpriseID">
+    <wsdl:part name="parameters" element="tns:queryProductionUnitOperationsByEnterpriseID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryProductionUnitOperationsByEnterpriseIDResponse">
+    <wsdl:part name="parameters" element="tns:queryProductionUnitOperationsByEnterpriseIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProductionUnitOperationResponse">
+    <wsdl:part name="parameters" element="tns:createProductionUnitOperationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProductionUnitOperationResponse">
+    <wsdl:part name="parameters" element="tns:updateProductionUnitOperationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProductionUnitOperation">
+    <wsdl:part name="parameters" element="tns:updateProductionUnitOperation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryProductionUnitOperationByIDResponse">
+    <wsdl:part name="parameters" element="tns:queryProductionUnitOperationByIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProductionUnitOperation">
+    <wsdl:part name="parameters" element="tns:createProductionUnitOperation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteProductionUnitOperation">
+    <wsdl:part name="parameters" element="tns:deleteProductionUnitOperation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteProductionUnitOperationResponse">
+    <wsdl:part name="parameters" element="tns:deleteProductionUnitOperationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryProductionUnitOperationByID">
+    <wsdl:part name="parameters" element="tns:queryProductionUnitOperationByID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NotInDatabaseException">
+    <wsdl:part name="NotInDatabaseException" element="tns:NotInDatabaseException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IPlantManager">
+    <wsdl:operation name="updateProductionUnitOperation">
+      <wsdl:input name="updateProductionUnitOperation" message="tns:updateProductionUnitOperation">
+    </wsdl:input>
+      <wsdl:output name="updateProductionUnitOperationResponse" message="tns:updateProductionUnitOperationResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProductionUnitOperation">
+      <wsdl:input name="createProductionUnitOperation" message="tns:createProductionUnitOperation">
+    </wsdl:input>
+      <wsdl:output name="createProductionUnitOperationResponse" message="tns:createProductionUnitOperationResponse">
+    </wsdl:output>
+      <wsdl:fault name="CreateException" message="tns:CreateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProductionUnitOperation">
+      <wsdl:input name="deleteProductionUnitOperation" message="tns:deleteProductionUnitOperation">
+    </wsdl:input>
+      <wsdl:output name="deleteProductionUnitOperationResponse" message="tns:deleteProductionUnitOperationResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryProductionUnitOperationByID">
+      <wsdl:input name="queryProductionUnitOperationByID" message="tns:queryProductionUnitOperationByID">
+    </wsdl:input>
+      <wsdl:output name="queryProductionUnitOperationByIDResponse" message="tns:queryProductionUnitOperationByIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryProductionUnitOperationsByEnterpriseID">
+      <wsdl:input name="queryProductionUnitOperationsByEnterpriseID" message="tns:queryProductionUnitOperationsByEnterpriseID">
+    </wsdl:input>
+      <wsdl:output name="queryProductionUnitOperationsByEnterpriseIDResponse" message="tns:queryProductionUnitOperationsByEnterpriseIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IPlantManagerServiceSoapBinding" type="tns:IPlantManager">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="updateProductionUnitOperation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateProductionUnitOperation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateProductionUnitOperationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProductionUnitOperation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createProductionUnitOperation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createProductionUnitOperationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CreateException">
+        <soap:fault name="CreateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProductionUnitOperation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteProductionUnitOperation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteProductionUnitOperationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryProductionUnitOperationByID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryProductionUnitOperationByID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryProductionUnitOperationByIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryProductionUnitOperationsByEnterpriseID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryProductionUnitOperationsByEnterpriseID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryProductionUnitOperationsByEnterpriseIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IPlantManagerService">
+    <wsdl:port name="IPlantManagerPort" binding="tns:IPlantManagerServiceSoapBinding">
+      <soap:address location="http://localhost:9090/IPlantManagerPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
