@@ -1,7 +1,5 @@
 package org.cocome.cloud.logic.webservice;
 
-import java.util.Objects;
-
 /**
  * Represents a specialized version of {@link java.util.function.Function}
  * In contrast to a {@link java.util.function.Function}, it does also have a
@@ -18,8 +16,8 @@ public interface ThrowingFunction<T, R, E extends Throwable> {
      * Applies this function to the given argument.
      *
      * @param t the function argument
-     * @throws E the exception that might occur during execution
      * @return the function result
+     * @throws E the exception that might occur during execution
      */
     R apply(T t) throws E;
 }
