@@ -267,7 +267,7 @@ class ServiceAdapterEntityConverter {
     }
 
     static String getUpdateProductionUnitClassContent(IProductionUnitClass puc) {
-        return String.valueOf(puc.getEnterpriseId()) +
+        return String.valueOf(puc.getPlantId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 puc.getId() +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -275,7 +275,7 @@ class ServiceAdapterEntityConverter {
     }
 
     static String getCreateProductionUnitClassContent(IProductionUnitClass puc) {
-        return String.valueOf(puc.getEnterpriseId()) +
+        return String.valueOf(puc.getPlantId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 encodeString(puc.getName());
     }

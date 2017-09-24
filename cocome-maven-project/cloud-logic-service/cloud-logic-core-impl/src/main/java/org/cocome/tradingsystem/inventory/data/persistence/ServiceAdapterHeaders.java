@@ -45,9 +45,9 @@ final class ServiceAdapterHeaders {
     static final String CUSTOMER_UPDATE_HEADER_WITH_STORE = "CustomerId;FirstName;LastName;MailAddress;"
             + "PreferredStoreEnterpriseName;PreferredStoreId;PreferredStoreName;PreferredStoreLocation;"
             + "UserName";
-    static final String PRODUCTIONUNITCLASS_UPDATE_HEADER = "TradingEnterpriseId;ProductionUnitClassId;"
+    static final String PRODUCTIONUNITCLASS_UPDATE_HEADER = "PlantId;ProductionUnitClassId;"
             + "ProductionUnitClassName";
-    static final String PRODUCTIONUNITCLASS_CREATE_HEADER = "TradingEnterpriseId;ProductionUnitClassName";
+    static final String PRODUCTIONUNITCLASS_CREATE_HEADER = "PlantId;ProductionUnitClassName";
 
     static final String CUSTOMPRODUCT_CREATE_HEADER = "CustomProductBarcode;CustomProductLocation;"
             + "CustomProductPurchasePrice;RecipeId";
@@ -55,8 +55,8 @@ final class ServiceAdapterHeaders {
     static final String CUSTOMPRODUCT_UPDATE_HEADER = "CustomProductId;CustomProductBarcode;CustomProductLocation;"
             + "CustomProductPurchasePrice;RecipeId";
 
-    static final String  PRODUCTIONUNITOPERATION_CREATE_HEADER = "ProductionUnitOperationOID;ProductionUnitClassId";
+    static final String PRODUCTIONUNITOPERATION_CREATE_HEADER = "ProductionUnitOperationOID;ProductionUnitClassId";
 
-    static final String  PRODUCTIONUNITOPERATION_UPDATE_HEADER = "ProductionUnitOperationId;ProductionUnitOperationOID;"
+    static final String PRODUCTIONUNITOPERATION_UPDATE_HEADER = "ProductionUnitOperationId;ProductionUnitOperationOID;"
             + "ProductionUnitClassId";
 }

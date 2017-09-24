@@ -34,12 +34,12 @@ import java.util.Collection;
 public interface IPlantQuery {
 
     /**
-     * Retrieves all production unit classes belonging to this enterprise from the database.
+     * Retrieves all production unit classes belonging to this plant from the database.
      *
-     * @param enterpriseID the unique identifier of a TradingEnterprise entity
+     * @param plantID the unique identifier of a {@link IPlant} entity
      * @return All {@link IProductionUnitClass} found in the given enterprise or an empty collection
      */
-    Collection<IProductionUnitClass> queryProductionUnitClassesByEnterpriseId(long enterpriseID);
+    Collection<IProductionUnitClass> queryProductionUnitClassesByPlantId(long plantID);
 
     /**
      * Retrieves a specific {@link IProductionUnitClass} belonging to this enterprise from the database.
@@ -51,12 +51,12 @@ public interface IPlantQuery {
     IProductionUnitClass queryProductionUnitClass(long productionUnitClassID) throws NotInDatabaseException;
 
     /**
-     * Retrieves all production unit operations belonging to this enterprise from the database.
+     * Retrieves all production unit operations belonging to the given unit class from the database.
      *
-     * @param enterpriseID the unique identifier of a TradingEnterprise entity
-     * @return All {@link IProductionUnitOperation} found in the given enterprise or an empty collection
+     * @param productionUnitClassID the unique identifier of a {@link IProductionUnitClass} entity
+     * @return All {@link IProductionUnitOperation} found in the given unit class or an empty collection
      */
-    Collection<IProductionUnitOperation> queryProductionUnitOperationsByEnterpriseId(long enterpriseID);
+    Collection<IProductionUnitOperation> queryProductionUnitOperationsByProductionUnitClassId(long productionUnitClassID);
 
     /**
      * Retrieves a specific {@link IProductionUnitClass} belonging to this enterprise from the database.

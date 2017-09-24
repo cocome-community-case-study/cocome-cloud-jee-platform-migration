@@ -21,6 +21,7 @@ package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -42,9 +43,9 @@ public class ProductionUnitClass implements Serializable, IProductionUnitClass {
     private static final Logger LOG = Logger.getLogger(ProductionUnitClass.class);
 
     private long id;
-    private long enterpriseId;
+    private long plantId;
     private String name;
-    private ITradingEnterprise enterprise;
+    private IPlant plant;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
@@ -54,7 +55,7 @@ public class ProductionUnitClass implements Serializable, IProductionUnitClass {
     @PostConstruct
     public void init() {
         enterpriseQuery = enterpriseQueryInstance.get();
-        enterprise = null;
+        plant = null;
     }
 
     @Override
@@ -78,30 +79,30 @@ public class ProductionUnitClass implements Serializable, IProductionUnitClass {
     }
 
     @Override
-    public ITradingEnterprise getEnterprise() throws NotInDatabaseException {
-        if (enterprise == null) {
-            enterprise = enterpriseQuery.queryEnterpriseById(enterpriseId);
+    public IPlant getPlant() throws NotInDatabaseException {
+        if (plant == null) {
+            plant = enterpriseQuery.queryPlant(plantId);
             LOG.debug(String.format(
-                    "Retrieved enterprise [%d, %s] for production unit class %s",
-                    enterprise.getId(),
-                    enterprise.getName(),
+                    "Retrieved plant [%d, %s] for production unit class %s",
+                    plant.getId(),
+                    plant.getName(),
                     name));
         }
-        return enterprise;
+        return plant;
     }
 
     @Override
-    public void setEnterprise(final ITradingEnterprise enterprise) {
-        this.enterprise = enterprise;
+    public void setPlant(final IPlant plant) {
+        this.plant = plant;
     }
 
     @Override
-    public long getEnterpriseId() {
-        return enterpriseId;
+    public long getPlantId() {
+        return plantId;
     }
 
     @Override
-    public void setEnterpriseId(long enterpriseId) {
-        this.enterpriseId = enterpriseId;
+    public void setPlantId(long plantId) {
+        this.plantId = plantId;
     }
 }

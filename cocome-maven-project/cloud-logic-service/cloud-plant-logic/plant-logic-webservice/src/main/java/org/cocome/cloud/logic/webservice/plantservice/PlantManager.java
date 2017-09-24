@@ -8,7 +8,6 @@ import org.cocome.logic.webservice.plantservice.IPlantManager;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
-import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
@@ -84,12 +83,12 @@ public class PlantManager implements IPlantManager {
         }
     }
 
-    private <T1, T2> Collection<T2> queryCollectionByEnterpriseID(long enterpriseId,
-                                                                  final Function<Long, Collection<T1>> queryCommand,
-                                                                  final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)
+    private <T1, T2> Collection<T2> queryCollectionByParentID(final long parentId,
+                                                              final Function<Long, Collection<T1>> queryCommand,
+                                                              final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)
             throws NotInDatabaseException {
-        //setContextRegistry(enterpriseId);
-        Collection<T1> instances = queryCommand.apply(enterpriseId);
+        //setContextRegistry(parentId);
+        Collection<T1> instances = queryCommand.apply(parentId);
         Collection<T2> toInstances = new ArrayList<>(instances.size());
         for (T1 instance : instances) {
             toInstances.add(conversionCommand.apply(instance));
@@ -100,9 +99,9 @@ public class PlantManager implements IPlantManager {
     /* CRUD for {@link ProductionUnitClassTO} **************/
 
     @Override
-    public Collection<ProductionUnitClassTO> queryProductionUnitClassesByEnterpriseID(long enterpriseId) throws NotInDatabaseException {
-        return this.queryCollectionByEnterpriseID(enterpriseId,
-                plantQuery::queryProductionUnitClassesByEnterpriseId,
+    public Collection<ProductionUnitClassTO> queryProductionUnitClassesByPlantID(long plantId) throws NotInDatabaseException {
+        return this.queryCollectionByParentID(plantId,
+                plantQuery::queryProductionUnitClassesByPlantId,
                 plantFactory::fillProductionUnitClassTO);
     }
 
@@ -117,22 +116,22 @@ public class PlantManager implements IPlantManager {
         final IProductionUnitClass puc = plantFactory.getNewProductionUnitClass();
         puc.setId(productionUnitClassTO.getId());
         puc.setName(productionUnitClassTO.getName());
-        puc.setEnterpriseId(productionUnitClassTO.getEnterprise().getId());
+        puc.setPlantId(productionUnitClassTO.getPlant().getId());
 
         persistenceContext.createEntity(puc);
     }
 
     @Override
     public void updateProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws UpdateException, NotInDatabaseException {
-        final ITradingEnterprise enterprise = enterpriseQuery.queryEnterpriseById(
-                productionUnitClassTO.getEnterprise().getId());
+        final IPlant plant = enterpriseQuery.queryPlant(
+                productionUnitClassTO.getPlant().getId());
 
-        final IProductionUnitClass plant = plantQuery.queryProductionUnitClass(
+        final IProductionUnitClass puc = plantQuery.queryProductionUnitClass(
                 productionUnitClassTO.getId());
 
-        plant.setEnterprise(enterprise);
-        plant.setEnterpriseId(enterprise.getId());
-        plant.setName(productionUnitClassTO.getName());
+        puc.setPlant(plant);
+        puc.setPlantId(plant.getId());
+        puc.setName(productionUnitClassTO.getName());
 
         persistenceContext.updateEntity(plant);
     }
@@ -147,10 +146,10 @@ public class PlantManager implements IPlantManager {
     /* CRUD for {@link ProductionUnitOperationTO} **************/
 
     @Override
-    public Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByEnterpriseID(long enterpriseId)
+    public Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByProductionUnitClassID(long productionUnitClassId)
             throws NotInDatabaseException {
-        return this.queryCollectionByEnterpriseID(enterpriseId,
-                plantQuery::queryProductionUnitOperationsByEnterpriseId,
+        return this.queryCollectionByParentID(productionUnitClassId,
+                plantQuery::queryProductionUnitOperationsByProductionUnitClassId,
                 plantFactory::fillProductionUnitOperationTO);
     }
 

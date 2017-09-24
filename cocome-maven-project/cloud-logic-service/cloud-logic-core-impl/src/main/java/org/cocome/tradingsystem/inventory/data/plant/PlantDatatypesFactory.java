@@ -69,7 +69,7 @@ class PlantDatatypesFactory implements IPlantDataFactory {
         IProductionUnitClass pucTO = getNewProductionUnitClass();
         pucTO.setName(puc.getName());
         pucTO.setId(puc.getId());
-        pucTO.setEnterpriseId(puc.getEnterprise().getId());
+        pucTO.setPlantId(puc.getPlant().getId());
         return pucTO;
     }
 
@@ -105,7 +105,7 @@ class PlantDatatypesFactory implements IPlantDataFactory {
         final ProductionUnitClassTO result = new ProductionUnitClassTO();
         result.setId(puc.getId());
         result.setName(puc.getName());
-        result.setEnterprise(enterpriseDatatypes.fillEnterpriseTO(puc.getEnterprise()));
+        result.setPlant(fillPlantTO(puc.getPlant()));
 
         return result;
     }

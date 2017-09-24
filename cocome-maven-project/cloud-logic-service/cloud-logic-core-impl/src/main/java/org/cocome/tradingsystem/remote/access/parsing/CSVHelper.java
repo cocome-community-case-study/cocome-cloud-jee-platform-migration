@@ -497,7 +497,7 @@ public class CSVHelper implements IBackendConversionHelper {
         return rowToCollection(input, row -> {
             final IProductionUnitClass result = plantFactory.getNewProductionUnitClass();
 
-            result.setEnterpriseId(fetchId(row.getColumns().get(0)));
+            result.setPlantId(fetchId(row.getColumns().get(0)));
             result.setId(fetchId(row.getColumns().get(1)));
             result.setName(fetchString(row.getColumns().get(2)));
 

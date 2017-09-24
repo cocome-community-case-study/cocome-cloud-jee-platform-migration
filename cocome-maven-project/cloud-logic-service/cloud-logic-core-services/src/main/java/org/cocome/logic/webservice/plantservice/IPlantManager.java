@@ -42,10 +42,10 @@ public interface IPlantManager {
     /* CRUD for {@link ProductionUnitClassTO} **************/
 
     @WebMethod
-    Collection<ProductionUnitClassTO> queryProductionUnitClassesByEnterpriseID(
+    Collection<ProductionUnitClassTO> queryProductionUnitClassesByPlantID(
             @XmlElement(required = true)
-            @WebParam(name = "enterpriseID")
-                    long enterpriseId)
+            @WebParam(name = "plantID")
+                    long plantId)
             throws NotInDatabaseException;
 
     @WebMethod
@@ -79,10 +79,10 @@ public interface IPlantManager {
     /* CRUD for {@link ProductionUnitOperationTO} **************/
 
     @WebMethod
-    Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByEnterpriseID(
+    Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByProductionUnitClassID(
             @XmlElement(required = true)
-            @WebParam(name = "enterpriseID")
-                    long enterpriseId)
+            @WebParam(name = "productionUnitClassID")
+                    long productionUnitClassId)
             throws NotInDatabaseException;
 
     @WebMethod

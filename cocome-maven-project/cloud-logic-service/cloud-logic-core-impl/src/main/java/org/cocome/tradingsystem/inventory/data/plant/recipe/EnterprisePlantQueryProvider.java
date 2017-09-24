@@ -1,6 +1,5 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
@@ -25,8 +24,6 @@ import java.util.function.Function;
 @Local(IPlantQuery.class)
 public class EnterprisePlantQueryProvider implements IPlantQuery {
 
-    private static final Logger LOG = Logger.getLogger(EnterprisePlantQueryProvider.class);
-
     @Inject
     private IBackendQuery backendConnection;
 
@@ -34,10 +31,10 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
     private IBackendConversionHelper csvHelper;
 
     @Override
-    public Collection<IProductionUnitClass> queryProductionUnitClassesByEnterpriseId(long enterpriseID) {
+    public Collection<IProductionUnitClass> queryProductionUnitClassesByPlantId(long plantID) {
         return csvHelper.getProductionUnitClasses(backendConnection.getEntity(
                 "ProductionUnitClass",
-                "enterprise.id==" + enterpriseID));
+                "plant.id==" + plantID));
     }
 
     @Override
@@ -46,10 +43,10 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
     }
 
     @Override
-    public Collection<IProductionUnitOperation> queryProductionUnitOperationsByEnterpriseId(long enterpriseID) {
+    public Collection<IProductionUnitOperation> queryProductionUnitOperationsByProductionUnitClassId(long productionUnitClassID) {
         return csvHelper.getProductionUnitOperations(backendConnection.getEntity(
                 "ProductionUnitOperation",
-                "productionUnitClass.enterprise.id==" + enterpriseID));
+                "productionUnitClass.id==" + productionUnitClassID));
     }
 
     @Override
