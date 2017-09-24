@@ -30,10 +30,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
+//TODO Redundant code
 @Stateless
 @Local(IEnterpriseQuery.class)
-public class StoreEnterpriseQueryProvider implements IEnterpriseQuery {
-    private static final Logger LOG = Logger.getLogger(StoreEnterpriseQueryProvider.class);
+public class PlantEnterpriseQueryProvider implements IEnterpriseQuery {
+    private static final Logger LOG = Logger.getLogger(PlantEnterpriseQueryProvider.class);
 
     @Inject
     private long defaultEnterpriseIndex;

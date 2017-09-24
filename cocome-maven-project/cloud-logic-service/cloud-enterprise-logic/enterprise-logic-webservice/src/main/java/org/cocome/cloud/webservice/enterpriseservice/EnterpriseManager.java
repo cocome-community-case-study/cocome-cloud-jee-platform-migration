@@ -265,6 +265,7 @@ public class EnterpriseManager implements IEnterpriseManager {
                 plantFactory::fillProductionUnitClassTO);
     }
 
+    //TODO remove
     @Override
     public Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByEnterpriseID(long enterpriseId) throws NotInDatabaseException {
         return this.queryCollectionByEnterpriseID(enterpriseId,
@@ -358,6 +359,7 @@ public class EnterpriseManager implements IEnterpriseManager {
         saveDBCreateAction(() -> persistenceContext.createEntity(puc));
     }
 
+    //TODO remove
     @Override
     public void createProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws CreateException {
         final IProductionUnitOperation puc = plantFactory.getNewProductionUnitOperation();
@@ -458,6 +460,7 @@ public class EnterpriseManager implements IEnterpriseManager {
         saveDBUpdateAction(() -> persistenceContext.updateEntity(plant));
     }
 
+    //TODO remove
     @Override
     public void updateProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO)
             throws UpdateException, NotInDatabaseException {
@@ -552,11 +555,11 @@ public class EnterpriseManager implements IEnterpriseManager {
                 plantQuery.queryProductionUnitClass(productionUnitClassId));
     }
 
+    //TODO remove
     @Override
     public ProductionUnitOperationTO queryProductionUnitOperationByID(long productionUnitOperationId) throws NotInDatabaseException {
         return plantFactory.fillProductionUnitOperationTO(
                 plantQuery.queryProductionUnitOperation(productionUnitOperationId));
-
     }
 
     @Override
@@ -646,6 +649,7 @@ public class EnterpriseManager implements IEnterpriseManager {
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(customProduct));
     }
 
+    //TODO remove
     @Override
     public void deleteProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO)
             throws NotInDatabaseException, UpdateException, IOException {
@@ -662,7 +666,7 @@ public class EnterpriseManager implements IEnterpriseManager {
                 .getBarcode());
     }
 
-
+    //TODO Copied
     private <T1, T2> Collection<T2> queryCollectionByEnterpriseID(long enterpriseId,
                                                                   final Function<Long, Collection<T1>> queryCommand,
                                                                   final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)

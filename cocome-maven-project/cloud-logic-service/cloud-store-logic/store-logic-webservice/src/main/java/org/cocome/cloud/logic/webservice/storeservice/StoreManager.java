@@ -97,9 +97,6 @@ public class StoreManager implements IStoreManager {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#accountSale(long, org.cocome.tradingsystem.inventory.application.store.SaleTO)
-	 */
 	@Override
 	public void accountSale(long storeID, SaleTO sale) 
 			throws ProductOutOfStockException, NotInDatabaseException, UpdateException {
@@ -107,18 +104,12 @@ public class StoreManager implements IStoreManager {
 		storeManager.accountSale(storeID, sale);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#getStore(long)
-	 */
 	@Override
 	public StoreWithEnterpriseTO getStore(long storeID) throws NotInDatabaseException {
 		setContextRegistry(storeID);
 		return storeManager.getStore(storeID);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#getProductsWithLowStock(long)
-	 */
 	@Override
 	public List<ProductWithStockItemTO> getProductsWithLowStock(long storeID) 
 			throws NotInDatabaseException {
@@ -127,9 +118,6 @@ public class StoreManager implements IStoreManager {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#getAllProducts(long)
-	 */
 	@Override
 	public List<ProductWithSupplierTO> getAllStoreProducts(long storeID) 
 			throws NotInDatabaseException {
@@ -137,9 +125,6 @@ public class StoreManager implements IStoreManager {
 		return storeManager.getAllProducts(storeID);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#getProductsWithStockItems(long)
-	 */
 	@Override
 	public List<ProductWithSupplierAndStockItemTO> getProductsWithStockItems(long storeID) 
 			throws NotInDatabaseException {
@@ -147,9 +132,6 @@ public class StoreManager implements IStoreManager {
 		return storeManager.getProductsWithStockItems(storeID);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#orderProducts(long, org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO)
-	 */
 	@Override
 	public List<ComplexOrderTO> orderProducts(long storeID, ComplexOrderTO complexOrder) 
 			throws NotInDatabaseException, CreateException, UpdateException {
@@ -157,9 +139,6 @@ public class StoreManager implements IStoreManager {
 		return storeManager.orderProducts(storeID, complexOrder);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#getOrder(long, long)
-	 */
 	@Override
 	public ComplexOrderTO getOrder(long storeID, long orderId) 
 			throws NotInDatabaseException {
@@ -168,9 +147,6 @@ public class StoreManager implements IStoreManager {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#getOutstandingOrders(long)
-	 */
 	@Override
 	public List<ComplexOrderTO> getOutstandingOrders(long storeID) 
 			throws NotInDatabaseException {
@@ -178,9 +154,6 @@ public class StoreManager implements IStoreManager {
 		return storeManager.getOutstandingOrders(storeID);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#rollInReceivedOrder(long, long)
-	 */
 	@Override
 	public void rollInReceivedOrder(long storeID, long orderId)
 			throws InvalidRollInRequestException, NotInDatabaseException, UpdateException {
@@ -188,9 +161,6 @@ public class StoreManager implements IStoreManager {
 		storeManager.rollInReceivedOrder(storeID, orderId);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#changePrice(long, org.cocome.tradingsystem.inventory.application.store.StockItemTO)
-	 */
 	@Override
 	public ProductWithStockItemTO changePrice(long storeID, StockItemTO stockItemTO) 
 			throws NotInDatabaseException, UpdateException {
@@ -199,9 +169,6 @@ public class StoreManager implements IStoreManager {
 		return storeManager.changePrice(storeID, stockItemTO);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#markProductsUnavailableInStock(long, org.cocome.tradingsystem.inventory.application.store.ProductMovementTO)
-	 */
 	@Override
 	public void markProductsUnavailableInStock(long storeID, ProductMovementTO movedProductAmounts)
 			throws ProductOutOfStockException, NotInDatabaseException, UpdateException {
@@ -211,9 +178,6 @@ public class StoreManager implements IStoreManager {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#getStockItems(long, org.cocome.tradingsystem.inventory.application.store.ProductTO[])
-	 */
 	@Override
 	public ComplexOrderEntryTO[] getStockItems(long storeID, ProductTO[] requiredProductTOs) 
 			throws NotInDatabaseException, NotImplementedException {
@@ -222,9 +186,6 @@ public class StoreManager implements IStoreManager {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.webservice.store.IStoreManager#getProductWithStockItem(long, long)
-	 */
 	@Override
 	public ProductWithStockItemTO getProductWithStockItem(long storeID, long productBarcode) 
 			throws NoSuchProductException, NotInDatabaseException {
@@ -244,5 +205,4 @@ public class StoreManager implements IStoreManager {
 		setContextRegistry(storeID);
 		storeManager.createStockItem(storeID, stockItemTO);
 	}
-
 }
