@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 public class PlantManagerIT {
 
@@ -94,7 +95,7 @@ public class PlantManagerIT {
     }
 
     private EnterpriseTO getOrCreateEnterprise() throws CreateException_Exception, NotInDatabaseException_Exception {
-        final String enterpriseName = "TestEnterprise";
+        final String enterpriseName = String.format("Enterprise-%s", UUID.randomUUID().toString());
         final EnterpriseTO enterprise;
         try {
             enterprise = em.queryEnterpriseByName(enterpriseName);

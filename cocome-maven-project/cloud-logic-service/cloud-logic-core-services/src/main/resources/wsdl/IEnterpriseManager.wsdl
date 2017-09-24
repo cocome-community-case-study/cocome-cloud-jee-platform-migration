@@ -53,10 +53,6 @@
     <wsdl:part name="parameters" element="tns:queryStoreByEnterpriseID">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="createProductionUnitOperationResponse">
-    <wsdl:part name="parameters" element="tns:createProductionUnitOperationResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="queryPlantsByEnterpriseIDResponse">
     <wsdl:part name="parameters" element="tns:queryPlantsByEnterpriseIDResponse">
     </wsdl:part>
@@ -67,10 +63,6 @@
   </wsdl:message>
   <wsdl:message name="queryEnterpriseByIdResponse">
     <wsdl:part name="parameters" element="tns:queryEnterpriseByIdResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="queryProductionUnitOperationByIDResponse">
-    <wsdl:part name="parameters" element="tns:queryProductionUnitOperationByIDResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getEnterprisesResponse">
@@ -129,10 +121,6 @@
     <wsdl:part name="parameters" element="tns:queryProductionUnitClassesByEnterpriseID">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="queryProductionUnitOperationsByEnterpriseID">
-    <wsdl:part name="parameters" element="tns:queryProductionUnitOperationsByEnterpriseID">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="queryProductionUnitClassesByEnterpriseIDResponse">
     <wsdl:part name="parameters" element="tns:queryProductionUnitClassesByEnterpriseIDResponse">
     </wsdl:part>
@@ -153,20 +141,12 @@
     <wsdl:part name="parameters" element="tns:queryStoreByEnterpriseIDResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="updateProductionUnitOperationResponse">
-    <wsdl:part name="parameters" element="tns:updateProductionUnitOperationResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="querySuppliersResponse">
     <wsdl:part name="parameters" element="tns:querySuppliersResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteEnterprise">
     <wsdl:part name="parameters" element="tns:deleteEnterprise">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteProductionUnitOperation">
-    <wsdl:part name="parameters" element="tns:deleteProductionUnitOperation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getProductByID">
@@ -183,10 +163,6 @@
   </wsdl:message>
   <wsdl:message name="IOException">
     <wsdl:part name="IOException" element="tns:IOException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="queryProductionUnitOperationByID">
-    <wsdl:part name="parameters" element="tns:queryProductionUnitOperationByID">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryPlantByID">
@@ -233,10 +209,6 @@
     <wsdl:part name="parameters" element="tns:getAllCustomProductsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="queryProductionUnitOperationsByEnterpriseIDResponse">
-    <wsdl:part name="parameters" element="tns:queryProductionUnitOperationsByEnterpriseIDResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="querySupplierForProduct">
     <wsdl:part name="parameters" element="tns:querySupplierForProduct">
     </wsdl:part>
@@ -261,20 +233,12 @@
     <wsdl:part name="parameters" element="tns:deleteProductionUnitClassResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="createProductionUnitOperation">
-    <wsdl:part name="parameters" element="tns:createProductionUnitOperation">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="createPlantResponse">
     <wsdl:part name="parameters" element="tns:createPlantResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryProductionUnitClassByIDResponse">
     <wsdl:part name="parameters" element="tns:queryProductionUnitClassByIDResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateProductionUnitOperation">
-    <wsdl:part name="parameters" element="tns:updateProductionUnitOperation">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllEnterpriseProductsResponse">
@@ -351,10 +315,6 @@
   </wsdl:message>
   <wsdl:message name="queryPlantByIDResponse">
     <wsdl:part name="parameters" element="tns:queryPlantByIDResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteProductionUnitOperationResponse">
-    <wsdl:part name="parameters" element="tns:deleteProductionUnitOperationResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="IEnterpriseManager">
@@ -484,24 +444,6 @@
       <wsdl:fault name="IOException" message="tns:IOException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="createProductionUnitOperation">
-      <wsdl:input name="createProductionUnitOperation" message="tns:createProductionUnitOperation">
-    </wsdl:input>
-      <wsdl:output name="createProductionUnitOperationResponse" message="tns:createProductionUnitOperationResponse">
-    </wsdl:output>
-      <wsdl:fault name="CreateException" message="tns:CreateException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="updateProductionUnitOperation">
-      <wsdl:input name="updateProductionUnitOperation" message="tns:updateProductionUnitOperation">
-    </wsdl:input>
-      <wsdl:output name="updateProductionUnitOperationResponse" message="tns:updateProductionUnitOperationResponse">
-    </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
-    </wsdl:fault>
-      <wsdl:fault name="UpdateException" message="tns:UpdateException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getAllCustomProducts">
       <wsdl:input name="getAllCustomProducts" message="tns:getAllCustomProducts">
     </wsdl:input>
@@ -600,14 +542,6 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="queryProductionUnitOperationsByEnterpriseID">
-      <wsdl:input name="queryProductionUnitOperationsByEnterpriseID" message="tns:queryProductionUnitOperationsByEnterpriseID">
-    </wsdl:input>
-      <wsdl:output name="queryProductionUnitOperationsByEnterpriseIDResponse" message="tns:queryProductionUnitOperationsByEnterpriseIDResponse">
-    </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getAllEnterpriseCustomProducts">
       <wsdl:input name="getAllEnterpriseCustomProducts" message="tns:getAllEnterpriseCustomProducts">
     </wsdl:input>
@@ -670,18 +604,6 @@
       <wsdl:fault name="IOException" message="tns:IOException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="deleteProductionUnitOperation">
-      <wsdl:input name="deleteProductionUnitOperation" message="tns:deleteProductionUnitOperation">
-    </wsdl:input>
-      <wsdl:output name="deleteProductionUnitOperationResponse" message="tns:deleteProductionUnitOperationResponse">
-    </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
-    </wsdl:fault>
-      <wsdl:fault name="UpdateException" message="tns:UpdateException">
-    </wsdl:fault>
-      <wsdl:fault name="IOException" message="tns:IOException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="createStore">
       <wsdl:input name="createStore" message="tns:createStore">
     </wsdl:input>
@@ -711,14 +633,6 @@
     </wsdl:input>
       <wsdl:output name="getEnterprisesResponse" message="tns:getEnterprisesResponse">
     </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="queryProductionUnitOperationByID">
-      <wsdl:input name="queryProductionUnitOperationByID" message="tns:queryProductionUnitOperationByID">
-    </wsdl:input>
-      <wsdl:output name="queryProductionUnitOperationByIDResponse" message="tns:queryProductionUnitOperationByIDResponse">
-    </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
-    </wsdl:fault>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="IEnterpriseManagerServiceSoapBinding" type="tns:IEnterpriseManager">
@@ -912,33 +826,6 @@
         <soap:fault name="IOException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="createProductionUnitOperation">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="createProductionUnitOperation">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="createProductionUnitOperationResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="CreateException">
-        <soap:fault name="CreateException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="updateProductionUnitOperation">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="updateProductionUnitOperation">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="updateProductionUnitOperationResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException">
-        <soap:fault name="NotInDatabaseException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="UpdateException">
-        <soap:fault name="UpdateException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getAllCustomProducts">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getAllCustomProducts">
@@ -1086,18 +973,6 @@
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="queryProductionUnitOperationsByEnterpriseID">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="queryProductionUnitOperationsByEnterpriseID">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="queryProductionUnitOperationsByEnterpriseIDResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException">
-        <soap:fault name="NotInDatabaseException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="getAllEnterpriseCustomProducts">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getAllEnterpriseCustomProducts">
@@ -1191,24 +1066,6 @@
         <soap:fault name="IOException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="deleteProductionUnitOperation">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="deleteProductionUnitOperation">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="deleteProductionUnitOperationResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException">
-        <soap:fault name="NotInDatabaseException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="UpdateException">
-        <soap:fault name="UpdateException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="IOException">
-        <soap:fault name="IOException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="createStore">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="createStore">
@@ -1253,18 +1110,6 @@
       <wsdl:output name="getEnterprisesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="queryProductionUnitOperationByID">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="queryProductionUnitOperationByID">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="queryProductionUnitOperationByIDResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException">
-        <soap:fault name="NotInDatabaseException" use="literal"/>
-      </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="IEnterpriseManagerService">

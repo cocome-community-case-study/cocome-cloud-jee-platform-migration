@@ -27,9 +27,6 @@
         <bindings node="//xsd:complexType[@name='ProductionUnitClassTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO"/>
         </bindings>
-        <bindings node="//xsd:complexType[@name='ProductionUnitOperationTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO"/>
-        </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema4.xsd">
         <bindings node="//xsd:complexType[@name='PlantTO']">

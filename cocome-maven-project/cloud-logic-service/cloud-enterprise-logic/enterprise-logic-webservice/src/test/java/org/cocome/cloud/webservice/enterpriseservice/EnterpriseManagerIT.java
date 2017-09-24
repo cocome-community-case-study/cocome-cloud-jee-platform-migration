@@ -6,13 +6,13 @@ import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
-import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 public class EnterpriseManagerIT {
 
@@ -24,18 +24,6 @@ public class EnterpriseManagerIT {
         factory.setServiceClass(IEnterpriseManager.class);
         factory.setAddress("http://127.0.0.1:40797/EnterpriseService/IEnterpriseManager");
         em = (IEnterpriseManager) factory.create();
-    }
-
-    @Test
-    public void retrieveAndDeleteEnterprises() throws Exception {
-        if (em.getEnterprises() == null) {
-            em.createEnterprise("TestEnterprise");
-        }
-        for (final EnterpriseTO e : em.getEnterprises()) {
-            em.deleteEnterprise(e);
-        }
-        Assert.assertNotNull(em.getEnterprises());
-        Assert.assertTrue(em.getEnterprises().isEmpty());
     }
 
     @Test
@@ -84,46 +72,8 @@ public class EnterpriseManagerIT {
         em.deleteEnterprise(enterprise);
     }
 
-    @Test
-    public void testCRUDForProductionUnitOperation() throws Exception {
-        final EnterpriseTO enterprise = getOrCreateEnterprise();
-        final ProductionUnitClassTO createPuc = new ProductionUnitClassTO();
-        createPuc.setName("PUC1");
-        createPuc.setEnterprise(enterprise);
-        em.createProductionUnitClass(createPuc);
-        final ProductionUnitClassTO puc = em.queryProductionUnitClassesByEnterpriseID(enterprise.getId()).get(0);
-
-        final ProductionUnitOperationTO operation1 = new ProductionUnitOperationTO();
-        operation1.setOperationId("__OP1");
-        operation1.setProductionUnitClass(puc);
-        em.createProductionUnitOperation(operation1);
-
-        final ProductionUnitOperationTO operation2 = new ProductionUnitOperationTO();
-        operation2.setOperationId("__OP2");
-        operation2.setProductionUnitClass(puc);
-        em.createProductionUnitOperation(operation2);
-
-        final List<ProductionUnitOperationTO> operations =
-                em.queryProductionUnitOperationsByEnterpriseID(enterprise.getId());
-        Assert.assertNotNull(operations);
-        Assert.assertFalse(operations.isEmpty());
-        //Assert.assertEquals(2, operations.size());
-
-        final ProductionUnitOperationTO singleInstance =
-                em.queryProductionUnitOperationByID(operations.get(1).getId());
-        Assert.assertNotNull(singleInstance);
-        Assert.assertEquals(operations.get(1).getId(), singleInstance.getId());
-        Assert.assertEquals(operations.get(1).getOperationId(), singleInstance.getOperationId());
-        for (final ProductionUnitOperationTO instance : operations) {
-            em.deleteProductionUnitOperation(instance);
-        }
-        Assert.assertTrue(em.queryProductionUnitOperationsByEnterpriseID(enterprise.getId()).isEmpty());
-        em.deleteProductionUnitClass(puc);
-        em.deleteEnterprise(enterprise);
-    }
-
     private EnterpriseTO getOrCreateEnterprise() throws CreateException_Exception, NotInDatabaseException_Exception {
-        final String enterpriseName = "TestEnterprise";
+        final String enterpriseName = String.format("Enterprise-%s", UUID.randomUUID().toString());
         final EnterpriseTO enterprise;
         try {
             enterprise = em.queryEnterpriseByName(enterpriseName);

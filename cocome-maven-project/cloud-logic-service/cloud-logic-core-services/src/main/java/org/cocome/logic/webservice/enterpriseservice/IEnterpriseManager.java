@@ -21,7 +21,6 @@ package org.cocome.logic.webservice.enterpriseservice;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
-import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -86,15 +85,6 @@ public interface IEnterpriseManager {
 
     /**
      * @param enterpriseId the unique identifier of a TradingEnterprise entity
-     * @return A collection of {@link ProductionUnitOperationTO} objects belonging to the given enterprise.
-     * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
-     */
-    @WebMethod
-    Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByEnterpriseID(
-            @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId) throws NotInDatabaseException;
-
-    /**
-     * @param enterpriseId the unique identifier of a TradingEnterprise entity
      * @param storeId      the unique identifier of a Store entity
      * @return A StoreWithEntepriseTO object with the given store identifier and
      * belonging to the given enterprise.
@@ -124,17 +114,6 @@ public interface IEnterpriseManager {
     @WebMethod
     ProductionUnitClassTO queryProductionUnitClassByID(
             @XmlElement(required = true) @WebParam(name = "productionUnitClassID") long productionUnitClassId)
-            throws NotInDatabaseException;
-
-    /**
-     * @param productionUnitOperationId the unique identifier of a {@link ProductionUnitOperationTO} entity
-     * @return A {@link ProductionUnitOperationTO} object with the given store identifier and
-     * belonging to the given enterprise.
-     * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
-     */
-    @WebMethod
-    ProductionUnitOperationTO queryProductionUnitOperationByID(
-            @XmlElement(required = true) @WebParam(name = "productionUnitOperationID") long productionUnitOperationId)
             throws NotInDatabaseException;
 
     /**
@@ -325,12 +304,6 @@ public interface IEnterpriseManager {
             @WebParam(name = "productionUnitClassTO") ProductionUnitClassTO productionUnitClassTO)
             throws CreateException;
 
-    @WebMethod
-    void createProductionUnitOperation(
-            @XmlElement(required = true)
-            @WebParam(name = "productionUnitOperationTO") ProductionUnitOperationTO productionUnitOperationTO)
-            throws CreateException;
-
     /**
      * Updates the store object. This method requires the EnterpriseTO to be present and to have
      * at least the id attribute set.
@@ -380,13 +353,6 @@ public interface IEnterpriseManager {
             throws UpdateException, NotInDatabaseException;
 
     @WebMethod
-    void updateProductionUnitOperation(
-            @XmlElement(required = true)
-            @WebParam(name = "productionUnitOperationTO")
-                    ProductionUnitOperationTO productionUnitOperationTO)
-            throws UpdateException, NotInDatabaseException;
-
-    @WebMethod
     Collection<EnterpriseTO> getEnterprises();
 
     @WebMethod
@@ -410,11 +376,5 @@ public interface IEnterpriseManager {
     void deleteCustomProduct(
             @XmlElement(required = true)
             @WebParam(name = "customProductTO") CustomProductTO customProductTO)
-            throws NotInDatabaseException, UpdateException, IOException;
-
-    @WebMethod
-    void deleteProductionUnitOperation(
-            @XmlElement(required = true)
-            @WebParam(name = "productionUnitOperationTO") ProductionUnitOperationTO productionUnitOperationTO)
             throws NotInDatabaseException, UpdateException, IOException;
 }
