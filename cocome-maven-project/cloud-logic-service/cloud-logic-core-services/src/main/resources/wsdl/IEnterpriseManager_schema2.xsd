@@ -1,10 +1,10 @@
 <xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:ns2="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns4="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:tns="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
-  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema6.xsd"/>
+  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema5.xsd"/>
 
-  <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema4.xsd"/>
+  <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema3.xsd"/>
 
-  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema5.xsd"/>
+  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema4.xsd"/>
 
   <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema1.xsd"/>
 

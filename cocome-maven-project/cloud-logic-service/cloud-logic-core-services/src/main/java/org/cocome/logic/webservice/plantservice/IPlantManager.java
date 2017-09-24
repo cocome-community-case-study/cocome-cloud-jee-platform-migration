@@ -18,6 +18,7 @@
 
 package org.cocome.logic.webservice.plantservice;
 
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -38,47 +39,77 @@ import java.util.Collection;
 @WebService(targetNamespace = "http://plant.webservice.logic.cocome.org/")
 public interface IPlantManager {
 
-    /**
-     * @param enterpriseId the unique identifier of a TradingEnterprise entity
-     * @return A collection of {@link ProductionUnitOperationTO} objects belonging to the given enterprise.
-     * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
-     */
+    /* CRUD for {@link ProductionUnitClassTO} **************/
+
+    @WebMethod
+    Collection<ProductionUnitClassTO> queryProductionUnitClassesByEnterpriseID(
+            @XmlElement(required = true)
+            @WebParam(name = "enterpriseID")
+                    long enterpriseId)
+            throws NotInDatabaseException;
+
+    @WebMethod
+    ProductionUnitClassTO queryProductionUnitClassByID(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitClassID")
+                    long productionUnitClassId)
+            throws NotInDatabaseException;
+
+    @WebMethod
+    void createProductionUnitClass(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitClassTO")
+                    ProductionUnitClassTO productionUnitClassTO)
+            throws CreateException;
+
+    @WebMethod
+    void updateProductionUnitClass(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitClassTO")
+                    ProductionUnitClassTO productionUnitClassTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deleteProductionUnitClass(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitClassTO")
+                    ProductionUnitClassTO productionUnitClassTO)
+            throws UpdateException, NotInDatabaseException;
+
+    /* CRUD for {@link ProductionUnitOperationTO} **************/
+
     @WebMethod
     Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByEnterpriseID(
-                    @XmlElement(required = true)
-                    @WebParam(name = "enterpriseID")
-                    long enterpriseId) throws NotInDatabaseException;
+            @XmlElement(required = true)
+            @WebParam(name = "enterpriseID")
+                    long enterpriseId)
+            throws NotInDatabaseException;
 
-    /**
-     * @param productionUnitOperationId the unique identifier of a {@link ProductionUnitOperationTO} entity
-     * @return A {@link ProductionUnitOperationTO} object that belongs to the given identifier
-     * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
-     */
     @WebMethod
     ProductionUnitOperationTO queryProductionUnitOperationByID(
-                    @XmlElement(required = true)
-                    @WebParam(name = "productionUnitOperationID")
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitOperationID")
                     long productionUnitOperationId)
             throws NotInDatabaseException;
 
     @WebMethod
     void createProductionUnitOperation(
-                    @XmlElement(required = true)
-                    @WebParam(name = "productionUnitOperationTO")
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitOperationTO")
                     ProductionUnitOperationTO productionUnitOperationTO)
             throws CreateException;
 
     @WebMethod
     void updateProductionUnitOperation(
-                    @XmlElement(required = true)
-                    @WebParam(name = "productionUnitOperationTO")
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitOperationTO")
                     ProductionUnitOperationTO productionUnitOperationTO)
             throws NotInDatabaseException, UpdateException;
 
     @WebMethod
     void deleteProductionUnitOperation(
-                    @XmlElement(required = true)
-                    @WebParam(name = "productionUnitOperationTO")
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitOperationTO")
                     ProductionUnitOperationTO productionUnitOperationTO)
             throws NotInDatabaseException, UpdateException;
 }

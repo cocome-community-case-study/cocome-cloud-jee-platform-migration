@@ -20,8 +20,6 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.reporting.IReportingLocal;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -228,7 +226,7 @@ public interface IEnterpriseQuery {
     /**
      * Retrieves a specific plant belonging to this enterprise from the database.
      *
-     * @param plantID      the unique identifier of the Store entity
+     * @param plantID the unique identifier of the Store entity
      * @return The Plant if found
      * @throws NotInDatabaseException if no Plant could be found in the given enterprise
      */

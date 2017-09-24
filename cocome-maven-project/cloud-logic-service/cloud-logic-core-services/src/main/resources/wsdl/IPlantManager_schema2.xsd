@@ -6,6 +6,14 @@
 
   <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema4.xsd"/>
 
+  <xs:complexType name="ProductionUnitClassTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="enterprise" type="ns2:EnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ProductionUnitOperationTO">
     <xs:complexContent>
       <xs:extension base="ns3:ExpressionTO">
@@ -15,14 +23,6 @@
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="ProductionUnitClassTO">
-    <xs:sequence>
-      <xs:element name="id" type="xs:long"/>
-      <xs:element name="name" type="xs:string"/>
-      <xs:element name="enterprise" type="ns2:EnterpriseTO"/>
-    </xs:sequence>
   </xs:complexType>
 
 </xs:schema>

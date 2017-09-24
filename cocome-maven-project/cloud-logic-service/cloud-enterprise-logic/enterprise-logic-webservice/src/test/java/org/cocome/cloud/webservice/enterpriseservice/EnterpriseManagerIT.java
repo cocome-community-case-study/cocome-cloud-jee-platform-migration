@@ -5,7 +5,6 @@ import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -46,28 +45,6 @@ public class EnterpriseManagerIT {
         Assert.assertEquals(plants.get(0).getLocation(), singleInstance.getLocation());
         for (final PlantTO plantTO : plants) {
             em.deletePlant(plantTO);
-        }
-        em.deleteEnterprise(enterprise);
-    }
-
-    @Test
-    public void testCRUDForProductionUnitClass() throws Exception {
-        final EnterpriseTO enterprise = getOrCreateEnterprise();
-        final ProductionUnitClassTO puc = new ProductionUnitClassTO();
-        puc.setName("PUC1");
-        puc.setEnterprise(enterprise);
-        em.createProductionUnitClass(puc);
-
-        final List<ProductionUnitClassTO> pucs = em.queryProductionUnitClassesByEnterpriseID(enterprise.getId());
-        Assert.assertNotNull(pucs);
-        Assert.assertFalse(pucs.isEmpty());
-
-        final ProductionUnitClassTO singleInstance = em.queryProductionUnitClassByID(pucs.get(0).getId());
-        Assert.assertNotNull(singleInstance);
-        Assert.assertEquals(pucs.get(0).getId(), singleInstance.getId());
-        Assert.assertEquals(pucs.get(0).getName(), singleInstance.getName());
-        for (final ProductionUnitClassTO instance : pucs) {
-            em.deleteProductionUnitClass(instance);
         }
         em.deleteEnterprise(enterprise);
     }

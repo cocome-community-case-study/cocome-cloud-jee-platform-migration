@@ -5,8 +5,10 @@ import org.cocome.cloud.logic.registry.client.IApplicationHelper;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.plantservice.IPlantManager;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
@@ -23,7 +25,6 @@ import javax.ejb.CreateException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebService;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -83,6 +84,68 @@ public class PlantManager implements IPlantManager {
         }
     }
 
+    private <T1, T2> Collection<T2> queryCollectionByEnterpriseID(long enterpriseId,
+                                                                  final Function<Long, Collection<T1>> queryCommand,
+                                                                  final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)
+            throws NotInDatabaseException {
+        //setContextRegistry(enterpriseId);
+        Collection<T1> instances = queryCommand.apply(enterpriseId);
+        Collection<T2> toInstances = new ArrayList<>(instances.size());
+        for (T1 instance : instances) {
+            toInstances.add(conversionCommand.apply(instance));
+        }
+        return toInstances;
+    }
+
+    /* CRUD for {@link ProductionUnitClassTO} **************/
+
+    @Override
+    public Collection<ProductionUnitClassTO> queryProductionUnitClassesByEnterpriseID(long enterpriseId) throws NotInDatabaseException {
+        return this.queryCollectionByEnterpriseID(enterpriseId,
+                plantQuery::queryProductionUnitClassesByEnterpriseId,
+                plantFactory::fillProductionUnitClassTO);
+    }
+
+    @Override
+    public ProductionUnitClassTO queryProductionUnitClassByID(long productionUnitClassId) throws NotInDatabaseException {
+        return plantFactory.fillProductionUnitClassTO(
+                plantQuery.queryProductionUnitClass(productionUnitClassId));
+    }
+
+    @Override
+    public void createProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws CreateException {
+        final IProductionUnitClass puc = plantFactory.getNewProductionUnitClass();
+        puc.setId(productionUnitClassTO.getId());
+        puc.setName(productionUnitClassTO.getName());
+        puc.setEnterpriseId(productionUnitClassTO.getEnterprise().getId());
+
+        persistenceContext.createEntity(puc);
+    }
+
+    @Override
+    public void updateProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws UpdateException, NotInDatabaseException {
+        final ITradingEnterprise enterprise = enterpriseQuery.queryEnterpriseById(
+                productionUnitClassTO.getEnterprise().getId());
+
+        final IProductionUnitClass plant = plantQuery.queryProductionUnitClass(
+                productionUnitClassTO.getId());
+
+        plant.setEnterprise(enterprise);
+        plant.setEnterpriseId(enterprise.getId());
+        plant.setName(productionUnitClassTO.getName());
+
+        persistenceContext.updateEntity(plant);
+    }
+
+    @Override
+    public void deleteProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws UpdateException, NotInDatabaseException {
+        final IProductionUnitClass puc =
+                plantQuery.queryProductionUnitClass(productionUnitClassTO.getId());
+        persistenceContext.deleteEntity(puc);
+    }
+
+    /* CRUD for {@link ProductionUnitOperationTO} **************/
+
     @Override
     public Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByEnterpriseID(long enterpriseId)
             throws NotInDatabaseException {
@@ -108,7 +171,7 @@ public class PlantManager implements IPlantManager {
     }
 
     @Override
-    public void updateProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws  NotInDatabaseException, UpdateException{
+    public void updateProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws NotInDatabaseException, UpdateException {
         final IProductionUnitClass puc =
                 plantQuery.queryProductionUnitClass(
                         productionUnitOperationTO.getProductionUnitClass().getId());
@@ -126,23 +189,5 @@ public class PlantManager implements IPlantManager {
     public void deleteProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws NotInDatabaseException, UpdateException {
         final IProductionUnitOperation puc = plantQuery.queryProductionUnitOperation(productionUnitOperationTO.getId());
         persistenceContext.deleteEntity(puc);
-    }
-
-    private <T1, T2> Collection<T2> queryCollectionByEnterpriseID(long enterpriseId,
-                                                                  final Function<Long, Collection<T1>> queryCommand,
-                                                                  final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)
-            throws NotInDatabaseException {
-        //setContextRegistry(enterpriseId);
-        Collection<T1> instances = queryCommand.apply(enterpriseId);
-        Collection<T2> toInstances = new ArrayList<>(instances.size());
-        for (T1 instance : instances) {
-            try {
-                toInstances.add(conversionCommand.apply(instance));
-            } catch (NotInDatabaseException e) {
-                LOG.error("Got NotInDatabaseException: " + e, e);
-                throw e;
-            }
-        }
-        return toInstances;
     }
 }

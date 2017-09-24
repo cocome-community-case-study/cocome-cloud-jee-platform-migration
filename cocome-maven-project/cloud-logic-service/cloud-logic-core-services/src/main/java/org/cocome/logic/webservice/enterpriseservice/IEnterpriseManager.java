@@ -20,7 +20,6 @@ package org.cocome.logic.webservice.enterpriseservice;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -76,15 +75,6 @@ public interface IEnterpriseManager {
 
     /**
      * @param enterpriseId the unique identifier of a TradingEnterprise entity
-     * @return A collection of {@link ProductionUnitClassTO} objects belonging to the given enterprise.
-     * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
-     */
-    @WebMethod
-    Collection<ProductionUnitClassTO> queryProductionUnitClassesByEnterpriseID(
-            @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId) throws NotInDatabaseException;
-
-    /**
-     * @param enterpriseId the unique identifier of a TradingEnterprise entity
      * @param storeId      the unique identifier of a Store entity
      * @return A StoreWithEntepriseTO object with the given store identifier and
      * belonging to the given enterprise.
@@ -104,17 +94,6 @@ public interface IEnterpriseManager {
     @WebMethod
     PlantTO queryPlantByID(
             @XmlElement(required = true) @WebParam(name = "plantID") long plantId) throws NotInDatabaseException;
-
-    /**
-     * @param productionUnitClassId the unique identifier of a {@link ProductionUnitClassTO} entity
-     * @return A {@link ProductionUnitClassTO} object with the given store identifier and
-     * belonging to the given enterprise.
-     * @throws NotInDatabaseException if a trading enterprise with the given id could not be found
-     */
-    @WebMethod
-    ProductionUnitClassTO queryProductionUnitClassByID(
-            @XmlElement(required = true) @WebParam(name = "productionUnitClassID") long productionUnitClassId)
-            throws NotInDatabaseException;
 
     /**
      * Queries the database for a store with the given name in the given enterprise.
@@ -298,12 +277,6 @@ public interface IEnterpriseManager {
             @XmlElement(required = true) @WebParam(name = "customProductTO") CustomProductTO customProductTO)
             throws CreateException;
 
-    @WebMethod
-    void createProductionUnitClass(
-            @XmlElement(required = true)
-            @WebParam(name = "productionUnitClassTO") ProductionUnitClassTO productionUnitClassTO)
-            throws CreateException;
-
     /**
      * Updates the store object. This method requires the EnterpriseTO to be present and to have
      * at least the id attribute set.
@@ -346,13 +319,6 @@ public interface IEnterpriseManager {
             throws UpdateException, NotInDatabaseException;
 
     @WebMethod
-    void updateProductionUnitClass(
-            @XmlElement(required = true)
-            @WebParam(name = "productionUnitClassTO")
-                    ProductionUnitClassTO productionUnitClassTO)
-            throws UpdateException, NotInDatabaseException;
-
-    @WebMethod
     Collection<EnterpriseTO> getEnterprises();
 
     @WebMethod
@@ -364,12 +330,6 @@ public interface IEnterpriseManager {
     void deletePlant(
             @XmlElement(required = true)
             @WebParam(name = "plantTO") PlantTO plantTO)
-            throws NotInDatabaseException, UpdateException, IOException;
-
-    @WebMethod
-    void deleteProductionUnitClass(
-            @XmlElement(required = true)
-            @WebParam(name = "productionUnitClassTO") ProductionUnitClassTO productionUnitClassTO)
             throws NotInDatabaseException, UpdateException, IOException;
 
     @WebMethod
