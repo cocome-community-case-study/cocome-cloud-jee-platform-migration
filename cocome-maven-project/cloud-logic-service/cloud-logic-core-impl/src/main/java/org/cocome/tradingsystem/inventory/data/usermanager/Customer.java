@@ -134,12 +134,12 @@ class Customer implements Serializable, ICustomer {
 	}
 
 	@Override
-	public long getID() {
+	public long getId() {
 		return id;
 	}
 
 	@Override
-	public void setID(long customerID) {
+	public void setId(long customerID) {
 		this.id = customerID;
 	}
 }

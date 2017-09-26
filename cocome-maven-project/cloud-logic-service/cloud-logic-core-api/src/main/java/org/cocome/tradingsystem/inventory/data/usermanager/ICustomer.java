@@ -1,46 +1,43 @@
 package org.cocome.tradingsystem.inventory.data.usermanager;
 
-import java.util.Set;
-
+import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 
+import java.util.Set;
+
 /**
- * Interface for customers of the pickup shop. 
- * 
+ * Interface for customers of the pickup shop.
+ *
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-public interface ICustomer {
+public interface ICustomer extends IIdentifiable {
 
-	public String getMailAddress();
+    String getMailAddress();
 
-	public void setMailAddress(String mailAddress);
+    void setMailAddress(String mailAddress);
 
-	public IStore getPreferredStore();
+    IStore getPreferredStore();
 
-	public void setPreferredStore(IStore preferredStore);
+    void setPreferredStore(IStore preferredStore);
 
-	public String getLastName();
+    String getLastName();
 
-	public void setLastName(String lastName);
+    void setLastName(String lastName);
 
-	public String getFirstName();
+    String getFirstName();
 
-	public void setFirstName(String firstName);
+    void setFirstName(String firstName);
 
-	public Set<String> getCreditCardInfo();
+    Set<String> getCreditCardInfo();
 
-	public void setCreditCardInfo(Set<String> creditCardInfo);
+    void setCreditCardInfo(Set<String> creditCardInfo);
 
-	public void addCreditCardInfo(String creditCardInfo);
+    void addCreditCardInfo(String creditCardInfo);
 
-	public void removeCreditCardInfo(String creditCardInfo);
+    void removeCreditCardInfo(String creditCardInfo);
 
-	public void setUser(IUser user);
-	
-	public IUser getUser();
-	
-	public long getID();
-	
-	public void setID(long id);
+    void setUser(IUser user);
+
+    IUser getUser();
 }

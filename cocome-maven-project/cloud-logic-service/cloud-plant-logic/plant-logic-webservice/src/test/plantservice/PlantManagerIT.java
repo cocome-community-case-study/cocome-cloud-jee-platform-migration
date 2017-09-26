@@ -42,7 +42,7 @@ public class PlantManagerIT {
         final ProductionUnitClassTO puc = new ProductionUnitClassTO();
         puc.setName("PUC1");
         puc.setPlant(plant);
-        pm.createProductionUnitClass(puc);
+        puc.setId(pm.createProductionUnitClass(puc));
 
         final List<ProductionUnitClassTO> pucs = pm.queryProductionUnitClassesByPlantID(plant.getId());
         Assert.assertNotNull(pucs);
@@ -50,8 +50,8 @@ public class PlantManagerIT {
 
         final ProductionUnitClassTO singleInstance = pm.queryProductionUnitClassByID(pucs.get(0).getId());
         Assert.assertNotNull(singleInstance);
-        Assert.assertEquals(pucs.get(0).getId(), singleInstance.getId());
-        Assert.assertEquals(pucs.get(0).getName(), singleInstance.getName());
+        Assert.assertEquals(puc.getId(), singleInstance.getId());
+        Assert.assertEquals(puc.getName(), singleInstance.getName());
         for (final ProductionUnitClassTO instance : pucs) {
             pm.deleteProductionUnitClass(instance);
         }
@@ -64,21 +64,20 @@ public class PlantManagerIT {
         final EnterpriseTO enterprise = getOrCreateEnterprise();
         final PlantTO plant = getOrCreatePlant(enterprise);
 
-        final ProductionUnitClassTO createPuc = new ProductionUnitClassTO();
-        createPuc.setName("PUC1");
-        createPuc.setPlant(plant);
-        pm.createProductionUnitClass(createPuc);
-        final ProductionUnitClassTO puc = pm.queryProductionUnitClassesByPlantID(plant.getId()).get(0);
+        final ProductionUnitClassTO puc = new ProductionUnitClassTO();
+        puc.setName("PUC1");
+        puc.setPlant(plant);
+        puc.setId(pm.createProductionUnitClass(puc));
 
         final ProductionUnitOperationTO operation1 = new ProductionUnitOperationTO();
         operation1.setOperationId("__OP1");
         operation1.setProductionUnitClass(puc);
-        pm.createProductionUnitOperation(operation1);
+        operation1.setId(pm.createProductionUnitOperation(operation1));
 
         final ProductionUnitOperationTO operation2 = new ProductionUnitOperationTO();
         operation2.setOperationId("__OP2");
         operation2.setProductionUnitClass(puc);
-        pm.createProductionUnitOperation(operation2);
+        operation2.setId(pm.createProductionUnitOperation(operation2));
 
         final List<ProductionUnitOperationTO> operations =
                 pm.queryProductionUnitOperationsByProductionUnitClassID(puc.getId());
@@ -87,10 +86,10 @@ public class PlantManagerIT {
         //Assert.assertEquals(2, operations.size());
 
         final ProductionUnitOperationTO singleInstance =
-                pm.queryProductionUnitOperationByID(operations.get(1).getId());
+                pm.queryProductionUnitOperationByID(operation1.getId());
         Assert.assertNotNull(singleInstance);
-        Assert.assertEquals(operations.get(1).getId(), singleInstance.getId());
-        Assert.assertEquals(operations.get(1).getOperationId(), singleInstance.getOperationId());
+        Assert.assertEquals(operation1.getId(), singleInstance.getId());
+        Assert.assertEquals(operation1.getOperationId(), singleInstance.getOperationId());
         for (final ProductionUnitOperationTO instance : operations) {
             pm.deleteProductionUnitOperation(instance);
         }

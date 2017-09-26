@@ -112,13 +112,14 @@ public class PlantManager implements IPlantManager {
     }
 
     @Override
-    public void createProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws CreateException {
+    public long createProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws CreateException {
         final IProductionUnitClass puc = plantFactory.getNewProductionUnitClass();
         puc.setId(productionUnitClassTO.getId());
         puc.setName(productionUnitClassTO.getName());
         puc.setPlantId(productionUnitClassTO.getPlant().getId());
 
         persistenceContext.createEntity(puc);
+        return puc.getId();
     }
 
     @Override
@@ -160,13 +161,14 @@ public class PlantManager implements IPlantManager {
     }
 
     @Override
-    public void createProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws CreateException {
-        final IProductionUnitOperation puc = plantFactory.getNewProductionUnitOperation();
-        puc.setId(productionUnitOperationTO.getId());
-        puc.setOperationId(productionUnitOperationTO.getOperationId());
-        puc.setProductionUnitClassId(productionUnitOperationTO.getProductionUnitClass().getId());
+    public long createProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws CreateException {
+        final IProductionUnitOperation operation = plantFactory.getNewProductionUnitOperation();
+        operation.setId(productionUnitOperationTO.getId());
+        operation.setOperationId(productionUnitOperationTO.getOperationId());
+        operation.setProductionUnitClassId(productionUnitOperationTO.getProductionUnitClass().getId());
 
-        persistenceContext.createEntity(puc);
+        persistenceContext.createEntity(operation);
+        return operation.getId();
     }
 
     @Override

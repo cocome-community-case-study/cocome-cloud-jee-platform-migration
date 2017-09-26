@@ -18,45 +18,42 @@
 
 package org.cocome.tradingsystem.inventory.application.store;
 
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
-@XmlType(name="EnterpriseTO", namespace="http://store.application.inventory.tradingsystem.cocome.org/")
-@XmlRootElement(name="EnterpriseTO")
+@XmlType(
+        name = "EnterpriseTO",
+        namespace = "http://store.application.inventory.tradingsystem.cocome.org/")
+@XmlRootElement(name = "EnterpriseTO")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EnterpriseTO implements Serializable {
 
-	private static final long serialVersionUID = -7516714574375972227L;
+    private static final long serialVersionUID = -7516714574375972227L;
 
-	//
+    //
 
-	@XmlElement(name="id", required=true)
-	private long __id;
+    @XmlElement(name = "id", required = true)
+    private long __id;
 
-	@XmlElement(name="name", required=true)
-	private String __name;
+    @XmlElement(name = "name", required = true)
+    private String __name;
 
-	//
+    //
 
-	public long getId() {
-		return __id;
-	}
+    public long getId() {
+        return __id;
+    }
 
-	public void setId(final long id) {
-		__id = id;
-	}
+    public void setId(final long id) {
+        __id = id;
+    }
 
-	public String getName() {
-		return __name;
-	}
+    public String getName() {
+        return __name;
+    }
 
-	public void setName(final String name) {
-		__name = name;
-	}
+    public void setName(final String name) {
+        __name = name;
+    }
 
 }

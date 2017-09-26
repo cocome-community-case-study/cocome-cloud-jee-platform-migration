@@ -258,22 +258,22 @@ public interface IEnterpriseManager {
             @XmlElement(required = true) @WebParam(name = "barcode") long barcode) throws NotInDatabaseException;
 
     @WebMethod
-    void createEnterprise(
+    long createEnterprise(
             @XmlElement(required = true) @WebParam(name = "enterpriseName") String enterpriseName)
             throws CreateException;
 
     @WebMethod
-    void createStore(
+    long createStore(
             @XmlElement(required = true) @WebParam(name = "storeTO") StoreWithEnterpriseTO storeTO)
             throws CreateException;
 
     @WebMethod
-    void createPlant(
+    long createPlant(
             @XmlElement(required = true) @WebParam(name = "plantTO") PlantTO plantTO)
             throws CreateException;
 
     @WebMethod
-    void createCustomProduct(
+    long createCustomProduct(
             @XmlElement(required = true) @WebParam(name = "customProductTO") CustomProductTO customProductTO)
             throws CreateException;
 
@@ -304,7 +304,7 @@ public interface IEnterpriseManager {
             throws UpdateException, NotInDatabaseException;
 
     @WebMethod
-    void createProduct(
+    long createProduct(
             @XmlElement(required = true) @WebParam(name = "productTO") ProductTO productTO)
             throws CreateException;
 

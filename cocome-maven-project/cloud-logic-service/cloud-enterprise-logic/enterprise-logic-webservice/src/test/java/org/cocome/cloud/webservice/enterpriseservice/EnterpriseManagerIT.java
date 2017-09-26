@@ -32,17 +32,17 @@ public class EnterpriseManagerIT {
         plant.setName("Plant1");
         plant.setLocation("Some Location");
         plant.setEnterpriseTO(enterprise);
-        em.createPlant(plant);
+        plant.setId(em.createPlant(plant));
 
         final List<PlantTO> plants = em.queryPlantsByEnterpriseID(enterprise.getId());
         Assert.assertNotNull(plants);
         Assert.assertFalse(plants.isEmpty());
 
-        final PlantTO singleInstance = em.queryPlantByID(plants.get(0).getId());
+        final PlantTO singleInstance = em.queryPlantByID(plant.getId());
         Assert.assertNotNull(singleInstance);
-        Assert.assertEquals(plants.get(0).getId(), singleInstance.getId());
-        Assert.assertEquals(plants.get(0).getName(), singleInstance.getName());
-        Assert.assertEquals(plants.get(0).getLocation(), singleInstance.getLocation());
+        Assert.assertEquals(plant.getId(), singleInstance.getId());
+        Assert.assertEquals(plant.getName(), singleInstance.getName());
+        Assert.assertEquals(plant.getLocation(), singleInstance.getLocation());
         for (final PlantTO plantTO : plants) {
             em.deletePlant(plantTO);
         }

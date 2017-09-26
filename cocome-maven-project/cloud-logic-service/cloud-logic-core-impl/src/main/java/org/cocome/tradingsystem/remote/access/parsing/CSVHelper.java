@@ -234,7 +234,7 @@ public class CSVHelper implements IBackendConversionHelper {
         IUser currentUser = getUserFromRow(row, 9);
         String currentCreditInfo = decodeString(row.getColumns().get(4).getValue());
         IStore preferredStore = getStoreFromRow(row, 5);
-        ICustomer savedCustomer = customers.get(currentCustomer.getID());
+        ICustomer savedCustomer = customers.get(currentCustomer.getId());
 
         LOG.debug("Got from row: " + currentCustomer + "; " + currentUser);
 
@@ -242,7 +242,7 @@ public class CSVHelper implements IBackendConversionHelper {
 
         if (savedCustomer == null) {
             savedCustomer = currentCustomer;
-            customers.put(currentCustomer.getID(), currentCustomer);
+            customers.put(currentCustomer.getId(), currentCustomer);
         }
 
         if (currentCreditInfo != null && !currentCreditInfo.equals("null")) {
@@ -261,7 +261,7 @@ public class CSVHelper implements IBackendConversionHelper {
     private ICustomer getCustomerFromRow(Row<String> row) {
         ICustomer result = userFactory.getNewCustomer();
 
-        result.setID(Long.parseLong(row.getColumns().get(0).getValue()));
+        result.setId(Long.parseLong(row.getColumns().get(0).getValue()));
         result.setFirstName(decodeString(row.getColumns().get(1).getValue()));
         result.setLastName(decodeString(row.getColumns().get(2).getValue()));
         result.setMailAddress(decodeString(row.getColumns().get(3).getValue()));

@@ -56,7 +56,7 @@ public interface IPlantManager {
             throws NotInDatabaseException;
 
     @WebMethod
-    void createProductionUnitClass(
+    long createProductionUnitClass(
             @XmlElement(required = true)
             @WebParam(name = "productionUnitClassTO")
                     ProductionUnitClassTO productionUnitClassTO)
@@ -93,7 +93,7 @@ public interface IPlantManager {
             throws NotInDatabaseException;
 
     @WebMethod
-    void createProductionUnitOperation(
+    long createProductionUnitOperation(
             @XmlElement(required = true)
             @WebParam(name = "productionUnitOperationTO")
                     ProductionUnitOperationTO productionUnitOperationTO)

@@ -44,7 +44,9 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createProductionUnitClassResponse">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryProductionUnitClassesByPlantID">
     <xs:sequence>
@@ -80,7 +82,9 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createProductionUnitOperationResponse">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="deleteProductionUnitOperation">
     <xs:sequence>

@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.data.persistence;
 
 import org.apache.log4j.Logger;
+import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
@@ -36,6 +37,8 @@ import org.cocome.tradingsystem.remote.access.connection.IPersistenceConnection;
 import javax.ejb.*;
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Stateless
 @Local(IPersistenceContext.class)
@@ -49,6 +52,8 @@ public class CloudPersistenceContext implements IPersistenceContext {
 
     @Inject
     private IPersistenceConnection postData;
+
+    private static final Pattern INSERT_ID_PATTERN = Pattern.compile("\\[id=(\\d+)]");
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -83,6 +88,8 @@ public class CloudPersistenceContext implements IPersistenceContext {
         if (!postData.getResponse().contains("SUCCESS")) {
             throw new CreateException("Could not create entity!");
         }
+
+        stockItem.setId(fetchDatabaseID(postData.getResponse()));
     }
 
     @Override
@@ -115,6 +122,8 @@ public class CloudPersistenceContext implements IPersistenceContext {
         if (!postData.getResponse().contains("SUCCESS")) {
             throw new CreateException("Could not create entity!");
         }
+
+        enterprise.setId(fetchDatabaseID(postData.getResponse()));
     }
 
     @Override
@@ -130,6 +139,8 @@ public class CloudPersistenceContext implements IPersistenceContext {
         if (postData.getResponse().contains("FAIL") || !postData.getResponse().contains("SUCCESS")) {
             throw new CreateException("Could not create entity!");
         }
+
+        productOrder.setId(fetchDatabaseID(postData.getResponse()));
     }
 
     @Override
@@ -161,6 +172,8 @@ public class CloudPersistenceContext implements IPersistenceContext {
         if (!postData.getResponse().contains("SUCCESS")) {
             throw new CreateException("Could not create entity!");
         }
+
+        store.setId(fetchDatabaseID(postData.getResponse()));
     }
 
     @Override
@@ -192,6 +205,8 @@ public class CloudPersistenceContext implements IPersistenceContext {
         if (!postData.getResponse().contains("SUCCESS")) {
             throw new CreateException("Could not create entity!");
         }
+
+        supplier.setId(fetchDatabaseID(postData.getResponse()));
     }
 
     @Override
@@ -223,6 +238,8 @@ public class CloudPersistenceContext implements IPersistenceContext {
         if (!postData.getResponse().contains("SUCCESS")) {
             throw new CreateException("Could not create entity!");
         }
+
+        product.setId(fetchDatabaseID(postData.getResponse()));
     }
 
     @Override
@@ -292,6 +309,8 @@ public class CloudPersistenceContext implements IPersistenceContext {
         if (!postData.getResponse().contains("SUCCESS")) {
             throw new CreateException("Could not create entity!");
         }
+
+        customer.setId(fetchDatabaseID(postData.getResponse()));
     }
 
     @Override
@@ -331,10 +350,11 @@ public class CloudPersistenceContext implements IPersistenceContext {
     }
 
     @Override
-    public void deleteEntity(IPlant plant) throws UpdateException {
-        deleteEntity("Plant",
-                ServiceAdapterEntityConverter.getUpdatePlantContent(plant),
-                ServiceAdapterHeaders.PLANT_UPDATE_HEADER);
+    public void createEntity(IPlant plant) throws CreateException {
+        createEntity(plant,
+                "Plant",
+                ServiceAdapterEntityConverter.getCreatePlantContent(plant),
+                ServiceAdapterHeaders.PLANT_CREATE_HEADER);
     }
 
     @Override
@@ -345,17 +365,18 @@ public class CloudPersistenceContext implements IPersistenceContext {
     }
 
     @Override
-    public void createEntity(IPlant plant) throws CreateException {
-        createEntity("Plant",
-                ServiceAdapterEntityConverter.getCreatePlantContent(plant),
-                ServiceAdapterHeaders.PLANT_CREATE_HEADER);
+    public void deleteEntity(IPlant plant) throws UpdateException {
+        deleteEntity("Plant",
+                ServiceAdapterEntityConverter.getUpdatePlantContent(plant),
+                ServiceAdapterHeaders.PLANT_UPDATE_HEADER);
     }
 
     @Override
-    public void deleteEntity(IProductionUnitClass puc) throws UpdateException {
-        deleteEntity("ProductionUnitClass",
-                ServiceAdapterEntityConverter.getUpdateProductionUnitClassContent(puc),
-                ServiceAdapterHeaders.PRODUCTIONUNITCLASS_UPDATE_HEADER);
+    public void createEntity(IProductionUnitClass puc) throws CreateException {
+        createEntity(puc,
+                "ProductionUnitClass",
+                ServiceAdapterEntityConverter.getCreateProductionUnitClassContent(puc),
+                ServiceAdapterHeaders.PRODUCTIONUNITCLASS_CREATE_HEADER);
     }
 
     @Override
@@ -366,15 +387,16 @@ public class CloudPersistenceContext implements IPersistenceContext {
     }
 
     @Override
-    public void createEntity(IProductionUnitClass puc) throws CreateException {
-        createEntity("ProductionUnitClass",
-                ServiceAdapterEntityConverter.getCreateProductionUnitClassContent(puc),
-                ServiceAdapterHeaders.PRODUCTIONUNITCLASS_CREATE_HEADER);
+    public void deleteEntity(IProductionUnitClass puc) throws UpdateException {
+        deleteEntity("ProductionUnitClass",
+                ServiceAdapterEntityConverter.getUpdateProductionUnitClassContent(puc),
+                ServiceAdapterHeaders.PRODUCTIONUNITCLASS_UPDATE_HEADER);
     }
 
     @Override
     public void createEntity(ICustomProduct customProduct) throws CreateException {
-        createEntity("CustomProduct",
+        createEntity(customProduct,
+                "CustomProduct",
                 ServiceAdapterEntityConverter.getCreateCustomProductContent(customProduct),
                 ServiceAdapterHeaders.CUSTOMPRODUCT_CREATE_HEADER);
     }
@@ -395,16 +417,10 @@ public class CloudPersistenceContext implements IPersistenceContext {
 
     @Override
     public void createEntity(IProductionUnitOperation operation) throws CreateException {
-        createEntity("ProductionUnitOperation",
+        createEntity(operation,
+                "ProductionUnitOperation",
                 ServiceAdapterEntityConverter.getCreateProductionUnitOperationContent(operation),
                 ServiceAdapterHeaders.PRODUCTIONUNITOPERATION_CREATE_HEADER);
-    }
-
-    @Override
-    public void deleteEntity(IProductionUnitOperation operation) throws UpdateException {
-        deleteEntity("ProductionUnitOperation",
-                ServiceAdapterEntityConverter.getUpdateProductionUnitOperationContent(operation),
-                ServiceAdapterHeaders.PRODUCTIONUNITOPERATION_UPDATE_HEADER);
     }
 
     @Override
@@ -414,7 +430,15 @@ public class CloudPersistenceContext implements IPersistenceContext {
                 ServiceAdapterHeaders.PRODUCTIONUNITOPERATION_UPDATE_HEADER);
     }
 
-    private void createEntity(String entityTypeName,
+    @Override
+    public void deleteEntity(IProductionUnitOperation operation) throws UpdateException {
+        deleteEntity("ProductionUnitOperation",
+                ServiceAdapterEntityConverter.getUpdateProductionUnitOperationContent(operation),
+                ServiceAdapterHeaders.PRODUCTIONUNITOPERATION_UPDATE_HEADER);
+    }
+
+    private void createEntity(IIdentifiable entity,
+                              String entityTypeName,
                               String content,
                               String header) throws CreateException {
         try {
@@ -427,6 +451,7 @@ public class CloudPersistenceContext implements IPersistenceContext {
         if (!postData.getResponse().contains("SUCCESS")) {
             throw new CreateException("Could not create entity!");
         }
+        entity.setId(fetchDatabaseID(postData.getResponse()));
     }
 
     private void updateEntity(String entityTypeName,
@@ -457,5 +482,14 @@ public class CloudPersistenceContext implements IPersistenceContext {
         if (!postData.getResponse().contains("SUCCESS")) {
             throw new UpdateException("Could not delete entity!");
         }
+    }
+
+    private long fetchDatabaseID(String responseString) throws CreateException {
+        Matcher matcher = INSERT_ID_PATTERN.matcher(responseString);
+        if (!matcher.find()) {
+            throw new CreateException("Unable to fetch database id");
+        }
+
+        return Long.valueOf(matcher.group(1));
     }
 }

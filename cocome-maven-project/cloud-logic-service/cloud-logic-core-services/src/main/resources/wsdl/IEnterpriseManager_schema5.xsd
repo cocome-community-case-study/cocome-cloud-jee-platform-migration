@@ -166,7 +166,9 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createCustomProductResponse">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryPlantsByEnterpriseID">
     <xs:sequence>
@@ -211,7 +213,9 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createEnterpriseResponse">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="deletePlant">
     <xs:sequence>
@@ -275,7 +279,9 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createPlantResponse">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryEnterpriseByName">
     <xs:sequence>
@@ -342,7 +348,9 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createProductResponse">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="deleteEnterprise">
     <xs:sequence>
@@ -358,7 +366,9 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createStoreResponse">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getProductByID">
     <xs:sequence>

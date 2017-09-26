@@ -35,7 +35,7 @@ class UsermanagerDatatypesFactory implements IUserDataFactory {
 	public CustomerWithStoreTO fillCustomerWithStoreTO(ICustomer customer) {
 		final CustomerWithStoreTO result = new CustomerWithStoreTO();
 		
-		result.setId(customer.getID());
+		result.setId(customer.getId());
 		result.setUsername(customer.getUser().getUsername());
 		result.setRoles(new ArrayList<Role>(customer.getUser().getRoles()));
 		result.setCreditCardInfos(new ArrayList<String>(customer.getCreditCardInfo()));

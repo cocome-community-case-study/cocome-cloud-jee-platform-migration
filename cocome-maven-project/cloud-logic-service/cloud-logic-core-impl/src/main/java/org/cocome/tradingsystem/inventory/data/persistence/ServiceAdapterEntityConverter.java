@@ -249,7 +249,7 @@ class ServiceAdapterEntityConverter {
     static String getUpdateCustomerContent(ICustomer customer) {
         StringBuilder content = new StringBuilder();
 
-        content.append(customer.getID());
+        content.append(customer.getId());
         content.append(ServiceAdapterHeaders.SEPARATOR);
         content.append(encodeString(customer.getFirstName()));
         content.append(ServiceAdapterHeaders.SEPARATOR);

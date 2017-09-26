@@ -177,7 +177,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public void createEnterprise(String enterpriseName) throws CreateException {
+    public long createEnterprise(String enterpriseName) throws CreateException {
         ITradingEnterprise enterprise = enterpriseFactory.getNewTradingEnterprise();
         enterprise.setName(enterpriseName);
         try {
@@ -192,10 +192,11 @@ public class EnterpriseManager implements IEnterpriseManager {
             e.printStackTrace();
             throw new CreateException(e.getMessage());
         }
+        return enterprise.getId();
     }
 
     @Override
-    public void createStore(StoreWithEnterpriseTO storeTO) throws CreateException {
+    public long createStore(StoreWithEnterpriseTO storeTO) throws CreateException {
         IStore store = storeFactory.getNewStore();
         store.setEnterpriseName(storeTO.getEnterpriseTO().getName());
         store.setLocation(storeTO.getLocation());
@@ -207,16 +208,18 @@ public class EnterpriseManager implements IEnterpriseManager {
             e.printStackTrace();
             throw e;
         }
+        return store.getId();
     }
 
     @Override
-    public void createPlant(PlantTO plantTO) throws CreateException {
+    public long createPlant(PlantTO plantTO) throws CreateException {
         IPlant plant = plantFactory.getNewPlant();
         plant.setEnterpriseId(plantTO.getEnterpriseTO().getId());
         plant.setLocation(plantTO.getLocation());
         plant.setName(plantTO.getName());
 
         saveDBCreateAction(() -> persistenceContext.createEntity(plant));
+        return plant.getId();
     }
 
     @Override
@@ -310,7 +313,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public void createProduct(ProductTO productTO)
+    public long createProduct(ProductTO productTO)
             throws CreateException {
         IProduct product = enterpriseFactory.getNewProduct();
         product.setBarcode(productTO.getBarcode());
@@ -318,10 +321,12 @@ public class EnterpriseManager implements IEnterpriseManager {
         product.setPurchasePrice(productTO.getPurchasePrice());
 
         saveDBCreateAction(() -> persistenceContext.createEntity(product));
+
+        return product.getId();
     }
 
     @Override
-    public void createCustomProduct(CustomProductTO productTO) throws CreateException {
+    public long createCustomProduct(CustomProductTO productTO) throws CreateException {
         final ICustomProduct product = plantFactory.getNewCustomProduct();
         product.setBarcode(productTO.getBarcode());
         product.setName(productTO.getName());
@@ -329,8 +334,9 @@ public class EnterpriseManager implements IEnterpriseManager {
         product.setRecipeId(productTO.getRecipe().getId());
 
         saveDBCreateAction(() -> persistenceContext.createEntity(product));
-    }
 
+        return product.getId();
+    }
 
     @Override
     public void updateProduct(ProductWithSupplierTO productTO)
