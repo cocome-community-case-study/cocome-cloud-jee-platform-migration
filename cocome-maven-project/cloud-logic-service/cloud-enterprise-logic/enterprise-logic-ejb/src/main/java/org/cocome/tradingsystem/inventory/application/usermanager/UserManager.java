@@ -1,27 +1,26 @@
 package org.cocome.tradingsystem.inventory.application.usermanager;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-
-import javax.ejb.CreateException;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Provider;
-
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.store.CustomerWithStoreTO;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredentialFactory;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
+import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUserQuery;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.qualifier.Credential;
+
+import javax.ejb.CreateException;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
 
 /**
  * Implements the management of users and their data.
@@ -34,25 +33,25 @@ class UserManager implements IAuthenticator, IUserManager {
 	private static final Logger LOG = Logger.getLogger(UserManager.class);
 	
 	@Inject
-	IUserQuery userQuery;
+	private IUserQuery userQuery;
 	
 	@Inject
-	IPersistenceContext persistenceCtx;
+	private IPersistenceContext persistenceCtx;
 	
 	@Inject
-	IStoreQuery storeQuery;
+	private IStoreQuery storeQuery;
 	
 	@Inject @Credential(CredentialType.AUTH_TOKEN)
-	ICredential authToken;
+	private ICredential authToken;
 	
 	@Inject
-	Provider<IUser> userProvider;
+	private Provider<IUser> userProvider;
 	
 	@Inject
-	Provider<ICustomer> customerProvider;
+	private Provider<ICustomer> customerProvider;
 	
 	@Inject
-	ICredentialFactory credFactory;
+	private ICredentialFactory credFactory;
 	
 	@Override
 	public boolean checkCredentials(IUser user) throws NotInDatabaseException {
