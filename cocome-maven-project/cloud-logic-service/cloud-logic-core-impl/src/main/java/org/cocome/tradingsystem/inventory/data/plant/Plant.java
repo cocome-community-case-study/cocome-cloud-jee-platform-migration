@@ -36,7 +36,7 @@ import java.io.Serializable;
  */
 
 @Dependent
-class Plant implements Serializable, IPlant {
+public class Plant implements Serializable, IPlant {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = Logger.getLogger(Plant.class);

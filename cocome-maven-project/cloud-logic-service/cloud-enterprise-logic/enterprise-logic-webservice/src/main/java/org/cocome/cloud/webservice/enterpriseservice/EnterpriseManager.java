@@ -213,7 +213,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public long createPlant(PlantTO plantTO) throws CreateException {
-        IPlant plant = plantFactory.getNewPlant();
+        IPlant plant = enterpriseFactory.getNewPlant();
         plant.setEnterpriseId(plantTO.getEnterpriseTO().getId());
         plant.setLocation(plantTO.getLocation());
         plant.setName(plantTO.getName());
@@ -255,7 +255,7 @@ public class EnterpriseManager implements IEnterpriseManager {
             throws NotInDatabaseException {
         return this.queryCollectionByEnterpriseID(enterpriseId,
                 enterpriseQuery::queryPlantsByEnterpriseId,
-                plantFactory::fillPlantTO);
+                enterpriseFactory::fillPlantTO);
     }
 
     @Override
@@ -327,7 +327,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public long createCustomProduct(CustomProductTO productTO) throws CreateException {
-        final ICustomProduct product = plantFactory.getNewCustomProduct();
+        final ICustomProduct product = enterpriseFactory.getNewCustomProduct();
         product.setBarcode(productTO.getBarcode());
         product.setName(productTO.getName());
         product.setPurchasePrice(productTO.getPurchasePrice());
@@ -428,7 +428,7 @@ public class EnterpriseManager implements IEnterpriseManager {
         final Collection<ICustomProduct> products =
                 saveFetchFromDB(() -> enterpriseQuery.queryAllCustomProducts(enterpriseId));
         return products.stream()
-                .map(plantFactory::fillCustomProductTO)
+                .map(enterpriseFactory::fillCustomProductTO)
                 .collect(Collectors.toList());
     }
 
@@ -436,7 +436,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     public Collection<CustomProductTO> getAllCustomProducts() {
         return enterpriseQuery.queryAllCustomProducts()
                 .stream()
-                .map(plantFactory::fillCustomProductTO)
+                .map(enterpriseFactory::fillCustomProductTO)
                 .collect(Collectors.toList());
     }
 
@@ -480,7 +480,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public PlantTO queryPlantByID(long plantId) throws NotInDatabaseException {
-        return plantFactory.fillPlantTO(
+        return enterpriseFactory.fillPlantTO(
                 enterpriseQuery.queryPlant(plantId));
     }
 
@@ -538,7 +538,7 @@ public class EnterpriseManager implements IEnterpriseManager {
         Collection<PlantTO> plantTOs = new ArrayList<>(plants.size());
 
         for (IPlant store : plants) {
-            plantTOs.add(plantFactory.fillPlantTO(store));
+            plantTOs.add(enterpriseFactory.fillPlantTO(store));
         }
 
         return plantTOs;

@@ -182,7 +182,7 @@ public class CSVHelper implements IBackendConversionHelper {
     @Override
     public Collection<IPlant> getPlants(String input) {
         return rowToCollection(input, row -> {
-            IPlant result = plantFactory.getNewPlant();
+            IPlant result = enterpriseFactory.getNewPlant();
 
             result.setEnterpriseId(fetchId(row.getColumns().get(0)));
 

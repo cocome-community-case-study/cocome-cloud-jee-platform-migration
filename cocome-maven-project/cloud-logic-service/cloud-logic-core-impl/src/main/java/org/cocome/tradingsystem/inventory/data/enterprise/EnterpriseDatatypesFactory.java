@@ -1,9 +1,14 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
+import org.apache.log4j.Logger;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
+import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.Plant;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.enterprise.context.Dependent;
@@ -12,6 +17,10 @@ import javax.inject.Provider;
 
 @Dependent
 class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
+    private static final Logger LOG = Logger.getLogger(EnterpriseDatatypesFactory.class);
+
+    @Inject
+    private Provider<Plant> plantProvider;
 
     @Inject
     private Provider<Product> productProvider;
@@ -101,6 +110,50 @@ class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
         result.setSupplierTO(fillSupplierTO(product.getSupplier()));
 
         return result;
+    }
+
+    @Override
+    public IPlant getNewPlant() {
+        return plantProvider.get();
+    }
+
+    @Override
+    public IPlant convertToPlant(PlantTO plantTO) {
+        IPlant plant = getNewPlant();
+        plant.setName(plantTO.getName());
+        plant.setLocation(plantTO.getLocation());
+        plant.setId(plantTO.getId());
+        plant.setEnterpriseId(plantTO.getEnterpriseTO().getId());
+        return plant;
+    }
+
+    @Override
+    public PlantTO fillPlantTO(IPlant plant)
+            throws NotInDatabaseException {
+        final PlantTO result = new PlantTO();
+        result.setId(plant.getId());
+        result.setName(plant.getName());
+        result.setLocation(plant.getLocation());
+        result.setEnterpriseTO(fillEnterpriseTO(plant.getEnterprise()));
+
+        LOG.debug(String.format("Got plant with id %d, name %s and enterprise %s.",
+                result.getId(),
+                result.getName(),
+                result.getEnterpriseTO().getName()));
+
+        return result;
+    }
+
+    @Override
+    public ICustomProduct getNewCustomProduct() {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public CustomProductTO fillCustomProductTO(ICustomProduct product) {
+        //TODO
+        return null;
     }
 
 }

@@ -301,7 +301,7 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         List<IPlant> plantList = new ArrayList<>(plantTOList.size());
 
         for (PlantTO plantTO : plantTOList) {
-            plantList.add(plantFactory.convertToPlant(plantTO));
+            plantList.add(enterpriseFactory.convertToPlant(plantTO));
         }
         return plantList;
     }
@@ -310,14 +310,14 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     public Collection<IPlant> queryPlantsByEnterpriseId(long enterpriseID) {
         return queryCollection(enterpriseID,
                 enterpriseManager -> enterpriseManager.queryPlantsByEnterpriseID(enterpriseID),
-                plantFactory::convertToPlant);
+                enterpriseFactory::convertToPlant);
     }
 
     @Override
     public IPlant queryPlant(long plantID) throws NotInDatabaseException {
         IEnterpriseManager enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
         try {
-            return plantFactory.convertToPlant(enterpriseManager.queryPlantByID(plantID));
+            return enterpriseFactory.convertToPlant(enterpriseManager.queryPlantByID(plantID));
         } catch (NotInDatabaseException_Exception e) {
             throw new NotInDatabaseException(e.getFaultInfo().getMessage());
         }
