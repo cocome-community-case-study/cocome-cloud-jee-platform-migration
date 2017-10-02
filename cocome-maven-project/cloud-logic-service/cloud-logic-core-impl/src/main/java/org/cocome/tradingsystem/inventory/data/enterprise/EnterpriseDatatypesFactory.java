@@ -37,6 +37,9 @@ class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     @Inject
     private Provider<TradingEnterprise> enterpriseProvider;
 
+    @Inject
+    private Provider<ICustomProduct> customProductProvider;
+
     @Override
     public IProduct getNewProduct() {
         return productProvider.get();
@@ -55,6 +58,21 @@ class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     @Override
     public IEntryPoint getNewEntryPoint() {
         return entryPointProvider.get();
+    }
+
+    @Override
+    public ICustomProduct getNewCustomProduct() {
+        return customProductProvider.get();
+    }
+
+    @Override
+    public ICustomProduct convertToCustomProduct(CustomProductTO customProductTO) {
+        ICustomProduct customProduct = getNewCustomProduct();
+        customProduct.setBarcode(customProductTO.getBarcode());
+        customProduct.setId(customProductTO.getId());
+        customProduct.setName(customProductTO.getName());
+        customProduct.setPurchasePrice(customProductTO.getPurchasePrice());
+        return customProduct;
     }
 
     @Override
@@ -174,15 +192,13 @@ class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     }
 
     @Override
-    public ICustomProduct getNewCustomProduct() {
-        //TODO
-        return null;
-    }
-
-    @Override
     public CustomProductTO fillCustomProductTO(ICustomProduct product) {
-        //TODO
-        return null;
+        CustomProductTO customProductTO = new CustomProductTO();
+        customProductTO.setBarcode(product.getBarcode());
+        customProductTO.setId(product.getId());
+        customProductTO.setName(product.getName());
+        customProductTO.setPurchasePrice(product.getPurchasePrice());
+        return customProductTO;
     }
 
 }

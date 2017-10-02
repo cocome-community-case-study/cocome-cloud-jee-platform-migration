@@ -61,7 +61,7 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
     @Override
     public IConditionalExpression queryConditionalExpression(long conditionalExpressionId) throws NotInDatabaseException {
         return getSingleEntity(
-                csvHelper::getConditionalExpression,
+                csvHelper::getConditionalExpressions,
                 "ConditionalExpression",
                 conditionalExpressionId);
     }

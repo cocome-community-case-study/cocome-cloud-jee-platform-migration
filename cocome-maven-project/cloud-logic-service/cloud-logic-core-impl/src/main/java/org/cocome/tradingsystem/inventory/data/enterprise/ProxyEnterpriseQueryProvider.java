@@ -158,25 +158,24 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<ICustomProduct> queryAllCustomProducts(long enterpriseID) throws NotInDatabaseException {
-        //TODO
-        return null;
-    }
-
-    @Override
     public Collection<ICustomProduct> queryAllCustomProducts() {
-        //TODO
-        return null;
+        return queryCollection(defaultEnterpriseIndex,
+                IEnterpriseManager::getAllCustomProducts,
+                enterpriseFactory::convertToCustomProduct);
     }
 
     @Override
     public Collection<IProduct> queryAllProducts(long enterpriseID) throws NotInDatabaseException {
-        return queryAllProductsImpl(enterpriseID);
+        return queryCollection(enterpriseID,
+                enterpriseManager -> enterpriseManager.getAllEnterpriseProducts(enterpriseID),
+                enterpriseFactory::convertToProduct);
     }
 
     @Override
     public Collection<IProduct> queryAllProducts() {
-        return queryAllProductsImpl(defaultEnterpriseIndex);
+        return queryCollection(defaultEnterpriseIndex,
+                IEnterpriseManager::getAllProducts,
+                enterpriseFactory::convertToProduct);
     }
 
     @Override
@@ -321,15 +320,17 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public ICustomProduct queryCustomProductByID(long productID) throws NotInDatabaseException {
-        //TODO
-        return null;
+    public ICustomProduct queryCustomProductByID(long customProductID) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                enterpriseFactory.convertToCustomProduct(
+                        enterpriseManager.queryCustomProductByID(customProductID)));
     }
 
     @Override
-    public ICustomProduct queryCustomProductByBarcode(long productBarcode) throws NotInDatabaseException {
-        //TODO
-        return null;
+    public ICustomProduct queryCustomProductByBarcode(long customProductBarcode) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                enterpriseFactory.convertToCustomProduct(
+                        enterpriseManager.queryCustomProductByBarcode(customProductBarcode)));
     }
 
     @Override
@@ -359,29 +360,10 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         return storeList;
     }
 
-    private Collection<IProduct> queryAllProductsImpl(final long enterpriseId) {
-        IEnterpriseManager enterpriseManager;
-        List<ProductTO> productTOList;
-        try {
-            enterpriseManager = lookupEnterpriseManager(enterpriseId);
-            productTOList = enterpriseManager.getAllEnterpriseProducts(enterpriseId);
-        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
-            LOG.error("Got error while looking up entities: " + e.getMessage());
-            return Collections.emptyList();
-        }
-
-        List<IProduct> productList = new ArrayList<>(productTOList.size());
-
-        for (ProductTO productTO : productTOList) {
-            productList.add(enterpriseFactory.convertToProduct(productTO));
-        }
-        return productList;
-    }
-
     private <T> T querySingleEntity(final long enterpriseID,
                                     final ThrowingFunction<
                                             IEnterpriseManager, T, NotInDatabaseException_Exception> queryFunction)
-    throws NotInDatabaseException {
+            throws NotInDatabaseException {
         IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
         try {
             return queryFunction.apply(enterpriseManager);

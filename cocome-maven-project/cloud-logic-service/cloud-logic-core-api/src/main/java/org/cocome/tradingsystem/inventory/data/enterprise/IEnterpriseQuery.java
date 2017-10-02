@@ -20,7 +20,6 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.reporting.IReportingLocal;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -99,17 +98,6 @@ public interface IEnterpriseQuery {
      */
     long getMeanTimeToDelivery(IProductSupplier supplier,
                                ITradingEnterprise enterprise);
-
-    /**
-     * Retrieves all products that are sold in this enterprise.
-     * Note that there is no information included about the stores in which
-     * this product is available.
-     *
-     * @param enterpriseID The enterprise for which all products should be retrieved
-     * @return All {@code CustomProduct}s available in the given enterprise
-     * @throws EntityNotFoundException if the trading enterprise with the given id could not be found
-     */
-    Collection<ICustomProduct> queryAllCustomProducts(long enterpriseID) throws NotInDatabaseException;
 
     /**
      * Retrieves all customizable products available.

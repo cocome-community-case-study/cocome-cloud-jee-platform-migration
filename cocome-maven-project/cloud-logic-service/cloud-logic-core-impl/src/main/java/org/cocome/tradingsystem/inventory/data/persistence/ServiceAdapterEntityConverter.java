@@ -290,9 +290,7 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 encodeString(customProduct.getName()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                customProduct.getPurchasePrice() +
-                ServiceAdapterHeaders.SEPARATOR +
-                customProduct.getRecipeId();
+                customProduct.getPurchasePrice();
     }
 
     static String getUpdateCustomProductContent(ICustomProduct customProduct) {
@@ -302,9 +300,7 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 encodeString(customProduct.getName()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                customProduct.getPurchasePrice() +
-                ServiceAdapterHeaders.SEPARATOR +
-                customProduct.getRecipeId();
+                customProduct.getPurchasePrice();
     }
 
     static String getCreateProductionUnitOperationContent(IProductionUnitOperation operation) {

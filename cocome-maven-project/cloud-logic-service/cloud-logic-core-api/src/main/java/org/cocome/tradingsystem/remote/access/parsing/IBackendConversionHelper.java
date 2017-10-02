@@ -1,5 +1,6 @@
 package org.cocome.tradingsystem.remote.access.parsing;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
@@ -41,5 +42,7 @@ public interface IBackendConversionHelper {
 
     Collection<IEntryPoint> getEntryPoints(String entryPoint);
 
-    Collection<IConditionalExpression> getConditionalExpression(String conditionalExpression);
+    Collection<IConditionalExpression> getConditionalExpressions(String conditionalExpression);
+
+    Collection<ICustomProduct> getCustomProducts(String customProduct);
 }

@@ -9,10 +9,7 @@ import org.cocome.tradingsystem.inventory.application.usermanager.CredentialType
 import org.cocome.tradingsystem.inventory.application.usermanager.Role;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredentialFactory;
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
-import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
-import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
-import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.enterprise.*;
 import org.cocome.tradingsystem.inventory.data.persistence.ServiceAdapterHeaders;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
@@ -534,7 +531,7 @@ public class CSVHelper implements IBackendConversionHelper {
     }
 
     @Override
-    public Collection<IConditionalExpression> getConditionalExpression(String conditionalExpression) {
+    public Collection<IConditionalExpression> getConditionalExpressions(String conditionalExpression) {
         return rowToCollection(conditionalExpression, row -> {
             final IConditionalExpression result = plantFactory.getNewConditionalExpression();
 
@@ -543,6 +540,20 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setParameterValue(fetchString(row.getColumns().get(2)));
             result.setOnTrueExpressionIds(fetchIds(row.getColumns().get(3)));
             result.setOnFalseExpressionIds(fetchIds(row.getColumns().get(4)));
+
+            return result;
+        });
+    }
+
+    @Override
+    public Collection<ICustomProduct> getCustomProducts(String customProduct) {
+        return rowToCollection(customProduct, row -> {
+            final ICustomProduct result = enterpriseFactory.getNewCustomProduct();
+
+            result.setId(Long.parseLong(row.getColumns().get(0).getValue()));
+            result.setBarcode(Long.parseLong(row.getColumns().get(1).getValue()));
+            result.setName(decodeString(row.getColumns().get(2).getValue()));
+            result.setPurchasePrice(Double.parseDouble(row.getColumns().get(3).getValue()));
 
             return result;
         });

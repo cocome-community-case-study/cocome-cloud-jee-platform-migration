@@ -74,15 +74,8 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<ICustomProduct> queryAllCustomProducts(long enterpriseID) throws NotInDatabaseException {
-        //TODO
-        return null;
-    }
-
-    @Override
     public Collection<ICustomProduct> queryAllCustomProducts() {
-        //TODO
-        return null;
+        return csvHelper.getCustomProducts(backendConnection.getCustomProducts("name=LIKE%20'*'"));
     }
 
     @Override
@@ -167,14 +160,12 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public ICustomProduct queryCustomProductByID(long productID) throws NotInDatabaseException {
-        //TODO
-        return null;
+        return getSingleEntity(csvHelper::getCustomProducts, "CustomProduct", productID);
     }
 
     @Override
     public ICustomProduct queryCustomProductByBarcode(long productBarcode) throws NotInDatabaseException {
-        //TODO
-        return null;
+        return getSingleEntity(csvHelper::getCustomProducts, "CustomProduct", "barcode==" + productBarcode);
     }
 
     @Override
@@ -261,4 +252,17 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
                     entity, entityId));
         }
     }
+
+    private <T> T getSingleEntity(Function<String, Collection<T>> converter,
+                                  String entity,
+                                  String condition) throws NotInDatabaseException {
+        try {
+            return converter.apply(backendConnection.getEntity(entity, condition)).iterator().next();
+        } catch (NoSuchElementException e) {
+            throw new NotInDatabaseException(String.format(
+                    "No matching entity of type '%s' and condition '%s' found in database!",
+                    entity, condition));
+        }
+    }
+
 }

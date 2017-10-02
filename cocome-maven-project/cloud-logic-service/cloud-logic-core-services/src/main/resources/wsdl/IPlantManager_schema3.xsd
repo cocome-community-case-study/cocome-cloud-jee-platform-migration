@@ -1,141 +1,30 @@
-<xs:schema xmlns:ns1="http://productionunit.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns2="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns4="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:tns="http://plant.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://plant.webservice.logic.cocome.org/">
-  <xs:import namespace="http://productionunit.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema2.xsd"/>
-  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema5.xsd"/>
-  <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IPlantManager_schema4.xsd"/>
+<xs:schema xmlns:ns1="http://plant.webservice.logic.cocome.org/" xmlns:ns2="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns4="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:tns="http://productionunit.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://productionunit.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
+
+  <xs:import namespace="http://plant.webservice.logic.cocome.org/" schemaLocation="IPlantManager_schema4.xsd"/>
+
+  <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IPlantManager_schema5.xsd"/>
+
+  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema7.xsd"/>
+
   <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IPlantManager_schema1.xsd"/>
-  <xs:element name="EnterpriseTO" type="ns4:EnterpriseTO"/>
-  <xs:element name="ExpressionTO" type="ns2:ExpressionTO"/>
-  <xs:element name="PlantTO" type="ns3:PlantTO"/>
-  <xs:element name="ProductionUnitClassTO" type="ns1:ProductionUnitClassTO"/>
-  <xs:element name="ProductionUnitOperationTO" type="ns1:ProductionUnitOperationTO"/>
-  <xs:element name="createProductionUnitClass" type="tns:createProductionUnitClass"/>
-  <xs:element name="createProductionUnitClassResponse" type="tns:createProductionUnitClassResponse"/>
-  <xs:element name="createProductionUnitOperation" type="tns:createProductionUnitOperation"/>
-  <xs:element name="createProductionUnitOperationResponse" type="tns:createProductionUnitOperationResponse"/>
-  <xs:element name="deleteProductionUnitClass" type="tns:deleteProductionUnitClass"/>
-  <xs:element name="deleteProductionUnitClassResponse" type="tns:deleteProductionUnitClassResponse"/>
-  <xs:element name="deleteProductionUnitOperation" type="tns:deleteProductionUnitOperation"/>
-  <xs:element name="deleteProductionUnitOperationResponse" type="tns:deleteProductionUnitOperationResponse"/>
-  <xs:element name="queryProductionUnitClassByID" type="tns:queryProductionUnitClassByID"/>
-  <xs:element name="queryProductionUnitClassByIDResponse" type="tns:queryProductionUnitClassByIDResponse"/>
-  <xs:element name="queryProductionUnitClassesByPlantID" type="tns:queryProductionUnitClassesByPlantID"/>
-  <xs:element name="queryProductionUnitClassesByPlantIDResponse" type="tns:queryProductionUnitClassesByPlantIDResponse"/>
-  <xs:element name="queryProductionUnitOperationByID" type="tns:queryProductionUnitOperationByID"/>
-  <xs:element name="queryProductionUnitOperationByIDResponse" type="tns:queryProductionUnitOperationByIDResponse"/>
-  <xs:element name="queryProductionUnitOperationsByProductionUnitClassID" type="tns:queryProductionUnitOperationsByProductionUnitClassID"/>
-  <xs:element name="queryProductionUnitOperationsByProductionUnitClassIDResponse" type="tns:queryProductionUnitOperationsByProductionUnitClassIDResponse"/>
-  <xs:element name="updateProductionUnitClass" type="tns:updateProductionUnitClass"/>
-  <xs:element name="updateProductionUnitClassResponse" type="tns:updateProductionUnitClassResponse"/>
-  <xs:element name="updateProductionUnitOperation" type="tns:updateProductionUnitOperation"/>
-  <xs:element name="updateProductionUnitOperationResponse" type="tns:updateProductionUnitOperationResponse"/>
-  <xs:complexType name="queryProductionUnitOperationsByProductionUnitClassID">
+
+  <xs:complexType name="ProductionUnitOperationTO">
+    <xs:complexContent>
+      <xs:extension base="ns3:ExpressionTO">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="productionUnitClass" type="tns:ProductionUnitClassTO"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ProductionUnitClassTO">
     <xs:sequence>
-      <xs:element name="productionUnitClassID" type="xs:long"/>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="plant" type="ns2:PlantTO"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="queryProductionUnitOperationsByProductionUnitClassIDResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ProductionUnitOperationTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createProductionUnitClass">
-    <xs:sequence>
-      <xs:element name="productionUnitClassTO" type="ns1:ProductionUnitClassTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createProductionUnitClassResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryProductionUnitClassesByPlantID">
-    <xs:sequence>
-      <xs:element name="plantID" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryProductionUnitClassesByPlantIDResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ProductionUnitClassTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="updateProductionUnitOperation">
-    <xs:sequence>
-      <xs:element name="productionUnitOperationTO" type="ns1:ProductionUnitOperationTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="updateProductionUnitOperationResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="queryProductionUnitClassByID">
-    <xs:sequence>
-      <xs:element name="productionUnitClassID" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryProductionUnitClassByIDResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="ns1:ProductionUnitClassTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createProductionUnitOperation">
-    <xs:sequence>
-      <xs:element name="productionUnitOperationTO" type="ns1:ProductionUnitOperationTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createProductionUnitOperationResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteProductionUnitOperation">
-    <xs:sequence>
-      <xs:element name="productionUnitOperationTO" type="ns1:ProductionUnitOperationTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteProductionUnitOperationResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="queryProductionUnitOperationByID">
-    <xs:sequence>
-      <xs:element name="productionUnitOperationID" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryProductionUnitOperationByIDResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="ns1:ProductionUnitOperationTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="updateProductionUnitClass">
-    <xs:sequence>
-      <xs:element name="productionUnitClassTO" type="ns1:ProductionUnitClassTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="updateProductionUnitClassResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="deleteProductionUnitClass">
-    <xs:sequence>
-      <xs:element name="productionUnitClassTO" type="ns1:ProductionUnitClassTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteProductionUnitClassResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:element name="NotInDatabaseException" type="tns:NotInDatabaseException"/>
-  <xs:complexType name="NotInDatabaseException">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="message" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="CreateException" type="tns:CreateException"/>
-  <xs:complexType name="CreateException">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="message" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="UpdateException" type="tns:UpdateException"/>
-  <xs:complexType name="UpdateException">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="message" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
+
 </xs:schema>

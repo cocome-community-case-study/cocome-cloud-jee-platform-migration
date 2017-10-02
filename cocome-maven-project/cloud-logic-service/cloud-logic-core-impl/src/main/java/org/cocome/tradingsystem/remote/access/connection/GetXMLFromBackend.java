@@ -12,7 +12,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-
 @Dependent
 public class GetXMLFromBackend implements IBackendQuery {
 
@@ -29,17 +28,11 @@ public class GetXMLFromBackend implements IBackendQuery {
 
     private String message;
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#getMessage()
-     */
     @Override
     public String getMessage() {
         return message;
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#setMessage(java.lang.String)
-     */
     @Override
     public void setMessage(String message) {
         this.message = message;
@@ -100,20 +93,20 @@ public class GetXMLFromBackend implements IBackendQuery {
         return url;
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#getProducts(java.lang.String)
-     */
     @Override
     public String getProducts(String cond) {
-
         MessageToCSV csv = new MessageToCSV(
                 getXMLFromBackend(getURLToBackend() + "?query.select=entity.type=Product;Product." + cond));
         return csv.getCSV();
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#getEnterprises(java.lang.String)
-     */
+    @Override
+    public String getCustomProducts(String cond) {
+        MessageToCSV csv = new MessageToCSV(
+                getXMLFromBackend(getURLToBackend() + "?query.select=entity.type=CustomProduct;CustomProduct." + cond));
+        return csv.getCSV();
+    }
+
     @Override
     public String getEnterprises(String cond) {
         MessageToCSV csv = new MessageToCSV(
@@ -121,9 +114,6 @@ public class GetXMLFromBackend implements IBackendQuery {
         return csv.getCSV();
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#getStores(java.lang.String)
-     */
     @Override
     public String getStores(String cond) {
         MessageToCSV csv = new MessageToCSV(
@@ -131,9 +121,6 @@ public class GetXMLFromBackend implements IBackendQuery {
         return csv.getCSV();
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#getStockItems(java.lang.String)
-     */
     @Override
     public String getStockItems(String cond) {
         MessageToCSV csv = new MessageToCSV(
@@ -141,9 +128,6 @@ public class GetXMLFromBackend implements IBackendQuery {
         return csv.getCSV();
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#getProductOrder(java.lang.String)
-     */
     @Override
     public String getProductOrder(String cond) {
         MessageToCSV csv = new MessageToCSV(
@@ -151,9 +135,6 @@ public class GetXMLFromBackend implements IBackendQuery {
         return csv.getCSV();
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#getProductSupplier(java.lang.String)
-     */
     @Override
     public String getProductSupplier(String cond) {
         MessageToCSV csv = new MessageToCSV(
@@ -161,9 +142,6 @@ public class GetXMLFromBackend implements IBackendQuery {
         return csv.getCSV();
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#getEntity(java.lang.String, java.lang.String)
-     */
     @Override
     public String getEntity(String entity, String cond) {
         MessageToCSV csv = new MessageToCSV(
@@ -175,9 +153,6 @@ public class GetXMLFromBackend implements IBackendQuery {
         return csv.getCSV();
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#getUser(java.lang.String)
-     */
     @Override
     public String getUser(String cond) {
         MessageToCSV csv = new MessageToCSV(
@@ -185,9 +160,6 @@ public class GetXMLFromBackend implements IBackendQuery {
         return csv.getCSV();
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.tradingsystem.remote.access.connection.IBackendQuery#getCustomer(java.lang.String)
-     */
     @Override
     public String getCustomer(String cond) {
         MessageToCSV csv = new MessageToCSV(

@@ -333,7 +333,6 @@ public class EnterpriseManager implements IEnterpriseManager {
         product.setBarcode(productTO.getBarcode());
         product.setName(productTO.getName());
         product.setPurchasePrice(productTO.getPurchasePrice());
-        product.setRecipeId(productTO.getRecipe().getId());
 
         saveDBCreateAction(() -> persistenceContext.createEntity(product));
 
@@ -396,21 +395,6 @@ public class EnterpriseManager implements IEnterpriseManager {
         product.setName(customProductTO.getName());
         product.setPurchasePrice(customProductTO.getPurchasePrice());
 
-        //TODO
-        /*
-        if (customProductTO.getSupplierTO().getId() != 0) {
-            IProductSupplier supplier;
-            try {
-                supplier = enterpriseQuery.querySupplierByID(productTO.getSupplierTO().getId());
-            } catch (NotInDatabaseException e) {
-                LOG.error("Got NotInDatabaseException: " + e);
-                e.printStackTrace();
-                throw e;
-            }
-            product.setSupplier(supplier);
-        }
-        */
-
         saveDBUpdateAction(() -> persistenceContext.updateEntity(product));
     }
 
@@ -426,20 +410,23 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public Collection<CustomProductTO> getAllEnterpriseCustomProducts(long enterpriseId) throws NotInDatabaseException {
-        final Collection<ICustomProduct> products =
-                saveFetchFromDB(() -> enterpriseQuery.queryAllCustomProducts(enterpriseId));
-        return products.stream()
-                .map(enterpriseFactory::fillCustomProductTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public Collection<CustomProductTO> getAllCustomProducts() {
         return enterpriseQuery.queryAllCustomProducts()
                 .stream()
                 .map(enterpriseFactory::fillCustomProductTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public CustomProductTO queryCustomProductByID(long customProductID) throws NotInDatabaseException {
+        ICustomProduct product = enterpriseQuery.queryCustomProductByID(customProductID);
+        return enterpriseFactory.fillCustomProductTO(product);
+    }
+
+    @Override
+    public CustomProductTO queryCustomProductByBarcode(long barcode) throws NotInDatabaseException {
+        ICustomProduct product = enterpriseQuery.queryCustomProductByBarcode(barcode);
+        return enterpriseFactory.fillCustomProductTO(product);
     }
 
     @Override

@@ -42,6 +42,11 @@ public class PlantOperation implements Serializable, IPlantOperation {
     private Collection<IEntryPoint> inputEntryPoint;
     private Collection<IEntryPoint> outputEntryPoint;
 
+    private long plantId;
+    private List<Long> expressionIds;
+    private Collection<Long> inputEntryPointIds;
+    private Collection<Long> outputEntryPointIds;
+
     @Override
     public long getId() {
         return this.id;
@@ -73,13 +78,33 @@ public class PlantOperation implements Serializable, IPlantOperation {
     }
 
     @Override
+    public Collection<Long> getInputEntryPointIds() {
+        return inputEntryPointIds;
+    }
+
+    @Override
+    public void setInputEntryPointIds(Collection<Long> inputEntryPointIds) {
+        this.inputEntryPointIds = inputEntryPointIds;
+    }
+
+    @Override
     public Collection<IEntryPoint> getOutputEntryPoint() {
         return outputEntryPoint;
     }
 
     @Override
-    public void setOutputEntryPoint(Collection<IEntryPoint> outputMaterial) {
-        this.outputEntryPoint = outputMaterial;
+    public void setOutputEntryPoint(Collection<IEntryPoint> outputEntryPoint) {
+        this.outputEntryPoint = outputEntryPoint;
+    }
+
+    @Override
+    public Collection<Long> getOutputEntryPointIds() {
+        return outputEntryPointIds;
+    }
+
+    @Override
+    public void setOutputEntryPointIds(Collection<Long> outputEntryPointIds) {
+        this.outputEntryPointIds = outputEntryPointIds;
     }
 
     @Override
@@ -93,6 +118,16 @@ public class PlantOperation implements Serializable, IPlantOperation {
     }
 
     @Override
+    public long getPlantId() {
+        return plantId;
+    }
+
+    @Override
+    public void setPlantId(long plantId) {
+        this.plantId = plantId;
+    }
+
+    @Override
     public List<IExpression> getExpressions() {
         return expressions;
     }
@@ -100,5 +135,15 @@ public class PlantOperation implements Serializable, IPlantOperation {
     @Override
     public void setExpressions(List<IExpression> expressions) {
         this.expressions = expressions;
+    }
+
+    @Override
+    public List<Long> getExpressionIds() {
+        return expressionIds;
+    }
+
+    @Override
+    public void setExpressionIds(List<Long> expressionIds) {
+        this.expressionIds = expressionIds;
     }
 }

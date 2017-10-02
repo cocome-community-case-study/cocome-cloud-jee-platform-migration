@@ -9,7 +9,7 @@
 				ref="org.cocome.tradingsystem.inventory.application.store.EnterpriseTO" />
 		</bindings>
 	</bindings>
-	<bindings if-exists="true" schemaLocation="IPlantManager_schema2.xsd">
+	<bindings if-exists="true" schemaLocation="IPlantManager_schema3.xsd">
 		<bindings node="//xsd:complexType[@name='ProductionUnitClassTO']">
 			<class ref="org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO"/>
 		</bindings>

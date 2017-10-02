@@ -18,8 +18,6 @@
 
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
-
 import javax.enterprise.context.Dependent;
 
 /**
@@ -30,28 +28,4 @@ import javax.enterprise.context.Dependent;
 @Dependent
 public class CustomProduct extends AbstractProduct implements ICustomProduct {
     private static final long serialVersionUID = 1L;
-
-    private IRecipe recipe;
-    private long recipeId;
-
-    @Override
-    public IRecipe getRecipe() {
-        return recipe;
-    }
-
-    @Override
-    public void setRecipe(IRecipe recipe) {
-        this.recipe = recipe;
-    }
-
-    @Override
-    public long getRecipeId() {
-        return recipeId;
-    }
-
-    @Override
-    public void setRecipeId(long recipeId) {
-        this.recipeId = recipeId;
-    }
-
 }

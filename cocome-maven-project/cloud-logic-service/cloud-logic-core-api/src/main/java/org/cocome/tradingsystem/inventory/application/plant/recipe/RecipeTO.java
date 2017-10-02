@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 
 import javax.xml.bind.annotation.*;
 import java.util.Collection;
@@ -38,6 +39,9 @@ public class RecipeTO implements IIdentifiableTO {
 
     @XmlElement(name = "id", required = true)
     private long id;
+
+    @XmlElement(name = "customProduct", required = true)
+    private CustomProductTO customProduct;
 
     // Represent the vertices of the recipe graph
     @XmlElement(name = "operations", required = true)
@@ -65,6 +69,20 @@ public class RecipeTO implements IIdentifiableTO {
     @Override
     public void setId(final long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the custom product for which this recipe provides production information
+     */
+    public CustomProductTO getCustomProduct() {
+        return customProduct;
+    }
+
+    /**
+     * @param customProduct the custom product for which this recipe provides production information
+     */
+    public void setCustomProduct(CustomProductTO customProduct) {
+        this.customProduct = customProduct;
     }
 
     /**

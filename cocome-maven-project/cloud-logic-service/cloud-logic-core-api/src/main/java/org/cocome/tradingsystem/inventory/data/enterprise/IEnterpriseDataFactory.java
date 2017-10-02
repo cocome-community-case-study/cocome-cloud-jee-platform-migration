@@ -44,6 +44,8 @@ public interface IEnterpriseDataFactory {
 
     ICustomProduct getNewCustomProduct();
 
+    ICustomProduct convertToCustomProduct(CustomProductTO customProductTO);
+
     CustomProductTO fillCustomProductTO(ICustomProduct product);
 
     /* Plant Product *****/

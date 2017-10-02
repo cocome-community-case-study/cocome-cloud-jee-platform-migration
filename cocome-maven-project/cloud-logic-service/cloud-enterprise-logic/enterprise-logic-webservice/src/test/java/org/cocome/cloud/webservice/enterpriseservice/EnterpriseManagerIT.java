@@ -5,6 +5,7 @@ import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.stub.UpdateException_Exception;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
@@ -12,6 +13,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,7 +55,42 @@ public class EnterpriseManagerIT {
     }
 
     @Test
-    public void testCRUDForEntrypoint() throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
+    public void testCRUDForCustomProduct() throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
+        final CustomProductTO customProductTO = new CustomProductTO();
+        customProductTO.setName("Awsome Product");
+        customProductTO.setBarcode(new Date().getTime());
+        customProductTO.setPurchasePrice(10);
+        customProductTO.setId(em.createCustomProduct(customProductTO));
+
+        final CustomProductTO customProductTO2 = new CustomProductTO();
+        customProductTO2.setName("Awsome Product");
+        customProductTO2.setBarcode(new Date().getTime());
+        customProductTO2.setPurchasePrice(10);
+        customProductTO2.setId(em.createCustomProduct(customProductTO2));
+
+        final Collection<CustomProductTO> products = em.getAllCustomProducts();
+        Assert.assertNotNull(products);
+        Assert.assertTrue(products.size() > 2);
+
+        Assert.assertEquals(customProductTO2.getBarcode(),
+                em.queryCustomProductByBarcode(customProductTO2.getBarcode()).getBarcode());
+
+        final CustomProductTO queriedInstance = em.queryCustomProductByID(customProductTO.getId());
+        Assert.assertEquals(customProductTO.getName(), queriedInstance.getName());
+        Assert.assertEquals(customProductTO.getPurchasePrice(), queriedInstance.getPurchasePrice(), 0.001);
+
+        em.deleteCustomProduct(customProductTO);
+        em.deleteCustomProduct(customProductTO2);
+        try {
+            em.queryCustomProductByID(customProductTO.getId());
+            Assert.fail("Expect ");
+        } catch (final NotInDatabaseException_Exception ex) {
+            //no-op
+        }
+    }
+
+    @Test
+    public void testCRUDForEntryPoint() throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
         final EntryPointTO entryPointTO = new EntryPointTO();
         entryPointTO.setName("ISO 12345 Slot");
         entryPointTO.setId(em.createEntryPoint(entryPointTO));
@@ -61,7 +99,7 @@ public class EnterpriseManagerIT {
         em.deleteEntryPoint(entryPointTO);
         try {
             em.queryEntryPointById(entryPointTO.getId());
-            Assert.fail("Expect ");
+            Assert.fail("Entity is supposed to be deleted");
         } catch (final NotInDatabaseException_Exception ex) {
             //no-op
         }

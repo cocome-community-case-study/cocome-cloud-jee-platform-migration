@@ -18,10 +18,12 @@
 
 package org.cocome.tradingsystem.inventory.application.enterprise;
 
-import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Transfer object of an customizable product
@@ -35,22 +37,5 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CustomProductTO extends ProductTO {
     private static final long serialVersionUID = 5315366349773650L;
-
-    @XmlElement(name = "recipe", required = true)
-    private RecipeTO recipe;
-
-    /**
-     * @return return the production recipe
-     */
-    public RecipeTO getRecipe() {
-        return recipe;
-    }
-
-    /**
-     * @param recipe the production recipe
-     */
-    public void setRecipe(RecipeTO recipe) {
-        this.recipe = recipe;
-    }
 
 }

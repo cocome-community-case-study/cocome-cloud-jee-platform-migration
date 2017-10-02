@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
+import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 
 import java.util.Collection;
 
@@ -28,6 +29,17 @@ import java.util.Collection;
  * @author Rudolf Biczok
  */
 public interface IRecipe extends IIdentifiable {
+
+    /**
+     * @return the custom product for which this recipe provides the production details
+     */
+    ICustomProduct getCustomProduct();
+
+    /**
+     * @param customProduct the custom product for which this recipe provides the production details
+     */
+    void setCustomProduct(ICustomProduct customProduct);
+
     /**
      * @return the plant operation that is supposed to be executed within this interaction step
      */

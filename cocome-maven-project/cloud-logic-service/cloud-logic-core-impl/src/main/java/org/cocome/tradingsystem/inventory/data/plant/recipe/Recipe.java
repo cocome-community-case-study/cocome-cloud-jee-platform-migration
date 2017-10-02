@@ -18,6 +18,8 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
+
 import javax.enterprise.context.Dependent;
 import java.io.Serializable;
 import java.util.Collection;
@@ -32,6 +34,8 @@ public class Recipe implements Serializable, IRecipe {
     private static final long serialVersionUID = 1L;
 
     private long id;
+
+    private ICustomProduct customProduct;
 
     // Represent the vertices of the recipe graph
     private Collection<IPlantOperation> operations;
@@ -49,6 +53,16 @@ public class Recipe implements Serializable, IRecipe {
     @Override
     public void setId(final long id) {
         this.id = id;
+    }
+
+    @Override
+    public ICustomProduct getCustomProduct() {
+        return customProduct;
+    }
+
+    @Override
+    public void setCustomProduct(final ICustomProduct customProduct) {
+        this.customProduct = customProduct;
     }
 
     @Override

@@ -133,6 +133,8 @@ public interface IEnterpriseManager {
             @WebParam(name = "plantTO") PlantTO plantTO)
             throws NotInDatabaseException, UpdateException, IOException;
 
+    /* CRUD for {@link ProductTO} **************/
+
     /**
      * Retrieves all products that are sold in this enterprise.
      * Note that there is no information included about the stores in which
@@ -146,8 +148,6 @@ public interface IEnterpriseManager {
     Collection<ProductTO> getAllEnterpriseProducts(
             @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId)
             throws NotInDatabaseException;
-
-    /* CRUD for {@link ProductTO} **************/
 
     /**
      * Retrieves all products that are registered in the database.
@@ -302,20 +302,6 @@ public interface IEnterpriseManager {
     /* CRUD for {@link CustomProductTO} **************/
 
     /**
-     * Retrieves all products that are sold in this enterprise.
-     * Note that there is no information included about the stores in which
-     * this product is available.
-     *
-     * @param enterpriseId The enterprise for which all products should be retrieved
-     * @return All {@code ProductTO}s available in the given enterprise
-     * @throws NotInDatabaseException
-     */
-    @WebMethod
-    Collection<CustomProductTO> getAllEnterpriseCustomProducts(
-            @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId)
-            throws NotInDatabaseException;
-
-    /**
      * Retrieves all products that are registered in the database.
      * Note that there is no information included about the stores in which
      * these products are available.
@@ -324,6 +310,29 @@ public interface IEnterpriseManager {
      */
     @WebMethod
     Collection<CustomProductTO> getAllCustomProducts();
+
+    /**
+     * Retrieves the product with the given ID if it is stored in the database.
+     * The product does not have to be available in any store.
+     *
+     * @return The {@code ProductTO} with the given ID or null if it was not found
+     * @throws NotInDatabaseException
+     */
+    @WebMethod
+    CustomProductTO queryCustomProductByID(
+            @XmlElement(required = true) @WebParam(name = "customProductID") long customProductID) throws NotInDatabaseException;
+
+    /**
+     * Retrieves the product with the given barcode if it is stored in the database.
+     * The product does not have to be available in any store.
+     *
+     * @return The {@code ProductTO} with the given ID or null if it was not found
+     * @throws NotInDatabaseException
+     */
+    @WebMethod
+    CustomProductTO queryCustomProductByBarcode(
+            @XmlElement(required = true) @WebParam(name = "barcode") long barcode) throws NotInDatabaseException;
+
 
     @WebMethod
     long createCustomProduct(

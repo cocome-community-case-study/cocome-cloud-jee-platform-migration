@@ -18,33 +18,11 @@
 
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
-
 /**
  * Represents a customizable product
  *
  * @author Rudolf Biczok
  */
 public interface ICustomProduct extends IAbstractProduct {
-
-    /**
-     * @return return the production recipe
-     */
-    IRecipe getRecipe();
-
-    /**
-     * @param recipe the production recipe
-     */
-    void setRecipe(IRecipe recipe);
-
-    /**
-     * @return the id of the corresponding enterprise
-     */
-    long getRecipeId();
-
-    /**
-     * @param enterpriseId the id of the corresponding enterprise
-     */
-    void setRecipeId(long enterpriseId);
 
 }
