@@ -17,6 +17,7 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
@@ -513,6 +514,18 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setId(fetchId(row.getColumns().get(0)));
             result.setOperationId(fetchString(row.getColumns().get(1)));
             result.setProductionUnitClassId(fetchId(row.getColumns().get(2)));
+
+            return result;
+        });
+    }
+
+    @Override
+    public Collection<IEntryPoint> getEntryPoints(String entryPoint) {
+        return rowToCollection(entryPoint, row -> {
+            final IEntryPoint result = enterpriseFactory.getNewEntryPoint();
+
+            result.setId(fetchId(row.getColumns().get(0)));
+            result.setName(fetchString(row.getColumns().get(1)));
 
             return result;
         });
