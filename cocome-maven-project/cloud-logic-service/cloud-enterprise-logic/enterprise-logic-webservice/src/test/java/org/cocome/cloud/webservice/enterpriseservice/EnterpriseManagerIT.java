@@ -70,7 +70,7 @@ public class EnterpriseManagerIT {
 
         final Collection<CustomProductTO> products = em.getAllCustomProducts();
         Assert.assertNotNull(products);
-        Assert.assertTrue(products.size() > 2);
+        Assert.assertTrue(products.size() >= 2);
 
         Assert.assertEquals(customProductTO2.getBarcode(),
                 em.queryCustomProductByBarcode(customProductTO2.getBarcode()).getBarcode());

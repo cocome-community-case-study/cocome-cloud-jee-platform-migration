@@ -1,20 +1,32 @@
 <!DOCTYPE bindings>
 <bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb"
-	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:tns="http://plant.webservice.logic.cocome.org/">
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
 
-	<bindings if-exists="true" schemaLocation="IPlantManager_schema1.xsd">
-		<bindings node="//xsd:complexType[@name='EnterpriseTO']">
-			<class
-				ref="org.cocome.tradingsystem.inventory.application.store.EnterpriseTO" />
-		</bindings>
-	</bindings>
-	<bindings if-exists="true" schemaLocation="IPlantManager_schema3.xsd">
-		<bindings node="//xsd:complexType[@name='ProductionUnitClassTO']">
-			<class ref="org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO"/>
-		</bindings>
-		<bindings node="//xsd:complexType[@name='ProductionUnitOperationTO']">
-			<class ref="org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO"/>
-		</bindings>
-	</bindings>
+    <bindings if-exists="true" schemaLocation="IPlantManager_schema1.xsd">
+        <bindings node="//xsd:complexType[@name='EnterpriseTO']">
+            <class
+                    ref="org.cocome.tradingsystem.inventory.application.store.EnterpriseTO"/>
+        </bindings>
+    </bindings>
+    <bindings if-exists="true" schemaLocation="IPlantManager_schema3.xsd">
+        <bindings node="//xsd:complexType[@name='ProductionUnitClassTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO"/>
+        </bindings>
+        <bindings node="//xsd:complexType[@name='ProductionUnitOperationTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO"/>
+        </bindings>
+    </bindings>
+    <bindings if-exists="true" schemaLocation="IPlantManager_schema5.xsd">
+        <bindings node="//xsd:complexType[@name='PlantTO']">
+            <class
+                    ref="org.cocome.tradingsystem.inventory.application.plant.PlantTO"/>
+        </bindings>
+    </bindings>
+    <bindings if-exists="true" schemaLocation="IPlantManager_schema7.xsd">
+        <bindings node="//xsd:complexType[@name='ExpressionTO']">
+            <class
+                    ref="org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO"/>
+        </bindings>
+    </bindings>
 </bindings>

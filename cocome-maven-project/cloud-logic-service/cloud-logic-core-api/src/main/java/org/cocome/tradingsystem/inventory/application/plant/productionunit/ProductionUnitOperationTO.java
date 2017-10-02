@@ -18,7 +18,6 @@
 
 package org.cocome.tradingsystem.inventory.application.plant.productionunit;
 
-import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
 
 import javax.xml.bind.annotation.*;
