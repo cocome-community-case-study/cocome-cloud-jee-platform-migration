@@ -5,6 +5,7 @@ import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -47,6 +48,22 @@ public class EnterpriseManagerIT {
             em.deletePlant(plantTO);
         }
         em.deleteEnterprise(enterprise);
+    }
+
+    @Test
+    public void testCRUDForEntrypoint() throws Exception {
+        final EntryPointTO entryPointTO = new EntryPointTO();
+        entryPointTO.setName("ISO 12345 Slot");
+        entryPointTO.setId(em.createEntryPoint(entryPointTO));
+        final EntryPointTO singleInstance = em.queryEntryPointById(entryPointTO.getId());
+        Assert.assertEquals(entryPointTO.getName(), singleInstance.getName());
+        em.deleteEntryPoint(entryPointTO);
+        try {
+            em.queryEntryPointById(entryPointTO.getId());
+            Assert.fail("Expect ");
+        } catch (final NotInDatabaseException_Exception ex) {
+            //no-op
+        }
     }
 
     private EnterpriseTO getOrCreateEnterprise() throws CreateException_Exception, NotInDatabaseException_Exception {

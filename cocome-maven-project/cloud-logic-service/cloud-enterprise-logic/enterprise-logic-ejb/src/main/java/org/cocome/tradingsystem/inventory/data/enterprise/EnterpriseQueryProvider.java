@@ -2,6 +2,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -174,6 +175,11 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     public ICustomProduct queryCustomProductByBarcode(long productBarcode) throws NotInDatabaseException {
         //TODO
         return null;
+    }
+
+    @Override
+    public IEntryPoint queryEntryPointByID(long entryPointId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getEntryPoints, "EntryPoint", entryPointId);
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.IOrderEntry;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
@@ -314,6 +315,16 @@ class ServiceAdapterEntityConverter {
                 String.valueOf(operation.getOperationId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 operation.getProductionUnitClassId();
+    }
+
+    static String getCreateEntryPointContent(IEntryPoint entryPoint) {
+        return entryPoint.getName();
+    }
+
+    static String getUpdateEntryPointContent(IEntryPoint entryPoint) {
+        return String.valueOf(entryPoint.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                entryPoint.getName();
     }
 
     private static void appendPrefferedStore(ICustomer customer, StringBuilder content) {

@@ -2,11 +2,13 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 public interface IEnterpriseDataFactory {
@@ -52,4 +54,11 @@ public interface IEnterpriseDataFactory {
 
     PlantTO fillPlantTO(IPlant plant) throws NotInDatabaseException;
 
+    /* Entry Point *****/
+
+    IEntryPoint getNewEntryPoint();
+
+    EntryPointTO fillEntryPointTO(IEntryPoint iEntryPoint);
+
+    IEntryPoint convertToEntryPoint(EntryPointTO entryPointTO);
 }

@@ -59,4 +59,8 @@ final class ServiceAdapterHeaders {
 
     static final String PRODUCTIONUNITOPERATION_UPDATE_HEADER = "ProductionUnitOperationId;ProductionUnitOperationOID;"
             + "ProductionUnitClassId";
+
+    static final String ENTRYPOINT_CREATE_HEADER = "EntryPointName";
+
+    static final String ENTRYPOINT_UPDATE_HEADER = "EntryPointId;EntryPointName";
 }

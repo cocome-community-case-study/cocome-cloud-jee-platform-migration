@@ -20,6 +20,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.reporting.IReportingLocal;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -249,4 +250,13 @@ public interface IEnterpriseQuery {
      * @throws NotInDatabaseException if the product with the given barcode could not be found
      */
     ICustomProduct queryCustomProductByBarcode(long productBarcode) throws NotInDatabaseException;
+
+    /**
+     * Retrieves the entry point with the given id.
+     *
+     * @param entryPointId The id of the entry point which should be retrieved
+     * @return The entry point if it is found
+     * @throws NotInDatabaseException if the product with the given barcode could not be found
+     */
+    IEntryPoint queryEntryPointByID(long entryPointId) throws NotInDatabaseException;
 }

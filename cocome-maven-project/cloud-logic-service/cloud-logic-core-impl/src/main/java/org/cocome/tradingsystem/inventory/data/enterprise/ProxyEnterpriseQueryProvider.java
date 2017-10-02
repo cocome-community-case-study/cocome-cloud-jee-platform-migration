@@ -15,6 +15,7 @@ import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseT
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -315,12 +316,8 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public IPlant queryPlant(long plantID) throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
-        try {
-            return enterpriseFactory.convertToPlant(enterpriseManager.queryPlantByID(plantID));
-        } catch (NotInDatabaseException_Exception e) {
-            throw new NotInDatabaseException(e.getFaultInfo().getMessage());
-        }
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                enterpriseFactory.convertToPlant(enterpriseManager.queryPlantByID(plantID)));
     }
 
     @Override
@@ -333,6 +330,12 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     public ICustomProduct queryCustomProductByBarcode(long productBarcode) throws NotInDatabaseException {
         //TODO
         return null;
+    }
+
+    @Override
+    public IEntryPoint queryEntryPointByID(long entryPointId) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                enterpriseFactory.convertToEntryPoint(enterpriseManager.queryEntryPointById(entryPointId)));
     }
 
     @Override
@@ -373,6 +376,18 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
             productList.add(enterpriseFactory.convertToProduct(productTO));
         }
         return productList;
+    }
+
+    private <T> T querySingleEntity(final long enterpriseID,
+                                    final ThrowingFunction<
+                                            IEnterpriseManager, T, NotInDatabaseException_Exception> queryFunction)
+    throws NotInDatabaseException {
+        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
+        try {
+            return queryFunction.apply(enterpriseManager);
+        } catch (NotInDatabaseException_Exception e) {
+            throw new NotInDatabaseException(e.getFaultInfo().getMessage());
+        }
     }
 
     private <T1, T2> Collection<T1> queryCollection(final long enterpriseID,

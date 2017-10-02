@@ -25,6 +25,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -37,9 +38,9 @@ import javax.ejb.Local;
 /**
  * Persistence context to persist changes made into the database.
  *
- * @author Rudolf Biczok
  * @author Yannick Welsch
  * @author Tobias Pöppke
+ * @author Rudolf Biczok
  */
 @Local
 public interface IPersistenceContext {
@@ -198,7 +199,13 @@ public interface IPersistenceContext {
 
     void createEntity(IProductionUnitOperation operation) throws CreateException;
 
+    void updateEntity(IProductionUnitOperation operation) throws UpdateException;
+
     void deleteEntity(IProductionUnitOperation operation) throws UpdateException;
 
-    void updateEntity(IProductionUnitOperation operation) throws UpdateException;
+    void createEntity(IEntryPoint ep) throws CreateException;
+
+    void updateEntity(IEntryPoint operation) throws UpdateException;
+
+    void deleteEntity(IEntryPoint operation) throws UpdateException;
 }

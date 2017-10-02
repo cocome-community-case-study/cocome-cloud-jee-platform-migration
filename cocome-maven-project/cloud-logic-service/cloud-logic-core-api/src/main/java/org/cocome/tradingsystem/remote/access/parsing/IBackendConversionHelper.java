@@ -6,6 +6,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -36,4 +37,6 @@ public interface IBackendConversionHelper {
     Collection<IProductionUnitClass> getProductionUnitClasses(String productionUnitClass);
 
     Collection<IProductionUnitOperation> getProductionUnitOperations(String productionUnitOperation);
+
+    Collection<IEntryPoint> getEntryPoints(String entryPoint);
 }

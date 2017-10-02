@@ -20,6 +20,7 @@ package org.cocome.logic.webservice.enterpriseservice;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -338,11 +339,28 @@ public interface IEnterpriseManager {
     void deleteCustomProduct(
             @XmlElement(required = true)
             @WebParam(name = "customProductTO") CustomProductTO customProductTO)
-            throws NotInDatabaseException, UpdateException, IOException;
+            throws UpdateException, NotInDatabaseException;
 
-    /* CRUD for {@link ProductionUnitClassTO} **************/
+    /* CRUD for {@link EntryPointTO} **************/
 
+    @WebMethod
+    EntryPointTO queryEntryPointById(
+            @XmlElement(required = true) @WebParam(name = "entryPointID") long entryPointId) throws NotInDatabaseException;
 
+    @WebMethod
+    long createEntryPoint(
+            @XmlElement(required = true) @WebParam(name = "entryPointTO") EntryPointTO entryPointTO)
+            throws CreateException;
+
+    @WebMethod
+    void updateEntryPoint(
+            @XmlElement(required = true) @WebParam(name = "entryPointTO") EntryPointTO entryPointTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deleteEntryPoint(
+            @XmlElement(required = true) @WebParam(name = "entryPointTO") EntryPointTO entryPointTO)
+            throws UpdateException, NotInDatabaseException;
 
     /* Other Methods **************/
 

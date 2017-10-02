@@ -33,6 +33,10 @@
     <wsdl:part name="UpdateException" element="tns:UpdateException">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryEntryPointById">
+    <wsdl:part name="parameters" element="tns:queryEntryPointById">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryStoreByNameResponse">
     <wsdl:part name="parameters" element="tns:queryStoreByNameResponse">
     </wsdl:part>
@@ -77,12 +81,20 @@
     <wsdl:part name="parameters" element="tns:getAllCustomProducts">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="updateEntryPointResponse">
+    <wsdl:part name="parameters" element="tns:updateEntryPointResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="deletePlant">
     <wsdl:part name="parameters" element="tns:deletePlant">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteEnterpriseResponse">
     <wsdl:part name="parameters" element="tns:deleteEnterpriseResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createEntryPointResponse">
+    <wsdl:part name="parameters" element="tns:createEntryPointResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllEnterpriseProducts">
@@ -103,6 +115,10 @@
   </wsdl:message>
   <wsdl:message name="getMeanTimeToDeliveryResponse">
     <wsdl:part name="parameters" element="tns:getMeanTimeToDeliveryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteEntryPointResponse">
+    <wsdl:part name="parameters" element="tns:deleteEntryPointResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createPlant">
@@ -127,6 +143,10 @@
   </wsdl:message>
   <wsdl:message name="updateCustomProduct">
     <wsdl:part name="parameters" element="tns:updateCustomProduct">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateEntryPoint">
+    <wsdl:part name="parameters" element="tns:updateEntryPoint">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryStoreByEnterpriseIDResponse">
@@ -163,6 +183,10 @@
   </wsdl:message>
   <wsdl:message name="updateCustomProductResponse">
     <wsdl:part name="parameters" element="tns:updateCustomProductResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteEntryPoint">
+    <wsdl:part name="parameters" element="tns:deleteEntryPoint">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSupplierByID">
@@ -217,6 +241,10 @@
     <wsdl:part name="parameters" element="tns:createPlantResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="createEntryPoint">
+    <wsdl:part name="parameters" element="tns:createEntryPoint">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAllEnterpriseProductsResponse">
     <wsdl:part name="parameters" element="tns:getAllEnterpriseProductsResponse">
     </wsdl:part>
@@ -253,6 +281,10 @@
     <wsdl:part name="parameters" element="tns:queryPlantByName">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryEntryPointByIdResponse">
+    <wsdl:part name="parameters" element="tns:queryEntryPointByIdResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="deleteCustomProductResponse">
     <wsdl:part name="parameters" element="tns:deleteCustomProductResponse">
     </wsdl:part>
@@ -284,6 +316,16 @@
       <wsdl:output name="queryPlantByIDResponse" message="tns:queryPlantByIDResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteEntryPoint">
+      <wsdl:input name="deleteEntryPoint" message="tns:deleteEntryPoint">
+    </wsdl:input>
+      <wsdl:output name="deleteEntryPointResponse" message="tns:deleteEntryPointResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getSupplierByID">
@@ -318,6 +360,14 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryEntryPointById">
+      <wsdl:input name="queryEntryPointById" message="tns:queryEntryPointById">
+    </wsdl:input>
+      <wsdl:output name="queryEntryPointByIdResponse" message="tns:queryEntryPointByIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateProduct">
@@ -379,7 +429,13 @@
     </wsdl:fault>
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
-      <wsdl:fault name="IOException" message="tns:IOException">
+    </wsdl:operation>
+    <wsdl:operation name="createEntryPoint">
+      <wsdl:input name="createEntryPoint" message="tns:createEntryPoint">
+    </wsdl:input>
+      <wsdl:output name="createEntryPointResponse" message="tns:createEntryPointResponse">
+    </wsdl:output>
+      <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getAllCustomProducts">
@@ -506,6 +562,16 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="updateEntryPoint">
+      <wsdl:input name="updateEntryPoint" message="tns:updateEntryPoint">
+    </wsdl:input>
+      <wsdl:output name="updateEntryPointResponse" message="tns:updateEntryPointResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="createProduct">
       <wsdl:input name="createProduct" message="tns:createProduct">
     </wsdl:input>
@@ -563,6 +629,21 @@
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="deleteEntryPoint">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteEntryPoint">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteEntryPointResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getSupplierByID">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getSupplierByID">
@@ -612,6 +693,18 @@
       </wsdl:fault>
       <wsdl:fault name="UpdateException">
         <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryEntryPointById">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryEntryPointById">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryEntryPointByIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateProduct">
@@ -703,8 +796,17 @@
       <wsdl:fault name="UpdateException">
         <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
-      <wsdl:fault name="IOException">
-        <soap:fault name="IOException" use="literal"/>
+    </wsdl:operation>
+    <wsdl:operation name="createEntryPoint">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createEntryPoint">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createEntryPointResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CreateException">
+        <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getAllCustomProducts">
@@ -891,6 +993,21 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateEntryPoint">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateEntryPoint">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateEntryPointResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="createProduct">

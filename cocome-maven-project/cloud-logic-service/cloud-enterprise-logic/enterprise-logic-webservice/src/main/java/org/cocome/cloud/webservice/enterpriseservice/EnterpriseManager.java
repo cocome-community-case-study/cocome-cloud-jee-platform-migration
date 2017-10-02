@@ -28,6 +28,7 @@ import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
@@ -35,6 +36,7 @@ import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -558,9 +560,34 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public void deleteCustomProduct(CustomProductTO customProductTO) throws NotInDatabaseException, UpdateException, IOException {
+    public void deleteCustomProduct(CustomProductTO customProductTO) throws NotInDatabaseException, UpdateException {
         final ICustomProduct customProduct = saveFetchFromDB(() -> queryCustomProduct(customProductTO));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(customProduct));
+    }
+
+    @Override
+    public EntryPointTO queryEntryPointById(long entryPointId) throws NotInDatabaseException {
+        return enterpriseFactory.fillEntryPointTO(enterpriseQuery.queryEntryPointByID(entryPointId));
+    }
+
+    @Override
+    public long createEntryPoint(EntryPointTO entryPointTO) throws CreateException {
+        final IEntryPoint entryPoint = enterpriseFactory.convertToEntryPoint(entryPointTO);
+        saveDBCreateAction(() -> persistenceContext.createEntity(entryPoint));
+        return entryPoint.getId();
+    }
+
+    @Override
+    public void updateEntryPoint(EntryPointTO entryPointTO) throws UpdateException, NotInDatabaseException {
+        final IEntryPoint entryPoint = enterpriseFactory.convertToEntryPoint(entryPointTO);
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(entryPoint));
+    }
+
+    @Override
+    public void deleteEntryPoint(EntryPointTO entryPointTO) throws UpdateException, NotInDatabaseException {
+        final IEntryPoint enterprise = saveFetchFromDB(() ->
+                enterpriseQuery.queryEntryPointByID(entryPointTO.getId()));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(enterprise));
     }
 
     private ICustomProduct queryCustomProduct(CustomProductTO customProductTO) throws NotInDatabaseException {

@@ -22,6 +22,8 @@
   <xs:element name="createCustomProductResponse" type="tns:createCustomProductResponse"/>
   <xs:element name="createEnterprise" type="tns:createEnterprise"/>
   <xs:element name="createEnterpriseResponse" type="tns:createEnterpriseResponse"/>
+  <xs:element name="createEntryPoint" type="tns:createEntryPoint"/>
+  <xs:element name="createEntryPointResponse" type="tns:createEntryPointResponse"/>
   <xs:element name="createPlant" type="tns:createPlant"/>
   <xs:element name="createPlantResponse" type="tns:createPlantResponse"/>
   <xs:element name="createProduct" type="tns:createProduct"/>
@@ -32,6 +34,8 @@
   <xs:element name="deleteCustomProductResponse" type="tns:deleteCustomProductResponse"/>
   <xs:element name="deleteEnterprise" type="tns:deleteEnterprise"/>
   <xs:element name="deleteEnterpriseResponse" type="tns:deleteEnterpriseResponse"/>
+  <xs:element name="deleteEntryPoint" type="tns:deleteEntryPoint"/>
+  <xs:element name="deleteEntryPointResponse" type="tns:deleteEntryPointResponse"/>
   <xs:element name="deletePlant" type="tns:deletePlant"/>
   <xs:element name="deletePlantResponse" type="tns:deletePlantResponse"/>
   <xs:element name="getAllCustomProducts" type="tns:getAllCustomProducts"/>
@@ -58,6 +62,8 @@
   <xs:element name="queryEnterpriseByIdResponse" type="tns:queryEnterpriseByIdResponse"/>
   <xs:element name="queryEnterpriseByName" type="tns:queryEnterpriseByName"/>
   <xs:element name="queryEnterpriseByNameResponse" type="tns:queryEnterpriseByNameResponse"/>
+  <xs:element name="queryEntryPointById" type="tns:queryEntryPointById"/>
+  <xs:element name="queryEntryPointByIdResponse" type="tns:queryEntryPointByIdResponse"/>
   <xs:element name="queryPlantByID" type="tns:queryPlantByID"/>
   <xs:element name="queryPlantByIDResponse" type="tns:queryPlantByIDResponse"/>
   <xs:element name="queryPlantByName" type="tns:queryPlantByName"/>
@@ -76,6 +82,8 @@
   <xs:element name="querySuppliersResponse" type="tns:querySuppliersResponse"/>
   <xs:element name="updateCustomProduct" type="tns:updateCustomProduct"/>
   <xs:element name="updateCustomProductResponse" type="tns:updateCustomProductResponse"/>
+  <xs:element name="updateEntryPoint" type="tns:updateEntryPoint"/>
+  <xs:element name="updateEntryPointResponse" type="tns:updateEntryPointResponse"/>
   <xs:element name="updatePlant" type="tns:updatePlant"/>
   <xs:element name="updatePlantResponse" type="tns:updatePlantResponse"/>
   <xs:element name="updateProduct" type="tns:updateProduct"/>
@@ -91,6 +99,14 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="ns2:PlantTO"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteEntryPoint">
+    <xs:sequence>
+      <xs:element name="entryPointTO" type="ns3:EntryPointTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteEntryPointResponse">
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="getSupplierByID">
     <xs:sequence>
@@ -129,6 +145,16 @@
   </xs:complexType>
   <xs:complexType name="updatePlantResponse">
     <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPointById">
+    <xs:sequence>
+      <xs:element name="entryPointID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPointByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns3:EntryPointTO"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="updateProduct">
     <xs:sequence>
@@ -198,6 +224,16 @@
   </xs:complexType>
   <xs:complexType name="deleteCustomProductResponse">
     <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="createEntryPoint">
+    <xs:sequence>
+      <xs:element name="entryPointTO" type="ns3:EntryPointTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createEntryPointResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getAllCustomProducts">
     <xs:sequence/>
@@ -341,6 +377,14 @@
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:PlantTO"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateEntryPoint">
+    <xs:sequence>
+      <xs:element name="entryPointTO" type="ns3:EntryPointTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateEntryPointResponse">
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="createProduct">
     <xs:sequence>

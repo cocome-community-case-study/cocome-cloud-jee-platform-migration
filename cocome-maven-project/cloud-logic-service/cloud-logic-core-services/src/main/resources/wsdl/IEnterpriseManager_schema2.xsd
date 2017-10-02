@@ -8,6 +8,13 @@
 
   <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema1.xsd"/>
 
+  <xs:complexType name="EntryPointTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="RecipeTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
@@ -26,13 +33,6 @@
       <xs:element maxOccurs="unbounded" name="expressions" type="ns3:ExpressionTO"/>
       <xs:element maxOccurs="unbounded" name="inputEntryPoint" type="tns:EntryPointTO"/>
       <xs:element maxOccurs="unbounded" name="outputEntryPoint" type="tns:EntryPointTO"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="EntryPointTO">
-    <xs:sequence>
-      <xs:element name="id" type="xs:long"/>
-      <xs:element name="name" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 

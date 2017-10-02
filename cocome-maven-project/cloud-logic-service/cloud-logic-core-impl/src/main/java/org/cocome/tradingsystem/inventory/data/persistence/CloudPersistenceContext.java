@@ -27,6 +27,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -435,6 +436,28 @@ public class CloudPersistenceContext implements IPersistenceContext {
         deleteEntity("ProductionUnitOperation",
                 ServiceAdapterEntityConverter.getUpdateProductionUnitOperationContent(operation),
                 ServiceAdapterHeaders.PRODUCTIONUNITOPERATION_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IEntryPoint entryPoint) throws CreateException {
+        createEntity(entryPoint,
+                "EntryPoint",
+                ServiceAdapterEntityConverter.getCreateEntryPointContent(entryPoint),
+                ServiceAdapterHeaders.ENTRYPOINT_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IEntryPoint entryPoint) throws UpdateException {
+        updateEntity("EntryPoint",
+                ServiceAdapterEntityConverter.getUpdateEntryPointContent(entryPoint),
+                ServiceAdapterHeaders.ENTRYPOINT_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IEntryPoint entryPoint) throws UpdateException {
+        deleteEntity("EntryPoint",
+                ServiceAdapterEntityConverter.getUpdateEntryPointContent(entryPoint),
+                ServiceAdapterHeaders.ENTRYPOINT_UPDATE_HEADER);
     }
 
     private void createEntity(IIdentifiable entity,

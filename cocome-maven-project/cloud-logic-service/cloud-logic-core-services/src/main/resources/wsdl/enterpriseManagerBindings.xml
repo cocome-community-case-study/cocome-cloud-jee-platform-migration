@@ -23,6 +23,11 @@
             <class ref="org.cocome.tradingsystem.inventory.application.store.EnterpriseTO"/>
         </bindings>
     </bindings>
+    <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema2.xsd">
+        <bindings node="//xsd:complexType[@name='EntryPointTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO"/>
+        </bindings>
+    </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema3.xsd">
         <bindings node="//xsd:complexType[@name='PlantTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.PlantTO"/>
