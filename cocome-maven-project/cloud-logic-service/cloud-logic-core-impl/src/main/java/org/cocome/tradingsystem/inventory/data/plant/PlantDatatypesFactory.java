@@ -1,8 +1,11 @@
 package org.cocome.tradingsystem.inventory.data.plant;
 
+import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
+import org.cocome.tradingsystem.inventory.data.plant.expression.ConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitClass;
@@ -23,6 +26,9 @@ class PlantDatatypesFactory implements IPlantDataFactory {
     private Provider<ProductionUnitOperation> productionUnitOperationProvider;
 
     @Inject
+    private Provider<ConditionalExpression> conditionalExpressionProvider;
+
+    @Inject
     private IEnterpriseDataFactory enterpriseDatatypes;
 
     @Override
@@ -33,6 +39,11 @@ class PlantDatatypesFactory implements IPlantDataFactory {
     @Override
     public IProductionUnitOperation getNewProductionUnitOperation() {
         return productionUnitOperationProvider.get();
+    }
+
+    @Override
+    public IConditionalExpression getNewConditionalExpression() {
+        return conditionalExpressionProvider.get();
     }
 
     @Override
@@ -55,5 +66,11 @@ class PlantDatatypesFactory implements IPlantDataFactory {
         result.setProductionUnitClass(fillProductionUnitClassTO(operation.getProductionUnitClass()));
 
         return result;
+    }
+
+    @Override
+    public ConditionalExpressionTO fillConditionalExpressionTO(IConditionalExpression conditionalExpression) {
+        //TODO
+        return null;
     }
 }

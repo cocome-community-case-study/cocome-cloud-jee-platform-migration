@@ -4,6 +4,7 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.cloud.logic.stub.UpdateException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
@@ -51,7 +52,7 @@ public class EnterpriseManagerIT {
     }
 
     @Test
-    public void testCRUDForEntrypoint() throws Exception {
+    public void testCRUDForEntrypoint() throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
         final EntryPointTO entryPointTO = new EntryPointTO();
         entryPointTO.setName("ISO 12345 Slot");
         entryPointTO.setId(em.createEntryPoint(entryPointTO));

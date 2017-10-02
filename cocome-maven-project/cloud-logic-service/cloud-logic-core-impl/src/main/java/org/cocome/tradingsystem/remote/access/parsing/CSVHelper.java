@@ -13,8 +13,10 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.persistence.ServiceAdapterHeaders;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
@@ -531,6 +533,21 @@ public class CSVHelper implements IBackendConversionHelper {
         });
     }
 
+    @Override
+    public Collection<IConditionalExpression> getConditionalExpression(String conditionalExpression) {
+        return rowToCollection(conditionalExpression, row -> {
+            final IConditionalExpression result = plantFactory.getNewConditionalExpression();
+
+            result.setParameterId(fetchId(row.getColumns().get(0)));
+            result.setId(fetchId(row.getColumns().get(1)));
+            result.setParameterValue(fetchString(row.getColumns().get(2)));
+            result.setOnTrueExpressionIds(fetchIds(row.getColumns().get(3)));
+            result.setOnFalseExpressionIds(fetchIds(row.getColumns().get(4)));
+
+            return result;
+        });
+    }
+
     private void extractProductOrderRow(
             HashMap<Long, IProductOrder> productOrders, Row<String> row) {
         IProductOrder currentOrder = getProductOrderFromRow(row);
@@ -566,6 +583,14 @@ public class CSVHelper implements IBackendConversionHelper {
                 column,
                 Long::parseLong,
                 Long.MIN_VALUE);
+    }
+
+    private List<Long> fetchIds(Column<String> column) {
+        return fetchColVal(
+                column,
+                str -> Arrays.stream(str.split(ServiceAdapterHeaders.SET_SEPARATOR))
+                        .map(Long::valueOf).collect(Collectors.toList()),
+                Collections.emptyList());
     }
 
     private String fetchString(Column<String> column) {

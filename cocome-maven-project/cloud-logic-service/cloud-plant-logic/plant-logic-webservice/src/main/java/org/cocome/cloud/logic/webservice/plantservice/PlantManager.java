@@ -3,8 +3,11 @@ package org.cocome.cloud.logic.webservice.plantservice;
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
+import org.cocome.cloud.logic.webservice.ThrowingSupplier;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.plantservice.IPlantManager;
+import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
+import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
@@ -13,6 +16,8 @@ import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -28,6 +33,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @WebService(
         serviceName = "IPlantManagerService",
@@ -81,6 +87,17 @@ public class PlantManager implements IPlantManager {
         } catch (URISyntaxException e) {
             LOG.error("Error registering component: " + e.getMessage());
         }
+    }
+
+    private <T1, T2> Collection<T2> queryCollectionByID(final ThrowingSupplier<Collection<T1>, NotInDatabaseException> queryCommand,
+                                                        final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)
+            throws NotInDatabaseException {
+        Collection<T1> instances = queryCommand.get();
+        Collection<T2> toInstances = new ArrayList<>(instances.size());
+        for (T1 instance : instances) {
+            toInstances.add(conversionCommand.apply(instance));
+        }
+        return toInstances;
     }
 
     private <T1, T2> Collection<T2> queryCollectionByParentID(final long parentId,
@@ -190,5 +207,57 @@ public class PlantManager implements IPlantManager {
     public void deleteProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws NotInDatabaseException, UpdateException {
         final IProductionUnitOperation puc = plantQuery.queryProductionUnitOperation(productionUnitOperationTO.getId());
         persistenceContext.deleteEntity(puc);
+    }
+
+    /* CRUD for {@link ConditionalExpressionTO} **************/
+
+    @Override
+    public ConditionalExpressionTO queryConditionalExpressionByID(long conditionalExpressionId) throws NotInDatabaseException {
+        return plantFactory.fillConditionalExpressionTO(
+                plantQuery.queryConditionalExpression(conditionalExpressionId));
+    }
+
+    @Override
+    public long createConditionalExpression(ConditionalExpressionTO conditionalExpressionTO) throws CreateException {
+        final IConditionalExpression expression = plantFactory.getNewConditionalExpression();
+        expression.setId(conditionalExpressionTO.getId());
+        expression.setParameterId(conditionalExpressionTO.getParameter().getId());
+        expression.setParameterValue(conditionalExpressionTO.getParameterValue());
+
+        expression.setOnTrueExpressionIds(conditionalExpressionTO.getOnTrueExpressions().stream()
+                .map(ExpressionTO::getId).collect(Collectors.toList()));
+        expression.setOnFalseExpressionIds(conditionalExpressionTO.getOnFalseExpressions().stream()
+                .map(ExpressionTO::getId).collect(Collectors.toList()));
+
+        persistenceContext.createEntity(expression);
+        return expression.getId();
+    }
+
+    @Override
+    public void updateConditionalExpression(ConditionalExpressionTO conditionalExpressionTO) throws NotInDatabaseException, UpdateException {
+        //TODO
+        /*final IPlantOperationParameter parameter =
+                enterpriseQuery.queryPlantOperationParameter(
+                        conditionalExpressionTO.getParameter().getId());
+
+        final IConditionalExpression expression = plantQuery.queryConditionalExpression(
+                conditionalExpressionTO.getId());
+
+        expression.setParameter(parameter);
+        expression.setParameterId(parameter.getId());
+
+        expression.setOnTrueExpressionIds(conditionalExpressionTO.getOnTrueExpressions().stream()
+                .map(ExpressionTO::getId).collect(Collectors.toList()));
+        expression.setOnFalseExpressionIds(conditionalExpressionTO.getOnFalseExpressions().stream()
+                .map(ExpressionTO::getId).collect(Collectors.toList()));
+
+        persistenceContext.updateEntity(expression);*/
+    }
+
+    @Override
+    public void deleteConditionalExpression(ConditionalExpressionTO conditionalExpressionTO) throws NotInDatabaseException,
+            UpdateException {
+        final IConditionalExpression expression = plantQuery.queryConditionalExpression(conditionalExpressionTO.getId());
+        persistenceContext.deleteEntity(expression);
     }
 }

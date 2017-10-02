@@ -43,6 +43,16 @@ public interface IPlantOperation extends INameable {
     void setInputEntryPoint(Collection<IEntryPoint> inputMaterial);
 
     /**
+     * @return the ids of input entry pints
+     */
+    Collection<Long> getInputEntryPointIds();
+
+    /**
+     * @param entryPointId the ids of input entry pints
+     */
+    void setInputEntryPointIds(Collection<Long> entryPointId);
+
+    /**
      * @return all material classes that results after the operation execution
      */
     Collection<IEntryPoint> getOutputEntryPoint();
@@ -51,6 +61,16 @@ public interface IPlantOperation extends INameable {
      * @param outputMaterial all material classes that results after the operation execution
      */
     void setOutputEntryPoint(Collection<IEntryPoint> outputMaterial);
+
+    /**
+     * @return the ids of output entry pints
+     */
+    Collection<Long> getOutputEntryPointIds();
+
+    /**
+     * @param entryPointId the ids of input entry pints
+     */
+    void setOutputEntryPointIds(Collection<Long> entryPointId);
 
     /**
      * @return the plant that owns this production unit
@@ -63,6 +83,16 @@ public interface IPlantOperation extends INameable {
     void setPlant(IPlant plant);
 
     /**
+     * @return the id of the associated plant
+     */
+    long getPlantId();
+
+    /**
+     * @param plantId the id of the associated plant
+     */
+    void setPlantId(long plantId);
+
+    /**
      * @return the list of expressions used to execute this operation
      */
     List<IExpression> getExpressions();
@@ -71,4 +101,14 @@ public interface IPlantOperation extends INameable {
      * @param expressions the list of expressions used to execute this operation
      */
     void setExpressions(List<IExpression> expressions);
+
+    /**
+     * @return the ids of the expressions used for this operation
+     */
+    List<Long> getExpressionIds();
+
+    /**
+     * @param plantId the ids the expressions used for this operation
+     */
+    void setExpressionIds(List<Long> plantId);
 }

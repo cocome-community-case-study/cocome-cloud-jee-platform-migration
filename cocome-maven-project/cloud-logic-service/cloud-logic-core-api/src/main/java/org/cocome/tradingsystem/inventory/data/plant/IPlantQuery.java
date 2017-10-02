@@ -18,6 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.plant;
 
+import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -67,4 +68,12 @@ public interface IPlantQuery {
      */
     IProductionUnitOperation queryProductionUnitOperation(long productionUnitOperationId) throws NotInDatabaseException;
 
+    /**
+     * Retrieves a specific {@link IConditionalExpression} from the database.
+     *
+     * @param conditionalExpressionId the unique identifier of the {@link IConditionalExpression} entity
+     * @return The {@link IConditionalExpression} if found
+     * @throws NotInDatabaseException if no {@link IConditionalExpression} could be found
+     */
+    IConditionalExpression queryConditionalExpression(long conditionalExpressionId) throws NotInDatabaseException;
 }

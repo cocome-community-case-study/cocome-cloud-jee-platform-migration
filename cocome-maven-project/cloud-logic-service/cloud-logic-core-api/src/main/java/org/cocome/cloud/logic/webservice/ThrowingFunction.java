@@ -3,7 +3,7 @@ package org.cocome.cloud.logic.webservice;
 /**
  * Represents a specialized version of {@link java.util.function.Function}
  * In contrast to a {@link java.util.function.Function}, it does also have a
- * throws declaration for one exception time
+ * throws declaration for one exception type
  *
  * @param <T> the type of the input to the function
  * @param <R> the type of the result of the function

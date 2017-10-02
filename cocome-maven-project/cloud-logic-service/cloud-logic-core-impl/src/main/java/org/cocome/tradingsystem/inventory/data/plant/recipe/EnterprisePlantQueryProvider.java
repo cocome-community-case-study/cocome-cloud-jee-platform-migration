@@ -1,6 +1,7 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -55,6 +56,14 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
                 csvHelper::getProductionUnitOperations,
                 "ProductionUnitOperation",
                 productionUnitOperationId);
+    }
+
+    @Override
+    public IConditionalExpression queryConditionalExpression(long conditionalExpressionId) throws NotInDatabaseException {
+        return getSingleEntity(
+                csvHelper::getConditionalExpression,
+                "ConditionalExpression",
+                conditionalExpressionId);
     }
 
     private <T> T getSingleEntity(Function<String, Collection<T>> converter,

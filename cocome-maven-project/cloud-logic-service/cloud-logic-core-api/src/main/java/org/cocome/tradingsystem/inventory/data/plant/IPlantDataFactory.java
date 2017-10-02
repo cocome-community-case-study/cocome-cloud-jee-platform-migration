@@ -18,8 +18,10 @@
 
 package org.cocome.tradingsystem.inventory.data.plant;
 
+import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -34,7 +36,11 @@ public interface IPlantDataFactory {
 
     IProductionUnitOperation getNewProductionUnitOperation();
 
+    IConditionalExpression getNewConditionalExpression();
+
     ProductionUnitClassTO fillProductionUnitClassTO(IProductionUnitClass puc) throws NotInDatabaseException;
 
     ProductionUnitOperationTO fillProductionUnitOperationTO(IProductionUnitOperation operation) throws NotInDatabaseException;
+
+    ConditionalExpressionTO fillConditionalExpressionTO(IConditionalExpression conditionalExpression);
 }

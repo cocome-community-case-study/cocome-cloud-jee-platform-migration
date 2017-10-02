@@ -25,6 +25,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
@@ -458,6 +459,28 @@ public class CloudPersistenceContext implements IPersistenceContext {
         deleteEntity("EntryPoint",
                 ServiceAdapterEntityConverter.getUpdateEntryPointContent(entryPoint),
                 ServiceAdapterHeaders.ENTRYPOINT_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IConditionalExpression expression) throws CreateException {
+        createEntity(expression,
+                "ConditionalExpression",
+                ServiceAdapterEntityConverter.getCreateConditionalExpressionContent(expression),
+                ServiceAdapterHeaders.CONDITIONALEXPRESSION_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IConditionalExpression expression) throws UpdateException {
+        updateEntity("ConditionalExpression",
+                ServiceAdapterEntityConverter.getUpdateConditionalExpressionContent(expression),
+                ServiceAdapterHeaders.CONDITIONALEXPRESSION_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IConditionalExpression expression) throws UpdateException {
+        deleteEntity("ConditionalExpression",
+                ServiceAdapterEntityConverter.getUpdateConditionalExpressionContent(expression),
+                ServiceAdapterHeaders.CONDITIONALEXPRESSION_UPDATE_HEADER);
     }
 
     private void createEntity(IIdentifiable entity,

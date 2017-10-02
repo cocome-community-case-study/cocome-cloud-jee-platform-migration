@@ -1,8 +1,10 @@
 package org.cocome.tradingsystem.inventory.data.persistence;
 
-final class ServiceAdapterHeaders {
+public final class ServiceAdapterHeaders {
 
     static final String SEPARATOR = ";";
+
+    public static final String SET_SEPARATOR = ",";
 
     static final String PRODUCTORDER_HEADER = "ProductOrderId;StoreId;ProductBarcode;"
             + "OrderDeliveryDate;OrderOrderingDate;OrderAmount";
@@ -63,4 +65,12 @@ final class ServiceAdapterHeaders {
     static final String ENTRYPOINT_CREATE_HEADER = "EntryPointName";
 
     static final String ENTRYPOINT_UPDATE_HEADER = "EntryPointId;EntryPointName";
+
+    static final String CONDITIONALEXPRESSION_CREATE_HEADER
+            = "PlantOperationParameterId;ConditionalExpressionParameterValue;"
+            + "ConditionalExpressionOnTrueExpressions;ConditionalExpressionOnFalseExpressions";
+
+    static final String CONDITIONALEXPRESSION_UPDATE_HEADER
+            = "PlantOperationParameterId;ConditionalExpressionId;ConditionalExpressionParameterValue;"
+            + "ConditionalExpressionOnTrueExpressions;ConditionalExpressionOnFalseExpressions";
 }

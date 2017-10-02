@@ -1,7 +1,6 @@
 package org.cocome.tradingsystem.inventory.application.plant.expression;
 
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -33,6 +32,7 @@ public class ExpressionTO implements Serializable, IIdentifiableTO {
     /**
      * @param id a unique identifier of this Plant
      */
+    @Override
     public void setId(final long id) {
         this.id = id;
     }

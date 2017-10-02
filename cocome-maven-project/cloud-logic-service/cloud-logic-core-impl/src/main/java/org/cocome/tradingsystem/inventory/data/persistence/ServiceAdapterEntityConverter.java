@@ -8,6 +8,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
@@ -19,6 +20,9 @@ import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 import org.cocome.tradingsystem.util.java.DualElement;
 import org.cocome.tradingsystem.util.java.DualIterator;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * This class handles the conversion of entity classes into query content to
@@ -327,6 +331,28 @@ class ServiceAdapterEntityConverter {
                 entryPoint.getName();
     }
 
+    static String getCreateConditionalExpressionContent(IConditionalExpression expression) {
+        return String.valueOf(expression.getParameterId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(expression.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                expression.getParameterValue() +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(expression.getOnTrueExpressionIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(expression.getOnFalseExpressionIds());
+    }
+
+    static String getUpdateConditionalExpressionContent(IConditionalExpression expression) {
+        return String.valueOf(expression.getParameterId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                expression.getParameterValue() +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(expression.getOnTrueExpressionIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(expression.getOnFalseExpressionIds());
+    }
+
     private static void appendPrefferedStore(ICustomer customer, StringBuilder content) {
         if (customer.getPreferredStore() != null) {
             content.append(encodeString(customer.getPreferredStore().getEnterpriseName()));
@@ -338,5 +364,15 @@ class ServiceAdapterEntityConverter {
             content.append(encodeString(customer.getPreferredStore().getLocation()));
             content.append(ServiceAdapterHeaders.SEPARATOR);
         }
+    }
+
+    /**
+     * @param collection any collection
+     * @return a comma-separated textual representation of the given collection.
+     */
+    private static <T> String joinValues(final Collection<T> collection) {
+        return collection.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(ServiceAdapterHeaders.SET_SEPARATOR));
     }
 }

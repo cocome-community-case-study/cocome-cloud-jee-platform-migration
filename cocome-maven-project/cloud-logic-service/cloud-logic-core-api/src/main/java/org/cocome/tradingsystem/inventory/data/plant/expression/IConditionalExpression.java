@@ -19,11 +19,13 @@
 package org.cocome.tradingsystem.inventory.data.plant.expression;
 
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.List;
 
 /**
  * Represents a conditional expression.
+ *
  * @author Rudolf Biczok
  */
 public interface IConditionalExpression extends IExpression {
@@ -31,12 +33,22 @@ public interface IConditionalExpression extends IExpression {
     /**
      * @return the parameter to be tested
      */
-    IPlantOperationParameter getParameter();
+    IPlantOperationParameter getParameter() throws NotInDatabaseException;
 
     /**
      * @param parameter the parameter to be tested
      */
     void setParameter(IPlantOperationParameter parameter);
+
+    /**
+     * @return the id of the referencing parameter
+     */
+    long getParameterId();
+
+    /**
+     * @param parameterId the id of the referencing parameter
+     */
+    void setParameterId(long parameterId);
 
     /**
      * @return the expected parameter value
@@ -51,7 +63,7 @@ public interface IConditionalExpression extends IExpression {
     /**
      * @return the expression that is supposed to be executed if the condition holds
      */
-    List<IExpression> getOnTrueExpressions();
+    List<IExpression> getOnTrueExpressions() throws NotInDatabaseException;
 
     /**
      * @param onTrueExpressions the expression that is supposed to be executed if the condition holds
@@ -61,11 +73,31 @@ public interface IConditionalExpression extends IExpression {
     /**
      * @return the expression that is supposed to be executed if the condition holds
      */
-    List<IExpression> getOnFalseExpressions();
+    List<IExpression> getOnFalseExpressions() throws NotInDatabaseException;
 
     /**
      * @param onFalseExpressions the expression that is supposed to be executed if the condition
-     *                          does not hold
+     *                           does not hold
      */
     void setOnFalseExpressions(List<IExpression> onFalseExpressions);
+
+    /**
+     * @return the ids of the expressions for the true case
+     */
+    List<Long> getOnTrueExpressionIds();
+
+    /**
+     * @param onTrueExpressionIds the ids of the expressions for the true case
+     */
+    void setOnTrueExpressionIds(List<Long> onTrueExpressionIds);
+
+    /**
+     * @return the ids of the expressions for the false case
+     */
+    List<Long> getOnFalseExpressionIds();
+
+    /**
+     * @param onFalseExpressionIds the ids of the expressions for the false case
+     */
+    void setOnFalseExpressionIds(List<Long> onFalseExpressionIds);
 }

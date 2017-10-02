@@ -20,6 +20,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.reporting.IReportingLocal;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
