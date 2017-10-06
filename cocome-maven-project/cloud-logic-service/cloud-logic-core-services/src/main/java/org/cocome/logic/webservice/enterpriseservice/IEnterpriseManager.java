@@ -20,10 +20,12 @@ package org.cocome.logic.webservice.enterpriseservice;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -372,6 +374,12 @@ public interface IEnterpriseManager {
     void deleteEntryPoint(
             @XmlElement(required = true) @WebParam(name = "entryPointTO") EntryPointTO entryPointTO)
             throws UpdateException, NotInDatabaseException;
+
+    /* Query for {@link CustomProductParameterTO} **************/
+
+    @WebMethod
+    Collection<CustomProductParameterTO> queryParametersByCustomProductID(
+            @XmlElement(required = true) @WebParam(name = "customProductID") long customProductId) throws NotInDatabaseException;
 
     /* CRUD for {@link BooleanCustomProductParameterTO} **************/
 

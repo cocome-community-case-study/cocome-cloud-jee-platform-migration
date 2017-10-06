@@ -8,12 +8,16 @@ import org.cocome.cloud.logic.stub.NotBoundException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.cloud.registry.service.Names;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
@@ -355,6 +359,35 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
                 enterpriseFactory.convertToNorminalCustomProductParameter(
                         enterpriseManager.queryNorminalCustomProductParameterById(norminalCustomProductParameterId)));
+    }
+
+    @Override
+    public Collection<ICustomProductParameter> queryParametersByCustomProductID(long customProductId)
+            throws NotInDatabaseException {        IEnterpriseManager enterpriseManager;
+        final List<CustomProductParameterTO> toList;
+        try {
+            enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+            toList = enterpriseManager.queryParametersByCustomProductID(customProductId);
+        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
+            LOG.error("Got error while looking up plants by enterprise: " + e.getMessage(), e);
+            return Collections.emptyList();
+        }
+
+        final List<ICustomProductParameter> instanceList = new ArrayList<>(toList.size());
+
+        for (final CustomProductParameterTO toInstance : toList) {
+            if(BooleanCustomProductParameterTO.class.isAssignableFrom(toInstance.getClass())) {
+                instanceList.add(enterpriseFactory.convertToBooleanCustomProductParameter(
+                        (BooleanCustomProductParameterTO) toInstance));
+            }
+            else if (NorminalCustomProductParameterTO.class.isAssignableFrom(toInstance.getClass())) {
+                instanceList.add(enterpriseFactory.convertToNorminalCustomProductParameter(
+                        (NorminalCustomProductParameterTO) toInstance));
+            }
+            throw new IllegalArgumentException("Unknown class to handle: " + toInstance.getClass());
+        }
+        return instanceList;
+
     }
 
     @Override

@@ -35,7 +35,7 @@ import java.util.Collection;
  */
 
 @Dependent
-class Store implements Serializable, Comparable<IStore>, IStore {
+public class Store implements Serializable, Comparable<IStore>, IStore {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = Logger.getLogger(Store.class);
@@ -55,14 +55,14 @@ class Store implements Serializable, Comparable<IStore>, IStore {
     private Collection<IStockItem> stockItems;
 
     @Inject
-    Instance<IStoreQuery> storeQueryInstance;
+    private Instance<IStoreQuery> storeQueryInstance;
 
-    IStoreQuery storeQuery;
+    private IStoreQuery storeQuery;
 
     @Inject
-    Instance<IEnterpriseQuery> enterpriseQueryInstance;
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
 
-    IEnterpriseQuery enterpriseQuery;
+    private IEnterpriseQuery enterpriseQuery;
 
     /* (non-Javadoc)
      * @see org.cocome.tradingsystem.inventory.data.store.IStore#initStore()

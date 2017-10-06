@@ -15,7 +15,7 @@ import org.cocome.tradingsystem.inventory.application.usermanager.credentials.IC
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 
 @Dependent
-class UsermanagerDatatypesFactory implements IUserDataFactory {
+public class UsermanagerDatatypesFactory implements IUserDataFactory {
 
 	@Inject
 	Provider<User> userProvider;

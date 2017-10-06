@@ -34,6 +34,9 @@
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema4.xsd">
+        <bindings node="//xsd:complexType[@name='CustomProductParameterTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO"/>
+        </bindings>
         <bindings node="//xsd:complexType[@name='BooleanCustomProductParameterTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO"/>
         </bindings>

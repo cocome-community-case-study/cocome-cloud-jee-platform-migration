@@ -32,7 +32,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
  */
 
 @Dependent
-class OrderEntry implements Serializable, IOrderEntry {
+public class OrderEntry implements Serializable, IOrderEntry {
 	private static final long serialVersionUID = -7683436740437770058L;
 
 	private long id;

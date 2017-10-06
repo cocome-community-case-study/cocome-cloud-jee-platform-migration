@@ -20,6 +20,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.reporting.IReportingLocal;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
@@ -29,6 +30,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import javax.ejb.Local;
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * This interface provides methods for querying the database. It is used by the
@@ -270,4 +272,10 @@ public interface IEnterpriseQuery {
      */
     INorminalCustomProductParameter queryNorminalCustomProductParameterByID(long norminalCustomProductParameterId)
             throws NotInDatabaseException;
+
+    /**
+     * @param customProductId the id of the {@link ICustomProduct} used to search for parameters
+     * @return the list of parameters belonging to the specified custom product from the database.
+     */
+    Collection<ICustomProductParameter> queryParametersByCustomProductID(long customProductId) throws NotInDatabaseException;
 }

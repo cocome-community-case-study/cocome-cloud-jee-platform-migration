@@ -15,7 +15,7 @@ import org.cocome.tradingsystem.inventory.data.store.IStore;
  * @author Robert Heinrich
  */
 @Dependent
-class Customer implements Serializable, ICustomer {
+public class Customer implements Serializable, ICustomer {
 	private static final long serialVersionUID = 1L;
 	
 	private long id;

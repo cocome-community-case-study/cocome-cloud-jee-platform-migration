@@ -34,10 +34,10 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
 	private static final Logger LOG = Logger.getLogger(EnterpriseStoreQueryProvider.class);
 	
 	@Inject
-	IBackendQuery backendConnection;
+	private IBackendQuery backendConnection;
 	
 	@Inject
-	IBackendConversionHelper csvHelper;
+	private IBackendConversionHelper csvHelper;
 	
 	@Override
 	public IStore queryStore(String name, String location) {

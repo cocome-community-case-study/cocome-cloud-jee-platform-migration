@@ -35,7 +35,7 @@ import org.cocome.tradingsystem.inventory.data.store.IStore;
  */
 
 @Dependent
-class TradingEnterprise implements Serializable, ITradingEnterprise {
+public class TradingEnterprise implements Serializable, ITradingEnterprise {
 	private static final long serialVersionUID = 1L;
 
 	private long id;
@@ -47,7 +47,7 @@ class TradingEnterprise implements Serializable, ITradingEnterprise {
 	private Collection<IStore> stores;
 	
 	@Inject
-	Instance<IEnterpriseQuery> enterpriseQueryInstance;
+	private Instance<IEnterpriseQuery> enterpriseQueryInstance;
 	
 	private IEnterpriseQuery enterpriseQuery;
 	

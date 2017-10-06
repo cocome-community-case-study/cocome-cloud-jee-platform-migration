@@ -75,6 +75,8 @@
   <xs:element name="queryEntryPointByIdResponse" type="tns:queryEntryPointByIdResponse"/>
   <xs:element name="queryNorminalCustomProductParameterById" type="tns:queryNorminalCustomProductParameterById"/>
   <xs:element name="queryNorminalCustomProductParameterByIdResponse" type="tns:queryNorminalCustomProductParameterByIdResponse"/>
+  <xs:element name="queryParametersByCustomProductID" type="tns:queryParametersByCustomProductID"/>
+  <xs:element name="queryParametersByCustomProductIDResponse" type="tns:queryParametersByCustomProductIDResponse"/>
   <xs:element name="queryPlantByID" type="tns:queryPlantByID"/>
   <xs:element name="queryPlantByIDResponse" type="tns:queryPlantByIDResponse"/>
   <xs:element name="queryPlantByName" type="tns:queryPlantByName"/>
@@ -527,6 +529,16 @@
   <xs:complexType name="getEnterprisesResponse">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:EnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryParametersByCustomProductID">
+    <xs:sequence>
+      <xs:element name="customProductID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryParametersByCustomProductIDResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns5:CustomProductParameterTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:element name="NotInDatabaseException" type="tns:NotInDatabaseException"/>

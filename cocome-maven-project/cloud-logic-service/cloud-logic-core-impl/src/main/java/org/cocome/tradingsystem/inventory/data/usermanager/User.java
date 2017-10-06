@@ -27,7 +27,7 @@ import org.cocome.tradingsystem.util.qualifier.CredentialLiteral;
  * @author Robert Heinrich
  */
 @Dependent
-class User implements IUser, Serializable {
+public class User implements IUser, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOG = Logger.getLogger(User.class);

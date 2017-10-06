@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Dependent
-class StoreDatatypesFactory implements IStoreDataFactory {
+public class StoreDatatypesFactory implements IStoreDataFactory {
     private static final Logger LOG = Logger.getLogger(StoreDatatypesFactory.class);
 
     @Inject

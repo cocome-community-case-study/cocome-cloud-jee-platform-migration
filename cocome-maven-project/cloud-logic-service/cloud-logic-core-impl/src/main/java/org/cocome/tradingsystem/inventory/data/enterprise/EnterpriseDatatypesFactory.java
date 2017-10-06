@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 @Dependent
-class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
+public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     private static final Logger LOG = Logger.getLogger(EnterpriseDatatypesFactory.class);
 
     @Inject

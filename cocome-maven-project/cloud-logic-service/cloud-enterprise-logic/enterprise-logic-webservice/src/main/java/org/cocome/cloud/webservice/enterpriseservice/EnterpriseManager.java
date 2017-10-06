@@ -28,12 +28,14 @@ import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
@@ -579,6 +581,30 @@ public class EnterpriseManager implements IEnterpriseManager {
         final IEntryPoint entryPoint = saveFetchFromDB(() ->
                 enterpriseQuery.queryEntryPointByID(entryPointTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(entryPoint));
+    }
+
+    @Override
+    public Collection<CustomProductParameterTO> queryParametersByCustomProductID(long customProductId)
+            throws NotInDatabaseException {
+        Collection<ICustomProductParameter> instances = enterpriseQuery.queryParametersByCustomProductID(customProductId);
+        Collection<CustomProductParameterTO> toInstances = new ArrayList<>(instances.size());
+        for (ICustomProductParameter instance : instances) {
+            try {
+                if(IBooleanCustomProductParameter.class.isAssignableFrom(instance.getClass())) {
+                    toInstances.add(enterpriseFactory.fillBooleanCustomProductParameterTO(
+                            (IBooleanCustomProductParameter) instance));
+                }
+                else if (INorminalCustomProductParameter.class.isAssignableFrom(instance.getClass())) {
+                    toInstances.add(enterpriseFactory.fillNorminalCustomProductParameterTO(
+                            (INorminalCustomProductParameter) instance));
+                }
+                throw new IllegalArgumentException("Unknown class to handle: " + instance.getClass());
+            } catch (NotInDatabaseException e) {
+                LOG.error("Got NotInDatabaseException: " + e, e);
+                throw e;
+            }
+        }
+        return toInstances;
     }
 
     @Override

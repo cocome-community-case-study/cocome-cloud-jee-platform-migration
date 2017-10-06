@@ -37,7 +37,7 @@ import org.cocome.tradingsystem.util.scope.RegistryKeys;
  */
 
 @Dependent
-class ProductSupplier implements Serializable, IProductSupplier {
+public class ProductSupplier implements Serializable, IProductSupplier {
 	private static final long serialVersionUID = 1L;
 
 	private long id;

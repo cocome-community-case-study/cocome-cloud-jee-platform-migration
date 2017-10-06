@@ -36,7 +36,7 @@ import javax.inject.Inject;
  */
 
 @Dependent
-class ProductOrder implements Serializable, IProductOrder {
+public class ProductOrder implements Serializable, IProductOrder {
 	private static final long serialVersionUID = -8340585715760459030L;
 
 	private long id;
@@ -54,7 +54,7 @@ class ProductOrder implements Serializable, IProductOrder {
 	private IStore store;
 	
 	@Inject
-	Instance<IStoreQuery> storeQueryInstance;
+	private Instance<IStoreQuery> storeQueryInstance;
 	
 	private IStoreQuery storeQuery;
 	

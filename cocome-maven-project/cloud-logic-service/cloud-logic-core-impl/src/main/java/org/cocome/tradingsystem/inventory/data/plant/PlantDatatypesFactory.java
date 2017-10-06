@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 @Dependent
-class PlantDatatypesFactory implements IPlantDataFactory {
+public class PlantDatatypesFactory implements IPlantDataFactory {
 
     @Inject
     private Provider<ProductionUnitClass> productionUnitClassProvider;

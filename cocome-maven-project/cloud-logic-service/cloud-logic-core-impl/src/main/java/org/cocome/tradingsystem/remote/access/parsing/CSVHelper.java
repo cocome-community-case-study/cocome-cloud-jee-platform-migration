@@ -11,6 +11,7 @@ import org.cocome.tradingsystem.inventory.application.usermanager.credentials.IC
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredentialFactory;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.persistence.ServiceAdapterHeaders;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
@@ -563,29 +564,47 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Override
     public Collection<IBooleanCustomProductParameter> getBooleanCustomProductParameter(String param) {
-        return rowToCollection(param, row -> {
-            final IBooleanCustomProductParameter result = enterpriseFactory.getNewBooleanCustomProductParameter();
-            result.setCustomProductId(Long.parseLong(row.getColumns().get(0).getValue()));
-            result.setId(Long.parseLong(row.getColumns().get(1).getValue()));
-            result.setName(row.getColumns().get(2).getValue());
-            result.setCategory(row.getColumns().get(3).getValue());
-
-            return result;
-        });
+        return rowToCollection(param, row -> processBooleanCustomProductParameterRow(row, 0));
     }
 
     @Override
     public Collection<INorminalCustomProductParameter> getNorminalCustomProductParameter(String param) {
-        return rowToCollection(param, row -> {
-            final INorminalCustomProductParameter result = enterpriseFactory.getNewNorminalCustomProductParameter();
-            result.setCustomProductId(Long.parseLong(row.getColumns().get(0).getValue()));
-            result.setId(Long.parseLong(row.getColumns().get(1).getValue()));
-            result.setName(row.getColumns().get(2).getValue());
-            result.setCategory(row.getColumns().get(3).getValue());
-            result.setOptions(fetchStringSet(row.getColumns().get(4)));
+        return rowToCollection(param, row -> processNorminalCustomProductParameterRow(row, 0));
+    }
 
-            return result;
+    @Override
+    public Collection<ICustomProductParameter> getCustomProductParameters(String param) {
+        return rowToCollection(param, row -> {
+            final String typeName = row.getColumns().get(0).getValue();
+            final int offset = Integer.parseInt(row.getColumns().get(1).getValue());
+            if (typeName.contains("BooleanCustomProductParameter")) {
+                return processBooleanCustomProductParameterRow(row, offset);
+            } else if (typeName.contains("NorminalCustomProductParameter")) {
+                return processNorminalCustomProductParameterRow(row, offset);
+            }
+            throw new IllegalArgumentException("Unsupported type: " + typeName);
         });
+    }
+
+    private INorminalCustomProductParameter processNorminalCustomProductParameterRow(Row<String> row, int offset) {
+        final INorminalCustomProductParameter result = enterpriseFactory.getNewNorminalCustomProductParameter();
+        result.setCustomProductId(Long.parseLong(row.getColumns().get(offset).getValue()));
+        result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
+        result.setName(row.getColumns().get(2 + offset).getValue());
+        result.setCategory(row.getColumns().get(3 + offset).getValue());
+        result.setOptions(fetchStringSet(row.getColumns().get(4 + offset)));
+
+        return result;
+    }
+
+    private IBooleanCustomProductParameter processBooleanCustomProductParameterRow(Row<String> row, int offset) {
+        final IBooleanCustomProductParameter result = enterpriseFactory.getNewBooleanCustomProductParameter();
+        result.setCustomProductId(Long.parseLong(row.getColumns().get(offset).getValue()));
+        result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
+        result.setName(row.getColumns().get(2 + offset).getValue());
+        result.setCategory(row.getColumns().get(3 + offset).getValue());
+
+        return result;
     }
 
     private void extractProductOrderRow(

@@ -35,7 +35,7 @@ import javax.inject.Inject;
  * @author Tobias Pöppke
  */
 @Dependent
-class Product extends AbstractProduct implements IProduct {
+public class Product extends AbstractProduct implements IProduct {
     private static final long serialVersionUID = -2577328715744776645L;
 
     private IProductSupplier supplier;

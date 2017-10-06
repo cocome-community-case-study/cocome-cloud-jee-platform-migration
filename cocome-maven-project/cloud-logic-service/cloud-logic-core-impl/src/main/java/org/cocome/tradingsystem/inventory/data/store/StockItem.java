@@ -34,7 +34,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
  */
 
 @Dependent
-class StockItem implements Serializable, IStockItem {
+public class StockItem implements Serializable, IStockItem {
 
 	private static final long serialVersionUID = -293179135307588628L;
 	private long id;

@@ -261,6 +261,10 @@
     <wsdl:part name="parameters" element="tns:queryEnterpriseById">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryParametersByCustomProductIDResponse">
+    <wsdl:part name="parameters" element="tns:queryParametersByCustomProductIDResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createNorminalCustomProductParameter">
     <wsdl:part name="parameters" element="tns:createNorminalCustomProductParameter">
     </wsdl:part>
@@ -379,6 +383,10 @@
   </wsdl:message>
   <wsdl:message name="deleteBooleanCustomProductParameter">
     <wsdl:part name="parameters" element="tns:deleteBooleanCustomProductParameter">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryParametersByCustomProductID">
+    <wsdl:part name="parameters" element="tns:queryParametersByCustomProductID">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="IEnterpriseManager">
@@ -765,6 +773,14 @@
     </wsdl:input>
       <wsdl:output name="getEnterprisesResponse" message="tns:getEnterprisesResponse">
     </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryParametersByCustomProductID">
+      <wsdl:input name="queryParametersByCustomProductID" message="tns:queryParametersByCustomProductID">
+    </wsdl:input>
+      <wsdl:output name="queryParametersByCustomProductIDResponse" message="tns:queryParametersByCustomProductIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="IEnterpriseManagerServiceSoapBinding" type="tns:IEnterpriseManager">
@@ -1344,6 +1360,18 @@
       <wsdl:output name="getEnterprisesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryParametersByCustomProductID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryParametersByCustomProductID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryParametersByCustomProductIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="IEnterpriseManagerService">

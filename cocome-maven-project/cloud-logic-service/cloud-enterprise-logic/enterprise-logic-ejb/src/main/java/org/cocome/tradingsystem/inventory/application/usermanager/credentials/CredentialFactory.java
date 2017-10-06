@@ -1,13 +1,13 @@
 package org.cocome.tradingsystem.inventory.application.usermanager.credentials;
 
+import org.cocome.tradingsystem.inventory.application.usermanager.CredentialType;
+import org.cocome.tradingsystem.util.qualifier.Credential;
+
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.New;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Provider;
-
-import org.cocome.tradingsystem.inventory.application.usermanager.CredentialType;
-import org.cocome.tradingsystem.util.qualifier.Credential;
 
 /**
  * Provides new credential instances for different types of credentials.
@@ -16,12 +16,13 @@ import org.cocome.tradingsystem.util.qualifier.Credential;
  * @author Robert Heinrich
  */
 @Dependent
-class CredentialFactory implements ICredentialFactory {
+public class CredentialFactory implements ICredentialFactory {
+
 	@Inject
-	Provider<AuthToken> authTokenProvider;
+	private Provider<AuthToken> authTokenProvider;
 	
 	@Inject
-	Provider<PlainPassword> passwordProvider;
+	private Provider<PlainPassword> passwordProvider;
 	
 	/* (non-Javadoc)
 	 * @see org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredentialFactory#getPasswordCredentialInstance(org.cocome.tradingsystem.inventory.application.usermanager.credentials.PlainPassword)

@@ -2,6 +2,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
@@ -185,6 +186,14 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     public INorminalCustomProductParameter queryNorminalCustomProductParameterByID(long norminalCustomProductParameterId)
             throws NotInDatabaseException {
         return getSingleEntity(csvHelper::getNorminalCustomProductParameter, "NorminalCustomProductParameter", norminalCustomProductParameterId);
+    }
+
+    @Override
+    public Collection<ICustomProductParameter> queryParametersByCustomProductID(long customProductId) {
+        return csvHelper
+                .getCustomProductParameters(backendConnection.getEntity(
+                        "CustomProductParameter",
+                        "product.id==" + customProductId));
     }
 
     @Override
