@@ -6,6 +6,8 @@ import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.stub.UpdateException_Exception;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
@@ -13,10 +15,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class EnterpriseManagerIT {
 
@@ -55,7 +54,8 @@ public class EnterpriseManagerIT {
     }
 
     @Test
-    public void testCRUDForCustomProduct() throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
+    public void testCRUDForCustomProduct()
+            throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
         final CustomProductTO customProductTO = new CustomProductTO();
         customProductTO.setName("Awsome Product");
         customProductTO.setBarcode(new Date().getTime());
@@ -90,7 +90,8 @@ public class EnterpriseManagerIT {
     }
 
     @Test
-    public void testCRUDForEntryPoint() throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
+    public void testCRUDForEntryPoint()
+            throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
         final EntryPointTO entryPointTO = new EntryPointTO();
         entryPointTO.setName("ISO 12345 Slot");
         entryPointTO.setId(em.createEntryPoint(entryPointTO));
@@ -99,6 +100,67 @@ public class EnterpriseManagerIT {
         em.deleteEntryPoint(entryPointTO);
         try {
             em.queryEntryPointById(entryPointTO.getId());
+            Assert.fail("Entity is supposed to be deleted");
+        } catch (final NotInDatabaseException_Exception ex) {
+            //no-op
+        }
+    }
+
+    @Test
+    public void testCRUDForBooleanCustomProductParameter()
+            throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
+        final CustomProductTO customProductTO = new CustomProductTO();
+        customProductTO.setName("Awsome Product");
+        customProductTO.setBarcode(new Date().getTime());
+        customProductTO.setPurchasePrice(10);
+        customProductTO.setId(em.createCustomProduct(customProductTO));
+
+        final BooleanCustomProductParameterTO paramTO = new BooleanCustomProductParameterTO();
+        paramTO.setName("A Parameter");
+        paramTO.setCategory("Amazing Stuff");
+        paramTO.setCustomProduct(customProductTO);
+        paramTO.setId(em.createBooleanCustomProductParameter(paramTO));
+        final BooleanCustomProductParameterTO singleInstance
+                = em.queryBooleanCustomProductParameterById(paramTO.getId());
+        Assert.assertEquals(paramTO.getName(), singleInstance.getName());
+        Assert.assertEquals(paramTO.getCategory(), singleInstance.getCategory());
+        Assert.assertEquals(paramTO.getCustomProduct().getBarcode(),
+                singleInstance.getCustomProduct().getBarcode());
+        em.deleteBooleanCustomProductParameter(paramTO);
+        try {
+            em.queryBooleanCustomProductParameterById(paramTO.getId());
+            Assert.fail("Entity is supposed to be deleted");
+        } catch (final NotInDatabaseException_Exception ex) {
+            //no-op
+        }
+    }
+
+    @Test
+    public void testCRUDForNorminalCustomProductParameter()
+            throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
+        final CustomProductTO customProductTO = new CustomProductTO();
+        customProductTO.setName("Awsome Product");
+        customProductTO.setBarcode(new Date().getTime());
+        customProductTO.setPurchasePrice(10);
+        customProductTO.setId(em.createCustomProduct(customProductTO));
+
+        final NorminalCustomProductParameterTO paramTO = new NorminalCustomProductParameterTO();
+        paramTO.setName("A Parameter");
+        paramTO.setCategory("Amazing Stuff");
+        paramTO.setCustomProduct(customProductTO);
+        paramTO.setOptions(new HashSet<>(Arrays.asList("Apple", "Nuts")));
+        paramTO.setId(em.createNorminalCustomProductParameter(paramTO));
+        final NorminalCustomProductParameterTO singleInstance
+                = em.queryNorminalCustomProductParameterById(paramTO.getId());
+        Assert.assertEquals(paramTO.getId(), singleInstance.getId());
+        Assert.assertEquals(paramTO.getName(), singleInstance.getName());
+        Assert.assertEquals(paramTO.getCategory(), singleInstance.getCategory());
+        Assert.assertEquals(paramTO.getOptions(), singleInstance.getOptions());
+        Assert.assertEquals(paramTO.getCustomProduct().getBarcode(),
+                singleInstance.getCustomProduct().getBarcode());
+        em.deleteNorminalCustomProductParameter(paramTO);
+        try {
+            em.queryNorminalCustomProductParameterById(paramTO.getId());
             Assert.fail("Entity is supposed to be deleted");
         } catch (final NotInDatabaseException_Exception ex) {
             //no-op

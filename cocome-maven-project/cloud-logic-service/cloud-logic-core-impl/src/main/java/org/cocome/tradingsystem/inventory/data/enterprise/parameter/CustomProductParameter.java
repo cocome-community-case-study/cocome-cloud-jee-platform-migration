@@ -19,7 +19,12 @@
 package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
@@ -33,7 +38,19 @@ public abstract class CustomProductParameter implements Serializable, ICustomPro
     private long id;
     private String name;
     private String category;
+    private long customProductId;
     private ICustomProduct customProduct;
+
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    @PostConstruct
+    public void init() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        customProduct = null;
+    }
 
     @Override
     public long getId() {
@@ -66,7 +83,20 @@ public abstract class CustomProductParameter implements Serializable, ICustomPro
     }
 
     @Override
-    public ICustomProduct getCustomProduct() {
+    public long getCustomProductId() {
+        return customProductId;
+    }
+
+    @Override
+    public void setCustomProductId(long customProductId) {
+        this.customProductId = customProductId;
+    }
+
+    @Override
+    public ICustomProduct getCustomProduct() throws NotInDatabaseException {
+        if (customProduct == null) {
+            customProduct = enterpriseQuery.queryCustomProductByID(customProductId);
+        }
         return customProduct;
     }
 

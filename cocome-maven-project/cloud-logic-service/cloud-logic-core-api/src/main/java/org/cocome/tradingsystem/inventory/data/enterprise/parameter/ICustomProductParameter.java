@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
  * Represents a product customization parameter.
@@ -27,7 +28,11 @@ import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
  */
 public interface ICustomProductParameter extends IParameter {
 
-    ICustomProduct getCustomProduct();
+    long getCustomProductId();
+
+    void setCustomProductId(long customProduct);
+
+    ICustomProduct getCustomProduct() throws NotInDatabaseException;
 
     void setCustomProduct(ICustomProduct customProduct);
 }

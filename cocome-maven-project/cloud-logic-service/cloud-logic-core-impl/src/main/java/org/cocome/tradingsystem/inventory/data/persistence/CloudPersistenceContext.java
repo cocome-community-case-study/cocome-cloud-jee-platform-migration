@@ -24,6 +24,8 @@ import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
@@ -462,6 +464,50 @@ public class CloudPersistenceContext implements IPersistenceContext {
     }
 
     @Override
+    public void createEntity(IBooleanCustomProductParameter param) throws CreateException {
+        createEntity(param,
+                "BooleanCustomProductParameter",
+                ServiceAdapterEntityConverter.getCreateBooleanCustomProductParameterContent(param),
+                ServiceAdapterHeaders.BOOLEAN_CUSTOM_PRODUCT_PARAM_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IBooleanCustomProductParameter param) throws UpdateException {
+        updateEntity("BooleanCustomProductParameter",
+                ServiceAdapterEntityConverter.getUpdateBooleanCustomProductParameterContent(param),
+                ServiceAdapterHeaders.BOOLEAN_CUSTOM_PRODUCT_PARAM_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IBooleanCustomProductParameter param) throws UpdateException {
+        deleteEntity("BooleanCustomProductParameter",
+                ServiceAdapterEntityConverter.getUpdateBooleanCustomProductParameterContent(param),
+                ServiceAdapterHeaders.BOOLEAN_CUSTOM_PRODUCT_PARAM_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(INorminalCustomProductParameter param) throws CreateException {
+        createEntity(param,
+                "NorminalCustomProductParameter",
+                ServiceAdapterEntityConverter.getCreateNorminalCustomProductParameterContent(param),
+                ServiceAdapterHeaders.NORMINAL_CUSTOM_PRODUCT_PARAM_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(INorminalCustomProductParameter param) throws UpdateException {
+        updateEntity("NorminalCustomProductParameter",
+                ServiceAdapterEntityConverter.getUpdateNorminalCustomProductParameterContent(param),
+                ServiceAdapterHeaders.NORMINAL_CUSTOM_PRODUCT_PARAM_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(INorminalCustomProductParameter param) throws UpdateException {
+        deleteEntity("NorminalCustomProductParameter",
+                ServiceAdapterEntityConverter.getUpdateNorminalCustomProductParameterContent(param),
+                ServiceAdapterHeaders.NORMINAL_CUSTOM_PRODUCT_PARAM_UPDATE_HEADER);
+    }
+
+    @Override
     public void createEntity(IConditionalExpression expression) throws CreateException {
         createEntity(expression,
                 "ConditionalExpression",
@@ -490,7 +536,7 @@ public class CloudPersistenceContext implements IPersistenceContext {
         try {
             postData.sendCreateQuery(entityTypeName, header, content);
         } catch (IOException e) {
-            LOG.error("Could not execute post because of an IOException: " + e.getMessage());
+            LOG.error("Could not execute post because of an IOException: " + e.getMessage(), e);
             throw new CreateException("Could not create entity!");
         }
 
@@ -506,7 +552,7 @@ public class CloudPersistenceContext implements IPersistenceContext {
         try {
             postData.sendUpdateQuery(entityTypeName, header, content);
         } catch (IOException e) {
-            LOG.error("Could not execute post because of an IOException: " + e.getMessage());
+            LOG.error("Could not execute post because of an IOException: " + e.getMessage(), e);
             throw new UpdateException("Could not update entity!", e);
         }
 
@@ -521,7 +567,7 @@ public class CloudPersistenceContext implements IPersistenceContext {
         try {
             postData.sendDeleteQuery(entityTypeName, header, content);
         } catch (IOException e) {
-            LOG.error("Could not execute post because of an IOException: " + e.getMessage());
+            LOG.error("Could not execute post because of an IOException: " + e.getMessage(), e);
             throw new UpdateException("Could not delete entity!", e);
         }
 

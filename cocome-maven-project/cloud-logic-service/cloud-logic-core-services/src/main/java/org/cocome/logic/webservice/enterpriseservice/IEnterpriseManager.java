@@ -19,6 +19,8 @@
 package org.cocome.logic.webservice.enterpriseservice;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
@@ -369,6 +371,64 @@ public interface IEnterpriseManager {
     @WebMethod
     void deleteEntryPoint(
             @XmlElement(required = true) @WebParam(name = "entryPointTO") EntryPointTO entryPointTO)
+            throws UpdateException, NotInDatabaseException;
+
+    /* CRUD for {@link BooleanCustomProductParameterTO} **************/
+
+    @WebMethod
+    BooleanCustomProductParameterTO queryBooleanCustomProductParameterById(
+            @XmlElement(required = true)
+            @WebParam(name = "booleanCustomProductParameterID")
+                    long booleanCustomProductParameterId) throws NotInDatabaseException;
+
+    @WebMethod
+    long createBooleanCustomProductParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "booleanCustomProductParameterID")
+                    BooleanCustomProductParameterTO booleanCustomProductParameterTO)
+            throws CreateException;
+
+    @WebMethod
+    void updateBooleanCustomProductParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "booleanCustomProductParameterID")
+                    BooleanCustomProductParameterTO booleanCustomProductParameterTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deleteBooleanCustomProductParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "booleanCustomProductParameterID")
+                    BooleanCustomProductParameterTO booleanCustomProductParameterTO)
+            throws UpdateException, NotInDatabaseException;
+
+    /* CRUD for {@link NorminalCustomProductParameterId} **************/
+
+    @WebMethod
+    NorminalCustomProductParameterTO queryNorminalCustomProductParameterById(
+            @XmlElement(required = true)
+            @WebParam(name = "norminalCustomProductParameterID")
+                    long norminalCustomProductParameterId) throws NotInDatabaseException;
+
+    @WebMethod
+    long createNorminalCustomProductParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "norminalCustomProductParameterID")
+                    NorminalCustomProductParameterTO norminalCustomProductParameterTO)
+            throws CreateException;
+
+    @WebMethod
+    void updateNorminalCustomProductParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "norminalCustomProductParameterID")
+                    NorminalCustomProductParameterTO norminalCustomProductParameterTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deleteNorminalCustomProductParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "norminalCustomProductParameterID")
+                    NorminalCustomProductParameterTO norminalCustomProductParameterTO)
             throws UpdateException, NotInDatabaseException;
 
     /* Other Methods **************/

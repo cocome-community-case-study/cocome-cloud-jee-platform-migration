@@ -2,12 +2,16 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.Plant;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.EntryPoint;
@@ -40,6 +44,12 @@ class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     @Inject
     private Provider<ICustomProduct> customProductProvider;
 
+    @Inject
+    private Provider<IBooleanCustomProductParameter> booleanCustomProductParameterProvider;
+
+    @Inject
+    private Provider<INorminalCustomProductParameter> norminalCustomProductParameterProvider;
+
     @Override
     public IProduct getNewProduct() {
         return productProvider.get();
@@ -65,6 +75,7 @@ class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
         return customProductProvider.get();
     }
 
+
     @Override
     public ICustomProduct convertToCustomProduct(CustomProductTO customProductTO) {
         ICustomProduct customProduct = getNewCustomProduct();
@@ -73,6 +84,16 @@ class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
         customProduct.setName(customProductTO.getName());
         customProduct.setPurchasePrice(customProductTO.getPurchasePrice());
         return customProduct;
+    }
+
+    @Override
+    public CustomProductTO fillCustomProductTO(ICustomProduct product) {
+        CustomProductTO customProductTO = new CustomProductTO();
+        customProductTO.setBarcode(product.getBarcode());
+        customProductTO.setId(product.getId());
+        customProductTO.setName(product.getName());
+        customProductTO.setPurchasePrice(product.getPurchasePrice());
+        return customProductTO;
     }
 
     @Override
@@ -192,13 +213,58 @@ class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     }
 
     @Override
-    public CustomProductTO fillCustomProductTO(ICustomProduct product) {
-        CustomProductTO customProductTO = new CustomProductTO();
-        customProductTO.setBarcode(product.getBarcode());
-        customProductTO.setId(product.getId());
-        customProductTO.setName(product.getName());
-        customProductTO.setPurchasePrice(product.getPurchasePrice());
-        return customProductTO;
+    public IBooleanCustomProductParameter getNewBooleanCustomProductParameter() {
+        return booleanCustomProductParameterProvider.get();
     }
 
+    @Override
+    public BooleanCustomProductParameterTO fillBooleanCustomProductParameterTO(IBooleanCustomProductParameter booleanCustomProductParameter) throws NotInDatabaseException {
+        final BooleanCustomProductParameterTO result = new BooleanCustomProductParameterTO();
+        result.setId(booleanCustomProductParameter.getId());
+        result.setName(booleanCustomProductParameter.getName());
+        result.setCategory(booleanCustomProductParameter.getCategory());
+        result.setCustomProduct(fillCustomProductTO(booleanCustomProductParameter.getCustomProduct()));
+
+        return result;
+    }
+
+    @Override
+    public IBooleanCustomProductParameter convertToBooleanCustomProductParameter(BooleanCustomProductParameterTO booleanCustomProductParameterTO) {
+        final IBooleanCustomProductParameter result = getNewBooleanCustomProductParameter();
+        result.setId(booleanCustomProductParameterTO.getId());
+        result.setName(booleanCustomProductParameterTO.getName());
+        result.setCategory(booleanCustomProductParameterTO.getCategory());
+        result.setCustomProductId(booleanCustomProductParameterTO.getCustomProduct().getId());
+
+        return result;
+    }
+
+    @Override
+    public INorminalCustomProductParameter getNewNorminalCustomProductParameter() {
+        return norminalCustomProductParameterProvider.get();
+    }
+
+    @Override
+    public NorminalCustomProductParameterTO fillNorminalCustomProductParameterTO(INorminalCustomProductParameter norminalCustomProductParameter) throws NotInDatabaseException {
+        final NorminalCustomProductParameterTO result = new NorminalCustomProductParameterTO();
+        result.setId(norminalCustomProductParameter.getId());
+        result.setName(norminalCustomProductParameter.getName());
+        result.setCategory(norminalCustomProductParameter.getCategory());
+        result.setOptions(norminalCustomProductParameter.getOptions());
+        result.setCustomProduct(fillCustomProductTO(norminalCustomProductParameter.getCustomProduct()));
+
+        return result;
+    }
+
+    @Override
+    public INorminalCustomProductParameter convertToNorminalCustomProductParameter(NorminalCustomProductParameterTO norminalCustomProductParameterTO) {
+        final INorminalCustomProductParameter result = getNewNorminalCustomProductParameter();
+        result.setId(norminalCustomProductParameterTO.getId());
+        result.setName(norminalCustomProductParameterTO.getName());
+        result.setCategory(norminalCustomProductParameterTO.getCategory());
+        result.setOptions(norminalCustomProductParameterTO.getOptions());
+        result.setCustomProductId(norminalCustomProductParameterTO.getCustomProduct().getId());
+
+        return result;
+    }
 }

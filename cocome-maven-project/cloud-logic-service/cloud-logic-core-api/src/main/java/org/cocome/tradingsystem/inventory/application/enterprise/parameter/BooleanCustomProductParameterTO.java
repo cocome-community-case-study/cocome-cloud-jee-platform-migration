@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(
         name = "BooleanCustomProductParameterTO",
-        namespace = "http://enterprise.application.inventory.tradingsystem.cocome.org")
+        namespace = "http://parameter.enterprise.application.inventory.tradingsystem.cocome.org")
 @XmlRootElement(name = "BooleanCustomProductParameterTO")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BooleanCustomProductParameterTO extends CustomProductParameterTO

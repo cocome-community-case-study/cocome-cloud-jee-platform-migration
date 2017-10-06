@@ -4,6 +4,8 @@ import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
@@ -45,4 +47,8 @@ public interface IBackendConversionHelper {
     Collection<IConditionalExpression> getConditionalExpressions(String conditionalExpression);
 
     Collection<ICustomProduct> getCustomProducts(String customProduct);
+
+    Collection<IBooleanCustomProductParameter> getBooleanCustomProductParameter(String param);
+
+    Collection<INorminalCustomProductParameter> getNorminalCustomProductParameter(String param);
 }

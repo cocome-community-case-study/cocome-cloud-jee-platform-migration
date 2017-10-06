@@ -19,6 +19,8 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.reporting.IReportingLocal;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -248,4 +250,24 @@ public interface IEnterpriseQuery {
      * @throws NotInDatabaseException if the product with the given barcode could not be found
      */
     IEntryPoint queryEntryPointByID(long entryPointId) throws NotInDatabaseException;
+
+    /**
+     * Retrieves the {@link IBooleanCustomProductParameter} with the given id.
+     *
+     * @param booleanCustomProductParameterId The id of the product parameter which should be retrieved
+     * @return The entry point if it is found
+     * @throws NotInDatabaseException if the product with the given barcode could not be found
+     */
+    IBooleanCustomProductParameter queryBooleanCustomProductParameterByID(long booleanCustomProductParameterId)
+            throws NotInDatabaseException;
+
+    /**
+     * Retrieves the {@link INorminalCustomProductParameter} with the given id.
+     *
+     * @param norminalCustomProductParameterId The id of the product parameter which should be retrieved
+     * @return The entry point if it is found
+     * @throws NotInDatabaseException if the product with the given barcode could not be found
+     */
+    INorminalCustomProductParameter queryNorminalCustomProductParameterByID(long norminalCustomProductParameterId)
+            throws NotInDatabaseException;
 }

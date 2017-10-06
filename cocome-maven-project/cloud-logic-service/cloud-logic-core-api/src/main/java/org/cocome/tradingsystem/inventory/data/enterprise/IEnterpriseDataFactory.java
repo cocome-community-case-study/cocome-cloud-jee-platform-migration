@@ -1,12 +1,16 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -63,4 +67,27 @@ public interface IEnterpriseDataFactory {
     EntryPointTO fillEntryPointTO(IEntryPoint iEntryPoint);
 
     IEntryPoint convertToEntryPoint(EntryPointTO entryPointTO);
+
+    /* Boolean Custom Product Parameter */
+
+    IBooleanCustomProductParameter getNewBooleanCustomProductParameter();
+
+    BooleanCustomProductParameterTO fillBooleanCustomProductParameterTO(
+            IBooleanCustomProductParameter booleanCustomProductParameter)
+            throws NotInDatabaseException;
+
+    IBooleanCustomProductParameter convertToBooleanCustomProductParameter(
+            BooleanCustomProductParameterTO booleanCustomProductParameterTO);
+
+    /* Numeric Custom Product Parameter */
+
+    INorminalCustomProductParameter getNewNorminalCustomProductParameter();
+
+    NorminalCustomProductParameterTO fillNorminalCustomProductParameterTO(
+            INorminalCustomProductParameter norminalCustomProductParameter)
+            throws NotInDatabaseException;
+
+    INorminalCustomProductParameter convertToNorminalCustomProductParameter(
+            NorminalCustomProductParameterTO norminalCustomProductParameterTO);
+
 }

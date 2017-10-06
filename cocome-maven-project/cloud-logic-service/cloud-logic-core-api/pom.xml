@@ -1,131 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<artifactId>cloud-logic-service</artifactId>
-		<groupId>org.cocome</groupId>
-		<version>1.1</version>
-	</parent>
+    <parent>
+        <artifactId>cloud-logic-service</artifactId>
+        <groupId>org.cocome</groupId>
+        <version>1.1</version>
+    </parent>
 
-	<artifactId>cloud-logic-core-api</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>cloud-logic-core-api</artifactId>
+    <packaging>jar</packaging>
 
-	<name>Cloud Logic Core - API</name>
+    <name>Cloud Logic Core - API</name>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 
-	<dependencies>
-		<dependency>
-			<groupId>org.jboss.spec</groupId>
-			<artifactId>jboss-javaee-all-6.0</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-1.2-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>de.kit.ipd</groupId>
-			<artifactId>java-old-utils</artifactId>
-			<version>1.1</version>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-all-6.0</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.kit.ipd</groupId>
+            <artifactId>java-old-utils</artifactId>
+            <version>1.1</version>
+        </dependency>
         <dependency>
             <groupId>org.glassfish.hk2</groupId>
             <artifactId>hk2-config</artifactId>
             <version>2.4.0-b31</version>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>${project.build.directory}/generated-resources/schemagen</directory>
-			</resource>
-			<resource>
-				<directory>${project.basedir}/src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-	
-		<plugins>
-			<!-- Compiler plugin enforces Java 1.7 compatibility and activates annotation 
-				processors -->
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
+    <build>
+        <resources>
+            <resource>
+                <directory>${project.build.directory}/generated-resources/schemagen</directory>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
-<!-- 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jaxb2-maven-plugin</artifactId>
-				<version>2.2</version>
-				<executions>
-					<execution>
-						<id>schemagen</id>
-						<goals>
-							<goal>schemagen</goal>
-						</goals>
-						<phase>generate-sources</phase>
-					</execution>
-					<execution>
-						<id>xjc</id>
-						<goals>
-							<goal>xjc</goal>
-						</goals>
-						<phase>process-classes</phase>
-						<configuration>
-							<generateEpisode>true</generateEpisode>
-							<sources>
-								<source>${project.build.directory}/generated-resources/schemagen</source>
-							</sources>
-							<xjcSourceExcludeFilters>
-								<filter
-							implementation="org.codehaus.mojo.jaxb2.shared.filters.pattern.PatternFileFilter">
-							<patterns>
-								<pattern>.*\.episode</pattern>
-							</patterns>
-						</filter>
-							</xjcSourceExcludeFilters>
-							<outputDirectory></outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<sources>
-						<source>src/main/java/org/cocome/tradingsystem/inventory</source>
-						<source>src/main/java/org/cocome/cloud/registry/service</source>
-					</sources>
-					Creating annotations yields an exception with jdk 1.8
-					<createJavaDocAnnotations>false</createJavaDocAnnotations>
-					Same problem as with annotations 
-					<transformSchemas>
-						<transformSchema>
-							<uri>http://core.logic.cloud.cocome.org/</uri>
-							<toFile>logic_core_schema.xsd</toFile>
-							<toPrefix>logicCore</toPrefix>
-						</transformSchema>
-					</transformSchemas>
-					<schemaSourceExcludeFilters>
-						<filter
-							implementation="org.codehaus.mojo.jaxb2.shared.filters.pattern.PatternFileFilter">
-							<patterns>
-								<pattern>.*Exception\.java</pattern>
-								<pattern>.*Names\.java</pattern>
-							</patterns>
-						</filter>
-					</schemaSourceExcludeFilters>
-				</configuration>
-			</plugin> -->
-		</plugins>
-	</build>
+        <plugins>
+            <!-- Compiler plugin enforces Java 1.7 compatibility and activates annotation
+                processors -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

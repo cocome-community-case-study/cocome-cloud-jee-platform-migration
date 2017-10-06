@@ -7,6 +7,8 @@ import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
@@ -327,6 +329,46 @@ class ServiceAdapterEntityConverter {
                 entryPoint.getName();
     }
 
+    static String getCreateBooleanCustomProductParameterContent(IBooleanCustomProductParameter param) {
+        return String.valueOf(param.getCustomProductId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(param.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(param.getCategory());
+    }
+
+    static String getUpdateBooleanCustomProductParameterContent(IBooleanCustomProductParameter param) {
+        return String.valueOf(param.getCustomProductId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(param.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(param.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(param.getCategory());
+    }
+
+    static String getCreateNorminalCustomProductParameterContent(INorminalCustomProductParameter param) {
+        return String.valueOf(param.getCustomProductId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(String.valueOf(param.getName())) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(param.getCategory()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(param.getOptions());
+    }
+
+    static String getUpdateNorminalCustomProductParameterContent(INorminalCustomProductParameter param) {
+        return String.valueOf(param.getCustomProductId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(param.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(String.valueOf(param.getName())) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(param.getCategory()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(joinValues(param.getOptions()));
+    }
+
     static String getCreateConditionalExpressionContent(IConditionalExpression expression) {
         return String.valueOf(expression.getParameterId()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -371,4 +413,5 @@ class ServiceAdapterEntityConverter {
                 .map(String::valueOf)
                 .collect(Collectors.joining(ServiceAdapterHeaders.SET_SEPARATOR));
     }
+
 }

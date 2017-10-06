@@ -10,6 +10,8 @@ import org.cocome.tradingsystem.inventory.application.usermanager.Role;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredentialFactory;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.persistence.ServiceAdapterHeaders;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
@@ -559,6 +561,33 @@ public class CSVHelper implements IBackendConversionHelper {
         });
     }
 
+    @Override
+    public Collection<IBooleanCustomProductParameter> getBooleanCustomProductParameter(String param) {
+        return rowToCollection(param, row -> {
+            final IBooleanCustomProductParameter result = enterpriseFactory.getNewBooleanCustomProductParameter();
+            result.setCustomProductId(Long.parseLong(row.getColumns().get(0).getValue()));
+            result.setId(Long.parseLong(row.getColumns().get(1).getValue()));
+            result.setName(row.getColumns().get(2).getValue());
+            result.setCategory(row.getColumns().get(3).getValue());
+
+            return result;
+        });
+    }
+
+    @Override
+    public Collection<INorminalCustomProductParameter> getNorminalCustomProductParameter(String param) {
+        return rowToCollection(param, row -> {
+            final INorminalCustomProductParameter result = enterpriseFactory.getNewNorminalCustomProductParameter();
+            result.setCustomProductId(Long.parseLong(row.getColumns().get(0).getValue()));
+            result.setId(Long.parseLong(row.getColumns().get(1).getValue()));
+            result.setName(row.getColumns().get(2).getValue());
+            result.setCategory(row.getColumns().get(3).getValue());
+            result.setOptions(fetchStringSet(row.getColumns().get(4)));
+
+            return result;
+        });
+    }
+
     private void extractProductOrderRow(
             HashMap<Long, IProductOrder> productOrders, Row<String> row) {
         IProductOrder currentOrder = getProductOrderFromRow(row);
@@ -594,6 +623,14 @@ public class CSVHelper implements IBackendConversionHelper {
                 column,
                 Long::parseLong,
                 Long.MIN_VALUE);
+    }
+
+    private Set<String> fetchStringSet(Column<String> column) {
+        return fetchColVal(
+                column,
+                str -> Arrays.stream(str.split(ServiceAdapterHeaders.SET_SEPARATOR))
+                        .collect(Collectors.toSet()),
+                Collections.emptySet());
     }
 
     private List<Long> fetchIds(Column<String> column) {

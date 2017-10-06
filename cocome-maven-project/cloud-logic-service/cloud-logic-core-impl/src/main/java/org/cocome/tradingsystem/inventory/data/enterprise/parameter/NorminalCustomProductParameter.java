@@ -18,6 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 
+import javax.enterprise.context.Dependent;
 import java.util.Set;
 
 /**
@@ -25,6 +26,7 @@ import java.util.Set;
  *
  * @author Rudolf Biczok
  */
+@Dependent
 public class NorminalCustomProductParameter extends CustomProductParameter
         implements INorminalCustomProductParameter {
     private static final long serialVersionUID = -2577328715744776645L;

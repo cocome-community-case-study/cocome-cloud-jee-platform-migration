@@ -73,4 +73,19 @@ public final class ServiceAdapterHeaders {
     static final String CONDITIONALEXPRESSION_UPDATE_HEADER
             = "PlantOperationParameterId;ConditionalExpressionId;ConditionalExpressionParameterValue;"
             + "ConditionalExpressionOnTrueExpressions;ConditionalExpressionOnFalseExpressions";
+
+    static final String BOOLEAN_CUSTOM_PRODUCT_PARAM_CREATE_HEADER
+            = "CustomProductId;BooleanCustomProductParameterName;BooleanCustomProductParameterCategory\n";
+
+    static final String BOOLEAN_CUSTOM_PRODUCT_PARAM_UPDATE_HEADER
+            = "CustomProductId;BooleanCustomProductParameterId;BooleanCustomProductParameterName;"
+            + "BooleanCustomProductParameterCategory";
+
+    static final String NORMINAL_CUSTOM_PRODUCT_PARAM_CREATE_HEADER
+            = "CustomProductId;NorminalCustomProductParameterName;NorminalCustomProductParameterCategory;"
+            + "NorminalCustomProductParameterOptions";
+
+    static final String NORMINAL_CUSTOM_PRODUCT_PARAM_UPDATE_HEADER
+            = " CustomProductId;NorminalCustomProductParameterId;NorminalCustomProductParameterName;"
+            + "NorminalCustomProductParameterCategory;NorminalCustomProductParameterOptions";
 }

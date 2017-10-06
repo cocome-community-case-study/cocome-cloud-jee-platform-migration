@@ -22,6 +22,8 @@ import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
@@ -209,6 +211,18 @@ public interface IPersistenceContext {
     void updateEntity(IEntryPoint operation) throws UpdateException;
 
     void deleteEntity(IEntryPoint operation) throws UpdateException;
+
+    void createEntity(IBooleanCustomProductParameter param) throws CreateException;
+
+    void updateEntity(IBooleanCustomProductParameter param) throws UpdateException;
+
+    void deleteEntity(IBooleanCustomProductParameter param) throws UpdateException;
+
+    void createEntity(INorminalCustomProductParameter param) throws CreateException;
+
+    void updateEntity(INorminalCustomProductParameter param) throws UpdateException;
+
+    void deleteEntity(INorminalCustomProductParameter param) throws UpdateException;
 
     void createEntity(IConditionalExpression expression) throws CreateException;
 

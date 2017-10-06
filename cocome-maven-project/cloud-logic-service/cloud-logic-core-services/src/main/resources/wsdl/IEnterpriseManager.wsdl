@@ -2,7 +2,7 @@
 <wsdl:definitions name="IEnterpriseManagerService" targetNamespace="http://enterprise.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://enterprise.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
 <schema xmlns="http://www.w3.org/2001/XMLSchema">
-  <import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema4.xsd"/>
+  <import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema5.xsd"/>
 </schema>
   </wsdl:types>
   <wsdl:message name="queryCustomProductByBarcode">
@@ -85,6 +85,10 @@
     <wsdl:part name="NotInDatabaseException" element="tns:NotInDatabaseException">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="createNorminalCustomProductParameterResponse">
+    <wsdl:part name="parameters" element="tns:createNorminalCustomProductParameterResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAllCustomProducts">
     <wsdl:part name="parameters" element="tns:getAllCustomProducts">
     </wsdl:part>
@@ -101,6 +105,14 @@
     <wsdl:part name="parameters" element="tns:deleteEnterpriseResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="updateNorminalCustomProductParameterResponse">
+    <wsdl:part name="parameters" element="tns:updateNorminalCustomProductParameterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateBooleanCustomProductParameterResponse">
+    <wsdl:part name="parameters" element="tns:updateBooleanCustomProductParameterResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createEntryPointResponse">
     <wsdl:part name="parameters" element="tns:createEntryPointResponse">
     </wsdl:part>
@@ -111,6 +123,10 @@
   </wsdl:message>
   <wsdl:message name="getMeanTimeToDelivery">
     <wsdl:part name="parameters" element="tns:getMeanTimeToDelivery">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryNorminalCustomProductParameterById">
+    <wsdl:part name="parameters" element="tns:queryNorminalCustomProductParameterById">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="querySupplierForProductResponse">
@@ -141,6 +157,10 @@
     <wsdl:part name="parameters" element="tns:createProductResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deleteNorminalCustomProductParameterResponse">
+    <wsdl:part name="parameters" element="tns:deleteNorminalCustomProductParameterResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getProductByBarcode">
     <wsdl:part name="parameters" element="tns:getProductByBarcode">
     </wsdl:part>
@@ -151,6 +171,10 @@
   </wsdl:message>
   <wsdl:message name="updateEntryPoint">
     <wsdl:part name="parameters" element="tns:updateEntryPoint">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryBooleanCustomProductParameterByIdResponse">
+    <wsdl:part name="parameters" element="tns:queryBooleanCustomProductParameterByIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryStoreByEnterpriseIDResponse">
@@ -173,6 +197,14 @@
     <wsdl:part name="parameters" element="tns:updatePlantResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="createBooleanCustomProductParameterResponse">
+    <wsdl:part name="parameters" element="tns:createBooleanCustomProductParameterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createBooleanCustomProductParameter">
+    <wsdl:part name="parameters" element="tns:createBooleanCustomProductParameter">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getEnterprises">
     <wsdl:part name="parameters" element="tns:getEnterprises">
     </wsdl:part>
@@ -193,12 +225,24 @@
     <wsdl:part name="parameters" element="tns:deleteEntryPoint">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="updateNorminalCustomProductParameter">
+    <wsdl:part name="parameters" element="tns:updateNorminalCustomProductParameter">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getSupplierByID">
     <wsdl:part name="parameters" element="tns:getSupplierByID">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryBooleanCustomProductParameterById">
+    <wsdl:part name="parameters" element="tns:queryBooleanCustomProductParameterById">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryCustomProductByID">
     <wsdl:part name="parameters" element="tns:queryCustomProductByID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteNorminalCustomProductParameter">
+    <wsdl:part name="parameters" element="tns:deleteNorminalCustomProductParameter">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getProductsBySupplierResponse">
@@ -215,6 +259,10 @@
   </wsdl:message>
   <wsdl:message name="queryEnterpriseById">
     <wsdl:part name="parameters" element="tns:queryEnterpriseById">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createNorminalCustomProductParameter">
+    <wsdl:part name="parameters" element="tns:createNorminalCustomProductParameter">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateProduct">
@@ -243,6 +291,10 @@
   </wsdl:message>
   <wsdl:message name="getSupplierByIDResponse">
     <wsdl:part name="parameters" element="tns:getSupplierByIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateBooleanCustomProductParameter">
+    <wsdl:part name="parameters" element="tns:updateBooleanCustomProductParameter">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createPlantResponse">
@@ -305,6 +357,10 @@
     <wsdl:part name="parameters" element="tns:createEnterpriseResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryNorminalCustomProductParameterByIdResponse">
+    <wsdl:part name="parameters" element="tns:queryNorminalCustomProductParameterByIdResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryEnterpriseByNameResponse">
     <wsdl:part name="parameters" element="tns:queryEnterpriseByNameResponse">
     </wsdl:part>
@@ -313,8 +369,16 @@
     <wsdl:part name="parameters" element="tns:createStore">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deleteBooleanCustomProductParameterResponse">
+    <wsdl:part name="parameters" element="tns:deleteBooleanCustomProductParameterResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryPlantByIDResponse">
     <wsdl:part name="parameters" element="tns:queryPlantByIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteBooleanCustomProductParameter">
+    <wsdl:part name="parameters" element="tns:deleteBooleanCustomProductParameter">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="IEnterpriseManager">
@@ -344,10 +408,28 @@
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="updateNorminalCustomProductParameter">
+      <wsdl:input name="updateNorminalCustomProductParameter" message="tns:updateNorminalCustomProductParameter">
+    </wsdl:input>
+      <wsdl:output name="updateNorminalCustomProductParameterResponse" message="tns:updateNorminalCustomProductParameterResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getSupplierByID">
       <wsdl:input name="getSupplierByID" message="tns:getSupplierByID">
     </wsdl:input>
       <wsdl:output name="getSupplierByIDResponse" message="tns:getSupplierByIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryBooleanCustomProductParameterById">
+      <wsdl:input name="queryBooleanCustomProductParameterById" message="tns:queryBooleanCustomProductParameterById">
+    </wsdl:input>
+      <wsdl:output name="queryBooleanCustomProductParameterByIdResponse" message="tns:queryBooleanCustomProductParameterByIdResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
@@ -358,6 +440,16 @@
       <wsdl:output name="queryCustomProductByIDResponse" message="tns:queryCustomProductByIDResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteNorminalCustomProductParameter">
+      <wsdl:input name="deleteNorminalCustomProductParameter" message="tns:deleteNorminalCustomProductParameter">
+    </wsdl:input>
+      <wsdl:output name="deleteNorminalCustomProductParameterResponse" message="tns:deleteNorminalCustomProductParameterResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryStoresByEnterpriseID">
@@ -392,6 +484,14 @@
       <wsdl:output name="queryEntryPointByIdResponse" message="tns:queryEntryPointByIdResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createNorminalCustomProductParameter">
+      <wsdl:input name="createNorminalCustomProductParameter" message="tns:createNorminalCustomProductParameter">
+    </wsdl:input>
+      <wsdl:output name="createNorminalCustomProductParameterResponse" message="tns:createNorminalCustomProductParameterResponse">
+    </wsdl:output>
+      <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateProduct">
@@ -454,6 +554,16 @@
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="updateBooleanCustomProductParameter">
+      <wsdl:input name="updateBooleanCustomProductParameter" message="tns:updateBooleanCustomProductParameter">
+    </wsdl:input>
+      <wsdl:output name="updateBooleanCustomProductParameterResponse" message="tns:updateBooleanCustomProductParameterResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="createEntryPoint">
       <wsdl:input name="createEntryPoint" message="tns:createEntryPoint">
     </wsdl:input>
@@ -500,6 +610,14 @@
       <wsdl:input name="getMeanTimeToDelivery" message="tns:getMeanTimeToDelivery">
     </wsdl:input>
       <wsdl:output name="getMeanTimeToDeliveryResponse" message="tns:getMeanTimeToDeliveryResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryNorminalCustomProductParameterById">
+      <wsdl:input name="queryNorminalCustomProductParameterById" message="tns:queryNorminalCustomProductParameterById">
+    </wsdl:input>
+      <wsdl:output name="queryNorminalCustomProductParameterByIdResponse" message="tns:queryNorminalCustomProductParameterByIdResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
@@ -624,6 +742,24 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="deleteBooleanCustomProductParameter">
+      <wsdl:input name="deleteBooleanCustomProductParameter" message="tns:deleteBooleanCustomProductParameter">
+    </wsdl:input>
+      <wsdl:output name="deleteBooleanCustomProductParameterResponse" message="tns:deleteBooleanCustomProductParameterResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createBooleanCustomProductParameter">
+      <wsdl:input name="createBooleanCustomProductParameter" message="tns:createBooleanCustomProductParameter">
+    </wsdl:input>
+      <wsdl:output name="createBooleanCustomProductParameterResponse" message="tns:createBooleanCustomProductParameterResponse">
+    </wsdl:output>
+      <wsdl:fault name="CreateException" message="tns:CreateException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getEnterprises">
       <wsdl:input name="getEnterprises" message="tns:getEnterprises">
     </wsdl:input>
@@ -672,16 +808,19 @@
         <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="queryCustomProductByID">
+    <wsdl:operation name="updateNorminalCustomProductParameter">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="queryCustomProductByID">
+      <wsdl:input name="updateNorminalCustomProductParameter">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="queryCustomProductByIDResponse">
+      <wsdl:output name="updateNorminalCustomProductParameterResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getSupplierByID">
@@ -694,6 +833,45 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryBooleanCustomProductParameterById">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryBooleanCustomProductParameterById">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryBooleanCustomProductParameterByIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryCustomProductByID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryCustomProductByID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryCustomProductByIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteNorminalCustomProductParameter">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteNorminalCustomProductParameter">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteNorminalCustomProductParameterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryStoresByEnterpriseID">
@@ -745,6 +923,18 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createNorminalCustomProductParameter">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createNorminalCustomProductParameter">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createNorminalCustomProductParameterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CreateException">
+        <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateProduct">
@@ -837,6 +1027,21 @@
         <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="updateBooleanCustomProductParameter">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateBooleanCustomProductParameter">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateBooleanCustomProductParameterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="createEntryPoint">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="createEntryPoint">
@@ -906,6 +1111,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getMeanTimeToDeliveryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryNorminalCustomProductParameterById">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryNorminalCustomProductParameterById">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryNorminalCustomProductParameterByIdResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
@@ -1090,6 +1307,33 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteBooleanCustomProductParameter">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteBooleanCustomProductParameter">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteBooleanCustomProductParameterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createBooleanCustomProductParameter">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createBooleanCustomProductParameter">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createBooleanCustomProductParameterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CreateException">
+        <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getEnterprises">

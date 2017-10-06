@@ -13,6 +13,8 @@ import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
@@ -337,6 +339,22 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     public IEntryPoint queryEntryPointByID(long entryPointId) throws NotInDatabaseException {
         return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
                 enterpriseFactory.convertToEntryPoint(enterpriseManager.queryEntryPointById(entryPointId)));
+    }
+
+    @Override
+    public IBooleanCustomProductParameter queryBooleanCustomProductParameterByID(long booleanCustomProductParameterId)
+            throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                enterpriseFactory.convertToBooleanCustomProductParameter(
+                        enterpriseManager.queryBooleanCustomProductParameterById(booleanCustomProductParameterId)));
+    }
+
+    @Override
+    public INorminalCustomProductParameter queryNorminalCustomProductParameterByID(long norminalCustomProductParameterId)
+            throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                enterpriseFactory.convertToNorminalCustomProductParameter(
+                        enterpriseManager.queryNorminalCustomProductParameterById(norminalCustomProductParameterId)));
     }
 
     @Override

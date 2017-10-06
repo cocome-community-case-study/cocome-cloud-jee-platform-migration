@@ -27,10 +27,14 @@ import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
@@ -572,9 +576,69 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public void deleteEntryPoint(EntryPointTO entryPointTO) throws UpdateException, NotInDatabaseException {
-        final IEntryPoint enterprise = saveFetchFromDB(() ->
+        final IEntryPoint entryPoint = saveFetchFromDB(() ->
                 enterpriseQuery.queryEntryPointByID(entryPointTO.getId()));
-        saveDBUpdateAction(() -> persistenceContext.deleteEntity(enterprise));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(entryPoint));
+    }
+
+    @Override
+    public BooleanCustomProductParameterTO queryBooleanCustomProductParameterById(long booleanCustomProductParameterId)
+            throws NotInDatabaseException {
+        return enterpriseFactory.fillBooleanCustomProductParameterTO(
+                enterpriseQuery.queryBooleanCustomProductParameterByID(booleanCustomProductParameterId));
+    }
+
+    @Override
+    public long createBooleanCustomProductParameter(BooleanCustomProductParameterTO booleanCustomProductParameterTO)
+            throws CreateException {
+        final IBooleanCustomProductParameter param = enterpriseFactory.convertToBooleanCustomProductParameter(booleanCustomProductParameterTO);
+        saveDBCreateAction(() -> persistenceContext.createEntity(param));
+        return param.getId();
+    }
+
+    @Override
+    public void updateBooleanCustomProductParameter(BooleanCustomProductParameterTO booleanCustomProductParameterTO)
+            throws UpdateException, NotInDatabaseException {
+        final IBooleanCustomProductParameter param = enterpriseFactory.convertToBooleanCustomProductParameter(booleanCustomProductParameterTO);
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
+    }
+
+    @Override
+    public void deleteBooleanCustomProductParameter(BooleanCustomProductParameterTO booleanCustomProductParameterTO)
+            throws UpdateException, NotInDatabaseException {
+        final IBooleanCustomProductParameter param = saveFetchFromDB(() ->
+                enterpriseQuery.queryBooleanCustomProductParameterByID(booleanCustomProductParameterTO.getId()));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+    }
+
+    @Override
+    public NorminalCustomProductParameterTO queryNorminalCustomProductParameterById(long norminalCustomProductParameterId)
+            throws NotInDatabaseException {
+        return enterpriseFactory.fillNorminalCustomProductParameterTO(
+                enterpriseQuery.queryNorminalCustomProductParameterByID(norminalCustomProductParameterId));
+    }
+
+    @Override
+    public long createNorminalCustomProductParameter(NorminalCustomProductParameterTO norminalCustomProductParameterTO)
+            throws CreateException {
+        final INorminalCustomProductParameter param = enterpriseFactory.convertToNorminalCustomProductParameter(norminalCustomProductParameterTO);
+        saveDBCreateAction(() -> persistenceContext.createEntity(param));
+        return param.getId();
+    }
+
+    @Override
+    public void updateNorminalCustomProductParameter(NorminalCustomProductParameterTO norminalCustomProductParameterTO)
+            throws UpdateException, NotInDatabaseException {
+        final INorminalCustomProductParameter param = enterpriseFactory.convertToNorminalCustomProductParameter(norminalCustomProductParameterTO);
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
+    }
+
+    @Override
+    public void deleteNorminalCustomProductParameter(NorminalCustomProductParameterTO norminalCustomProductParameterTO)
+            throws UpdateException, NotInDatabaseException {
+        final INorminalCustomProductParameter param = saveFetchFromDB(() ->
+                enterpriseQuery.queryNorminalCustomProductParameterByID(norminalCustomProductParameterTO.getId()));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
     }
 
     private ICustomProduct queryCustomProduct(CustomProductTO customProductTO) throws NotInDatabaseException {
