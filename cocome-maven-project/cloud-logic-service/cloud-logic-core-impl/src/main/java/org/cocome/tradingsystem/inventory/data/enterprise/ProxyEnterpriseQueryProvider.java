@@ -379,10 +379,12 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
             if(BooleanCustomProductParameterTO.class.isAssignableFrom(toInstance.getClass())) {
                 instanceList.add(enterpriseFactory.convertToBooleanCustomProductParameter(
                         (BooleanCustomProductParameterTO) toInstance));
+                continue;
             }
             else if (NorminalCustomProductParameterTO.class.isAssignableFrom(toInstance.getClass())) {
                 instanceList.add(enterpriseFactory.convertToNorminalCustomProductParameter(
                         (NorminalCustomProductParameterTO) toInstance));
+                continue;
             }
             throw new IllegalArgumentException("Unknown class to handle: " + toInstance.getClass());
         }

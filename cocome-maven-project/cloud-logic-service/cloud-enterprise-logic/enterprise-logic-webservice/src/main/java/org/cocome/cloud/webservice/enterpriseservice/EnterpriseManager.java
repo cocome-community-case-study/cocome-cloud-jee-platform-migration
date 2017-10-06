@@ -593,10 +593,12 @@ public class EnterpriseManager implements IEnterpriseManager {
                 if(IBooleanCustomProductParameter.class.isAssignableFrom(instance.getClass())) {
                     toInstances.add(enterpriseFactory.fillBooleanCustomProductParameterTO(
                             (IBooleanCustomProductParameter) instance));
+                    continue;
                 }
                 else if (INorminalCustomProductParameter.class.isAssignableFrom(instance.getClass())) {
                     toInstances.add(enterpriseFactory.fillNorminalCustomProductParameterTO(
                             (INorminalCustomProductParameter) instance));
+                    continue;
                 }
                 throw new IllegalArgumentException("Unknown class to handle: " + instance.getClass());
             } catch (NotInDatabaseException e) {
