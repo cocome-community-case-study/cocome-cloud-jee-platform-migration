@@ -42,11 +42,15 @@ public interface IPlantDataFactory {
 
     IProductionUnitClass getNewProductionUnitClass();
 
+    IProductionUnitClass convertToProductionUnitClass(ProductionUnitClassTO productionUnitClassTO);
+
     ProductionUnitClassTO fillProductionUnitClassTO(IProductionUnitClass puc) throws NotInDatabaseException;
 
     /* Production Unit Operation */
 
     IProductionUnitOperation getNewProductionUnitOperation();
+
+    IProductionUnitOperation convertToProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO);
 
     ProductionUnitOperationTO fillProductionUnitOperationTO(IProductionUnitOperation operation) throws NotInDatabaseException;
 
@@ -54,7 +58,9 @@ public interface IPlantDataFactory {
 
     IConditionalExpression getNewConditionalExpression();
 
-    ConditionalExpressionTO fillConditionalExpressionTO(IConditionalExpression conditionalExpression);
+    IConditionalExpression convertToConditionalExpression(ConditionalExpressionTO conditionalExpressionTO);
+
+    ConditionalExpressionTO fillConditionalExpressionTO(IConditionalExpression conditionalExpression) throws NotInDatabaseException;
 
     /* Plant Operation */
 

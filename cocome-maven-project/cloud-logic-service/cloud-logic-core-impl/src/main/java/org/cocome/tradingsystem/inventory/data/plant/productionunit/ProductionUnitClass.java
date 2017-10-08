@@ -20,7 +20,6 @@ package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
-import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 

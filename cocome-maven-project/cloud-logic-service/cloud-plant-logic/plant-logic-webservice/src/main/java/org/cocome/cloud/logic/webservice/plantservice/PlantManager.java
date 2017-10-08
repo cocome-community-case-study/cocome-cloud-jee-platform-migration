@@ -7,7 +7,6 @@ import org.cocome.cloud.logic.webservice.ThrowingSupplier;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.plantservice.IPlantManager;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
-import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
@@ -17,7 +16,6 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -33,7 +31,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @WebService(
         serviceName = "IPlantManagerService",
@@ -179,32 +176,19 @@ public class PlantManager implements IPlantManager {
 
     @Override
     public long createProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws CreateException {
-        final IProductionUnitOperation operation = plantFactory.getNewProductionUnitOperation();
-        operation.setId(productionUnitOperationTO.getId());
-        operation.setOperationId(productionUnitOperationTO.getOperationId());
-        operation.setProductionUnitClassId(productionUnitOperationTO.getProductionUnitClass().getId());
-
-        persistenceContext.createEntity(operation);
+        final IProductionUnitOperation operation = plantFactory.convertToProductionUnitOperation(productionUnitOperationTO);
         return operation.getId();
     }
 
     @Override
-    public void updateProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws NotInDatabaseException, UpdateException {
-        final IProductionUnitClass puc =
-                plantQuery.queryProductionUnitClass(
-                        productionUnitOperationTO.getProductionUnitClass().getId());
-
-        final IProductionUnitOperation operation = plantQuery.queryProductionUnitOperation(
-                productionUnitOperationTO.getId());
-
-        operation.setProductionUnitClass(puc);
-        operation.setOperationId(productionUnitOperationTO.getOperationId());
-
-        persistenceContext.updateEntity(operation);
+    public void updateProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO)
+            throws NotInDatabaseException, UpdateException {
+        persistenceContext.updateEntity(plantFactory.convertToProductionUnitOperation(productionUnitOperationTO));
     }
 
     @Override
-    public void deleteProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws NotInDatabaseException, UpdateException {
+    public void deleteProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO)
+            throws NotInDatabaseException, UpdateException {
         final IProductionUnitOperation puc = plantQuery.queryProductionUnitOperation(productionUnitOperationTO.getId());
         persistenceContext.deleteEntity(puc);
     }
@@ -219,39 +203,15 @@ public class PlantManager implements IPlantManager {
 
     @Override
     public long createConditionalExpression(ConditionalExpressionTO conditionalExpressionTO) throws CreateException {
-        final IConditionalExpression expression = plantFactory.getNewConditionalExpression();
-        expression.setId(conditionalExpressionTO.getId());
-        expression.setParameterId(conditionalExpressionTO.getParameter().getId());
-        expression.setParameterValue(conditionalExpressionTO.getParameterValue());
-
-        expression.setOnTrueExpressionIds(conditionalExpressionTO.getOnTrueExpressions().stream()
-                .map(ExpressionTO::getId).collect(Collectors.toList()));
-        expression.setOnFalseExpressionIds(conditionalExpressionTO.getOnFalseExpressions().stream()
-                .map(ExpressionTO::getId).collect(Collectors.toList()));
-
+        final IConditionalExpression expression = plantFactory.convertToConditionalExpression(conditionalExpressionTO);
         persistenceContext.createEntity(expression);
         return expression.getId();
     }
 
     @Override
-    public void updateConditionalExpression(ConditionalExpressionTO conditionalExpressionTO) throws NotInDatabaseException, UpdateException {
-        //TODO
-        /*final IPlantOperationParameter parameter =
-                enterpriseQuery.queryPlantOperationParameter(
-                        conditionalExpressionTO.getParameter().getId());
-
-        final IConditionalExpression expression = plantQuery.queryConditionalExpression(
-                conditionalExpressionTO.getId());
-
-        expression.setParameter(parameter);
-        expression.setParameterId(parameter.getId());
-
-        expression.setOnTrueExpressionIds(conditionalExpressionTO.getOnTrueExpressions().stream()
-                .map(ExpressionTO::getId).collect(Collectors.toList()));
-        expression.setOnFalseExpressionIds(conditionalExpressionTO.getOnFalseExpressions().stream()
-                .map(ExpressionTO::getId).collect(Collectors.toList()));
-
-        persistenceContext.updateEntity(expression);*/
+    public void updateConditionalExpression(ConditionalExpressionTO conditionalExpressionTO)
+            throws NotInDatabaseException, UpdateException {
+        persistenceContext.updateEntity(plantFactory.convertToConditionalExpression(conditionalExpressionTO));
     }
 
     @Override

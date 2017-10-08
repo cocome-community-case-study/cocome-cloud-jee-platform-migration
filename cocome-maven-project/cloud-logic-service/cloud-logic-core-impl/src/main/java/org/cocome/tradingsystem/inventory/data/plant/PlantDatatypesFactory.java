@@ -5,6 +5,7 @@ import org.cocome.tradingsystem.inventory.application.plant.expression.Condition
 import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
@@ -14,6 +15,7 @@ import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpr
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitClass;
@@ -24,6 +26,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Provider;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,8 +61,26 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
+    public IProductionUnitClass convertToProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) {
+        final IProductionUnitClass puc = getNewProductionUnitClass();
+        puc.setId(productionUnitClassTO.getId());
+        puc.setPlantId(productionUnitClassTO.getPlant().getId());
+        puc.setName(productionUnitClassTO.getName());
+        return puc;
+    }
+
+    @Override
     public IProductionUnitOperation getNewProductionUnitOperation() {
         return productionUnitOperationProvider.get();
+    }
+
+    @Override
+    public IProductionUnitOperation convertToProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) {
+        final IProductionUnitOperation operation = new ProductionUnitOperation();
+        operation.setId(productionUnitOperationTO.getId());
+        operation.setProductionUnitClassId(productionUnitOperationTO.getProductionUnitClass().getId());
+        operation.setOperationId(productionUnitOperationTO.getOperationId());
+        return operation;
     }
 
     @Override
@@ -68,8 +89,20 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public ProductionUnitClassTO fillProductionUnitClassTO(IProductionUnitClass puc)
-            throws NotInDatabaseException {
+    public IConditionalExpression convertToConditionalExpression(ConditionalExpressionTO conditionalExpressionTO) {
+        final IConditionalExpression expression = getNewConditionalExpression();
+        expression.setId(conditionalExpressionTO.getId());
+        expression.setParameterId(conditionalExpressionTO.getId());
+        expression.setParameterValue(conditionalExpressionTO.getParameterValue());
+        expression.setOnTrueExpressionIds(conditionalExpressionTO.getOnTrueExpressions().stream()
+                .map(ExpressionTO::getId).collect(Collectors.toList()));
+        expression.setOnFalseExpressionIds(conditionalExpressionTO.getOnFalseExpressions().stream()
+                .map(ExpressionTO::getId).collect(Collectors.toList()));
+        return expression;
+    }
+
+    @Override
+    public ProductionUnitClassTO fillProductionUnitClassTO(IProductionUnitClass puc) throws NotInDatabaseException {
         final ProductionUnitClassTO result = new ProductionUnitClassTO();
         result.setId(puc.getId());
         result.setName(puc.getName());
@@ -90,9 +123,27 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public ConditionalExpressionTO fillConditionalExpressionTO(IConditionalExpression conditionalExpression) {
-        //TODO
-        return null;
+    public ConditionalExpressionTO fillConditionalExpressionTO(IConditionalExpression expressionTO)
+            throws NotInDatabaseException {
+        final ConditionalExpressionTO result = new ConditionalExpressionTO();
+        result.setId(expressionTO.getId());
+        result.setParameter(fillProductOrderParameterTO(expressionTO.getParameter()));
+        result.setParameterValue(expressionTO.getParameterValue());
+        result.setOnTrueExpressions(fillExpressionTOs(expressionTO.getOnTrueExpressions()));
+        result.setOnFalseExpressions(fillExpressionTOs(expressionTO.getOnFalseExpressions()));
+        return result;
+    }
+
+    private PlantOperationParameterTO fillProductOrderParameterTO(IPlantOperationParameter parameter)
+            throws NotInDatabaseException {
+        if (IBooleanPlantOperationParameter.class.isAssignableFrom(parameter.getClass())) {
+            return this.fillBooleanPlantOperationParameterTO(
+                    (IBooleanPlantOperationParameter) parameter);
+        } else if (INorminalPlantOperationParameter.class.isAssignableFrom(parameter.getClass())) {
+            return this.fillNorminalPlantOperationParameterTO(
+                    (INorminalPlantOperationParameter) parameter);
+        }
+        throw new IllegalArgumentException("Unknown class to handle: " + parameter.getClass());
     }
 
     @Override
@@ -116,9 +167,25 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         return result;
     }
 
-    private List<ExpressionTO> fillExpressionTOs(List<IExpression> expressions) {
-        //TODO
-        return null;
+    private List<ExpressionTO> fillExpressionTOs(List<IExpression> expressions)
+            throws NotInDatabaseException {
+        final List<ExpressionTO> expressionTOs = new ArrayList<>(expressions.size());
+        for (final IExpression expression : expressions) {
+            expressionTOs.add(fillExpressionTO(expression));
+        }
+        return expressionTOs;
+    }
+
+
+    private ExpressionTO fillExpressionTO(IExpression expressions) throws NotInDatabaseException {
+        if (IProductionUnitOperation.class.isAssignableFrom(expressions.getClass())) {
+            return this.fillProductionUnitOperationTO(
+                    (IProductionUnitOperation) expressions);
+        } else if (IConditionalExpression.class.isAssignableFrom(expressions.getClass())) {
+            return this.fillConditionalExpressionTO(
+                    (IConditionalExpression) expressions);
+        }
+        throw new IllegalArgumentException("Unknown class to handle: " + expressions.getClass());
     }
 
     @Override
@@ -140,7 +207,9 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public BooleanPlantOperationParameterTO fillBooleanPlantOperationParameterTO(IBooleanPlantOperationParameter booleanPlantOperationParameter) throws NotInDatabaseException {
+    public BooleanPlantOperationParameterTO fillBooleanPlantOperationParameterTO(
+            IBooleanPlantOperationParameter booleanPlantOperationParameter)
+            throws NotInDatabaseException {
         final BooleanPlantOperationParameterTO result = new BooleanPlantOperationParameterTO();
         result.setId(booleanPlantOperationParameter.getId());
         result.setName(booleanPlantOperationParameter.getName());
@@ -167,7 +236,9 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public NorminalPlantOperationParameterTO fillNorminalPlantOperationParameterTO(INorminalPlantOperationParameter norminalPlantOperationParameter) throws NotInDatabaseException {
+    public NorminalPlantOperationParameterTO fillNorminalPlantOperationParameterTO(
+            INorminalPlantOperationParameter norminalPlantOperationParameter)
+            throws NotInDatabaseException {
         final NorminalPlantOperationParameterTO result = new NorminalPlantOperationParameterTO();
         result.setId(norminalPlantOperationParameter.getId());
         result.setName(norminalPlantOperationParameter.getName());
