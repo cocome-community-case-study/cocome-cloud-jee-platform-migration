@@ -75,7 +75,6 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
         return customProductProvider.get();
     }
 
-
     @Override
     public ICustomProduct convertToCustomProduct(CustomProductTO customProductTO) {
         ICustomProduct customProduct = getNewCustomProduct();

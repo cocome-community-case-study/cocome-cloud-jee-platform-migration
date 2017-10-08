@@ -8,6 +8,12 @@ import org.cocome.tradingsystem.inventory.data.persistence.CloudPersistenceConte
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.PlantDatatypesFactory;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.BooleanPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.NorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.PlantOperation;
 import org.cocome.tradingsystem.inventory.data.store.EnterpriseStoreQueryProvider;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
@@ -30,7 +36,7 @@ import java.util.*;
  *
  * @author Rudolf Biczok
  */
-public class EnterpriseQueryProviderTest {
+public class EnterpriseQueryProviderIT {
 
     private IPersistenceContext persistenceContext = TestUtils.injectFakeCDIObject(IPersistenceContext.class,
             createMappings());
@@ -40,9 +46,12 @@ public class EnterpriseQueryProviderTest {
 
     private Map<Class<?>, Class<?>> createMappings() {
         final Map<Class<?>, Class<?>> mapping = new HashMap<>();
+        mapping.put(IPlantOperation.class, PlantOperation.class);
         mapping.put(IPersistenceContext.class, CloudPersistenceContext.class);
         mapping.put(IPersistenceConnection.class, CSVBackendConnection.class);
         mapping.put(ICustomProduct.class, CustomProduct.class);
+        mapping.put(IBooleanPlantOperationParameter.class, BooleanPlantOperationParameter.class);
+        mapping.put(INorminalPlantOperationParameter.class, NorminalPlantOperationParameter.class);
         mapping.put(IBooleanCustomProductParameter.class, BooleanCustomProductParameter.class);
         mapping.put(INorminalCustomProductParameter.class, NorminalCustomProductParameter.class);
         mapping.put(ICredentialFactory.class, CredentialFactory.class);
@@ -90,5 +99,4 @@ public class EnterpriseQueryProviderTest {
         persistenceContext.deleteEntity(param2);
         persistenceContext.deleteEntity(prod);
     }
-
 }

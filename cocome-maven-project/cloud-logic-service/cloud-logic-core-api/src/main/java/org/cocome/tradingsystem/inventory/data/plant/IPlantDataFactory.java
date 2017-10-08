@@ -19,11 +19,17 @@
 package org.cocome.tradingsystem.inventory.data.plant;
 
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
@@ -32,15 +38,53 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  * @author Rudolf Bictok
  */
 public interface IPlantDataFactory {
+    /* Production Unit Operation */
+
     IProductionUnitClass getNewProductionUnitClass();
-
-    IProductionUnitOperation getNewProductionUnitOperation();
-
-    IConditionalExpression getNewConditionalExpression();
 
     ProductionUnitClassTO fillProductionUnitClassTO(IProductionUnitClass puc) throws NotInDatabaseException;
 
+    /* Production Unit Operation */
+
+    IProductionUnitOperation getNewProductionUnitOperation();
+
     ProductionUnitOperationTO fillProductionUnitOperationTO(IProductionUnitOperation operation) throws NotInDatabaseException;
 
+    /* Conditional Expression */
+
+    IConditionalExpression getNewConditionalExpression();
+
     ConditionalExpressionTO fillConditionalExpressionTO(IConditionalExpression conditionalExpression);
+
+    /* Plant Operation */
+
+    IPlantOperation getNewPlantOperation();
+
+    IPlantOperation convertToPlantOperation(PlantOperationTO plantOperationTO);
+
+    PlantOperationTO fillPlantOperationTO(IPlantOperation iPlantOperation)
+            throws NotInDatabaseException;
+
+    /* Boolean Plant Operation Parameter */
+
+    IBooleanPlantOperationParameter getNewBooleanPlantOperationParameter();
+
+    BooleanPlantOperationParameterTO fillBooleanPlantOperationParameterTO(
+            IBooleanPlantOperationParameter booleanPlantOperationParameter)
+            throws NotInDatabaseException;
+
+    IBooleanPlantOperationParameter convertToBooleanPlantOperationParameter(
+            BooleanPlantOperationParameterTO booleanPlantOperationParameterTO);
+
+    /* Norminal Plant Operation Parameter */
+
+    INorminalPlantOperationParameter getNewNorminalPlantOperationParameter();
+
+    NorminalPlantOperationParameterTO fillNorminalPlantOperationParameterTO(
+            INorminalPlantOperationParameter norminalPlantOperationParameter)
+            throws NotInDatabaseException;
+
+    INorminalPlantOperationParameter convertToNorminalPlantOperationParameter(
+            NorminalPlantOperationParameterTO norminalPlantOperationParameterTO);
+
 }

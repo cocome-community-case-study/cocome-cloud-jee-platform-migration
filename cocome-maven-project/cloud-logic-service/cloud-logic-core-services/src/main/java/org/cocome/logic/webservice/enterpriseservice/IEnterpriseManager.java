@@ -23,9 +23,12 @@ import org.cocome.tradingsystem.inventory.application.enterprise.parameter.Boole
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -410,7 +413,7 @@ public interface IEnterpriseManager {
                     BooleanCustomProductParameterTO booleanCustomProductParameterTO)
             throws UpdateException, NotInDatabaseException;
 
-    /* CRUD for {@link NorminalCustomProductParameterId} **************/
+    /* CRUD for {@link NorminalCustomProductParameterTO} **************/
 
     @WebMethod
     NorminalCustomProductParameterTO queryNorminalCustomProductParameterById(
@@ -437,6 +440,100 @@ public interface IEnterpriseManager {
             @XmlElement(required = true)
             @WebParam(name = "norminalCustomProductParameterID")
                     NorminalCustomProductParameterTO norminalCustomProductParameterTO)
+            throws UpdateException, NotInDatabaseException;
+
+    /* CRUD for {@link PlantOperationTO} **************/
+
+    @WebMethod
+    PlantOperationTO queryPlantOperationById(
+            @XmlElement(required = true)
+            @WebParam(name = "plantOperationID")
+                    long PlantOperationId) throws NotInDatabaseException;
+
+    @WebMethod
+    long createPlantOperation(
+            @XmlElement(required = true)
+            @WebParam(name = "plantOperationID")
+                    PlantOperationTO plantOperationTO)
+            throws CreateException;
+
+    @WebMethod
+    void updatePlantOperation(
+            @XmlElement(required = true)
+            @WebParam(name = "PlantOperationID")
+                    PlantOperationTO plantOperationTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deletePlantOperation(
+            @XmlElement(required = true)
+            @WebParam(name = "plantOperationID")
+                    PlantOperationTO plantOperationTO)
+            throws UpdateException, NotInDatabaseException;
+
+    /* Query for {@link PlantOperationParameterTO} **************/
+
+    @WebMethod
+    Collection<PlantOperationParameterTO> queryParametersByPlantOperationID(
+            @XmlElement(required = true) @WebParam(name = "plantOperationID") long plantOperationId)
+            throws NotInDatabaseException;
+
+    /* CRUD for {@link BooleanCustomProductParameterTO} **************/
+
+    @WebMethod
+    BooleanPlantOperationParameterTO queryBooleanPlantOperationParameterById(
+            @XmlElement(required = true)
+            @WebParam(name = "booleanPlantOperationParameterID")
+                    long booleanPlantOperationParameterId) throws NotInDatabaseException;
+
+    @WebMethod
+    long createBooleanPlantOperationParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "booleanPlantOperationParameterID")
+                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO)
+            throws CreateException;
+
+    @WebMethod
+    void updateBooleanPlantOperationParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "booleanPlantOperationParameterID")
+                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deleteBooleanPlantOperationParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "booleanPlantOperationParameterID")
+                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO)
+            throws UpdateException, NotInDatabaseException;
+
+    /* CRUD for {@link NorminalPlantOperationParameterTO} **************/
+
+    @WebMethod
+    NorminalPlantOperationParameterTO queryNorminalPlantOperationParameterById(
+            @XmlElement(required = true)
+            @WebParam(name = "norminalPlantOperationParameterID")
+                    long norminalPlantOperationParameterId) throws NotInDatabaseException;
+
+    @WebMethod
+    long createNorminalPlantOperationParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "norminalPlantOperationParameterID")
+                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO)
+            throws CreateException;
+
+    @WebMethod
+    void updateNorminalPlantOperationParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "norminalPlantOperationParameterID")
+                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deleteNorminalPlantOperationParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "norminalPlantOperationParameterID")
+                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO)
             throws UpdateException, NotInDatabaseException;
 
     /* Other Methods **************/

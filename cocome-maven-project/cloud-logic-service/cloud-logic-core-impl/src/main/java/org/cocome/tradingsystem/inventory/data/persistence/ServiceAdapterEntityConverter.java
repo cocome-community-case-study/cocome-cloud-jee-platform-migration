@@ -11,9 +11,12 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCust
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 import org.cocome.tradingsystem.inventory.data.store.IOrderEntry;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
@@ -329,6 +332,46 @@ class ServiceAdapterEntityConverter {
                 entryPoint.getName();
     }
 
+    static String getCreateBooleanPlantOperationParameterContent(IBooleanPlantOperationParameter param) {
+        return String.valueOf(param.getPlantOperationId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(param.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(param.getCategory());
+    }
+
+    static String getUpdateBooleanPlantOperationParameterContent(IBooleanPlantOperationParameter param) {
+        return String.valueOf(param.getPlantOperationId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(param.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(param.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(param.getCategory());
+    }
+
+    static String getCreateNorminalPlantOperationParameterContent(INorminalPlantOperationParameter param) {
+        return String.valueOf(param.getPlantOperationId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(String.valueOf(param.getName())) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(param.getCategory()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(param.getOptions());
+    }
+
+    static String getUpdateNorminalPlantOperationParameterContent(INorminalPlantOperationParameter param) {
+        return String.valueOf(param.getPlantOperationId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(param.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(String.valueOf(param.getName())) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(param.getCategory()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                encodeString(joinValues(param.getOptions()));
+    }
+
     static String getCreateBooleanCustomProductParameterContent(IBooleanCustomProductParameter param) {
         return String.valueOf(param.getCustomProductId()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -389,6 +432,32 @@ class ServiceAdapterEntityConverter {
                 joinValues(expression.getOnTrueExpressionIds()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 joinValues(expression.getOnFalseExpressionIds());
+    }
+
+    static String getCreatePlantOperationContent(IPlantOperation operation) {
+        return String.valueOf(operation.getPlantId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(operation.getExpressionIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                operation.getName() +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(operation.getInputEntryPointIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(operation.getOutputEntryPointIds());
+    }
+
+    static String getUpdatePlantOperationContent(IPlantOperation operation) {
+        return String.valueOf(operation.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(operation.getPlantId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(operation.getExpressionIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                operation.getName() +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(operation.getInputEntryPointIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(operation.getOutputEntryPointIds());
     }
 
     private static void appendPrefferedStore(ICustomer customer, StringBuilder content) {

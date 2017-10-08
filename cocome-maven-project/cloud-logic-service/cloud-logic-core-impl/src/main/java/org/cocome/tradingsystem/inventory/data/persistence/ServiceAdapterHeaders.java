@@ -88,4 +88,25 @@ public final class ServiceAdapterHeaders {
     static final String NORMINAL_CUSTOM_PRODUCT_PARAM_UPDATE_HEADER
             = " CustomProductId;NorminalCustomProductParameterId;NorminalCustomProductParameterName;"
             + "NorminalCustomProductParameterCategory;NorminalCustomProductParameterOptions";
+
+    static final String PLANTOPERATION_CREATE_HEADER = "PlantId;ExpressionId;PlantOperationName;EntryPointInputId;"
+            + "EntryPointOutputId";
+
+    static final String PLANTOPERATION_UPDATE_HEADER = "PlantOperationId;PlantId;ExpressionId;PlantOperationName;"
+            + "EntryPointInputId;EntryPointOutputId";
+
+    static final String BOOLEAN_PLANT_OPERATION_PARAM_CREATE_HEADER
+            = "PlantOperationId;BooleanPlantOperationParameterName;BooleanPlantOperationParameterCategory";
+
+    static final String BOOLEAN_PLANT_OPERATION_PARAM_UPDATE_HEADER
+            = "PlantOperationId;BooleanPlantOperationParameterId;BooleanPlantOperationParameterName;"
+            + "BooleanPlantOperationParameterCategory";
+
+    static final String NORMINAL_PLANT_OPERATION_PARAM_CREATE_HEADER
+            = "PlantOperationId;NorminalPlantOperationParameterId;NorminalPlantOperationParameterName;"
+            + "NorminalPlantOperationParameterCategory;NorminalPlantOperationParameterOptions";
+
+    static final String NORMINAL_PLANT_OPERATION_PARAM_UPDATE_HEADER
+            = "PlantOperationId;NorminalPlantOperationParameterName;NorminalPlantOperationParameterCategory;"
+            + "NorminalPlantOperationParameterOptions";
 }

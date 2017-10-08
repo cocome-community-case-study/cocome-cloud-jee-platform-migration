@@ -79,7 +79,7 @@ public interface IEnterpriseDataFactory {
     IBooleanCustomProductParameter convertToBooleanCustomProductParameter(
             BooleanCustomProductParameterTO booleanCustomProductParameterTO);
 
-    /* Numeric Custom Product Parameter */
+    /* Norminal Custom Product Parameter */
 
     INorminalCustomProductParameter getNewNorminalCustomProductParameter();
 
@@ -89,5 +89,4 @@ public interface IEnterpriseDataFactory {
 
     INorminalCustomProductParameter convertToNorminalCustomProductParameter(
             NorminalCustomProductParameterTO norminalCustomProductParameterTO);
-
 }

@@ -23,14 +23,17 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCust
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.ejb.Local;
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 /**
  * This interface provides methods for querying the database. It is used by the
@@ -253,29 +256,23 @@ public interface IEnterpriseQuery {
      */
     IEntryPoint queryEntryPointByID(long entryPointId) throws NotInDatabaseException;
 
-    /**
-     * Retrieves the {@link IBooleanCustomProductParameter} with the given id.
-     *
-     * @param booleanCustomProductParameterId The id of the product parameter which should be retrieved
-     * @return The entry point if it is found
-     * @throws NotInDatabaseException if the product with the given barcode could not be found
-     */
     IBooleanCustomProductParameter queryBooleanCustomProductParameterByID(long booleanCustomProductParameterId)
             throws NotInDatabaseException;
 
-    /**
-     * Retrieves the {@link INorminalCustomProductParameter} with the given id.
-     *
-     * @param norminalCustomProductParameterId The id of the product parameter which should be retrieved
-     * @return The entry point if it is found
-     * @throws NotInDatabaseException if the product with the given barcode could not be found
-     */
     INorminalCustomProductParameter queryNorminalCustomProductParameterByID(long norminalCustomProductParameterId)
             throws NotInDatabaseException;
 
-    /**
-     * @param customProductId the id of the {@link ICustomProduct} used to search for parameters
-     * @return the list of parameters belonging to the specified custom product from the database.
-     */
-    Collection<ICustomProductParameter> queryParametersByCustomProductID(long customProductId) throws NotInDatabaseException;
+    Collection<ICustomProductParameter> queryParametersByCustomProductID(long customProductId)
+            throws NotInDatabaseException;
+
+    IPlantOperation queryPlantOperationByID(long plantOperationId) throws NotInDatabaseException;
+
+    Collection<IPlantOperationParameter> queryParametersByPlantOperationID(long plantOperationId)
+            throws NotInDatabaseException;
+
+    IBooleanPlantOperationParameter queryBooleanPlantOperationParameterByID(long booleanPlantOperationParameterId)
+            throws NotInDatabaseException;
+
+    INorminalPlantOperationParameter queryNorminalPlantOperationParameterByID(long norminalPlantOperationParameterId)
+            throws NotInDatabaseException;
 }

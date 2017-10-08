@@ -9,13 +9,9 @@ import org.cocome.tradingsystem.remote.access.connection.CSVBackendConnection;
 import org.cocome.tradingsystem.remote.access.connection.IPersistenceConnection;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
-public class CloudPersistenceContextTest {
+public class CloudPersistenceContextIT {
 
     private IPersistenceContext persistenceContext = TestUtils.injectFakeCDIObject(IPersistenceContext.class,
             createMappings());
@@ -28,7 +24,7 @@ public class CloudPersistenceContextTest {
     }
 
     @Test
-    public void deleteEntity() throws Exception {
+    public void createAndDeleteNorminalCustomProductParameter() throws Exception {
         final ICustomProduct prod = new CustomProduct();
         prod.setBarcode(new Date().getTime());
         prod.setName("Fancy Product");
@@ -46,5 +42,4 @@ public class CloudPersistenceContextTest {
         persistenceContext.deleteEntity(param);
         persistenceContext.deleteEntity(prod);
     }
-
 }

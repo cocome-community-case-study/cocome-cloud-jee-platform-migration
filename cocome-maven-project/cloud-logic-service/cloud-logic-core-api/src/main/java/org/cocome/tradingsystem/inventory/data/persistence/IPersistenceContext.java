@@ -26,9 +26,12 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCust
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -224,9 +227,27 @@ public interface IPersistenceContext {
 
     void deleteEntity(INorminalCustomProductParameter param) throws UpdateException;
 
+    void createEntity(IPlantOperation operation) throws CreateException;
+
+    void updateEntity(IPlantOperation operation) throws UpdateException;
+
+    void deleteEntity(IPlantOperation operation) throws UpdateException;
+
     void createEntity(IConditionalExpression expression) throws CreateException;
 
     void updateEntity(IConditionalExpression expression) throws UpdateException;
 
     void deleteEntity(IConditionalExpression expression) throws UpdateException;
+
+    void createEntity(IBooleanPlantOperationParameter param) throws CreateException;
+
+    void updateEntity(IBooleanPlantOperationParameter param) throws UpdateException;
+
+    void deleteEntity(IBooleanPlantOperationParameter param) throws UpdateException;
+
+    void createEntity(INorminalPlantOperationParameter param) throws CreateException;
+
+    void updateEntity(INorminalPlantOperationParameter param) throws UpdateException;
+
+    void deleteEntity(INorminalPlantOperationParameter param) throws UpdateException;
 }

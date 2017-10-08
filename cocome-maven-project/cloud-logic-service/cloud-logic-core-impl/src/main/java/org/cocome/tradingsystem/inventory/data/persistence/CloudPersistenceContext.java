@@ -28,9 +28,12 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCust
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -505,6 +508,72 @@ public class CloudPersistenceContext implements IPersistenceContext {
         deleteEntity("NorminalCustomProductParameter",
                 ServiceAdapterEntityConverter.getUpdateNorminalCustomProductParameterContent(param),
                 ServiceAdapterHeaders.NORMINAL_CUSTOM_PRODUCT_PARAM_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IPlantOperation operation) throws CreateException {
+        createEntity(operation,
+                "PlantOperation",
+                ServiceAdapterEntityConverter.getCreatePlantOperationContent(operation),
+                ServiceAdapterHeaders.PLANTOPERATION_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IPlantOperation operation) throws UpdateException {
+        updateEntity("PlantOperation",
+                ServiceAdapterEntityConverter.getUpdatePlantOperationContent(operation),
+                ServiceAdapterHeaders.PLANTOPERATION_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IPlantOperation operation) throws UpdateException {
+        deleteEntity("PlantOperation",
+                ServiceAdapterEntityConverter.getUpdatePlantOperationContent(operation),
+                ServiceAdapterHeaders.PLANTOPERATION_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IBooleanPlantOperationParameter param) throws CreateException {
+        createEntity(param,
+                "BooleanPlantOperationParameter",
+                ServiceAdapterEntityConverter.getCreateBooleanPlantOperationParameterContent(param),
+                ServiceAdapterHeaders.BOOLEAN_PLANT_OPERATION_PARAM_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IBooleanPlantOperationParameter param) throws UpdateException {
+        updateEntity("BooleanPlantOperationParameter",
+                ServiceAdapterEntityConverter.getUpdateBooleanPlantOperationParameterContent(param),
+                ServiceAdapterHeaders.BOOLEAN_PLANT_OPERATION_PARAM_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IBooleanPlantOperationParameter param) throws UpdateException {
+        deleteEntity("BooleanPlantOperationParameter",
+                ServiceAdapterEntityConverter.getUpdateBooleanPlantOperationParameterContent(param),
+                ServiceAdapterHeaders.BOOLEAN_PLANT_OPERATION_PARAM_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(INorminalPlantOperationParameter param) throws CreateException {
+        createEntity(param,
+                "NorminalPlantOperationParameter",
+                ServiceAdapterEntityConverter.getCreateNorminalPlantOperationParameterContent(param),
+                ServiceAdapterHeaders.NORMINAL_PLANT_OPERATION_PARAM_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(INorminalPlantOperationParameter param) throws UpdateException {
+        updateEntity("NorminalPlantOperationParameter",
+                ServiceAdapterEntityConverter.getUpdateNorminalPlantOperationParameterContent(param),
+                ServiceAdapterHeaders.NORMINAL_PLANT_OPERATION_PARAM_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(INorminalPlantOperationParameter param) throws UpdateException {
+        deleteEntity("NorminalPlantOperationParameter",
+                ServiceAdapterEntityConverter.getUpdateNorminalPlantOperationParameterContent(param),
+                ServiceAdapterHeaders.NORMINAL_PLANT_OPERATION_PARAM_UPDATE_HEADER);
     }
 
     @Override

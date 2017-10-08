@@ -1,13 +1,9 @@
-<xs:schema xmlns:ns1="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://enterprise.application.inventory.tradingsystem.cocome.org" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
-  <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema1.xsd"/>
-
-  <xs:complexType name="CustomProductTO">
-    <xs:complexContent>
-      <xs:extension base="ns1:ProductTO">
-        <xs:sequence/>
-      </xs:extension>
-    </xs:complexContent>
+  <xs:complexType name="ExpressionTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
 
 </xs:schema>

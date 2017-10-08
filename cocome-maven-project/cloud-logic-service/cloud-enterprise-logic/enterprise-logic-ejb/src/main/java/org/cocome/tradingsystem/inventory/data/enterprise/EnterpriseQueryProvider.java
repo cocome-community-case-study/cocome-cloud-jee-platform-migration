@@ -5,7 +5,11 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCust
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -194,6 +198,33 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
                 .getCustomProductParameters(backendConnection.getEntity(
                         "CustomProductParameter",
                         "product.id==" + customProductId));
+    }
+
+    @Override
+    public IBooleanPlantOperationParameter queryBooleanPlantOperationParameterByID(long booleanPlantOperationParameterId)
+            throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getBooleanPlantOperationParameter,
+                "BooleanPlantOperationParameter",
+                booleanPlantOperationParameterId);
+    }
+
+    @Override
+    public INorminalPlantOperationParameter queryNorminalPlantOperationParameterByID(long norminalPlantOperationParameterId)
+            throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getNorminalPlantOperationParameter, "NorminalPlantOperationParameter", norminalPlantOperationParameterId);
+    }
+
+    @Override
+    public Collection<IPlantOperationParameter> queryParametersByPlantOperationID(long PlantOperationId) {
+        return csvHelper
+                .getPlantOperationParameters(backendConnection.getEntity(
+                        "PlantOperationParameter",
+                        "plantOperation.id==" + PlantOperationId));
+    }
+
+    @Override
+    public IPlantOperation queryPlantOperationByID(long plantOperationId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getPlantOperation, "PlantOperation", plantOperationId);
     }
 
     @Override

@@ -12,6 +12,9 @@ import org.cocome.tradingsystem.inventory.application.enterprise.parameter.Boole
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
@@ -21,7 +24,11 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProdu
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -363,7 +370,8 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public Collection<ICustomProductParameter> queryParametersByCustomProductID(long customProductId)
-            throws NotInDatabaseException {        IEnterpriseManager enterpriseManager;
+            throws NotInDatabaseException {
+        IEnterpriseManager enterpriseManager;
         final List<CustomProductParameterTO> toList;
         try {
             enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
@@ -376,12 +384,11 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         final List<ICustomProductParameter> instanceList = new ArrayList<>(toList.size());
 
         for (final CustomProductParameterTO toInstance : toList) {
-            if(BooleanCustomProductParameterTO.class.isAssignableFrom(toInstance.getClass())) {
+            if (BooleanCustomProductParameterTO.class.isAssignableFrom(toInstance.getClass())) {
                 instanceList.add(enterpriseFactory.convertToBooleanCustomProductParameter(
                         (BooleanCustomProductParameterTO) toInstance));
                 continue;
-            }
-            else if (NorminalCustomProductParameterTO.class.isAssignableFrom(toInstance.getClass())) {
+            } else if (NorminalCustomProductParameterTO.class.isAssignableFrom(toInstance.getClass())) {
                 instanceList.add(enterpriseFactory.convertToNorminalCustomProductParameter(
                         (NorminalCustomProductParameterTO) toInstance));
                 continue;
@@ -389,7 +396,64 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
             throw new IllegalArgumentException("Unknown class to handle: " + toInstance.getClass());
         }
         return instanceList;
+    }
 
+    @Override
+    public IPlantOperation queryPlantOperationByID(long plantOperationId) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                plantFactory.convertToPlantOperation(
+                        enterpriseManager.queryPlantOperationById(plantOperationId)));
+    }
+
+    @Override
+    public Collection<IPlantOperationParameter> queryParametersByPlantOperationID(long plantOperationId) throws NotInDatabaseException {
+        /*
+        IEnterpriseManager enterpriseManager;
+        final List<PlantOperationParameterTO> toList;
+        try {
+            enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+            toList = enterpriseManager.queryParametersByPlantOperationID(plantOperationId);
+        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
+            LOG.error("Got error while looking up plants by enterprise: " + e.getMessage(), e);
+            return Collections.emptyList();
+        }
+
+        final List<IPlantOperationParameter> instanceList = new ArrayList<>(toList.size());
+
+        for (final PlantOperationParameterTO toInstance : toList) {
+            if (BooleanPlantOperationParameterTO.class.isAssignableFrom(toInstance.getClass())) {
+                instanceList.add(enterpriseFactory.convertToBooleanPlantOperationParameter(
+                        (BooleanPlantOperationParameterTO) toInstance));
+                continue;
+            } else if (NorminalPlantOperationParameterTO.class.isAssignableFrom(toInstance.getClass())) {
+                instanceList.add(enterpriseFactory.convertToNorminalPlantOperationParameter(
+                        (NorminalPlantOperationParameterTO) toInstance));
+                continue;
+            }
+            throw new IllegalArgumentException("Unknown class to handle: " + toInstance.getClass());
+        }
+        return instanceList;
+        */
+        return null;
+    }
+
+    @Override
+    public IBooleanPlantOperationParameter queryBooleanPlantOperationParameterByID(long booleanPlantOperationParameterId)
+            throws NotInDatabaseException {
+        /*return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                plantFactory.convertToBooleanPlantOperationParameter(
+                        enterpriseManager.queryBooleanPlantOperationParameterById(booleanPlantOperationParameterId)));
+                        */
+        return null;
+    }
+
+    @Override
+    public INorminalPlantOperationParameter queryNorminalPlantOperationParameterByID(long norminalPlantOperationParameterId)
+            throws NotInDatabaseException {
+        /*return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                enterpriseFactory.convertToNorminalPlantOperationParameter(
+                        enterpriseManager.queryNorminalPlantOperationParameterById(norminalPlantOperationParameterId)));*/
+        return null;
     }
 
     @Override

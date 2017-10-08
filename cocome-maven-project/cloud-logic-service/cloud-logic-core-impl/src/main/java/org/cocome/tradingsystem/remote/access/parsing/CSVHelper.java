@@ -17,9 +17,13 @@ import org.cocome.tradingsystem.inventory.data.persistence.ServiceAdapterHeaders
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
@@ -586,6 +590,46 @@ public class CSVHelper implements IBackendConversionHelper {
         });
     }
 
+    @Override
+    public Collection<IBooleanPlantOperationParameter> getBooleanPlantOperationParameter(String param) {
+        return rowToCollection(param, row -> processBooleanPlantOperationParameterRow(row, 0));
+    }
+
+    @Override
+    public Collection<INorminalPlantOperationParameter> getNorminalPlantOperationParameter(String param) {
+        return rowToCollection(param, row -> processNorminalPlantOperationParameterRow(row, 0));
+    }
+
+    @Override
+    public Collection<IPlantOperationParameter> getPlantOperationParameters(String param) {
+        return rowToCollection(param, row -> {
+            final String typeName = row.getColumns().get(0).getValue();
+            final int offset = Integer.parseInt(row.getColumns().get(1).getValue());
+            if (typeName.contains("BooleanPlantOperationParameter")) {
+                return processBooleanPlantOperationParameterRow(row, offset);
+            } else if (typeName.contains("NorminalPlantOperationParameter")) {
+                return processNorminalPlantOperationParameterRow(row, offset);
+            }
+            throw new IllegalArgumentException("Unsupported type: " + typeName);
+        });
+    }
+
+    @Override
+    public Collection<IPlantOperation> getPlantOperation(String plantOperation) {
+        return rowToCollection(plantOperation, row -> {
+            final IPlantOperation result = plantFactory.getNewPlantOperation();
+
+            result.setId(fetchId(row.getColumns().get(0)));
+            result.setPlantId(fetchId(row.getColumns().get(1)));
+            result.setExpressionIds(fetchIds(row.getColumns().get(2)));
+            result.setName(fetchString(row.getColumns().get(3)));
+            result.setInputEntryPointIds(fetchIds(row.getColumns().get(4)));
+            result.setOutputEntryPointIds(fetchIds(row.getColumns().get(5)));
+
+            return result;
+        });
+    }
+
     private INorminalCustomProductParameter processNorminalCustomProductParameterRow(Row<String> row, int offset) {
         final INorminalCustomProductParameter result = enterpriseFactory.getNewNorminalCustomProductParameter();
         result.setCustomProductId(Long.parseLong(row.getColumns().get(offset).getValue()));
@@ -600,6 +644,27 @@ public class CSVHelper implements IBackendConversionHelper {
     private IBooleanCustomProductParameter processBooleanCustomProductParameterRow(Row<String> row, int offset) {
         final IBooleanCustomProductParameter result = enterpriseFactory.getNewBooleanCustomProductParameter();
         result.setCustomProductId(Long.parseLong(row.getColumns().get(offset).getValue()));
+        result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
+        result.setName(row.getColumns().get(2 + offset).getValue());
+        result.setCategory(row.getColumns().get(3 + offset).getValue());
+
+        return result;
+    }
+
+    private INorminalPlantOperationParameter processNorminalPlantOperationParameterRow(Row<String> row, int offset) {
+        final INorminalPlantOperationParameter result = plantFactory.getNewNorminalPlantOperationParameter();
+        result.setPlantOperationId(Long.parseLong(row.getColumns().get(offset).getValue()));
+        result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
+        result.setName(row.getColumns().get(2 + offset).getValue());
+        result.setCategory(row.getColumns().get(3 + offset).getValue());
+        result.setOptions(fetchStringSet(row.getColumns().get(4 + offset)));
+
+        return result;
+    }
+
+    private IBooleanPlantOperationParameter processBooleanPlantOperationParameterRow(Row<String> row, int offset) {
+        final IBooleanPlantOperationParameter result = plantFactory.getNewBooleanPlantOperationParameter();
+        result.setPlantOperationId(Long.parseLong(row.getColumns().get(offset).getValue()));
         result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
         result.setName(row.getColumns().get(2 + offset).getValue());
         result.setCategory(row.getColumns().get(3 + offset).getValue());

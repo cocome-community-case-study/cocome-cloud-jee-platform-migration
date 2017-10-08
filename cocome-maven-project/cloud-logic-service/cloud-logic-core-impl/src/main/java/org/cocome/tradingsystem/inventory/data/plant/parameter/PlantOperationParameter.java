@@ -19,9 +19,13 @@
 package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.IParameterTO;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
-import javax.enterprise.context.Dependent;
+import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
@@ -29,8 +33,7 @@ import java.io.Serializable;
  *
  * @author Rudolf Biczok
  */
-@Dependent
-public class PlantOperationParameter implements Serializable, IPlantOperationParameter {
+public abstract class PlantOperationParameter implements Serializable, IPlantOperationParameter {
 
     private static final long serialVersionUID = -2577328715744776645L;
 
@@ -38,6 +41,19 @@ public class PlantOperationParameter implements Serializable, IPlantOperationPar
     private String name;
     private String category;
     private IPlantOperation plantOperation;
+
+    private long plantOperationId;
+
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    @PostConstruct
+    public void init() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        plantOperation = null;
+    }
 
     /**
      * @return The id.
@@ -90,7 +106,10 @@ public class PlantOperationParameter implements Serializable, IPlantOperationPar
     /**
      * @return the corresponding plant operation
      */
-    public IPlantOperation getPlantOperation() {
+    public IPlantOperation getPlantOperation() throws NotInDatabaseException {
+        if (plantOperation == null) {
+            plantOperation = enterpriseQuery.queryPlantOperationByID(plantOperationId);
+        }
         return plantOperation;
     }
 
@@ -99,5 +118,21 @@ public class PlantOperationParameter implements Serializable, IPlantOperationPar
      */
     public void setPlantOperation(IPlantOperation plantOperation) {
         this.plantOperation = plantOperation;
+    }
+
+    /**
+     * @return the id of the asspciated plant
+     */
+    @Override
+    public long getPlantOperationId() {
+        return plantOperationId;
+    }
+
+    /**
+     * @param plantOperationId the corresponding plant operation id
+     */
+    @Override
+    public void setPlantOperationId(long plantOperationId) {
+        this.plantOperationId = plantOperationId;
     }
 }

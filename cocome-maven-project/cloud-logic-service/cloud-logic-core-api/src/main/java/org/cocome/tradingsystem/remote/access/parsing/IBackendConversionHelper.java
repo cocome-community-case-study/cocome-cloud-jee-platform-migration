@@ -9,9 +9,13 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProdu
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -54,4 +58,12 @@ public interface IBackendConversionHelper {
     Collection<INorminalCustomProductParameter> getNorminalCustomProductParameter(String param);
 
     Collection<ICustomProductParameter> getCustomProductParameters(String customProductParameter);
+
+    Collection<IPlantOperation> getPlantOperation(String plantOperation);
+
+    Collection<IBooleanPlantOperationParameter> getBooleanPlantOperationParameter(String param);
+
+    Collection<INorminalPlantOperationParameter> getNorminalPlantOperationParameter(String param);
+
+    Collection<IPlantOperationParameter> getPlantOperationParameters(String plantOperationParameter);
 }

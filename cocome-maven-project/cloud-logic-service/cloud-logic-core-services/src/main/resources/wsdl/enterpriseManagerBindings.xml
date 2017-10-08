@@ -24,6 +24,9 @@
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema2.xsd">
+        <bindings node="//xsd:complexType[@name='PlantOperationTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO"/>
+        </bindings>
         <bindings node="//xsd:complexType[@name='EntryPointTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO"/>
         </bindings>
@@ -34,6 +37,17 @@
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema4.xsd">
+        <bindings node="//xsd:complexType[@name='PlantOperationParameterTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO"/>
+        </bindings>
+        <bindings node="//xsd:complexType[@name='BooleanPlantOperationParameterTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO"/>
+        </bindings>
+        <bindings node="//xsd:complexType[@name='NorminalPlantOperationParameterTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO"/>
+        </bindings>
+    </bindings>
+    <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema5.xsd">
         <bindings node="//xsd:complexType[@name='CustomProductParameterTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO"/>
         </bindings>
@@ -44,7 +58,7 @@
             <class ref="org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO"/>
         </bindings>
     </bindings>
-    <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema6.xsd">
+    <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema8.xsd">
         <bindings node="//xsd:complexType[@name='CustomProductTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO"/>
         </bindings>

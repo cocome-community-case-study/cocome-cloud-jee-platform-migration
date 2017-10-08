@@ -1,6 +1,6 @@
 <xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:tns="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://store.application.inventory.tradingsystem.cocome.org/" version="1.0">
 
-  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema5.xsd"/>
+  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema7.xsd"/>
 
   <xs:complexType name="EnterpriseTO">
     <xs:sequence>
@@ -15,13 +15,6 @@
       <xs:element name="barcode" type="xs:long"/>
       <xs:element name="purchasePrice" type="xs:double"/>
       <xs:element minOccurs="0" name="name" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="SupplierTO">
-    <xs:sequence>
-      <xs:element name="id" type="xs:long"/>
-      <xs:element name="name" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -40,6 +33,13 @@
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>
       <xs:element name="location" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SupplierTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 

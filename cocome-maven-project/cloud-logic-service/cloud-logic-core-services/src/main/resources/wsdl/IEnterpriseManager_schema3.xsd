@@ -1,6 +1,6 @@
 <xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://plant.application.inventory.tradingsystem.cocome.org/" version="1.0">
 
-  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema5.xsd"/>
+  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema7.xsd"/>
 
   <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema1.xsd"/>
 
