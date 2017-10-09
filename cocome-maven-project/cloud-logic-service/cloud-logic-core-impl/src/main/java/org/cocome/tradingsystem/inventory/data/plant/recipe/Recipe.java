@@ -36,14 +36,17 @@ public class Recipe implements Serializable, IRecipe {
     private long id;
 
     private ICustomProduct customProduct;
+    private long customProductId;
 
     // Represent the vertices of the recipe graph
     private Collection<IPlantOperation> operations;
+    private Collection<Long> operationIds;
 
     // Represent the edges of the recipe graph
     private Collection<IParameterInteraction> parameterInteractions;
-    private Collection<IEntryPointInteraction> inputInteractions;
-    private Collection<IEntryPointInteraction> outputInteractions;
+    private Collection<IEntryPointInteraction> entryPointInteractions;
+    private Collection<Long> parameterInteractionIds;
+    private Collection<Long> entryPointInteractionIds;
 
     @Override
     public long getId() {
@@ -66,6 +69,16 @@ public class Recipe implements Serializable, IRecipe {
     }
 
     @Override
+    public long getCustomProductId() {
+        return customProductId;
+    }
+
+    @Override
+    public void setCustomProductId(long customProductId) {
+        this.customProductId = customProductId;
+    }
+
+    @Override
     public Collection<IPlantOperation> getOperations() {
         return operations;
     }
@@ -76,23 +89,33 @@ public class Recipe implements Serializable, IRecipe {
     }
 
     @Override
-    public Collection<IEntryPointInteraction> getInputInteractions() {
-        return inputInteractions;
+    public Collection<Long> getOperationIds() {
+        return operationIds;
     }
 
     @Override
-    public void setInputInteractions(Collection<IEntryPointInteraction> inputInteractions) {
-        this.inputInteractions = inputInteractions;
+    public void setOperationIds(Collection<Long> operationIds) {
+        this.operationIds = operationIds;
     }
 
     @Override
-    public Collection<IEntryPointInteraction> getOutputInteractions() {
-        return outputInteractions;
+    public Collection<IEntryPointInteraction> getEntryPointInteractions() {
+        return entryPointInteractions;
     }
 
     @Override
-    public void setOutputInteractions(Collection<IEntryPointInteraction> outputInteractions) {
-        this.outputInteractions = outputInteractions;
+    public void setEntryPointInteractions(Collection<IEntryPointInteraction> entryPointInteractions) {
+        this.entryPointInteractions = entryPointInteractions;
+    }
+
+    @Override
+    public Collection<Long> getEntryPointInteractionIds() {
+        return entryPointInteractionIds;
+    }
+
+    @Override
+    public void setEntryPointInteractionIds(Collection<Long> entryPointInteractionIds) {
+        this.entryPointInteractionIds = entryPointInteractionIds;
     }
 
     @Override
@@ -103,5 +126,15 @@ public class Recipe implements Serializable, IRecipe {
     @Override
     public void setParameterInteractions(Collection<IParameterInteraction> parameterInteractions) {
         this.parameterInteractions = parameterInteractions;
+    }
+
+    @Override
+    public Collection<Long> getParameterInteractionIds() {
+        return parameterInteractionIds;
+    }
+
+    @Override
+    public void setParameterInteractionIds(Collection<Long> parameterInteractionIds) {
+        this.parameterInteractionIds = parameterInteractionIds;
     }
 }

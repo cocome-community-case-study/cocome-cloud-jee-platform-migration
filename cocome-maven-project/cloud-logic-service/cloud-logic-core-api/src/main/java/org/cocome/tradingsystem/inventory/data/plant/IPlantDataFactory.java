@@ -21,15 +21,23 @@ package org.cocome.tradingsystem.inventory.data.plant;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointInteractionTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.ParameterInteractionTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPointInteraction;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IParameterInteraction;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
@@ -71,6 +79,11 @@ public interface IPlantDataFactory {
     PlantOperationTO fillPlantOperationTO(IPlantOperation iPlantOperation)
             throws NotInDatabaseException;
 
+    /* Plant Operation Parameter */
+
+    PlantOperationParameterTO fillPlantOperationParameterTO(IPlantOperationParameter parameter)
+            throws NotInDatabaseException;
+
     /* Boolean Plant Operation Parameter */
 
     IBooleanPlantOperationParameter getNewBooleanPlantOperationParameter();
@@ -93,4 +106,31 @@ public interface IPlantDataFactory {
     INorminalPlantOperationParameter convertToNorminalPlantOperationParameter(
             NorminalPlantOperationParameterTO norminalPlantOperationParameterTO);
 
+    /* Entry Point Interaction */
+
+    IEntryPointInteraction getNewEntryPointInteraction();
+
+    EntryPointInteractionTO fillEntryPointInteractionTO(
+            IEntryPointInteraction entryPointInteraction)
+            throws NotInDatabaseException;
+
+    IEntryPointInteraction convertToEntryPointInteraction(
+            EntryPointInteractionTO entryPointInteractionTO);
+
+    /* Parameter Interaction */
+
+    IParameterInteraction getNewParameterInteraction();
+
+    ParameterInteractionTO fillParameterInteractionTO(IParameterInteraction parameterInteraction)
+            throws NotInDatabaseException;
+
+    IParameterInteraction convertToParameterInteraction(ParameterInteractionTO parameterInteractionTO);
+
+    /* Recipe */
+
+    IRecipe getNewRecipe();
+
+    RecipeTO fillRecipeTO(IRecipe recipe) throws NotInDatabaseException;
+
+    IRecipe convertToRecipe(RecipeTO recipeTO);
 }

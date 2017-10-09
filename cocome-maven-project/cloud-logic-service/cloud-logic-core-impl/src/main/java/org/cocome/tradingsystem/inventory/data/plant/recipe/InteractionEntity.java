@@ -18,10 +18,8 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.inventory.data.INameable;
 
-import javax.enterprise.context.Dependent;
 import java.io.Serializable;
 
 /**
@@ -34,12 +32,14 @@ import java.io.Serializable;
 public abstract class InteractionEntity<
         FromType extends INameable,
         ToType extends INameable>
-        implements Serializable, IIdentifiable {
+        implements Serializable, IInteractionEntity<FromType, ToType> {
     private static final long serialVersionUID = 1L;
 
     private long id;
     private FromType from;
+    private long fromId;
     private ToType to;
+    private long toId;
 
     /**
      * @return the database id
@@ -59,6 +59,7 @@ public abstract class InteractionEntity<
     /**
      * @return the first / source instance
      */
+    @Override
     public FromType getFrom() {
         return from;
     }
@@ -66,6 +67,7 @@ public abstract class InteractionEntity<
     /**
      * @param from the first / source instance
      */
+    @Override
     public void setFrom(FromType from) {
         this.from = from;
     }
@@ -73,6 +75,7 @@ public abstract class InteractionEntity<
     /**
      * @return the second / destination instance
      */
+    @Override
     public ToType getTo() {
         return to;
     }
@@ -80,7 +83,28 @@ public abstract class InteractionEntity<
     /**
      * @param to the second / destination instance
      */
+    @Override
     public void setTo(ToType to) {
         this.to = to;
+    }
+
+    @Override
+    public long getFromId() {
+        return fromId;
+    }
+
+    @Override
+    public void setFromId(long fromId) {
+        this.fromId = fromId;
+    }
+
+    @Override
+    public long getToId() {
+        return toId;
+    }
+
+    @Override
+    public void setToId(long toId) {
+        this.toId = toId;
     }
 }

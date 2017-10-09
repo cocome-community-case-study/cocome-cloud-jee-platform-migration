@@ -3,6 +3,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
@@ -11,6 +12,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.Plant;
@@ -212,12 +214,26 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     }
 
     @Override
+    public CustomProductParameterTO fillCustomProductParameterTO(ICustomProductParameter parameter)
+            throws NotInDatabaseException {
+        if (IBooleanCustomProductParameter.class.isAssignableFrom(parameter.getClass())) {
+            return this.fillBooleanCustomProductParameterTO(
+                    (IBooleanCustomProductParameter) parameter);
+        } else if (INorminalCustomProductParameter.class.isAssignableFrom(parameter.getClass())) {
+            return this.fillNorminalCustomProductParameterTO(
+                    (INorminalCustomProductParameter) parameter);
+        }
+        throw new IllegalArgumentException("Unknown class to handle: " + parameter.getClass());
+    }
+
+    @Override
     public IBooleanCustomProductParameter getNewBooleanCustomProductParameter() {
         return booleanCustomProductParameterProvider.get();
     }
 
     @Override
-    public BooleanCustomProductParameterTO fillBooleanCustomProductParameterTO(IBooleanCustomProductParameter booleanCustomProductParameter) throws NotInDatabaseException {
+    public BooleanCustomProductParameterTO fillBooleanCustomProductParameterTO(IBooleanCustomProductParameter
+                                                                                       booleanCustomProductParameter) throws NotInDatabaseException {
         final BooleanCustomProductParameterTO result = new BooleanCustomProductParameterTO();
         result.setId(booleanCustomProductParameter.getId());
         result.setName(booleanCustomProductParameter.getName());
@@ -228,7 +244,8 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     }
 
     @Override
-    public IBooleanCustomProductParameter convertToBooleanCustomProductParameter(BooleanCustomProductParameterTO booleanCustomProductParameterTO) {
+    public IBooleanCustomProductParameter convertToBooleanCustomProductParameter(BooleanCustomProductParameterTO
+                                                                                         booleanCustomProductParameterTO) {
         final IBooleanCustomProductParameter result = getNewBooleanCustomProductParameter();
         result.setId(booleanCustomProductParameterTO.getId());
         result.setName(booleanCustomProductParameterTO.getName());
@@ -244,7 +261,8 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     }
 
     @Override
-    public NorminalCustomProductParameterTO fillNorminalCustomProductParameterTO(INorminalCustomProductParameter norminalCustomProductParameter) throws NotInDatabaseException {
+    public NorminalCustomProductParameterTO fillNorminalCustomProductParameterTO(INorminalCustomProductParameter
+                                                                                         norminalCustomProductParameter) throws NotInDatabaseException {
         final NorminalCustomProductParameterTO result = new NorminalCustomProductParameterTO();
         result.setId(norminalCustomProductParameter.getId());
         result.setName(norminalCustomProductParameter.getName());
@@ -256,7 +274,8 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     }
 
     @Override
-    public INorminalCustomProductParameter convertToNorminalCustomProductParameter(NorminalCustomProductParameterTO norminalCustomProductParameterTO) {
+    public INorminalCustomProductParameter convertToNorminalCustomProductParameter(NorminalCustomProductParameterTO
+                                                                                           norminalCustomProductParameterTO) {
         final INorminalCustomProductParameter result = getNewNorminalCustomProductParameter();
         result.setId(norminalCustomProductParameterTO.getId());
         result.setName(norminalCustomProductParameterTO.getName());

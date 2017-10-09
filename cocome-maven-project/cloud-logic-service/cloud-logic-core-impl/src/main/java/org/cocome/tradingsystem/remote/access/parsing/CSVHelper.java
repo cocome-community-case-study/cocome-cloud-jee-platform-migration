@@ -22,8 +22,7 @@ import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOpe
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
@@ -611,6 +610,47 @@ public class CSVHelper implements IBackendConversionHelper {
                 return processNorminalPlantOperationParameterRow(row, offset);
             }
             throw new IllegalArgumentException("Unsupported type: " + typeName);
+        });
+    }
+
+    @Override
+    public Collection<IEntryPointInteraction> getEntryPointInteraction(String entryPointInteraction) {
+        return rowToCollection(entryPointInteraction, row -> {
+            final IEntryPointInteraction result = plantFactory.getNewEntryPointInteraction();
+
+            result.setId(fetchId(row.getColumns().get(0)));
+            result.setToId(fetchId(row.getColumns().get(1)));
+            result.setFromId(fetchId(row.getColumns().get(2)));
+
+            return result;
+        });
+    }
+
+    @Override
+    public Collection<IParameterInteraction> getParameterInteraction(String parameterInteraction) {
+        return rowToCollection(parameterInteraction, row -> {
+            final IParameterInteraction result = plantFactory.getNewParameterInteraction();
+
+            result.setId(fetchId(row.getColumns().get(0)));
+            result.setToId(fetchId(row.getColumns().get(1)));
+            result.setFromId(fetchId(row.getColumns().get(2)));
+
+            return result;
+        });
+    }
+
+    @Override
+    public Collection<IRecipe> getRecipe(String recipe) {
+        return rowToCollection(recipe, row -> {
+            final IRecipe result = plantFactory.getNewRecipe();
+
+            result.setId(fetchId(row.getColumns().get(0)));
+            result.setCustomProductId(fetchId(row.getColumns().get(1)));
+            result.setOperationIds(fetchIds(row.getColumns().get(2)));
+            result.setEntryPointInteractionIds(fetchIds(row.getColumns().get(3)));
+            result.setParameterInteractionIds(fetchIds(row.getColumns().get(4)));
+
+            return result;
         });
     }
 

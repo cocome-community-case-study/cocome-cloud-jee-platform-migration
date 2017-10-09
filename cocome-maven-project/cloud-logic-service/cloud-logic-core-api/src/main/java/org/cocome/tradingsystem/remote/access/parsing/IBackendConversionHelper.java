@@ -14,8 +14,7 @@ import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOpe
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -66,4 +65,11 @@ public interface IBackendConversionHelper {
     Collection<INorminalPlantOperationParameter> getNorminalPlantOperationParameter(String param);
 
     Collection<IPlantOperationParameter> getPlantOperationParameters(String plantOperationParameter);
+
+    Collection<IEntryPointInteraction> getEntryPointInteraction(String entryPointInteraction);
+
+    Collection<IParameterInteraction> getParameterInteraction(String parameterInteraction);
+
+    Collection<IRecipe> getRecipe(String recipe);
+
 }

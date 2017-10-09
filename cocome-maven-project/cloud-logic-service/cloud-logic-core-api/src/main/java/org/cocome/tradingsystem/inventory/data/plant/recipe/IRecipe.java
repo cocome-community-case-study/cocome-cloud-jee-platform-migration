@@ -41,34 +41,54 @@ public interface IRecipe extends IIdentifiable {
     void setCustomProduct(ICustomProduct customProduct);
 
     /**
-     * @return the plant operation that is supposed to be executed within this interaction step
+     * @return the custom product id for which this recipe provides the production details
+     */
+    long getCustomProductId();
+
+    /**
+     * @param customProduct the custom product id for which this recipe provides the production details
+     */
+    void setCustomProductId(long customProduct);
+
+    /**
+     * @return the list of plant operations needed to be executed
      */
     Collection<IPlantOperation> getOperations();
 
     /**
-     * @param operations the plant operation that is supposed to be executed within this interaction step
+     * @param operations the list of plant operations needed to be executed
      */
     void setOperations(Collection<IPlantOperation> operations);
 
     /**
-     * @return the list of incoming interactions
+     * @return the list of plant operation IDs
      */
-    Collection<IEntryPointInteraction> getInputInteractions();
+    Collection<Long> getOperationIds();
 
     /**
-     * @param inputInteractions the list of incoming interactions
+     * @param operationIds the list of plant operation IDs
      */
-    void setInputInteractions(Collection<IEntryPointInteraction> inputInteractions);
+    void setOperationIds(Collection<Long> operationIds);
 
     /**
-     * @return the list of outgoing interactions
+     * @return the list of interactions
      */
-    Collection<IEntryPointInteraction> getOutputInteractions();
+    Collection<IEntryPointInteraction> getEntryPointInteractions();
 
     /**
-     * @param outputInteractions the list of outgoing interaction
+     * @param entryPointInteractions the list of interactions
      */
-    void setOutputInteractions(Collection<IEntryPointInteraction> outputInteractions);
+    void setEntryPointInteractions(Collection<IEntryPointInteraction> entryPointInteractions);
+
+    /**
+     * @return the list of interaction IDs
+     */
+    Collection<Long> getEntryPointInteractionIds();
+
+    /**
+     * @param entryPointInteractionIds the list of interactions
+     */
+    void setEntryPointInteractionIds(Collection<Long> entryPointInteractionIds);
 
     /**
      * @return the list of parameter bindings
@@ -79,4 +99,14 @@ public interface IRecipe extends IIdentifiable {
      * @param parameterInteractions the list of parameter bindings
      */
     void setParameterInteractions(Collection<IParameterInteraction> parameterInteractions);
+
+    /**
+     * @return the list of parameter bindings
+     */
+    Collection<Long> getParameterInteractionIds();
+
+    /**
+     * @param parameterInteractionIds the list of parameter bindings
+     */
+    void setParameterInteractionIds(Collection<Long> parameterInteractionIds);
 }

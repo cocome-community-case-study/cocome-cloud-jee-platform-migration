@@ -8,8 +8,7 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -212,6 +211,23 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     public INorminalPlantOperationParameter queryNorminalPlantOperationParameterByID(long norminalPlantOperationParameterId)
             throws NotInDatabaseException {
         return getSingleEntity(csvHelper::getNorminalPlantOperationParameter, "NorminalPlantOperationParameter", norminalPlantOperationParameterId);
+    }
+
+    @Override
+    public IEntryPointInteraction queryEntryPointInteractionByID(long entryPointInteractionId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getEntryPointInteraction, "EntryPointInteraction", entryPointInteractionId);
+
+    }
+
+    @Override
+    public IParameterInteraction queryParameterInteractionByID(long parameterInteractionId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getParameterInteraction, "ParameterInteraction", parameterInteractionId);
+    }
+
+    @Override
+    public IRecipe queryRecipeByID(long recipeId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getRecipe, "Recipe", recipeId);
+
     }
 
     @Override

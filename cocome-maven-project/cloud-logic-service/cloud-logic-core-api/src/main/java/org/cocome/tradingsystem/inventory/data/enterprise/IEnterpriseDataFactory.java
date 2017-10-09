@@ -2,6 +2,7 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
@@ -10,6 +11,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
@@ -67,6 +69,11 @@ public interface IEnterpriseDataFactory {
     EntryPointTO fillEntryPointTO(IEntryPoint iEntryPoint);
 
     IEntryPoint convertToEntryPoint(EntryPointTO entryPointTO);
+
+    /* Plant Operation Parameter */
+
+    CustomProductParameterTO fillCustomProductParameterTO(ICustomProductParameter parameter)
+            throws NotInDatabaseException;
 
     /* Boolean Custom Product Parameter */
 

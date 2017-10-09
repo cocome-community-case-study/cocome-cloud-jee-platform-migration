@@ -30,8 +30,7 @@ import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOper
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -250,4 +249,22 @@ public interface IPersistenceContext {
     void updateEntity(INorminalPlantOperationParameter param) throws UpdateException;
 
     void deleteEntity(INorminalPlantOperationParameter param) throws UpdateException;
+
+    void createEntity(IEntryPointInteraction interaction) throws CreateException;
+
+    void updateEntity(IEntryPointInteraction interaction) throws UpdateException;
+
+    void deleteEntity(IEntryPointInteraction interaction) throws UpdateException;
+
+    void createEntity(IParameterInteraction interaction) throws CreateException;
+
+    void updateEntity(IParameterInteraction interaction) throws UpdateException;
+
+    void deleteEntity(IParameterInteraction interaction) throws UpdateException;
+
+    void createEntity(IRecipe recipe) throws CreateException;
+
+    void updateEntity(IRecipe recipe) throws UpdateException;
+
+    void deleteEntity(IRecipe recipe) throws UpdateException;
 }

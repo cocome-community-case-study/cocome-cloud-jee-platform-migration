@@ -26,8 +26,7 @@ import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -534,6 +533,93 @@ public interface IEnterpriseManager {
             @XmlElement(required = true)
             @WebParam(name = "norminalPlantOperationParameterID")
                     NorminalPlantOperationParameterTO norminalPlantOperationParameterTO)
+            throws UpdateException, NotInDatabaseException;
+
+    /* CRUD for {@link EntryPointInteractionTO} **************/
+
+    @WebMethod
+    EntryPointInteractionTO queryEntryPointInteractionById(
+            @XmlElement(required = true)
+            @WebParam(name = "entryPointInteractionID")
+                    long entryPointInteractionId) throws NotInDatabaseException;
+
+    @WebMethod
+    long createEntryPointInteraction(
+            @XmlElement(required = true)
+            @WebParam(name = "entryPointInteractionID")
+                    EntryPointInteractionTO entryPointInteractionTO)
+            throws CreateException;
+
+    @WebMethod
+    void updateEntryPointInteraction(
+            @XmlElement(required = true)
+            @WebParam(name = "entryPointInteractionID")
+                    EntryPointInteractionTO entryPointInteractionTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deleteEntryPointInteraction(
+            @XmlElement(required = true)
+            @WebParam(name = "entryPointInteractionID")
+                    EntryPointInteractionTO entryPointInteractionTO)
+            throws UpdateException, NotInDatabaseException;
+
+    /* CRUD for {@link ParameterPointInteractionTO} **************/
+
+    @WebMethod
+    ParameterInteractionTO queryParameterInteractionById(
+            @XmlElement(required = true)
+            @WebParam(name = "parameterInteractionID")
+                    long parameterInteractionId) throws NotInDatabaseException;
+
+    @WebMethod
+    long createParameterInteraction(
+            @XmlElement(required = true)
+            @WebParam(name = "parameterInteractionID")
+                    ParameterInteractionTO parameterInteractionTO)
+            throws CreateException;
+
+    @WebMethod
+    void updateParameterInteraction(
+            @XmlElement(required = true)
+            @WebParam(name = "parameterInteractionID")
+                    ParameterInteractionTO parameterInteractionTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deleteParameterInteraction(
+            @XmlElement(required = true)
+            @WebParam(name = "parameterInteractionID")
+                    ParameterInteractionTO parameterInteractionTO)
+            throws UpdateException, NotInDatabaseException;
+
+    /* CRUD for {@link RecipeTO} **************/
+
+    @WebMethod
+    RecipeTO queryRecipeById(
+            @XmlElement(required = true)
+            @WebParam(name = "recipeID")
+                    long recipeId) throws NotInDatabaseException;
+
+    @WebMethod
+    long createRecipe(
+            @XmlElement(required = true)
+            @WebParam(name = "recipeID")
+                    RecipeTO recipeTO)
+            throws CreateException;
+
+    @WebMethod
+    void updateRecipe(
+            @XmlElement(required = true)
+            @WebParam(name = "recipeID")
+                    RecipeTO recipeTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deleteRecipe(
+            @XmlElement(required = true)
+            @WebParam(name = "recipeID")
+                    RecipeTO recipeTO)
             throws UpdateException, NotInDatabaseException;
 
     /* Other Methods **************/

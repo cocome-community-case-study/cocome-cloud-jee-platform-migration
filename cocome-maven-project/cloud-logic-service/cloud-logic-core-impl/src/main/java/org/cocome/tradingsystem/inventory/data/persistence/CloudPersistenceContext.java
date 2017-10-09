@@ -32,8 +32,7 @@ import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOper
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -574,6 +573,72 @@ public class CloudPersistenceContext implements IPersistenceContext {
         deleteEntity("NorminalPlantOperationParameter",
                 ServiceAdapterEntityConverter.getUpdateNorminalPlantOperationParameterContent(param),
                 ServiceAdapterHeaders.NORMINAL_PLANT_OPERATION_PARAM_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IEntryPointInteraction interaction) throws CreateException {
+        createEntity(interaction,
+                "EntryPointInteraction",
+                ServiceAdapterEntityConverter.getCreateInteractionContent(interaction),
+                ServiceAdapterHeaders.ENTRYPOINTINTERACTION_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IEntryPointInteraction interaction) throws UpdateException {
+        updateEntity("EntryPointInteraction",
+                ServiceAdapterEntityConverter.getUpdateInteractionContent(interaction),
+                ServiceAdapterHeaders.ENTRYPOINTINTERACTION_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IEntryPointInteraction interaction) throws UpdateException {
+        deleteEntity("EntryPointInteraction",
+                ServiceAdapterEntityConverter.getUpdateInteractionContent(interaction),
+                ServiceAdapterHeaders.ENTRYPOINTINTERACTION_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IParameterInteraction interaction) throws CreateException {
+        createEntity(interaction,
+                "ParameterInteraction",
+                ServiceAdapterEntityConverter.getCreateInteractionContent(interaction),
+                ServiceAdapterHeaders.PARAMETERINTERACTION_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IParameterInteraction interaction) throws UpdateException {
+        updateEntity("ParameterInteraction",
+                ServiceAdapterEntityConverter.getUpdateInteractionContent(interaction),
+                ServiceAdapterHeaders.PARAMETERINTERACTION_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IParameterInteraction interaction) throws UpdateException {
+        deleteEntity("ParameterInteraction",
+                ServiceAdapterEntityConverter.getUpdateInteractionContent(interaction),
+                ServiceAdapterHeaders.PARAMETERINTERACTION_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IRecipe recipe) throws CreateException {
+        createEntity(recipe,
+                "Recipe",
+                ServiceAdapterEntityConverter.getCreateRecipeContent(recipe),
+                ServiceAdapterHeaders.RECIPE_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IRecipe recipe) throws UpdateException {
+        updateEntity("Recipe",
+                ServiceAdapterEntityConverter.getUpdateRecipeContent(recipe),
+                ServiceAdapterHeaders.RECIPE_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IRecipe recipe) throws UpdateException {
+        deleteEntity("Recipe",
+                ServiceAdapterEntityConverter.getUpdateRecipeContent(recipe),
+                ServiceAdapterHeaders.RECIPE_UPDATE_HEADER);
     }
 
     @Override

@@ -50,10 +50,8 @@ public class RecipeTO implements IIdentifiableTO {
     // Represent the edges of the recipe graph
     @XmlElement(name = "parameterInteractions", required = true)
     private Collection<ParameterInteractionTO> parameterInteractions;
-    @XmlElement(name = "inputInteractions", required = true)
-    private Collection<EntryPointInteractionTO> inputInteractions;
-    @XmlElement(name = "outputInteractions", required = true)
-    private Collection<EntryPointInteractionTO> outputInteractions;
+    @XmlElement(name = "entryPointInteractions", required = true)
+    private Collection<EntryPointInteractionTO> entryPointInteractions;
 
     /**
      * @return A unique identifier of this Plant.
@@ -100,31 +98,17 @@ public class RecipeTO implements IIdentifiableTO {
     }
 
     /**
-     * @return the list of incoming interactions
+     * @return the list of interactions
      */
-    public Collection<EntryPointInteractionTO> getInputInteractions() {
-        return inputInteractions;
+    public Collection<EntryPointInteractionTO> getEntryPointInteractions() {
+        return entryPointInteractions;
     }
 
     /**
-     * @param inputInteractions the list of incoming interactions
+     * @param entryPointInteractions the list of interaction
      */
-    public void setInputInteractions(Collection<EntryPointInteractionTO> inputInteractions) {
-        this.inputInteractions = inputInteractions;
-    }
-
-    /**
-     * @return the list of outgoing interactions
-     */
-    public Collection<EntryPointInteractionTO> getOutputInteractions() {
-        return outputInteractions;
-    }
-
-    /**
-     * @param outputInteractions the list of outgoing interaction
-     */
-    public void setOutputInteractions(Collection<EntryPointInteractionTO> outputInteractions) {
-        this.outputInteractions = outputInteractions;
+    public void setEntryPointInteractions(Collection<EntryPointInteractionTO> entryPointInteractions) {
+        this.entryPointInteractions = entryPointInteractions;
     }
 
     /**

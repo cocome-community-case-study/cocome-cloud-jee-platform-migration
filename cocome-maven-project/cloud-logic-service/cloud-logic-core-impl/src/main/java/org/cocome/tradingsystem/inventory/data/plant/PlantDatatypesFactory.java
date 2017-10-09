@@ -8,7 +8,10 @@ import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPl
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointInteractionTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.ParameterInteractionTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.expression.ConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
@@ -20,7 +23,10 @@ import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionU
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPointInteraction;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IParameterInteraction;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.enterprise.context.Dependent;
@@ -51,6 +57,15 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
 
     @Inject
     private Provider<INorminalPlantOperationParameter> norminalPlantOperationParameterProvider;
+
+    @Inject
+    private Provider<IEntryPointInteraction> entryPointInteractionProvider;
+
+    @Inject
+    private Provider<IParameterInteraction> parameterInteractionProvider;
+
+    @Inject
+    private Provider<IRecipe> recipeProvider;
 
     @Inject
     private IEnterpriseDataFactory enterpriseDatatypes;
@@ -127,14 +142,15 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
             throws NotInDatabaseException {
         final ConditionalExpressionTO result = new ConditionalExpressionTO();
         result.setId(expressionTO.getId());
-        result.setParameter(fillProductOrderParameterTO(expressionTO.getParameter()));
+        result.setParameter(fillPlantOperationParameterTO(expressionTO.getParameter()));
         result.setParameterValue(expressionTO.getParameterValue());
         result.setOnTrueExpressions(fillExpressionTOs(expressionTO.getOnTrueExpressions()));
         result.setOnFalseExpressions(fillExpressionTOs(expressionTO.getOnFalseExpressions()));
         return result;
     }
 
-    private PlantOperationParameterTO fillProductOrderParameterTO(IPlantOperationParameter parameter)
+    @Override
+    public PlantOperationParameterTO fillPlantOperationParameterTO(IPlantOperationParameter parameter)
             throws NotInDatabaseException {
         if (IBooleanPlantOperationParameter.class.isAssignableFrom(parameter.getClass())) {
             return this.fillBooleanPlantOperationParameterTO(
@@ -263,5 +279,95 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
 
     private List<Long> extractIdsOfCollection(Collection<? extends IIdentifiableTO> collection) {
         return collection.stream().map(IIdentifiableTO::getId).collect(Collectors.toList());
+    }
+
+    @Override
+    public IEntryPointInteraction getNewEntryPointInteraction() {
+        return entryPointInteractionProvider.get();
+    }
+
+    @Override
+    public EntryPointInteractionTO fillEntryPointInteractionTO(
+            IEntryPointInteraction entryPointInteraction)
+            throws NotInDatabaseException {
+        final EntryPointInteractionTO result = new EntryPointInteractionTO();
+        result.setId(entryPointInteraction.getId());
+        result.setFrom(enterpriseDatatypes.fillEntryPointTO(entryPointInteraction.getFrom()));
+        result.setTo(enterpriseDatatypes.fillEntryPointTO(entryPointInteraction.getTo()));
+        return result;
+    }
+
+    @Override
+    public IEntryPointInteraction convertToEntryPointInteraction(EntryPointInteractionTO entryPointInteractionTO) {
+        final IEntryPointInteraction result = getNewEntryPointInteraction();
+        result.setId(entryPointInteractionTO.getId());
+        result.setFromId(entryPointInteractionTO.getFrom().getId());
+        result.setToId(entryPointInteractionTO.getTo().getId());
+        return result;
+    }
+
+    @Override
+    public IParameterInteraction getNewParameterInteraction() {
+        return parameterInteractionProvider.get();
+    }
+
+    @Override
+    public ParameterInteractionTO fillParameterInteractionTO(
+            IParameterInteraction parameterInteraction)
+            throws NotInDatabaseException {
+        final ParameterInteractionTO result = new ParameterInteractionTO();
+        result.setId(parameterInteraction.getId());
+        result.setFrom(enterpriseDatatypes.fillCustomProductParameterTO(parameterInteraction.getFrom()));
+        result.setTo(fillPlantOperationParameterTO(parameterInteraction.getTo()));
+        return result;
+    }
+
+    @Override
+    public IParameterInteraction convertToParameterInteraction(ParameterInteractionTO parameterInteractionTO) {
+        final IParameterInteraction result = getNewParameterInteraction();
+        result.setId(parameterInteractionTO.getId());
+        result.setFromId(parameterInteractionTO.getFrom().getId());
+        result.setToId(parameterInteractionTO.getTo().getId());
+        return result;
+    }
+
+    @Override
+    public IRecipe getNewRecipe() {
+        return recipeProvider.get();
+    }
+
+    @Override
+    public RecipeTO fillRecipeTO(
+            IRecipe recipe)
+            throws NotInDatabaseException {
+        final RecipeTO result = new RecipeTO();
+        result.setId(recipe.getId());
+        result.setCustomProduct(enterpriseDatatypes.fillCustomProductTO(recipe.getCustomProduct()));
+        result.setOperations(new ArrayList<>());
+        for (final IPlantOperation operation : recipe.getOperations()) {
+            result.getOperations().add(fillPlantOperationTO(operation));
+        }
+        result.setParameterInteractions(new ArrayList<>());
+        for (final IParameterInteraction paramInteraction : recipe.getParameterInteractions()) {
+            result.getParameterInteractions().add(fillParameterInteractionTO(paramInteraction));
+        }
+        result.setEntryPointInteractions(new ArrayList<>());
+        for (final IEntryPointInteraction entryPointInteraction : recipe.getEntryPointInteractions()) {
+            result.getEntryPointInteractions().add(fillEntryPointInteractionTO(entryPointInteraction));
+        }
+        return result;
+    }
+
+    @Override
+    public IRecipe convertToRecipe(RecipeTO recipeTO) {
+        final IRecipe result = getNewRecipe();
+        result.setCustomProductId(recipeTO.getCustomProduct().getId());
+        result.setOperationIds(recipeTO.getOperations()
+                .stream().map(PlantOperationTO::getId).collect(Collectors.toList()));
+        result.setEntryPointInteractionIds(recipeTO.getEntryPointInteractions()
+                .stream().map(EntryPointInteractionTO::getId).collect(Collectors.toList()));
+        result.setParameterInteractionIds(recipeTO.getParameterInteractions()
+                .stream().map(ParameterInteractionTO::getId).collect(Collectors.toList()));
+        return result;
     }
 }

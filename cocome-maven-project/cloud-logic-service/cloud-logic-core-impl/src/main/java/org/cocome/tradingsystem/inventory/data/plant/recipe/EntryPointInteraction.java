@@ -19,15 +19,12 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import javax.enterprise.context.Dependent;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  * @author Rudolf Biczok
  */
 @Dependent
-public class EntryPointInteraction extends InteractionEntity<IEntryPoint, IEntryPoint> {
+public class EntryPointInteraction extends InteractionEntity<IEntryPoint, IEntryPoint>
+        implements IEntryPointInteraction {
     private static final long serialVersionUID = 1L;
 }

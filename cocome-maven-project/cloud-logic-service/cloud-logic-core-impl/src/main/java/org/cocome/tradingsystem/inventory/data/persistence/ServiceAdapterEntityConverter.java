@@ -3,6 +3,7 @@ package org.cocome.tradingsystem.inventory.data.persistence;
 import de.kit.ipd.java.utils.time.TimeUtils;
 import org.cocome.tradingsystem.inventory.application.usermanager.Role;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
+import org.cocome.tradingsystem.inventory.data.INameable;
 import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
@@ -16,7 +17,9 @@ import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOpe
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IInteractionEntity;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
 import org.cocome.tradingsystem.inventory.data.store.IOrderEntry;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
@@ -460,6 +463,44 @@ class ServiceAdapterEntityConverter {
                 joinValues(operation.getOutputEntryPointIds());
     }
 
+    static <T1 extends INameable, T2 extends INameable>
+    String getCreateInteractionContent(IInteractionEntity<T1, T2> interaction) {
+        return String.valueOf(interaction.getToId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(interaction.getFromId());
+    }
+
+    static <T1 extends INameable, T2 extends INameable>
+    String getUpdateInteractionContent(IInteractionEntity<T1, T2> interaction) {
+        return String.valueOf(interaction.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(interaction.getToId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(interaction.getFromId());
+    }
+
+    static String getCreateRecipeContent(IRecipe recipe) {
+        return String.valueOf(recipe.getCustomProductId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(recipe.getOperationIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(recipe.getEntryPointInteractionIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(recipe.getParameterInteractionIds());
+    }
+
+    static String getUpdateRecipeContent(IRecipe recipe) {
+        return String.valueOf(recipe.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(recipe.getCustomProductId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(recipe.getOperationIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(recipe.getEntryPointInteractionIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(recipe.getParameterInteractionIds());
+    }
+
     private static void appendPrefferedStore(ICustomer customer, StringBuilder content) {
         if (customer.getPreferredStore() != null) {
             content.append(encodeString(customer.getPreferredStore().getEnterpriseName()));
@@ -482,5 +523,4 @@ class ServiceAdapterEntityConverter {
                 .map(String::valueOf)
                 .collect(Collectors.joining(ServiceAdapterHeaders.SET_SEPARATOR));
     }
-
 }

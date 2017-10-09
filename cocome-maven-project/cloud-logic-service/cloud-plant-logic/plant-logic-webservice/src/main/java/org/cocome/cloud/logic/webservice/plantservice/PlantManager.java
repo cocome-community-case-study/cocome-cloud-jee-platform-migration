@@ -127,28 +127,14 @@ public class PlantManager implements IPlantManager {
 
     @Override
     public long createProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws CreateException {
-        final IProductionUnitClass puc = plantFactory.getNewProductionUnitClass();
-        puc.setId(productionUnitClassTO.getId());
-        puc.setName(productionUnitClassTO.getName());
-        puc.setPlantId(productionUnitClassTO.getPlant().getId());
-
+        final IProductionUnitClass puc = plantFactory.convertToProductionUnitClass(productionUnitClassTO);
         persistenceContext.createEntity(puc);
         return puc.getId();
     }
 
     @Override
     public void updateProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws UpdateException, NotInDatabaseException {
-        final IPlant plant = enterpriseQuery.queryPlant(
-                productionUnitClassTO.getPlant().getId());
-
-        final IProductionUnitClass puc = plantQuery.queryProductionUnitClass(
-                productionUnitClassTO.getId());
-
-        puc.setPlant(plant);
-        puc.setPlantId(plant.getId());
-        puc.setName(productionUnitClassTO.getName());
-
-        persistenceContext.updateEntity(plant);
+        persistenceContext.updateEntity(plantFactory.convertToProductionUnitClass(productionUnitClassTO));
     }
 
     @Override
@@ -177,6 +163,7 @@ public class PlantManager implements IPlantManager {
     @Override
     public long createProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws CreateException {
         final IProductionUnitOperation operation = plantFactory.convertToProductionUnitOperation(productionUnitOperationTO);
+        persistenceContext.createEntity(operation);
         return operation.getId();
     }
 

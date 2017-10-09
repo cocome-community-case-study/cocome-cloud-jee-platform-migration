@@ -26,8 +26,7 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -275,4 +274,10 @@ public interface IEnterpriseQuery {
 
     INorminalPlantOperationParameter queryNorminalPlantOperationParameterByID(long norminalPlantOperationParameterId)
             throws NotInDatabaseException;
+
+    IEntryPointInteraction queryEntryPointInteractionByID(long entryPointInteractionId) throws NotInDatabaseException;
+
+    IParameterInteraction queryParameterInteractionByID(long parameterInteractionId) throws NotInDatabaseException;
+
+    IRecipe queryRecipeByID(long recipeId) throws NotInDatabaseException;
 }

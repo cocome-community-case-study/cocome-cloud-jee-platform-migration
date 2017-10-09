@@ -27,8 +27,7 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -407,7 +406,6 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public Collection<IPlantOperationParameter> queryParametersByPlantOperationID(long plantOperationId) throws NotInDatabaseException {
-        /*
         IEnterpriseManager enterpriseManager;
         final List<PlantOperationParameterTO> toList;
         try {
@@ -422,38 +420,53 @@ public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
 
         for (final PlantOperationParameterTO toInstance : toList) {
             if (BooleanPlantOperationParameterTO.class.isAssignableFrom(toInstance.getClass())) {
-                instanceList.add(enterpriseFactory.convertToBooleanPlantOperationParameter(
+                instanceList.add(plantFactory.convertToBooleanPlantOperationParameter(
                         (BooleanPlantOperationParameterTO) toInstance));
                 continue;
             } else if (NorminalPlantOperationParameterTO.class.isAssignableFrom(toInstance.getClass())) {
-                instanceList.add(enterpriseFactory.convertToNorminalPlantOperationParameter(
+                instanceList.add(plantFactory.convertToNorminalPlantOperationParameter(
                         (NorminalPlantOperationParameterTO) toInstance));
                 continue;
             }
             throw new IllegalArgumentException("Unknown class to handle: " + toInstance.getClass());
         }
         return instanceList;
-        */
-        return null;
     }
 
     @Override
     public IBooleanPlantOperationParameter queryBooleanPlantOperationParameterByID(long booleanPlantOperationParameterId)
             throws NotInDatabaseException {
-        /*return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
                 plantFactory.convertToBooleanPlantOperationParameter(
                         enterpriseManager.queryBooleanPlantOperationParameterById(booleanPlantOperationParameterId)));
-                        */
-        return null;
     }
 
     @Override
     public INorminalPlantOperationParameter queryNorminalPlantOperationParameterByID(long norminalPlantOperationParameterId)
             throws NotInDatabaseException {
-        /*return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
-                enterpriseFactory.convertToNorminalPlantOperationParameter(
-                        enterpriseManager.queryNorminalPlantOperationParameterById(norminalPlantOperationParameterId)));*/
-        return null;
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                plantFactory.convertToNorminalPlantOperationParameter(
+                        enterpriseManager.queryNorminalPlantOperationParameterById(norminalPlantOperationParameterId)));
+    }
+
+    @Override
+    public IEntryPointInteraction queryEntryPointInteractionByID(long entryPointInteractionId) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                plantFactory.convertToEntryPointInteraction(
+                        enterpriseManager.queryEntryPointInteractionById(entryPointInteractionId)));
+    }
+
+    @Override
+    public IParameterInteraction queryParameterInteractionByID(long parameterInteractionId) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                plantFactory.convertToParameterInteraction(
+                        enterpriseManager.queryParameterInteractionById(parameterInteractionId)));
+    }
+
+    @Override
+    public IRecipe queryRecipeByID(long recipeId) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                plantFactory.convertToRecipe(enterpriseManager.queryRecipeById(recipeId)));
     }
 
     @Override

@@ -44,6 +44,16 @@ public interface IInteractionEntity<
     void setFrom(FromType from);
 
     /**
+     * @return the first / source instance id
+     */
+    long getFromId();
+
+    /**
+     * @param from the first / source instance id
+     */
+    void setFromId(long from);
+
+    /**
      * @return the second / destination instance
      */
     ToType getTo();
@@ -52,4 +62,14 @@ public interface IInteractionEntity<
      * @param to the second / destination instance
      */
     void setTo(ToType to);
+
+    /**
+     * @return the second / destination instance id
+     */
+    long getToId();
+
+    /**
+     * @param to the second / destination instance id
+     */
+    void setToId(long to);
 }

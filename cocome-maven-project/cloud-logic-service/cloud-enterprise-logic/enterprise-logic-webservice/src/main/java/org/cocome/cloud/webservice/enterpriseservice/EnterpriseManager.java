@@ -34,8 +34,7 @@ import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
@@ -48,8 +47,7 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -70,6 +68,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
+ * This class is shit
+ *
+ * @author Rudolf Biczok
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
@@ -780,6 +781,90 @@ public class EnterpriseManager implements IEnterpriseManager {
             throws UpdateException, NotInDatabaseException {
         final INorminalPlantOperationParameter param = saveFetchFromDB(() ->
                 enterpriseQuery.queryNorminalPlantOperationParameterByID(norminalPlantOperationParameterTO.getId()));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+    }
+
+    @Override
+    public EntryPointInteractionTO queryEntryPointInteractionById(long entryPointInteractionId)
+            throws NotInDatabaseException {
+        return plantFactory.fillEntryPointInteractionTO(
+                enterpriseQuery.queryEntryPointInteractionByID(entryPointInteractionId));
+    }
+
+    @Override
+    public long createEntryPointInteraction(EntryPointInteractionTO entryPointInteractionTO) throws CreateException {
+        final IEntryPointInteraction param = plantFactory.convertToEntryPointInteraction(entryPointInteractionTO);
+        saveDBCreateAction(() -> persistenceContext.createEntity(param));
+        return param.getId();
+    }
+
+    @Override
+    public void updateEntryPointInteraction(EntryPointInteractionTO entryPointInteractionTO)
+            throws UpdateException, NotInDatabaseException {
+        final IEntryPointInteraction param = plantFactory.convertToEntryPointInteraction(entryPointInteractionTO);
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
+    }
+
+    @Override
+    public void deleteEntryPointInteraction(EntryPointInteractionTO entryPointInteractionTO)
+            throws UpdateException, NotInDatabaseException {
+        final IEntryPointInteraction param = saveFetchFromDB(() ->
+                enterpriseQuery.queryEntryPointInteractionByID(entryPointInteractionTO.getId()));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+    }
+
+    @Override
+    public ParameterInteractionTO queryParameterInteractionById(long parameterInteractionId) throws NotInDatabaseException {
+        return plantFactory.fillParameterInteractionTO(
+                enterpriseQuery.queryParameterInteractionByID(parameterInteractionId));
+    }
+
+    @Override
+    public long createParameterInteraction(ParameterInteractionTO parameterInteractionTO) throws CreateException {
+        final IParameterInteraction param =
+                plantFactory.convertToParameterInteraction(parameterInteractionTO);
+        saveDBCreateAction(() -> persistenceContext.createEntity(param));
+        return param.getId();
+    }
+
+    @Override
+    public void updateParameterInteraction(ParameterInteractionTO parameterInteractionTO)
+            throws UpdateException, NotInDatabaseException {
+        final IParameterInteraction param = plantFactory.convertToParameterInteraction(parameterInteractionTO);
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
+    }
+
+    @Override
+    public void deleteParameterInteraction(ParameterInteractionTO parameterInteractionTO)
+            throws UpdateException, NotInDatabaseException {
+        final IParameterInteraction param = saveFetchFromDB(() ->
+                enterpriseQuery.queryParameterInteractionByID(parameterInteractionTO.getId()));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+    }
+
+    @Override
+    public RecipeTO queryRecipeById(long recipeId) throws NotInDatabaseException {
+        return plantFactory.fillRecipeTO(
+                enterpriseQuery.queryRecipeByID(recipeId));
+    }
+
+    @Override
+    public long createRecipe(RecipeTO recipeTO) throws CreateException {
+        final IRecipe param = plantFactory.convertToRecipe(recipeTO);
+        saveDBCreateAction(() -> persistenceContext.createEntity(param));
+        return param.getId();
+    }
+
+    @Override
+    public void updateRecipe(RecipeTO recipeTO) throws UpdateException, NotInDatabaseException {
+        final IRecipe param = plantFactory.convertToRecipe(recipeTO);
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
+    }
+
+    @Override
+    public void deleteRecipe(RecipeTO recipeTO) throws UpdateException, NotInDatabaseException {
+        final IRecipe param = saveFetchFromDB(() ->
+                enterpriseQuery.queryRecipeByID(recipeTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
     }
 

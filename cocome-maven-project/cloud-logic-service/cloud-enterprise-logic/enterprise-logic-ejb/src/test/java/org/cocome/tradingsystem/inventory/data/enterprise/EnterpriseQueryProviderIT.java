@@ -12,8 +12,7 @@ import org.cocome.tradingsystem.inventory.data.plant.parameter.BooleanPlantOpera
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.NorminalPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.PlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.EnterpriseStoreQueryProvider;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
@@ -49,6 +48,9 @@ public class EnterpriseQueryProviderIT {
         mapping.put(IPlantOperation.class, PlantOperation.class);
         mapping.put(IPersistenceContext.class, CloudPersistenceContext.class);
         mapping.put(IPersistenceConnection.class, CSVBackendConnection.class);
+        mapping.put(IEntryPointInteraction.class, EntryPointInteraction.class);
+        mapping.put(IParameterInteraction.class, ParameterInteraction.class);
+        mapping.put(IRecipe.class, Recipe.class);
         mapping.put(ICustomProduct.class, CustomProduct.class);
         mapping.put(IBooleanPlantOperationParameter.class, BooleanPlantOperationParameter.class);
         mapping.put(INorminalPlantOperationParameter.class, NorminalPlantOperationParameter.class);

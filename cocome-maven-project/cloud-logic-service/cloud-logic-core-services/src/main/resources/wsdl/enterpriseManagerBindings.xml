@@ -30,6 +30,15 @@
         <bindings node="//xsd:complexType[@name='EntryPointTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO"/>
         </bindings>
+        <bindings node="//xsd:complexType[@name='EntryPointInteractionTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointInteractionTO"/>
+        </bindings>
+        <bindings node="//xsd:complexType[@name='ParameterInteractionTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.ParameterInteractionTO"/>
+        </bindings>
+        <bindings node="//xsd:complexType[@name='RecipeTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO"/>
+        </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema3.xsd">
         <bindings node="//xsd:complexType[@name='PlantTO']">
