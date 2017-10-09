@@ -47,7 +47,7 @@ import java.util.function.Function;
  *
  * @author Rudolf Biczok
  */
-public class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
+public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     private static final Logger LOG = Logger.getLogger(ProxyEnterpriseQueryProvider.class);
 
     @Inject
