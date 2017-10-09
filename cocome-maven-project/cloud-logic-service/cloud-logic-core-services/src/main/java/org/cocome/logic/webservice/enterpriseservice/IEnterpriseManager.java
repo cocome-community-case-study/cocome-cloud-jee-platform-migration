@@ -38,6 +38,7 @@ import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlElement;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Tobias Pöppke
@@ -307,6 +308,13 @@ public interface IEnterpriseManager {
 
     /* CRUD for {@link CustomProductTO} **************/
 
+    @WebMethod
+    CustomProductParameterTO queryCustomProductParameterByID(
+            @XmlElement(required = true)
+            @WebParam(name = "customProductParameterID")
+                    long customProductParameterId)
+            throws NotInDatabaseException;
+
     /**
      * Retrieves all products that are registered in the database.
      * Note that there is no information included about the stores in which
@@ -359,8 +367,16 @@ public interface IEnterpriseManager {
     /* CRUD for {@link EntryPointTO} **************/
 
     @WebMethod
+    Collection<EntryPointTO> queryEntryPoints(
+            @XmlElement(required = true)
+            @WebParam(name = "entryPointIDs")
+                    List<Long> entryPointIds)
+            throws NotInDatabaseException;
+
+    @WebMethod
     EntryPointTO queryEntryPointById(
-            @XmlElement(required = true) @WebParam(name = "entryPointID") long entryPointId) throws NotInDatabaseException;
+            @XmlElement(required = true) @WebParam(name = "entryPointID") long entryPointId)
+            throws NotInDatabaseException;
 
     @WebMethod
     long createEntryPoint(
@@ -444,6 +460,13 @@ public interface IEnterpriseManager {
     /* CRUD for {@link PlantOperationTO} **************/
 
     @WebMethod
+    Collection<PlantOperationTO> queryPlantOperations(
+            @XmlElement(required = true)
+            @WebParam(name = "operationIDs")
+                    List<Long> operationIDs)
+            throws NotInDatabaseException;
+
+    @WebMethod
     PlantOperationTO queryPlantOperationById(
             @XmlElement(required = true)
             @WebParam(name = "plantOperationID")
@@ -471,6 +494,13 @@ public interface IEnterpriseManager {
             throws UpdateException, NotInDatabaseException;
 
     /* Query for {@link PlantOperationParameterTO} **************/
+
+    @WebMethod
+    PlantOperationParameterTO queryPlantOperationParameterById(
+            @XmlElement(required = true)
+            @WebParam(name = "customProductParameterID")
+                    long plantOperationParameterId)
+            throws NotInDatabaseException;
 
     @WebMethod
     Collection<PlantOperationParameterTO> queryParametersByPlantOperationID(
@@ -538,6 +568,13 @@ public interface IEnterpriseManager {
     /* CRUD for {@link EntryPointInteractionTO} **************/
 
     @WebMethod
+    Collection<EntryPointInteractionTO> queryEntryPointInteractions(
+            @XmlElement(required = true)
+            @WebParam(name = "entryPointInteractionIDs")
+                    List<Long> entryPointInteractionIds)
+            throws NotInDatabaseException;
+
+    @WebMethod
     EntryPointInteractionTO queryEntryPointInteractionById(
             @XmlElement(required = true)
             @WebParam(name = "entryPointInteractionID")
@@ -565,6 +602,13 @@ public interface IEnterpriseManager {
             throws UpdateException, NotInDatabaseException;
 
     /* CRUD for {@link ParameterPointInteractionTO} **************/
+
+    @WebMethod
+    Collection<ParameterInteractionTO> queryParameterInteractions(
+            @XmlElement(required = true)
+            @WebParam(name = "parameterInteractionIDs")
+                    List<Long> parameterInteractionIds)
+            throws NotInDatabaseException;
 
     @WebMethod
     ParameterInteractionTO queryParameterInteractionById(

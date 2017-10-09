@@ -17,6 +17,7 @@ import org.cocome.tradingsystem.inventory.data.persistence.ServiceAdapterHeaders
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
@@ -513,15 +514,17 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Override
     public Collection<IProductionUnitOperation> getProductionUnitOperations(String input) {
-        return rowToCollection(input, row -> {
-            final IProductionUnitOperation result = plantFactory.getNewProductionUnitOperation();
+        return rowToCollection(input, row -> processPlantUnitOperationRow(row, 0));
+    }
 
-            result.setId(fetchId(row.getColumns().get(0)));
-            result.setOperationId(fetchString(row.getColumns().get(1)));
-            result.setProductionUnitClassId(fetchId(row.getColumns().get(2)));
+    private IProductionUnitOperation processPlantUnitOperationRow(Row<String> row, int offset) {
+        final IProductionUnitOperation result = plantFactory.getNewProductionUnitOperation();
 
-            return result;
-        });
+        result.setId(fetchId(row.getColumns().get(offset)));
+        result.setOperationId(fetchString(row.getColumns().get(1 + offset)));
+        result.setProductionUnitClassId(fetchId(row.getColumns().get(2 + offset)));
+
+        return result;
     }
 
     @Override
@@ -538,17 +541,19 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Override
     public Collection<IConditionalExpression> getConditionalExpressions(String conditionalExpression) {
-        return rowToCollection(conditionalExpression, row -> {
-            final IConditionalExpression result = plantFactory.getNewConditionalExpression();
+        return rowToCollection(conditionalExpression, row -> processConditionalExpressionRow(row, 0));
+    }
 
-            result.setParameterId(fetchId(row.getColumns().get(0)));
-            result.setId(fetchId(row.getColumns().get(1)));
-            result.setParameterValue(fetchString(row.getColumns().get(2)));
-            result.setOnTrueExpressionIds(fetchIds(row.getColumns().get(3)));
-            result.setOnFalseExpressionIds(fetchIds(row.getColumns().get(4)));
+    private IConditionalExpression processConditionalExpressionRow(Row<String> row, int offset) {
+        final IConditionalExpression result = plantFactory.getNewConditionalExpression();
 
-            return result;
-        });
+        result.setParameterId(fetchId(row.getColumns().get(offset)));
+        result.setId(fetchId(row.getColumns().get(1 + offset)));
+        result.setParameterValue(fetchString(row.getColumns().get(2 + offset)));
+        result.setOnTrueExpressionIds(fetchIds(row.getColumns().get(3 + offset)));
+        result.setOnFalseExpressionIds(fetchIds(row.getColumns().get(4 + offset)));
+
+        return result;
     }
 
     @Override
@@ -576,7 +581,7 @@ public class CSVHelper implements IBackendConversionHelper {
     }
 
     @Override
-    public Collection<ICustomProductParameter> getCustomProductParameters(String param) {
+    public Collection<ICustomProductParameter> getCustomProductParameter(String param) {
         return rowToCollection(param, row -> {
             final String typeName = row.getColumns().get(0).getValue();
             final int offset = Integer.parseInt(row.getColumns().get(1).getValue());
@@ -651,6 +656,20 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setParameterInteractionIds(fetchIds(row.getColumns().get(4)));
 
             return result;
+        });
+    }
+
+    @Override
+    public Collection<IExpression> getExpressions(String expression) {
+        return rowToCollection(expression, row -> {
+            final String typeName = row.getColumns().get(0).getValue();
+            final int offset = Integer.parseInt(row.getColumns().get(1).getValue());
+            if (typeName.contains("PlantUnitOperation")) {
+                return processPlantUnitOperationRow(row, offset);
+            } else if (typeName.contains("ConditionalExpression")) {
+                return processConditionalExpressionRow(row, offset);
+            }
+            throw new IllegalArgumentException("Unsupported type: " + typeName);
         });
     }
 

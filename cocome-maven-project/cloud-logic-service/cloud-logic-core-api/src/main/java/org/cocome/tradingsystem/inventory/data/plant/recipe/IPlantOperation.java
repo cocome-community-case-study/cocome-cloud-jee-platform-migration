@@ -21,6 +21,7 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 import org.cocome.tradingsystem.inventory.data.INameable;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +36,7 @@ public interface IPlantOperation extends INameable {
     /**
      * @return all material classes that are required for operation execution
      */
-    Collection<IEntryPoint> getInputEntryPoint();
+    Collection<IEntryPoint> getInputEntryPoint() throws NotInDatabaseException;
 
     /**
      * @param inputMaterial all material classes that are required for operation execution
@@ -45,17 +46,17 @@ public interface IPlantOperation extends INameable {
     /**
      * @return the ids of input entry pints
      */
-    Collection<Long> getInputEntryPointIds();
+    List<Long> getInputEntryPointIds();
 
     /**
      * @param entryPointId the ids of input entry pints
      */
-    void setInputEntryPointIds(Collection<Long> entryPointId);
+    void setInputEntryPointIds(List<Long> entryPointId);
 
     /**
      * @return all material classes that results after the operation execution
      */
-    Collection<IEntryPoint> getOutputEntryPoint();
+    Collection<IEntryPoint> getOutputEntryPoint() throws NotInDatabaseException;
 
     /**
      * @param outputMaterial all material classes that results after the operation execution
@@ -65,17 +66,17 @@ public interface IPlantOperation extends INameable {
     /**
      * @return the ids of output entry pints
      */
-    Collection<Long> getOutputEntryPointIds();
+    List<Long> getOutputEntryPointIds();
 
     /**
      * @param entryPointId the ids of input entry pints
      */
-    void setOutputEntryPointIds(Collection<Long> entryPointId);
+    void setOutputEntryPointIds(List<Long> entryPointId);
 
     /**
      * @return the plant that owns this production unit
      */
-    IPlant getPlant();
+    IPlant getPlant() throws NotInDatabaseException;
 
     /**
      * @param plant the plant that owns this production unit

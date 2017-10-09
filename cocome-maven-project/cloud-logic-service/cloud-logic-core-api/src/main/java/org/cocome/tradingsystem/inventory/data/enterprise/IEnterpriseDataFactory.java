@@ -70,7 +70,9 @@ public interface IEnterpriseDataFactory {
 
     IEntryPoint convertToEntryPoint(EntryPointTO entryPointTO);
 
-    /* Plant Operation Parameter */
+    /* Custom Product Parameter */
+
+    ICustomProductParameter convertToCustomProductParameter(CustomProductParameterTO customProductTO);
 
     CustomProductParameterTO fillCustomProductParameterTO(ICustomProductParameter parameter)
             throws NotInDatabaseException;

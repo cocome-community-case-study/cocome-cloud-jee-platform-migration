@@ -84,6 +84,8 @@ public interface IPlantDataFactory {
     PlantOperationParameterTO fillPlantOperationParameterTO(IPlantOperationParameter parameter)
             throws NotInDatabaseException;
 
+    IPlantOperationParameter convertToPlantOperationParameter(PlantOperationParameterTO plantOperationParameterTO);
+
     /* Boolean Plant Operation Parameter */
 
     IBooleanPlantOperationParameter getNewBooleanPlantOperationParameter();

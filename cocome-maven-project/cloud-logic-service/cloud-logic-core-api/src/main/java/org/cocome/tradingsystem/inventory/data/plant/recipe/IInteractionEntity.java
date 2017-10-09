@@ -20,6 +20,7 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.inventory.data.INameable;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
  * Used as common interface for classes who connect two other entity types with each other
@@ -36,7 +37,7 @@ public interface IInteractionEntity<
     /**
      * @return the first / source instance
      */
-    FromType getFrom();
+    FromType getFrom() throws NotInDatabaseException;
 
     /**
      * @param from the first / source instance
@@ -56,7 +57,7 @@ public interface IInteractionEntity<
     /**
      * @return the second / destination instance
      */
-    ToType getTo();
+    ToType getTo() throws NotInDatabaseException;
 
     /**
      * @param to the second / destination instance

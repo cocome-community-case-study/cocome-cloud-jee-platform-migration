@@ -57,6 +57,10 @@
     <wsdl:part name="parameters" element="tns:queryStoreByEnterpriseID">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryParameterInteractionsResponse">
+    <wsdl:part name="parameters" element="tns:queryParameterInteractionsResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="updateNorminalPlantOperationParameterResponse">
     <wsdl:part name="parameters" element="tns:updateNorminalPlantOperationParameterResponse">
     </wsdl:part>
@@ -121,6 +125,14 @@
     <wsdl:part name="parameters" element="tns:createProductResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryEntryPointInteractionsResponse">
+    <wsdl:part name="parameters" element="tns:queryEntryPointInteractionsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryPlantOperationsResponse">
+    <wsdl:part name="parameters" element="tns:queryPlantOperationsResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="updateCustomProduct">
     <wsdl:part name="parameters" element="tns:updateCustomProduct">
     </wsdl:part>
@@ -165,6 +177,14 @@
     <wsdl:part name="parameters" element="tns:queryParameterInteractionByIdResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryEntryPointInteractions">
+    <wsdl:part name="parameters" element="tns:queryEntryPointInteractions">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryEntryPoints">
+    <wsdl:part name="parameters" element="tns:queryEntryPoints">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryPlantByID">
     <wsdl:part name="parameters" element="tns:queryPlantByID">
     </wsdl:part>
@@ -189,12 +209,20 @@
     <wsdl:part name="parameters" element="tns:getProductsBySupplierResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryPlantOperationParameterByIdResponse">
+    <wsdl:part name="parameters" element="tns:queryPlantOperationParameterByIdResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getAllProductsResponse">
     <wsdl:part name="parameters" element="tns:getAllProductsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryParametersByCustomProductIDResponse">
     <wsdl:part name="parameters" element="tns:queryParametersByCustomProductIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryCustomProductParameterByID">
+    <wsdl:part name="parameters" element="tns:queryCustomProductParameterByID">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryRecipeById">
@@ -215,6 +243,14 @@
   </wsdl:message>
   <wsdl:message name="updateParameterInteraction">
     <wsdl:part name="parameters" element="tns:updateParameterInteraction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryParameterInteractions">
+    <wsdl:part name="parameters" element="tns:queryParameterInteractions">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryPlantOperations">
+    <wsdl:part name="parameters" element="tns:queryPlantOperations">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createPlantResponse">
@@ -267,6 +303,10 @@
   </wsdl:message>
   <wsdl:message name="queryParametersByPlantOperationIDResponse">
     <wsdl:part name="parameters" element="tns:queryParametersByPlantOperationIDResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryEntryPointsResponse">
+    <wsdl:part name="parameters" element="tns:queryEntryPointsResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteEntryPointInteraction">
@@ -333,8 +373,16 @@
     <wsdl:part name="parameters" element="tns:createRecipe">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryCustomProductParameterByIDResponse">
+    <wsdl:part name="parameters" element="tns:queryCustomProductParameterByIDResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createEntryPointInteraction">
     <wsdl:part name="parameters" element="tns:createEntryPointInteraction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryPlantOperationParameterById">
+    <wsdl:part name="parameters" element="tns:queryPlantOperationParameterById">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateProductResponse">
@@ -457,12 +505,12 @@
     <wsdl:part name="parameters" element="tns:createBooleanCustomProductParameterResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getEnterprises">
-    <wsdl:part name="parameters" element="tns:getEnterprises">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="createBooleanCustomProductParameter">
     <wsdl:part name="parameters" element="tns:createBooleanCustomProductParameter">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnterprises">
+    <wsdl:part name="parameters" element="tns:getEnterprises">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateRecipeResponse">
@@ -640,6 +688,14 @@
       <wsdl:output name="createEntryPointInteractionResponse" message="tns:createEntryPointInteractionResponse">
     </wsdl:output>
       <wsdl:fault name="CreateException" message="tns:CreateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryPlantOperationParameterById">
+      <wsdl:input name="queryPlantOperationParameterById" message="tns:queryPlantOperationParameterById">
+    </wsdl:input>
+      <wsdl:output name="queryPlantOperationParameterByIdResponse" message="tns:queryPlantOperationParameterByIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryStoresByEnterpriseID">
@@ -880,12 +936,6 @@
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getEnterprises">
-      <wsdl:input name="getEnterprises" message="tns:getEnterprises">
-    </wsdl:input>
-      <wsdl:output name="getEnterprisesResponse" message="tns:getEnterprisesResponse">
-    </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="createBooleanCustomProductParameter">
       <wsdl:input name="createBooleanCustomProductParameter" message="tns:createBooleanCustomProductParameter">
     </wsdl:input>
@@ -893,6 +943,12 @@
     </wsdl:output>
       <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnterprises">
+      <wsdl:input name="getEnterprises" message="tns:getEnterprises">
+    </wsdl:input>
+      <wsdl:output name="getEnterprisesResponse" message="tns:getEnterprisesResponse">
+    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="deleteNorminalPlantOperationParameter">
       <wsdl:input name="deleteNorminalPlantOperationParameter" message="tns:deleteNorminalPlantOperationParameter">
@@ -916,6 +972,22 @@
       <wsdl:input name="queryEntryPointInteractionById" message="tns:queryEntryPointInteractionById">
     </wsdl:input>
       <wsdl:output name="queryEntryPointInteractionByIdResponse" message="tns:queryEntryPointInteractionByIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryEntryPointInteractions">
+      <wsdl:input name="queryEntryPointInteractions" message="tns:queryEntryPointInteractions">
+    </wsdl:input>
+      <wsdl:output name="queryEntryPointInteractionsResponse" message="tns:queryEntryPointInteractionsResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryEntryPoints">
+      <wsdl:input name="queryEntryPoints" message="tns:queryEntryPoints">
+    </wsdl:input>
+      <wsdl:output name="queryEntryPointsResponse" message="tns:queryEntryPointsResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
@@ -1000,6 +1072,14 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="queryCustomProductParameterByID">
+      <wsdl:input name="queryCustomProductParameterByID" message="tns:queryCustomProductParameterByID">
+    </wsdl:input>
+      <wsdl:output name="queryCustomProductParameterByIDResponse" message="tns:queryCustomProductParameterByIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="queryRecipeById">
       <wsdl:input name="queryRecipeById" message="tns:queryRecipeById">
     </wsdl:input>
@@ -1042,6 +1122,22 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryParameterInteractions">
+      <wsdl:input name="queryParameterInteractions" message="tns:queryParameterInteractions">
+    </wsdl:input>
+      <wsdl:output name="queryParameterInteractionsResponse" message="tns:queryParameterInteractionsResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryPlantOperations">
+      <wsdl:input name="queryPlantOperations" message="tns:queryPlantOperations">
+    </wsdl:input>
+      <wsdl:output name="queryPlantOperationsResponse" message="tns:queryPlantOperationsResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateBooleanCustomProductParameter">
@@ -1285,6 +1381,18 @@
       </wsdl:output>
       <wsdl:fault name="CreateException">
         <soap:fault name="CreateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryPlantOperationParameterById">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryPlantOperationParameterById">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryPlantOperationParameterByIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryStoresByEnterpriseID">
@@ -1644,15 +1752,6 @@
         <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="getEnterprises">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="getEnterprises">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getEnterprisesResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="createBooleanCustomProductParameter">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="createBooleanCustomProductParameter">
@@ -1664,6 +1763,15 @@
       <wsdl:fault name="CreateException">
         <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnterprises">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getEnterprises">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEnterprisesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="deleteNorminalPlantOperationParameter">
       <soap:operation soapAction="" style="document"/>
@@ -1698,6 +1806,30 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="queryEntryPointInteractionByIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryEntryPointInteractions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryEntryPointInteractions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryEntryPointInteractionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryEntryPoints">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryEntryPoints">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryEntryPointsResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
@@ -1824,6 +1956,18 @@
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="queryCustomProductParameterByID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryCustomProductParameterByID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryCustomProductParameterByIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="queryRecipeById">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="queryRecipeById">
@@ -1888,6 +2032,30 @@
       </wsdl:fault>
       <wsdl:fault name="UpdateException">
         <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryParameterInteractions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryParameterInteractions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryParameterInteractionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryPlantOperations">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryPlantOperations">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryPlantOperationsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateBooleanCustomProductParameter">

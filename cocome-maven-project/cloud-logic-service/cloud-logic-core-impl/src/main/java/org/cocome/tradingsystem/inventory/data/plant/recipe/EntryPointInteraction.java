@@ -18,7 +18,13 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 
 /**
  * @author Rudolf Biczok
@@ -27,4 +33,45 @@ import javax.enterprise.context.Dependent;
 public class EntryPointInteraction extends InteractionEntity<IEntryPoint, IEntryPoint>
         implements IEntryPointInteraction {
     private static final long serialVersionUID = 1L;
+
+    private IEntryPoint from;
+    private IEntryPoint to;
+
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    @PostConstruct
+    public void initPlant() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        from = null;
+        to = null;
+    }
+
+    @Override
+    public IEntryPoint getFrom() throws NotInDatabaseException {
+        if (from == null) {
+            from = enterpriseQuery.queryEntryPointByID(fromId);
+        }
+        return from;
+    }
+
+    @Override
+    public void setFrom(IEntryPoint from) {
+        this.from = from;
+    }
+
+    @Override
+    public IEntryPoint getTo() throws NotInDatabaseException {
+        if (to == null) {
+            to = enterpriseQuery.queryEntryPointByID(fromId);
+        }
+        return to;
+    }
+
+    @Override
+    public void setTo(IEntryPoint to) {
+        this.to = to;
+    }
 }

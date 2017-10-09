@@ -2,6 +2,7 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -11,7 +12,9 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 
@@ -44,6 +47,11 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
     }
 
     @Override
+    public IExpression queryExpressionById(long expressionId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getExpressions, "Expression", expressionId);
+    }
+
+    @Override
     public Collection<IProductionUnitOperation> queryProductionUnitOperationsByProductionUnitClassId(long productionUnitClassID) {
         return csvHelper.getProductionUnitOperations(backendConnection.getEntity(
                 "ProductionUnitOperation",
@@ -64,6 +72,18 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
                 csvHelper::getConditionalExpressions,
                 "ConditionalExpression",
                 conditionalExpressionId);
+    }
+
+    @Override
+    public List<IExpression> queryExpressionsByIdList(List<Long> expressionIds) throws NotInDatabaseException {
+        if (expressionIds == null) {
+            return null;
+        }
+        final List<IExpression> expressions = new ArrayList<>(expressionIds.size());
+        for (final long id : expressionIds) {
+            expressions.add(queryExpressionById(id));
+        }
+        return expressions;
     }
 
     private <T> T getSingleEntity(Function<String, Collection<T>> converter,

@@ -163,6 +163,18 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
+    public IPlantOperationParameter convertToPlantOperationParameter(PlantOperationParameterTO plantOperationParameterTO) {
+        if (BooleanPlantOperationParameterTO.class.isAssignableFrom(plantOperationParameterTO.getClass())) {
+            return this.convertToBooleanPlantOperationParameter(
+                    (BooleanPlantOperationParameterTO) plantOperationParameterTO);
+        } else if (NorminalPlantOperationParameterTO.class.isAssignableFrom(plantOperationParameterTO.getClass())) {
+            return this.convertToNorminalPlantOperationParameter(
+                    (NorminalPlantOperationParameterTO) plantOperationParameterTO);
+        }
+        throw new IllegalArgumentException("Unknown class to handle: " + plantOperationParameterTO.getClass());
+    }
+
+    @Override
     public IPlantOperation getNewPlantOperation() {
         return plantOperationProvider.get();
     }

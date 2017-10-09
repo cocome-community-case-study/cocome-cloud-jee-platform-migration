@@ -19,12 +19,14 @@
 package org.cocome.tradingsystem.inventory.data.plant;
 
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.ejb.Local;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * This interface provides methods for querying the database.
@@ -52,6 +54,12 @@ public interface IPlantQuery {
     IProductionUnitClass queryProductionUnitClass(long productionUnitClassID) throws NotInDatabaseException;
 
     /**
+     * @param expressionIds the id of the target expression
+     * @return the expression by the given expressionId
+     */
+    IExpression queryExpressionById(long expressionIds) throws NotInDatabaseException;
+
+    /**
      * Retrieves all production unit operations belonging to the given unit class from the database.
      *
      * @param productionUnitClassID the unique identifier of a {@link IProductionUnitClass} entity
@@ -76,4 +84,10 @@ public interface IPlantQuery {
      * @throws NotInDatabaseException if no {@link IConditionalExpression} could be found
      */
     IConditionalExpression queryConditionalExpression(long conditionalExpressionId) throws NotInDatabaseException;
+
+    /**
+     * @param expressionIds the IDs of the expressions supposed to be retrieved
+     * @return a list of expressions according to the given id list.
+     */
+    List<IExpression> queryExpressionsByIdList(List<Long> expressionIds) throws NotInDatabaseException;
 }

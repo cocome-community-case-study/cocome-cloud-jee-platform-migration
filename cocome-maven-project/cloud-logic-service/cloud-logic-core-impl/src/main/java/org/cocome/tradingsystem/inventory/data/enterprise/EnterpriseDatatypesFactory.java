@@ -214,6 +214,18 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     }
 
     @Override
+    public ICustomProductParameter convertToCustomProductParameter(CustomProductParameterTO customProductTO) {
+        if (BooleanCustomProductParameterTO.class.isAssignableFrom(customProductTO.getClass())) {
+            return this.convertToBooleanCustomProductParameter(
+                    (BooleanCustomProductParameterTO) customProductTO);
+        } else if (NorminalCustomProductParameterTO.class.isAssignableFrom(customProductTO.getClass())) {
+            return this.convertToNorminalCustomProductParameter(
+                    (NorminalCustomProductParameterTO) customProductTO);
+        }
+        throw new IllegalArgumentException("Unknown class to handle: " + customProductTO.getClass());
+    }
+
+    @Override
     public CustomProductParameterTO fillCustomProductParameterTO(ICustomProductParameter parameter)
             throws NotInDatabaseException {
         if (IBooleanCustomProductParameter.class.isAssignableFrom(parameter.getClass())) {

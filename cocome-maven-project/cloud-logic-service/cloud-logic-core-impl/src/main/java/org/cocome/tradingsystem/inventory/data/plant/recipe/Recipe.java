@@ -19,10 +19,16 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents the top-level recipe for producing a custom product.
@@ -40,13 +46,27 @@ public class Recipe implements Serializable, IRecipe {
 
     // Represent the vertices of the recipe graph
     private Collection<IPlantOperation> operations;
-    private Collection<Long> operationIds;
+    private List<Long> operationIds;
 
     // Represent the edges of the recipe graph
     private Collection<IParameterInteraction> parameterInteractions;
     private Collection<IEntryPointInteraction> entryPointInteractions;
-    private Collection<Long> parameterInteractionIds;
-    private Collection<Long> entryPointInteractionIds;
+    private List<Long> parameterInteractionIds;
+    private List<Long> entryPointInteractionIds;
+
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    @PostConstruct
+    public void initPlant() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        customProduct = null;
+        operations = null;
+        entryPointInteractions = null;
+        parameterInteractionIds = null;
+    }
 
     @Override
     public long getId() {
@@ -59,7 +79,10 @@ public class Recipe implements Serializable, IRecipe {
     }
 
     @Override
-    public ICustomProduct getCustomProduct() {
+    public ICustomProduct getCustomProduct() throws NotInDatabaseException {
+        if (customProduct == null) {
+            customProduct = enterpriseQuery.queryCustomProductByID(customProductId);
+        }
         return customProduct;
     }
 
@@ -79,7 +102,10 @@ public class Recipe implements Serializable, IRecipe {
     }
 
     @Override
-    public Collection<IPlantOperation> getOperations() {
+    public Collection<IPlantOperation> getOperations() throws NotInDatabaseException {
+        if (operations == null) {
+            operations = enterpriseQuery.queryPlantOperations(operationIds);
+        }
         return operations;
     }
 
@@ -89,12 +115,12 @@ public class Recipe implements Serializable, IRecipe {
     }
 
     @Override
-    public Collection<Long> getOperationIds() {
+    public List<Long> getOperationIds() {
         return operationIds;
     }
 
     @Override
-    public void setOperationIds(Collection<Long> operationIds) {
+    public void setOperationIds(List<Long> operationIds) {
         this.operationIds = operationIds;
     }
 
@@ -104,22 +130,28 @@ public class Recipe implements Serializable, IRecipe {
     }
 
     @Override
-    public void setEntryPointInteractions(Collection<IEntryPointInteraction> entryPointInteractions) {
+    public void setEntryPointInteractions(Collection<IEntryPointInteraction> entryPointInteractions) throws NotInDatabaseException {
+        if (entryPointInteractions == null) {
+            entryPointInteractions = enterpriseQuery.queryEntryPointInteractions(entryPointInteractionIds);
+        }
         this.entryPointInteractions = entryPointInteractions;
     }
 
     @Override
-    public Collection<Long> getEntryPointInteractionIds() {
+    public List<Long> getEntryPointInteractionIds() {
         return entryPointInteractionIds;
     }
 
     @Override
-    public void setEntryPointInteractionIds(Collection<Long> entryPointInteractionIds) {
+    public void setEntryPointInteractionIds(List<Long> entryPointInteractionIds) {
         this.entryPointInteractionIds = entryPointInteractionIds;
     }
 
     @Override
-    public Collection<IParameterInteraction> getParameterInteractions() {
+    public Collection<IParameterInteraction> getParameterInteractions() throws NotInDatabaseException {
+        if (parameterInteractions == null) {
+            parameterInteractions = enterpriseQuery.queryParameterInteractions(parameterInteractionIds);
+        }
         return parameterInteractions;
     }
 
@@ -129,12 +161,12 @@ public class Recipe implements Serializable, IRecipe {
     }
 
     @Override
-    public Collection<Long> getParameterInteractionIds() {
+    public List<Long> getParameterInteractionIds() {
         return parameterInteractionIds;
     }
 
     @Override
-    public void setParameterInteractionIds(Collection<Long> parameterInteractionIds) {
+    public void setParameterInteractionIds(List<Long> parameterInteractionIds) {
         this.parameterInteractionIds = parameterInteractionIds;
     }
 }

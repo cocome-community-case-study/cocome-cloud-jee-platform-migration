@@ -18,9 +18,16 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.expression;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,8 +49,30 @@ public class ConditionalExpression extends Expression implements IConditionalExp
     private List<IExpression> onFalseExpressions;
     private List<Long> onFalseExpressionIds;
 
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    @Inject
+    private Instance<IPlantQuery> plantQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    private IPlantQuery plantQuery;
+
+    @PostConstruct
+    public void init() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        plantQuery = plantQueryInstance.get();
+        parameter = null;
+        onTrueExpressions = null;
+        onFalseExpressionIds = null;
+    }
+
     @Override
-    public IPlantOperationParameter getParameter() {
+    public IPlantOperationParameter getParameter() throws NotInDatabaseException {
+        if (parameter == null) {
+            parameter = enterpriseQuery.queryPlantOperationParameterById(parameterId);
+        }
         return parameter;
     }
 
@@ -73,7 +102,10 @@ public class ConditionalExpression extends Expression implements IConditionalExp
     }
 
     @Override
-    public List<IExpression> getOnTrueExpressions() {
+    public List<IExpression> getOnTrueExpressions() throws NotInDatabaseException {
+        if (onTrueExpressions == null) {
+            onTrueExpressions = plantQuery.queryExpressionsByIdList(this.getOnTrueExpressionIds());
+        }
         return onTrueExpressions;
     }
 
@@ -83,7 +115,10 @@ public class ConditionalExpression extends Expression implements IConditionalExp
     }
 
     @Override
-    public List<IExpression> getOnFalseExpressions() {
+    public List<IExpression> getOnFalseExpressions() throws NotInDatabaseException {
+        if (onFalseExpressions == null) {
+            onFalseExpressions = plantQuery.queryExpressionsByIdList(this.getOnTrueExpressionIds());
+        }
         return onFalseExpressions;
     }
 

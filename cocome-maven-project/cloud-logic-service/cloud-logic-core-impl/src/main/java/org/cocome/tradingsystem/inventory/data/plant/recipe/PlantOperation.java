@@ -18,10 +18,15 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -44,8 +49,21 @@ public class PlantOperation implements Serializable, IPlantOperation {
 
     private long plantId;
     private List<Long> expressionIds;
-    private Collection<Long> inputEntryPointIds;
-    private Collection<Long> outputEntryPointIds;
+    private List<Long> inputEntryPointIds;
+    private List<Long> outputEntryPointIds;
+
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    @PostConstruct
+    public void initPlant() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        plant = null;
+        inputEntryPoint = null;
+        outputEntryPoint = null;
+    }
 
     @Override
     public long getId() {
@@ -68,7 +86,10 @@ public class PlantOperation implements Serializable, IPlantOperation {
     }
 
     @Override
-    public Collection<IEntryPoint> getInputEntryPoint() {
+    public Collection<IEntryPoint> getInputEntryPoint() throws NotInDatabaseException {
+        if (inputEntryPoint == null) {
+            inputEntryPoint = enterpriseQuery.queryEntryPoints(inputEntryPointIds);
+        }
         return inputEntryPoint;
     }
 
@@ -78,17 +99,20 @@ public class PlantOperation implements Serializable, IPlantOperation {
     }
 
     @Override
-    public Collection<Long> getInputEntryPointIds() {
+    public List<Long> getInputEntryPointIds() {
         return inputEntryPointIds;
     }
 
     @Override
-    public void setInputEntryPointIds(Collection<Long> inputEntryPointIds) {
+    public void setInputEntryPointIds(List<Long> inputEntryPointIds) {
         this.inputEntryPointIds = inputEntryPointIds;
     }
 
     @Override
-    public Collection<IEntryPoint> getOutputEntryPoint() {
+    public Collection<IEntryPoint> getOutputEntryPoint() throws NotInDatabaseException {
+        if (outputEntryPoint == null) {
+            outputEntryPoint = enterpriseQuery.queryEntryPoints(outputEntryPointIds);
+        }
         return outputEntryPoint;
     }
 
@@ -98,17 +122,20 @@ public class PlantOperation implements Serializable, IPlantOperation {
     }
 
     @Override
-    public Collection<Long> getOutputEntryPointIds() {
+    public List<Long> getOutputEntryPointIds() {
         return outputEntryPointIds;
     }
 
     @Override
-    public void setOutputEntryPointIds(Collection<Long> outputEntryPointIds) {
+    public void setOutputEntryPointIds(List<Long> outputEntryPointIds) {
         this.outputEntryPointIds = outputEntryPointIds;
     }
 
     @Override
-    public IPlant getPlant() {
+    public IPlant getPlant() throws NotInDatabaseException {
+        if (plant == null) {
+            plant = enterpriseQuery.queryPlant(plantId);
+        }
         return plant;
     }
 

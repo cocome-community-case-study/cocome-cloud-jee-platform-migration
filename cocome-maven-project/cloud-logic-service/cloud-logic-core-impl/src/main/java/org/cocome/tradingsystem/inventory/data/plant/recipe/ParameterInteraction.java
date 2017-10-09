@@ -20,10 +20,15 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 
 /**
  * Used to connect parameters from {@link CustomProductTO} and {@link PlantOperationTO}.
@@ -38,4 +43,45 @@ public class ParameterInteraction extends InteractionEntity<
         IPlantOperationParameter>
         implements IParameterInteraction {
     private static final long serialVersionUID = 1L;
+
+    private ICustomProductParameter from;
+    private IPlantOperationParameter to;
+
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    @PostConstruct
+    public void initPlant() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        from = null;
+        to = null;
+    }
+
+    @Override
+    public ICustomProductParameter getFrom() throws NotInDatabaseException {
+        if (from == null) {
+            from = enterpriseQuery.queryCustomProductParameterByID(fromId);
+        }
+        return from;
+    }
+
+    @Override
+    public void setFrom(ICustomProductParameter from) {
+        this.from = from;
+    }
+
+    @Override
+    public IPlantOperationParameter getTo() throws NotInDatabaseException {
+        if (to == null) {
+            to = enterpriseQuery.queryPlantOperationParameterById(fromId);
+        }
+        return to;
+    }
+
+    @Override
+    public void setTo(IPlantOperationParameter to) {
+        this.to = to;
+    }
 }

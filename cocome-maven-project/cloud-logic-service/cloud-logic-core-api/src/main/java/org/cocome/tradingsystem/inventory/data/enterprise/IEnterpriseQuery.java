@@ -33,6 +33,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import javax.ejb.Local;
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * This interface provides methods for querying the database. It is used by the
@@ -255,6 +256,8 @@ public interface IEnterpriseQuery {
      */
     IEntryPoint queryEntryPointByID(long entryPointId) throws NotInDatabaseException;
 
+    Collection<IEntryPoint> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException;
+
     IBooleanCustomProductParameter queryBooleanCustomProductParameterByID(long booleanCustomProductParameterId)
             throws NotInDatabaseException;
 
@@ -275,9 +278,21 @@ public interface IEnterpriseQuery {
     INorminalPlantOperationParameter queryNorminalPlantOperationParameterByID(long norminalPlantOperationParameterId)
             throws NotInDatabaseException;
 
+    IPlantOperationParameter queryPlantOperationParameterById(long parameterId) throws NotInDatabaseException;
+
     IEntryPointInteraction queryEntryPointInteractionByID(long entryPointInteractionId) throws NotInDatabaseException;
 
     IParameterInteraction queryParameterInteractionByID(long parameterInteractionId) throws NotInDatabaseException;
 
     IRecipe queryRecipeByID(long recipeId) throws NotInDatabaseException;
+
+    Collection<IEntryPointInteraction> queryEntryPointInteractions(List<Long> entryPointInteractionIds)
+            throws NotInDatabaseException;
+
+    Collection<IParameterInteraction> queryParameterInteractions(List<Long> parameterInteractionIds)
+            throws NotInDatabaseException;
+
+    Collection<IPlantOperation> queryPlantOperations(List<Long> operationIds) throws NotInDatabaseException;
+
+    ICustomProductParameter queryCustomProductParameterByID(long fromId) throws NotInDatabaseException;
 }

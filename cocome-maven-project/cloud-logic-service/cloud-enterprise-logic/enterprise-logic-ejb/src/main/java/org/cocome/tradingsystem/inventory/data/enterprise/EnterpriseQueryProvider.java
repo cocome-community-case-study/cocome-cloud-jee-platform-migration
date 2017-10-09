@@ -19,11 +19,9 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Stateless
 @Local
@@ -180,6 +178,11 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public Collection<IEntryPoint> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException {
+        return getEntitiesByIdCollection(csvHelper::getEntryPoints, "EntryPoint", entryPointIds);
+    }
+
+    @Override
     public IBooleanCustomProductParameter queryBooleanCustomProductParameterByID(long booleanCustomProductParameterId)
             throws NotInDatabaseException {
         return getSingleEntity(csvHelper::getBooleanCustomProductParameter, "BooleanCustomProductParameter", booleanCustomProductParameterId);
@@ -194,7 +197,7 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     @Override
     public Collection<ICustomProductParameter> queryParametersByCustomProductID(long customProductId) {
         return csvHelper
-                .getCustomProductParameters(backendConnection.getEntity(
+                .getCustomProductParameter(backendConnection.getEntity(
                         "CustomProductParameter",
                         "product.id==" + customProductId));
     }
@@ -214,6 +217,11 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public IPlantOperationParameter queryPlantOperationParameterById(long parameterId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getPlantOperationParameters, "PlantOperationParameter", parameterId);
+    }
+
+    @Override
     public IEntryPointInteraction queryEntryPointInteractionByID(long entryPointInteractionId) throws NotInDatabaseException {
         return getSingleEntity(csvHelper::getEntryPointInteraction, "EntryPointInteraction", entryPointInteractionId);
 
@@ -227,7 +235,35 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     @Override
     public IRecipe queryRecipeByID(long recipeId) throws NotInDatabaseException {
         return getSingleEntity(csvHelper::getRecipe, "Recipe", recipeId);
+    }
 
+    @Override
+    public Collection<IEntryPointInteraction> queryEntryPointInteractions(List<Long> entryPointInteractionIds) throws NotInDatabaseException {
+        return getEntitiesByIdCollection(
+                csvHelper::getEntryPointInteraction,
+                "EntryPointInteraction",
+                entryPointInteractionIds);
+    }
+
+    @Override
+    public Collection<IParameterInteraction> queryParameterInteractions(List<Long> parameterInteractionIds) throws NotInDatabaseException {
+        return getEntitiesByIdCollection(
+                csvHelper::getParameterInteraction,
+                "ParameterInteraction",
+                parameterInteractionIds);
+    }
+
+    @Override
+    public Collection<IPlantOperation> queryPlantOperations(List<Long> operationIds) throws NotInDatabaseException {
+        return getEntitiesByIdCollection(
+                csvHelper::getPlantOperation,
+                "PlantOperation",
+                operationIds);
+    }
+
+    @Override
+    public ICustomProductParameter queryCustomProductParameterByID(long customProductParameterId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getCustomProductParameter, "CustomProductParameter", customProductParameterId);
     }
 
     @Override
@@ -323,9 +359,16 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
         }
     }
 
-    private <T> T getSingleEntity(Function<String, Collection<T>> converter,
-                                  String entity,
-                                  String condition) throws NotInDatabaseException {
+    private <T> Collection<T> getEntitiesByIdCollection(final Function<String, Collection<T>> converter,
+                                                        final String entity,
+                                                        final Collection<Long> entryPointInteractionIds) {
+        return converter.apply(backendConnection.getEntity(entity, "id IN ("
+                + entryPointInteractionIds.stream().map(String::valueOf).collect(Collectors.joining(",")) + ")"));
+    }
+
+    private <T> T getSingleEntity(final Function<String, Collection<T>> converter,
+                                  final String entity,
+                                  final String condition) throws NotInDatabaseException {
         try {
             return converter.apply(backendConnection.getEntity(entity, condition)).iterator().next();
         } catch (NoSuchElementException e) {

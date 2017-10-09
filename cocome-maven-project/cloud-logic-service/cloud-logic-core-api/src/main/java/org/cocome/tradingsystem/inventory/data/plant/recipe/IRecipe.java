@@ -20,8 +20,10 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Represents the top-level recipe for producing a custom product.
@@ -33,7 +35,7 @@ public interface IRecipe extends IIdentifiable {
     /**
      * @return the custom product for which this recipe provides the production details
      */
-    ICustomProduct getCustomProduct();
+    ICustomProduct getCustomProduct() throws NotInDatabaseException;
 
     /**
      * @param customProduct the custom product for which this recipe provides the production details
@@ -53,7 +55,7 @@ public interface IRecipe extends IIdentifiable {
     /**
      * @return the list of plant operations needed to be executed
      */
-    Collection<IPlantOperation> getOperations();
+    Collection<IPlantOperation> getOperations() throws NotInDatabaseException;
 
     /**
      * @param operations the list of plant operations needed to be executed
@@ -63,12 +65,12 @@ public interface IRecipe extends IIdentifiable {
     /**
      * @return the list of plant operation IDs
      */
-    Collection<Long> getOperationIds();
+    List<Long> getOperationIds();
 
     /**
      * @param operationIds the list of plant operation IDs
      */
-    void setOperationIds(Collection<Long> operationIds);
+    void setOperationIds(List<Long> operationIds);
 
     /**
      * @return the list of interactions
@@ -78,22 +80,22 @@ public interface IRecipe extends IIdentifiable {
     /**
      * @param entryPointInteractions the list of interactions
      */
-    void setEntryPointInteractions(Collection<IEntryPointInteraction> entryPointInteractions);
+    void setEntryPointInteractions(Collection<IEntryPointInteraction> entryPointInteractions) throws NotInDatabaseException;
 
     /**
      * @return the list of interaction IDs
      */
-    Collection<Long> getEntryPointInteractionIds();
+    List<Long> getEntryPointInteractionIds();
 
     /**
      * @param entryPointInteractionIds the list of interactions
      */
-    void setEntryPointInteractionIds(Collection<Long> entryPointInteractionIds);
+    void setEntryPointInteractionIds(List<Long> entryPointInteractionIds);
 
     /**
      * @return the list of parameter bindings
      */
-    Collection<IParameterInteraction> getParameterInteractions();
+    Collection<IParameterInteraction> getParameterInteractions() throws NotInDatabaseException;
 
     /**
      * @param parameterInteractions the list of parameter bindings
@@ -103,10 +105,10 @@ public interface IRecipe extends IIdentifiable {
     /**
      * @return the list of parameter bindings
      */
-    Collection<Long> getParameterInteractionIds();
+    List<Long> getParameterInteractionIds();
 
     /**
      * @param parameterInteractionIds the list of parameter bindings
      */
-    void setParameterInteractionIds(Collection<Long> parameterInteractionIds);
+    void setParameterInteractionIds(List<Long> parameterInteractionIds);
 }

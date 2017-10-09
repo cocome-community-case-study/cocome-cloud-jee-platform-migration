@@ -352,6 +352,13 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public Collection<IEntryPoint> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException {
+        return queryCollection(defaultEnterpriseIndex,
+                enterpriseManager -> enterpriseManager.queryEntryPoints(entryPointIds),
+                enterpriseFactory::convertToEntryPoint);
+    }
+
+    @Override
     public IBooleanCustomProductParameter queryBooleanCustomProductParameterByID(long booleanCustomProductParameterId)
             throws NotInDatabaseException {
         return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
@@ -450,6 +457,13 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public IPlantOperationParameter queryPlantOperationParameterById(long parameterId) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                plantFactory.convertToPlantOperationParameter(
+                        enterpriseManager.queryPlantOperationParameterById(parameterId)));
+    }
+
+    @Override
     public IEntryPointInteraction queryEntryPointInteractionByID(long entryPointInteractionId) throws NotInDatabaseException {
         return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
                 plantFactory.convertToEntryPointInteraction(
@@ -467,6 +481,34 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     public IRecipe queryRecipeByID(long recipeId) throws NotInDatabaseException {
         return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
                 plantFactory.convertToRecipe(enterpriseManager.queryRecipeById(recipeId)));
+    }
+
+    @Override
+    public Collection<IEntryPointInteraction> queryEntryPointInteractions(List<Long> entryPointInteractionIds) throws NotInDatabaseException {
+        return queryCollection(defaultEnterpriseIndex,
+                enterpriseManager -> enterpriseManager.queryEntryPointInteractions(entryPointInteractionIds),
+                plantFactory::convertToEntryPointInteraction);
+    }
+
+    @Override
+    public Collection<IParameterInteraction> queryParameterInteractions(List<Long> parameterInteractionIds) throws NotInDatabaseException {
+        return queryCollection(defaultEnterpriseIndex,
+                enterpriseManager -> enterpriseManager.queryParameterInteractions(parameterInteractionIds),
+                plantFactory::convertToParameterInteraction);
+    }
+
+    @Override
+    public Collection<IPlantOperation> queryPlantOperations(List<Long> operationIds) throws NotInDatabaseException {
+        return queryCollection(defaultEnterpriseIndex,
+                enterpriseManager -> enterpriseManager.queryPlantOperations(operationIds),
+                plantFactory::convertToPlantOperation);
+    }
+
+    @Override
+    public ICustomProductParameter queryCustomProductParameterByID(long customProductParameterId) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                enterpriseFactory.convertToCustomProductParameter(
+                        enterpriseManager.queryCustomProductParameterByID(customProductParameterId)));
     }
 
     @Override
@@ -503,10 +545,10 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     private <T1, T2> Collection<T1> queryCollection(final long enterpriseID,
-                                                    final ThrowingFunction<IEnterpriseManager, List<T2>, NotInDatabaseException_Exception> supplier,
+                                                    final ThrowingFunction<IEnterpriseManager, Collection<T2>, NotInDatabaseException_Exception> supplier,
                                                     final Function<T2, T1> converter) {
         IEnterpriseManager enterpriseManager;
-        List<T2> toList;
+        Collection<T2> toList;
         try {
             enterpriseManager = lookupEnterpriseManager(enterpriseID);
             toList = supplier.apply(enterpriseManager);
@@ -515,7 +557,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
             return Collections.emptyList();
         }
 
-        List<T1> instanceList = new ArrayList<>(toList.size());
+        Collection<T1> instanceList = new ArrayList<>(toList.size());
 
         for (T2 plantTO : toList) {
             instanceList.add(converter.apply(plantTO));

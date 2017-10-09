@@ -9,6 +9,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProdu
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
@@ -56,7 +57,7 @@ public interface IBackendConversionHelper {
 
     Collection<INorminalCustomProductParameter> getNorminalCustomProductParameter(String param);
 
-    Collection<ICustomProductParameter> getCustomProductParameters(String customProductParameter);
+    Collection<ICustomProductParameter> getCustomProductParameter(String customProductParameter);
 
     Collection<IPlantOperation> getPlantOperation(String plantOperation);
 
@@ -72,4 +73,5 @@ public interface IBackendConversionHelper {
 
     Collection<IRecipe> getRecipe(String recipe);
 
+    Collection<IExpression> getExpressions(String expression);
 }

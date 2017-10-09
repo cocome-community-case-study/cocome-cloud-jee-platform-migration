@@ -35,57 +35,18 @@ public abstract class InteractionEntity<
         implements Serializable, IInteractionEntity<FromType, ToType> {
     private static final long serialVersionUID = 1L;
 
-    private long id;
-    private FromType from;
-    private long fromId;
-    private ToType to;
-    private long toId;
+    protected long id;
+    protected long fromId;
+    protected long toId;
 
-    /**
-     * @return the database id
-     */
+    @Override
     public long getId() {
         return this.id;
     }
 
-    /**
-     * @param id the database id
-     */
     @Override
     public void setId(final long id) {
         this.id = id;
-    }
-
-    /**
-     * @return the first / source instance
-     */
-    @Override
-    public FromType getFrom() {
-        return from;
-    }
-
-    /**
-     * @param from the first / source instance
-     */
-    @Override
-    public void setFrom(FromType from) {
-        this.from = from;
-    }
-
-    /**
-     * @return the second / destination instance
-     */
-    @Override
-    public ToType getTo() {
-        return to;
-    }
-
-    /**
-     * @param to the second / destination instance
-     */
-    @Override
-    public void setTo(ToType to) {
-        this.to = to;
     }
 
     @Override

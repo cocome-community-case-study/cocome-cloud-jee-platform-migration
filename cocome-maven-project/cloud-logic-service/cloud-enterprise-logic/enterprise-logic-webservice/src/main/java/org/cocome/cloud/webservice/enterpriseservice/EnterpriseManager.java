@@ -20,10 +20,7 @@ package org.cocome.cloud.webservice.enterpriseservice;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
-import org.cocome.cloud.logic.webservice.DBCreateAction;
-import org.cocome.cloud.logic.webservice.DBObjectSupplier;
-import org.cocome.cloud.logic.webservice.DBUpdateAction;
-import org.cocome.cloud.logic.webservice.ThrowingFunction;
+import org.cocome.cloud.logic.webservice.*;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
@@ -64,6 +61,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -249,18 +247,9 @@ public class EnterpriseManager implements IEnterpriseManager {
     public Collection<StoreWithEnterpriseTO> queryStoresByEnterpriseID(long enterpriseId)
             throws NotInDatabaseException {
         setContextRegistry(enterpriseId);
-        Collection<IStore> stores = enterpriseQuery.queryStoresByEnterpriseId(enterpriseId);
-        Collection<StoreWithEnterpriseTO> storeTOs = new ArrayList<>(stores.size());
-        for (IStore store : stores) {
-            try {
-                storeTOs.add(storeFactory.fillStoreWithEnterpriseTO(store));
-            } catch (NotInDatabaseException e) {
-                LOG.error("Got NotInDatabaseException: " + e);
-                e.printStackTrace();
-                throw e;
-            }
-        }
-        return storeTOs;
+        return queryCollectionByEnterpriseID(enterpriseId,
+                enterpriseQuery::queryStoresByEnterpriseId,
+                storeFactory::fillStoreWithEnterpriseTO);
     }
 
     @Override
@@ -306,6 +295,12 @@ public class EnterpriseManager implements IEnterpriseManager {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    @Override
+    public CustomProductParameterTO queryCustomProductParameterByID(long customProductParameterId) throws NotInDatabaseException {
+        return enterpriseFactory.fillCustomProductParameterTO(
+                enterpriseQuery.queryCustomProductParameterByID(customProductParameterId));
     }
 
     @Override
@@ -564,6 +559,12 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
+    public Collection<EntryPointTO> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException {
+        return queryCollection(enterpriseQuery.queryEntryPoints(entryPointIds),
+                enterpriseFactory::fillEntryPointTO);
+    }
+
+    @Override
     public EntryPointTO queryEntryPointById(long entryPointId) throws NotInDatabaseException {
         return enterpriseFactory.fillEntryPointTO(enterpriseQuery.queryEntryPointByID(entryPointId));
     }
@@ -674,6 +675,21 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
+    public Collection<PlantOperationTO> queryPlantOperations(List<Long> operationIDs) throws NotInDatabaseException {
+        Collection<IPlantOperation> instances = enterpriseQuery.queryPlantOperations(operationIDs);
+        Collection<PlantOperationTO> toInstances = new ArrayList<>(instances.size());
+        for (IPlantOperation instance : instances) {
+            try {
+                toInstances.add(plantFactory.fillPlantOperationTO(instance));
+            } catch (NotInDatabaseException e) {
+                LOG.error("Got NotInDatabaseException: " + e, e);
+                throw e;
+            }
+        }
+        return toInstances;
+    }
+
+    @Override
     public PlantOperationTO queryPlantOperationById(long plantOperationId) throws NotInDatabaseException {
         return plantFactory.fillPlantOperationTO(
                 enterpriseQuery.queryPlantOperationByID(plantOperationId));
@@ -697,6 +713,12 @@ public class EnterpriseManager implements IEnterpriseManager {
         final IPlantOperation param = saveFetchFromDB(() ->
                 enterpriseQuery.queryPlantOperationByID(plantOperationTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+    }
+
+    @Override
+    public PlantOperationParameterTO queryPlantOperationParameterById(long plantOperationParameterId) throws NotInDatabaseException {
+        return plantFactory.fillPlantOperationParameterTO(
+                enterpriseQuery.queryPlantOperationParameterById(plantOperationParameterId));
     }
 
     @Override
@@ -785,6 +807,12 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
+    public Collection<EntryPointInteractionTO> queryEntryPointInteractions(List<Long> entryPointInteractionIds) throws NotInDatabaseException {
+        return queryCollection(enterpriseQuery.queryEntryPointInteractions(entryPointInteractionIds),
+                plantFactory::fillEntryPointInteractionTO);
+    }
+
+    @Override
     public EntryPointInteractionTO queryEntryPointInteractionById(long entryPointInteractionId)
             throws NotInDatabaseException {
         return plantFactory.fillEntryPointInteractionTO(
@@ -811,6 +839,12 @@ public class EnterpriseManager implements IEnterpriseManager {
         final IEntryPointInteraction param = saveFetchFromDB(() ->
                 enterpriseQuery.queryEntryPointInteractionByID(entryPointInteractionTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+    }
+
+    @Override
+    public Collection<ParameterInteractionTO> queryParameterInteractions(List<Long> parameterInteractionIds) throws NotInDatabaseException {
+        return queryCollection(enterpriseQuery.queryParameterInteractions(parameterInteractionIds),
+                plantFactory::fillParameterInteractionTO);
     }
 
     @Override
@@ -877,12 +911,9 @@ public class EnterpriseManager implements IEnterpriseManager {
                 .getBarcode());
     }
 
-    private <T1, T2> Collection<T2> queryCollectionByEnterpriseID(long enterpriseId,
-                                                                  final Function<Long, Collection<T1>> queryCommand,
-                                                                  final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)
+    private <T1, T2> Collection<T2> queryCollection(Collection<T1> instances,
+                                                    final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)
             throws NotInDatabaseException {
-        setContextRegistry(enterpriseId);
-        Collection<T1> instances = queryCommand.apply(enterpriseId);
         Collection<T2> toInstances = new ArrayList<>(instances.size());
         for (T1 instance : instances) {
             try {
@@ -893,6 +924,14 @@ public class EnterpriseManager implements IEnterpriseManager {
             }
         }
         return toInstances;
+    }
+
+    private <T1, T2> Collection<T2> queryCollectionByEnterpriseID(long enterpriseId,
+                                                                  final Function<Long, Collection<T1>> queryCommand,
+                                                                  final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)
+            throws NotInDatabaseException {
+        setContextRegistry(enterpriseId);
+        return queryCollection(queryCommand.apply(enterpriseId), conversionCommand);
     }
 
     private <T> T saveFetchFromDB(DBObjectSupplier<T> supplier) throws NotInDatabaseException {

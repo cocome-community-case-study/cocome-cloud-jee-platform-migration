@@ -104,6 +104,8 @@
   <xs:element name="queryCustomProductByBarcodeResponse" type="tns:queryCustomProductByBarcodeResponse"/>
   <xs:element name="queryCustomProductByID" type="tns:queryCustomProductByID"/>
   <xs:element name="queryCustomProductByIDResponse" type="tns:queryCustomProductByIDResponse"/>
+  <xs:element name="queryCustomProductParameterByID" type="tns:queryCustomProductParameterByID"/>
+  <xs:element name="queryCustomProductParameterByIDResponse" type="tns:queryCustomProductParameterByIDResponse"/>
   <xs:element name="queryEnterpriseById" type="tns:queryEnterpriseById"/>
   <xs:element name="queryEnterpriseByIdResponse" type="tns:queryEnterpriseByIdResponse"/>
   <xs:element name="queryEnterpriseByName" type="tns:queryEnterpriseByName"/>
@@ -112,12 +114,18 @@
   <xs:element name="queryEntryPointByIdResponse" type="tns:queryEntryPointByIdResponse"/>
   <xs:element name="queryEntryPointInteractionById" type="tns:queryEntryPointInteractionById"/>
   <xs:element name="queryEntryPointInteractionByIdResponse" type="tns:queryEntryPointInteractionByIdResponse"/>
+  <xs:element name="queryEntryPointInteractions" type="tns:queryEntryPointInteractions"/>
+  <xs:element name="queryEntryPointInteractionsResponse" type="tns:queryEntryPointInteractionsResponse"/>
+  <xs:element name="queryEntryPoints" type="tns:queryEntryPoints"/>
+  <xs:element name="queryEntryPointsResponse" type="tns:queryEntryPointsResponse"/>
   <xs:element name="queryNorminalCustomProductParameterById" type="tns:queryNorminalCustomProductParameterById"/>
   <xs:element name="queryNorminalCustomProductParameterByIdResponse" type="tns:queryNorminalCustomProductParameterByIdResponse"/>
   <xs:element name="queryNorminalPlantOperationParameterById" type="tns:queryNorminalPlantOperationParameterById"/>
   <xs:element name="queryNorminalPlantOperationParameterByIdResponse" type="tns:queryNorminalPlantOperationParameterByIdResponse"/>
   <xs:element name="queryParameterInteractionById" type="tns:queryParameterInteractionById"/>
   <xs:element name="queryParameterInteractionByIdResponse" type="tns:queryParameterInteractionByIdResponse"/>
+  <xs:element name="queryParameterInteractions" type="tns:queryParameterInteractions"/>
+  <xs:element name="queryParameterInteractionsResponse" type="tns:queryParameterInteractionsResponse"/>
   <xs:element name="queryParametersByCustomProductID" type="tns:queryParametersByCustomProductID"/>
   <xs:element name="queryParametersByCustomProductIDResponse" type="tns:queryParametersByCustomProductIDResponse"/>
   <xs:element name="queryParametersByPlantOperationID" type="tns:queryParametersByPlantOperationID"/>
@@ -128,6 +136,10 @@
   <xs:element name="queryPlantByNameResponse" type="tns:queryPlantByNameResponse"/>
   <xs:element name="queryPlantOperationById" type="tns:queryPlantOperationById"/>
   <xs:element name="queryPlantOperationByIdResponse" type="tns:queryPlantOperationByIdResponse"/>
+  <xs:element name="queryPlantOperationParameterById" type="tns:queryPlantOperationParameterById"/>
+  <xs:element name="queryPlantOperationParameterByIdResponse" type="tns:queryPlantOperationParameterByIdResponse"/>
+  <xs:element name="queryPlantOperations" type="tns:queryPlantOperations"/>
+  <xs:element name="queryPlantOperationsResponse" type="tns:queryPlantOperationsResponse"/>
   <xs:element name="queryPlantsByEnterpriseID" type="tns:queryPlantsByEnterpriseID"/>
   <xs:element name="queryPlantsByEnterpriseIDResponse" type="tns:queryPlantsByEnterpriseIDResponse"/>
   <xs:element name="queryRecipeById" type="tns:queryRecipeById"/>
@@ -222,6 +234,16 @@
   <xs:complexType name="createEntryPointInteractionResponse">
     <xs:sequence>
       <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantOperationParameterById">
+    <xs:sequence>
+      <xs:element name="customProductParameterID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantOperationParameterByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:PlantOperationParameterTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryStoresByEnterpriseID">
@@ -475,14 +497,6 @@
   <xs:complexType name="deletePlantOperationResponse">
     <xs:sequence/>
   </xs:complexType>
-  <xs:complexType name="getEnterprises">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getEnterprisesResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:EnterpriseTO"/>
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="createBooleanCustomProductParameter">
     <xs:sequence>
       <xs:element name="booleanCustomProductParameterID" type="ns7:BooleanCustomProductParameterTO"/>
@@ -491,6 +505,14 @@
   <xs:complexType name="createBooleanCustomProductParameterResponse">
     <xs:sequence>
       <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getEnterprises">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getEnterprisesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:EnterpriseTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="deleteNorminalPlantOperationParameter">
@@ -519,6 +541,26 @@
   <xs:complexType name="queryEntryPointInteractionByIdResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="ns2:EntryPointInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPointInteractions">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="entryPointInteractionIDs" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPointInteractionsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:EntryPointInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPoints">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="entryPointIDs" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPointsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:EntryPointTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryPlantByID">
@@ -603,6 +645,16 @@
       <xs:element minOccurs="0" name="return" type="ns4:EnterpriseTO"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="queryCustomProductParameterByID">
+    <xs:sequence>
+      <xs:element name="customProductParameterID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryCustomProductParameterByIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns7:CustomProductParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="queryRecipeById">
     <xs:sequence>
       <xs:element name="recipeID" type="xs:long"/>
@@ -649,6 +701,26 @@
   </xs:complexType>
   <xs:complexType name="updateParameterInteractionResponse">
     <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="queryParameterInteractions">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="parameterInteractionIDs" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryParameterInteractionsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:ParameterInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantOperations">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="operationIDs" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantOperationsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:PlantOperationTO"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="updateBooleanCustomProductParameter">
     <xs:sequence>
