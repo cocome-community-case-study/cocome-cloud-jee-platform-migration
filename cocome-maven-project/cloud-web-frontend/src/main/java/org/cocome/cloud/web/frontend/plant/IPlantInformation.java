@@ -24,7 +24,7 @@ public interface IPlantInformation {
 
     String submitPlant();
 
-    boolean isStoreSet();
+    boolean isPlantSet();
 
     String switchToPlant(@NotNull PlantViewData store, String destination);
 }

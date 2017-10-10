@@ -9,7 +9,6 @@ import org.cocome.cloud.web.events.ChangeViewEvent;
 import org.cocome.cloud.web.events.LoginEvent;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
-import org.cocome.cloud.web.frontend.store.IStoreInformation;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
@@ -49,14 +48,14 @@ public class PlantInformation implements IPlantInformation, Serializable {
     @Override
     public PlantViewData getActivePlant() {
         if ((activePlant == null || hasChanged) && activePlantID != PLANT_ID_NOT_SET) {
-            LOG.debug("Active store is being retrieved from the database");
+            LOG.debug("Active plant is being retrieved from the database");
             try {
                 activePlant = plantDAO.getPlantByID(activePlantID);
                 hasChanged = false;
             } catch (NotInDatabaseException_Exception e) {
                 FacesContext context = FacesContext.getCurrentInstance();
                 context.addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the store!", null));
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the plant!", null));
                 return null;
             }
         } else {
@@ -66,10 +65,10 @@ public class PlantInformation implements IPlantInformation, Serializable {
     }
 
     @Override
-    public void setActivePlantID(long storeID) {
-        LOG.debug("Active store was set to id " + storeID);
-        if (activePlantID != storeID) {
-            activePlantID = storeID;
+    public void setActivePlantID(long plantID) {
+        LOG.debug("Active plant was set to id " + plantID);
+        if (activePlantID != plantID) {
+            activePlantID = plantID;
             hasChanged = true;
         }
     }
@@ -81,18 +80,18 @@ public class PlantInformation implements IPlantInformation, Serializable {
 
     @Override
     public String submitPlant() {
-        LOG.debug("Submit store was called");
-        if (isStoreSet()) {
+        LOG.debug("Submit plant was called");
+        if (isPlantSet()) {
             hasChanged = true;
-            return NavigationElements.STORE_MAIN.getNavigationOutcome();
+            return NavigationElements.PLANT_MAIN.getNavigationOutcome();
         } else {
             return "error";
         }
     }
 
     @Override
-    public boolean isStoreSet() {
-        return activePlantID != IStoreInformation.STORE_ID_NOT_SET;
+    public boolean isPlantSet() {
+        return activePlantID != IPlantInformation.PLANT_ID_NOT_SET;
     }
 
     public void observeLoginEvent(@Observes LoginEvent event) {
