@@ -8,10 +8,7 @@ import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPl
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointInteractionTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.ParameterInteractionTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.expression.ConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
@@ -23,10 +20,7 @@ import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionU
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPointInteraction;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IParameterInteraction;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.enterprise.context.Dependent;
@@ -66,6 +60,15 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
 
     @Inject
     private Provider<IRecipe> recipeProvider;
+
+    @Inject
+    private Provider<IPlantOperationOrder> plantOperationOrderProvider;
+
+    @Inject
+    private Provider<IPlantOperationOrderEntry> plantOperationOrderEntryProvider;
+
+    @Inject
+    private Provider<IPlantOperationParameterValue> plantOperationParameterValueProvider;
 
     @Inject
     private IEnterpriseDataFactory enterpriseDatatypes;
@@ -380,6 +383,83 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
                 .stream().map(EntryPointInteractionTO::getId).collect(Collectors.toList()));
         result.setParameterInteractionIds(recipeTO.getParameterInteractions()
                 .stream().map(ParameterInteractionTO::getId).collect(Collectors.toList()));
+        return result;
+    }
+
+    @Override
+    public IPlantOperationOrder getNewPlantOperationOrder() {
+        return plantOperationOrderProvider.get();
+    }
+
+    @Override
+    public PlantOperationOrderTO fillPlantOperationOrderTO(IPlantOperationOrder plantOperationOrder)
+            throws NotInDatabaseException {
+        final PlantOperationOrderTO result = new PlantOperationOrderTO();
+        result.setId(plantOperationOrder.getId());
+        result.setOrderingDate(plantOperationOrder.getOrderingDate());
+        result.setDeliveryDate(plantOperationOrder.getDeliveryDate());
+        result.setEnterprise(enterpriseDatatypes.fillEnterpriseTO(plantOperationOrder.getEnterprise()));
+        return result;
+    }
+
+    @Override
+    public IPlantOperationOrder convertToPlantOperationOrder(PlantOperationOrderTO plantOperationOrderTO) {
+        final IPlantOperationOrder result = getNewPlantOperationOrder();
+        result.setId(plantOperationOrderTO.getId());
+        result.setOrderingDate(plantOperationOrderTO.getOrderingDate());
+        result.setDeliveryDate(plantOperationOrderTO.getDeliveryDate());
+        result.setEnterpriseId(plantOperationOrderTO.getEnterprise().getId());
+        return result;
+    }
+
+    @Override
+    public IPlantOperationOrderEntry getNewPlantOperationOrderEntry() {
+        return plantOperationOrderEntryProvider.get();
+    }
+
+    @Override
+    public PlantOperationOrderEntryTO fillPlantOperationOrderEntryTO(IPlantOperationOrderEntry plantOperationOrderEntry) throws NotInDatabaseException {
+        final PlantOperationOrderEntryTO result = new PlantOperationOrderEntryTO();
+        result.setId(plantOperationOrderEntry.getId());
+        result.setAmount(plantOperationOrderEntry.getAmount());
+        result.setOperation(fillPlantOperationTO(plantOperationOrderEntry.getOperation()));
+        result.setOrder(fillPlantOperationOrderTO(plantOperationOrderEntry.getOrder()));
+        return result;
+    }
+
+    @Override
+    public IPlantOperationOrderEntry convertToPlantOperationOrderEntry(PlantOperationOrderEntryTO plantOperationOrderEntryTO) {
+        final IPlantOperationOrderEntry result = getNewPlantOperationOrderEntry();
+        result.setId(plantOperationOrderEntryTO.getId());
+        result.setAmount(plantOperationOrderEntryTO.getAmount());
+        result.setOperatioId(plantOperationOrderEntryTO.getOperation().getId());
+        result.setOrderId(plantOperationOrderEntryTO.getOrder().getId());
+        return result;
+    }
+
+    @Override
+    public IPlantOperationParameterValue getNewPlantOperationParameterValue() {
+        return plantOperationParameterValueProvider.get();
+    }
+
+    @Override
+    public PlantOperationParameterValueTO fillPlantOperationParameterValueTO(IPlantOperationParameterValue plantOperationParameterValue)
+            throws NotInDatabaseException {
+        final PlantOperationParameterValueTO result = new PlantOperationParameterValueTO();
+        result.setId(plantOperationParameterValue.getId());
+        result.setValue(plantOperationParameterValue.getValue());
+        result.setParameter(fillPlantOperationParameterTO(plantOperationParameterValue.getParameter()));
+        result.setOrderEntry(fillPlantOperationOrderEntryTO(plantOperationParameterValue.getOrderEntry()));
+        return result;
+    }
+
+    @Override
+    public IPlantOperationParameterValue convertToPlantOperationParameterValue(PlantOperationParameterValueTO plantOperationParameterValueTO) {
+        final IPlantOperationParameterValue result = getNewPlantOperationParameterValue();
+        result.setId(plantOperationParameterValueTO.getId());
+        result.setValue(plantOperationParameterValueTO.getValue());
+        result.setParameterId(plantOperationParameterValueTO.getParameter().getId());
+        result.setOrderEntryId(plantOperationParameterValueTO.getOrderEntry().getId());
         return result;
     }
 }

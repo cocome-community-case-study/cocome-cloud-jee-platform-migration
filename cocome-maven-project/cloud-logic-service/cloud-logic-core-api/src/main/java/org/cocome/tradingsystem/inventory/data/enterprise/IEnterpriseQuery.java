@@ -75,7 +75,6 @@ public interface IEnterpriseQuery {
     IStore queryStoreByEnterprise(
             long enterpriseID, long storeID) throws NotInDatabaseException;
 
-
     /**
      * Retrieves a specific store belonging to this enterprise from the database.
      *

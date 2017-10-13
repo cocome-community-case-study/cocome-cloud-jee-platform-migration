@@ -21,6 +21,9 @@ package org.cocome.logic.webservice.plantservice;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderEntryTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationParameterValueTO;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -142,4 +145,22 @@ public interface IPlantManager {
             @WebParam(name = "conditionalExpressionTO")
                     ConditionalExpressionTO conditionalExpressionTO)
             throws NotInDatabaseException, UpdateException;
+
+    /* CRUD for {@link PlantOperationOrderTO} **************/
+
+    @WebMethod
+    PlantOperationOrderTO queryPlantOperationOrderById(
+            @XmlElement(required = true)
+            @WebParam(name = "plantOperationOrderID")
+                    long plantOperationOrderId)
+            throws NotInDatabaseException;
+
+    /* Business Logic */
+
+    @WebMethod
+    long orderOperation(
+            @XmlElement(required = true)
+            @WebParam(name = "plantOperationOrderTO")
+                    PlantOperationOrderTO plantOperationOrderTO)
+            throws NotInDatabaseException, CreateException;
 }

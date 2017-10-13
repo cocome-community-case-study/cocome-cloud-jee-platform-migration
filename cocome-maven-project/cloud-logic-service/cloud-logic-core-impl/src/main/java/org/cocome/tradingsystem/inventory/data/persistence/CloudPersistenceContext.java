@@ -642,6 +642,72 @@ public class CloudPersistenceContext implements IPersistenceContext {
     }
 
     @Override
+    public void createEntity(IPlantOperationOrder order) throws CreateException {
+        createEntity(order,
+                "PlantOperationOrder",
+                ServiceAdapterEntityConverter.getCreatePlantOperationOrderContent(order),
+                ServiceAdapterHeaders.PLANTOPERATIONORDER_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IPlantOperationOrder order) throws UpdateException {
+        updateEntity("PlantOperationOrder",
+                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderContent(order),
+                ServiceAdapterHeaders.PLANTOPERATIONORDER_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IPlantOperationOrder order) throws UpdateException {
+        updateEntity("PlantOperationOrder",
+                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderContent(order),
+                ServiceAdapterHeaders.PLANTOPERATIONORDER_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IPlantOperationOrderEntry orderEntry) throws CreateException {
+        createEntity(orderEntry,
+                "PlantOperationOrderEntry",
+                ServiceAdapterEntityConverter.getCreatePlantOperationOrderEntryContent(orderEntry),
+                ServiceAdapterHeaders.PLANTOPERATIONENTRY_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IPlantOperationOrderEntry orderEntry) throws UpdateException {
+        updateEntity("PlantOperationOrderEntry",
+                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry),
+                ServiceAdapterHeaders.PLANTOPERATIONENTRY_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IPlantOperationOrderEntry orderEntry) throws UpdateException {
+        updateEntity("PlantOperationOrderEntry",
+                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry),
+                ServiceAdapterHeaders.PLANTOPERATIONENTRY_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IPlantOperationParameterValue value) throws CreateException {
+        createEntity(value,
+                "PlantOperationParameterValue",
+                ServiceAdapterEntityConverter.getCreatePlantOperationParameterValueContent(value),
+                ServiceAdapterHeaders.PARAMETERVALUECONTENT_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IPlantOperationParameterValue value) throws UpdateException {
+        updateEntity("PlantOperationParameterValue",
+                ServiceAdapterEntityConverter.getUpdatePlantOperationParameterValueContent(value),
+                ServiceAdapterHeaders.PARAMETERVALUECONTENT_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IPlantOperationParameterValue value) throws UpdateException {
+        updateEntity("PlantOperationParameterValue",
+                ServiceAdapterEntityConverter.getUpdatePlantOperationParameterValueContent(value),
+                ServiceAdapterHeaders.PARAMETERVALUECONTENT_UPDATE_HEADER);
+    }
+
+    @Override
     public void createEntity(IConditionalExpression expression) throws CreateException {
         createEntity(expression,
                 "ConditionalExpression",

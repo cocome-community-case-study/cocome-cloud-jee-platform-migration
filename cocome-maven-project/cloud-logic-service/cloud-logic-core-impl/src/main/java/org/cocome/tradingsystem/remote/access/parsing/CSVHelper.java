@@ -191,9 +191,9 @@ public class CSVHelper implements IBackendConversionHelper {
         return rowToCollection(input, row -> {
             IPlant result = enterpriseFactory.getNewPlant();
 
-            result.setEnterpriseId(fetchId(row.getColumns().get(0)));
+            result.setEnterpriseId(fetchLong(row.getColumns().get(0)));
 
-            result.setId(fetchId(row.getColumns().get(1)));
+            result.setId(fetchLong(row.getColumns().get(1)));
 
             result.setName(fetchString(row.getColumns().get(2)));
 
@@ -504,8 +504,8 @@ public class CSVHelper implements IBackendConversionHelper {
         return rowToCollection(input, row -> {
             final IProductionUnitClass result = plantFactory.getNewProductionUnitClass();
 
-            result.setPlantId(fetchId(row.getColumns().get(0)));
-            result.setId(fetchId(row.getColumns().get(1)));
+            result.setPlantId(fetchLong(row.getColumns().get(0)));
+            result.setId(fetchLong(row.getColumns().get(1)));
             result.setName(fetchString(row.getColumns().get(2)));
 
             return result;
@@ -520,9 +520,9 @@ public class CSVHelper implements IBackendConversionHelper {
     private IProductionUnitOperation processPlantUnitOperationRow(Row<String> row, int offset) {
         final IProductionUnitOperation result = plantFactory.getNewProductionUnitOperation();
 
-        result.setId(fetchId(row.getColumns().get(offset)));
+        result.setId(fetchLong(row.getColumns().get(offset)));
         result.setOperationId(fetchString(row.getColumns().get(1 + offset)));
-        result.setProductionUnitClassId(fetchId(row.getColumns().get(2 + offset)));
+        result.setProductionUnitClassId(fetchLong(row.getColumns().get(2 + offset)));
 
         return result;
     }
@@ -532,7 +532,7 @@ public class CSVHelper implements IBackendConversionHelper {
         return rowToCollection(entryPoint, row -> {
             final IEntryPoint result = enterpriseFactory.getNewEntryPoint();
 
-            result.setId(fetchId(row.getColumns().get(0)));
+            result.setId(fetchLong(row.getColumns().get(0)));
             result.setName(fetchString(row.getColumns().get(1)));
 
             return result;
@@ -547,8 +547,8 @@ public class CSVHelper implements IBackendConversionHelper {
     private IConditionalExpression processConditionalExpressionRow(Row<String> row, int offset) {
         final IConditionalExpression result = plantFactory.getNewConditionalExpression();
 
-        result.setParameterId(fetchId(row.getColumns().get(offset)));
-        result.setId(fetchId(row.getColumns().get(1 + offset)));
+        result.setParameterId(fetchLong(row.getColumns().get(offset)));
+        result.setId(fetchLong(row.getColumns().get(1 + offset)));
         result.setParameterValue(fetchString(row.getColumns().get(2 + offset)));
         result.setOnTrueExpressionIds(fetchIds(row.getColumns().get(3 + offset)));
         result.setOnFalseExpressionIds(fetchIds(row.getColumns().get(4 + offset)));
@@ -623,9 +623,9 @@ public class CSVHelper implements IBackendConversionHelper {
         return rowToCollection(entryPointInteraction, row -> {
             final IEntryPointInteraction result = plantFactory.getNewEntryPointInteraction();
 
-            result.setId(fetchId(row.getColumns().get(0)));
-            result.setToId(fetchId(row.getColumns().get(1)));
-            result.setFromId(fetchId(row.getColumns().get(2)));
+            result.setId(fetchLong(row.getColumns().get(0)));
+            result.setToId(fetchLong(row.getColumns().get(1)));
+            result.setFromId(fetchLong(row.getColumns().get(2)));
 
             return result;
         });
@@ -636,9 +636,9 @@ public class CSVHelper implements IBackendConversionHelper {
         return rowToCollection(parameterInteraction, row -> {
             final IParameterInteraction result = plantFactory.getNewParameterInteraction();
 
-            result.setId(fetchId(row.getColumns().get(0)));
-            result.setToId(fetchId(row.getColumns().get(1)));
-            result.setFromId(fetchId(row.getColumns().get(2)));
+            result.setId(fetchLong(row.getColumns().get(0)));
+            result.setToId(fetchLong(row.getColumns().get(1)));
+            result.setFromId(fetchLong(row.getColumns().get(2)));
 
             return result;
         });
@@ -649,8 +649,8 @@ public class CSVHelper implements IBackendConversionHelper {
         return rowToCollection(recipe, row -> {
             final IRecipe result = plantFactory.getNewRecipe();
 
-            result.setId(fetchId(row.getColumns().get(0)));
-            result.setCustomProductId(fetchId(row.getColumns().get(1)));
+            result.setId(fetchLong(row.getColumns().get(0)));
+            result.setCustomProductId(fetchLong(row.getColumns().get(1)));
             result.setOperationIds(fetchIds(row.getColumns().get(2)));
             result.setEntryPointInteractionIds(fetchIds(row.getColumns().get(3)));
             result.setParameterInteractionIds(fetchIds(row.getColumns().get(4)));
@@ -674,12 +674,54 @@ public class CSVHelper implements IBackendConversionHelper {
     }
 
     @Override
+    public Collection<IPlantOperationOrder> getPlantOperationOrder(String order) {
+        return rowToCollection(order, row -> {
+            final IPlantOperationOrder result = plantFactory.getNewPlantOperationOrder();
+
+            result.setId(fetchLong(row.getColumns().get(0)));
+            result.setOrderingDate(fetchDate(row.getColumns().get(1)));
+            result.setDeliveryDate(fetchDate(row.getColumns().get(2)));
+            result.setEnterpriseId(fetchLong(row.getColumns().get(3)));
+
+            return result;
+        });
+    }
+
+    @Override
+    public Collection<IPlantOperationOrderEntry> getPlantOperationOrderEntry(String orderEntry) {
+        return rowToCollection(orderEntry, row -> {
+            final IPlantOperationOrderEntry result = plantFactory.getNewPlantOperationOrderEntry();
+
+            result.setId(fetchLong(row.getColumns().get(0)));
+            result.setAmount(fetchLong(row.getColumns().get(1)));
+            result.setOperatioId(fetchLong(row.getColumns().get(2)));
+            result.setOrderId(fetchLong(row.getColumns().get(3)));
+
+            return result;
+        });
+    }
+
+    @Override
+    public Collection<IPlantOperationParameterValue> getPlantOperationParameterValue(String parameterValue) {
+        return rowToCollection(parameterValue, row -> {
+            final IPlantOperationParameterValue result = plantFactory.getNewPlantOperationParameterValue();
+
+            result.setId(fetchLong(row.getColumns().get(0)));
+            result.setValue(fetchString(row.getColumns().get(1)));
+            result.setParameterId(fetchLong(row.getColumns().get(2)));
+            result.setOrderEntryId(fetchLong(row.getColumns().get(3)));
+
+            return result;
+        });
+    }
+
+    @Override
     public Collection<IPlantOperation> getPlantOperation(String plantOperation) {
         return rowToCollection(plantOperation, row -> {
             final IPlantOperation result = plantFactory.getNewPlantOperation();
 
-            result.setId(fetchId(row.getColumns().get(0)));
-            result.setPlantId(fetchId(row.getColumns().get(1)));
+            result.setId(fetchLong(row.getColumns().get(0)));
+            result.setPlantId(fetchLong(row.getColumns().get(1)));
             result.setExpressionIds(fetchIds(row.getColumns().get(2)));
             result.setName(fetchString(row.getColumns().get(3)));
             result.setInputEntryPointIds(fetchIds(row.getColumns().get(4)));
@@ -761,7 +803,11 @@ public class CSVHelper implements IBackendConversionHelper {
                 .collect(Collectors.toList());
     }
 
-    private long fetchId(Column<String> column) {
+    private Date fetchDate(Column<String> column) {
+        return TimeUtils.convertToDateObject(column.getValue());
+    }
+
+    private long fetchLong(Column<String> column) {
         return fetchColVal(
                 column,
                 Long::parseLong,

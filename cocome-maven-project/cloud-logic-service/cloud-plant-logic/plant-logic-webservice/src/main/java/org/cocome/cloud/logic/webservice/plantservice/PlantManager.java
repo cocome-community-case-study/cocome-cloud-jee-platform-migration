@@ -9,6 +9,7 @@ import org.cocome.logic.webservice.plantservice.IPlantManager;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
@@ -206,5 +207,16 @@ public class PlantManager implements IPlantManager {
             UpdateException {
         final IConditionalExpression expression = plantQuery.queryConditionalExpression(conditionalExpressionTO.getId());
         persistenceContext.deleteEntity(expression);
+    }
+
+    @Override
+    public PlantOperationOrderTO queryPlantOperationOrderById(long plantOperationOrderId) throws NotInDatabaseException {
+        return plantFactory.fillPlantOperationOrderTO(
+                plantQuery.queryPlantOperationOrderById(plantOperationOrderId));
+    }
+
+    @Override
+    public long orderOperation(PlantOperationOrderTO plantOperationOrderTO) throws NotInDatabaseException, CreateException {
+        return 0;
     }
 }

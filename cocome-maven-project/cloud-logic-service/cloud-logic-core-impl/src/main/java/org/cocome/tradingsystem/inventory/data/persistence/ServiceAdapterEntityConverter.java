@@ -16,10 +16,7 @@ import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOper
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IInteractionEntity;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.IOrderEntry;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
@@ -499,6 +496,60 @@ class ServiceAdapterEntityConverter {
                 joinValues(recipe.getEntryPointInteractionIds()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 joinValues(recipe.getParameterInteractionIds());
+    }
+
+    static String getCreatePlantOperationOrderContent(IPlantOperationOrder order) {
+        return TimeUtils.convertToStringDate(order.getDeliveryDate()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                TimeUtils.convertToStringDate(order.getOrderingDate()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.getEnterpriseId());
+    }
+
+    static String getUpdatePlantOperationOrderContent(IPlantOperationOrder order) {
+        return String.valueOf(order.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                TimeUtils.convertToStringDate(order.getDeliveryDate()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                TimeUtils.convertToStringDate(order.getOrderingDate()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.getEnterpriseId());
+    }
+
+    static String getCreatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry) {
+        return String.valueOf(orderEntry.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.getAmount()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.getOperationId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.getOrderId());
+    }
+
+    static String getUpdatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry) {
+        return String.valueOf(orderEntry.getAmount()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.getOperationId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.getOrderId());
+    }
+
+    static String getCreatePlantOperationParameterValueContent(IPlantOperationParameterValue value) {
+        return String.valueOf(value.getValue()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(value.getParameterId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(value.getOrderEntryId());
+    }
+
+    static String getUpdatePlantOperationParameterValueContent(IPlantOperationParameterValue value) {
+        return String.valueOf(value.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(value.getValue()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(value.getParameterId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(value.getOrderEntryId());
     }
 
     private static void appendPrefferedStore(ICustomer customer, StringBuilder content) {

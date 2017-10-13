@@ -108,4 +108,21 @@ public final class ServiceAdapterHeaders {
             = "CustomProductId;PlantOperationId;EntryPointInteractionId;ParameterInteractionId";
     static final String RECIPE_UPDATE_HEADER
             = "RecipeId;CustomProductId;PlantOperationId;EntryPointInteractionId;ParameterInteractionId";
+
+    static final String PLANTOPERATIONORDER_CREATE_HEADER
+            = "PlantOperationOrderDeliveryDate;PlantOperationOrderOrderingDate;TradingEnterpriseId";
+    static final String PLANTOPERATIONORDER_UPDATE_HEADER
+            = "PlantOperationOrderId;PlantOperationOrderDeliveryDate;PlantOperationOrderOrderingDate;"
+            + "TradingEnterpriseId";
+
+    static final String PLANTOPERATIONENTRY_CREATE_HEADER
+            = "PlantOperationOrderEntryAmount;PlantOperationId;PlantOperationOrderId";
+    static final String PLANTOPERATIONENTRY_UPDATE_HEADER
+            = "PlantOperationOrderEntryId;PlantOperationOrderEntryAmount;PlantOperationId;PlantOperationOrderId";
+
+    static final String PARAMETERVALUECONTENT_CREATE_HEADER
+            = "PlantOperationParameterValueValue;PlantOperationParameterId;PlantOperationOrderEntryId";
+    static final String PARAMETERVALUECONTENT_UPDATE_HEADER
+            = "PlantOperationParameterValueId;PlantOperationParameterValueValue;PlantOperationParameterId;"
+            + "PlantOperationOrderEntryId";
 }

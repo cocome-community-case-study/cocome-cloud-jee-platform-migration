@@ -74,4 +74,10 @@ public interface IBackendConversionHelper {
     Collection<IRecipe> getRecipe(String recipe);
 
     Collection<IExpression> getExpressions(String expression);
+
+    Collection<IPlantOperationOrder> getPlantOperationOrder(String order);
+
+    Collection<IPlantOperationOrderEntry> getPlantOperationOrderEntry(String orderEntry);
+
+    Collection<IPlantOperationParameterValue> getPlantOperationParameterValue(String parameterValue);
 }

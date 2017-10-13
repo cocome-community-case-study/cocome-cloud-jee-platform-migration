@@ -75,6 +75,29 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
     }
 
     @Override
+    public IPlantOperationOrderEntry queryPlantOperationOrderEntryById(long orderEntryId) throws NotInDatabaseException {
+        return getSingleEntity(
+                csvHelper::getPlantOperationOrderEntry,
+                "PlantOperationOrderEntry",
+                orderEntryId);
+
+    }
+
+    @Override
+    public IPlantOperationOrder queryPlantOperationOrderById(long orderId) throws NotInDatabaseException {
+        return getSingleEntity(
+                csvHelper::getPlantOperationOrder,
+                "PlantOperationOrder",
+                orderId);
+    }
+
+    @Override
+    public IPlantOperationParameterValue queryPlantOperationParameterValueById(long paramValueId)
+            throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getPlantOperationParameterValue, "PlantOperationParameterValue", paramValueId);
+    }
+
+    @Override
     public List<IExpression> queryExpressionsByIdList(List<Long> expressionIds) throws NotInDatabaseException {
         if (expressionIds == null) {
             return null;

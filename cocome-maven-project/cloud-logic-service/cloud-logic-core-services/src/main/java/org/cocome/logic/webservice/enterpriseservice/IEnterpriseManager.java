@@ -648,14 +648,14 @@ public interface IEnterpriseManager {
     @WebMethod
     long createRecipe(
             @XmlElement(required = true)
-            @WebParam(name = "recipeID")
+            @WebParam(name = "recipeTO")
                     RecipeTO recipeTO)
             throws CreateException;
 
     @WebMethod
     void updateRecipe(
             @XmlElement(required = true)
-            @WebParam(name = "recipeID")
+            @WebParam(name = "recipe")
                     RecipeTO recipeTO)
             throws UpdateException, NotInDatabaseException;
 

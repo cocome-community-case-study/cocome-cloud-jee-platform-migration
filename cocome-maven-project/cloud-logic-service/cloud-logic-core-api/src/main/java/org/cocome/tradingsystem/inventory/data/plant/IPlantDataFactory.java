@@ -24,20 +24,14 @@ import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPl
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointInteractionTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.ParameterInteractionTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPointInteraction;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IParameterInteraction;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
@@ -135,4 +129,29 @@ public interface IPlantDataFactory {
     RecipeTO fillRecipeTO(IRecipe recipe) throws NotInDatabaseException;
 
     IRecipe convertToRecipe(RecipeTO recipeTO);
+
+    /* Plant Operation Order */
+
+    IPlantOperationOrder getNewPlantOperationOrder();
+
+    PlantOperationOrderTO fillPlantOperationOrderTO(IPlantOperationOrder plantOperationOrder) throws NotInDatabaseException;
+
+    IPlantOperationOrder convertToPlantOperationOrder(PlantOperationOrderTO plantOperationOrderTO);
+
+    /* Plant Operation Order Entry */
+
+    IPlantOperationOrderEntry getNewPlantOperationOrderEntry();
+
+    PlantOperationOrderEntryTO fillPlantOperationOrderEntryTO(IPlantOperationOrderEntry plantOperationOrderEntry) throws NotInDatabaseException;
+
+    IPlantOperationOrderEntry convertToPlantOperationOrderEntry(PlantOperationOrderEntryTO plantOperationOrderEntryTO);
+
+    /* Plant Operation Order Parameter Value */
+
+    IPlantOperationParameterValue getNewPlantOperationParameterValue();
+
+    PlantOperationParameterValueTO fillPlantOperationParameterValueTO(IPlantOperationParameterValue plantOperationParameterValue)
+            throws NotInDatabaseException;
+
+    IPlantOperationParameterValue convertToPlantOperationParameterValue(PlantOperationParameterValueTO plantOperationParameterValueTO);
 }

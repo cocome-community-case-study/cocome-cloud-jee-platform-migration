@@ -22,6 +22,9 @@ import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpr
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrderEntry;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationParameterValue;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.ejb.Local;
@@ -90,4 +93,26 @@ public interface IPlantQuery {
      * @return a list of expressions according to the given id list.
      */
     List<IExpression> queryExpressionsByIdList(List<Long> expressionIds) throws NotInDatabaseException;
+
+    /**
+     * @param orderId the id of the plant operation order
+     * @return the plant operation order of the corresponding database id
+     * @throws NotInDatabaseException if the order does not exist
+     */
+    IPlantOperationOrder queryPlantOperationOrderById(long orderId) throws NotInDatabaseException;
+
+    /**
+     * @param orderEntryId the id of the order entry
+     * @return the order entry of the corresponding database id
+     * @throws NotInDatabaseException if the order does not exist
+     */
+    IPlantOperationOrderEntry queryPlantOperationOrderEntryById(long orderEntryId) throws NotInDatabaseException;
+
+    /**
+     * @param paramValueId the id of the parameter value
+     * @return the parameter value of the corresponding database id
+     * @throws NotInDatabaseException if the parameter value does not exist
+     */
+    IPlantOperationParameterValue queryPlantOperationParameterValueById(long paramValueId)
+            throws NotInDatabaseException;
 }

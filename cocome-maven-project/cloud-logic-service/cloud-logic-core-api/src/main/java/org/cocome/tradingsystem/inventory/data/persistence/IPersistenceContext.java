@@ -267,4 +267,23 @@ public interface IPersistenceContext {
     void updateEntity(IRecipe recipe) throws UpdateException;
 
     void deleteEntity(IRecipe recipe) throws UpdateException;
+
+    void createEntity(IPlantOperationOrder order) throws CreateException;
+
+    void updateEntity(IPlantOperationOrder order) throws UpdateException;
+
+    void deleteEntity(IPlantOperationOrder order) throws UpdateException;
+
+    void createEntity(IPlantOperationOrderEntry orderEntry) throws CreateException;
+
+    void updateEntity(IPlantOperationOrderEntry orderEntry) throws UpdateException;
+
+    void deleteEntity(IPlantOperationOrderEntry orderEntry) throws UpdateException;
+
+    void createEntity(IPlantOperationParameterValue recipe) throws CreateException;
+
+    void updateEntity(IPlantOperationParameterValue recipe) throws UpdateException;
+
+    void deleteEntity(IPlantOperationParameterValue recipe) throws UpdateException;
+
 }

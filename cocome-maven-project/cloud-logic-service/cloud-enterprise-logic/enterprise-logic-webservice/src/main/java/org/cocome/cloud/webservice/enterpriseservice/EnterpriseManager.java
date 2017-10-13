@@ -20,7 +20,10 @@ package org.cocome.cloud.webservice.enterpriseservice;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
-import org.cocome.cloud.logic.webservice.*;
+import org.cocome.cloud.logic.webservice.DBCreateAction;
+import org.cocome.cloud.logic.webservice.DBObjectSupplier;
+import org.cocome.cloud.logic.webservice.DBUpdateAction;
+import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
