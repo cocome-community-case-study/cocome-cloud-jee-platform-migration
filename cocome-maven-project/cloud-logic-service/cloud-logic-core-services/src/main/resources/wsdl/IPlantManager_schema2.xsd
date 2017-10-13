@@ -26,4 +26,13 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="PlantOperationOrderTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="deliveryDate" type="xs:dateTime"/>
+      <xs:element name="orderingDate" type="xs:dateTime"/>
+      <xs:element name="enterprise" type="ns2:EnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
 </xs:schema>
