@@ -155,7 +155,7 @@ public interface IPlantManager {
                     long plantOperationOrderId)
             throws NotInDatabaseException;
 
-    /* Business Logic */
+    /* Business Logic **************/
 
     @WebMethod
     long orderOperation(
