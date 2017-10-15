@@ -28,7 +28,9 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Dependent
@@ -110,12 +112,10 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     public IConditionalExpression convertToConditionalExpression(ConditionalExpressionTO conditionalExpressionTO) {
         final IConditionalExpression expression = getNewConditionalExpression();
         expression.setId(conditionalExpressionTO.getId());
-        expression.setParameterId(conditionalExpressionTO.getId());
+        expression.setParameterId(conditionalExpressionTO.getParameter().getId());
         expression.setParameterValue(conditionalExpressionTO.getParameterValue());
-        expression.setOnTrueExpressionIds(conditionalExpressionTO.getOnTrueExpressions().stream()
-                .map(ExpressionTO::getId).collect(Collectors.toList()));
-        expression.setOnFalseExpressionIds(conditionalExpressionTO.getOnFalseExpressions().stream()
-                .map(ExpressionTO::getId).collect(Collectors.toList()));
+        expression.setOnTrueExpressionIds(extractIdsOfCollection(conditionalExpressionTO.getOnTrueExpressions()));
+        expression.setOnFalseExpressionIds(extractIdsOfCollection(conditionalExpressionTO.getOnFalseExpressions()));
         return expression;
     }
 
@@ -189,12 +189,9 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setName(operation.getName());
         result.setPlant(enterpriseDatatypes.fillPlantTO(operation.getPlant()));
         result.setExpressions(fillExpressionTOs(operation.getExpressions()));
-        result.setInputEntryPoint(operation.getInputEntryPoint().stream()
-                .map(enterpriseDatatypes::fillEntryPointTO)
-                .collect(Collectors.toList()));
-        result.setOutputEntryPoint(operation.getOutputEntryPoint().stream()
-                .map(enterpriseDatatypes::fillEntryPointTO)
-                .collect(Collectors.toList()));
+        result.setInputEntryPoint(convertList(operation.getInputEntryPoint(), enterpriseDatatypes::fillEntryPointTO));
+        result.setOutputEntryPoint(convertList(operation.getOutputEntryPoint(),
+                enterpriseDatatypes::fillEntryPointTO));
         return result;
     }
 
@@ -292,10 +289,6 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         return result;
     }
 
-    private List<Long> extractIdsOfCollection(Collection<? extends IIdentifiableTO> collection) {
-        return collection.stream().map(IIdentifiableTO::getId).collect(Collectors.toList());
-    }
-
     @Override
     public IEntryPointInteraction getNewEntryPointInteraction() {
         return entryPointInteractionProvider.get();
@@ -377,12 +370,9 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     public IRecipe convertToRecipe(RecipeTO recipeTO) {
         final IRecipe result = getNewRecipe();
         result.setCustomProductId(recipeTO.getCustomProduct().getId());
-        result.setOperationIds(recipeTO.getOperations()
-                .stream().map(PlantOperationTO::getId).collect(Collectors.toList()));
-        result.setEntryPointInteractionIds(recipeTO.getEntryPointInteractions()
-                .stream().map(EntryPointInteractionTO::getId).collect(Collectors.toList()));
-        result.setParameterInteractionIds(recipeTO.getParameterInteractions()
-                .stream().map(ParameterInteractionTO::getId).collect(Collectors.toList()));
+        result.setOperationIds(extractIdsOfCollection(recipeTO.getOperations()));
+        result.setEntryPointInteractionIds(extractIdsOfCollection(recipeTO.getEntryPointInteractions()));
+        result.setParameterInteractionIds(extractIdsOfCollection(recipeTO.getParameterInteractions()));
         return result;
     }
 
@@ -461,5 +451,19 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setParameterId(plantOperationParameterValueTO.getParameter().getId());
         result.setOrderEntryId(plantOperationParameterValueTO.getOrderEntry().getId());
         return result;
+    }
+
+    private List<Long> extractIdsOfCollection(Collection<? extends IIdentifiableTO> collection) {
+        if (collection == null) {
+            return Collections.emptyList();
+        }
+        return collection.stream().map(IIdentifiableTO::getId).collect(Collectors.toList());
+    }
+
+    private <T1, T2> Collection<T1> convertList(Collection<T2> collection, Function<T2, T1> converter) {
+        if (collection == null) {
+            return Collections.emptyList();
+        }
+        return collection.stream().map(converter).collect(Collectors.toList());
     }
 }

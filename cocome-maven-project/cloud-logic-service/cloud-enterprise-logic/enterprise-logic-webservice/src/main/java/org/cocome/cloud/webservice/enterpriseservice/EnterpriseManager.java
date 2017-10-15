@@ -759,7 +759,8 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public long createBooleanPlantOperationParameter(BooleanPlantOperationParameterTO booleanPlantOperationParameterTO)
             throws CreateException {
-        final IBooleanPlantOperationParameter param = plantFactory.convertToBooleanPlantOperationParameter(booleanPlantOperationParameterTO);
+        final IBooleanPlantOperationParameter param = plantFactory.convertToBooleanPlantOperationParameter(
+                booleanPlantOperationParameterTO);
         saveDBCreateAction(() -> persistenceContext.createEntity(param));
         return param.getId();
     }

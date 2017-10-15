@@ -6,6 +6,8 @@ public final class ServiceAdapterHeaders {
 
     public static final String SET_SEPARATOR = ",";
 
+    public static final String NULL_VALUE = "null";
+
     static final String PRODUCTORDER_HEADER = "ProductOrderId;StoreId;ProductBarcode;"
             + "OrderDeliveryDate;OrderOrderingDate;OrderAmount";
     static final String STOCKITEM_HEADER = "StoreId;ProductBarcode;StockItemMinStock;"
@@ -76,8 +78,8 @@ public final class ServiceAdapterHeaders {
             = " CustomProductId;NorminalCustomProductParameterId;NorminalCustomProductParameterName;"
             + "NorminalCustomProductParameterCategory;NorminalCustomProductParameterOptions";
 
-    static final String PLANTOPERATION_CREATE_HEADER = "PlantId;ExpressionId;PlantOperationName;EntryPointInputId;"
-            + "EntryPointOutputId";
+    static final String PLANTOPERATION_CREATE_HEADER = "PlantId;ExpressionId;PlantOperationName;"
+            + "EntryPointInputId;EntryPointOutputId";
     static final String PLANTOPERATION_UPDATE_HEADER = "PlantOperationId;PlantId;ExpressionId;PlantOperationName;"
             + "EntryPointInputId;EntryPointOutputId";
 

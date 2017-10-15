@@ -415,8 +415,6 @@ class ServiceAdapterEntityConverter {
     static String getCreateConditionalExpressionContent(IConditionalExpression expression) {
         return String.valueOf(expression.getParameterId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(expression.getId()) +
-                ServiceAdapterHeaders.SEPARATOR +
                 expression.getParameterValue() +
                 ServiceAdapterHeaders.SEPARATOR +
                 joinValues(expression.getOnTrueExpressionIds()) +
@@ -426,6 +424,8 @@ class ServiceAdapterEntityConverter {
 
     static String getUpdateConditionalExpressionContent(IConditionalExpression expression) {
         return String.valueOf(expression.getParameterId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(expression.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 expression.getParameterValue() +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -570,6 +570,9 @@ class ServiceAdapterEntityConverter {
      * @return a comma-separated textual representation of the given collection.
      */
     private static <T> String joinValues(final Collection<T> collection) {
+        if(collection.isEmpty()) {
+            return ServiceAdapterHeaders.NULL_VALUE;
+        }
         return collection.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(ServiceAdapterHeaders.SET_SEPARATOR));

@@ -6,16 +6,22 @@ import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import plantservice.puc.TestPUC;
+import plantservice.puc.XPPU;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class PlantManagerIT {
 
@@ -83,7 +89,6 @@ public class PlantManagerIT {
                 pm.queryProductionUnitOperationsByProductionUnitClassID(puc.getId());
         Assert.assertNotNull(operations);
         Assert.assertFalse(operations.isEmpty());
-        //Assert.assertEquals(2, operations.size());
 
         final ProductionUnitOperationTO singleInstance =
                 pm.queryProductionUnitOperationByID(operation1.getId());
@@ -97,6 +102,52 @@ public class PlantManagerIT {
         pm.deleteProductionUnitClass(puc);
         em.deletePlant(plant);
         em.deleteEnterprise(enterprise);
+    }
+
+    @Test
+    public void testOrderPlantOperation() throws Exception {
+        final EnterpriseTO enterprise = getOrCreateEnterprise();
+        final PlantTO plant = getOrCreatePlant(enterprise);
+
+        final TestPUC xppu = new TestPUC("Default xPPU", XPPU.values(), plant, pm);
+
+        final EntryPointTO e = new EntryPointTO();
+        e.setName("ISO 12345 Cargo");
+        e.setId(em.createEntryPoint(e));
+
+        final PlantOperationTO operation = new PlantOperationTO();
+        operation.setName("Produce Joghurt");
+        operation.setPlant(plant);
+        operation.setOutputEntryPoint(Collections.singletonList(e));
+        operation.setId(em.createPlantOperation(operation));
+
+        final BooleanPlantOperationParameterTO param = new BooleanPlantOperationParameterTO();
+        param.setCategory("Yoghurt Preparation");
+        param.setName("Organic");
+        param.setPlantOperation(operation);
+        param.setId(em.createBooleanPlantOperationParameter(param));
+
+        final ConditionalExpressionTO conditionalExpression = new ConditionalExpressionTO();
+        conditionalExpression.setParameter(param);
+        conditionalExpression.setParameterValue(IBooleanParameter.TRUE_VALUE);
+        conditionalExpression.setOnTrueExpressions(Arrays.asList(
+                xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
+                xppu.getOperation(XPPU.Crane_ACT_PickUpWP)));
+        conditionalExpression.setOnFalseExpressions(Arrays.asList(
+                xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
+                xppu.getOperation(XPPU.Stamp_ACT_Stamp)));
+        conditionalExpression.setId(pm.createConditionalExpression(conditionalExpression));
+
+        operation.setExpressions(Arrays.asList(
+                xppu.getOperation(XPPU.Crane_ACT_Init),
+                xppu.getOperation(XPPU.Stack_ACT_Init),
+                conditionalExpression));
+        em.updatePlantOperation(operation);
+
+        final PlantOperationOrderTO operationOrder = new PlantOperationOrderTO();
+        operationOrder.setEnterprise(enterprise);
+        operationOrder.setOrderingDate(new Date());
+
     }
 
     private EnterpriseTO getOrCreateEnterprise() throws CreateException_Exception, NotInDatabaseException_Exception {

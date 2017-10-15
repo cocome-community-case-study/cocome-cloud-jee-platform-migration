@@ -24,4 +24,6 @@ package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
  * @author Rudolf Biczok
  */
 public interface IBooleanParameter extends IParameter {
+    String TRUE_VALUE = "true";
+    String FALSE_VALUE = "false";
 }

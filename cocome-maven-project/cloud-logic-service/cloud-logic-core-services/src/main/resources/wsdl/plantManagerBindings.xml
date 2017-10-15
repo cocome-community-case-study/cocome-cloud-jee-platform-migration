@@ -1,12 +1,14 @@
 <!DOCTYPE bindings>
 <bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb"
-          xmlns:xsd="http://www.w3.org/2001/XMLSchema"
->
-
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <bindings if-exists="true" schemaLocation="IPlantManager_schema1.xsd">
         <bindings node="//xsd:complexType[@name='EnterpriseTO']">
-            <class
-                    ref="org.cocome.tradingsystem.inventory.application.store.EnterpriseTO"/>
+            <class ref="org.cocome.tradingsystem.inventory.application.store.EnterpriseTO"/>
+        </bindings>
+    </bindings>
+    <bindings if-exists="true" schemaLocation="IPlantManager_schema2.xsd">
+        <bindings node="//xsd:complexType[@name='PlantOperationOrderTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO"/>
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IPlantManager_schema3.xsd">
@@ -19,14 +21,15 @@
     </bindings>
     <bindings if-exists="true" schemaLocation="IPlantManager_schema5.xsd">
         <bindings node="//xsd:complexType[@name='PlantTO']">
-            <class
-                    ref="org.cocome.tradingsystem.inventory.application.plant.PlantTO"/>
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.PlantTO"/>
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IPlantManager_schema7.xsd">
         <bindings node="//xsd:complexType[@name='ExpressionTO']">
-            <class
-                    ref="org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO"/>
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO"/>
+        </bindings>
+        <bindings node="//xsd:complexType[@name='ConditionalExpressionTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO"/>
         </bindings>
     </bindings>
 </bindings>

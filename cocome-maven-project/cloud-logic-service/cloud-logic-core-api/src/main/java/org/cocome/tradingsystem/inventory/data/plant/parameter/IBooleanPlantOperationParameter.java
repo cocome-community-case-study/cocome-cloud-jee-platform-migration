@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.IBooleanParameterTO;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 
 /**
