@@ -332,16 +332,18 @@ class ServiceAdapterEntityConverter {
                 entryPoint.getName();
     }
 
-    static String getCreateBooleanPlantOperationParameterContent(IBooleanPlantOperationParameter param) {
-        return String.valueOf(param.getPlantOperationId()) +
+    static String getCreateBooleanPlantOperationParameterContent(IBooleanPlantOperationParameter param,
+                                                                 IPlantOperation operation) {
+        return String.valueOf(operation.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(param.getName()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 encodeString(param.getCategory());
     }
 
-    static String getUpdateBooleanPlantOperationParameterContent(IBooleanPlantOperationParameter param) {
-        return String.valueOf(param.getPlantOperationId()) +
+    static String getUpdateBooleanPlantOperationParameterContent(IBooleanPlantOperationParameter param,
+                                                                 IPlantOperation operation) {
+        return String.valueOf(operation.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(param.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -350,8 +352,9 @@ class ServiceAdapterEntityConverter {
                 encodeString(param.getCategory());
     }
 
-    static String getCreateNorminalPlantOperationParameterContent(INorminalPlantOperationParameter param) {
-        return String.valueOf(param.getPlantOperationId()) +
+    static String getCreateNorminalPlantOperationParameterContent(INorminalPlantOperationParameter param,
+                                                                  IPlantOperation operation) {
+        return String.valueOf(operation.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 encodeString(String.valueOf(param.getName())) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -360,8 +363,9 @@ class ServiceAdapterEntityConverter {
                 joinValues(param.getOptions());
     }
 
-    static String getUpdateNorminalPlantOperationParameterContent(INorminalPlantOperationParameter param) {
-        return String.valueOf(param.getPlantOperationId()) +
+    static String getUpdateNorminalPlantOperationParameterContent(INorminalPlantOperationParameter param,
+                                                                  IPlantOperation operation) {
+        return String.valueOf(operation.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(param.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -516,40 +520,46 @@ class ServiceAdapterEntityConverter {
                 String.valueOf(order.getEnterpriseId());
     }
 
-    static String getCreatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry) {
+    static String getCreatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry,
+                                                           IPlantOperation operation,
+                                                           IPlantOperationOrder order) {
         return String.valueOf(orderEntry.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(orderEntry.getAmount()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getOperationId()) +
+                String.valueOf(operation.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getOrderId());
+                String.valueOf(order.getId());
     }
 
-    static String getUpdatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry) {
+    static String getUpdatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry,
+                                                           IPlantOperation operation,
+                                                           IPlantOperationOrder order) {
         return String.valueOf(orderEntry.getAmount()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getOperationId()) +
+                String.valueOf(operation.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getOrderId());
+                String.valueOf(order.getId());
     }
 
-    static String getCreatePlantOperationParameterValueContent(IPlantOperationParameterValue value) {
+    static String getCreatePlantOperationParameterValueContent(IPlantOperationParameterValue value,
+                                                               IPlantOperationOrderEntry orderEntry) {
         return String.valueOf(value.getValue()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(value.getParameterId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(value.getOrderEntryId());
+                String.valueOf(orderEntry.getId());
     }
 
-    static String getUpdatePlantOperationParameterValueContent(IPlantOperationParameterValue value) {
+    static String getUpdatePlantOperationParameterValueContent(IPlantOperationParameterValue value,
+                                                               IPlantOperationOrderEntry orderEntry) {
         return String.valueOf(value.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(value.getValue()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(value.getParameterId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(value.getOrderEntryId());
+                String.valueOf(orderEntry.getId());
     }
 
     private static void appendPrefferedStore(ICustomer customer, StringBuilder content) {
@@ -570,7 +580,7 @@ class ServiceAdapterEntityConverter {
      * @return a comma-separated textual representation of the given collection.
      */
     private static <T> String joinValues(final Collection<T> collection) {
-        if(collection.isEmpty()) {
+        if (collection.isEmpty()) {
             return ServiceAdapterHeaders.NULL_VALUE;
         }
         return collection.stream()

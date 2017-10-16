@@ -532,46 +532,52 @@ public class CloudPersistenceContext implements IPersistenceContext {
     }
 
     @Override
-    public void createEntity(IBooleanPlantOperationParameter param) throws CreateException {
+    public void createEntity(IBooleanPlantOperationParameter param,
+                             IPlantOperation operation) throws CreateException {
         createEntity(param,
                 "BooleanPlantOperationParameter",
-                ServiceAdapterEntityConverter.getCreateBooleanPlantOperationParameterContent(param),
+                ServiceAdapterEntityConverter.getCreateBooleanPlantOperationParameterContent(param, operation),
                 ServiceAdapterHeaders.BOOLEAN_PLANT_OPERATION_PARAM_CREATE_HEADER);
     }
 
     @Override
-    public void updateEntity(IBooleanPlantOperationParameter param) throws UpdateException {
+    public void updateEntity(IBooleanPlantOperationParameter param,
+                             IPlantOperation operation) throws UpdateException {
         updateEntity("BooleanPlantOperationParameter",
-                ServiceAdapterEntityConverter.getUpdateBooleanPlantOperationParameterContent(param),
+                ServiceAdapterEntityConverter.getUpdateBooleanPlantOperationParameterContent(param, operation),
                 ServiceAdapterHeaders.BOOLEAN_PLANT_OPERATION_PARAM_UPDATE_HEADER);
     }
 
     @Override
-    public void deleteEntity(IBooleanPlantOperationParameter param) throws UpdateException {
+    public void deleteEntity(IBooleanPlantOperationParameter param,
+                             IPlantOperation operation) throws UpdateException {
         deleteEntity("BooleanPlantOperationParameter",
-                ServiceAdapterEntityConverter.getUpdateBooleanPlantOperationParameterContent(param),
+                ServiceAdapterEntityConverter.getUpdateBooleanPlantOperationParameterContent(param, operation),
                 ServiceAdapterHeaders.BOOLEAN_PLANT_OPERATION_PARAM_UPDATE_HEADER);
     }
 
     @Override
-    public void createEntity(INorminalPlantOperationParameter param) throws CreateException {
+    public void createEntity(INorminalPlantOperationParameter param,
+                             IPlantOperation operation) throws CreateException {
         createEntity(param,
                 "NorminalPlantOperationParameter",
-                ServiceAdapterEntityConverter.getCreateNorminalPlantOperationParameterContent(param),
+                ServiceAdapterEntityConverter.getCreateNorminalPlantOperationParameterContent(param, operation),
                 ServiceAdapterHeaders.NORMINAL_PLANT_OPERATION_PARAM_CREATE_HEADER);
     }
 
     @Override
-    public void updateEntity(INorminalPlantOperationParameter param) throws UpdateException {
+    public void updateEntity(INorminalPlantOperationParameter param,
+                             IPlantOperation operation) throws UpdateException {
         updateEntity("NorminalPlantOperationParameter",
-                ServiceAdapterEntityConverter.getUpdateNorminalPlantOperationParameterContent(param),
+                ServiceAdapterEntityConverter.getUpdateNorminalPlantOperationParameterContent(param, operation),
                 ServiceAdapterHeaders.NORMINAL_PLANT_OPERATION_PARAM_UPDATE_HEADER);
     }
 
     @Override
-    public void deleteEntity(INorminalPlantOperationParameter param) throws UpdateException {
+    public void deleteEntity(INorminalPlantOperationParameter param,
+                             IPlantOperation operation) throws UpdateException {
         deleteEntity("NorminalPlantOperationParameter",
-                ServiceAdapterEntityConverter.getUpdateNorminalPlantOperationParameterContent(param),
+                ServiceAdapterEntityConverter.getUpdateNorminalPlantOperationParameterContent(param, operation),
                 ServiceAdapterHeaders.NORMINAL_PLANT_OPERATION_PARAM_UPDATE_HEADER);
     }
 
@@ -664,46 +670,52 @@ public class CloudPersistenceContext implements IPersistenceContext {
     }
 
     @Override
-    public void createEntity(IPlantOperationOrderEntry orderEntry) throws CreateException {
+    public void createEntity(IPlantOperationOrderEntry orderEntry,
+                             IPlantOperation operation,
+                             IPlantOperationOrder order) throws CreateException {
         createEntity(orderEntry,
                 "PlantOperationOrderEntry",
-                ServiceAdapterEntityConverter.getCreatePlantOperationOrderEntryContent(orderEntry),
+                ServiceAdapterEntityConverter.getCreatePlantOperationOrderEntryContent(orderEntry, operation, order),
                 ServiceAdapterHeaders.PLANTOPERATIONENTRY_CREATE_HEADER);
     }
 
     @Override
-    public void updateEntity(IPlantOperationOrderEntry orderEntry) throws UpdateException {
+    public void updateEntity(IPlantOperationOrderEntry orderEntry,
+                             IPlantOperation operation,
+                             IPlantOperationOrder order) throws UpdateException {
         updateEntity("PlantOperationOrderEntry",
-                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry),
+                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry, operation, order),
                 ServiceAdapterHeaders.PLANTOPERATIONENTRY_UPDATE_HEADER);
     }
 
     @Override
-    public void deleteEntity(IPlantOperationOrderEntry orderEntry) throws UpdateException {
+    public void deleteEntity(IPlantOperationOrderEntry orderEntry,
+                             IPlantOperation operation,
+                             IPlantOperationOrder order) throws UpdateException {
         updateEntity("PlantOperationOrderEntry",
-                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry),
+                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry, operation, order),
                 ServiceAdapterHeaders.PLANTOPERATIONENTRY_UPDATE_HEADER);
     }
 
     @Override
-    public void createEntity(IPlantOperationParameterValue value) throws CreateException {
+    public void createEntity(IPlantOperationParameterValue value, IPlantOperationOrderEntry orderEntry) throws CreateException {
         createEntity(value,
                 "PlantOperationParameterValue",
-                ServiceAdapterEntityConverter.getCreatePlantOperationParameterValueContent(value),
+                ServiceAdapterEntityConverter.getCreatePlantOperationParameterValueContent(value, orderEntry),
                 ServiceAdapterHeaders.PARAMETERVALUECONTENT_CREATE_HEADER);
     }
 
     @Override
-    public void updateEntity(IPlantOperationParameterValue value) throws UpdateException {
+    public void updateEntity(IPlantOperationParameterValue value, IPlantOperationOrderEntry orderEntry) throws UpdateException {
         updateEntity("PlantOperationParameterValue",
-                ServiceAdapterEntityConverter.getUpdatePlantOperationParameterValueContent(value),
+                ServiceAdapterEntityConverter.getUpdatePlantOperationParameterValueContent(value, orderEntry),
                 ServiceAdapterHeaders.PARAMETERVALUECONTENT_UPDATE_HEADER);
     }
 
     @Override
-    public void deleteEntity(IPlantOperationParameterValue value) throws UpdateException {
+    public void deleteEntity(IPlantOperationParameterValue value, IPlantOperationOrderEntry orderEntry) throws UpdateException {
         updateEntity("PlantOperationParameterValue",
-                ServiceAdapterEntityConverter.getUpdatePlantOperationParameterValueContent(value),
+                ServiceAdapterEntityConverter.getUpdatePlantOperationParameterValueContent(value, orderEntry),
                 ServiceAdapterHeaders.PARAMETERVALUECONTENT_UPDATE_HEADER);
     }
 

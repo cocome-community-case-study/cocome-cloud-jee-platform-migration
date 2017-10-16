@@ -757,27 +757,33 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public long createBooleanPlantOperationParameter(BooleanPlantOperationParameterTO booleanPlantOperationParameterTO)
+    public long createBooleanPlantOperationParameter(BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
+                                                     PlantOperationTO operationTO)
             throws CreateException {
         final IBooleanPlantOperationParameter param = plantFactory.convertToBooleanPlantOperationParameter(
                 booleanPlantOperationParameterTO);
-        saveDBCreateAction(() -> persistenceContext.createEntity(param));
+        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
+        saveDBCreateAction(() -> persistenceContext.createEntity(param, operation));
         return param.getId();
     }
 
     @Override
-    public void updateBooleanPlantOperationParameter(BooleanPlantOperationParameterTO booleanPlantOperationParameterTO)
+    public void updateBooleanPlantOperationParameter(BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
+                                                     PlantOperationTO operationTO)
             throws UpdateException, NotInDatabaseException {
         final IBooleanPlantOperationParameter param = plantFactory.convertToBooleanPlantOperationParameter(booleanPlantOperationParameterTO);
-        saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
+        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(param, operation));
     }
 
     @Override
-    public void deleteBooleanPlantOperationParameter(BooleanPlantOperationParameterTO booleanPlantOperationParameterTO)
+    public void deleteBooleanPlantOperationParameter(BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
+                                                     PlantOperationTO operationTO)
             throws UpdateException, NotInDatabaseException {
         final IBooleanPlantOperationParameter param = saveFetchFromDB(() ->
                 enterpriseQuery.queryBooleanPlantOperationParameterByID(booleanPlantOperationParameterTO.getId()));
-        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param, operation));
     }
 
     @Override
@@ -788,26 +794,32 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public long createNorminalPlantOperationParameter(NorminalPlantOperationParameterTO norminalPlantOperationParameterTO)
+    public long createNorminalPlantOperationParameter(NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
+                                                      PlantOperationTO operationTO)
             throws CreateException {
         final INorminalPlantOperationParameter param = plantFactory.convertToNorminalPlantOperationParameter(norminalPlantOperationParameterTO);
-        saveDBCreateAction(() -> persistenceContext.createEntity(param));
+        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
+        saveDBCreateAction(() -> persistenceContext.createEntity(param, operation));
         return param.getId();
     }
 
     @Override
-    public void updateNorminalPlantOperationParameter(NorminalPlantOperationParameterTO norminalPlantOperationParameterTO)
+    public void updateNorminalPlantOperationParameter(NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
+                                                      PlantOperationTO operationTO)
             throws UpdateException, NotInDatabaseException {
         final INorminalPlantOperationParameter param = plantFactory.convertToNorminalPlantOperationParameter(norminalPlantOperationParameterTO);
-        saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
+        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(param, operation));
     }
 
     @Override
-    public void deleteNorminalPlantOperationParameter(NorminalPlantOperationParameterTO norminalPlantOperationParameterTO)
+    public void deleteNorminalPlantOperationParameter(NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
+                                                      PlantOperationTO operationTO)
             throws UpdateException, NotInDatabaseException {
         final INorminalPlantOperationParameter param = saveFetchFromDB(() ->
                 enterpriseQuery.queryNorminalPlantOperationParameterByID(norminalPlantOperationParameterTO.getId()));
-        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param, operation));
     }
 
     @Override

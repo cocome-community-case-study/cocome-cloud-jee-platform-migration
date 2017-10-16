@@ -43,8 +43,6 @@ public class PlantOperationParameterTO implements IParameterTO {
     private String name;
     @XmlElement(name = "category", required = true)
     private String category;
-    @XmlElement(name = "plantOperation", required = true)
-    private PlantOperationTO plantOperation;
 
     /**
      * @return The id.
@@ -92,19 +90,5 @@ public class PlantOperationParameterTO implements IParameterTO {
     @Override
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    /**
-     * @return the corresponding plant operation
-     */
-    public PlantOperationTO getPlantOperation() {
-        return plantOperation;
-    }
-
-    /**
-     * @param plantOperation the corresponding plant operation
-     */
-    public void setPlantOperation(PlantOperationTO plantOperation) {
-        this.plantOperation = plantOperation;
     }
 }

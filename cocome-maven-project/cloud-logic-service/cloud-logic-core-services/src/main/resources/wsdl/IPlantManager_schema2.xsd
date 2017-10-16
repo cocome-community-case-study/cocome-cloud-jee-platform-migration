@@ -1,30 +1,10 @@
-<xs:schema xmlns:ns1="http://plant.webservice.logic.cocome.org/" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns4="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
+<xs:schema xmlns:ns1="http://plant.webservice.logic.cocome.org/" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
   <xs:import namespace="http://plant.webservice.logic.cocome.org/" schemaLocation="IPlantManager_schema4.xsd"/>
 
   <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IPlantManager_schema1.xsd"/>
 
-  <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IPlantManager_schema5.xsd"/>
-
-  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema7.xsd"/>
-
-  <xs:complexType name="PlantOperationTO">
-    <xs:sequence>
-      <xs:element name="id" type="xs:long"/>
-      <xs:element name="name" type="xs:string"/>
-      <xs:element name="plant" type="ns3:PlantTO"/>
-      <xs:element maxOccurs="unbounded" name="expressions" type="ns4:ExpressionTO"/>
-      <xs:element maxOccurs="unbounded" name="inputEntryPoint" type="tns:EntryPointTO"/>
-      <xs:element maxOccurs="unbounded" name="outputEntryPoint" type="tns:EntryPointTO"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="EntryPointTO">
-    <xs:sequence>
-      <xs:element name="id" type="xs:long"/>
-      <xs:element name="name" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
+  <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema6.xsd"/>
 
   <xs:complexType name="PlantOperationOrderTO">
     <xs:sequence>
@@ -32,6 +12,23 @@
       <xs:element name="deliveryDate" type="xs:dateTime"/>
       <xs:element name="orderingDate" type="xs:dateTime"/>
       <xs:element name="enterprise" type="ns2:EnterpriseTO"/>
+      <xs:element maxOccurs="unbounded" name="orderEntries" type="tns:PlantOperationOrderEntryTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PlantOperationOrderEntryTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" name="parameterValues" type="tns:PlantOperationParameterValueTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PlantOperationParameterValueTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="value" type="xs:string"/>
+      <xs:element name="parameter" type="ns3:PlantOperationParameterTO"/>
     </xs:sequence>
   </xs:complexType>
 

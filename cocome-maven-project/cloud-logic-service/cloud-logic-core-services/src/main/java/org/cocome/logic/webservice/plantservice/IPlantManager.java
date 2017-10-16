@@ -21,9 +21,7 @@ package org.cocome.logic.webservice.plantservice;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderEntryTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationParameterValueTO;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 

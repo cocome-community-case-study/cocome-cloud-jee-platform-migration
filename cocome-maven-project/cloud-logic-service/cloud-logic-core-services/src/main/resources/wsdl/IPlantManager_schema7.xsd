@@ -1,8 +1,6 @@
-<xs:schema xmlns:ns1="http://plant.webservice.logic.cocome.org/" xmlns:ns2="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
+<xs:schema xmlns:ns1="http://plant.webservice.logic.cocome.org/" xmlns:ns2="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
   <xs:import namespace="http://plant.webservice.logic.cocome.org/" schemaLocation="IPlantManager_schema4.xsd"/>
-
-  <xs:import namespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema2.xsd"/>
 
   <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema6.xsd"/>
 
@@ -16,7 +14,7 @@
     <xs:complexContent>
       <xs:extension base="tns:ExpressionTO">
         <xs:sequence>
-          <xs:element name="parameter" type="ns3:PlantOperationParameterTO"/>
+          <xs:element name="parameter" type="ns2:PlantOperationParameterTO"/>
           <xs:element name="parameterValue" type="xs:string"/>
           <xs:element maxOccurs="unbounded" name="onTrueExpressions" type="tns:ExpressionTO"/>
           <xs:element maxOccurs="unbounded" name="onFalseExpressions" type="tns:ExpressionTO"/>

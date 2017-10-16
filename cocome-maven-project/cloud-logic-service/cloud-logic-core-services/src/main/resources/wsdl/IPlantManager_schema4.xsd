@@ -7,11 +7,11 @@
   <xs:import namespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema2.xsd"/>
   <xs:element name="ConditionalExpressionTO" type="ns2:ConditionalExpressionTO"/>
   <xs:element name="EnterpriseTO" type="ns4:EnterpriseTO"/>
-  <xs:element name="EntryPointTO" type="ns6:EntryPointTO"/>
   <xs:element name="ExpressionTO" type="ns2:ExpressionTO"/>
+  <xs:element name="PlantOperationOrderEntryTO" type="ns6:PlantOperationOrderEntryTO"/>
   <xs:element name="PlantOperationOrderTO" type="ns6:PlantOperationOrderTO"/>
   <xs:element name="PlantOperationParameterTO" type="ns5:PlantOperationParameterTO"/>
-  <xs:element name="PlantOperationTO" type="ns6:PlantOperationTO"/>
+  <xs:element name="PlantOperationParameterValueTO" type="ns6:PlantOperationParameterValueTO"/>
   <xs:element name="PlantTO" type="ns3:PlantTO"/>
   <xs:element name="ProductionUnitClassTO" type="ns1:ProductionUnitClassTO"/>
   <xs:element name="ProductionUnitOperationTO" type="ns1:ProductionUnitOperationTO"/>

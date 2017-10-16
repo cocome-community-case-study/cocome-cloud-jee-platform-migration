@@ -10,9 +10,7 @@ import org.cocome.tradingsystem.inventory.application.plant.expression.Condition
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
 import org.junit.Assert;
@@ -124,8 +122,7 @@ public class PlantManagerIT {
         final BooleanPlantOperationParameterTO param = new BooleanPlantOperationParameterTO();
         param.setCategory("Yoghurt Preparation");
         param.setName("Organic");
-        param.setPlantOperation(operation);
-        param.setId(em.createBooleanPlantOperationParameter(param));
+        param.setId(em.createBooleanPlantOperationParameter(param, operation));
 
         final ConditionalExpressionTO conditionalExpression = new ConditionalExpressionTO();
         conditionalExpression.setParameter(param);
@@ -148,8 +145,17 @@ public class PlantManagerIT {
 
         final PlantOperationOrderTO operationOrder = new PlantOperationOrderTO();
         operationOrder.setEnterprise(enterprise);
-        operationOrder.setOrderingDate(new Date());
 
+        final PlantOperationParameterValueTO paramValue = new PlantOperationParameterValueTO();
+        paramValue.setParameter(param);
+        paramValue.setValue(IBooleanParameter.FALSE_VALUE);
+
+        final PlantOperationOrderEntryTO entry = new PlantOperationOrderEntryTO();
+        entry.setAmount(1);
+        entry.setParameterValues(Collections.singletonList(paramValue));
+
+        operationOrder.setOrderEntries(Collections.singletonList(entry));
+        pm.orderOperation(operationOrder);
     }
 
     private EnterpriseTO getOrCreateEnterprise() throws CreateException_Exception, NotInDatabaseException_Exception {

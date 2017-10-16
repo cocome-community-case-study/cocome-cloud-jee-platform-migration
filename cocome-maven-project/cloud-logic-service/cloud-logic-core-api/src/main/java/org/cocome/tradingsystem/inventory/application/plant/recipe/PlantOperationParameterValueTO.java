@@ -25,8 +25,6 @@ public class PlantOperationParameterValueTO implements IParameterValueTO<PlantOp
     private String value;
     @XmlElement(name = "parameter", required = true)
     private PlantOperationParameterTO parameter;
-    @XmlElement(name = "orderEntry", required = true)
-    private PlantOperationOrderEntryTO orderEntry;
 
     /**
      * @return The id.
@@ -75,17 +73,4 @@ public class PlantOperationParameterValueTO implements IParameterValueTO<PlantOp
         this.parameter = parameter;
     }
 
-    /**
-     * @return the order entry this parameter setting belongs to
-     */
-    public PlantOperationOrderEntryTO getOrderEntry() {
-        return orderEntry;
-    }
-
-    /**
-     * @param orderEntry the order entry this parameter setting belongs to
-     */
-    public void setOrderEntry(PlantOperationOrderEntryTO orderEntry) {
-        this.orderEntry = orderEntry;
-    }
 }

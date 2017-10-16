@@ -179,6 +179,7 @@ public interface IPersistenceContext {
 
     /**
      * Deletes the enterprise from the database
+     *
      * @param enterprise the enterprise to delete
      * @throws UpdateException if delete failed on database side
      */
@@ -238,17 +239,17 @@ public interface IPersistenceContext {
 
     void deleteEntity(IConditionalExpression expression) throws UpdateException;
 
-    void createEntity(IBooleanPlantOperationParameter param) throws CreateException;
+    void createEntity(IBooleanPlantOperationParameter param, IPlantOperation operation) throws CreateException;
 
-    void updateEntity(IBooleanPlantOperationParameter param) throws UpdateException;
+    void updateEntity(IBooleanPlantOperationParameter param, IPlantOperation operation) throws UpdateException;
 
-    void deleteEntity(IBooleanPlantOperationParameter param) throws UpdateException;
+    void deleteEntity(IBooleanPlantOperationParameter param, IPlantOperation operation) throws UpdateException;
 
-    void createEntity(INorminalPlantOperationParameter param) throws CreateException;
+    void createEntity(INorminalPlantOperationParameter param, IPlantOperation operation) throws CreateException;
 
-    void updateEntity(INorminalPlantOperationParameter param) throws UpdateException;
+    void updateEntity(INorminalPlantOperationParameter param, IPlantOperation operation) throws UpdateException;
 
-    void deleteEntity(INorminalPlantOperationParameter param) throws UpdateException;
+    void deleteEntity(INorminalPlantOperationParameter param, IPlantOperation operation) throws UpdateException;
 
     void createEntity(IEntryPointInteraction interaction) throws CreateException;
 
@@ -274,16 +275,28 @@ public interface IPersistenceContext {
 
     void deleteEntity(IPlantOperationOrder order) throws UpdateException;
 
-    void createEntity(IPlantOperationOrderEntry orderEntry) throws CreateException;
+    void createEntity(IPlantOperationOrderEntry orderEntry,
+                      IPlantOperation operation,
+                      IPlantOperationOrder order)
+            throws CreateException;
 
-    void updateEntity(IPlantOperationOrderEntry orderEntry) throws UpdateException;
+    void updateEntity(IPlantOperationOrderEntry orderEntry,
+                      IPlantOperation operation,
+                      IPlantOperationOrder order)
+            throws UpdateException;
 
-    void deleteEntity(IPlantOperationOrderEntry orderEntry) throws UpdateException;
+    void deleteEntity(IPlantOperationOrderEntry orderEntry,
+                      IPlantOperation operation,
+                      IPlantOperationOrder order)
+            throws UpdateException;
 
-    void createEntity(IPlantOperationParameterValue recipe) throws CreateException;
+    void createEntity(IPlantOperationParameterValue recipe, IPlantOperationOrderEntry orderEntry)
+            throws CreateException;
 
-    void updateEntity(IPlantOperationParameterValue recipe) throws UpdateException;
+    void updateEntity(IPlantOperationParameterValue recipe, IPlantOperationOrderEntry orderEntry)
+            throws UpdateException;
 
-    void deleteEntity(IPlantOperationParameterValue recipe) throws UpdateException;
+    void deleteEntity(IPlantOperationParameterValue recipe, IPlantOperationOrderEntry orderEntry)
+            throws UpdateException;
 
 }

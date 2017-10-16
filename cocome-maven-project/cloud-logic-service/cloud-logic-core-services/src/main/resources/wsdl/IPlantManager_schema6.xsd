@@ -1,19 +1,10 @@
-<xs:schema xmlns:ns1="http://plant.webservice.logic.cocome.org/" xmlns:ns2="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns4="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
-
-  <xs:import namespace="http://plant.webservice.logic.cocome.org/" schemaLocation="IPlantManager_schema4.xsd"/>
-
-  <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IPlantManager_schema5.xsd"/>
-
-  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema7.xsd"/>
-
-  <xs:import namespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema2.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
   <xs:complexType name="PlantOperationParameterTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>
       <xs:element name="category" type="xs:string"/>
-      <xs:element name="plantOperation" type="ns4:PlantOperationTO"/>
     </xs:sequence>
   </xs:complexType>
 

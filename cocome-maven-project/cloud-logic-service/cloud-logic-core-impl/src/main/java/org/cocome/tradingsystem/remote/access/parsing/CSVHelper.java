@@ -694,8 +694,6 @@ public class CSVHelper implements IBackendConversionHelper {
 
             result.setId(fetchLong(row.getColumns().get(0)));
             result.setAmount(fetchLong(row.getColumns().get(1)));
-            result.setOperatioId(fetchLong(row.getColumns().get(2)));
-            result.setOrderId(fetchLong(row.getColumns().get(3)));
 
             return result;
         });
@@ -709,7 +707,6 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setId(fetchLong(row.getColumns().get(0)));
             result.setValue(fetchString(row.getColumns().get(1)));
             result.setParameterId(fetchLong(row.getColumns().get(2)));
-            result.setOrderEntryId(fetchLong(row.getColumns().get(3)));
 
             return result;
         });
@@ -754,7 +751,6 @@ public class CSVHelper implements IBackendConversionHelper {
 
     private INorminalPlantOperationParameter processNorminalPlantOperationParameterRow(Row<String> row, int offset) {
         final INorminalPlantOperationParameter result = plantFactory.getNewNorminalPlantOperationParameter();
-        result.setPlantOperationId(Long.parseLong(row.getColumns().get(offset).getValue()));
         result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
         result.setName(row.getColumns().get(2 + offset).getValue());
         result.setCategory(row.getColumns().get(3 + offset).getValue());
@@ -765,7 +761,6 @@ public class CSVHelper implements IBackendConversionHelper {
 
     private IBooleanPlantOperationParameter processBooleanPlantOperationParameterRow(Row<String> row, int offset) {
         final IBooleanPlantOperationParameter result = plantFactory.getNewBooleanPlantOperationParameter();
-        result.setPlantOperationId(Long.parseLong(row.getColumns().get(offset).getValue()));
         result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
         result.setName(row.getColumns().get(2 + offset).getValue());
         result.setCategory(row.getColumns().get(3 + offset).getValue());

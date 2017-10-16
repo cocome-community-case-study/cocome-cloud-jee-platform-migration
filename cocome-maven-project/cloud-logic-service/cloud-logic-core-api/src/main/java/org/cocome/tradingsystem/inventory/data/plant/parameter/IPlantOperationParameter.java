@@ -20,7 +20,6 @@ package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
  * Specialized interface of {@link IParameter} for {@link IPlantOperation}
@@ -29,23 +28,4 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  */
 public interface IPlantOperationParameter extends IParameter {
 
-    /**
-     * @return the corresponding plant operation
-     */
-    IPlantOperation getPlantOperation() throws NotInDatabaseException;
-
-    /**
-     * @param plantOperation the corresponding plant operation
-     */
-    void setPlantOperation(IPlantOperation plantOperation);
-
-    /**
-     * @return the corresponding plant operation id
-     */
-    long getPlantOperationId();
-
-    /**
-     * @param plantOperationId the corresponding plant operation
-     */
-    void setPlantOperationId(long plantOperationId);
 }

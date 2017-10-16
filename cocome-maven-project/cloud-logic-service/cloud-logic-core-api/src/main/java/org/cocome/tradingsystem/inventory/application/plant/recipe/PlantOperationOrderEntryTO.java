@@ -22,6 +22,7 @@ import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * Represents a single {@link PlantOperationOrderTO} entry in the database.
@@ -41,8 +42,9 @@ public class PlantOperationOrderEntryTO implements Serializable, IIdentifiableTO
     private long id;
     @XmlElement(name = "amount", required = true)
     private long amount;
-    @XmlElement(name = "operation", required = true)
-    private PlantOperationTO operation;
+
+    @XmlElement(name = "parameterValues", required = true)
+    private Collection<PlantOperationParameterValueTO> parameterValues;
 
     @Override
     public long getId() {
@@ -69,16 +71,17 @@ public class PlantOperationOrderEntryTO implements Serializable, IIdentifiableTO
     }
 
     /**
-     * @return The product which is ordered
+     * @return parameter values
      */
-    public PlantOperationTO getOperation() {
-        return this.operation;
+    public Collection<PlantOperationParameterValueTO> getParameterValues() {
+        return parameterValues;
     }
 
     /**
-     * @param operation The product which is ordered
+     * @param parameterValues parameter values
      */
-    public void setOperation(final PlantOperationTO operation) {
-        this.operation = operation;
+    public void setParameterValues(final Collection<PlantOperationParameterValueTO> parameterValues) {
+        this.parameterValues = parameterValues;
     }
+
 }

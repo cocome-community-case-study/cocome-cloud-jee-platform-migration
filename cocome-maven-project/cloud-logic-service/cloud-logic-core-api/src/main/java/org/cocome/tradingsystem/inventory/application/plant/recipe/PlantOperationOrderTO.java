@@ -108,14 +108,14 @@ public class PlantOperationOrderTO implements Serializable, IIdentifiableTO {
     }
 
     /**
-     * @return The order entries
+     * @return plant operation entries
      */
     public Collection<PlantOperationOrderEntryTO> getOrderEntries() {
         return orderEntries;
     }
 
     /**
-     * @param orderEntries The order entries
+     * @param orderEntries plant operation entries
      */
     public void setOrderEntries(Collection<PlantOperationOrderEntryTO> orderEntries) {
         this.orderEntries = orderEntries;

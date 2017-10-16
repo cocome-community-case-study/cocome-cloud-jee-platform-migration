@@ -23,6 +23,16 @@ public interface IParameterValue<T extends IParameter> extends Serializable, IId
     void setParameter(T parameter);
 
     /**
+     * @return the plant operation parameter id
+     */
+    long getParameterId();
+
+    /**
+     * @param parameterId the plant operation parameter id
+     */
+    void setParameterId(long parameterId);
+
+    /**
      * @return the parameter value
      */
     String getValue();

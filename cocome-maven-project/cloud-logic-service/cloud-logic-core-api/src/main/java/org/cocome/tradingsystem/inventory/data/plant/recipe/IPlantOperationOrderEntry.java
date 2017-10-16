@@ -21,6 +21,8 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import java.util.Collection;
+
 /**
  * Represents a single {@link IPlantOperationOrder} entry in the database.
  *
@@ -39,22 +41,12 @@ public interface IPlantOperationOrderEntry extends IIdentifiable {
     void setAmount(final long amount);
 
     /**
-     * @return The operation which is ordered
+     * @return the parameter values
      */
-    IPlantOperation getOperation() throws NotInDatabaseException;
+    Collection<IPlantOperationParameterValue> getParameterValues();
 
     /**
-     * @param operation The operation which is ordered
+     * @param parameterValues the parameter values
      */
-    void setOperation(final IPlantOperation operation);
-
-    /**
-     * @return The operation which is ordered
-     */
-    long getOperationId();
-
-    /**
-     * @param operation The operation which is ordered
-     */
-    void setOperatioId(final long operation);
+    void setParameterValues(Collection<IPlantOperationParameterValue> parameterValues);
 }

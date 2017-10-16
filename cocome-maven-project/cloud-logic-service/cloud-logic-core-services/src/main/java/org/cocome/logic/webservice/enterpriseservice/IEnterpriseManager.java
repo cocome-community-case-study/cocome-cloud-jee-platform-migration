@@ -519,21 +519,30 @@ public interface IEnterpriseManager {
     long createBooleanPlantOperationParameter(
             @XmlElement(required = true)
             @WebParam(name = "booleanPlantOperationParameterID")
-                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO)
+                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
+            @XmlElement(required = true)
+            @WebParam(name = "operationTO")
+                    PlantOperationTO operationTO)
             throws CreateException;
 
     @WebMethod
     void updateBooleanPlantOperationParameter(
             @XmlElement(required = true)
             @WebParam(name = "booleanPlantOperationParameterID")
-                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO)
+                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
+            @XmlElement(required = true)
+            @WebParam(name = "operationTO")
+                    PlantOperationTO operationTO)
             throws UpdateException, NotInDatabaseException;
 
     @WebMethod
     void deleteBooleanPlantOperationParameter(
             @XmlElement(required = true)
             @WebParam(name = "booleanPlantOperationParameterID")
-                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO)
+                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
+            @XmlElement(required = true)
+            @WebParam(name = "operationTO")
+                    PlantOperationTO operationTO)
             throws UpdateException, NotInDatabaseException;
 
     /* CRUD for {@link NorminalPlantOperationParameterTO} **************/
@@ -548,21 +557,30 @@ public interface IEnterpriseManager {
     long createNorminalPlantOperationParameter(
             @XmlElement(required = true)
             @WebParam(name = "norminalPlantOperationParameterID")
-                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO)
+                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
+            @XmlElement(required = true)
+            @WebParam(name = "operationTO")
+                    PlantOperationTO operationTO)
             throws CreateException;
 
     @WebMethod
     void updateNorminalPlantOperationParameter(
             @XmlElement(required = true)
             @WebParam(name = "norminalPlantOperationParameterID")
-                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO)
+                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
+            @XmlElement(required = true)
+            @WebParam(name = "operationTO")
+                    PlantOperationTO operationTO)
             throws UpdateException, NotInDatabaseException;
 
     @WebMethod
     void deleteNorminalPlantOperationParameter(
             @XmlElement(required = true)
             @WebParam(name = "norminalPlantOperationParameterID")
-                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO)
+                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
+            @XmlElement(required = true)
+            @WebParam(name = "operationTO")
+                    PlantOperationTO operationTO)
             throws UpdateException, NotInDatabaseException;
 
     /* CRUD for {@link EntryPointInteractionTO} **************/

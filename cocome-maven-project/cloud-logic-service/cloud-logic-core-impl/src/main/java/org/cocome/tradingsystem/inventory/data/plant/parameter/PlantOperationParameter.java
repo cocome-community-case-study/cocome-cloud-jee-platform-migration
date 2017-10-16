@@ -19,13 +19,8 @@
 package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.IParameterTO;
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
@@ -40,20 +35,6 @@ public abstract class PlantOperationParameter implements Serializable, IPlantOpe
     private long id;
     private String name;
     private String category;
-    private IPlantOperation plantOperation;
-
-    private long plantOperationId;
-
-    @Inject
-    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
-
-    private IEnterpriseQuery enterpriseQuery;
-
-    @PostConstruct
-    public void init() {
-        enterpriseQuery = enterpriseQueryInstance.get();
-        plantOperation = null;
-    }
 
     /**
      * @return The id.
@@ -101,38 +82,5 @@ public abstract class PlantOperationParameter implements Serializable, IPlantOpe
     @Override
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    /**
-     * @return the corresponding plant operation
-     */
-    public IPlantOperation getPlantOperation() throws NotInDatabaseException {
-        if (plantOperation == null) {
-            plantOperation = enterpriseQuery.queryPlantOperationByID(plantOperationId);
-        }
-        return plantOperation;
-    }
-
-    /**
-     * @param plantOperation the corresponding plant operation
-     */
-    public void setPlantOperation(IPlantOperation plantOperation) {
-        this.plantOperation = plantOperation;
-    }
-
-    /**
-     * @return the id of the asspciated plant
-     */
-    @Override
-    public long getPlantOperationId() {
-        return plantOperationId;
-    }
-
-    /**
-     * @param plantOperationId the corresponding plant operation id
-     */
-    @Override
-    public void setPlantOperationId(long plantOperationId) {
-        this.plantOperationId = plantOperationId;
     }
 }

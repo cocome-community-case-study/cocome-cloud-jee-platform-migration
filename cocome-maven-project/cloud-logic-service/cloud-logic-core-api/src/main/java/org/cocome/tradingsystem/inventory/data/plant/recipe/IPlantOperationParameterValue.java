@@ -11,24 +11,12 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  */
 public interface IPlantOperationParameterValue extends IParameterValue<IPlantOperationParameter> {
 
-    /**
-     * @return The parameter value
-     */
     String getValue();
 
-    /**
-     * @param value The parameter value
-     */
     void setValue(String value);
 
-    /**
-     * @return the plant operation parameter
-     */
     IPlantOperationParameter getParameter() throws NotInDatabaseException;
 
-    /**
-     * @param parameter the plant operation parameter
-     */
     void setParameter(IPlantOperationParameter parameter);
 
     /**
@@ -40,24 +28,4 @@ public interface IPlantOperationParameterValue extends IParameterValue<IPlantOpe
      * @param parameterId the plant operation parameter id
      */
     void setParameterId(long parameterId);
-
-    /**
-     * @return the order entry this parameter setting belongs to
-     */
-    IPlantOperationOrderEntry getOrderEntry() throws NotInDatabaseException;
-
-    /**
-     * @param orderEntry the order entry this parameter setting belongs to
-     */
-    void setOrderEntry(IPlantOperationOrderEntry orderEntry);
-
-    /**
-     * @return the id of the order entry this parameter setting belongs to
-     */
-    long getOrderEntryId();
-
-    /**
-     * @param orderEntryId the id of the order entry this parameter setting belongs to
-     */
-    void setOrderEntryId(long orderEntryId);
 }

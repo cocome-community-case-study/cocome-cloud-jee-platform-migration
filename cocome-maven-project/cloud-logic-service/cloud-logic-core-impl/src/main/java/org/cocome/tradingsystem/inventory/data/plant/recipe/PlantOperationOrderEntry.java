@@ -26,6 +26,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * Represents a single {@link IPlantOperationOrder} entry in the database.
@@ -39,20 +40,7 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
 
     private long id;
     private long amount;
-    private IPlantOperation operation;
-
-    private long operationId;
-
-    @Inject
-    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
-
-    private IEnterpriseQuery enterpriseQuery;
-
-    @PostConstruct
-    public void initPlant() {
-        enterpriseQuery = enterpriseQueryInstance.get();
-        operation = null;
-    }
+    private Collection<IPlantOperationParameterValue> parameterValues;
 
     @Override
     public long getId() {
@@ -75,25 +63,13 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
     }
 
     @Override
-    public IPlantOperation getOperation() throws NotInDatabaseException {
-        if (operation == null) {
-            operation = enterpriseQuery.queryPlantOperationByID(operationId);
-        }
-        return this.operation;
+    public Collection<IPlantOperationParameterValue> getParameterValues() {
+        return parameterValues;
     }
 
     @Override
-    public void setOperation(final IPlantOperation operation) {
-        this.operation = operation;
+    public void setParameterValues(Collection<IPlantOperationParameterValue> parameterValues) {
+        this.parameterValues = parameterValues;
     }
 
-    @Override
-    public long getOperationId() {
-        return operationId;
-    }
-
-    @Override
-    public void setOperatioId(long operationId) {
-        this.operationId = operationId;
-    }
 }
