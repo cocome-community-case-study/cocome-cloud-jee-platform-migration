@@ -20,10 +20,7 @@ package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 
 /**
@@ -40,25 +37,20 @@ public class PlantOperationOrderEntryTO implements Serializable, IIdentifiableTO
 
     private static final long serialVersionUID = -7683436740437770058L;
 
+    @XmlElement(name = "id", required = true)
     private long id;
+    @XmlElement(name = "amount", required = true)
     private long amount;
+    @XmlElement(name = "operation", required = true)
     private PlantOperationTO operation;
+    @XmlElement(name = "order", required = true)
     private PlantOperationOrderTO order;
 
-    /**
-     * Gets identifier value
-     *
-     * @return The id.
-     */
+    @Override
     public long getId() {
         return this.id;
     }
 
-    /**
-     * Sets identifier.
-     *
-     * @param id Identifier value.
-     */
     @Override
     public void setId(final long id) {
         this.id = id;
