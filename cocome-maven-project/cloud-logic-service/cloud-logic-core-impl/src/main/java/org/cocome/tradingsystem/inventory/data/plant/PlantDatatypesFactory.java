@@ -1,5 +1,6 @@
 package org.cocome.tradingsystem.inventory.data.plant;
 
+import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
@@ -30,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Dependent
@@ -389,6 +389,8 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setOrderingDate(plantOperationOrder.getOrderingDate());
         result.setDeliveryDate(plantOperationOrder.getDeliveryDate());
         result.setEnterprise(enterpriseDatatypes.fillEnterpriseTO(plantOperationOrder.getEnterprise()));
+        result.setOrderEntries(convertList(plantOperationOrder.getOrderEntries(),
+                this::fillPlantOperationOrderEntryTO));
         return result;
     }
 
@@ -399,6 +401,8 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setOrderingDate(plantOperationOrderTO.getOrderingDate());
         result.setDeliveryDate(plantOperationOrderTO.getDeliveryDate());
         result.setEnterpriseId(plantOperationOrderTO.getEnterprise().getId());
+        result.setOrderEntries(convertList(plantOperationOrderTO.getOrderEntries(),
+                this::convertToPlantOperationOrderEntry));
         return result;
     }
 
@@ -413,7 +417,6 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(plantOperationOrderEntry.getId());
         result.setAmount(plantOperationOrderEntry.getAmount());
         result.setOperation(fillPlantOperationTO(plantOperationOrderEntry.getOperation()));
-        result.setOrder(fillPlantOperationOrderTO(plantOperationOrderEntry.getOrder()));
         return result;
     }
 
@@ -423,7 +426,6 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(plantOperationOrderEntryTO.getId());
         result.setAmount(plantOperationOrderEntryTO.getAmount());
         result.setOperatioId(plantOperationOrderEntryTO.getOperation().getId());
-        result.setOrderId(plantOperationOrderEntryTO.getOrder().getId());
         return result;
     }
 
@@ -460,10 +462,17 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         return collection.stream().map(IIdentifiableTO::getId).collect(Collectors.toList());
     }
 
-    private <T1, T2> Collection<T1> convertList(Collection<T2> collection, Function<T2, T1> converter) {
+    private <T1, T2, E extends Throwable> Collection<T1> convertList(Collection<T2> collection,
+                                                                     ThrowingFunction<T2, T1, E> converter)
+            throws E {
         if (collection == null) {
             return Collections.emptyList();
         }
-        return collection.stream().map(converter).collect(Collectors.toList());
+
+        final Collection<T1> result = new ArrayList<>(collection.size());
+        for (final T2 element : collection) {
+            result.add(converter.apply(element));
+        }
+        return result;
     }
 }

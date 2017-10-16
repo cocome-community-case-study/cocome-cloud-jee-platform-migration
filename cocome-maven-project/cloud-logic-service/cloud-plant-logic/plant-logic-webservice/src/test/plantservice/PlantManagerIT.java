@@ -132,9 +132,11 @@ public class PlantManagerIT {
         conditionalExpression.setParameterValue(IBooleanParameter.TRUE_VALUE);
         conditionalExpression.setOnTrueExpressions(Arrays.asList(
                 xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
+                xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
                 xppu.getOperation(XPPU.Crane_ACT_PickUpWP)));
         conditionalExpression.setOnFalseExpressions(Arrays.asList(
                 xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
+                xppu.getOperation(XPPU.Stamp_ACT_Stamp),
                 xppu.getOperation(XPPU.Stamp_ACT_Stamp)));
         conditionalExpression.setId(pm.createConditionalExpression(conditionalExpression));
 

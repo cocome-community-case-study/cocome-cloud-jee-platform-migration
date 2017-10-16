@@ -20,6 +20,8 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
+import org.cocome.tradingsystem.inventory.data.store.IOrderEntry;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +29,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 
 /**
  * The class represents an order of a {@link IPlantOperation} in the database.
@@ -43,6 +45,7 @@ public class PlantOperationOrder implements Serializable, IPlantOperationOrder {
     private Date deliveryDate;
     private Date orderingDate;
     private ITradingEnterprise enterprise;
+    private Collection<IPlantOperationOrderEntry> orderEntries = new LinkedList<>();
 
     private long enterpriseId;
 
@@ -55,6 +58,7 @@ public class PlantOperationOrder implements Serializable, IPlantOperationOrder {
     public void initPlant() {
         enterpriseQuery = enterpriseQueryInstance.get();
         enterprise = null;
+        orderEntries = null;
     }
 
     @Override
@@ -85,6 +89,16 @@ public class PlantOperationOrder implements Serializable, IPlantOperationOrder {
     @Override
     public void setDeliveryDate(final Date deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    @Override
+    public Collection<IPlantOperationOrderEntry> getOrderEntries() {
+        return orderEntries;
+    }
+
+    @Override
+    public void setOrderEntries(Collection<IPlantOperationOrderEntry> orderEntries) {
+        this.orderEntries = orderEntries;
     }
 
     @Override

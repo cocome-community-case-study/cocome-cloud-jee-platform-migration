@@ -23,6 +23,7 @@ import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -47,18 +48,14 @@ public class PlantOperationOrderTO implements Serializable, IIdentifiableTO {
     private Date orderingDate;
     @XmlElement(name = "enterprise", required = true)
     private EnterpriseTO enterprise;
+    @XmlElement(name = "orderEntries", required = true)
+    private Collection<PlantOperationOrderEntryTO> orderEntries;
 
-    /**
-     * @return A unique identifier for ProductOrder objects
-     */
     @Override
     public long getId() {
         return this.id;
     }
 
-    /**
-     * @param id A unique identifier for ProductOrder objects
-     */
     @Override
     public void setId(final long id) {
         this.id = id;
@@ -109,4 +106,19 @@ public class PlantOperationOrderTO implements Serializable, IIdentifiableTO {
     public void setEnterprise(final EnterpriseTO enterprise) {
         this.enterprise = enterprise;
     }
+
+    /**
+     * @return The order entries
+     */
+    public Collection<PlantOperationOrderEntryTO> getOrderEntries() {
+        return orderEntries;
+    }
+
+    /**
+     * @param orderEntries The order entries
+     */
+    public void setOrderEntries(Collection<PlantOperationOrderEntryTO> orderEntries) {
+        this.orderEntries = orderEntries;
+    }
+
 }

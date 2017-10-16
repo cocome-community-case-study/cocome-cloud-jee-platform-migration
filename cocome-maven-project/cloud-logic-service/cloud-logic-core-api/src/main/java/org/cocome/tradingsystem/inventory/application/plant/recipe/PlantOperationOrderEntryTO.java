@@ -43,8 +43,6 @@ public class PlantOperationOrderEntryTO implements Serializable, IIdentifiableTO
     private long amount;
     @XmlElement(name = "operation", required = true)
     private PlantOperationTO operation;
-    @XmlElement(name = "order", required = true)
-    private PlantOperationOrderTO order;
 
     @Override
     public long getId() {
@@ -68,20 +66,6 @@ public class PlantOperationOrderEntryTO implements Serializable, IIdentifiableTO
      */
     public void setAmount(final long amount) {
         this.amount = amount;
-    }
-
-    /**
-     * @return The ProductOrder where the OrderEntry belongs to
-     */
-    public PlantOperationOrderTO getOrder() {
-        return this.order;
-    }
-
-    /**
-     * @param productOrder The ProductOrder where the OrderEntry belongs to
-     */
-    public void setOrder(final PlantOperationOrderTO productOrder) {
-        this.order = productOrder;
     }
 
     /**

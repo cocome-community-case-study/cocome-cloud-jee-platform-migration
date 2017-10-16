@@ -19,7 +19,6 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
-import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -41,15 +40,8 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
     private long id;
     private long amount;
     private IPlantOperation operation;
-    private IPlantOperationOrder order;
 
     private long operationId;
-    private long orderId;
-
-    @Inject
-    private Instance<IPlantQuery> plantQueryInstance;
-
-    private IPlantQuery plantQuery;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
@@ -59,9 +51,7 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
     @PostConstruct
     public void initPlant() {
         enterpriseQuery = enterpriseQueryInstance.get();
-        plantQuery = plantQueryInstance.get();
         operation = null;
-        order = null;
     }
 
     @Override
@@ -82,29 +72,6 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
     @Override
     public void setAmount(final long amount) {
         this.amount = amount;
-    }
-
-    @Override
-    public IPlantOperationOrder getOrder() throws NotInDatabaseException {
-        if (order == null) {
-            order = plantQuery.queryPlantOperationOrderById(orderId);
-        }
-        return this.order;
-    }
-
-    @Override
-    public void setOrder(final IPlantOperationOrder productOrder) {
-        this.order = productOrder;
-    }
-
-    @Override
-    public long getOrderId() {
-        return orderId;
-    }
-
-    @Override
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
     }
 
     @Override

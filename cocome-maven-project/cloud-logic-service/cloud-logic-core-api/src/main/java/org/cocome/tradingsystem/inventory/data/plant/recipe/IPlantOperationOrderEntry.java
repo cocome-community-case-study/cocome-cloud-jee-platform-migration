@@ -39,26 +39,6 @@ public interface IPlantOperationOrderEntry extends IIdentifiable {
     void setAmount(final long amount);
 
     /**
-     * @return The operation order where the entry belongs to
-     */
-    IPlantOperationOrder getOrder() throws NotInDatabaseException;
-
-    /**
-     * @param productOrder The operation order where the entry belongs to
-     */
-    void setOrder(final IPlantOperationOrder productOrder);
-
-    /**
-     * @return The id of the operation order where the entry belongs to
-     */
-    long getOrderId();
-
-    /**
-     * @param orderId The id of the operation order where the entry belongs to
-     */
-    void setOrderId(final long orderId);
-
-    /**
      * @return The operation which is ordered
      */
     IPlantOperation getOperation() throws NotInDatabaseException;

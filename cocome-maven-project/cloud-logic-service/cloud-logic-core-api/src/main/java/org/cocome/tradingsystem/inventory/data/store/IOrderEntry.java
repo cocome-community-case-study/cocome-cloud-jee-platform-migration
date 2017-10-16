@@ -5,19 +5,9 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 
 public interface IOrderEntry extends IIdentifiable {
 
-    /**
-     * Gets identifier value
-     *
-     * @return The id.
-     */
     @Override
     long getId();
 
-    /**
-     * Sets identifier.
-     *
-     * @param id Identifier value.
-     */
     @Override
     void setId(long id);
 

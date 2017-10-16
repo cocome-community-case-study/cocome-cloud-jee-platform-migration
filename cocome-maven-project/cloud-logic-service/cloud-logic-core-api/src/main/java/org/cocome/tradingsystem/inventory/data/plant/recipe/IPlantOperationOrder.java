@@ -22,7 +22,9 @@ import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * The class represents an order of a {@link IPlantOperation} in the database.
@@ -54,6 +56,16 @@ public interface IPlantOperationOrder extends IIdentifiable {
      * @param deliveryDate the date of order fulfillment
      */
     void setDeliveryDate(final Date deliveryDate);
+
+    /**
+     * @return the order entries.
+     */
+    Collection<IPlantOperationOrderEntry> getOrderEntries();
+
+    /**
+     * @param orderEntries the order entries.
+     */
+    void setOrderEntries(Collection<IPlantOperationOrderEntry> orderEntries);
 
     /**
      * @return The enterprise where the order is placed.

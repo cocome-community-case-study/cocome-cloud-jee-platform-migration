@@ -46,7 +46,7 @@ public class ProductOrder implements Serializable, IProductOrder {
 	private Date orderingDate;
 
 	private Collection<IOrderEntry> orderEntries;
-	
+
 	private String storeName;
 	
 	private String storeLocation;
@@ -61,76 +61,49 @@ public class ProductOrder implements Serializable, IProductOrder {
 	@PostConstruct
 	private void initProductOrder() {
 		storeQuery = storeQueryInstance.get();
-		orderEntries = new LinkedList<IOrderEntry>();
+		orderEntries = new LinkedList<>();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#getId()
-	 */
 	@Override
 	public long getId() {
 		return id;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#setId(long)
-	 */
 	@Override
 	public void setId(long id) {
 		this.id = id;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#getOrderEntries()
-	 */
 	@Override
 	public Collection<IOrderEntry> getOrderEntries() {
 		return orderEntries;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#setOrderEntries(java.util.Collection)
-	 */
 	@Override
 	public void setOrderEntries(final Collection<IOrderEntry> orderEntries) {
 		this.orderEntries = orderEntries;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#getOrderingDate()
-	 */
 	@Override
 	public Date getOrderingDate() {
 		return orderingDate;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#setOrderingDate(java.util.Date)
-	 */
 	@Override
 	public void setOrderingDate(final Date orderingDate) {
 		this.orderingDate = orderingDate;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#getDeliveryDate()
-	 */
 	@Override
 	public Date getDeliveryDate() {
 		return deliveryDate;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#setDeliveryDate(java.util.Date)
-	 */
 	@Override
 	public void setDeliveryDate(final Date deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#getStore()
-	 */
 	@Override
 	public IStore getStore() {
 		if (store == null) {
@@ -139,41 +112,26 @@ public class ProductOrder implements Serializable, IProductOrder {
 		return store;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#setStore(org.cocome.tradingsystem.inventory.data.store.Store)
-	 */
 	@Override
 	public void setStore(final IStore store) {
 		this.store = store;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#getStoreName()
-	 */
 	@Override
 	public String getStoreName() {
 		return storeName;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#setStoreName(java.lang.String)
-	 */
 	@Override
 	public void setStoreName(String storeName) {
 		this.storeName = storeName;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#getStoreLocation()
-	 */
 	@Override
 	public String getStoreLocation() {
 		return storeLocation;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IProductOrder#setStoreLocation(java.lang.String)
-	 */
 	@Override
 	public void setStoreLocation(String storeLocation) {
 		this.storeLocation = storeLocation;
