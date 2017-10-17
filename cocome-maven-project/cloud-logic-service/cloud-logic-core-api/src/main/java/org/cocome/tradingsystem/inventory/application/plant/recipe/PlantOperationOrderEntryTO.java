@@ -42,7 +42,6 @@ public class PlantOperationOrderEntryTO implements Serializable, IIdentifiableTO
     private long id;
     @XmlElement(name = "amount", required = true)
     private long amount;
-
     @XmlElement(name = "parameterValues", required = true)
     private Collection<PlantOperationParameterValueTO> parameterValues;
 
