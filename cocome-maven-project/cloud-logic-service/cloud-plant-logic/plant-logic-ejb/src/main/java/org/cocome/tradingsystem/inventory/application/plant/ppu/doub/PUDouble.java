@@ -14,8 +14,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +38,7 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     //Need concurrent (not "only" synchronized") list here
     private final List<HistoryEntry> history = new CopyOnWriteArrayList<>();
 
-    private Queue<JobData> queue = new ConcurrentLinkedQueue<>();
+    private AtomicReference<JobData> currentOp = new AtomicReference<>();
 
     private Thread workerThread;
 
@@ -74,26 +74,22 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
 
     @Override
     public List<OperationEntry> getOperations() {
-        checkIfNotTerminated();
         return this.operations.entrySet().stream().map(e -> (OperationEntry) e.getValue())
                 .collect(Collectors.toList());
     }
 
     @Override
     public OperationEntry getOperation(String operationId) {
-        checkIfNotTerminated();
         return this.operations.get(operationId);
     }
 
     @Override
     public List<HistoryEntry> getCompleteHistory() {
-        checkIfNotTerminated();
         return history;
     }
 
     @Override
     public List<HistoryEntry> getHistoryByExecutionId(String executionId) {
-        checkIfNotTerminated();
         return this.history.stream()
                 .filter(e ->
                         e.getExecutionId() != null && e.getExecutionId().equals(executionId)
@@ -103,7 +99,6 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
 
     @Override
     public List<HistoryEntry> getHistoryByModuleName(String name) {
-        checkIfNotTerminated();
         return this.history.stream()
                 .filter(e ->
                         e.getResolvedOperationPath() != null
@@ -114,7 +109,6 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
 
     @Override
     public List<HistoryEntry> getHistoryByOperationId(String operationId) {
-        checkIfNotTerminated();
         return this.history.stream()
                 .filter(e ->
                         e.getOperationId() != null
@@ -125,7 +119,6 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
 
     @Override
     public List<HistoryEntry> getHistoryByTimeStemp(String timestamp) {
-        checkIfNotTerminated();
         final Instant searchTime = Instant.parse(timestamp);
         return this.history.stream()
                 .filter(e ->
@@ -140,11 +133,11 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
         checkIfNotTerminated();
         checkActiveExecutionId(executionId);
         halted = true;
-        final String operationId = queue.peek().getCommandString();
+        final String operationId = currentOp.get().getCommandString();
 
         aborted = true;
         halted = false;
-        while(!queue.isEmpty()) {
+        while(currentOp.get() != null) {
             Thread.yield();
         }
 
@@ -162,7 +155,7 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     }
 
     private void checkActiveExecutionId(String executionId) {
-        final JobData entry = queue.peek();
+        final JobData entry = currentOp.get();
         if (entry == null || !entry.getExecutionId().equals(executionId)) {
             throw new IllegalStateException(String.format("Operation with execution id `%s` is not active", executionId));
         }
@@ -179,7 +172,7 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
 
         final HistoryEntry historyEntry = new HistoryEntry();
         if(!this.automaticMode) {
-            historyEntry.setOperationId(queue.peek().getCommandString());
+            historyEntry.setOperationId(currentOp.get().getCommandString());
         }
         historyEntry.setExecutionId(executionId);
         historyEntry.setTimestamp(Instant.now().toString());
@@ -193,7 +186,7 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     @Override
     public synchronized HistoryEntry restartOperation(String executionId) {
         checkIfNotTerminated();
-        final JobData entry = queue.peek();
+        final JobData entry = currentOp.get();
         if (entry != null && !entry.getExecutionId().equals(executionId)) {
             throw new IllegalStateException(String.format("Operation with execution id `%s` is not active", executionId));
         }
@@ -204,7 +197,7 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
 
         final HistoryEntry historyEntry = new HistoryEntry();
         if(!this.automaticMode) {
-            historyEntry.setOperationId(queue.peek().getCommandString());
+            historyEntry.setOperationId(currentOp.get().getCommandString());
         }
         historyEntry.setExecutionId(executionId);
         historyEntry.setTimestamp(Instant.now().toString());
@@ -218,8 +211,8 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     @Override
     public synchronized HistoryEntry switchToManualMode() {
         checkIfNotTerminated();
-        if (this.automaticMode && !this.queue.isEmpty()) {
-            throw new IllegalStateException("Working queue is not empty");
+        if (this.automaticMode && this.currentOp.get() != null) {
+            throw new IllegalStateException("Cannot switch mode while unit is busy");
         }
         this.automaticMode = false;
 
@@ -235,8 +228,8 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     @Override
     public synchronized HistoryEntry switchToAutomaticMode() {
         checkIfNotTerminated();
-        if (!this.automaticMode && !this.queue.isEmpty()) {
-            throw new IllegalStateException("Working queue is not empty");
+        if (!this.automaticMode && this.currentOp.get() != null) {
+            throw new IllegalStateException("Cannot switch mode while unit is busy");
         }
         this.automaticMode = true;
 
@@ -269,7 +262,7 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
         final JobData queueEntry = new JobData();
         queueEntry.setCommandString(operationId);
         queueEntry.setExecutionId(executionId);
-        queue.add(queueEntry);
+        currentOp.set(queueEntry);
 
         return entry;
     }
@@ -294,13 +287,13 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
         final JobData queueEntry = new JobData();
         queueEntry.setCommandString(operationIds);
         queueEntry.setExecutionId(executionId);
-        queue.add(queueEntry);
+        currentOp.set(queueEntry);
 
         return entry;
     }
 
     private void checkIfIdle() {
-        if (!this.queue.isEmpty()) {
+        if (this.currentOp.get() != null) {
             throw new IllegalStateException("Another operation is already in progress");
         }
     }
@@ -313,8 +306,8 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
 
     private void processQueue() {
         while (!terminated) {
-            if (!queue.isEmpty()) {
-                final JobData entry = queue.peek();
+            if (currentOp.get() != null) {
+                final JobData entry = currentOp.get();
                 if (!automaticMode) {
                     final String operationId = entry.getCommandString();
                     final OperationDoubleEntry operationEntry = this.operations.get(operationId);
@@ -322,7 +315,7 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
                 } else {
                     execBatchOperations(entry);
                 }
-                queue.poll();
+                currentOp.set(null);
             }
             Thread.yield();
         }
