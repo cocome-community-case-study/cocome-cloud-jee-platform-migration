@@ -5,7 +5,7 @@ package org.cocome.tradingsystem.inventory.application.plant.ppu.doub;
  *
  * @author Rudolf Biczok, rudolf.biczok@student.kit.edu
  */
-public class XPPUDouble extends ProductionUnitDouble {
+public class XPPUDouble extends PUDouble {
 
     public XPPUDouble() {
         super(XPPU.values());

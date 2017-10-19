@@ -188,7 +188,6 @@ public class XPPUDoubleTest {
         final HistoryEntry ret = ppuDevice.startOperation(operationId);
         final HistoryEntry haltRet = ppuDevice.holdOperation(ret.getExecutionId());
         final HistoryEntry restartRet = ppuDevice.restartOperation(ret.getExecutionId());
-        ppuDevice.abortOperation(ret.getExecutionId());
         // Then
         Assert.assertNotNull("Restart result is not null", restartRet);
         Assert.assertEquals("Restart result should have RESTART state", HistoryAction.RESTART, restartRet.getAction());
@@ -237,7 +236,7 @@ public class XPPUDoubleTest {
 
         Assert.assertEquals("Last entry of history of batch execution should have ABORT state",
                 HistoryAction.ABORT, batchHistory.get(batchHistory.size() - 1).getAction());
-        waitForFinish(abortRet);
+        waitForFinish(batchRet);
         ppuDevice.switchToManualMode();
     }
 
@@ -283,13 +282,6 @@ public class XPPUDoubleTest {
                                                final String executionId,
                                                final boolean isBatch,
                                                final List<HistoryEntry> completeHistory) {
-        /*
-        for (final HistoryEntry entry : completeHistory) {
-            System.out.println(entry.getExecutionId());
-            System.out.println(entry.getOperationId());
-            System.out.println(entry.getAction());
-        }*/
-
         return completeHistory.stream().filter(e -> {
 
             final Instant timestemp = Instant.parse(e.getTimestamp());
@@ -304,8 +296,7 @@ public class XPPUDoubleTest {
                     return e.getOperationId() == null
                             && e.getExecutionId() == null
                             && e.getAction() == HistoryAction.BATCH_COMPLETE
-                            || e.getOperationId() != null
-                            && e.getExecutionId() != null
+                            || e.getExecutionId() != null
                             && e.getExecutionId().equals(executionId)
                             && (e.getAction() == HistoryAction.ABORT
                             || e.getAction() == HistoryAction.HOLD);
@@ -319,5 +310,17 @@ public class XPPUDoubleTest {
             }
             return false;
         }).count() > 0;
+    }
+
+    private void printHistory(final List<HistoryEntry> history) {
+        System.out.println("===========");
+        for (final HistoryEntry entry : history) {
+            System.out.println("  Execution-ID:" + entry.getExecutionId());
+            System.out.println("  Operation-ID:" + entry.getOperationId());
+            System.out.println("  Time Stamp:" + entry.getTimestamp());
+            System.out.println("  Action:" + entry.getAction());
+            System.out.println();
+        }
+        System.out.println("===========");
     }
 }

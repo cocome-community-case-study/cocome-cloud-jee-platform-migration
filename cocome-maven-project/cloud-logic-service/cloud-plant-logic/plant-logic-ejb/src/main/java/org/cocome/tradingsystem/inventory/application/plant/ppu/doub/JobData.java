@@ -1,7 +1,7 @@
 package org.cocome.tradingsystem.inventory.application.plant.ppu.doub;
 
 /**
- * An entry for the working queue used by {@link ProductionUnitDouble}.
+ * An entry for the working queue used by {@link PUDouble}.
  *
  * @author Rudolf Biczok
  */
