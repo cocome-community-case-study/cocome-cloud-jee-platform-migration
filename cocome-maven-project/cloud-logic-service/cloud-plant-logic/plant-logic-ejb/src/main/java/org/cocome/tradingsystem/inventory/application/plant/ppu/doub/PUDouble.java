@@ -188,10 +188,7 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     @Override
     public synchronized HistoryEntry restartOperation(String executionId) {
         checkIfNotTerminated();
-        final JobData entry = currentOp;
-        if (entry != null && !entry.getExecutionId().equals(executionId)) {
-            throw new IllegalStateException(String.format("Operation with execution id `%s` is not active", executionId));
-        }
+        checkActiveExecutionId(executionId);
         if (!halted) {
             throw new IllegalStateException("Cannot restart from a running operation");
         }
