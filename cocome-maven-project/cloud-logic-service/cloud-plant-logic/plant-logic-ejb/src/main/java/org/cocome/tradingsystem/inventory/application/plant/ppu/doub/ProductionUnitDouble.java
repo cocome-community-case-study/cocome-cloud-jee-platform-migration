@@ -35,9 +35,10 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
 
     private boolean batchMode = false;
 
+    //Need concurrent (not "only" synchronized") list here
     private final List<HistoryEntry> history = new CopyOnWriteArrayList<>();
 
-    private Queue<QueueEntry> queue = new ConcurrentLinkedQueue<>();
+    private Queue<JobData> queue = new ConcurrentLinkedQueue<>();
 
     private Thread workerThread;
 
@@ -87,7 +88,7 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
     @Override
     public List<HistoryEntry> getCompleteHistory() {
         checkIfNotTerminated();
-        return new ArrayList<>(history);
+        return history;
     }
 
     @Override
@@ -137,7 +138,7 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
     @Override
     public HistoryEntry abortOperation(String executionId) {
         checkIfNotTerminated();
-        final QueueEntry entry = queue.peek();
+        final JobData entry = queue.peek();
         if (entry != null && !entry.getExecutionId().equals(executionId)) {
             throw new IllegalStateException(String.format("Operation with execution id `%s` is not active", executionId));
         }
@@ -158,7 +159,7 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
     @Override
     public HistoryEntry holdOperation(String executionId) {
         checkIfNotTerminated();
-        final QueueEntry entry = queue.peek();
+        final JobData entry = queue.peek();
         if (entry != null && !entry.getExecutionId().equals(executionId)) {
             throw new IllegalStateException(String.format("Operation with execution id `%s` is not active", executionId));
         }
@@ -180,7 +181,7 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
     @Override
     public HistoryEntry restartOperation(String executionId) {
         checkIfNotTerminated();
-        final QueueEntry entry = queue.peek();
+        final JobData entry = queue.peek();
         if (entry != null && !entry.getExecutionId().equals(executionId)) {
             throw new IllegalStateException(String.format("Operation with execution id `%s` is not active", executionId));
         }
@@ -250,8 +251,7 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
         entry.setResultCode(RESULT_CODE_DEFAULT);
         this.history.add(entry);
 
-        final QueueEntry queueEntry = new QueueEntry();
-        queueEntry.setBatchMode(false);
+        final JobData queueEntry = new JobData();
         queueEntry.setCommandString(operationId);
         queueEntry.setExecutionId(executionId);
         queue.add(queueEntry);
@@ -276,8 +276,7 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
         entry.setResultCode(RESULT_CODE_DEFAULT);
         this.history.add(entry);
 
-        final QueueEntry queueEntry = new QueueEntry();
-        queueEntry.setBatchMode(true);
+        final JobData queueEntry = new JobData();
         queueEntry.setCommandString(operationIds);
         queueEntry.setExecutionId(executionId);
         queue.add(queueEntry);
@@ -300,12 +299,11 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
     private void processQueue() {
         while (!terminated) {
             if (!queue.isEmpty()) {
-                final QueueEntry entry = queue.peek();
-                if (!entry.isBatchMode()) {
+                final JobData entry = queue.peek();
+                if (!batchMode) {
                     final String operationId = entry.getCommandString();
                     final OperationDoubleEntry operationEntry = this.operations.get(operationId);
                     execOperation(entry.getExecutionId(), operationEntry);
-
                 } else {
                     execBatchOperations(entry);
                 }
@@ -315,7 +313,7 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
         }
     }
 
-    private void execBatchOperations(QueueEntry entry) {
+    private void execBatchOperations(JobData entry) {
         final String[] operationIds = entry.getCommandString().split(";");
         for (final String operationId : operationIds) {
             if (aborted) {
@@ -333,7 +331,8 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
         this.history.add(historyEntry);
     }
 
-    private void execOperation(String executionId, OperationDoubleEntry operationEntry) {
+    private void execOperation(final String executionId,
+                               final OperationDoubleEntry operationEntry) {
         final long startTime = System.currentTimeMillis();
         long currentTime = startTime;
         do {
