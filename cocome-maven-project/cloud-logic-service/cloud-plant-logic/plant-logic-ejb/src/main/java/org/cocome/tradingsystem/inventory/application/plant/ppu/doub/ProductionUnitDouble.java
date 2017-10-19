@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -34,7 +35,7 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
 
     private boolean batchMode = false;
 
-    private final List<HistoryEntry> history = Collections.synchronizedList(new LinkedList<>());
+    private final List<HistoryEntry> history = new CopyOnWriteArrayList<>();
 
     private Queue<QueueEntry> queue = new ConcurrentLinkedQueue<>();
 
@@ -191,7 +192,7 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
         final HistoryEntry historyEntry = new HistoryEntry();
         historyEntry.setExecutionId(executionId);
         historyEntry.setTimestamp(Instant.now().toString());
-        historyEntry.setAction(HistoryAction.HOLD);
+        historyEntry.setAction(HistoryAction.RESTART);
         historyEntry.setResultCode(RESULT_CODE_DEFAULT);
         this.history.add(historyEntry);
 
@@ -286,7 +287,7 @@ public class ProductionUnitDouble implements IPickAndPlaceUnit, AutoCloseable {
 
     private void checkIfIdle() {
         if (!this.queue.isEmpty()) {
-            throw new IllegalStateException("Working queue is not empty");
+            throw new IllegalStateException("Another operation is already in progress");
         }
     }
 

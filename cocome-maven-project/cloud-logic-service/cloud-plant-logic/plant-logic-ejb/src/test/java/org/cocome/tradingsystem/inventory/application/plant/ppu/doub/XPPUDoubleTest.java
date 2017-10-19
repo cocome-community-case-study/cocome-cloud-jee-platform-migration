@@ -181,7 +181,7 @@ public class XPPUDoubleTest {
         Assert.assertEquals("Abort result should have ABORT state", HistoryAction.ABORT, abortRet.getAction());
     }
 
-    //@Test
+    @Test
     public void testRestartOperation() throws InterruptedException {
         // When
         final String operationId = "_1_2_1_P2_O4";
@@ -241,7 +241,7 @@ public class XPPUDoubleTest {
         ppuDevice.switchToManualMode();
     }
 
-    //@Test
+    @Test
     public void complexTest1() throws InterruptedException {
         // When
         final String[] opts = {
@@ -261,52 +261,63 @@ public class XPPUDoubleTest {
 
         int count = 0;
         while (count < 10) {
-            System.err.println(ppuDevice.getHistoryByExecutionId(batchRet.getExecutionId()));
+            ppuDevice.getHistoryByExecutionId(batchRet.getExecutionId());
             count++;
         }
+        waitForFinish(batchRet);
         ppuDevice.switchToManualMode();
     }
 
-    //s@Test
-    public void complexTest2() throws InterruptedException {
-        // When
-        final String[] opts = {
-                "_1_2_1_P2_O1",
-                "_1_2_1_P4_O2",
-                "_1_2_1_P2_O2",
-                "_1_2_1_P2_O6",
-                "_1_2_1_P2_O3",
-                "_1_2_1_P3_O2",
-                "_1_2_1_P2_O2",
-                "_1_2_1_P2_O4",
-                "_1_2_1_P2_O3",
-                "_1_2_1_P1_O3",
-                "_1_2_1_P1_O7"};
-        ppuDevice.switchToAutomaticMode();
-        System.err.println(ppuDevice.startOperationsInBatch(String.join(";", opts)));
-        System.err.println(ppuDevice.startOperationsInBatch(String.join(";", opts)));
-        ppuDevice.switchToManualMode();
-    }
-
-    private void waitForFinish(HistoryEntry startEntry) throws InterruptedException {
-
-        while (!containsTerminationElement(startEntry, ppuDevice.getCompleteHistory())) {
+    private void waitForFinish(final HistoryEntry entry) throws InterruptedException {
+        while (!containsTerminationElement(
+                Instant.parse(entry.getTimestamp()),
+                entry.getExecutionId(),
+                entry.getAction() == HistoryAction.BATCH_START,
+                ppuDevice.getCompleteHistory())) {
             Thread.sleep(500);
         }
     }
 
-    private boolean containsTerminationElement(final HistoryEntry startEntry,
+
+    private boolean containsTerminationElement(final Instant startTime,
+                                               final String executionId,
+                                               final boolean isBatch,
                                                final List<HistoryEntry> completeHistory) {
-        final Instant startTime = Instant.parse(startEntry.getTimestamp());
+        /*
+        for (final HistoryEntry entry : completeHistory) {
+            System.out.println(entry.getExecutionId());
+            System.out.println(entry.getOperationId());
+            System.out.println(entry.getAction());
+        }*/
 
         return completeHistory.stream().filter(e -> {
+
             final Instant timestemp = Instant.parse(e.getTimestamp());
-            return !timestemp.isBefore(startTime)
-                    && (e.getAction() == HistoryAction.ABORT
-                    || e.getAction() == HistoryAction.COMPLETE
-                    || e.getAction() == HistoryAction.HOLD
-                    || e.getAction() == HistoryAction.RESET
-                    || e.getAction() == HistoryAction.STOP);
+
+            if (!timestemp.isBefore(startTime)) {
+                //Emergency events
+                if (e.getAction() == HistoryAction.RESET
+                        || e.getAction() == HistoryAction.STOP) {
+                    return true;
+                }
+                if (isBatch) {
+                    return e.getOperationId() == null
+                            && e.getExecutionId() == null
+                            && e.getAction() == HistoryAction.BATCH_COMPLETE
+                            || e.getOperationId() != null
+                            && e.getExecutionId() != null
+                            && e.getExecutionId().equals(executionId)
+                            && (e.getAction() == HistoryAction.ABORT
+                            || e.getAction() == HistoryAction.HOLD);
+                }
+                return e.getOperationId() != null
+                        && e.getExecutionId() != null
+                        && e.getExecutionId().equals(executionId)
+                        && (e.getAction() == HistoryAction.ABORT
+                        || e.getAction() == HistoryAction.HOLD
+                        || e.getAction() == HistoryAction.COMPLETE);
+            }
+            return false;
         }).count() > 0;
     }
 }
