@@ -1,34 +1,33 @@
-package org.cocome.ppu.rest;
+package org.cocome.tradingsystem.inventory.application.plant.ppu.doub;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
+import org.cocome.tradingsystem.inventory.application.plant.ppu.iface.HistoryAction;
+import org.cocome.tradingsystem.inventory.application.plant.ppu.iface.HistoryEntry;
+import org.cocome.tradingsystem.inventory.application.plant.ppu.iface.OperationEntry;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-import java.util.Collections;
+import java.time.Instant;
 import java.util.List;
 
-/**
- * Integration test for {@link IDevice}
- *
- * @author Rudolf Biczok, rudolf.biczok@student.kit.edu
- */
-@Ignore
-public class RestClientTest {
+public class XPPUDoubleTest {
 
     // Given
-    private static IDevice ppuDevice = JAXRSClientFactory.create("http://129.187.88.30:4567/", IDevice.class,
-            Collections.singletonList(new JacksonJsonProvider()));
+    private static XPPUDouble ppuDevice = new XPPUDouble();
 
     @BeforeClass
     public static void ensureManualMode() {
         ppuDevice.switchToManualMode();
     }
 
-    // @Test
+    @AfterClass
+    public static void stopDummyInterface() throws InterruptedException {
+        ppuDevice.close();
+    }
+
+    @Test
     public void testGetInstance() {
         // When
         final Document instance = ppuDevice.getInstance();
@@ -38,17 +37,17 @@ public class RestClientTest {
                 instance.getDocumentElement().getNodeName());
     }
 
-    // @Test
+    @Test
     public void testGetOperations() {
         // When
         final List<OperationEntry> opts = ppuDevice.getOperations();
         // Then
         Assert.assertNotNull("Result is not null", opts);
         Assert.assertEquals("Result has N elements", 16, opts.size());
-        Assert.assertEquals("0th result element has valid name", "ACT_DriveFromBaseToRamp1", opts.get(0).getName());
+        Assert.assertTrue("0th result element has valid name", opts.get(0).getName().contains("ACT"));
     }
 
-    // @Test
+    @Test
     public void testGetOperation() {
         // When
         final String operationId = "_1_2_1_P2_O1";
@@ -59,49 +58,51 @@ public class RestClientTest {
         Assert.assertEquals("Result has valid name", "Crane_ACT_Init", opt.getName());
     }
 
-    // @Test
+    @Test
     public void testStartOperation() throws InterruptedException {
         // When
         final String operationId = "_1_2_1_P2_O1";
         final HistoryEntry ret = ppuDevice.startOperation(operationId);
-        Thread.sleep(1000);
         // Then
         Assert.assertNotNull("Result is not null", ret);
         Assert.assertEquals("Result should have START state", HistoryAction.START, ret.getAction());
+
+        waitForFinish(ret);
     }
 
-    // @Test
+    @Test
     public void testGetCompleteHistory() throws InterruptedException {
         // When
         final String operationId = "_1_2_1_P2_O1";
-        ppuDevice.startOperation(operationId);
+        final HistoryEntry entry = ppuDevice.startOperation(operationId);
         final List<HistoryEntry> hist = ppuDevice.getCompleteHistory();
-        Thread.sleep(1000);
         // Then
         Assert.assertNotNull("Result is not null", hist);
         Assert.assertEquals("Last entry should contain last issued operation", operationId,
                 hist.get(hist.size() - 1).getOperationId());
+
+        waitForFinish(entry);
     }
 
-    // @Test
+    @Test
     public void testGetHistoryByExecutionId() throws InterruptedException {
         // When
         final String operationId = "_1_2_1_P2_O1";
         final HistoryEntry entry = ppuDevice.startOperation(operationId);
-        Thread.sleep(1000);
         final List<HistoryEntry> hist = ppuDevice.getHistoryByExecutionId(entry.getExecutionId());
         // Then
         Assert.assertNotNull("Result is not null", hist);
         Assert.assertEquals("At least first entry should contain same execution id", operationId,
                 hist.get(0).getOperationId());
+
+        waitForFinish(entry);
     }
 
-    // @Test
+    @Test
     public void testGetHistoryByModuleName() throws InterruptedException {
         // When
         final String operationId = "_1_2_1_P2_O1";
-        ppuDevice.startOperation(operationId);
-        Thread.sleep(1000);
+        final HistoryEntry entry = ppuDevice.startOperation(operationId);
         final List<HistoryEntry> hist = ppuDevice.getHistoryByModuleName("Crane");
         // Then
         Assert.assertNotNull("Result is not null", hist);
@@ -109,54 +110,56 @@ public class RestClientTest {
             Assert.assertTrue(i + "th entry should contain same module",
                     hist.get(i).getResolvedOperationPath().contains("Crane"));
         }
+
+        waitForFinish(entry);
     }
 
-    // @Test
+    @Test
     public void testGetHistoryByOperationId() throws InterruptedException {
         // When
         final String operationId = "_1_2_1_P2_O1";
-        ppuDevice.startOperation(operationId);
-        Thread.sleep(1000);
+        final HistoryEntry entry = ppuDevice.startOperation(operationId);
         final List<HistoryEntry> hist = ppuDevice.getHistoryByOperationId(operationId);
         // Then
         Assert.assertNotNull("Result is not null", hist);
         Assert.assertEquals("At least first entry should contain same execution id", operationId,
                 hist.get(0).getOperationId());
+
+        waitForFinish(entry);
     }
 
-    // @Test
+    @Test
     public void testGetHistoryByTimeStamp() throws InterruptedException {
         // When
         final String operationId = "_1_2_1_P2_O1";
         final HistoryEntry entry = ppuDevice.startOperation(operationId);
-        Thread.sleep(1000);
         final List<HistoryEntry> hist = ppuDevice.getHistoryByTimeStemp(entry.getTimestamp());
         // Then
         Assert.assertNotNull("Result is not null", hist);
         Assert.assertEquals("At least first entry should contain same execution id", entry.getTimestamp(),
                 hist.get(0).getTimestamp());
+
+        waitForFinish(entry);
     }
 
-    // @Test
+    @Test
     public void testAbortOperation() throws InterruptedException {
         // When
         final String operationId = "_1_2_1_P2_O1";
         final HistoryEntry ret = ppuDevice.startOperation(operationId);
         final HistoryEntry abortRet = ppuDevice.abortOperation(ret.getExecutionId());
-        Thread.sleep(1000);
         // Then
         Assert.assertNotNull("Abort result is not null", abortRet);
         Assert.assertEquals("Abort result should have ABORT state", HistoryAction.ABORT, abortRet.getAction());
     }
 
-    // @Test
+    @Test
     public void testHoldOperation() throws InterruptedException {
         // When
         final String operationId = "_1_2_1_P2_O4";
         final HistoryEntry ret = ppuDevice.startOperation(operationId);
         final HistoryEntry haltRet = ppuDevice.holdOperation(ret.getExecutionId());
         final HistoryEntry abortRet = ppuDevice.abortOperation(ret.getExecutionId());
-        Thread.sleep(1000);
         // Then
         Assert.assertNotNull("Halt result is not null", haltRet);
         Assert.assertEquals("Halt result should have HOLD state", HistoryAction.HOLD, haltRet.getAction());
@@ -164,14 +167,13 @@ public class RestClientTest {
         Assert.assertEquals("Abort result should have ABORT state", HistoryAction.ABORT, abortRet.getAction());
     }
 
-    // @Test
+    @Test
     public void testHaltOperation() throws InterruptedException {
         // When
         final String operationId = "_1_2_1_P2_O4";
         final HistoryEntry ret = ppuDevice.startOperation(operationId);
         final HistoryEntry haltRet = ppuDevice.holdOperation(ret.getExecutionId());
         final HistoryEntry abortRet = ppuDevice.abortOperation(ret.getExecutionId());
-        Thread.sleep(1000);
         // Then
         Assert.assertNotNull("Hold result is not null", haltRet);
         Assert.assertEquals("Hold result should have HOLD state", HistoryAction.HOLD, haltRet.getAction());
@@ -179,7 +181,7 @@ public class RestClientTest {
         Assert.assertEquals("Abort result should have ABORT state", HistoryAction.ABORT, abortRet.getAction());
     }
 
-    // @Test
+    //@Test
     public void testRestartOperation() throws InterruptedException {
         // When
         final String operationId = "_1_2_1_P2_O4";
@@ -187,15 +189,15 @@ public class RestClientTest {
         final HistoryEntry haltRet = ppuDevice.holdOperation(ret.getExecutionId());
         final HistoryEntry restartRet = ppuDevice.restartOperation(ret.getExecutionId());
         ppuDevice.abortOperation(ret.getExecutionId());
-        Thread.sleep(1000);
         // Then
         Assert.assertNotNull("Restart result is not null", restartRet);
         Assert.assertEquals("Restart result should have RESTART state", HistoryAction.RESTART, restartRet.getAction());
         Assert.assertNotNull("Hold result is not null", haltRet);
         Assert.assertEquals("Hold result should have HOLD state", HistoryAction.HOLD, haltRet.getAction());
+        waitForFinish(restartRet);
     }
 
-    // @Test
+    @Test
     public void testSwitchModes() throws InterruptedException {
         // When
         final HistoryEntry retAuto = ppuDevice.switchToAutomaticMode();
@@ -226,15 +228,17 @@ public class RestClientTest {
                 "_1_2_1_P1_O7"};
         ppuDevice.switchToAutomaticMode();
         final HistoryEntry batchRet = ppuDevice.startOperationsInBatch(String.join(";", opts));
-        ppuDevice.abortOperation(batchRet.getExecutionId());
+        final HistoryEntry abortRet = ppuDevice.abortOperation(batchRet.getExecutionId());
         final List<HistoryEntry> batchHistory = ppuDevice.getHistoryByExecutionId(batchRet.getExecutionId());
         // Then
         Assert.assertNotNull("Batch execution result is not null", batchRet);
         Assert.assertEquals("Batch execution result should have BATCH_START state", HistoryAction.BATCH_START,
                 batchRet.getAction());
+
         Assert.assertEquals("Last entry of history of batch execution should have ABORT state",
                 HistoryAction.ABORT, batchHistory.get(batchHistory.size() - 1).getAction());
-        //ppuDevice.switchToManualMode();
+        waitForFinish(abortRet);
+        ppuDevice.switchToManualMode();
     }
 
     //@Test
@@ -257,14 +261,13 @@ public class RestClientTest {
 
         int count = 0;
         while (count < 10) {
-            Thread.sleep(1000*5);
             System.err.println(ppuDevice.getHistoryByExecutionId(batchRet.getExecutionId()));
             count++;
         }
         ppuDevice.switchToManualMode();
     }
 
-    // @Test
+    //s@Test
     public void complexTest2() throws InterruptedException {
         // When
         final String[] opts = {
@@ -282,10 +285,28 @@ public class RestClientTest {
         ppuDevice.switchToAutomaticMode();
         System.err.println(ppuDevice.startOperationsInBatch(String.join(";", opts)));
         System.err.println(ppuDevice.startOperationsInBatch(String.join(";", opts)));
-        //System.err.println(ppuDevice.startOperationsInBatch(String.join(";", opts)));
-        //System.err.println(ppuDevice.startOperationsInBatch(String.join(";", opts)));
-
-        //ppuDevice.switchToManualMode();
+        ppuDevice.switchToManualMode();
     }
 
+    private void waitForFinish(HistoryEntry startEntry) throws InterruptedException {
+
+        while (!containsTerminationElement(startEntry, ppuDevice.getCompleteHistory())) {
+            Thread.sleep(500);
+        }
+    }
+
+    private boolean containsTerminationElement(final HistoryEntry startEntry,
+                                               final List<HistoryEntry> completeHistory) {
+        final Instant startTime = Instant.parse(startEntry.getTimestamp());
+
+        return completeHistory.stream().filter(e -> {
+            final Instant timestemp = Instant.parse(e.getTimestamp());
+            return !timestemp.isBefore(startTime)
+                    && (e.getAction() == HistoryAction.ABORT
+                    || e.getAction() == HistoryAction.COMPLETE
+                    || e.getAction() == HistoryAction.HOLD
+                    || e.getAction() == HistoryAction.RESET
+                    || e.getAction() == HistoryAction.STOP);
+        }).count() > 0;
+    }
 }

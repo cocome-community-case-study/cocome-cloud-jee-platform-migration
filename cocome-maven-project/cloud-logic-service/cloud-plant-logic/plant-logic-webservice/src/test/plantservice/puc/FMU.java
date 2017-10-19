@@ -1,11 +1,13 @@
 package plantservice.puc;
 
+import org.cocome.tradingsystem.inventory.application.plant.ppu.PUCOperationMeta;
+
 /**
  * Imaginary "Fill & Mix Unit".
  *
  * @author Rudolf Biczok
  */
-public enum FMU implements TestPUCOperation {
+public enum FMU implements PUCOperationMeta {
     Gate1_Init,
     Gate1_Open,
     Gate1_Close,

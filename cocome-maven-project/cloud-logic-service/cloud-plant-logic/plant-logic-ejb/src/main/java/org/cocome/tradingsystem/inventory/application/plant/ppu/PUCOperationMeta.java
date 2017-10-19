@@ -1,11 +1,11 @@
-package plantservice.puc;
+package org.cocome.tradingsystem.inventory.application.plant.ppu;
 
 /**
- * Test class, just for alleviating the work with plant-specific data structures in test cases
+ * Describes the elemental parts of an operation provided by an production unit interface.
  *
  * @author Rudolf Biczok
  */
-public interface TestPUCOperation {
+public interface PUCOperationMeta {
 
     /**
      * @return returns the operation id

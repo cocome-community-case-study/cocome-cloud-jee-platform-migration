@@ -17,7 +17,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import plantservice.puc.TestPUC;
-import plantservice.puc.XPPU;
+import org.cocome.tradingsystem.inventory.application.plant.ppu.doub.XPPU;
 
 import java.util.*;
 

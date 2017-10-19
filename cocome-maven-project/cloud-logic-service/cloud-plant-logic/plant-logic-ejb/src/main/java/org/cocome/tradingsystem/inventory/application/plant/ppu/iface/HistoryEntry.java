@@ -1,4 +1,4 @@
-package org.cocome.ppu.rest;
+package org.cocome.tradingsystem.inventory.application.plant.ppu.iface;
 
 /**
  * Represents an entry in the history list.

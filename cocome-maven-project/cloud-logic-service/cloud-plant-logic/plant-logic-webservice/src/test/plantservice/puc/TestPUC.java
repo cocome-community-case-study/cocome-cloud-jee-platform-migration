@@ -3,6 +3,7 @@ package plantservice.puc;
 import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.ppu.PUCOperationMeta;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 
@@ -20,10 +21,10 @@ public class TestPUC {
 
     private ProductionUnitClassTO puc;
 
-    private Map<TestPUCOperation, ProductionUnitOperationTO> operators;
+    private Map<PUCOperationMeta, ProductionUnitOperationTO> operators;
 
     public TestPUC(final String pucName,
-                   final TestPUCOperation[] operations,
+                   final PUCOperationMeta[] operations,
                    final PlantTO plant,
                    final IPlantManager pm) throws CreateException_Exception {
 
@@ -49,7 +50,7 @@ public class TestPUC {
                 }));
     }
 
-    public ProductionUnitOperationTO getOperation(final TestPUCOperation op) {
+    public ProductionUnitOperationTO getOperation(final PUCOperationMeta op) {
         return this.operators.get(op);
     }
 

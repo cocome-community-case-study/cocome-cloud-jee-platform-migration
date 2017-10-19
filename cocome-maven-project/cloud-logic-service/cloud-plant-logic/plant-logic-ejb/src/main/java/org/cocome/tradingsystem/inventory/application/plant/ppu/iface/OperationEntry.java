@@ -1,4 +1,4 @@
-package org.cocome.ppu.rest;
+package org.cocome.tradingsystem.inventory.application.plant.ppu.iface;
 
 /**
  * Represents a resolved operation that is available on the PLC.
