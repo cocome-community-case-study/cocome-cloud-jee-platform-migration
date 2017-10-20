@@ -29,13 +29,15 @@ import java.util.stream.Collectors;
 public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
 
     private static final int RESULT_CODE_DEFAULT = -1;
-    private static final int RESULT_CODE_COMPLETE = 100;
+    private static final int RESULT_CODE_COMPLETE = 1;
 
     private final Document instance = loadInstanceFromFile();
 
     private final Map<String, OperationDoubleEntry> operations;
 
-    private boolean automaticMode = false;
+    private ExecutionMode mode = ExecutionMode.MANUAL;
+
+    private ExecutionState state = ExecutionState.ACTIVE;
 
     //Need concurrent (not "only" synchronized") list here
     private final List<HistoryEntry> history = new CopyOnWriteArrayList<>();
@@ -43,12 +45,6 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     private JobData currentOp;
 
     private Thread workerThread;
-
-    private boolean terminated;
-
-    private boolean halted;
-
-    private boolean aborted;
 
     PUDouble(@NotNull final PUOperationDoubleMeta[] operations) {
         this.operations = Arrays.stream(operations).collect(Collectors.toMap(
@@ -134,17 +130,16 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     public synchronized HistoryEntry abortOperation(String executionId) {
         checkIfNotTerminated();
         checkActiveExecutionId(executionId);
-        halted = true;
+        state = ExecutionState.HOLD;
         final String operationId = currentOp.getCommandString();
 
-        aborted = true;
-        halted = false;
+        state = ExecutionState.ABORT;
         while (currentOp != null) {
             Thread.yield();
         }
 
         final HistoryEntry historyEntry = new HistoryEntry();
-        if (!this.automaticMode) {
+        if (this.mode != ExecutionMode.AUTOMATIC) {
             historyEntry.setOperationId(operationId);
         }
         historyEntry.setExecutionId(executionId);
@@ -167,13 +162,13 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     public synchronized HistoryEntry holdOperation(String executionId) {
         checkIfNotTerminated();
         checkActiveExecutionId(executionId);
-        if (halted) {
+        if (this.state == ExecutionState.HOLD) {
             throw new IllegalStateException("Device is already in halting state");
         }
-        halted = true;
+        this.state = ExecutionState.HOLD;
 
         final HistoryEntry historyEntry = new HistoryEntry();
-        if (!this.automaticMode) {
+        if (this.mode == ExecutionMode.MANUAL) {
             historyEntry.setOperationId(currentOp.getCommandString());
         }
         historyEntry.setExecutionId(executionId);
@@ -189,13 +184,13 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     public synchronized HistoryEntry restartOperation(String executionId) {
         checkIfNotTerminated();
         checkActiveExecutionId(executionId);
-        if (!halted) {
+        if (this.state != ExecutionState.HOLD) {
             throw new IllegalStateException("Cannot restart from a running operation");
         }
-        halted = false;
+        this.state = ExecutionState.ACTIVE;
 
         final HistoryEntry historyEntry = new HistoryEntry();
-        if (!this.automaticMode) {
+        if (this.mode == ExecutionMode.MANUAL) {
             historyEntry.setOperationId(currentOp.getCommandString());
         }
         historyEntry.setExecutionId(executionId);
@@ -210,10 +205,10 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     @Override
     public synchronized HistoryEntry switchToManualMode() {
         checkIfNotTerminated();
-        if (this.automaticMode && this.currentOp != null) {
+        if (this.mode == ExecutionMode.AUTOMATIC && this.currentOp != null) {
             throw new IllegalStateException("Cannot switch mode while unit is busy");
         }
-        this.automaticMode = false;
+        this.mode = ExecutionMode.MANUAL;
 
         final HistoryEntry entry = new HistoryEntry();
         entry.setTimestamp(Instant.now().toString());
@@ -227,10 +222,10 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     @Override
     public synchronized HistoryEntry switchToAutomaticMode() {
         checkIfNotTerminated();
-        if (!this.automaticMode && this.currentOp != null) {
+        if (this.mode == ExecutionMode.MANUAL && this.currentOp != null) {
             throw new IllegalStateException("Cannot switch mode while unit is busy");
         }
-        this.automaticMode = true;
+        this.mode = ExecutionMode.AUTOMATIC;
 
         final HistoryEntry entry = new HistoryEntry();
         entry.setTimestamp(Instant.now().toString());
@@ -245,7 +240,7 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     public synchronized HistoryEntry startOperation(String operationId) {
         checkIfNotTerminated();
         checkIfIdle();
-        if (this.automaticMode) {
+        if (this.mode == ExecutionMode.AUTOMATIC) {
             throw new IllegalStateException("Not allowed in automatic mode");
         }
         final String executionId = UUID.randomUUID().toString();
@@ -270,7 +265,7 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     public synchronized HistoryEntry startOperationsInBatch(String operationIds) {
         checkIfNotTerminated();
         checkIfIdle();
-        if (!this.automaticMode) {
+        if (this.mode == ExecutionMode.MANUAL) {
             throw new IllegalStateException("Only allowed in automatic mode");
         }
 
@@ -299,15 +294,15 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
 
     @Override
     public void close() throws InterruptedException {
-        this.terminated = true;
+        this.state = ExecutionState.TERMINATE;
         this.workerThread.join();
     }
 
     private void processQueue() {
-        while (!terminated) {
+        while (this.state != ExecutionState.TERMINATE) {
             if (currentOp != null) {
                 final JobData entry = currentOp;
-                if (!automaticMode) {
+                if (this.mode == ExecutionMode.MANUAL) {
                     final String operationId = entry.getCommandString();
                     final OperationDoubleEntry operationEntry = this.operations.get(operationId);
                     execOperation(entry.getExecutionId(), operationEntry);
@@ -323,8 +318,10 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     private void execBatchOperations(JobData entry) {
         final String[] operationIds = entry.getCommandString().split(";");
         for (final String operationId : operationIds) {
-            if (aborted) {
-                aborted = false;
+            if (this.state == ExecutionState.ABORT) {
+                this.state = ExecutionState.ACTIVE;
+                return;
+            } else if (this.state == ExecutionState.TERMINATE) {
                 return;
             }
             final OperationDoubleEntry operationEntry = this.operations.get(operationId);
@@ -344,12 +341,13 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
         final long startTime = System.currentTimeMillis();
         long currentTime = startTime;
         do {
-            if (!halted) {
+            if (this.state == ExecutionState.ACTIVE) {
                 currentTime = System.currentTimeMillis();
-                if (aborted) {
-                    aborted = false;
-                    return;
-                }
+            } else if (this.state == ExecutionState.ABORT) {
+                this.state = ExecutionState.ACTIVE;
+                return;
+            } else if (this.state == ExecutionState.TERMINATE) {
+                return;
             } else {
                 Thread.yield();
             }
@@ -364,7 +362,7 @@ public class PUDouble implements IPickAndPlaceUnit, AutoCloseable {
     }
 
     private void checkIfNotTerminated() {
-        if (terminated) {
+        if (this.state == ExecutionState.TERMINATE) {
             throw new IllegalStateException("Dummy interface has already been terminated");
         }
     }
