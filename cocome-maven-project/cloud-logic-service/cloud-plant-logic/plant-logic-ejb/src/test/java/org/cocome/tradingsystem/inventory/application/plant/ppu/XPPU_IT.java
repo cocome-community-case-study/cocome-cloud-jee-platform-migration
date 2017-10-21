@@ -10,7 +10,7 @@ import org.junit.Ignore;
 import java.util.Collections;
 
 /**
- * Integration test for {@link IPickAndPlaceUnit}
+ * Runs interface tests on the real device
  *
  * @author Rudolf Biczok, rudolf.biczok@student.kit.edu
  */

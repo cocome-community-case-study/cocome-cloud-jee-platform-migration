@@ -6,16 +6,16 @@ package org.cocome.tradingsystem.inventory.application.plant.ppu.doub;
  * @author Rudolf Biczok
  */
 class JobData {
-    private String commandString;
-    private boolean batchMode;
+    private String operationId;
     private String executionId;
+    private long progressInMillis;
 
-    String getCommandString() {
-        return commandString;
+    String getOperationId() {
+        return operationId;
     }
 
-    void setCommandString(String commandString) {
-        this.commandString = commandString;
+    void setOperationId(String operationId) {
+        this.operationId = operationId;
     }
 
     String getExecutionId() {
@@ -25,4 +25,13 @@ class JobData {
     void setExecutionId(String executionId) {
         this.executionId = executionId;
     }
+
+    long getProgressInMillis() {
+        return progressInMillis;
+    }
+
+    void setProgressInMillis(long progressInMillis) {
+        this.progressInMillis = progressInMillis;
+    }
+
 }

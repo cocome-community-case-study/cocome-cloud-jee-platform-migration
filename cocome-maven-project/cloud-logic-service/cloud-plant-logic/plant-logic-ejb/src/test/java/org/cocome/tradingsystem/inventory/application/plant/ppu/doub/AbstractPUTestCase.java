@@ -9,8 +9,14 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 
+/**
+ * Abstract class for interface tests
+ *
+ * @author Rudolf Biczok
+ */
 public abstract class AbstractPUTestCase {
 
     // Given
@@ -216,7 +222,7 @@ public abstract class AbstractPUTestCase {
                 "_1_2_1_P1_O7"};
         ppuDevice.switchToAutomaticMode();
         final HistoryEntry batchRet = ppuDevice.startOperationsInBatch(String.join(";", opts));
-        final HistoryEntry abortRet = ppuDevice.abortOperation(batchRet.getExecutionId());
+        ppuDevice.abortOperation(batchRet.getExecutionId());
         final List<HistoryEntry> batchHistory = ppuDevice.getHistoryByExecutionId(batchRet.getExecutionId());
         // Then
         Assert.assertNotNull("Batch execution result is not null", batchRet);
@@ -260,7 +266,7 @@ public abstract class AbstractPUTestCase {
         while (!containsTerminationElement(
                 Instant.parse(entry.getTimestamp()),
                 entry.getExecutionId(),
-                entry.getAction() == HistoryAction.BATCH_START,
+                entry.getAction(),
                 ppuDevice.getCompleteHistory())) {
             Thread.sleep(500);
         }
@@ -269,36 +275,55 @@ public abstract class AbstractPUTestCase {
 
     private boolean containsTerminationElement(final Instant startTime,
                                                final String executionId,
-                                               final boolean isBatch,
-                                               final List<HistoryEntry> completeHistory) {
-        return completeHistory.stream().filter(e -> {
+                                               final HistoryAction startingAction,
+                                               final List<HistoryEntry> history) {
 
-            final Instant timestemp = Instant.parse(e.getTimestamp());
+        final List<HistoryEntry> filteredHistory = filterFirstUnrelatedElements(startTime, executionId, startingAction, history);
 
-            if (!timestemp.isBefore(startTime)) {
-                //Emergency events
-                if (e.getAction() == HistoryAction.RESET
-                        || e.getAction() == HistoryAction.STOP) {
-                    return true;
-                }
-                if (isBatch) {
-                    return e.getOperationId() == null
-                            && e.getExecutionId() == null
-                            && e.getAction() == HistoryAction.BATCH_COMPLETE
-                            || e.getExecutionId() != null
-                            && e.getExecutionId().equals(executionId)
-                            && (e.getAction() == HistoryAction.ABORT
-                            || e.getAction() == HistoryAction.HOLD);
-                }
-                return e.getOperationId() != null
-                        && e.getExecutionId() != null
+        return filteredHistory.stream().filter(e -> {
+            //Emergency events
+            if (e.getAction() == HistoryAction.RESET
+                    || e.getAction() == HistoryAction.STOP) {
+                return true;
+            }
+            if (startingAction == HistoryAction.BATCH_START) {
+                return e.getOperationId() == null
+                        && e.getExecutionId() == null
+                        && e.getAction() == HistoryAction.BATCH_COMPLETE
+                        || e.getExecutionId() != null
                         && e.getExecutionId().equals(executionId)
                         && (e.getAction() == HistoryAction.ABORT
-                        || e.getAction() == HistoryAction.HOLD
-                        || e.getAction() == HistoryAction.COMPLETE);
+                        || e.getAction() == HistoryAction.HOLD);
             }
-            return false;
+            return e.getOperationId() != null
+                    && e.getExecutionId() != null
+                    && e.getExecutionId().equals(executionId)
+                    && (e.getAction() == HistoryAction.ABORT
+                    || e.getAction() == HistoryAction.HOLD
+                    || e.getAction() == HistoryAction.COMPLETE);
         }).count() > 0;
+    }
+
+    private List<HistoryEntry> filterFirstUnrelatedElements(final Instant startTime,
+                                                            final String executionId,
+                                                            final HistoryAction startingAction,
+                                                            final List<HistoryEntry> history) {
+
+        for (int i = 0; i < history.size(); i++) {
+            final HistoryEntry entry = history.get(i);
+            final Instant timestemp = Instant.parse(entry.getTimestamp());
+            if (!timestemp.isBefore(startTime)
+                    && entry.getExecutionId() != null
+                    && entry.getExecutionId().equals(executionId)
+                    && (entry.getAction() == startingAction)) {
+                return history.subList(i, history.size());
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    private void printHistory() {
+        this.printHistory(ppuDevice.getCompleteHistory());
     }
 
     private void printHistory(final List<HistoryEntry> history) {

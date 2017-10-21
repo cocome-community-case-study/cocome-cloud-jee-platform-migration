@@ -1,19 +1,17 @@
 package org.cocome.tradingsystem.inventory.application.plant.ppu.doub;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
+/**
+ * Runs interface tests on the double
+ *
+ * @author Rudolf Biczok
+ */
 public class XPPUDoubleTest extends AbstractPUTestCase {
-
-    private static XPPUDouble ppuDouble = new XPPUDouble();
 
     @BeforeClass
     public static void ensureManualMode() {
-        ppuDevice = ppuDouble;
+        ppuDevice = new XPPUDouble(100);
     }
 
-    @AfterClass
-    public static void stopDummyInterface() throws InterruptedException {
-        ppuDouble.close();
-    }
 }

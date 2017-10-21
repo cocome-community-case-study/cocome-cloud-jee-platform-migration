@@ -7,8 +7,8 @@ package org.cocome.tradingsystem.inventory.application.plant.ppu.doub;
  */
 public class XPPUDouble extends PUDouble {
 
-    public XPPUDouble() {
-        super(XPPU.values());
+    public XPPUDouble(final long timingFactor) {
+        super(XPPU.values(), timingFactor);
     }
 
 }
