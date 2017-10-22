@@ -35,7 +35,7 @@ import java.util.*;
  *
  * @author Rudolf Biczok
  */
-public class EnterpriseQueryProviderIT {
+public class EnterpriseQueryProviderAndPersistanceIT {
 
     private IPersistenceContext persistenceContext = TestUtils.injectFakeCDIObject(IPersistenceContext.class,
             createMappings());
@@ -69,6 +69,26 @@ public class EnterpriseQueryProviderIT {
         mapping.put(IBackendQuery.class, GetXMLFromBackend.class);
         mapping.put(IEnterpriseQuery.class, EnterpriseQueryProvider.class);
         return mapping;
+    }
+
+    @Test
+    public void createAndDeleteNorminalCustomProductParameter() throws Exception {
+        final ICustomProduct prod = new CustomProduct();
+        prod.setBarcode(new Date().getTime());
+        prod.setName("Fancy Product");
+        prod.setPurchasePrice(100);
+        persistenceContext.createEntity(prod);
+
+        final INorminalCustomProductParameter param = new NorminalCustomProductParameter();
+        param.setCustomProduct(prod);
+        param.setCustomProductId(prod.getId());
+        param.setOptions(new HashSet<>(Arrays.asList("Op1", "Op2")));
+        param.setCategory("SomeCategory");
+        param.setName("SomeName");
+        persistenceContext.createEntity(param);
+
+        persistenceContext.deleteEntity(param);
+        persistenceContext.deleteEntity(prod);
     }
 
     @Test
