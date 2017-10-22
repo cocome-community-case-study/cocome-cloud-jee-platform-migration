@@ -1,6 +1,5 @@
 package org.cocome.tradingsystem.inventory.data.plant.expression;
 
-import javax.enterprise.context.Dependent;
 import java.io.Serializable;
 
 /**
@@ -8,8 +7,7 @@ import java.io.Serializable;
  *
  * @author Rudolf Biczok
  */
-@Dependent
-public class Expression implements Serializable, IExpression {
+public abstract class Expression implements Serializable, IExpression {
     private static final long serialVersionUID = 1L;
 
     private long id;

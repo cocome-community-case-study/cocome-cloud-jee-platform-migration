@@ -27,7 +27,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -145,5 +144,14 @@ public class ConditionalExpression extends Expression implements IConditionalExp
     @Override
     public void setOnFalseExpressionIds(List<Long> onFalseExpressionIds) {
         this.onFalseExpressionIds = onFalseExpressionIds;
+    }
+
+    @Override
+    public List<IPUInstruction> evaluate(IEvaluationContext context) throws NotInDatabaseException {
+        final String value = context.getValueOf(this.getParameter());
+        if (this.getParameterValue().equals(value)) {
+            return IExpression.evaluateList(this.getOnTrueExpressions(), context);
+        }
+        return IExpression.evaluateList(this.getOnFalseExpressions(), context);
     }
 }

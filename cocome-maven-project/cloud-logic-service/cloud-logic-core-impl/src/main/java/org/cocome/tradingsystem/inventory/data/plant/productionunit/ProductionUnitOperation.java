@@ -19,6 +19,9 @@
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IEvaluationContext;
+import org.cocome.tradingsystem.inventory.data.plant.expression.IPUInstruction;
+import org.cocome.tradingsystem.inventory.data.plant.expression.PUInstruction;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +29,8 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Represents an atomic operation on a production unit
@@ -105,5 +110,10 @@ public class ProductionUnitOperation implements Serializable, IProductionUnitOpe
     @Override
     public void setProductionUnitClassId(long productionUnitClassId) {
         this.productionUnitClassId = productionUnitClassId;
+    }
+
+    @Override
+    public List<IPUInstruction> evaluate(final IEvaluationContext context) throws NotInDatabaseException {
+        return Collections.singletonList(new PUInstruction(this.getProductionUnitClass(), this.operationId));
     }
 }
