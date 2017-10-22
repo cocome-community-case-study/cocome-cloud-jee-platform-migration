@@ -50,6 +50,9 @@ public class EnterpriseQueryProviderIT {
         mapping.put(IPersistenceConnection.class, CSVBackendConnection.class);
         mapping.put(IEntryPointInteraction.class, EntryPointInteraction.class);
         mapping.put(IParameterInteraction.class, ParameterInteraction.class);
+        mapping.put(IPlantOperationOrder.class, PlantOperationOrder.class);
+        mapping.put(IPlantOperationOrderEntry.class, PlantOperationOrderEntry.class);
+        mapping.put(IPlantOperationParameterValue.class, PlantOperationParameterValue.class);
         mapping.put(IRecipe.class, Recipe.class);
         mapping.put(ICustomProduct.class, CustomProduct.class);
         mapping.put(IBooleanPlantOperationParameter.class, BooleanPlantOperationParameter.class);

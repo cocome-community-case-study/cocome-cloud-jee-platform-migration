@@ -11,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -60,7 +61,7 @@ public class ConditionalExpressionTest {
         paramValue.setValue(IBooleanParameter.FALSE_VALUE);
         paramValue.setParameter(param);
 
-        final EvaluationContext context = new EvaluationContext(Arrays.asList(paramValue));
+        final EvaluationContext context = new EvaluationContext(Collections.singletonList(paramValue));
 
         final List<IPUInstruction> inst = conditionalExpression.evaluate(context);
 
