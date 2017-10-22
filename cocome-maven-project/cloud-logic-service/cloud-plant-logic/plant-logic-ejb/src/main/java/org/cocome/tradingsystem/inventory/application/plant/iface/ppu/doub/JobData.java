@@ -1,4 +1,4 @@
-package org.cocome.tradingsystem.inventory.application.plant.ppu.doub;
+package org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub;
 
 /**
  * An entry for the working queue used by {@link PUDouble}.

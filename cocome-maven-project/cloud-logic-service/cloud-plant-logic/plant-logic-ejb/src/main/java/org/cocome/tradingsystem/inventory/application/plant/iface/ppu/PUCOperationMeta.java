@@ -1,4 +1,4 @@
-package org.cocome.tradingsystem.inventory.application.plant.ppu;
+package org.cocome.tradingsystem.inventory.application.plant.iface.ppu;
 
 /**
  * Describes the elemental parts of an operation provided by an production unit interface.

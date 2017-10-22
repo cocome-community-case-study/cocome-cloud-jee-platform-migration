@@ -3,7 +3,7 @@ package plantservice.puc;
 import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.ppu.PUCOperationMeta;
+import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.PUCOperationMeta;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 

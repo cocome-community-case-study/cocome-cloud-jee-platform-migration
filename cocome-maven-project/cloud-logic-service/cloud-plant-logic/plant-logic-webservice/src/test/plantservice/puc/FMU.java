@@ -1,6 +1,6 @@
 package plantservice.puc;
 
-import org.cocome.tradingsystem.inventory.application.plant.ppu.PUCOperationMeta;
+import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.PUCOperationMeta;
 
 /**
  * Imaginary "Fill & Mix Unit".

@@ -1,9 +1,9 @@
-package org.cocome.tradingsystem.inventory.application.plant.ppu;
+package org.cocome.tradingsystem.inventory.application.plant.iface.ppu;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
-import org.cocome.tradingsystem.inventory.application.plant.ppu.doub.AbstractPUTestCase;
-import org.cocome.tradingsystem.inventory.application.plant.ppu.iface.IPickAndPlaceUnit;
+import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.AbstractPUTestCase;
+import org.cocome.tradingsystem.inventory.application.plant.iface.IPickAndPlaceUnit;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 

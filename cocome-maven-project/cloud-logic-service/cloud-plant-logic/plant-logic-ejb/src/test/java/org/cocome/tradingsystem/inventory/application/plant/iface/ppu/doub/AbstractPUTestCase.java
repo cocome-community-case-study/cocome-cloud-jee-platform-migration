@@ -1,9 +1,9 @@
-package org.cocome.tradingsystem.inventory.application.plant.ppu.doub;
+package org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub;
 
-import org.cocome.tradingsystem.inventory.application.plant.ppu.iface.HistoryAction;
-import org.cocome.tradingsystem.inventory.application.plant.ppu.iface.HistoryEntry;
-import org.cocome.tradingsystem.inventory.application.plant.ppu.iface.IPickAndPlaceUnit;
-import org.cocome.tradingsystem.inventory.application.plant.ppu.iface.OperationEntry;
+import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryAction;
+import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryEntry;
+import org.cocome.tradingsystem.inventory.application.plant.iface.IPickAndPlaceUnit;
+import org.cocome.tradingsystem.inventory.application.plant.iface.OperationEntry;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.Document;

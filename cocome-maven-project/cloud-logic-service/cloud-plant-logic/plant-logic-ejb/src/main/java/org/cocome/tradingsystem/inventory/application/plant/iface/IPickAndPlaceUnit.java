@@ -1,4 +1,4 @@
-package org.cocome.tradingsystem.inventory.application.plant.ppu.iface;
+package org.cocome.tradingsystem.inventory.application.plant.iface;
 
 import org.w3c.dom.Document;
 

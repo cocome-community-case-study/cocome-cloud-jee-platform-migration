@@ -1,6 +1,6 @@
-package org.cocome.tradingsystem.inventory.application.plant.ppu.doub;
+package org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub;
 
-import org.cocome.tradingsystem.inventory.application.plant.ppu.iface.OperationEntry;
+import org.cocome.tradingsystem.inventory.application.plant.iface.OperationEntry;
 
 /**
  * Specialized variant of {@link OperationEntry} containing the execution time as well

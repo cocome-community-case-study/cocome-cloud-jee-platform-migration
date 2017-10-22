@@ -1,6 +1,6 @@
-package org.cocome.tradingsystem.inventory.application.plant.ppu.doub;
+package org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub;
 
-import org.cocome.tradingsystem.inventory.application.plant.ppu.PUCOperationMeta;
+import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.PUCOperationMeta;
 
 /**
  * Test class is used for production unit doubles. In addition to the attributes

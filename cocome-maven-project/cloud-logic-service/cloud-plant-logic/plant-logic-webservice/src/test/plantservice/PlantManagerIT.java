@@ -8,6 +8,7 @@ import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
@@ -17,7 +18,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import plantservice.puc.TestPUC;
-import org.cocome.tradingsystem.inventory.application.plant.ppu.doub.XPPU;
 
 import java.util.*;
 
@@ -28,14 +28,11 @@ public class PlantManagerIT {
 
     @BeforeClass
     public static void createClient() {
-        JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        factory.setServiceClass(IEnterpriseManager.class);
-        factory.setAddress("http://127.0.0.1:40797/EnterpriseService/IEnterpriseManager");
-        em = (IEnterpriseManager) factory.create();
+        em = createJaxWsClient(IEnterpriseManager.class,
+                "http://127.0.0.1:40797/EnterpriseService/IEnterpriseManager");
 
-        factory.setServiceClass(IPlantManager.class);
-        factory.setAddress("http://127.0.0.1:41897/PlantService/IPlantManager");
-        pm = (IPlantManager) factory.create();
+        pm = createJaxWsClient(IPlantManager.class,
+                "http://127.0.0.1:41897/PlantService/IPlantManager");
     }
 
     @Test
@@ -180,5 +177,13 @@ public class PlantManagerIT {
         em.createPlant(plant);
         final Collection<PlantTO> plants = em.queryPlantsByEnterpriseID(enterprise.getId());
         return plants.iterator().next();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> T createJaxWsClient(final Class<T> clientClass, final String url) {
+        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+        factory.setServiceClass(clientClass);
+        factory.setAddress(url);
+        return (T) factory.create();
     }
 }
