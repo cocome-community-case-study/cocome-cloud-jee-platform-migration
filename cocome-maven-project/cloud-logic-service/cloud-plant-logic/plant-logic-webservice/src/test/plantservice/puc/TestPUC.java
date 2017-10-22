@@ -36,6 +36,7 @@ public class TestPUC {
         operators = Arrays.stream(operations).collect(Collectors.toMap(Function.identity(),
                 e -> {
                     final ProductionUnitOperationTO operation = new ProductionUnitOperationTO();
+                    operation.setName(e.getName());
                     operation.setOperationId(e.getOperationId());
                     operation.setProductionUnitClass(puc);
                     try {

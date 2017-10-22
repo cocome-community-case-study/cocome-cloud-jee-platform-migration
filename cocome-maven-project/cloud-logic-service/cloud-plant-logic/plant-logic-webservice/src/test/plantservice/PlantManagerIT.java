@@ -75,11 +75,13 @@ public class PlantManagerIT {
 
         final ProductionUnitOperationTO operation1 = new ProductionUnitOperationTO();
         operation1.setOperationId("__OP1");
+        operation1.setName("Name_of_op1");
         operation1.setProductionUnitClass(puc);
         operation1.setId(pm.createProductionUnitOperation(operation1));
 
         final ProductionUnitOperationTO operation2 = new ProductionUnitOperationTO();
         operation2.setOperationId("__OP2");
+        operation2.setName("Name_of_op2");
         operation2.setProductionUnitClass(puc);
         operation2.setId(pm.createProductionUnitOperation(operation2));
 
@@ -92,6 +94,7 @@ public class PlantManagerIT {
                 pm.queryProductionUnitOperationByID(operation1.getId());
         Assert.assertNotNull(singleInstance);
         Assert.assertEquals(operation1.getId(), singleInstance.getId());
+        Assert.assertEquals(operation1.getName(), singleInstance.getName());
         Assert.assertEquals(operation1.getOperationId(), singleInstance.getOperationId());
         for (final ProductionUnitOperationTO instance : operations) {
             pm.deleteProductionUnitOperation(instance);

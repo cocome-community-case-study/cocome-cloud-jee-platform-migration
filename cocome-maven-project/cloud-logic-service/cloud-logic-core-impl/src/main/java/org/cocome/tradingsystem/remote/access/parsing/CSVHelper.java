@@ -521,8 +521,9 @@ public class CSVHelper implements IBackendConversionHelper {
         final IProductionUnitOperation result = plantFactory.getNewProductionUnitOperation();
 
         result.setId(fetchLong(row.getColumns().get(offset)));
-        result.setOperationId(fetchString(row.getColumns().get(1 + offset)));
-        result.setProductionUnitClassId(fetchLong(row.getColumns().get(2 + offset)));
+        result.setName(fetchString(row.getColumns().get(1 + offset)));
+        result.setOperationId(fetchString(row.getColumns().get(2 + offset)));
+        result.setProductionUnitClassId(fetchLong(row.getColumns().get(3 + offset)));
 
         return result;
     }

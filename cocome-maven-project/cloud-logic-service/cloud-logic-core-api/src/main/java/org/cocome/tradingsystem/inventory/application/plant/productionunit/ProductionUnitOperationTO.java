@@ -18,6 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.application.plant.productionunit;
 
+import org.cocome.tradingsystem.inventory.application.INameableTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
 
 import javax.xml.bind.annotation.*;
@@ -32,14 +33,26 @@ import javax.xml.bind.annotation.*;
         namespace = "http://productionunit.plant.application.inventory.tradingsystem.cocome.org")
 @XmlRootElement(name = "ProductionUnitOperationTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProductionUnitOperationTO extends ExpressionTO {
+public class ProductionUnitOperationTO extends ExpressionTO implements INameableTO {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "name", required = true)
+    private String name;
+    @XmlElement(name = "operationId", required = true)
     private String operationId;
     @XmlElement(name = "productionUnitClass", required = true)
     private ProductionUnitClassTO productionUnitClass;
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * @return The operation id unique to the production plant

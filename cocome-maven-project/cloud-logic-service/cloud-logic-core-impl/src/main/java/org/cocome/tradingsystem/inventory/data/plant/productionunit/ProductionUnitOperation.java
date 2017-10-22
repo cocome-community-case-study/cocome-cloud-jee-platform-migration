@@ -38,6 +38,7 @@ public class ProductionUnitOperation implements Serializable, IProductionUnitOpe
     private static final long serialVersionUID = 1L;
 
     private long id;
+    private String name;
     private String operationId;
     private long productionUnitClassId;
     private IProductionUnitClass productionUnitClass;
@@ -61,6 +62,16 @@ public class ProductionUnitOperation implements Serializable, IProductionUnitOpe
     @Override
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

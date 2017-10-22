@@ -309,13 +309,17 @@ class ServiceAdapterEntityConverter {
     }
 
     static String getCreateProductionUnitOperationContent(IProductionUnitOperation operation) {
-        return String.valueOf(operation.getOperationId()) +
+        return String.valueOf(operation.getName()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(operation.getOperationId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 operation.getProductionUnitClassId();
     }
 
     static String getUpdateProductionUnitOperationContent(IProductionUnitOperation operation) {
         return String.valueOf(operation.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(operation.getName()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(operation.getOperationId()) +
                 ServiceAdapterHeaders.SEPARATOR +

@@ -98,6 +98,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     public IProductionUnitOperation convertToProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) {
         final IProductionUnitOperation operation = new ProductionUnitOperation();
         operation.setId(productionUnitOperationTO.getId());
+        operation.setName(productionUnitOperationTO.getName());
         operation.setProductionUnitClassId(productionUnitOperationTO.getProductionUnitClass().getId());
         operation.setOperationId(productionUnitOperationTO.getOperationId());
         return operation;
@@ -134,6 +135,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
             throws NotInDatabaseException {
         final ProductionUnitOperationTO result = new ProductionUnitOperationTO();
         result.setId(operation.getId());
+        result.setName(operation.getName());
         result.setOperationId(operation.getOperationId());
         result.setProductionUnitClass(fillProductionUnitClassTO(operation.getProductionUnitClass()));
 
