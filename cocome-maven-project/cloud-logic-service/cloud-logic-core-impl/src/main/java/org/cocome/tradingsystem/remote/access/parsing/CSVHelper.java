@@ -523,7 +523,7 @@ public class CSVHelper implements IBackendConversionHelper {
         result.setId(fetchLong(row.getColumns().get(offset)));
         result.setName(fetchString(row.getColumns().get(1 + offset)));
         result.setOperationId(fetchString(row.getColumns().get(2 + offset)));
-        result.setExpectedExecutionTime(fetchLong(row.getColumns().get(3 + offset)));
+        result.getExecutionDurationInMillis(fetchLong(row.getColumns().get(3 + offset)));
         result.setProductionUnitClassId(fetchLong(row.getColumns().get(4 + offset)));
 
         return result;

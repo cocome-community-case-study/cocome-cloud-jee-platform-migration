@@ -41,8 +41,8 @@ public class ProductionUnitOperationTO extends ExpressionTO implements INameable
     private String name;
     @XmlElement(name = "operationId", required = true)
     private String operationId;
-    @XmlElement(name = "expectedExecutionTime", required = true)
-    private long expectedExecutionTime;
+    @XmlElement(name = "executionDurationInMillis", required = true)
+    private long executionDurationInMillis;
     @XmlElement(name = "productionUnitClass", required = true)
     private ProductionUnitClassTO productionUnitClass;
 
@@ -73,15 +73,15 @@ public class ProductionUnitOperationTO extends ExpressionTO implements INameable
     /**
      * @return the expected time needed for this operation to finish (in milliseconds)
      */
-    public long getExpectedExecutionTime() {
-        return expectedExecutionTime;
+    public long getExecutionDurationInMillis() {
+        return executionDurationInMillis;
     }
 
     /**
-     * @param expectedExecutionTime the expected time needed for this operation to finish (in milliseconds)
+     * @param executionDurationInMillis the expected time needed for this operation to finish (in milliseconds)
      */
-    public void setExpectedExecutionTime(long expectedExecutionTime) {
-        this.expectedExecutionTime = expectedExecutionTime;
+    public void setExecutionDurationInMillis(long executionDurationInMillis) {
+        this.executionDurationInMillis = executionDurationInMillis;
     }
 
     /**

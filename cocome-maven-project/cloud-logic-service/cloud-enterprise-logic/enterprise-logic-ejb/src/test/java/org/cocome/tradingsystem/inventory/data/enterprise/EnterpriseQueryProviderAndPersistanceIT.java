@@ -114,14 +114,14 @@ public class EnterpriseQueryProviderAndPersistanceIT {
         operation1.setOperationId("__OP1");
         operation1.setName("Name_of_op1");
         operation1.setProductionUnitClassId(puc.getId());
-        operation1.setExpectedExecutionTime(10);
+        operation1.getExecutionDurationInMillis(10);
         persistenceContext.createEntity(operation1);
 
         final IProductionUnitOperation operation2 = new ProductionUnitOperation();
         operation2.setOperationId("__OP2");
         operation2.setName("Name_of_op2");
         operation2.setProductionUnitClassId(puc.getId());
-        operation2.setExpectedExecutionTime(10);
+        operation2.getExecutionDurationInMillis(10);
         persistenceContext.createEntity(operation2);
 
         persistenceContext.deleteEntity(operation1);

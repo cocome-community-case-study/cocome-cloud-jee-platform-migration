@@ -5,6 +5,7 @@ import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryEntry;
 import org.cocome.tradingsystem.inventory.application.plant.iface.IPUInterface;
 import org.cocome.tradingsystem.inventory.application.plant.iface.OperationEntry;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.PUCOperationMeta;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -42,7 +43,24 @@ public class PUDouble implements IPUInterface {
 
     private long lastAccessDate = System.currentTimeMillis();
 
-    public PUDouble(@NotNull final PUCOperationMeta[] operations, final long timingFactor) {
+    public PUDouble(@NotNull final List<IProductionUnitOperation> operations, final long timingFactor) {
+        this.operations = operations.stream().collect(Collectors.toMap(
+                IProductionUnitOperation::getOperationId,
+                entry -> {
+                    final OperationDoubleEntry operationEntry = new OperationDoubleEntry();
+                    operationEntry.setName(entry.getName());
+                    operationEntry.setOperationId(entry.getOperationId());
+                    operationEntry.setExecutionDurationInMillis(entry.getExecutionDurationInMillis() * timingFactor);
+                    return operationEntry;
+                },
+                (e1, e2) -> {
+                    throw new IllegalArgumentException(
+                            String.format("Operation IDs are duplicated: %s and %s", e1, e2));
+                }));
+    }
+
+    //TODO Only for testing, maybe needs to be removed
+    PUDouble(@NotNull final PUCOperationMeta[] operations, final long timingFactor) {
         this.operations = Arrays.stream(operations).collect(Collectors.toMap(
                 PUCOperationMeta::getOperationId,
                 entry -> {

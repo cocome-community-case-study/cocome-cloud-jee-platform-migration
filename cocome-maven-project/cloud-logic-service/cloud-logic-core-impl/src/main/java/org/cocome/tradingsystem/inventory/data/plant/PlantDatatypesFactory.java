@@ -100,7 +100,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         operation.setId(productionUnitOperationTO.getId());
         operation.setName(productionUnitOperationTO.getName());
         operation.setProductionUnitClassId(productionUnitOperationTO.getProductionUnitClass().getId());
-        operation.setExpectedExecutionTime(productionUnitOperationTO.getExpectedExecutionTime());
+        operation.getExecutionDurationInMillis(productionUnitOperationTO.getExecutionDurationInMillis());
         operation.setOperationId(productionUnitOperationTO.getOperationId());
         return operation;
     }
@@ -138,7 +138,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(operation.getId());
         result.setName(operation.getName());
         result.setOperationId(operation.getOperationId());
-        result.setExpectedExecutionTime(operation.getExpectedExecutionTime());
+        result.setExecutionDurationInMillis(operation.getExecutionDurationInMillis());
         result.setProductionUnitClass(fillProductionUnitClassTO(operation.getProductionUnitClass()));
 
         return result;

@@ -91,12 +91,12 @@ public class ProductionUnitOperation implements Serializable, IProductionUnitOpe
     }
 
     @Override
-    public long getExpectedExecutionTime() {
+    public long getExecutionDurationInMillis() {
         return expectedExecutionTime;
     }
 
     @Override
-    public void setExpectedExecutionTime(long expectedExecutionTime) {
+    public void getExecutionDurationInMillis(long expectedExecutionTime) {
         this.expectedExecutionTime = expectedExecutionTime;
     }
 

@@ -313,7 +313,7 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(operation.getOperationId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(operation.getExpectedExecutionTime()) +
+                String.valueOf(operation.getExecutionDurationInMillis()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 operation.getProductionUnitClassId();
     }
@@ -325,7 +325,7 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(operation.getOperationId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(operation.getExpectedExecutionTime()) +
+                String.valueOf(operation.getExecutionDurationInMillis()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 operation.getProductionUnitClassId();
     }

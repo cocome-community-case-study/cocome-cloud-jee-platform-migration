@@ -52,12 +52,12 @@ public interface IProductionUnitOperation extends IExpression, INameable {
     /**
      * @return the expected time needed for this operation to finish (in milliseconds)
      */
-    long getExpectedExecutionTime();
+    long getExecutionDurationInMillis();
 
     /**
      * @param expectedExecutionTime the expected time needed for this operation to finish (in milliseconds)
      */
-    void setExpectedExecutionTime(long expectedExecutionTime);
+    void getExecutionDurationInMillis(long expectedExecutionTime);
 
     /**
      * @return id of the associated {@link IProductionUnitClass}

@@ -74,14 +74,14 @@ public class PlantManagerIT {
         operation1.setOperationId("__OP1");
         operation1.setName("Name_of_op1");
         operation1.setProductionUnitClass(puc);
-        operation1.setExpectedExecutionTime(10);
+        operation1.setExecutionDurationInMillis(10);
         operation1.setId(pm.createProductionUnitOperation(operation1));
 
         final ProductionUnitOperationTO operation2 = new ProductionUnitOperationTO();
         operation2.setOperationId("__OP2");
         operation2.setName("Name_of_op2");
         operation2.setProductionUnitClass(puc);
-        operation2.setExpectedExecutionTime(10);
+        operation2.setExecutionDurationInMillis(10);
         operation2.setId(pm.createProductionUnitOperation(operation2));
 
         final List<ProductionUnitOperationTO> operations =
