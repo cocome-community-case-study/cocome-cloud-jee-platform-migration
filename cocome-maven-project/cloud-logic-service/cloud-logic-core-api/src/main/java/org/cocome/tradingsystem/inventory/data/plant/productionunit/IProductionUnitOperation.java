@@ -49,6 +49,15 @@ public interface IProductionUnitOperation extends IExpression, INameable {
      */
     void setProductionUnitClass(IProductionUnitClass productionUnitClass);
 
+    /**
+     * @return the expected time needed for this operation to finish (in milliseconds)
+     */
+    long getExpectedExecutionTime();
+
+    /**
+     * @param expectedExecutionTime the expected time needed for this operation to finish (in milliseconds)
+     */
+    void setExpectedExecutionTime(long expectedExecutionTime);
 
     /**
      * @return id of the associated {@link IProductionUnitClass}

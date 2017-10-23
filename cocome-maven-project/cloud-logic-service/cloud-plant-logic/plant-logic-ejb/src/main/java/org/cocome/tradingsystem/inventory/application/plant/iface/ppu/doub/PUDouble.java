@@ -4,6 +4,7 @@ import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryAction;
 import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryEntry;
 import org.cocome.tradingsystem.inventory.application.plant.iface.IPUInterface;
 import org.cocome.tradingsystem.inventory.application.plant.iface.OperationEntry;
+import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.PUCOperationMeta;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -41,9 +42,9 @@ public class PUDouble implements IPUInterface {
 
     private long lastAccessDate = System.currentTimeMillis();
 
-    PUDouble(@NotNull final PUOperationDoubleMeta[] operations, final long timingFactor) {
+    public PUDouble(@NotNull final PUCOperationMeta[] operations, final long timingFactor) {
         this.operations = Arrays.stream(operations).collect(Collectors.toMap(
-                PUOperationDoubleMeta::getOperationId,
+                PUCOperationMeta::getOperationId,
                 entry -> {
                     final OperationDoubleEntry operationEntry = new OperationDoubleEntry();
                     operationEntry.setName(entry.getName());

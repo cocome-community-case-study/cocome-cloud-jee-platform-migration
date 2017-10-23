@@ -32,4 +32,9 @@ public enum FMU implements PUCOperationMeta {
     public String getName() {
         return this.name();
     }
+
+    @Override
+    public long getExecutionDurationInMillis() {
+        return 5;
+    }
 }

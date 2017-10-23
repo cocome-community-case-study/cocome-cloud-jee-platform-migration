@@ -45,6 +45,7 @@ public class ProductionUnitOperation implements Serializable, IProductionUnitOpe
     private long id;
     private String name;
     private String operationId;
+    private long expectedExecutionTime;
     private long productionUnitClassId;
     private IProductionUnitClass productionUnitClass;
 
@@ -87,6 +88,16 @@ public class ProductionUnitOperation implements Serializable, IProductionUnitOpe
     @Override
     public void setOperationId(String operationId) {
         this.operationId = operationId;
+    }
+
+    @Override
+    public long getExpectedExecutionTime() {
+        return expectedExecutionTime;
+    }
+
+    @Override
+    public void setExpectedExecutionTime(long expectedExecutionTime) {
+        this.expectedExecutionTime = expectedExecutionTime;
     }
 
     @Override

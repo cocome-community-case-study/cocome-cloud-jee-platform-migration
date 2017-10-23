@@ -52,9 +52,11 @@ public final class ServiceAdapterHeaders {
             + "CustomProductPurchasePrice";
 
     static final String PRODUCTIONUNITOPERATION_CREATE_HEADER
-            = "ProductionUnitOperationName;ProductionUnitOperationOID;ProductionUnitClassId";
-    static final String PRODUCTIONUNITOPERATION_UPDATE_HEADER =
-            "ProductionUnitOperationId;ProductionUnitOperationName;ProductionUnitOperationOID;ProductionUnitClassId";
+            = "ProductionUnitOperationName;ProductionUnitOperationOID;ProductionUnitOperationExpectedTime;"
+            + "ProductionUnitClassId";
+    static final String PRODUCTIONUNITOPERATION_UPDATE_HEADER
+            = "ProductionUnitOperationId;ProductionUnitOperationName;ProductionUnitOperationOID;"
+            + "ProductionUnitOperationExpectedTime;ProductionUnitClassId";
 
     static final String ENTRYPOINT_CREATE_HEADER = "EntryPointName";
     static final String ENTRYPOINT_UPDATE_HEADER = "EntryPointId;EntryPointName";

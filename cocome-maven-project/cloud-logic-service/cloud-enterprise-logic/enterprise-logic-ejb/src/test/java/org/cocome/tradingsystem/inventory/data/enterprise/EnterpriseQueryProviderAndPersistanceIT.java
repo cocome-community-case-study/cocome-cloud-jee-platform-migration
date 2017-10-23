@@ -6,12 +6,18 @@ import org.cocome.tradingsystem.inventory.application.usermanager.credentials.IC
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.*;
 import org.cocome.tradingsystem.inventory.data.persistence.CloudPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
+import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
+import org.cocome.tradingsystem.inventory.data.plant.Plant;
 import org.cocome.tradingsystem.inventory.data.plant.PlantDatatypesFactory;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.BooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.NorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.EnterpriseStoreQueryProvider;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
@@ -25,10 +31,13 @@ import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
 import org.cocome.tradingsystem.remote.access.connection.IPersistenceConnection;
 import org.cocome.tradingsystem.remote.access.parsing.CSVHelper;
 import org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.ejb.CreateException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Test unit for {@link EnterpriseQueryProvider}
@@ -92,6 +101,37 @@ public class EnterpriseQueryProviderAndPersistanceIT {
     }
 
     @Test
+    public void testCRUDForProductionUnitOperation() throws Exception {
+        final ITradingEnterprise enterprise = getOrCreateEnterprise();
+        final IPlant plant = getOrCreatePlant(enterprise);
+
+        final IProductionUnitClass puc = new ProductionUnitClass();
+        puc.setName("PUC1");
+        puc.setPlantId(plant.getId());
+        persistenceContext.createEntity(puc);
+
+        final IProductionUnitOperation operation1 = new ProductionUnitOperation();
+        operation1.setOperationId("__OP1");
+        operation1.setName("Name_of_op1");
+        operation1.setProductionUnitClassId(puc.getId());
+        operation1.setExpectedExecutionTime(10);
+        persistenceContext.createEntity(operation1);
+
+        final IProductionUnitOperation operation2 = new ProductionUnitOperation();
+        operation2.setOperationId("__OP2");
+        operation2.setName("Name_of_op2");
+        operation2.setProductionUnitClassId(puc.getId());
+        operation2.setExpectedExecutionTime(10);
+        persistenceContext.createEntity(operation2);
+
+        persistenceContext.deleteEntity(operation1);
+        persistenceContext.deleteEntity(operation2);
+        persistenceContext.deleteEntity(puc);
+        persistenceContext.deleteEntity(plant);
+        persistenceContext.deleteEntity(enterprise);
+    }
+
+    @Test
     public void queryParametersByCustomProductID() throws Exception {
         final ICustomProduct prod = new CustomProduct();
         prod.setBarcode(new Date().getTime());
@@ -100,14 +140,12 @@ public class EnterpriseQueryProviderAndPersistanceIT {
         persistenceContext.createEntity(prod);
 
         final IBooleanCustomProductParameter param = new BooleanCustomProductParameter();
-        param.setCustomProduct(prod);
         param.setCustomProductId(prod.getId());
         param.setCategory("SomeCategory");
         param.setName("SomeName2");
         persistenceContext.createEntity(param);
 
         final INorminalCustomProductParameter param2 = new NorminalCustomProductParameter();
-        param2.setCustomProduct(prod);
         param2.setCustomProductId(prod.getId());
         param2.setOptions(new HashSet<>(Arrays.asList("Op1", "Op2")));
         param2.setCategory("SomeCategory");
@@ -117,11 +155,39 @@ public class EnterpriseQueryProviderAndPersistanceIT {
         final List<ICustomProductParameter> params =
                 new ArrayList<>(enterpriseQuery.queryParametersByCustomProductID(prod.getId()));
         Assert.assertEquals(2, params.size());
-        Assert.assertEquals(params.get(0).getClass(), BooleanCustomProductParameter.class);
-        Assert.assertEquals(params.get(1).getClass(), NorminalCustomProductParameter.class);
+        final List<Class<?>> paramClasses = params
+                .stream()
+                .map(Object::getClass)
+                .collect(Collectors.toList());
+
+        Assert.assertTrue(paramClasses.contains(BooleanCustomProductParameter.class));
+        Assert.assertTrue(paramClasses.contains(NorminalCustomProductParameter.class));
 
         persistenceContext.deleteEntity(param);
         persistenceContext.deleteEntity(param2);
         persistenceContext.deleteEntity(prod);
+    }
+
+    private ITradingEnterprise getOrCreateEnterprise() throws NotInDatabaseException, CreateException {
+        final String enterpriseName = String.format("Enterprise-%s", UUID.randomUUID().toString());
+        final ITradingEnterprise enterprise;
+        try {
+            enterprise = enterpriseQuery.queryEnterpriseByName(enterpriseName);
+        } catch (NotInDatabaseException e) {
+            final ITradingEnterprise newEnterprise = new TradingEnterprise();
+            newEnterprise.setName(enterpriseName);
+            persistenceContext.createEntity(newEnterprise);
+            return newEnterprise;
+        }
+        return enterprise;
+    }
+
+    private IPlant getOrCreatePlant(final ITradingEnterprise enterprise)
+            throws CreateException, NotInDatabaseException {
+        final IPlant plant = new Plant();
+        plant.setName("Plant1");
+        plant.setEnterpriseId(enterprise.getId());
+        persistenceContext.createEntity(plant);
+        return plant;
     }
 }

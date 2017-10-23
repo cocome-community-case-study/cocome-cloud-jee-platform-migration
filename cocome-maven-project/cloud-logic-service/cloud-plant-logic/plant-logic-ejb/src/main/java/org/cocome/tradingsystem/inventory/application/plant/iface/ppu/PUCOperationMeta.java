@@ -16,4 +16,9 @@ public interface PUCOperationMeta {
      * @return returns a human readable name
      */
     String getName();
+
+    /**
+     * @return return the expected number of milliseconds this double operation is supposed to take
+     */
+    long getExecutionDurationInMillis();
 }

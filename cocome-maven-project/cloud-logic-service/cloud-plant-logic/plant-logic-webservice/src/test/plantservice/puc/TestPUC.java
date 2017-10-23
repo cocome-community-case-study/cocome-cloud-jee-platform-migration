@@ -38,6 +38,7 @@ public class TestPUC {
                     final ProductionUnitOperationTO operation = new ProductionUnitOperationTO();
                     operation.setName(e.getName());
                     operation.setOperationId(e.getOperationId());
+                    operation.setExpectedExecutionTime(e.getExecutionDurationInMillis());
                     operation.setProductionUnitClass(puc);
                     try {
                         operation.setId(pm.createProductionUnitOperation(

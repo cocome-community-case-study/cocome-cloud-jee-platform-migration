@@ -1,11 +1,13 @@
 package org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub;
 
+import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.PUCOperationMeta;
+
 /**
  * eXtended Pick & Place Unit
  *
  * @author Rudolf Biczok
  */
-public enum XPPU implements PUOperationDoubleMeta {
+public enum XPPU implements PUCOperationMeta {
     ACT_DriveFromBaseToRamp1("_1_2_1_P1_O3", 2),
     ACT_DriveFromBaseToRamp2("_1_2_1_P1_O5", 2),
     ACT_DriveFromBaseToEnd("_1_2_1_P1_O6", 2),

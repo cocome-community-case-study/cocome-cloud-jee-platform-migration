@@ -13,6 +13,8 @@
       <xs:extension base="ns3:ExpressionTO">
         <xs:sequence>
           <xs:element name="name" type="xs:string"/>
+          <xs:element name="operationId" type="xs:string"/>
+          <xs:element name="expectedExecutionTime" type="xs:long"/>
           <xs:element name="productionUnitClass" type="tns:ProductionUnitClassTO"/>
         </xs:sequence>
       </xs:extension>
