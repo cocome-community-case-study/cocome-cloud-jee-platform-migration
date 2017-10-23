@@ -2,7 +2,7 @@ package org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub;
 
 import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryAction;
 import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryEntry;
-import org.cocome.tradingsystem.inventory.application.plant.iface.IPickAndPlaceUnit;
+import org.cocome.tradingsystem.inventory.application.plant.iface.IPUInterface;
 import org.cocome.tradingsystem.inventory.application.plant.iface.OperationEntry;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import java.util.List;
 public abstract class AbstractPUTestCase {
 
     // Given
-    protected static IPickAndPlaceUnit ppuDevice;
+    protected static IPUInterface ppuDevice;
 
     @Test
     public void testGetInstance() {

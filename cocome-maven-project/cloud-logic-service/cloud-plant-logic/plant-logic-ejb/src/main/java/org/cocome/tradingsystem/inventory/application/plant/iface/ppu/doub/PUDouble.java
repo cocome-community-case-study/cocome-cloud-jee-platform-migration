@@ -2,7 +2,7 @@ package org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub;
 
 import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryAction;
 import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryEntry;
-import org.cocome.tradingsystem.inventory.application.plant.iface.IPickAndPlaceUnit;
+import org.cocome.tradingsystem.inventory.application.plant.iface.IPUInterface;
 import org.cocome.tradingsystem.inventory.application.plant.iface.OperationEntry;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  *
  * @author Rudolf Biczok, rudolf.biczok@student.kit.edu
  */
-public class PUDouble implements IPickAndPlaceUnit {
+public class PUDouble implements IPUInterface {
 
     private static final int RESULT_CODE_DEFAULT = -1;
     private static final int RESULT_CODE_COMPLETE = 1;

@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Rudolf Biczok, rudolf.biczok@student.kit.edu
  */
-public interface IPickAndPlaceUnit {
+public interface IPUInterface {
 
     /*** Instance Methods ***/
 
