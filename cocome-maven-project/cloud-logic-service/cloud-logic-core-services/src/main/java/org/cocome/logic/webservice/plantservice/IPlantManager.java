@@ -21,6 +21,7 @@ package org.cocome.logic.webservice.plantservice;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -144,6 +145,36 @@ public interface IPlantManager {
                     ConditionalExpressionTO conditionalExpressionTO)
             throws NotInDatabaseException, UpdateException;
 
+    /* CRUD for {@link ProductionUnitTO} **************/
+
+    @WebMethod
+    ProductionUnitTO queryProductionUnitByID(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitID")
+                    long productionUnitId)
+            throws NotInDatabaseException;
+
+    @WebMethod
+    long createProductionUnit(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitTO")
+                    ProductionUnitTO productionUnitTO)
+            throws CreateException;
+
+    @WebMethod
+    void updateProductionUnit(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitTO")
+                    ProductionUnitTO productionUnitTO)
+            throws NotInDatabaseException, UpdateException;
+
+    @WebMethod
+    void deleteProductionUnit(
+            @XmlElement(required = true)
+            @WebParam(name = "productionUnitTO")
+                    ProductionUnitTO productionUnitTO)
+            throws NotInDatabaseException, UpdateException;
+    
     /* CRUD for {@link PlantOperationOrderTO} **************/
 
     @WebMethod

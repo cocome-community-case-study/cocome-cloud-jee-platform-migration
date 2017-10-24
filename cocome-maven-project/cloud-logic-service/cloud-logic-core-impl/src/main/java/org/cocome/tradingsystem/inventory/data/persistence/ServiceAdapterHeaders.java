@@ -130,4 +130,11 @@ public final class ServiceAdapterHeaders {
     static final String PARAMETERVALUECONTENT_UPDATE_HEADER
             = "PlantOperationParameterValueId;PlantOperationParameterValueValue;PlantOperationParameterId;"
             + "PlantOperationOrderEntryId";
+
+    static final String PRODUCTIONUNIT_CREATE_HEADER
+            = "ProductionUnitLocation;ProductionUnitInterfaceURL;ProductionUnitDouble;PlantId;ProductionUnitClassId";
+
+    static final String PRODUCTIONUNIT_UPDATE_HEADER
+            = "ProductionUnitId;ProductionUnitLocation;ProductionUnitInterfaceURL;ProductionUnitDouble;PlantId;"
+            + "ProductionUnitClassId";
 }

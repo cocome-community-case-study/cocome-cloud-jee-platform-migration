@@ -30,6 +30,7 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
@@ -441,6 +442,28 @@ public class CloudPersistenceContext implements IPersistenceContext {
         deleteEntity("ProductionUnitOperation",
                 ServiceAdapterEntityConverter.getUpdateProductionUnitOperationContent(operation),
                 ServiceAdapterHeaders.PRODUCTIONUNITOPERATION_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IProductionUnit unit) throws CreateException {
+        createEntity(unit,
+                "ProductionUnit",
+                ServiceAdapterEntityConverter.getCreateProductionUnitContent(unit),
+                ServiceAdapterHeaders.PRODUCTIONUNIT_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IProductionUnit unit) throws UpdateException {
+        updateEntity("ProductionUnit",
+                ServiceAdapterEntityConverter.getUpdateProductionUnitContent(unit),
+                ServiceAdapterHeaders.PRODUCTIONUNIT_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IProductionUnit unit) throws UpdateException {
+        deleteEntity("ProductionUnit",
+                ServiceAdapterEntityConverter.getUpdateProductionUnitContent(unit),
+                ServiceAdapterHeaders.PRODUCTIONUNIT_UPDATE_HEADER);
     }
 
     @Override

@@ -28,6 +28,7 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
@@ -208,6 +209,12 @@ public interface IPersistenceContext {
     void updateEntity(IProductionUnitOperation operation) throws UpdateException;
 
     void deleteEntity(IProductionUnitOperation operation) throws UpdateException;
+
+    void createEntity(IProductionUnit unit) throws CreateException;
+
+    void updateEntity(IProductionUnit unti) throws UpdateException;
+
+    void deleteEntity(IProductionUnit unit) throws UpdateException;
 
     void createEntity(IEntryPoint ep) throws CreateException;
 

@@ -14,6 +14,7 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
@@ -328,6 +329,33 @@ class ServiceAdapterEntityConverter {
                 String.valueOf(operation.getExecutionDurationInMillis()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 operation.getProductionUnitClassId();
+    }
+
+
+    static String getCreateProductionUnitContent(IProductionUnit unit) {
+        return String.valueOf(unit.getLocation()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(unit.getInterfaceUrl()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(unit.isDouble()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                unit.getPlantId() +
+                ServiceAdapterHeaders.SEPARATOR +
+                unit.getProductionUnitClassId();
+    }
+
+    static String getUpdateProductionUnitContent(IProductionUnit unit) {
+        return String.valueOf(unit.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(unit.getLocation()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(unit.getInterfaceUrl()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(unit.isDouble()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                unit.getPlantId() +
+                ServiceAdapterHeaders.SEPARATOR +
+                unit.getProductionUnitClassId();
     }
 
     static String getCreateEntryPointContent(IEntryPoint entryPoint) {

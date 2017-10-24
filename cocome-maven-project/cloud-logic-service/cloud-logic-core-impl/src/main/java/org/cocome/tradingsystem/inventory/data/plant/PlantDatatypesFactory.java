@@ -9,6 +9,7 @@ import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPl
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.expression.ConditionalExpression;
@@ -17,10 +18,7 @@ import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitClass;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.*;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -35,6 +33,9 @@ import java.util.stream.Collectors;
 
 @Dependent
 public class PlantDatatypesFactory implements IPlantDataFactory {
+
+    @Inject
+    private Provider<ProductionUnit> productionUnitProvider;
 
     @Inject
     private Provider<ProductionUnitClass> productionUnitClassProvider;
@@ -140,6 +141,37 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setOperationId(operation.getOperationId());
         result.setExecutionDurationInMillis(operation.getExecutionDurationInMillis());
         result.setProductionUnitClass(fillProductionUnitClassTO(operation.getProductionUnitClass()));
+
+        return result;
+    }
+
+    @Override
+    public IProductionUnit getNewProductionUnit() {
+        return this.productionUnitProvider.get();
+    }
+
+    @Override
+    public IProductionUnit convertToProductionUnit(ProductionUnitTO productionUnitTO) {
+        final IProductionUnit result = getNewProductionUnit();
+        result.setId(productionUnitTO.getId());
+        result.setLocation(productionUnitTO.getLocation());
+        result.setInterfaceUrl(productionUnitTO.getInterfaceUrl());
+        result.setDouble(productionUnitTO.isDouble());
+        result.setPlant(enterpriseDatatypes.convertToPlant(productionUnitTO.getPlant()));
+        result.setProductionUnitClass(convertToProductionUnitClass(productionUnitTO.getProductionUnitClass()));
+
+        return result;
+    }
+
+    @Override
+    public ProductionUnitTO fillProductionUnitTO(IProductionUnit unit) throws NotInDatabaseException {
+        final ProductionUnitTO result = new ProductionUnitTO();
+        result.setId(unit.getId());
+        result.setLocation(unit.getLocation());
+        result.setInterfaceUrl(unit.getInterfaceUrl());
+        result.setDouble(unit.isDouble());
+        result.setPlant(enterpriseDatatypes.fillPlantTO(unit.getPlant()));
+        result.setProductionUnitClass(fillProductionUnitClassTO(unit.getProductionUnitClass()));
 
         return result;
     }

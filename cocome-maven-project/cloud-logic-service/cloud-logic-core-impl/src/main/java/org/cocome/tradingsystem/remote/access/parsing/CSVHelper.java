@@ -21,6 +21,7 @@ import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
@@ -500,6 +501,22 @@ public class CSVHelper implements IBackendConversionHelper {
     }
 
     @Override
+    public Collection<IProductionUnit> getProductionUnit(String unit) {
+        return rowToCollection(unit, row -> {
+            final IProductionUnit result = plantFactory.getNewProductionUnit();
+
+            result.setId(fetchLong(row.getColumns().get(0)));
+            result.setLocation(fetchString(row.getColumns().get(1)));
+            result.setInterfaceUrl(fetchString(row.getColumns().get(2)));
+            result.setDouble(fetchBoolean(row.getColumns().get(3)));
+            result.setPlantId(fetchLong(row.getColumns().get(4)));
+            result.setProductionUnitClassId(fetchLong(row.getColumns().get(5)));
+
+            return result;
+        });
+    }
+
+    @Override
     public Collection<IProductionUnitClass> getProductionUnitClasses(String input) {
         return rowToCollection(input, row -> {
             final IProductionUnitClass result = plantFactory.getNewProductionUnitClass();
@@ -832,6 +849,10 @@ public class CSVHelper implements IBackendConversionHelper {
                 column,
                 this::decodeString,
                 null);
+    }
+
+    private boolean fetchBoolean(Column<String> stringColumn) {
+        return Boolean.valueOf(stringColumn.getValue());
     }
 
     private <T> T fetchColVal(Column<String> column, Function<String, T> columnValueConverter,

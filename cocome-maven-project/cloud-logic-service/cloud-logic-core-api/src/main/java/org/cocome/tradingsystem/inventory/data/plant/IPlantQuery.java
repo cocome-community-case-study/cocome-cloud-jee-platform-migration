@@ -20,6 +20,7 @@ package org.cocome.tradingsystem.inventory.data.plant;
 
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
@@ -115,4 +116,11 @@ public interface IPlantQuery {
      */
     IPlantOperationParameterValue queryPlantOperationParameterValueById(long paramValueId)
             throws NotInDatabaseException;
+
+    /**
+     * @param productionUnitId the id of the production unit
+     * @return the production unit of the corresponding database id
+     * @throws NotInDatabaseException if the production unit does not exist
+     */
+    IProductionUnit queryProductionUnit(long productionUnitId) throws NotInDatabaseException;
 }

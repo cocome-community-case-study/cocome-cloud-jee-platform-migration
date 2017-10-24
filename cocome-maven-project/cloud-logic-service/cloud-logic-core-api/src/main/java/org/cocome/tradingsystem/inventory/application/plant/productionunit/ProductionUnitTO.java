@@ -41,6 +41,8 @@ public class ProductionUnitTO implements IIdentifiableTO {
     private long id;
     @XmlElement(name = "location", required = true)
     private String location;
+    @XmlElement(name = "doubleFlag", required = true)
+    private boolean doubleFlag;
     @XmlElement(name = "interfaceUrl", required = true)
     private String interfaceUrl;
     @XmlElement(name = "plant", required = true)
@@ -94,6 +96,21 @@ public class ProductionUnitTO implements IIdentifiableTO {
      */
     public void setInterfaceUrl(final String interfaceUrl) {
         this.interfaceUrl = interfaceUrl;
+    }
+
+    /**
+     * @return <code>true</code> if this production unit has no real interface,
+     * but is supposed to be simulated by a double
+     */
+    public boolean isDouble() {
+        return doubleFlag;
+    }
+
+    /**
+     * @param doubleFlag the double flag used to determine if this unit is a dummy system
+     */
+    public void setDouble(final boolean doubleFlag) {
+        this.doubleFlag = doubleFlag;
     }
 
     /**

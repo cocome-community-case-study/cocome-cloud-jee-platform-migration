@@ -9,6 +9,7 @@ import org.cocome.logic.webservice.plantservice.IPlantManager;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
@@ -17,6 +18,7 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -181,6 +183,34 @@ public class PlantManager implements IPlantManager {
         persistenceContext.deleteEntity(puc);
     }
 
+    /* CRUD for {@link ProductionUnitTO} **************/
+
+    @Override
+    public ProductionUnitTO queryProductionUnitByID(long productionUnitId) throws NotInDatabaseException {
+        return plantFactory.fillProductionUnitTO(
+                plantQuery.queryProductionUnit(productionUnitId));
+    }
+
+    @Override
+    public long createProductionUnit(ProductionUnitTO productionUnitTO) throws CreateException {
+        final IProductionUnit operation = plantFactory.convertToProductionUnit(productionUnitTO);
+        persistenceContext.createEntity(operation);
+        return operation.getId();
+    }
+
+    @Override
+    public void updateProductionUnit(ProductionUnitTO productionUnitTO)
+            throws NotInDatabaseException, UpdateException {
+        persistenceContext.updateEntity(plantFactory.convertToProductionUnit(productionUnitTO));
+    }
+
+    @Override
+    public void deleteProductionUnit(ProductionUnitTO productionUnitTO)
+            throws NotInDatabaseException, UpdateException {
+        final IProductionUnit puc = plantQuery.queryProductionUnit(productionUnitTO.getId());
+        persistenceContext.deleteEntity(puc);
+    }
+
     /* CRUD for {@link ConditionalExpressionTO} **************/
 
     @Override
@@ -208,6 +238,8 @@ public class PlantManager implements IPlantManager {
         final IConditionalExpression expression = plantQuery.queryConditionalExpression(conditionalExpressionTO.getId());
         persistenceContext.deleteEntity(expression);
     }
+
+    /* Business Logic **************/
 
     @Override
     public PlantOperationOrderTO queryPlantOperationOrderById(long plantOperationOrderId) throws NotInDatabaseException {

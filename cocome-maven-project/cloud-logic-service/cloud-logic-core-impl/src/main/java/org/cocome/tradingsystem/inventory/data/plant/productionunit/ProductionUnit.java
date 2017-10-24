@@ -18,9 +18,15 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
@@ -36,8 +42,30 @@ public class ProductionUnit implements Serializable, IProductionUnit {
     private long id;
     private String location;
     private String interfaceUrl;
+    private boolean doubleFlag;
     private IPlant plant;
     private IProductionUnitClass productionUnitClass;
+
+    private long plantId;
+    private long productionUnitClassId;
+
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    @Inject
+    private Instance<IPlantQuery> plantQueryInstance;
+
+    private IPlantQuery plantQuery;
+
+    @PostConstruct
+    public void init() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        plantQuery = plantQueryInstance.get();
+        plant = null;
+        productionUnitClass = null;
+    }
 
     @Override
     public long getId() {
@@ -70,7 +98,20 @@ public class ProductionUnit implements Serializable, IProductionUnit {
     }
 
     @Override
-    public IProductionUnitClass getProductionUnitClass() {
+    public boolean isDouble() {
+        return doubleFlag;
+    }
+
+    @Override
+    public void setDouble(boolean doubleFlag) {
+        this.doubleFlag = doubleFlag;
+    }
+
+    @Override
+    public IProductionUnitClass getProductionUnitClass() throws NotInDatabaseException {
+        if (productionUnitClass == null) {
+            productionUnitClass = plantQuery.queryProductionUnitClass(productionUnitClassId);
+        }
         return productionUnitClass;
     }
 
@@ -80,12 +121,35 @@ public class ProductionUnit implements Serializable, IProductionUnit {
     }
 
     @Override
-    public IPlant getPlant() {
+    public long getProductionUnitClassId() {
+        return productionUnitClassId;
+    }
+
+    @Override
+    public void setProductionUnitClassId(long productionUnitClassId) {
+        this.productionUnitClassId = productionUnitClassId;
+    }
+
+    @Override
+    public IPlant getPlant() throws NotInDatabaseException {
+        if (plant == null) {
+            plant = enterpriseQuery.queryPlant(plantId);
+        }
         return plant;
     }
 
     @Override
     public void setPlant(IPlant plant) {
         this.plant = plant;
+    }
+
+    @Override
+    public long getPlantId() {
+        return plantId;
+    }
+
+    @Override
+    public void setPlantId(long plantId) {
+        this.plantId = plantId;
     }
 }

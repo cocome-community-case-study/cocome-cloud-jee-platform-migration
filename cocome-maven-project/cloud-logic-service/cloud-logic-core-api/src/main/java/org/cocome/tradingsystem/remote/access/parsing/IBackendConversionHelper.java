@@ -13,6 +13,7 @@ import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
@@ -42,6 +43,8 @@ public interface IBackendConversionHelper {
     Collection<IProductSupplier> getProductSuppliers(String input);
 
     Collection<IProductOrder> getProductOrders(String input);
+
+    Collection<IProductionUnit> getProductionUnit(String unit);
 
     Collection<IProductionUnitClass> getProductionUnitClasses(String productionUnitClass);
 

@@ -3,6 +3,7 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
@@ -95,6 +96,12 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
     public IPlantOperationParameterValue queryPlantOperationParameterValueById(long paramValueId)
             throws NotInDatabaseException {
         return getSingleEntity(csvHelper::getPlantOperationParameterValue, "PlantOperationParameterValue", paramValueId);
+    }
+
+    @Override
+    public IProductionUnit queryProductionUnit(long productionUnitId) throws NotInDatabaseException  {
+        return getSingleEntity(csvHelper::getProductionUnit, "ProductionUnit", productionUnitId);
+
     }
 
     @Override

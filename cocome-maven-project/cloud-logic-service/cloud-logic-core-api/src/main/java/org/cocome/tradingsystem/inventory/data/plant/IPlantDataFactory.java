@@ -24,11 +24,13 @@ import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPl
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
@@ -54,7 +56,17 @@ public interface IPlantDataFactory {
 
     IProductionUnitOperation convertToProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO);
 
-    ProductionUnitOperationTO fillProductionUnitOperationTO(IProductionUnitOperation operation) throws NotInDatabaseException;
+    ProductionUnitOperationTO fillProductionUnitOperationTO(IProductionUnitOperation operation)
+            throws NotInDatabaseException;
+
+    /* Production Unit */
+
+    IProductionUnit getNewProductionUnit();
+
+    IProductionUnit convertToProductionUnit(ProductionUnitTO productionUnitTO);
+
+    ProductionUnitTO fillProductionUnitTO(IProductionUnit operation)
+            throws NotInDatabaseException;
 
     /* Conditional Expression */
 
@@ -130,7 +142,7 @@ public interface IPlantDataFactory {
 
     IRecipe convertToRecipe(RecipeTO recipeTO);
 
-    /* Plant Operation Order */
+        /* Plant Operation Order */
 
     IPlantOperationOrder getNewPlantOperationOrder();
 
