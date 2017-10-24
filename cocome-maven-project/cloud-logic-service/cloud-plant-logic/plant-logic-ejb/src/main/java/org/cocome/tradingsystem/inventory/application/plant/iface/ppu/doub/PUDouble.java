@@ -43,7 +43,7 @@ public class PUDouble implements IPUInterface {
 
     private long lastAccessDate = System.currentTimeMillis();
 
-    public PUDouble(@NotNull final List<IProductionUnitOperation> operations, final long timingFactor) {
+    public PUDouble(@NotNull final Collection<IProductionUnitOperation> operations, final long timingFactor) {
         this.operations = operations.stream().collect(Collectors.toMap(
                 IProductionUnitOperation::getOperationId,
                 entry -> {
