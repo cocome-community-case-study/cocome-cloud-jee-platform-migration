@@ -23,7 +23,7 @@ import java.util.Collections;
  */
 @Stateless
 @LocalBean
-public class PUFactory {
+public class PUWorkerFactory {
 
     @Inject
     private IPlantQuery enterpriseQuery;
@@ -31,12 +31,19 @@ public class PUFactory {
     private static final long DEFAULT_EXEC_DURATION_FOR_DUMMY_INTERFACES = 1000;
 
     /**
-     * Creates an REST client based on the given production unit
+     * Creates a new worker instance based on the given database data in {@link IProductionUnit}
      *
-     * @param unit the production unit (with its url)
-     * @return the REST client of the given production unit
+     * @param unit the entity from the database.
+     * @return a brand new worker that can receive atomic production operations
+     * @throws NotInDatabaseException if necessary data could not be retrieved from the database
      */
-    public IPUInterface createClient(final IProductionUnit unit) throws NotInDatabaseException {
+    public PUWorker createWorker(final IProductionUnit unit) throws NotInDatabaseException {
+        final IPUInterface iface = createClient(unit);
+        //TODO
+        return null;
+    }
+
+    private IPUInterface createClient(final IProductionUnit unit) throws NotInDatabaseException {
         if (unit.isDouble()) {
             final IProductionUnitClass puc = unit.getProductionUnitClass();
             final Collection<IProductionUnitOperation> ops = enterpriseQuery
@@ -46,26 +53,12 @@ public class PUFactory {
         return createRESTClient(unit.getInterfaceUrl());
     }
 
-    /**
-     * Creates an REST client based on the given production unit
-     *
-     * @param interfaceUrl the base url that points to the rest interface
-     * @return the REST client of the given production unit
-     */
-    public IPUInterface createRESTClient(final String interfaceUrl) {
+    private IPUInterface createRESTClient(final String interfaceUrl) {
         return JAXRSClientFactory.create(interfaceUrl, IPUInterface.class,
                 Collections.singletonList(new JacksonJsonProvider()));
     }
 
-    /**
-     * Creates a interface double that simulates all production unit operations
-     * Note that the double interface
-     *
-     * @param operations the list of operations used to create the interface double
-     * @return a synchronized, dummy interface that simulates all operations
-     * without spawning any threads
-     */
-    public IPUInterface createFakeClient(final Collection<IProductionUnitOperation> operations) {
+    private IPUInterface createFakeClient(final Collection<IProductionUnitOperation> operations) {
         return new PUDouble(operations, DEFAULT_EXEC_DURATION_FOR_DUMMY_INTERFACES);
     }
 }
