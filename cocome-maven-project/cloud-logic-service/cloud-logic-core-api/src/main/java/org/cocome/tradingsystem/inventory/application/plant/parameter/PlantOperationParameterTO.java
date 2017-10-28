@@ -31,9 +31,10 @@ import javax.xml.bind.annotation.*;
 @XmlType(
         name = "PlantOperationParameterTO",
         namespace = "http://parameter.plant.application.inventory.tradingsystem.cocome.org")
+@XmlSeeAlso({BooleanPlantOperationParameterTO.class, BooleanPlantOperationParameterTO.class})
 @XmlRootElement(name = "PlantOperationParameterTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PlantOperationParameterTO implements IParameterTO {
+public abstract class PlantOperationParameterTO implements IParameterTO {
 
     private static final long serialVersionUID = -2577328715744776645L;
 
@@ -44,49 +45,31 @@ public class PlantOperationParameterTO implements IParameterTO {
     @XmlElement(name = "category", required = true)
     private String category;
 
-    /**
-     * @return The id.
-     */
     @Override
     public long getId() {
         return id;
     }
 
-    /**
-     * @param id Identifier value.
-     */
     @Override
     public void setId(long id) {
         this.id = id;
     }
 
-    /**
-     * @return The parameter name
-     */
     @Override
     public String getName() {
         return name;
     }
 
-    /**
-     * @param name The parameter name
-     */
     @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * @return The the parameter category
-     */
     @Override
     public String getCategory() {
         return category;
     }
 
-    /**
-     * @param category The parameter category
-     */
     @Override
     public void setCategory(String category) {
         this.category = category;

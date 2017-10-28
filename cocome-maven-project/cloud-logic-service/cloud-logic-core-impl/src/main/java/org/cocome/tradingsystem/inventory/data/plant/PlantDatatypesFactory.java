@@ -447,6 +447,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     public PlantOperationOrderEntryTO fillPlantOperationOrderEntryTO(IPlantOperationOrderEntry plantOperationOrderEntry) throws NotInDatabaseException {
         final PlantOperationOrderEntryTO result = new PlantOperationOrderEntryTO();
         result.setId(plantOperationOrderEntry.getId());
+        result.setPlantOperation(fillPlantOperationTO(plantOperationOrderEntry.getPlantOperation()));
         result.setAmount(plantOperationOrderEntry.getAmount());
         result.setParameterValues(convertList(plantOperationOrderEntry.getParameterValues(),
                 this::fillPlantOperationParameterValueTO));

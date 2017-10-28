@@ -37,8 +37,16 @@
     <wsdl:part name="parameters" element="tns:createProductionUnitClass">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deleteProductionUnit">
+    <wsdl:part name="parameters" element="tns:deleteProductionUnit">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryProductionUnitClassesByPlantID">
     <wsdl:part name="parameters" element="tns:queryProductionUnitClassesByPlantID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateProductionUnit">
+    <wsdl:part name="parameters" element="tns:updateProductionUnit">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateProductionUnitOperationResponse">
@@ -47,6 +55,10 @@
   </wsdl:message>
   <wsdl:message name="queryPlantOperationOrderById">
     <wsdl:part name="parameters" element="tns:queryPlantOperationOrderById">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteProductionUnitResponse">
+    <wsdl:part name="parameters" element="tns:deleteProductionUnitResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryProductionUnitClassByID">
@@ -65,6 +77,14 @@
     <wsdl:part name="parameters" element="tns:queryProductionUnitOperationByID">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="createProductionUnit">
+    <wsdl:part name="parameters" element="tns:createProductionUnit">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryProductionUnitByIDResponse">
+    <wsdl:part name="parameters" element="tns:queryProductionUnitByIDResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="deleteConditionalExpressionResponse">
     <wsdl:part name="parameters" element="tns:deleteConditionalExpressionResponse">
     </wsdl:part>
@@ -73,8 +93,16 @@
     <wsdl:part name="parameters" element="tns:queryConditionalExpressionByIDResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="updateProductionUnitResponse">
+    <wsdl:part name="parameters" element="tns:updateProductionUnitResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="CreateException">
     <wsdl:part name="CreateException" element="tns:CreateException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createProductionUnitResponse">
+    <wsdl:part name="parameters" element="tns:createProductionUnitResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="UpdateException">
@@ -129,6 +157,10 @@
     <wsdl:part name="parameters" element="tns:createProductionUnitOperation">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryProductionUnitByID">
+    <wsdl:part name="parameters" element="tns:queryProductionUnitByID">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryProductionUnitOperationsByProductionUnitClassIDResponse">
     <wsdl:part name="parameters" element="tns:queryProductionUnitOperationsByProductionUnitClassIDResponse">
     </wsdl:part>
@@ -152,6 +184,14 @@
       <wsdl:output name="queryProductionUnitOperationsByProductionUnitClassIDResponse" message="tns:queryProductionUnitOperationsByProductionUnitClassIDResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProductionUnit">
+      <wsdl:input name="createProductionUnit" message="tns:createProductionUnit">
+    </wsdl:input>
+      <wsdl:output name="createProductionUnitResponse" message="tns:createProductionUnitResponse">
+    </wsdl:output>
+      <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateConditionalExpression">
@@ -218,12 +258,32 @@
       <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="deleteProductionUnit">
+      <wsdl:input name="deleteProductionUnit" message="tns:deleteProductionUnit">
+    </wsdl:input>
+      <wsdl:output name="deleteProductionUnitResponse" message="tns:deleteProductionUnitResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="queryProductionUnitClassesByPlantID">
       <wsdl:input name="queryProductionUnitClassesByPlantID" message="tns:queryProductionUnitClassesByPlantID">
     </wsdl:input>
       <wsdl:output name="queryProductionUnitClassesByPlantIDResponse" message="tns:queryProductionUnitClassesByPlantIDResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProductionUnit">
+      <wsdl:input name="updateProductionUnit" message="tns:updateProductionUnit">
+    </wsdl:input>
+      <wsdl:output name="updateProductionUnitResponse" message="tns:updateProductionUnitResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryPlantOperationOrderById">
@@ -270,6 +330,14 @@
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="queryProductionUnitByID">
+      <wsdl:input name="queryProductionUnitByID" message="tns:queryProductionUnitByID">
+    </wsdl:input>
+      <wsdl:output name="queryProductionUnitByIDResponse" message="tns:queryProductionUnitByIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="queryProductionUnitOperationByID">
       <wsdl:input name="queryProductionUnitOperationByID" message="tns:queryProductionUnitOperationByID">
     </wsdl:input>
@@ -301,6 +369,18 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createProductionUnit">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createProductionUnit">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createProductionUnitResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CreateException">
+        <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="updateConditionalExpression">
@@ -399,6 +479,21 @@
         <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="deleteProductionUnit">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteProductionUnit">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteProductionUnitResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="queryProductionUnitClassesByPlantID">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="queryProductionUnitClassesByPlantID">
@@ -409,6 +504,21 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateProductionUnit">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateProductionUnit">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateProductionUnitResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryPlantOperationOrderById">
@@ -475,6 +585,18 @@
       </wsdl:fault>
       <wsdl:fault name="UpdateException">
         <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryProductionUnitByID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryProductionUnitByID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryProductionUnitByIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryProductionUnitOperationByID">

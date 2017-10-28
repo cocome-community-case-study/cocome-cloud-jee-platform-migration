@@ -29,4 +29,15 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="ProductionUnitTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="location" type="xs:string"/>
+      <xs:element name="doubleFlag" type="xs:boolean"/>
+      <xs:element name="interfaceUrl" type="xs:string"/>
+      <xs:element name="plant" type="ns2:PlantTO"/>
+      <xs:element name="productionUnitClass" type="tns:ProductionUnitClassTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
 </xs:schema>

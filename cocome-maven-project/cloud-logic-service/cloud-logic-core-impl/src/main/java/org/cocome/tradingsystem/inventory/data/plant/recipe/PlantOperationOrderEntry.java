@@ -18,13 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -40,6 +34,7 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
 
     private long id;
     private long amount;
+    private IPlantOperation plantOperation;
     private Collection<IPlantOperationParameterValue> parameterValues;
 
     @Override
@@ -70,6 +65,16 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
     @Override
     public void setParameterValues(Collection<IPlantOperationParameterValue> parameterValues) {
         this.parameterValues = parameterValues;
+    }
+
+    @Override
+    public IPlantOperation getPlantOperation() {
+        return plantOperation;
+    }
+
+    @Override
+    public void setPlantOperation(IPlantOperation operation) {
+        this.plantOperation = operation;
     }
 
 }

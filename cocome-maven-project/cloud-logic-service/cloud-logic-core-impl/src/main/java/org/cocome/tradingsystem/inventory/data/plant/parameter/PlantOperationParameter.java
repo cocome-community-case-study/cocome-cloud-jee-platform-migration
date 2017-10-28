@@ -83,4 +83,13 @@ public abstract class PlantOperationParameter implements Serializable, IPlantOpe
     public void setCategory(String category) {
         this.category = category;
     }
+
+    @Override
+    public String toString() {
+        return "PlantOperationParameter{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }

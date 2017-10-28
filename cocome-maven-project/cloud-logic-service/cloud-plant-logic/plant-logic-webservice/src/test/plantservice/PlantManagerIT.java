@@ -153,6 +153,7 @@ public class PlantManagerIT {
         paramValue.setValue(IBooleanParameter.FALSE_VALUE);
 
         final PlantOperationOrderEntryTO entry = new PlantOperationOrderEntryTO();
+        entry.setPlantOperation(operation);
         entry.setAmount(1);
         entry.setParameterValues(Collections.singletonList(paramValue));
 

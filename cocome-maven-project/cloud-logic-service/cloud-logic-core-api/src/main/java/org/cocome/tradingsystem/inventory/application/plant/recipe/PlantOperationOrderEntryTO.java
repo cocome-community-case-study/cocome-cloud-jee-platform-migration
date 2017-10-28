@@ -42,6 +42,8 @@ public class PlantOperationOrderEntryTO implements Serializable, IIdentifiableTO
     private long id;
     @XmlElement(name = "amount", required = true)
     private long amount;
+    @XmlElement(name = "plantOperation", required = true)
+    private PlantOperationTO plantOperation;
     @XmlElement(name = "parameterValues", required = true)
     private Collection<PlantOperationParameterValueTO> parameterValues;
 
@@ -53,6 +55,20 @@ public class PlantOperationOrderEntryTO implements Serializable, IIdentifiableTO
     @Override
     public void setId(final long id) {
         this.id = id;
+    }
+
+    /**
+     * @return the plant operation to process
+     */
+    public PlantOperationTO getPlantOperation() {
+        return plantOperation;
+    }
+
+    /**
+     * @param plantOperation the plant operation to process
+     */
+    public void setPlantOperation(PlantOperationTO plantOperation) {
+        this.plantOperation = plantOperation;
     }
 
     /**

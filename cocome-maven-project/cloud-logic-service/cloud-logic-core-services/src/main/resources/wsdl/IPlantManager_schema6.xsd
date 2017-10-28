@@ -1,11 +1,19 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
+<xs:schema xmlns:tns="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
-  <xs:complexType name="PlantOperationParameterTO">
+  <xs:complexType abstract="true" name="PlantOperationParameterTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>
       <xs:element name="category" type="xs:string"/>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BooleanPlantOperationParameterTO">
+    <xs:complexContent>
+      <xs:extension base="tns:PlantOperationParameterTO">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
 </xs:schema>

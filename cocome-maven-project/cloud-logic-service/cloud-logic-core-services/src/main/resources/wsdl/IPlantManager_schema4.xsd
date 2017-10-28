@@ -5,34 +5,44 @@
   <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IPlantManager_schema1.xsd"/>
   <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema6.xsd"/>
   <xs:import namespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema2.xsd"/>
+  <xs:element name="BooleanPlantOperationParameterTO" type="ns5:BooleanPlantOperationParameterTO"/>
   <xs:element name="ConditionalExpressionTO" type="ns2:ConditionalExpressionTO"/>
   <xs:element name="EnterpriseTO" type="ns4:EnterpriseTO"/>
+  <xs:element name="EntryPointTO" type="ns6:EntryPointTO"/>
   <xs:element name="ExpressionTO" type="ns2:ExpressionTO"/>
   <xs:element name="PlantOperationOrderEntryTO" type="ns6:PlantOperationOrderEntryTO"/>
   <xs:element name="PlantOperationOrderTO" type="ns6:PlantOperationOrderTO"/>
   <xs:element name="PlantOperationParameterTO" type="ns5:PlantOperationParameterTO"/>
   <xs:element name="PlantOperationParameterValueTO" type="ns6:PlantOperationParameterValueTO"/>
+  <xs:element name="PlantOperationTO" type="ns6:PlantOperationTO"/>
   <xs:element name="PlantTO" type="ns3:PlantTO"/>
   <xs:element name="ProductionUnitClassTO" type="ns1:ProductionUnitClassTO"/>
   <xs:element name="ProductionUnitOperationTO" type="ns1:ProductionUnitOperationTO"/>
+  <xs:element name="ProductionUnitTO" type="ns1:ProductionUnitTO"/>
   <xs:element name="createConditionalExpression" type="tns:createConditionalExpression"/>
   <xs:element name="createConditionalExpressionResponse" type="tns:createConditionalExpressionResponse"/>
+  <xs:element name="createProductionUnit" type="tns:createProductionUnit"/>
   <xs:element name="createProductionUnitClass" type="tns:createProductionUnitClass"/>
   <xs:element name="createProductionUnitClassResponse" type="tns:createProductionUnitClassResponse"/>
   <xs:element name="createProductionUnitOperation" type="tns:createProductionUnitOperation"/>
   <xs:element name="createProductionUnitOperationResponse" type="tns:createProductionUnitOperationResponse"/>
+  <xs:element name="createProductionUnitResponse" type="tns:createProductionUnitResponse"/>
   <xs:element name="deleteConditionalExpression" type="tns:deleteConditionalExpression"/>
   <xs:element name="deleteConditionalExpressionResponse" type="tns:deleteConditionalExpressionResponse"/>
+  <xs:element name="deleteProductionUnit" type="tns:deleteProductionUnit"/>
   <xs:element name="deleteProductionUnitClass" type="tns:deleteProductionUnitClass"/>
   <xs:element name="deleteProductionUnitClassResponse" type="tns:deleteProductionUnitClassResponse"/>
   <xs:element name="deleteProductionUnitOperation" type="tns:deleteProductionUnitOperation"/>
   <xs:element name="deleteProductionUnitOperationResponse" type="tns:deleteProductionUnitOperationResponse"/>
+  <xs:element name="deleteProductionUnitResponse" type="tns:deleteProductionUnitResponse"/>
   <xs:element name="orderOperation" type="tns:orderOperation"/>
   <xs:element name="orderOperationResponse" type="tns:orderOperationResponse"/>
   <xs:element name="queryConditionalExpressionByID" type="tns:queryConditionalExpressionByID"/>
   <xs:element name="queryConditionalExpressionByIDResponse" type="tns:queryConditionalExpressionByIDResponse"/>
   <xs:element name="queryPlantOperationOrderById" type="tns:queryPlantOperationOrderById"/>
   <xs:element name="queryPlantOperationOrderByIdResponse" type="tns:queryPlantOperationOrderByIdResponse"/>
+  <xs:element name="queryProductionUnitByID" type="tns:queryProductionUnitByID"/>
+  <xs:element name="queryProductionUnitByIDResponse" type="tns:queryProductionUnitByIDResponse"/>
   <xs:element name="queryProductionUnitClassByID" type="tns:queryProductionUnitClassByID"/>
   <xs:element name="queryProductionUnitClassByIDResponse" type="tns:queryProductionUnitClassByIDResponse"/>
   <xs:element name="queryProductionUnitClassesByPlantID" type="tns:queryProductionUnitClassesByPlantID"/>
@@ -43,10 +53,12 @@
   <xs:element name="queryProductionUnitOperationsByProductionUnitClassIDResponse" type="tns:queryProductionUnitOperationsByProductionUnitClassIDResponse"/>
   <xs:element name="updateConditionalExpression" type="tns:updateConditionalExpression"/>
   <xs:element name="updateConditionalExpressionResponse" type="tns:updateConditionalExpressionResponse"/>
+  <xs:element name="updateProductionUnit" type="tns:updateProductionUnit"/>
   <xs:element name="updateProductionUnitClass" type="tns:updateProductionUnitClass"/>
   <xs:element name="updateProductionUnitClassResponse" type="tns:updateProductionUnitClassResponse"/>
   <xs:element name="updateProductionUnitOperation" type="tns:updateProductionUnitOperation"/>
   <xs:element name="updateProductionUnitOperationResponse" type="tns:updateProductionUnitOperationResponse"/>
+  <xs:element name="updateProductionUnitResponse" type="tns:updateProductionUnitResponse"/>
   <xs:complexType name="queryProductionUnitOperationsByProductionUnitClassID">
     <xs:sequence>
       <xs:element name="productionUnitClassID" type="xs:long"/>
@@ -55,6 +67,16 @@
   <xs:complexType name="queryProductionUnitOperationsByProductionUnitClassIDResponse">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ProductionUnitOperationTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createProductionUnit">
+    <xs:sequence>
+      <xs:element name="productionUnitTO" type="ns1:ProductionUnitTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createProductionUnitResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="updateConditionalExpression">
@@ -71,9 +93,7 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="orderOperationResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:long"/>
-    </xs:sequence>
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="queryConditionalExpressionByID">
     <xs:sequence>
@@ -121,6 +141,14 @@
       <xs:element name="return" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="deleteProductionUnit">
+    <xs:sequence>
+      <xs:element name="productionUnitTO" type="ns1:ProductionUnitTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteProductionUnitResponse">
+    <xs:sequence/>
+  </xs:complexType>
   <xs:complexType name="queryProductionUnitClassesByPlantID">
     <xs:sequence>
       <xs:element name="plantID" type="xs:long"/>
@@ -130,6 +158,14 @@
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ProductionUnitClassTO"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateProductionUnit">
+    <xs:sequence>
+      <xs:element name="productionUnitTO" type="ns1:ProductionUnitTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateProductionUnitResponse">
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="queryPlantOperationOrderById">
     <xs:sequence>
@@ -177,6 +213,16 @@
   <xs:complexType name="deleteProductionUnitOperationResponse">
     <xs:sequence/>
   </xs:complexType>
+  <xs:complexType name="queryProductionUnitByID">
+    <xs:sequence>
+      <xs:element name="productionUnitID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryProductionUnitByIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:ProductionUnitTO"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="queryProductionUnitOperationByID">
     <xs:sequence>
       <xs:element name="productionUnitOperationID" type="xs:long"/>
@@ -201,14 +247,14 @@
       <xs:element minOccurs="0" name="message" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="UpdateException" type="tns:UpdateException"/>
-  <xs:complexType name="UpdateException">
+  <xs:element name="CreateException" type="tns:CreateException"/>
+  <xs:complexType name="CreateException">
     <xs:sequence>
       <xs:element minOccurs="0" name="message" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="CreateException" type="tns:CreateException"/>
-  <xs:complexType name="CreateException">
+  <xs:element name="UpdateException" type="tns:UpdateException"/>
+  <xs:complexType name="UpdateException">
     <xs:sequence>
       <xs:element minOccurs="0" name="message" type="xs:string"/>
     </xs:sequence>

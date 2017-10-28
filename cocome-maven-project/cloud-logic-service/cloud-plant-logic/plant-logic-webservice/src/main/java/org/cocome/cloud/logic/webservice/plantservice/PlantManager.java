@@ -2,6 +2,7 @@ package org.cocome.cloud.logic.webservice.plantservice;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
+import org.cocome.cloud.logic.webservice.StreamUtil;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.cloud.logic.webservice.ThrowingSupplier;
 import org.cocome.cloud.registry.service.Names;
@@ -10,7 +11,9 @@ import org.cocome.tradingsystem.inventory.application.plant.expression.Condition
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderEntryTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationParameterValueTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
@@ -18,9 +21,11 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.scope.CashDeskRegistry;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
@@ -33,7 +38,10 @@ import javax.jws.WebService;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Date;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @WebService(
         serviceName = "IPlantManagerService",
@@ -116,32 +124,37 @@ public class PlantManager implements IPlantManager {
     /* CRUD for {@link ProductionUnitClassTO} **************/
 
     @Override
-    public Collection<ProductionUnitClassTO> queryProductionUnitClassesByPlantID(long plantId) throws NotInDatabaseException {
+    public Collection<ProductionUnitClassTO> queryProductionUnitClassesByPlantID(long plantId)
+            throws NotInDatabaseException {
         return this.queryCollectionByParentID(plantId,
                 plantQuery::queryProductionUnitClassesByPlantId,
                 plantFactory::fillProductionUnitClassTO);
     }
 
     @Override
-    public ProductionUnitClassTO queryProductionUnitClassByID(long productionUnitClassId) throws NotInDatabaseException {
+    public ProductionUnitClassTO queryProductionUnitClassByID(long productionUnitClassId)
+            throws NotInDatabaseException {
         return plantFactory.fillProductionUnitClassTO(
                 plantQuery.queryProductionUnitClass(productionUnitClassId));
     }
 
     @Override
-    public long createProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws CreateException {
+    public long createProductionUnitClass(ProductionUnitClassTO productionUnitClassTO)
+            throws CreateException {
         final IProductionUnitClass puc = plantFactory.convertToProductionUnitClass(productionUnitClassTO);
         persistenceContext.createEntity(puc);
         return puc.getId();
     }
 
     @Override
-    public void updateProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws UpdateException, NotInDatabaseException {
+    public void updateProductionUnitClass(ProductionUnitClassTO productionUnitClassTO)
+            throws UpdateException, NotInDatabaseException {
         persistenceContext.updateEntity(plantFactory.convertToProductionUnitClass(productionUnitClassTO));
     }
 
     @Override
-    public void deleteProductionUnitClass(ProductionUnitClassTO productionUnitClassTO) throws UpdateException, NotInDatabaseException {
+    public void deleteProductionUnitClass(ProductionUnitClassTO productionUnitClassTO)
+            throws UpdateException, NotInDatabaseException {
         final IProductionUnitClass puc =
                 plantQuery.queryProductionUnitClass(productionUnitClassTO.getId());
         persistenceContext.deleteEntity(puc);
@@ -150,7 +163,7 @@ public class PlantManager implements IPlantManager {
     /* CRUD for {@link ProductionUnitOperationTO} **************/
 
     @Override
-    public Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByProductionUnitClassID(long productionUnitClassId)
+    public Collection<ProductionUnitOperationTO> queryProductionUnitOperationsByProductionUnitClassID(final long productionUnitClassId)
             throws NotInDatabaseException {
         return this.queryCollectionByParentID(productionUnitClassId,
                 plantQuery::queryProductionUnitOperationsByProductionUnitClassId,
@@ -158,26 +171,27 @@ public class PlantManager implements IPlantManager {
     }
 
     @Override
-    public ProductionUnitOperationTO queryProductionUnitOperationByID(long productionUnitOperationId) throws NotInDatabaseException {
+    public ProductionUnitOperationTO queryProductionUnitOperationByID(final long productionUnitOperationId)
+            throws NotInDatabaseException {
         return plantFactory.fillProductionUnitOperationTO(
                 plantQuery.queryProductionUnitOperation(productionUnitOperationId));
     }
 
     @Override
-    public long createProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO) throws CreateException {
+    public long createProductionUnitOperation(final ProductionUnitOperationTO productionUnitOperationTO) throws CreateException {
         final IProductionUnitOperation operation = plantFactory.convertToProductionUnitOperation(productionUnitOperationTO);
         persistenceContext.createEntity(operation);
         return operation.getId();
     }
 
     @Override
-    public void updateProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO)
+    public void updateProductionUnitOperation(final ProductionUnitOperationTO productionUnitOperationTO)
             throws NotInDatabaseException, UpdateException {
         persistenceContext.updateEntity(plantFactory.convertToProductionUnitOperation(productionUnitOperationTO));
     }
 
     @Override
-    public void deleteProductionUnitOperation(ProductionUnitOperationTO productionUnitOperationTO)
+    public void deleteProductionUnitOperation(final ProductionUnitOperationTO productionUnitOperationTO)
             throws NotInDatabaseException, UpdateException {
         final IProductionUnitOperation puc = plantQuery.queryProductionUnitOperation(productionUnitOperationTO.getId());
         persistenceContext.deleteEntity(puc);
@@ -186,26 +200,26 @@ public class PlantManager implements IPlantManager {
     /* CRUD for {@link ProductionUnitTO} **************/
 
     @Override
-    public ProductionUnitTO queryProductionUnitByID(long productionUnitId) throws NotInDatabaseException {
+    public ProductionUnitTO queryProductionUnitByID(final long productionUnitId) throws NotInDatabaseException {
         return plantFactory.fillProductionUnitTO(
                 plantQuery.queryProductionUnit(productionUnitId));
     }
 
     @Override
-    public long createProductionUnit(ProductionUnitTO productionUnitTO) throws CreateException {
+    public long createProductionUnit(final ProductionUnitTO productionUnitTO) throws CreateException {
         final IProductionUnit operation = plantFactory.convertToProductionUnit(productionUnitTO);
         persistenceContext.createEntity(operation);
         return operation.getId();
     }
 
     @Override
-    public void updateProductionUnit(ProductionUnitTO productionUnitTO)
+    public void updateProductionUnit(final ProductionUnitTO productionUnitTO)
             throws NotInDatabaseException, UpdateException {
         persistenceContext.updateEntity(plantFactory.convertToProductionUnit(productionUnitTO));
     }
 
     @Override
-    public void deleteProductionUnit(ProductionUnitTO productionUnitTO)
+    public void deleteProductionUnit(final ProductionUnitTO productionUnitTO)
             throws NotInDatabaseException, UpdateException {
         final IProductionUnit puc = plantQuery.queryProductionUnit(productionUnitTO.getId());
         persistenceContext.deleteEntity(puc);
@@ -214,26 +228,27 @@ public class PlantManager implements IPlantManager {
     /* CRUD for {@link ConditionalExpressionTO} **************/
 
     @Override
-    public ConditionalExpressionTO queryConditionalExpressionByID(long conditionalExpressionId) throws NotInDatabaseException {
+    public ConditionalExpressionTO queryConditionalExpressionByID(final long conditionalExpressionId)
+            throws NotInDatabaseException {
         return plantFactory.fillConditionalExpressionTO(
                 plantQuery.queryConditionalExpression(conditionalExpressionId));
     }
 
     @Override
-    public long createConditionalExpression(ConditionalExpressionTO conditionalExpressionTO) throws CreateException {
+    public long createConditionalExpression(final ConditionalExpressionTO conditionalExpressionTO) throws CreateException {
         final IConditionalExpression expression = plantFactory.convertToConditionalExpression(conditionalExpressionTO);
         persistenceContext.createEntity(expression);
         return expression.getId();
     }
 
     @Override
-    public void updateConditionalExpression(ConditionalExpressionTO conditionalExpressionTO)
+    public void updateConditionalExpression(final ConditionalExpressionTO conditionalExpressionTO)
             throws NotInDatabaseException, UpdateException {
         persistenceContext.updateEntity(plantFactory.convertToConditionalExpression(conditionalExpressionTO));
     }
 
     @Override
-    public void deleteConditionalExpression(ConditionalExpressionTO conditionalExpressionTO) throws NotInDatabaseException,
+    public void deleteConditionalExpression(final ConditionalExpressionTO conditionalExpressionTO) throws NotInDatabaseException,
             UpdateException {
         final IConditionalExpression expression = plantQuery.queryConditionalExpression(conditionalExpressionTO.getId());
         persistenceContext.deleteEntity(expression);
@@ -242,14 +257,42 @@ public class PlantManager implements IPlantManager {
     /* Business Logic **************/
 
     @Override
-    public PlantOperationOrderTO queryPlantOperationOrderById(long plantOperationOrderId) throws NotInDatabaseException {
+    public PlantOperationOrderTO queryPlantOperationOrderById(final long plantOperationOrderId) throws NotInDatabaseException {
         return plantFactory.fillPlantOperationOrderTO(
                 plantQuery.queryPlantOperationOrderById(plantOperationOrderId));
     }
 
     @Override
-    public long orderOperation(PlantOperationOrderTO plantOperationOrderTO) throws NotInDatabaseException, CreateException {
-        System.out.println("ASDFs");
-        return 0;
+    public void orderOperation(final PlantOperationOrderTO plantOperationOrderTO)
+            throws NotInDatabaseException, CreateException {
+        checkOrder(plantOperationOrderTO);
+        final IPlantOperationOrder order = plantFactory.convertToPlantOperationOrder(plantOperationOrderTO);
+        order.setOrderingDate(new Date());
+        persistenceContext.createEntity(order);
+    }
+
+    private void checkOrder(final PlantOperationOrderTO plantOperationOrderTO) throws NotInDatabaseException {
+        for (final PlantOperationOrderEntryTO entry : plantOperationOrderTO.getOrderEntries()) {
+            final Map<Long, String> parameterValues = extractParameterValueMap(entry.getParameterValues());
+            final Collection<IPlantOperationParameter> parameterList =
+                    enterpriseQuery.queryParametersByPlantOperationID(entry.getPlantOperation().getId());
+            for (final IPlantOperationParameter param : parameterList) {
+                if (!parameterValues.containsKey(param.getId())) {
+                    throw new IllegalArgumentException("Missing value for parameter:"
+                            + param.toString());
+                }
+            }
+            for (final PlantOperationParameterValueTO parameterValue : entry.getParameterValues()) {
+                if (!parameterValue.isValid()) {
+                    throw new IllegalArgumentException("Invalid parameter value for parameter: " + parameterValue);
+                }
+            }
+        }
+    }
+
+    private Map<Long, String> extractParameterValueMap(final Collection<PlantOperationParameterValueTO> parameterValues) {
+        return StreamUtil.ofNullable(parameterValues).collect(Collectors.toMap(
+                e -> e.getParameter().getId(),
+                PlantOperationParameterValueTO::getValue));
     }
 }

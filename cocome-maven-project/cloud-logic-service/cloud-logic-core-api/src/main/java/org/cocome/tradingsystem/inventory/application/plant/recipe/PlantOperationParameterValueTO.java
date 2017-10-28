@@ -1,6 +1,7 @@
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.IParameterValueTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 
 import javax.xml.bind.annotation.*;
@@ -23,54 +24,50 @@ public class PlantOperationParameterValueTO implements IParameterValueTO<PlantOp
     private long id;
     @XmlElement(name = "value", required = true)
     private String value;
-    @XmlElement(name = "parameter", required = true)
+    @XmlElementRef(name = "parameter", required = true)
     private PlantOperationParameterTO parameter;
 
-    /**
-     * @return The id.
-     */
+    @Override
     public long getId() {
         return id;
     }
 
-    /**
-     * @param id Identifier value.
-     */
     @Override
     public void setId(long id) {
         this.id = id;
     }
 
-    /**
-     * @return The parameter value
-     */
     @Override
     public String getValue() {
         return value;
     }
 
-    /**
-     * @param value The parameter value
-     */
     @Override
     public void setValue(String value) {
         this.value = value;
     }
 
-    /**
-     * @return the plant operation parameter
-     */
     @Override
     public PlantOperationParameterTO getParameter() {
         return parameter;
     }
 
-    /**
-     * @param parameter the plant operation parameter
-     */
     @Override
     public void setParameter(PlantOperationParameterTO parameter) {
         this.parameter = parameter;
     }
 
+    @Override
+    public boolean isValid() {
+        return null != this.parameter && this.parameter.isValidValue(this.value);
+    }
+
+    @Override
+    public String toString() {
+        return "PlantOperationParameterValueTO{" +
+                "id=" + id +
+                ", value='" + value + '\'' +
+                ", parameter=" + parameter +
+                '}';
+    }
 }

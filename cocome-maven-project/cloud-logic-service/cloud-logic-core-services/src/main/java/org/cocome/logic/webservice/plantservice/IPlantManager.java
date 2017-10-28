@@ -174,7 +174,7 @@ public interface IPlantManager {
             @WebParam(name = "productionUnitTO")
                     ProductionUnitTO productionUnitTO)
             throws NotInDatabaseException, UpdateException;
-    
+
     /* CRUD for {@link PlantOperationOrderTO} **************/
 
     @WebMethod
@@ -187,7 +187,7 @@ public interface IPlantManager {
     /* Business Logic **************/
 
     @WebMethod
-    long orderOperation(
+    void orderOperation(
             @XmlElement(required = true)
             @WebParam(name = "plantOperationOrderTO")
                     PlantOperationOrderTO plantOperationOrderTO)

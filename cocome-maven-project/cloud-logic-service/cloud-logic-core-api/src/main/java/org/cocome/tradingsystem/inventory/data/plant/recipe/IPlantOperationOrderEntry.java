@@ -19,7 +19,6 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.Collection;
 
@@ -49,4 +48,14 @@ public interface IPlantOperationOrderEntry extends IIdentifiable {
      * @param parameterValues the parameter values
      */
     void setParameterValues(Collection<IPlantOperationParameterValue> parameterValues);
+
+    /**
+     * @return the target plant operation
+     */
+    IPlantOperation getPlantOperation();
+
+    /**
+     * @param operation the target plant operation
+     */
+    void setPlantOperation(final IPlantOperation operation);
 }

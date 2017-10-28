@@ -85,8 +85,7 @@ class ServiceAdapterEntityConverter {
             content.append(ServiceAdapterHeaders.SEPARATOR);
             content.append(entry.getProductBarcode());
             content.append(ServiceAdapterHeaders.SEPARATOR);
-            content.append(productOrder.getDeliveryDate() == null ? "00-00-0000"
-                    : TimeUtils.convertToStringDate(productOrder.getDeliveryDate()));
+            content.append(TimeUtils.convertNullableToStringDate(productOrder.getDeliveryDate()));
             content.append(ServiceAdapterHeaders.SEPARATOR);
             content.append(TimeUtils.convertToStringDate(productOrder.getOrderingDate()));
             content.append(ServiceAdapterHeaders.SEPARATOR);

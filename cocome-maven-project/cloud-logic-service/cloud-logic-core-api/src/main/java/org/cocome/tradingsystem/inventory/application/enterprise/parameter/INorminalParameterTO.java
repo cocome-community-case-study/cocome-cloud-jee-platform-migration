@@ -18,13 +18,34 @@
 
 package org.cocome.tradingsystem.inventory.application.enterprise.parameter;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
  * Gives the user a finite number of options to customize a product
+ *
  * @author Rudolf Biczok
  */
 public interface INorminalParameterTO extends IParameterTO {
+
+    /**
+     * @return The possible values this options a user can set for this option
+     */
     Set<String> getOptions();
+
+    /**
+     * @param options The possible values this options a user can set for this option
+     */
     void setOptions(final Set<String> options);
+
+    @Override
+    default boolean isValidValue(String value) {
+        for (final String option : getOptions()) {
+            if (Objects.equals(option, value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
