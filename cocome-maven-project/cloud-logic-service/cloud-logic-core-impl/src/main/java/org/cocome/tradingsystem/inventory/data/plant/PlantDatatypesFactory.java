@@ -459,6 +459,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         final IPlantOperationOrderEntry result = getNewPlantOperationOrderEntry();
         result.setId(plantOperationOrderEntryTO.getId());
         result.setAmount(plantOperationOrderEntryTO.getAmount());
+        result.setPlantOperation(convertToPlantOperation(plantOperationOrderEntryTO.getPlantOperation()));
         result.setParameterValues(convertList(plantOperationOrderEntryTO.getParameterValues(),
                 this::convertToPlantOperationParameterValue));
         return result;

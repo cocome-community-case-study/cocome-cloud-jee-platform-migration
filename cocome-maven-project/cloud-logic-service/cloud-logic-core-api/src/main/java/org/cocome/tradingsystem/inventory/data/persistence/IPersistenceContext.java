@@ -283,17 +283,14 @@ public interface IPersistenceContext {
     void deleteEntity(IPlantOperationOrder order) throws UpdateException;
 
     void createEntity(IPlantOperationOrderEntry orderEntry,
-                      IPlantOperation operation,
                       IPlantOperationOrder order)
             throws CreateException;
 
     void updateEntity(IPlantOperationOrderEntry orderEntry,
-                      IPlantOperation operation,
                       IPlantOperationOrder order)
             throws UpdateException;
 
     void deleteEntity(IPlantOperationOrderEntry orderEntry,
-                      IPlantOperation operation,
                       IPlantOperationOrder order)
             throws UpdateException;
 

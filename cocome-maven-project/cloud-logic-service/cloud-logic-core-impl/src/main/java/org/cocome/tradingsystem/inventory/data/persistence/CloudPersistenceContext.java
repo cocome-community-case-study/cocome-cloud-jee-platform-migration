@@ -40,10 +40,20 @@ import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 import org.cocome.tradingsystem.remote.access.connection.IPersistenceConnection;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javax.ejb.*;
 import javax.inject.Inject;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -694,29 +704,26 @@ public class CloudPersistenceContext implements IPersistenceContext {
 
     @Override
     public void createEntity(IPlantOperationOrderEntry orderEntry,
-                             IPlantOperation operation,
                              IPlantOperationOrder order) throws CreateException {
         createEntity(orderEntry,
                 "PlantOperationOrderEntry",
-                ServiceAdapterEntityConverter.getCreatePlantOperationOrderEntryContent(orderEntry, operation, order),
+                ServiceAdapterEntityConverter.getCreatePlantOperationOrderEntryContent(orderEntry, order),
                 ServiceAdapterHeaders.PLANTOPERATIONENTRY_CREATE_HEADER);
     }
 
     @Override
     public void updateEntity(IPlantOperationOrderEntry orderEntry,
-                             IPlantOperation operation,
                              IPlantOperationOrder order) throws UpdateException {
         updateEntity("PlantOperationOrderEntry",
-                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry, operation, order),
+                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry, order),
                 ServiceAdapterHeaders.PLANTOPERATIONENTRY_UPDATE_HEADER);
     }
 
     @Override
     public void deleteEntity(IPlantOperationOrderEntry orderEntry,
-                             IPlantOperation operation,
                              IPlantOperationOrder order) throws UpdateException {
         updateEntity("PlantOperationOrderEntry",
-                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry, operation, order),
+                ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry, order),
                 ServiceAdapterHeaders.PLANTOPERATIONENTRY_UPDATE_HEADER);
     }
 
@@ -776,9 +783,42 @@ public class CloudPersistenceContext implements IPersistenceContext {
         }
 
         if (!postData.getResponse().contains("SUCCESS")) {
-            throw new CreateException("Could not create entity!");
+            final String errorMessage = extractErrorMessage(postData.getResponse());
+            if(errorMessage != null) {
+                throw new CreateException(errorMessage);
+            }
+            throw new CreateException("Could not create entity: Unknown error");
         }
         entity.setId(fetchDatabaseID(postData.getResponse()));
+    }
+
+    private String extractErrorMessage(final String responseContent) {
+        /*
+         * Not the cleanest way to extract the stack trace from the XML message, but makes it easier to debug
+         * runtime errors.
+         */
+        if (!responseContent.contains("Error")) {
+            return null;
+        }
+        try {
+            final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            final InputSource is = new InputSource(new StringReader(postData.getResponse()));
+            final Document doc = dBuilder.parse(is);
+            doc.getDocumentElement().normalize();
+            final NodeList nodeList = doc.getElementsByTagName("BodyEntry");
+            if (nodeList.getLength() <= 0 || nodeList.item(0).getNodeType() != Node.ELEMENT_NODE) {
+                return null;
+            }
+            final Element eElement = (Element) nodeList.item(0);
+            final NodeList contentNodes = eElement.getElementsByTagName("Content");
+            if (nodeList.getLength() <= 0) {
+                return null;
+            }
+            return contentNodes.item(0).getTextContent();
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            return null;
+        }
     }
 
     private void updateEntity(String entityTypeName,

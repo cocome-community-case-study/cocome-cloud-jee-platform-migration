@@ -26,6 +26,8 @@ import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionU
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrderEntry;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationParameterValue;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.scope.CashDeskRegistry;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
@@ -35,11 +37,13 @@ import javax.ejb.CreateException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebService;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Date;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -265,10 +269,34 @@ public class PlantManager implements IPlantManager {
     @Override
     public void orderOperation(final PlantOperationOrderTO plantOperationOrderTO)
             throws NotInDatabaseException, CreateException {
-        checkOrder(plantOperationOrderTO);
-        final IPlantOperationOrder order = plantFactory.convertToPlantOperationOrder(plantOperationOrderTO);
-        order.setOrderingDate(new Date());
+        try {
+            checkOrder(plantOperationOrderTO);
+            final IPlantOperationOrder order = plantFactory.convertToPlantOperationOrder(plantOperationOrderTO);
+            order.setOrderingDate(new Date());
+            persistOrder(order);
+        } catch (Exception ex) {
+            throw new CreateException(exceptionToString(ex));
+        }
+    }
+
+    private void persistOrder(IPlantOperationOrder order) throws CreateException {
         persistenceContext.createEntity(order);
+        for (final IPlantOperationOrderEntry entry : order.getOrderEntries()) {
+            persistenceContext.createEntity(entry, order);
+            for (final IPlantOperationParameterValue values : entry.getParameterValues()) {
+                persistenceContext.createEntity(values, entry);
+            }
+        }
+    }
+
+    private String exceptionToString(Throwable ex) {
+        /*
+         * TODO Potential security issue to report entire stack trace in productive environment however,
+         * it is beneficial during development
+         */
+        final StringWriter sw = new StringWriter();
+        ex.printStackTrace(new PrintWriter(sw));
+        return sw.toString();
     }
 
     private void checkOrder(final PlantOperationOrderTO plantOperationOrderTO) throws NotInDatabaseException {

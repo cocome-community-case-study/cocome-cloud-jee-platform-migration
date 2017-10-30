@@ -538,7 +538,7 @@ class ServiceAdapterEntityConverter {
     }
 
     static String getCreatePlantOperationOrderContent(IPlantOperationOrder order) {
-        return TimeUtils.convertToStringDate(order.getDeliveryDate()) +
+        return TimeUtils.convertNullableToStringDate(order.getDeliveryDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -556,23 +556,21 @@ class ServiceAdapterEntityConverter {
     }
 
     static String getCreatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry,
-                                                           IPlantOperation operation,
                                                            IPlantOperationOrder order) {
-        return String.valueOf(orderEntry.getId()) +
+        return String.valueOf(orderEntry.getAmount()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getAmount()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(operation.getId()) +
+                String.valueOf(orderEntry.getPlantOperation().getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(order.getId());
     }
 
     static String getUpdatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry,
-                                                           IPlantOperation operation,
                                                            IPlantOperationOrder order) {
-        return String.valueOf(orderEntry.getAmount()) +
+        return String.valueOf(orderEntry.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(operation.getId()) +
+                String.valueOf(orderEntry.getAmount()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.getPlantOperation().getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(order.getId());
     }
