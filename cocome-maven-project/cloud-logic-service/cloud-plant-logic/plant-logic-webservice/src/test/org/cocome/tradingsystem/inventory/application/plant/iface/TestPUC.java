@@ -1,4 +1,4 @@
-package plantservice.puc;
+package org.cocome.tradingsystem.inventory.application.plant.iface;
 
 import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IPlantManager;

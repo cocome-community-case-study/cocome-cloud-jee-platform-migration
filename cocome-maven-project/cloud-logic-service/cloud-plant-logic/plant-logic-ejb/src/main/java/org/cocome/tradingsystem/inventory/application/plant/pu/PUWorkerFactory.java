@@ -26,6 +26,9 @@ import java.util.Collections;
 public class PUWorkerFactory {
 
     @Inject
+    private IPUCallback eventCoordinator;
+
+    @Inject
     private IPlantQuery enterpriseQuery;
 
     private static final long DEFAULT_EXEC_DURATION_FOR_DUMMY_INTERFACES = 1000;
@@ -39,8 +42,7 @@ public class PUWorkerFactory {
      */
     public PUWorker createWorker(final IProductionUnit unit) throws NotInDatabaseException {
         final IPUInterface iface = createClient(unit);
-        //TODO
-        return null;
+        return new PUWorker(unit, iface, eventCoordinator);
     }
 
     private IPUInterface createClient(final IProductionUnit unit) throws NotInDatabaseException {

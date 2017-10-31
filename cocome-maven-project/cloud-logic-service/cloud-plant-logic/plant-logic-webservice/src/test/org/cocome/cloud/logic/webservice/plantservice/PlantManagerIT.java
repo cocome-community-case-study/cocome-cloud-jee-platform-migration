@@ -1,4 +1,4 @@
-package plantservice;
+package org.cocome.cloud.logic.webservice.plantservice;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.cocome.cloud.logic.stub.CreateException_Exception;
@@ -7,6 +7,7 @@ import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
+import org.cocome.tradingsystem.inventory.application.plant.iface.TestPUC;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
@@ -17,7 +18,6 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanPara
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import plantservice.puc.TestPUC;
 
 import java.util.*;
 

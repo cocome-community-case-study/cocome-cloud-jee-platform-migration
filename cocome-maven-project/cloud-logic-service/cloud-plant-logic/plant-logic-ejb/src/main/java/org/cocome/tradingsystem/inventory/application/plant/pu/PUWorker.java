@@ -23,6 +23,7 @@ public class PUWorker implements AutoCloseable {
 
     //Poll interval in milliseconds
     private static final long DEFAULT_POLL_INTERVAL = 1000 * 5;
+
     private final IProductionUnit unit;
     private final IPUInterface iface;
     private final IPUCallback callback;
@@ -49,6 +50,15 @@ public class PUWorker implements AutoCloseable {
 
         this.iface.switchToAutomaticMode();
         this.observerThread.start();
+    }
+
+    /**
+     * Returns the corresponding production unit
+     *
+     * @return the corresponding production unit
+     */
+    public IProductionUnit getProductionUnit() {
+        return unit;
     }
 
     public void submitJob(final List<String> operations) {

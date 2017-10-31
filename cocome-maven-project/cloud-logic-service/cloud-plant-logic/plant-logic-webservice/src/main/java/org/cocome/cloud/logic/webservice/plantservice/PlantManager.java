@@ -11,6 +11,7 @@ import org.cocome.tradingsystem.inventory.application.plant.expression.Condition
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
+import org.cocome.tradingsystem.inventory.application.plant.pu.PUManager;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderEntryTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationParameterValueTO;
@@ -66,6 +67,9 @@ public class PlantManager implements IPlantManager {
 
     @Inject
     private IPlantDataFactory plantFactory;
+
+    @Inject
+    private PUManager puManager;
 
     @Inject
     private IPlantQuery plantQuery;
@@ -274,6 +278,7 @@ public class PlantManager implements IPlantManager {
             final IPlantOperationOrder order = plantFactory.convertToPlantOperationOrder(plantOperationOrderTO);
             order.setOrderingDate(new Date());
             persistOrder(order);
+            puManager.submitOrder(order);
         } catch (Exception ex) {
             throw new CreateException(exceptionToString(ex));
         }
