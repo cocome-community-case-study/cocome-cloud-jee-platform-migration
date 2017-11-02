@@ -152,4 +152,17 @@ public class ProductionUnit implements Serializable, IProductionUnit {
     public void setPlantId(long plantId) {
         this.plantId = plantId;
     }
+
+    @Override
+    public String toString() {
+        return "ProductionUnit{" +
+                "id=" + id +
+                ", location='" + location + '\'' +
+                ", interfaceUrl='" + interfaceUrl + '\'' +
+                ", doubleFlag=" + doubleFlag +
+                ", plant=" + plant +
+                ", plantId=" + plantId +
+                ", productionUnitClassId=" + productionUnitClassId +
+                '}';
+    }
 }

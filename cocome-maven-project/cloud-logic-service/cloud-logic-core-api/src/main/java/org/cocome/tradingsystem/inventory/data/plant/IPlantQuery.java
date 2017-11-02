@@ -123,4 +123,12 @@ public interface IPlantQuery {
      * @throws NotInDatabaseException if the production unit does not exist
      */
     IProductionUnit queryProductionUnit(long productionUnitId) throws NotInDatabaseException;
+
+    /**
+     * @param plantId the id of the plant
+     * @return all production units that belong to the given plant
+     * @throws NotInDatabaseException if the plant id does not exist in the database
+     */
+    Collection<IProductionUnit> queryProductionUnits(long plantId) throws NotInDatabaseException;
+
 }

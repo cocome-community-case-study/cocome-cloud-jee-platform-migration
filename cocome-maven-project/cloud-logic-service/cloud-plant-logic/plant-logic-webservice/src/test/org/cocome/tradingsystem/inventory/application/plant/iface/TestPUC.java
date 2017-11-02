@@ -52,6 +52,10 @@ public class TestPUC {
                 }));
     }
 
+    public ProductionUnitClassTO getProductionUnitClass() {
+        return puc;
+    }
+
     public ProductionUnitOperationTO getOperation(final PUCOperationMeta op) {
         return this.operators.get(op);
     }

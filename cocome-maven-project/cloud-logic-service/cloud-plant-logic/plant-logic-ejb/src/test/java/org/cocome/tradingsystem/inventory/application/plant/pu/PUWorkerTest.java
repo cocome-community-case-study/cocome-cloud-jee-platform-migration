@@ -60,9 +60,11 @@ public class PUWorkerTest {
         worker.submitJob(Arrays.asList(
                 XPPU.Crane_ACT_Init.getOperationId(),
                 XPPU.ACT_PushToRamp1.getOperationId()));
+        Assert.assertTrue(worker.getWorkLoad() >= 2 && worker.getWorkLoad() <= 4);
         //Does also join to the worker thread
         //The worker thread stops after its working queue has been depleted
         this.worker.close();
+        this.worker.getThread().join();
 
         List<String> observedOperations = callback.eventList
                 .get(unit.getId())

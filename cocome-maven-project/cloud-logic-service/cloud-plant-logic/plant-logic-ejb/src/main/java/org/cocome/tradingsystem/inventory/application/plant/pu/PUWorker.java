@@ -53,8 +53,6 @@ public class PUWorker implements AutoCloseable {
     }
 
     /**
-     * Returns the corresponding production unit
-     *
      * @return the corresponding production unit
      */
     public IProductionUnit getProductionUnit() {
@@ -69,9 +67,12 @@ public class PUWorker implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         this.terminate = true;
-        this.observerThread.join();
+    }
+
+    Thread getThread() {
+        return this.observerThread;
     }
 
     private void processQueue() {
@@ -115,8 +116,7 @@ public class PUWorker implements AutoCloseable {
                 lastSeen = System.currentTimeMillis();
                 final Optional<HistoryEntry> completeEntry = filter.get();
                 if (completeEntry.isPresent()) {
-                    //TODO current xPPU does not guarantee the existence of
-                    //an executionId
+                    //TODO current xPPU does not guarantee the existence of an executionId
                     final HistoryEntry entry = completeEntry.get();
                     entry.setExecutionId(executionId);
                     eventConsumer.accept(this.unit, entry);
@@ -143,5 +143,12 @@ public class PUWorker implements AutoCloseable {
                         && e.getOperationId().equals(operationId)
                         && e.getAction() == HistoryAction.COMPLETE)
                 .findFirst();
+    }
+
+    /**
+     * @return the total number of pending instructions in the queue.
+     */
+    public long getWorkLoad() {
+        return this.jobQueue.stream().mapToLong(job -> job.getOperations().size()).sum();
     }
 }

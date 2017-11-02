@@ -217,6 +217,12 @@ public class PlantManager implements IPlantManager {
     public long createProductionUnit(final ProductionUnitTO productionUnitTO) throws CreateException {
         final IProductionUnit operation = plantFactory.convertToProductionUnit(productionUnitTO);
         persistenceContext.createEntity(operation);
+        //TODO throw NotInDatabaseExceution
+        try {
+            puManager.addPUToWorkerPool(operation);
+        } catch (NotInDatabaseException e) {
+            throw new CreateException("Unable to create worker");
+        }
         return operation.getId();
     }
 

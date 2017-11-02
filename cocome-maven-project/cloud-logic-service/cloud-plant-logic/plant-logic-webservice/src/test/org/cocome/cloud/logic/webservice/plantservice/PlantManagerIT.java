@@ -7,11 +7,13 @@ import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
+import org.cocome.tradingsystem.inventory.application.plant.iface.FMU;
 import org.cocome.tradingsystem.inventory.application.plant.iface.TestPUC;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
@@ -109,7 +111,11 @@ public class PlantManagerIT {
         final EnterpriseTO enterprise = getOrCreateEnterprise();
         final PlantTO plant = getOrCreatePlant(enterprise);
 
+        /* Environmental setup */
+
         final TestPUC xppu = new TestPUC("Default xPPU", XPPU.values(), plant, pm);
+
+        final TestPUC fmu = new TestPUC("FMU", FMU.values(), plant, pm);
 
         final EntryPointTO e = new EntryPointTO();
         e.setName("ISO 12345 Cargo");
@@ -142,8 +148,40 @@ public class PlantManagerIT {
         operation.setExpressions(Arrays.asList(
                 xppu.getOperation(XPPU.Crane_ACT_Init),
                 xppu.getOperation(XPPU.Stack_ACT_Init),
-                conditionalExpression));
+                conditionalExpression,
+                fmu.getOperation(FMU.Silo0_ACT_Init),
+                fmu.getOperation(FMU.Silo1_ACT_Init),
+                fmu.getOperation(FMU.Silo2_ACT_Init)
+        ));
         em.updatePlantOperation(operation);
+
+        /* Production Units */
+
+        final ProductionUnitTO xppu1 = new ProductionUnitTO();
+        xppu1.setPlant(plant);
+        xppu1.setProductionUnitClass(xppu.getProductionUnitClass());
+        xppu1.setDouble(true);
+        xppu1.setInterfaceUrl("dummy1.org");
+        xppu1.setLocation("Some Place 1");
+        xppu1.setId(pm.createProductionUnit(xppu1));
+
+        final ProductionUnitTO xppu2 = new ProductionUnitTO();
+        xppu2.setPlant(plant);
+        xppu2.setProductionUnitClass(xppu.getProductionUnitClass());
+        xppu2.setDouble(true);
+        xppu2.setInterfaceUrl("dummy2.org");
+        xppu2.setLocation("Some Place 2");
+        xppu2.setId(pm.createProductionUnit(xppu2));
+
+        final ProductionUnitTO fmu3 = new ProductionUnitTO();
+        fmu3.setPlant(plant);
+        fmu3.setProductionUnitClass(fmu.getProductionUnitClass());
+        fmu3.setDouble(true);
+        fmu3.setInterfaceUrl("dummy2.org");
+        fmu3.setLocation("Some Place 3");
+        fmu3.setId(pm.createProductionUnit(fmu3));
+
+        /* Order creation */
 
         final PlantOperationOrderTO operationOrder = new PlantOperationOrderTO();
         operationOrder.setEnterprise(enterprise);

@@ -99,9 +99,16 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
     }
 
     @Override
-    public IProductionUnit queryProductionUnit(long productionUnitId) throws NotInDatabaseException  {
+    public IProductionUnit queryProductionUnit(long productionUnitId) throws NotInDatabaseException {
         return getSingleEntity(csvHelper::getProductionUnit, "ProductionUnit", productionUnitId);
 
+    }
+
+    @Override
+    public Collection<IProductionUnit> queryProductionUnits(long plantId) throws NotInDatabaseException {
+        return csvHelper.getProductionUnit(backendConnection.getEntity(
+                "ProductionUnit",
+                "plant.id==" + plantId));
     }
 
     @Override

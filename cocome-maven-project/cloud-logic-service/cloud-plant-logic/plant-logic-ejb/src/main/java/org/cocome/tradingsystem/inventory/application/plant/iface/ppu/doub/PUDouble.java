@@ -362,7 +362,7 @@ public class PUDouble implements IPUInterface {
         final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try {
             final DocumentBuilder db = dbf.newDocumentBuilder();
-            return db.parse(ClassLoader.class.getResourceAsStream("/ppu_instance_isa88.xml"));
+            return db.parse(PUDouble.class.getResourceAsStream("/ppu_instance_isa88.xml"));
         } catch (ParserConfigurationException e) {
             throw new IllegalArgumentException("Unable to create document builder", e);
         } catch (SAXException | IOException e) {

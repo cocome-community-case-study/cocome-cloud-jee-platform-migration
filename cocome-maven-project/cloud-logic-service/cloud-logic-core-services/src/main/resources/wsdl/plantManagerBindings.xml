@@ -12,6 +12,9 @@
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IPlantManager_schema3.xsd">
+        <bindings node="//xsd:complexType[@name='ProductionUnitTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO"/>
+        </bindings>
         <bindings node="//xsd:complexType[@name='ProductionUnitClassTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO"/>
         </bindings>

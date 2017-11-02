@@ -158,7 +158,9 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setInterfaceUrl(productionUnitTO.getInterfaceUrl());
         result.setDouble(productionUnitTO.isDouble());
         result.setPlant(enterpriseDatatypes.convertToPlant(productionUnitTO.getPlant()));
+        result.setPlantId(productionUnitTO.getPlant().getId());
         result.setProductionUnitClass(convertToProductionUnitClass(productionUnitTO.getProductionUnitClass()));
+        result.setProductionUnitClassId(productionUnitTO.getProductionUnitClass().getId());
 
         return result;
     }
