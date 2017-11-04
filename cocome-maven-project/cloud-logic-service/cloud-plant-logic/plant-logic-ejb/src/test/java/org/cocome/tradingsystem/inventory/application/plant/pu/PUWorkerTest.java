@@ -20,21 +20,21 @@ public class PUWorkerTest {
         private Map<Long, List<HistoryEntry>> eventList = new HashMap<>();
 
         @Override
-        public void onStart(IProductionUnit unit, HistoryEntry historyEntry) {
-            pushEvent(unit, historyEntry);
+        public void onStart(IProductionUnit unit, PUJob job, HistoryEntry historyEntry) {
+            pushEvent(unit, job, historyEntry);
         }
 
         @Override
-        public void onProgress(IProductionUnit unit, HistoryEntry historyEntry) {
-            pushEvent(unit, historyEntry);
+        public void onProgress(IProductionUnit unit, PUJob job, HistoryEntry historyEntry) {
+            pushEvent(unit, job, historyEntry);
         }
 
         @Override
-        public void onFinish(IProductionUnit unit, HistoryEntry historyEntry) {
-            pushEvent(unit, historyEntry);
+        public void onFinish(IProductionUnit unit, PUJob job, HistoryEntry historyEntry) {
+            pushEvent(unit, job, historyEntry);
         }
 
-        private void pushEvent(IProductionUnit unit, HistoryEntry historyEntry) {
+        private void pushEvent(IProductionUnit unit, PUJob job, HistoryEntry historyEntry) {
             if (!eventList.containsKey(unit.getId())) {
                 eventList.put(unit.getId(), new LinkedList<>());
             }
@@ -54,12 +54,14 @@ public class PUWorkerTest {
         unit.setId(testId);
         final IPUInterface iface = new XPPUDouble(1000);
         worker = new PUWorker(unit, iface, callback);
-        worker.submitJob(Arrays.asList(
+        worker.submitJob(new PUJob(UUID.randomUUID(), Arrays.asList(
                 XPPU.Crane_ACT_Init.getOperationId(),
-                XPPU.ACT_PushToRamp1.getOperationId()));
-        worker.submitJob(Arrays.asList(
+                XPPU.ACT_PushToRamp1.getOperationId())
+        ));
+        worker.submitJob(new PUJob(UUID.randomUUID(), Arrays.asList(
                 XPPU.Crane_ACT_Init.getOperationId(),
-                XPPU.ACT_PushToRamp1.getOperationId()));
+                XPPU.ACT_PushToRamp1.getOperationId())
+        ));
         Assert.assertTrue(worker.getWorkLoad() >= 2 && worker.getWorkLoad() <= 4);
         //Does also join to the worker thread
         //The worker thread stops after its working queue has been depleted

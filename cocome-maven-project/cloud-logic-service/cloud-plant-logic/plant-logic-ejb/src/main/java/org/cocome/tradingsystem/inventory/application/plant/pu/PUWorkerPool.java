@@ -11,9 +11,8 @@ import javax.annotation.PreDestroy;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,13 +34,13 @@ public class PUWorkerPool {
     @Inject
     private PUWorkerFactory workerFactory;
 
-    private final Map<Long, Map<Long, List<PUWorker>>> workers = new HashMap<>();
+    private final Map<Long, Map<Long, Map<Long, PUWorker>>> workers = new HashMap<>();
 
     @PreDestroy
     public void shutdownWorkers() {
-        for (final Map<Long, List<PUWorker>> plantPool : workers.values()) {
-            for (final List<PUWorker> localWorkerPool : plantPool.values()) {
-                for (final PUWorker worker : localWorkerPool) {
+        for (final Map<Long, Map<Long, PUWorker>> plantPool : workers.values()) {
+            for (final Map<Long, PUWorker> localWorkerPool : plantPool.values()) {
+                for (final PUWorker worker : localWorkerPool.values()) {
                     worker.close();
                     try {
                         worker.getThread().join();
@@ -54,20 +53,25 @@ public class PUWorkerPool {
         }
     }
 
-    public List<PUWorker> getWorkers(final IProductionUnitClass puc)
+    public Collection<PUWorker> getWorkers(final IProductionUnitClass puc)
             throws NotInDatabaseException {
         checkAndInitPlantWorkers(puc.getPlant());
-        return workers.get(puc.getPlant().getId()).get(puc.getId());
+        return workers.get(puc.getPlant().getId()).get(puc.getId()).values();
     }
 
     public void addWorker(final IProductionUnit unit) throws NotInDatabaseException {
         checkAndInitPlantWorkers(unit.getPlant());
-        final Map<Long, List<PUWorker>> plantWorkers = workers.get(unit.getPlant().getId());
+        final Map<Long, Map<Long, PUWorker>> plantWorkers = workers.get(unit.getPlant().getId());
         if (!plantWorkers.containsKey(unit.getProductionUnitClass().getId())) {
-            plantWorkers.put(unit.getProductionUnitClass().getId(), new LinkedList<>());
+            plantWorkers.put(unit.getProductionUnitClass().getId(), new HashMap<>());
         }
-        LOG.debug("Create worker for unit " + unit);
-        plantWorkers.get(unit.getProductionUnitClass().getId()).add(workerFactory.createWorker(unit));
+        if (plantWorkers.get(unit.getProductionUnitClass().getId()).containsKey(unit.getId())) {
+            LOG.debug("Worker already started:" + unit);
+            return;
+        }
+        LOG.debug("Create worker: " + unit);
+        plantWorkers.get(unit.getProductionUnitClass().getId())
+                .put(unit.getId(), workerFactory.createWorker(unit));
     }
 
     /**

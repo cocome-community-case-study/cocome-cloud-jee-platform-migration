@@ -3,6 +3,7 @@ package org.cocome.tradingsystem.inventory.data.plant.expression;
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface IExpression extends IIdentifiable {
     /**
      * @return returns an evaluated list of expressions.
      */
-    static List<IPUInstruction> evaluateList(final List<IExpression> expressions, final IEvaluationContext context)
+    static List<IPUInstruction> evaluateList(final Collection<IExpression> expressions, final IEvaluationContext context)
             throws NotInDatabaseException {
         final List<IPUInstruction> instructions = new LinkedList<>();
         for (final IExpression expression : expressions) {

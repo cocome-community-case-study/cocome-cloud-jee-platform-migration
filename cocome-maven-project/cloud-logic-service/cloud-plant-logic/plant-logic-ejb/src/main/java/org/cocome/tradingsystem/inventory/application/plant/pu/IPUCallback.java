@@ -14,14 +14,14 @@ public interface IPUCallback {
      *
      * @param historyEntry the history entry generated from the interface
      */
-    void onStart(final IProductionUnit unit, final HistoryEntry historyEntry);
+    void onStart(final IProductionUnit unit, final PUJob job, final HistoryEntry historyEntry);
 
     /**
      * Called every time a single operation within a job has finished.
      *
      * @param historyEntry the history entry generated from the interface
      */
-    void onProgress(final IProductionUnit unit, final HistoryEntry historyEntry);
+    void onProgress(final IProductionUnit unit, final PUJob job, final HistoryEntry historyEntry);
 
     /**
      * Called when plant operation job has finished, i.e., when the last operation
@@ -29,5 +29,5 @@ public interface IPUCallback {
      *
      * @param historyEntry the history entry generated from the interface
      */
-    void onFinish(final IProductionUnit unit, final HistoryEntry historyEntry);
+    void onFinish(final IProductionUnit unit, final PUJob job, final HistoryEntry historyEntry);
 }

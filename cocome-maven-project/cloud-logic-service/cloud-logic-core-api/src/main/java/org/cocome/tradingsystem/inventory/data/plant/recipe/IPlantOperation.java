@@ -96,7 +96,7 @@ public interface IPlantOperation extends INameable {
     /**
      * @return the list of expressions used to execute this operation
      */
-    List<IExpression> getExpressions();
+    List<IExpression> getExpressions() throws NotInDatabaseException;
 
     /**
      * @param expressions the list of expressions used to execute this operation

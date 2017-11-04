@@ -4,6 +4,7 @@ import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationPa
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationParameterValue;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class EvaluationContext implements IEvaluationContext {
 
     private final Map<String, String> paramValueMapping = new HashMap<>();
 
-    public EvaluationContext(final List<IPlantOperationParameterValue> parameterValueList)
+    public EvaluationContext(final Collection<IPlantOperationParameterValue> parameterValueList)
             throws NotInDatabaseException {
         for (final IPlantOperationParameterValue parameterValue : parameterValueList) {
             paramValueMapping.put(parameterValue.getParameter().getName(), parameterValue.getValue());

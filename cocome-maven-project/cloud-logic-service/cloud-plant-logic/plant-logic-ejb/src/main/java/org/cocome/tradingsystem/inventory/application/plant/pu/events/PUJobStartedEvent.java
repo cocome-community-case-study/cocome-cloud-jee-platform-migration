@@ -1,6 +1,7 @@
 package org.cocome.tradingsystem.inventory.application.plant.pu.events;
 
 import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryEntry;
+import org.cocome.tradingsystem.inventory.application.plant.pu.PUJob;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 
 /**
@@ -16,9 +17,10 @@ public class PUJobStartedEvent extends AbstractPUJobEvent {
      * Canonical constructor
      *
      * @param productionUnit the production unit associated with this event
+     * @param job            the job
      * @param historyEntry   the history object causing this event
      */
-    public PUJobStartedEvent(IProductionUnit productionUnit, HistoryEntry historyEntry) {
-        super(productionUnit, historyEntry);
+    public PUJobStartedEvent(IProductionUnit productionUnit, PUJob job, HistoryEntry historyEntry) {
+        super(productionUnit, job, historyEntry);
     }
 }

@@ -29,7 +29,7 @@ public class PUWorker implements AutoCloseable {
     private final IPUCallback callback;
 
     private final Queue<PUJob> jobQueue = new ConcurrentLinkedQueue<>();
-    private Thread observerThread;
+    private final Thread observerThread;
 
     private boolean terminate;
 
@@ -59,11 +59,11 @@ public class PUWorker implements AutoCloseable {
         return unit;
     }
 
-    public void submitJob(final List<String> operations) {
+    public void submitJob(final PUJob job) {
         if (this.terminate) {
             throw new IllegalStateException("Worker has already been terminated");
         }
-        jobQueue.add(new PUJob(operations));
+        jobQueue.add(job);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class PUWorker implements AutoCloseable {
 
     private void processJob(final PUJob job) {
         HistoryEntry startEntry = this.iface.startOperationsInBatch(String.join(";", job.getOperations()));
-        this.callback.onStart(this.unit, startEntry);
+        this.callback.onStart(this.unit, job, startEntry);
         for (final String operationId : job.getOperations()) {
             observeNextHistoryEntry(
                     startEntry.getExecutionId(),
@@ -95,7 +95,7 @@ public class PUWorker implements AutoCloseable {
                         final List<HistoryEntry> history = this.iface.getHistoryByExecutionId(startEntry.getExecutionId());
                         return filterComplete(operationId, history);
                     },
-                    this.callback::onProgress);
+                    (unit, entry) -> this.callback.onProgress(unit, job, entry));
         }
         observeNextHistoryEntry(
                 startEntry.getExecutionId(),
@@ -103,7 +103,7 @@ public class PUWorker implements AutoCloseable {
                     final List<HistoryEntry> history = this.iface.getHistoryByTimeStemp(startEntry.getTimestamp());
                     return filterBatchComplete(history);
                 },
-                this.callback::onFinish);
+                (unit, entry) -> this.callback.onFinish(unit, job, entry));
     }
 
     private void observeNextHistoryEntry(

@@ -683,7 +683,7 @@ public class CSVHelper implements IBackendConversionHelper {
         return rowToCollection(expression, row -> {
             final String typeName = row.getColumns().get(0).getValue();
             final int offset = Integer.parseInt(row.getColumns().get(1).getValue());
-            if (typeName.contains("PlantUnitOperation")) {
+            if (typeName.contains("ProductionUnitOperation")) {
                 return processPlantUnitOperationRow(row, offset);
             } else if (typeName.contains("ConditionalExpression")) {
                 return processConditionalExpressionRow(row, offset);

@@ -6,7 +6,6 @@ import org.cocome.tradingsystem.inventory.application.plant.pu.events.PUJobProgr
 import org.cocome.tradingsystem.inventory.application.plant.pu.events.PUJobStartedEvent;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -29,17 +28,17 @@ public class PUEventCoordinator implements IPUCallback {
     private Event<PUJobFinishedEvent> jobFinishedEvent;
 
     @Override
-    public void onStart(IProductionUnit unit, HistoryEntry historyEntry) {
-        jobStartedEvent.fire(new PUJobStartedEvent(unit, historyEntry));
+    public void onStart(IProductionUnit unit, PUJob job, HistoryEntry historyEntry) {
+        jobStartedEvent.fire(new PUJobStartedEvent(unit, job, historyEntry));
     }
 
     @Override
-    public void onProgress(IProductionUnit unit, HistoryEntry historyEntry) {
-        jobProgressEvent.fire(new PUJobProgressEvent(unit, historyEntry));
+    public void onProgress(IProductionUnit unit, PUJob job, HistoryEntry historyEntry) {
+        jobProgressEvent.fire(new PUJobProgressEvent(unit, job, historyEntry));
     }
 
     @Override
-    public void onFinish(IProductionUnit unit, HistoryEntry historyEntry) {
-        jobFinishedEvent.fire(new PUJobFinishedEvent(unit, historyEntry));
+    public void onFinish(IProductionUnit unit, PUJob job, HistoryEntry historyEntry) {
+        jobFinishedEvent.fire(new PUJobFinishedEvent(unit, job, historyEntry));
     }
 }

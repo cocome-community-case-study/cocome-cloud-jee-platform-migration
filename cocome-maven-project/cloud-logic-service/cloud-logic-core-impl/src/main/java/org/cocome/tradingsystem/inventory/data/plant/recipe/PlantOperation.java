@@ -20,6 +20,7 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -57,10 +58,17 @@ public class PlantOperation implements Serializable, IPlantOperation {
 
     private IEnterpriseQuery enterpriseQuery;
 
+    @Inject
+    private Instance<IPlantQuery> plantQueryInstance;
+
+    private IPlantQuery plantQuery;
+
     @PostConstruct
     public void initPlant() {
         enterpriseQuery = enterpriseQueryInstance.get();
+        plantQuery = plantQueryInstance.get();
         plant = null;
+        expressions = null;
         inputEntryPoint = null;
         outputEntryPoint = null;
     }
@@ -155,7 +163,10 @@ public class PlantOperation implements Serializable, IPlantOperation {
     }
 
     @Override
-    public List<IExpression> getExpressions() {
+    public List<IExpression> getExpressions() throws NotInDatabaseException {
+        if (this.expressions == null) {
+            this.expressions = this.plantQuery.queryExpressionsByIdList(this.expressionIds);
+        }
         return expressions;
     }
 
