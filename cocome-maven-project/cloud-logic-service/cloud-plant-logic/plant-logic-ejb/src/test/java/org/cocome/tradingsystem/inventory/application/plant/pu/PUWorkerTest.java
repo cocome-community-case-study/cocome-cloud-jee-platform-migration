@@ -11,38 +11,37 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class PUWorkerTest {
 
-    private static class DataCollectionCallback implements IPUCallback {
+    private static class DataCollectionCallback implements IPUCallback<UUID> {
 
         private Map<Long, List<HistoryEntry>> eventList = new HashMap<>();
 
         @Override
-        public void onStart(IProductionUnit unit, PUJob job, HistoryEntry historyEntry) {
-            pushEvent(unit, job, historyEntry);
+        public void onStart(IProductionUnit unit, UUID id, HistoryEntry historyEntry) {
+            pushEvent(unit, id, historyEntry);
         }
 
         @Override
-        public void onProgress(IProductionUnit unit, PUJob job, HistoryEntry historyEntry) {
-            pushEvent(unit, job, historyEntry);
+        public void onProgress(IProductionUnit unit, UUID id, HistoryEntry historyEntry) {
+            pushEvent(unit, id, historyEntry);
         }
 
         @Override
-        public void onFinish(IProductionUnit unit, PUJob job, HistoryEntry historyEntry) {
-            pushEvent(unit, job, historyEntry);
+        public void onFinish(IProductionUnit unit, UUID id, HistoryEntry historyEntry) {
+            pushEvent(unit, id, historyEntry);
         }
 
-        private void pushEvent(IProductionUnit unit, PUJob job, HistoryEntry historyEntry) {
+        private void pushEvent(IProductionUnit unit, UUID id, HistoryEntry historyEntry) {
             if (!eventList.containsKey(unit.getId())) {
                 eventList.put(unit.getId(), new LinkedList<>());
             }
             eventList.get(unit.getId()).add(historyEntry);
         }
     }
-
-    private PUWorker worker;
 
     private DataCollectionCallback callback = new DataCollectionCallback();
 
@@ -53,20 +52,20 @@ public class PUWorkerTest {
         final IProductionUnit unit = new ProductionUnit();
         unit.setId(testId);
         final IPUInterface iface = new XPPUDouble(1000);
-        worker = new PUWorker(unit, iface, callback);
-        worker.submitJob(new PUJob(UUID.randomUUID(), Arrays.asList(
+        final PUWorker<UUID> worker = new PUWorker<>(unit, iface, callback);
+        worker.submitJob(UUID.randomUUID(), Arrays.asList(
                 XPPU.Crane_ACT_Init.getOperationId(),
-                XPPU.ACT_PushToRamp1.getOperationId())
+                XPPU.ACT_PushToRamp1.getOperationId()
         ));
-        worker.submitJob(new PUJob(UUID.randomUUID(), Arrays.asList(
+        worker.submitJob(UUID.randomUUID(), Arrays.asList(
                 XPPU.Crane_ACT_Init.getOperationId(),
-                XPPU.ACT_PushToRamp1.getOperationId())
+                XPPU.ACT_PushToRamp1.getOperationId()
         ));
         Assert.assertTrue(worker.getWorkLoad() >= 2 && worker.getWorkLoad() <= 4);
         //Does also join to the worker thread
         //The worker thread stops after its working queue has been depleted
-        this.worker.close();
-        this.worker.getThread().join();
+        worker.close();
+        worker.awaitTermination(20, TimeUnit.SECONDS);
 
         List<String> observedOperations = callback.eventList
                 .get(unit.getId())
@@ -82,15 +81,15 @@ public class PUWorkerTest {
                 .collect(Collectors.toList());
 
         Assert.assertEquals(
-                observedOperations,
                 Arrays.asList(
                         XPPU.Crane_ACT_Init.getOperationId(),
                         XPPU.ACT_PushToRamp1.getOperationId(),
                         XPPU.Crane_ACT_Init.getOperationId(),
-                        XPPU.ACT_PushToRamp1.getOperationId()));
+                        XPPU.ACT_PushToRamp1.getOperationId()),
+                observedOperations
+        );
 
         Assert.assertEquals(
-                observedActions,
                 Arrays.asList(
                         HistoryAction.BATCH_START,
                         HistoryAction.COMPLETE,
@@ -99,6 +98,7 @@ public class PUWorkerTest {
                         HistoryAction.BATCH_START,
                         HistoryAction.COMPLETE,
                         HistoryAction.COMPLETE,
-                        HistoryAction.BATCH_COMPLETE));
+                        HistoryAction.BATCH_COMPLETE),
+                observedActions);
     }
 }

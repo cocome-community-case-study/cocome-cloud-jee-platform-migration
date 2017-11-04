@@ -60,4 +60,16 @@ public class HistoryEntry {
 	public void setResultCode(int resultCode) {
 		this.resultCode = resultCode;
 	}
+
+	@Override
+	public String toString() {
+		return "HistoryEntry{" +
+				"operationId='" + operationId + '\'' +
+				", executionId='" + executionId + '\'' +
+				", resolvedOperationPath='" + resolvedOperationPath + '\'' +
+				", timestamp='" + timestamp + '\'' +
+				", action=" + action +
+				", resultCode=" + resultCode +
+				'}';
+	}
 }

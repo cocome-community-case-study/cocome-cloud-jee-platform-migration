@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Encapsulates all worker units managed by an plant server instance {@link IPlant}.
@@ -43,7 +44,7 @@ public class PUWorkerPool {
                 for (final PUWorker worker : localWorkerPool.values()) {
                     worker.close();
                     try {
-                        worker.getThread().join();
+                        worker.awaitTermination(5, TimeUnit.SECONDS);
                     } catch (InterruptedException e) {
                         LOG.error("Unable to wait for worker termination", e);
                     }

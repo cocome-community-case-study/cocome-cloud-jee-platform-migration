@@ -15,6 +15,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 /**
  * Generates the actual interface classes for access the production unit services
@@ -26,7 +27,7 @@ import java.util.Collections;
 public class PUWorkerFactory {
 
     @Inject
-    private IPUCallback eventCoordinator;
+    private IPUCallback<UUID> eventCoordinator;
 
     @Inject
     private IPlantQuery enterpriseQuery;

@@ -1,8 +1,9 @@
 package org.cocome.tradingsystem.inventory.application.plant.pu.events;
 
 import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryEntry;
-import org.cocome.tradingsystem.inventory.application.plant.pu.PUJob;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
+
+import java.util.UUID;
 
 /**
  * This event class is issued when a job on a production unit has started
@@ -20,7 +21,7 @@ public class PUJobStartedEvent extends AbstractPUJobEvent {
      * @param job            the job
      * @param historyEntry   the history object causing this event
      */
-    public PUJobStartedEvent(IProductionUnit productionUnit, PUJob job, HistoryEntry historyEntry) {
+    public PUJobStartedEvent(IProductionUnit productionUnit, UUID job, HistoryEntry historyEntry) {
         super(productionUnit, job, historyEntry);
     }
 }

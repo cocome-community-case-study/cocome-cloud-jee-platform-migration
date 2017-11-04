@@ -48,15 +48,15 @@ public class PUManager {
     }
 
     public void onJobStart(@Observes PUJobStartedEvent event) {
-        LOG.info("Job Start: " + event.getJob().getJobId());
+        LOG.info("Job Start: " + event.getJob());
     }
 
     public void onJobProgress(@Observes PUJobProgressEvent event) {
-        LOG.info("Job Progress: " + event.getJob().getJobId());
+        LOG.info("Job Progress: " + event.getJob());
     }
 
     public void onJobFinish(@Observes PUJobFinishedEvent event) {
-        LOG.info("Job Finish: %d" + event.getJob().getJobId());
+        LOG.info("Job Finish: %d" + event.getJob());
     }
 
     public void addPUToWorkerPool(final IProductionUnit unit) throws NotInDatabaseException {
