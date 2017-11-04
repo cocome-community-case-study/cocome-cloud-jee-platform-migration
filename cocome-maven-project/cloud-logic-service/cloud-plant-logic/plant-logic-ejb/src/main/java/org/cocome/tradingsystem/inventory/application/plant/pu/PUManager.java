@@ -65,10 +65,6 @@ public class PUManager {
 
     private Queue<List<IPUInstruction>> extractWorkingPackage(IPlantOperationOrderEntry orderEntry)
             throws NotInDatabaseException {
-        final List<IPUInstruction> instructionList = IExpression.evaluateList(
-                orderEntry.getPlantOperation().getExpressions(),
-                new EvaluationContext(orderEntry.getParameterValues())
-        );
         return null;
     }
 
