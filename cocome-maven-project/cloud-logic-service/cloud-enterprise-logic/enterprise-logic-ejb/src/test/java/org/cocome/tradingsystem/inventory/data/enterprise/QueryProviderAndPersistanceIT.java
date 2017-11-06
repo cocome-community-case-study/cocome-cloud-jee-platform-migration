@@ -1,38 +1,35 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
-import org.cocome.test.TestUtils;
-import org.cocome.tradingsystem.inventory.application.usermanager.credentials.CredentialFactory;
-import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredentialFactory;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.*;
 import org.cocome.tradingsystem.inventory.data.persistence.CloudPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
-import org.cocome.tradingsystem.inventory.data.plant.*;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.BooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.NorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.IPlant;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
+import org.cocome.tradingsystem.inventory.data.plant.Plant;
+import org.cocome.tradingsystem.inventory.data.plant.PlantDatatypesFactory;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitOperation;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.EnterprisePlantQueryProvider;
 import org.cocome.tradingsystem.inventory.data.store.EnterpriseStoreQueryProvider;
-import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
-import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.inventory.data.store.StoreDatatypesFactory;
-import org.cocome.tradingsystem.inventory.data.usermanager.IUserDataFactory;
 import org.cocome.tradingsystem.inventory.data.usermanager.UsermanagerDatatypesFactory;
 import org.cocome.tradingsystem.remote.access.connection.CSVBackendConnection;
 import org.cocome.tradingsystem.remote.access.connection.GetXMLFromBackend;
-import org.cocome.tradingsystem.remote.access.connection.IBackendQuery;
-import org.cocome.tradingsystem.remote.access.connection.IPersistenceConnection;
 import org.cocome.tradingsystem.remote.access.parsing.CSVHelper;
-import org.cocome.tradingsystem.remote.access.parsing.IBackendConversionHelper;
+import org.cocome.tradingsystem.util.Configuration;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.jglue.cdiunit.AdditionalClasses;
+import org.jglue.cdiunit.CdiRunner;
+import org.jglue.cdiunit.InRequestScope;
+import org.jglue.cdiunit.ejb.SupportEjb;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import javax.ejb.CreateException;
+import javax.inject.Inject;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,45 +40,33 @@ import static org.hamcrest.CoreMatchers.hasItems;
  *
  * @author Rudolf Biczok
  */
+@RunWith(CdiRunner.class)
+@SupportEjb
+@AdditionalClasses({
+        Configuration.class,
+        EnterprisePlantQueryProvider.class,
+        CloudPersistenceContext.class,
+        CSVBackendConnection.class,
+        EnterpriseQueryProvider.class,
+        CSVHelper.class,
+        GetXMLFromBackend.class,
+        EnterpriseStoreQueryProvider.class,
+        PlantDatatypesFactory.class,
+        EnterpriseDatatypesFactory.class,
+        StoreDatatypesFactory.class,
+        UsermanagerDatatypesFactory.class,
+        NorminalCustomProductParameter.class,
+        BooleanCustomProductParameter.class})
 public class QueryProviderAndPersistanceIT {
 
-    private IPersistenceContext persistenceContext = TestUtils.injectFakeCDIObject(IPersistenceContext.class,
-            createMappings());
+    @Inject
+    private IPersistenceContext persistenceContext;
 
-    private IPlantQuery plantQuery = TestUtils.injectFakeCDIObject(IPlantQuery.class,
-            createMappings());
+    @Inject
+    private IPlantQuery plantQuery;
 
-    private IEnterpriseQuery enterpriseQuery = TestUtils.injectFakeCDIObject(IEnterpriseQuery.class,
-            createMappings());
-
-    private Map<Class<?>, Class<?>> createMappings() {
-        final Map<Class<?>, Class<?>> mapping = new HashMap<>();
-        mapping.put(IPlantOperation.class, PlantOperation.class);
-        mapping.put(IPersistenceContext.class, CloudPersistenceContext.class);
-        mapping.put(IPersistenceConnection.class, CSVBackendConnection.class);
-        mapping.put(IEntryPointInteraction.class, EntryPointInteraction.class);
-        mapping.put(IParameterInteraction.class, ParameterInteraction.class);
-        mapping.put(IPlantOperationOrder.class, PlantOperationOrder.class);
-        mapping.put(IPlantOperationOrderEntry.class, PlantOperationOrderEntry.class);
-        mapping.put(IPlantOperationParameterValue.class, PlantOperationParameterValue.class);
-        mapping.put(IRecipe.class, Recipe.class);
-        mapping.put(IPlantQuery.class, EnterprisePlantQueryProvider.class);
-        mapping.put(ICustomProduct.class, CustomProduct.class);
-        mapping.put(IBooleanPlantOperationParameter.class, BooleanPlantOperationParameter.class);
-        mapping.put(INorminalPlantOperationParameter.class, NorminalPlantOperationParameter.class);
-        mapping.put(IBooleanCustomProductParameter.class, BooleanCustomProductParameter.class);
-        mapping.put(INorminalCustomProductParameter.class, NorminalCustomProductParameter.class);
-        mapping.put(ICredentialFactory.class, CredentialFactory.class);
-        mapping.put(IUserDataFactory.class, UsermanagerDatatypesFactory.class);
-        mapping.put(IPlantDataFactory.class, PlantDatatypesFactory.class);
-        mapping.put(IStoreDataFactory.class, StoreDatatypesFactory.class);
-        mapping.put(IEnterpriseDataFactory.class, EnterpriseDatatypesFactory.class);
-        mapping.put(IBackendConversionHelper.class, CSVHelper.class);
-        mapping.put(IStoreQuery.class, EnterpriseStoreQueryProvider.class);
-        mapping.put(IBackendQuery.class, GetXMLFromBackend.class);
-        mapping.put(IEnterpriseQuery.class, EnterpriseQueryProvider.class);
-        return mapping;
-    }
+    @Inject
+    private IEnterpriseQuery enterpriseQuery;
 
     @Test
     public void createAndDeleteNorminalCustomProductParameter() throws Exception {
@@ -103,6 +88,7 @@ public class QueryProviderAndPersistanceIT {
         persistenceContext.deleteEntity(prod);
     }
 
+    @InRequestScope
     @Test
     public void testCRUDForProductionUnitOperation() throws Exception {
         final ITradingEnterprise enterprise = getOrCreateEnterprise();
@@ -132,11 +118,6 @@ public class QueryProviderAndPersistanceIT {
                 .stream().map(IProductionUnitOperation::getOperationId)
                 .collect(Collectors.toSet());
 
-        for (final IProductionUnitOperation opr : plantQuery
-                .queryProductionUnitOperationsByProductionUnitClassId(puc.getId())) {
-            System.out.println(opr.getId());
-        }
-
         Assert.assertEquals(2, queriedInstances.size());
         Assert.assertThat(queriedInstances, hasItems("__OP1", "__OP2"));
 
@@ -147,6 +128,7 @@ public class QueryProviderAndPersistanceIT {
         persistenceContext.deleteEntity(enterprise);
     }
 
+    @InRequestScope
     @Test
     public void queryParametersByCustomProductID() throws Exception {
         final ICustomProduct prod = new CustomProduct();
