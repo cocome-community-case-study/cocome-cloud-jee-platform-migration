@@ -9,7 +9,6 @@ import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionU
 import javax.ejb.Singleton;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import java.util.UUID;
 
 /**
  * This class is used to generate CDI-based events out of incoming production unit callback calls
@@ -17,7 +16,7 @@ import java.util.UUID;
  * @author Rudolf Biczok
  */
 @Singleton
-public class PUEventCoordinator implements IPUCallback<UUID> {
+public class PUEventCoordinator implements IPUCallback<PlantJob> {
 
     @Inject
     private Event<PUJobStartedEvent> jobStartedEvent;
@@ -29,17 +28,17 @@ public class PUEventCoordinator implements IPUCallback<UUID> {
     private Event<PUJobFinishedEvent> jobFinishedEvent;
 
     @Override
-    public void onStart(IProductionUnit unit, UUID id, HistoryEntry historyEntry) {
-        jobStartedEvent.fire(new PUJobStartedEvent(unit, id, historyEntry));
+    public void onStart(IProductionUnit unit, PlantJob job, HistoryEntry historyEntry) {
+        jobStartedEvent.fire(new PUJobStartedEvent(unit, job, historyEntry));
     }
 
     @Override
-    public void onProgress(IProductionUnit unit, UUID id, HistoryEntry historyEntry) {
-        jobProgressEvent.fire(new PUJobProgressEvent(unit, id, historyEntry));
+    public void onProgress(IProductionUnit unit, PlantJob job, HistoryEntry historyEntry) {
+        jobProgressEvent.fire(new PUJobProgressEvent(unit, job, historyEntry));
     }
 
     @Override
-    public void onFinish(IProductionUnit unit, UUID id, HistoryEntry historyEntry) {
-        jobFinishedEvent.fire(new PUJobFinishedEvent(unit, id, historyEntry));
+    public void onFinish(IProductionUnit unit, PlantJob job, HistoryEntry historyEntry) {
+        jobFinishedEvent.fire(new PUJobFinishedEvent(unit, job, historyEntry));
     }
 }

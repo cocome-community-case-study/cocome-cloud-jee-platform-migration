@@ -6,10 +6,7 @@ import org.cocome.tradingsystem.inventory.application.usermanager.credentials.IC
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.*;
 import org.cocome.tradingsystem.inventory.data.persistence.CloudPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
-import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
-import org.cocome.tradingsystem.inventory.data.plant.Plant;
-import org.cocome.tradingsystem.inventory.data.plant.PlantDatatypesFactory;
+import org.cocome.tradingsystem.inventory.data.plant.*;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.BooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
@@ -39,14 +36,19 @@ import javax.ejb.CreateException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.CoreMatchers.hasItems;
+
 /**
- * Test unit for {@link EnterpriseQueryProvider}
+ * Test unit for query providers and {@link CloudPersistenceContext}
  *
  * @author Rudolf Biczok
  */
-public class EnterpriseQueryProviderAndPersistanceIT {
+public class QueryProviderAndPersistanceIT {
 
     private IPersistenceContext persistenceContext = TestUtils.injectFakeCDIObject(IPersistenceContext.class,
+            createMappings());
+
+    private IPlantQuery plantQuery = TestUtils.injectFakeCDIObject(IPlantQuery.class,
             createMappings());
 
     private IEnterpriseQuery enterpriseQuery = TestUtils.injectFakeCDIObject(IEnterpriseQuery.class,
@@ -63,6 +65,7 @@ public class EnterpriseQueryProviderAndPersistanceIT {
         mapping.put(IPlantOperationOrderEntry.class, PlantOperationOrderEntry.class);
         mapping.put(IPlantOperationParameterValue.class, PlantOperationParameterValue.class);
         mapping.put(IRecipe.class, Recipe.class);
+        mapping.put(IPlantQuery.class, EnterprisePlantQueryProvider.class);
         mapping.put(ICustomProduct.class, CustomProduct.class);
         mapping.put(IBooleanPlantOperationParameter.class, BooleanPlantOperationParameter.class);
         mapping.put(INorminalPlantOperationParameter.class, NorminalPlantOperationParameter.class);
@@ -123,6 +126,19 @@ public class EnterpriseQueryProviderAndPersistanceIT {
         operation2.setProductionUnitClassId(puc.getId());
         operation2.getExecutionDurationInMillis(10);
         persistenceContext.createEntity(operation2);
+
+        final Set<String> queriedInstances = plantQuery
+                .queryProductionUnitOperationsByProductionUnitClassId(puc.getId())
+                .stream().map(IProductionUnitOperation::getOperationId)
+                .collect(Collectors.toSet());
+
+        for (final IProductionUnitOperation opr : plantQuery
+                .queryProductionUnitOperationsByProductionUnitClassId(puc.getId())) {
+            System.out.println(opr.getId());
+        }
+
+        Assert.assertEquals(2, queriedInstances.size());
+        Assert.assertThat(queriedInstances, hasItems("__OP1", "__OP2"));
 
         persistenceContext.deleteEntity(operation1);
         persistenceContext.deleteEntity(operation2);

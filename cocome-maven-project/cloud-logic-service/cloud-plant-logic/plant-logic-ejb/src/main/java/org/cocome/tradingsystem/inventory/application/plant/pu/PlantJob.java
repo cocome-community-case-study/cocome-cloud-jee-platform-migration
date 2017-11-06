@@ -4,11 +4,14 @@ import org.cocome.tradingsystem.inventory.data.plant.expression.EvaluationContex
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IPUInstruction;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrderEntry;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.UUID;
 
 /**
  * Encapsulates all {@link PUWorkingPackage} to fulfill one particular plant operation order.
@@ -17,10 +20,16 @@ import java.util.List;
  */
 public class PlantJob {
 
-    private final IPlantOperationOrderEntry orderEntry;
-    private final List<PUWorkingPackage> workingPackages;
+    private final UUID uuid;
 
-    public PlantJob(final IPlantOperationOrderEntry orderEntry) throws NotInDatabaseException {
+    private final IPlantOperationOrder order;
+    private final IPlantOperationOrderEntry orderEntry;
+    private final Queue<PUWorkingPackage> workingPackages;
+
+    public PlantJob(final IPlantOperationOrder order,
+                    final IPlantOperationOrderEntry orderEntry) throws NotInDatabaseException {
+        uuid = UUID.randomUUID();
+        this.order = order;
         this.orderEntry = orderEntry;
 
         final List<IPUInstruction> instructionList = IExpression.evaluateList(
@@ -40,11 +49,31 @@ public class PlantJob {
         }
     }
 
+    /**
+     * @return the associated order
+     */
+    public IPlantOperationOrder getOrder() {
+        return order;
+    }
+
+    /**
+     * @return the unique id of this job
+     */
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    /**
+     * @return returns the associated order entry
+     */
     public IPlantOperationOrderEntry getOrderEntry() {
         return orderEntry;
     }
 
-    public List<PUWorkingPackage> getWorkingPackages() {
+    /**
+     * @return the working packages
+     */
+    public Queue<PUWorkingPackage> getWorkingPackages() {
         return workingPackages;
     }
 }

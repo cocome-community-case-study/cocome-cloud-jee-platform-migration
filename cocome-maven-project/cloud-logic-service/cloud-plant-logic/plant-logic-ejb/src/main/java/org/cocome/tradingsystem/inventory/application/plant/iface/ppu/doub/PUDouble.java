@@ -44,6 +44,9 @@ public class PUDouble implements IPUInterface {
     private long lastAccessDate = System.currentTimeMillis();
 
     public PUDouble(@NotNull final Collection<IProductionUnitOperation> operations, final long timingFactor) {
+        if (operations.isEmpty()) {
+            throw new IllegalArgumentException("Operation list cannot be empty");
+        }
         this.operations = operations.stream().collect(Collectors.toMap(
                 IProductionUnitOperation::getOperationId,
                 entry -> {
@@ -249,6 +252,10 @@ public class PUDouble implements IPUInterface {
         if (this.mode == ExecutionMode.AUTOMATIC) {
             throw new IllegalStateException("Not allowed in automatic mode");
         }
+        if (!this.operations.containsKey(operationId)) {
+            throw new IllegalArgumentException("Unknown operation: " + operationId);
+        }
+
         final String executionId = UUID.randomUUID().toString();
 
         final HistoryEntry entry = new HistoryEntry();
@@ -285,6 +292,9 @@ public class PUDouble implements IPUInterface {
         this.history.add(entry);
 
         for (final String operationId : operationIds.split(";")) {
+            if (!this.operations.containsKey(operationId)) {
+                throw new IllegalArgumentException("Unknown operation: " + operationId);
+            }
             final JobData queueEntry = new JobData();
             queueEntry.setOperationId(operationId);
             queueEntry.setExecutionId(executionId);

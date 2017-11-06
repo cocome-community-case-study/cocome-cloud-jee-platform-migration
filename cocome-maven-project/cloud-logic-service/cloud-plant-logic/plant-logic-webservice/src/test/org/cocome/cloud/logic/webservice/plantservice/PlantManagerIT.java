@@ -192,7 +192,7 @@ public class PlantManagerIT {
 
         final PlantOperationOrderEntryTO entry = new PlantOperationOrderEntryTO();
         entry.setPlantOperation(operation);
-        entry.setAmount(1);
+        entry.setAmount(2);
         entry.setParameterValues(Collections.singletonList(paramValue));
 
         operationOrder.setOrderEntries(Collections.singletonList(entry));

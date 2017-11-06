@@ -35,12 +35,12 @@ public class PUWorkerPool {
     @Inject
     private PUWorkerFactory workerFactory;
 
-    private final Map<Long, Map<Long, Map<Long, PUWorker>>> workers = new HashMap<>();
+    private final Map<Long, Map<Long, Map<Long, PUWorker<PlantJob>>>> workers = new HashMap<>();
 
     @PreDestroy
     public void shutdownWorkers() {
-        for (final Map<Long, Map<Long, PUWorker>> plantPool : workers.values()) {
-            for (final Map<Long, PUWorker> localWorkerPool : plantPool.values()) {
+        for (final Map<Long, Map<Long, PUWorker<PlantJob>>> plantPool : workers.values()) {
+            for (final Map<Long, PUWorker<PlantJob>> localWorkerPool : plantPool.values()) {
                 for (final PUWorker worker : localWorkerPool.values()) {
                     worker.close();
                     try {
@@ -54,7 +54,7 @@ public class PUWorkerPool {
         }
     }
 
-    public Collection<PUWorker> getWorkers(final IProductionUnitClass puc)
+    public Collection<PUWorker<PlantJob>> getWorkers(final IProductionUnitClass puc)
             throws NotInDatabaseException {
         checkAndInitPlantWorkers(puc.getPlant());
         return workers.get(puc.getPlant().getId()).get(puc.getId()).values();
@@ -62,7 +62,7 @@ public class PUWorkerPool {
 
     public void addWorker(final IProductionUnit unit) throws NotInDatabaseException {
         checkAndInitPlantWorkers(unit.getPlant());
-        final Map<Long, Map<Long, PUWorker>> plantWorkers = workers.get(unit.getPlant().getId());
+        final Map<Long, Map<Long, PUWorker<PlantJob>>> plantWorkers = workers.get(unit.getPlant().getId());
         if (!plantWorkers.containsKey(unit.getProductionUnitClass().getId())) {
             plantWorkers.put(unit.getProductionUnitClass().getId(), new HashMap<>());
         }

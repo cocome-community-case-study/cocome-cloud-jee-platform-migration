@@ -1,9 +1,8 @@
 package org.cocome.tradingsystem.inventory.application.plant.pu.events;
 
 import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryEntry;
+import org.cocome.tradingsystem.inventory.application.plant.pu.PlantJob;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
-
-import java.util.UUID;
 
 /**
  * This event class is issued when a job on a production unit made some progress
@@ -21,7 +20,7 @@ public class PUJobProgressEvent extends AbstractPUJobEvent {
      * @param job            the job data used for execution
      * @param historyEntry   the history object causing this event
      */
-    public PUJobProgressEvent(IProductionUnit productionUnit, UUID job, HistoryEntry historyEntry) {
+    public PUJobProgressEvent(IProductionUnit productionUnit, PlantJob job, HistoryEntry historyEntry) {
         super(productionUnit, job, historyEntry);
     }
 }

@@ -32,7 +32,6 @@ public class TestUtils {
 
     public static <T> T injectFakeCDIObject(Class<T> clazz, Map<Class<?>, Class<?>> mappings) {
         return injectFakeCDIObject(clazz, null, mappings);
-
     }
 
     private static <T> T injectFakeCDIObject(Class<T> clazz, final Field field, Map<Class<?>, Class<?>> mappings) {
@@ -67,9 +66,8 @@ public class TestUtils {
         if (ejbClass == Provider.class) {
             final ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
             @SuppressWarnings("unchecked") final Class<T> actualClass = (Class<T>) parameterizedType.getActualTypeArguments()[0];
-            T injected = injectInstance(actualClass, field, mappings);
             Provider p = Mockito.mock(Provider.class);
-            Mockito.when(p.get()).thenReturn(injected);
+            Mockito.when(p.get()).then((i) -> injectInstance(actualClass, field, mappings));
             return (T) p;
         }
         if (ejbClass == Instance.class) {

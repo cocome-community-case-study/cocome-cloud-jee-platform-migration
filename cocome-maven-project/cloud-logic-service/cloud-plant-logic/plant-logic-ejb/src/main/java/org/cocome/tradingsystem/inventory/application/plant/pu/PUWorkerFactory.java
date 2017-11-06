@@ -15,7 +15,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.UUID;
 
 /**
  * Generates the actual interface classes for access the production unit services
@@ -27,7 +26,7 @@ import java.util.UUID;
 public class PUWorkerFactory {
 
     @Inject
-    private IPUCallback<UUID> eventCoordinator;
+    private IPUCallback<PlantJob> eventCoordinator;
 
     @Inject
     private IPlantQuery enterpriseQuery;
@@ -41,16 +40,16 @@ public class PUWorkerFactory {
      * @return a brand new worker that can receive atomic production operations
      * @throws NotInDatabaseException if necessary data could not be retrieved from the database
      */
-    public PUWorker createWorker(final IProductionUnit unit) throws NotInDatabaseException {
+    public PUWorker<PlantJob> createWorker(final IProductionUnit unit) throws NotInDatabaseException {
         final IPUInterface iface = createClient(unit);
-        return new PUWorker(unit, iface, eventCoordinator);
+        return new PUWorker<>(unit, iface, eventCoordinator);
     }
 
     private IPUInterface createClient(final IProductionUnit unit) throws NotInDatabaseException {
         if (unit.isDouble()) {
             final IProductionUnitClass puc = unit.getProductionUnitClass();
             final Collection<IProductionUnitOperation> ops = enterpriseQuery
-                    .queryProductionUnitOperationsByProductionUnitClassId(puc.getPlantId());
+                    .queryProductionUnitOperationsByProductionUnitClassId(puc.getId());
             return this.createFakeClient(ops);
         }
         return createRESTClient(unit.getInterfaceUrl());

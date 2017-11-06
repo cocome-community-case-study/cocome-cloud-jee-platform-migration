@@ -1,10 +1,10 @@
 package org.cocome.tradingsystem.inventory.application.plant.pu.events;
 
 import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryEntry;
+import org.cocome.tradingsystem.inventory.application.plant.pu.PlantJob;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  * The abstract class for any event time comming from an production unit
@@ -16,7 +16,7 @@ public abstract class AbstractPUJobEvent implements Serializable {
     private static final long serialVersionUID = -1L;
 
     private final IProductionUnit productionUnit;
-    private final UUID job;
+    private final PlantJob job;
     private final HistoryEntry historyEntry;
 
     /**
@@ -27,7 +27,7 @@ public abstract class AbstractPUJobEvent implements Serializable {
      * @param historyEntry   the history object causing this event
      */
     AbstractPUJobEvent(IProductionUnit productionUnit,
-                       UUID job,
+                       PlantJob job,
                        HistoryEntry historyEntry) {
         this.productionUnit = productionUnit;
         this.job = job;
@@ -37,7 +37,7 @@ public abstract class AbstractPUJobEvent implements Serializable {
     /**
      * @return the job data
      */
-    public UUID getJob() {
+    public PlantJob getJob() {
         return job;
     }
 
