@@ -17,6 +17,7 @@ import java.util.UUID;
 @Singleton
 @LocalBean
 public class PUJobPool {
+
     private final Map<Long, Map<Long, Map<UUID, PlantJob>>> jobPool = new Hashtable<>();
 
     /**

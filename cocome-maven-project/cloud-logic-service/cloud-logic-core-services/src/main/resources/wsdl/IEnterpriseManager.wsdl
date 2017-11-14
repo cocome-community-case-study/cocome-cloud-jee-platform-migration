@@ -169,6 +169,10 @@
     <wsdl:part name="parameters" element="tns:getProductByID">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="onPlantOperationOrderFinishResponse">
+    <wsdl:part name="parameters" element="tns:onPlantOperationOrderFinishResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryPlantOperationByIdResponse">
     <wsdl:part name="parameters" element="tns:queryPlantOperationByIdResponse">
     </wsdl:part>
@@ -265,6 +269,10 @@
     <wsdl:part name="parameters" element="tns:getAllEnterpriseProductsResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="onPlantOperationOrderEntryFinishResponse">
+    <wsdl:part name="parameters" element="tns:onPlantOperationOrderEntryFinishResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createEnterprise">
     <wsdl:part name="parameters" element="tns:createEnterprise">
     </wsdl:part>
@@ -277,8 +285,16 @@
     <wsdl:part name="parameters" element="tns:getProductsBySupplier">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="onPlantOperationOrderEntryFinish">
+    <wsdl:part name="parameters" element="tns:onPlantOperationOrderEntryFinish">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="updateStore">
     <wsdl:part name="parameters" element="tns:updateStore">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="onPlantOperationFinishResponse">
+    <wsdl:part name="parameters" element="tns:onPlantOperationFinishResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllProducts">
@@ -311,6 +327,10 @@
   </wsdl:message>
   <wsdl:message name="deleteEntryPointInteraction">
     <wsdl:part name="parameters" element="tns:deleteEntryPointInteraction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="onPlantOperationOrderFinish">
+    <wsdl:part name="parameters" element="tns:onPlantOperationOrderFinish">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createEnterpriseResponse">
@@ -467,6 +487,10 @@
   </wsdl:message>
   <wsdl:message name="deleteParameterInteractionResponse">
     <wsdl:part name="parameters" element="tns:deleteParameterInteractionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="onPlantOperationFinish">
+    <wsdl:part name="parameters" element="tns:onPlantOperationFinish">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteNorminalCustomProductParameterResponse">
@@ -852,6 +876,12 @@
       <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="onPlantOperationFinish">
+      <wsdl:input name="onPlantOperationFinish" message="tns:onPlantOperationFinish">
+    </wsdl:input>
+      <wsdl:output name="onPlantOperationFinishResponse" message="tns:onPlantOperationFinishResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getProductByBarcode">
       <wsdl:input name="getProductByBarcode" message="tns:getProductByBarcode">
     </wsdl:input>
@@ -1174,6 +1204,12 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="onPlantOperationOrderEntryFinish">
+      <wsdl:input name="onPlantOperationOrderEntryFinish" message="tns:onPlantOperationOrderEntryFinish">
+    </wsdl:input>
+      <wsdl:output name="onPlantOperationOrderEntryFinishResponse" message="tns:onPlantOperationOrderEntryFinishResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="updateStore">
       <wsdl:input name="updateStore" message="tns:updateStore">
     </wsdl:input>
@@ -1257,6 +1293,12 @@
     </wsdl:fault>
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="onPlantOperationOrderFinish">
+      <wsdl:input name="onPlantOperationOrderFinish" message="tns:onPlantOperationOrderFinish">
+    </wsdl:input>
+      <wsdl:output name="onPlantOperationOrderFinishResponse" message="tns:onPlantOperationOrderFinishResponse">
+    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="queryNorminalPlantOperationParameterById">
       <wsdl:input name="queryNorminalPlantOperationParameterById" message="tns:queryNorminalPlantOperationParameterById">
@@ -1625,6 +1667,15 @@
       <wsdl:fault name="CreateException">
         <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="onPlantOperationFinish">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="onPlantOperationFinish">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="onPlantOperationFinishResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getProductByBarcode">
       <soap:operation soapAction="" style="document"/>
@@ -2109,6 +2160,15 @@
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="onPlantOperationOrderEntryFinish">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="onPlantOperationOrderEntryFinish">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="onPlantOperationOrderEntryFinishResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="updateStore">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="updateStore">
@@ -2234,6 +2294,15 @@
       <wsdl:fault name="UpdateException">
         <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="onPlantOperationOrderFinish">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="onPlantOperationOrderFinish">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="onPlantOperationOrderFinishResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="queryNorminalPlantOperationParameterById">
       <soap:operation soapAction="" style="document"/>

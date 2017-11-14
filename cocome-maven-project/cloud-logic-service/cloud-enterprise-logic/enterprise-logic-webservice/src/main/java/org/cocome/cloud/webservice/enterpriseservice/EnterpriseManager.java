@@ -69,7 +69,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * This class is shit
+ * The enterprise service implementation
  *
  * @author Rudolf Biczok
  * @author Tobias Pöppke
@@ -916,6 +916,24 @@ public class EnterpriseManager implements IEnterpriseManager {
         final IRecipe param = saveFetchFromDB(() ->
                 enterpriseQuery.queryRecipeByID(recipeTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+    }
+
+    @Override
+    public void onPlantOperationFinish(long plantOperationOrderEntryId) {
+        LOG.info("Finished plant operation for order entry: " + plantOperationOrderEntryId);
+        //TODO
+    }
+
+    @Override
+    public void onPlantOperationOrderFinish(long plantOperationOrderId) {
+        LOG.info("onPlantOperationOrderFinish " + plantOperationOrderId);
+        //TODO
+    }
+
+    @Override
+    public void onPlantOperationOrderEntryFinish(long plantOperationOrderEntryId) {
+        LOG.info("Finished  " + plantOperationOrderEntryId);
+        //TODO
     }
 
     private ICustomProduct queryCustomProduct(CustomProductTO customProductTO)

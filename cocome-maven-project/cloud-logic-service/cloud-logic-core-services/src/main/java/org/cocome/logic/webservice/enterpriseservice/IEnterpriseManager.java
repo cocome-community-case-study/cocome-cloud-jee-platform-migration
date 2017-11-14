@@ -684,13 +684,46 @@ public interface IEnterpriseManager {
                     RecipeTO recipeTO)
             throws UpdateException, NotInDatabaseException;
 
+    /* Plant Operation callbacks **************/
+
+    /**
+     * Informs the enterprise manager that one single plant operation has finished
+     *
+     * @param plantOperationOrderEntryId the id fo the associated plant order entry
+     */
+    @WebMethod
+    void onPlantOperationFinish(
+            @XmlElement(required = true)
+            @WebParam(name = "plantOperationOrderEntryID") final long plantOperationOrderEntryId);
+
+
+    /**
+     * Informs the enterprise manager that a plant operation order has finished
+     *
+     * @param plantOperationOrderId the id fo the associated plant order
+     */
+    @WebMethod
+    void onPlantOperationOrderFinish(
+            @XmlElement(required = true)
+            @WebParam(name = "plantOperationOrderID") final long plantOperationOrderId);
+
+    /**
+     * Informs the enterprise manager that the entry of an plant operation order has finished
+     *
+     * @param plantOperationOrderId the id fo the associated plant order
+     */
+    @WebMethod
+    void onPlantOperationOrderEntryFinish(
+            @XmlElement(required = true)
+            @WebParam(name = "plantOperationOrderEntryID") final long plantOperationOrderEntryId);
+
     /* Other Methods **************/
 
     /**
      * @param supplier   The supplier which delivers the products
      * @param enterprise The enterprise for which the products are delivered
      * @return The mean time to delivery in milliseconds
-     * @throws NotInDatabaseException
+     * @throws NotInDatabaseException if enterprise or supplier is not preseint in the database
      */
     @WebMethod
     long getMeanTimeToDelivery(

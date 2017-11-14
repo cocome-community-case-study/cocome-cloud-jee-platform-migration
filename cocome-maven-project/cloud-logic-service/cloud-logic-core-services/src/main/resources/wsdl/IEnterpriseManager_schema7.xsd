@@ -96,6 +96,12 @@
   <xs:element name="getProductsBySupplierResponse" type="tns:getProductsBySupplierResponse"/>
   <xs:element name="getSupplierByID" type="tns:getSupplierByID"/>
   <xs:element name="getSupplierByIDResponse" type="tns:getSupplierByIDResponse"/>
+  <xs:element name="onPlantOperationFinish" type="tns:onPlantOperationFinish"/>
+  <xs:element name="onPlantOperationFinishResponse" type="tns:onPlantOperationFinishResponse"/>
+  <xs:element name="onPlantOperationOrderEntryFinish" type="tns:onPlantOperationOrderEntryFinish"/>
+  <xs:element name="onPlantOperationOrderEntryFinishResponse" type="tns:onPlantOperationOrderEntryFinishResponse"/>
+  <xs:element name="onPlantOperationOrderFinish" type="tns:onPlantOperationOrderFinish"/>
+  <xs:element name="onPlantOperationOrderFinishResponse" type="tns:onPlantOperationOrderFinishResponse"/>
   <xs:element name="queryBooleanCustomProductParameterById" type="tns:queryBooleanCustomProductParameterById"/>
   <xs:element name="queryBooleanCustomProductParameterByIdResponse" type="tns:queryBooleanCustomProductParameterByIdResponse"/>
   <xs:element name="queryBooleanPlantOperationParameterById" type="tns:queryBooleanPlantOperationParameterById"/>
@@ -418,6 +424,14 @@
     <xs:sequence>
       <xs:element name="return" type="xs:long"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onPlantOperationFinish">
+    <xs:sequence>
+      <xs:element name="plantOperationOrderEntryID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onPlantOperationFinishResponse">
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="getProductByBarcode">
     <xs:sequence>
@@ -765,6 +779,14 @@
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns5:ProductTO"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="onPlantOperationOrderEntryFinish">
+    <xs:sequence>
+      <xs:element name="plantOperationOrderEntryID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onPlantOperationOrderEntryFinishResponse">
+    <xs:sequence/>
+  </xs:complexType>
   <xs:complexType name="updateStore">
     <xs:sequence>
       <xs:element name="storeTO" type="ns5:StoreWithEnterpriseTO"/>
@@ -857,6 +879,14 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="deleteEntryPointInteractionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="onPlantOperationOrderFinish">
+    <xs:sequence>
+      <xs:element name="plantOperationOrderID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onPlantOperationOrderFinishResponse">
     <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="queryNorminalPlantOperationParameterById">

@@ -1,5 +1,6 @@
 package org.cocome.tradingsystem.inventory.application.plant.pu;
 
+import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.tradingsystem.inventory.data.plant.expression.EvaluationContext;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IPUInstruction;
@@ -22,13 +23,20 @@ public class PlantJob {
 
     private final UUID uuid;
 
+    public IEnterpriseManager getEnterpriseManager() {
+        return enterpriseManager;
+    }
+
+    private final IEnterpriseManager enterpriseManager;
     private final IPlantOperationOrder order;
     private final IPlantOperationOrderEntry orderEntry;
     private final Queue<PUWorkingPackage> workingPackages;
 
-    public PlantJob(final IPlantOperationOrder order,
+    public PlantJob(final IEnterpriseManager enterpriseManager,
+                    final IPlantOperationOrder order,
                     final IPlantOperationOrderEntry orderEntry) throws NotInDatabaseException {
-        uuid = UUID.randomUUID();
+        this.uuid = UUID.randomUUID();
+        this.enterpriseManager = enterpriseManager;
         this.order = order;
         this.orderEntry = orderEntry;
 

@@ -1,13 +1,9 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
-import org.cocome.cloud.logic.registry.client.IApplicationHelper;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
-import org.cocome.cloud.logic.stub.IEnterpriseManagerService;
-import org.cocome.cloud.logic.stub.NotBoundException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
-import org.cocome.cloud.registry.service.Names;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
@@ -33,8 +29,6 @@ import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.inject.Inject;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -54,7 +48,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     private long defaultEnterpriseIndex;
 
     @Inject
-    private IApplicationHelper applicationHelper;
+    private EnterpriseClientFactory enterpriseClientFactory;
 
     @Inject
     private IEnterpriseDataFactory enterpriseFactory;
@@ -65,42 +59,9 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     @Inject
     private IStoreDataFactory storeFactory;
 
-    private IEnterpriseManager lookupEnterpriseManager(long enterpriseID) throws NotInDatabaseException {
-        IEnterpriseManagerService enterpriseService;
-        try {
-            enterpriseService = applicationHelper.getComponent(Names.getEnterpriseManagerRegistryName(enterpriseID),
-                    IEnterpriseManagerService.SERVICE, IEnterpriseManagerService.class);
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | MalformedURLException | NoSuchMethodException | SecurityException | NotBoundException_Exception e) {
-            if (enterpriseID == defaultEnterpriseIndex) {
-                throw new NotInDatabaseException(
-                        "Exception occured while retrieving the enterprise service: " + e.getMessage());
-            } else {
-                LOG.info("Looking up default enterprise server because there was none registered for id "
-                        + enterpriseID);
-                return lookupEnterpriseManager(defaultEnterpriseIndex);
-            }
-        }
-        return enterpriseService.getIEnterpriseManagerPort();
-    }
-
-    private IEnterpriseManager lookupEnterpriseManager(String enterpriseName) throws NotInDatabaseException {
-        IEnterpriseManagerService enterpriseService;
-        try {
-            enterpriseService = applicationHelper.getComponent(Names.getEnterpriseManagerRegistryName(enterpriseName),
-                    IEnterpriseManagerService.SERVICE, IEnterpriseManagerService.class);
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | MalformedURLException | NoSuchMethodException | SecurityException | NotBoundException_Exception e) {
-            LOG.info("Looking up default enterprise server because there was none registered for name "
-                    + enterpriseName);
-            return lookupEnterpriseManager(defaultEnterpriseIndex);
-        }
-        return enterpriseService.getIEnterpriseManagerPort();
-    }
-
     @Override
     public ITradingEnterprise queryEnterpriseById(long enterpriseID) throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
+        IEnterpriseManager enterpriseManager = enterpriseClientFactory.createClient(enterpriseID);
 
         try {
             return enterpriseFactory.convertToEnterprise(enterpriseManager.queryEnterpriseById(enterpriseID));
@@ -114,7 +75,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         IEnterpriseManager enterpriseManager;
         List<StoreWithEnterpriseTO> storeTOList;
         try {
-            enterpriseManager = lookupEnterpriseManager(enterpriseID);
+            enterpriseManager = enterpriseClientFactory.createClient(enterpriseID);
             storeTOList = enterpriseManager.queryStoresByEnterpriseID(enterpriseID);
         } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
             LOG.error("Got error while looking up stores by enterprise: " + e.getMessage());
@@ -131,7 +92,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public IStore queryStoreByEnterprise(long enterpriseID, long storeID) throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
+        IEnterpriseManager enterpriseManager = enterpriseClientFactory.createClient(enterpriseID);
         try {
             return storeFactory.convertToStore(enterpriseManager.queryStoreByEnterpriseID(enterpriseID, storeID));
         } catch (NotInDatabaseException_Exception e) {
@@ -141,7 +102,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public ITradingEnterprise queryEnterpriseByName(String enterpriseName) throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseName);
+        IEnterpriseManager enterpriseManager = enterpriseClientFactory.createClient(enterpriseName);
         try {
             EnterpriseTO enterprise = enterpriseManager.queryEnterpriseByName(enterpriseName);
             return enterpriseFactory.convertToEnterprise(enterprise);
@@ -154,7 +115,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     public long getMeanTimeToDelivery(IProductSupplier supplier, ITradingEnterprise enterprise) {
         IEnterpriseManager enterpriseManager;
         try {
-            enterpriseManager = lookupEnterpriseManager(enterprise.getId());
+            enterpriseManager = enterpriseClientFactory.createClient(enterprise.getId());
         } catch (NotInDatabaseException e) {
             LOG.error("Error retrieving enterprise manager: " + e.getMessage());
             return 0;
@@ -193,7 +154,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     @Override
     public IProduct queryProductByID(long productID) throws NotInDatabaseException {
         IEnterpriseManager enterpriseManager;
-        enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+        enterpriseManager = enterpriseClientFactory.createClient(defaultEnterpriseIndex);
         try {
             return enterpriseFactory.convertToProduct(enterpriseManager.getProductByID(productID));
         } catch (NotInDatabaseException_Exception e) {
@@ -204,7 +165,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     @Override
     public IProduct queryProductByBarcode(long productBarcode) throws NotInDatabaseException {
         IEnterpriseManager enterpriseManager;
-        enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+        enterpriseManager = enterpriseClientFactory.createClient(defaultEnterpriseIndex);
         try {
             return enterpriseFactory.convertToProduct(enterpriseManager.getProductByBarcode(productBarcode));
         } catch (NotInDatabaseException_Exception e) {
@@ -217,7 +178,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         IEnterpriseManager enterpriseManager;
         List<SupplierTO> supplierTOList;
         try {
-            enterpriseManager = lookupEnterpriseManager(enterpriseID);
+            enterpriseManager = enterpriseClientFactory.createClient(enterpriseID);
             supplierTOList = enterpriseManager.querySuppliers(enterpriseID);
         } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
             LOG.error("Got error while looking up stores by enterprise: " + e.getMessage());
@@ -235,7 +196,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     @Override
     public IProductSupplier querySupplierByID(long supplierID) throws NotInDatabaseException {
         IEnterpriseManager enterpriseManager;
-        enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+        enterpriseManager = enterpriseClientFactory.createClient(defaultEnterpriseIndex);
         try {
             return enterpriseFactory.convertToSupplier(enterpriseManager.getSupplierByID(supplierID));
         } catch (NotInDatabaseException_Exception e) {
@@ -247,7 +208,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     public IProductSupplier querySupplierForProduct(long enterpriseID, long productBarcode)
             throws NotInDatabaseException {
         IEnterpriseManager enterpriseManager;
-        enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+        enterpriseManager = enterpriseClientFactory.createClient(defaultEnterpriseIndex);
         try {
             return enterpriseFactory
                     .convertToSupplier(enterpriseManager.querySupplierForProduct(enterpriseID, productBarcode));
@@ -262,7 +223,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         IEnterpriseManager enterpriseManager;
         List<ProductTO> productTOList;
         try {
-            enterpriseManager = lookupEnterpriseManager(enterpriseID);
+            enterpriseManager = enterpriseClientFactory.createClient(enterpriseID);
             productTOList = enterpriseManager.getProductsBySupplier(enterpriseID, productSupplierID);
         } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
             LOG.error("Got error while looking up stores by enterprise: " + e.getMessage());
@@ -282,7 +243,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         IEnterpriseManager enterpriseManager;
         List<EnterpriseTO> enterpriseTOList;
         try {
-            enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+            enterpriseManager = enterpriseClientFactory.createClient(defaultEnterpriseIndex);
             enterpriseTOList = enterpriseManager.getEnterprises();
         } catch (NotInDatabaseException e) {
             LOG.error("Got error while looking up stores by enterprise: " + e.getMessage());
@@ -303,7 +264,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         List<PlantTO> plantTOList;
 
         try {
-            enterpriseManager = lookupEnterpriseManager(enterpriseID);
+            enterpriseManager = enterpriseClientFactory.createClient(enterpriseID);
             plantTOList = enterpriseManager.queryPlantByName(enterpriseID, plantName);
         } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
             LOG.error("Got error while looking up plants by name: " + e.getMessage());
@@ -380,7 +341,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         IEnterpriseManager enterpriseManager;
         final List<CustomProductParameterTO> toList;
         try {
-            enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+            enterpriseManager = enterpriseClientFactory.createClient(defaultEnterpriseIndex);
             toList = enterpriseManager.queryParametersByCustomProductID(customProductId);
         } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
             LOG.error("Got error while looking up plants by enterprise: " + e.getMessage(), e);
@@ -416,7 +377,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         IEnterpriseManager enterpriseManager;
         final List<PlantOperationParameterTO> toList;
         try {
-            enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+            enterpriseManager = enterpriseClientFactory.createClient(defaultEnterpriseIndex);
             toList = enterpriseManager.queryParametersByPlantOperationID(plantOperationId);
         } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
             LOG.error("Got error while looking up plants by enterprise: " + e.getMessage(), e);
@@ -517,7 +478,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         List<StoreWithEnterpriseTO> storeTOList;
 
         try {
-            enterpriseManager = lookupEnterpriseManager(enterpriseID);
+            enterpriseManager = enterpriseClientFactory.createClient(enterpriseID);
             storeTOList = enterpriseManager.queryStoreByName(enterpriseID, storeName);
         } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
             LOG.error("Got error while looking up stores by name: " + e.getMessage());
@@ -536,7 +497,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
                                     final ThrowingFunction<
                                             IEnterpriseManager, T, NotInDatabaseException_Exception> queryFunction)
             throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager = lookupEnterpriseManager(enterpriseID);
+        IEnterpriseManager enterpriseManager = enterpriseClientFactory.createClient(enterpriseID);
         try {
             return queryFunction.apply(enterpriseManager);
         } catch (NotInDatabaseException_Exception e) {
@@ -550,7 +511,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         IEnterpriseManager enterpriseManager;
         Collection<T2> toList;
         try {
-            enterpriseManager = lookupEnterpriseManager(enterpriseID);
+            enterpriseManager = enterpriseClientFactory.createClient(enterpriseID);
             toList = supplier.apply(enterpriseManager);
         } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
             LOG.error("Got error while looking up plants by enterprise: " + e.getMessage(), e);

@@ -1,10 +1,12 @@
 package org.cocome.tradingsystem.inventory.application.plant.pu;
 
 import org.apache.log4j.Logger;
+import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.webservice.StreamUtil;
 import org.cocome.tradingsystem.inventory.application.plant.pu.events.PUJobFinishedEvent;
 import org.cocome.tradingsystem.inventory.application.plant.pu.events.PUJobProgressEvent;
 import org.cocome.tradingsystem.inventory.application.plant.pu.events.PUJobStartedEvent;
+import org.cocome.tradingsystem.inventory.data.enterprise.EnterpriseClientFactory;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrderEntry;
@@ -29,6 +31,9 @@ public class PUManager {
     private static final Logger LOG = Logger.getLogger(PUManager.class);
 
     @Inject
+    private EnterpriseClientFactory enterpriseClientFactory;
+
+    @Inject
     private PUWorkerPool workerPool;
 
     @Inject
@@ -37,7 +42,9 @@ public class PUManager {
     public void submitOrder(final IPlantOperationOrder order) throws NotInDatabaseException {
         for (final IPlantOperationOrderEntry orderEntry : order.getOrderEntries()) {
             for (int i = 0; i < orderEntry.getAmount(); i++) {
-                final PlantJob job = new PlantJob(order, orderEntry);
+                final IEnterpriseManager enterpriseManager = enterpriseClientFactory.createClient(
+                        order.getEnterprise().getId());
+                final PlantJob job = new PlantJob(enterpriseManager, order, orderEntry);
                 jobPool.addJob(job);
                 processJob(job);
             }
@@ -70,14 +77,15 @@ public class PUManager {
         if (job.getWorkingPackages().isEmpty()) {
             jobPool.removeJob(job);
             LOG.info("Job finished: " + job.getUUID());
-            //TODO: Signal finished job
+
+            job.getEnterpriseManager().onPlantOperationFinish(job.getOrderEntry().getId());
             if (!jobPool.hasJobs(job.getOrder(), job.getOrderEntry())) {
                 LOG.info("Order entry finished: " + job.getOrderEntry());
-                //TODO: Signal finished order entry
+                job.getEnterpriseManager().onPlantOperationOrderEntryFinish(job.getOrderEntry().getId());
             }
             if (!jobPool.hasJobs(job.getOrder())) {
                 LOG.info("Order finished: " + job.getOrderEntry());
-                //TODO: Signal finished order
+                job.getEnterpriseManager().onPlantOperationOrderFinish(job.getOrder().getId());
             }
             return;
         }
