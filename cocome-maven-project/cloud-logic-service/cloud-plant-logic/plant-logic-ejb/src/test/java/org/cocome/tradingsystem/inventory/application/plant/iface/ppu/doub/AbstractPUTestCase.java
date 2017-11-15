@@ -38,7 +38,7 @@ public abstract class AbstractPUTestCase {
         final List<OperationEntry> opts = ppuDevice.getOperations();
         // Then
         Assert.assertNotNull("Result is not null", opts);
-        Assert.assertEquals("Result has N elements", 16, opts.size());
+        Assert.assertEquals("Result has N elements", 15, opts.size());
         Assert.assertTrue("0th result element has valid name", opts.get(0).getName().contains("ACT"));
     }
 

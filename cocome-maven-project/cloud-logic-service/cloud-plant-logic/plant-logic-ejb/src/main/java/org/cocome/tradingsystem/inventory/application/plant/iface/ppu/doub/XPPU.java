@@ -22,8 +22,6 @@ public enum XPPU implements PUCOperationMeta {
     Stamp_ACT_Init("_1_2_1_P3_O1", 1),
     Stamp_ACT_Stamp("_1_2_1_P3_O2", 1),
     Stack_ACT_Init("_1_2_1_P4_O1", 1),
-    //TODO Whats its name????!!!!!
-    Stack_ACT_Unknown_Name("_UNKNOWN", 1),
     Stack_ACT_ProvideWP("_1_2_1_P4_O2", 2);
 
     private String operationId;
