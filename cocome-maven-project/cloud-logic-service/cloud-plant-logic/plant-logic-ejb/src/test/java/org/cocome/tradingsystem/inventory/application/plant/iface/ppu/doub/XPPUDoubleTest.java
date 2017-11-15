@@ -10,7 +10,7 @@ import org.junit.BeforeClass;
 public class XPPUDoubleTest extends AbstractPUTestCase {
 
     @BeforeClass
-    public static void ensureManualMode() {
+    public static void initDouble() {
         ppuDevice = new XPPUDouble(100);
     }
 
