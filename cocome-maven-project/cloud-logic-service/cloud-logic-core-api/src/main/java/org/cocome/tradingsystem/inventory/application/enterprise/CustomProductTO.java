@@ -37,5 +37,4 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CustomProductTO extends ProductTO {
     private static final long serialVersionUID = 5315366349773650L;
-
 }

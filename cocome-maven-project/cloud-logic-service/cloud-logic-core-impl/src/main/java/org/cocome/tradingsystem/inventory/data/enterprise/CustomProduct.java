@@ -26,6 +26,6 @@ import javax.enterprise.context.Dependent;
  * @author Rudolf Biczok
  */
 @Dependent
-public class CustomProduct extends AbstractProduct implements ICustomProduct {
+public class CustomProduct extends Product implements ICustomProduct {
     private static final long serialVersionUID = 1L;
 }

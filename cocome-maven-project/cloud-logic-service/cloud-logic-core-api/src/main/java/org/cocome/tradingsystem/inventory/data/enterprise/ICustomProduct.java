@@ -23,6 +23,6 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
  *
  * @author Rudolf Biczok
  */
-public interface ICustomProduct extends IAbstractProduct {
+public interface ICustomProduct extends IProduct {
 
 }

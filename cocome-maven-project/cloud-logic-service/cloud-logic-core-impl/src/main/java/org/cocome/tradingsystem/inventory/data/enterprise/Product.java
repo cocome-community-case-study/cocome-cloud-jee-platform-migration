@@ -27,6 +27,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import java.io.Serializable;
 
 /**
  * This class represents a Product in the database
@@ -35,8 +36,16 @@ import javax.inject.Inject;
  * @author Tobias Pöppke
  */
 @Dependent
-public class Product extends AbstractProduct implements IProduct {
+public class Product implements Serializable, IProduct {
     private static final long serialVersionUID = -2577328715744776645L;
+
+    private long id;
+
+    private long barcode;
+
+    private double purchasePrice;
+
+    private String name;
 
     private IProductSupplier supplier;
 
@@ -54,6 +63,46 @@ public class Product extends AbstractProduct implements IProduct {
     @PostConstruct
     private void initProduct() {
         enterpriseQuery = enterpriseQueryInstance.get();
+    }
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public long getBarcode() {
+        return barcode;
+    }
+
+    @Override
+    public void setBarcode(long barcode) {
+        this.barcode = barcode;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public double getPurchasePrice() {
+        return purchasePrice;
+    }
+
+    @Override
+    public void setPurchasePrice(double purchasePrice) {
+        this.purchasePrice = purchasePrice;
     }
 
     @Override
