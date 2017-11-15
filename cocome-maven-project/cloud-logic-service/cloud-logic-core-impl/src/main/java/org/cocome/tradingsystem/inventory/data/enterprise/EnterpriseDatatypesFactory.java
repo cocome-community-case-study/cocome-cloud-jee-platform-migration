@@ -31,7 +31,7 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     @Inject
     private Provider<Plant> plantProvider;
 
-    @Inject
+    @Inject @RegularProduct
     private Provider<Product> productProvider;
 
     @Inject

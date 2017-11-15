@@ -35,6 +35,7 @@ import java.io.Serializable;
  * @author Yannick Welsch
  * @author Tobias Pöppke
  */
+@RegularProduct
 @Dependent
 public class Product implements Serializable, IProduct {
     private static final long serialVersionUID = -2577328715744776645L;
