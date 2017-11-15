@@ -279,15 +279,11 @@ public class PlantManager implements IPlantManager {
     @Override
     public void orderOperation(final PlantOperationOrderTO plantOperationOrderTO)
             throws NotInDatabaseException, CreateException {
-        try {
-            checkOrder(plantOperationOrderTO);
-            final IPlantOperationOrder order = plantFactory.convertToPlantOperationOrder(plantOperationOrderTO);
-            order.setOrderingDate(new Date());
-            persistOrder(order);
-            puManager.submitOrder(order);
-        } catch (Exception ex) {
-            throw new CreateException(exceptionToString(ex));
-        }
+        checkOrder(plantOperationOrderTO);
+        final IPlantOperationOrder order = plantFactory.convertToPlantOperationOrder(plantOperationOrderTO);
+        order.setOrderingDate(new Date());
+        persistOrder(order);
+        puManager.submitOrder(order);
     }
 
     private void persistOrder(IPlantOperationOrder order) throws CreateException {
