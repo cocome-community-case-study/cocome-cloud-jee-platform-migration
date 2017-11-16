@@ -20,7 +20,6 @@ package org.cocome.tradingsystem.inventory.data.persistence;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
-import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
@@ -276,6 +275,13 @@ public class CloudPersistenceContext implements IPersistenceContext {
     }
 
     @Override
+    public void deleteEntity(IProduct product) throws UpdateException {
+        deleteEntity("Product",
+                ServiceAdapterEntityConverter.getProductContent(product),
+                ServiceAdapterHeaders.PRODUCT_HEADER);
+    }
+
+    @Override
     public void createEntity(IUser user) throws CreateException {
         String content = ServiceAdapterEntityConverter.getUserContent(user);
         try {
@@ -408,28 +414,6 @@ public class CloudPersistenceContext implements IPersistenceContext {
         deleteEntity("ProductionUnitClass",
                 ServiceAdapterEntityConverter.getUpdateProductionUnitClassContent(puc),
                 ServiceAdapterHeaders.PRODUCTIONUNITCLASS_UPDATE_HEADER);
-    }
-
-    @Override
-    public void createEntity(ICustomProduct customProduct) throws CreateException {
-        createEntity(customProduct,
-                "CustomProduct",
-                ServiceAdapterEntityConverter.getCreateCustomProductContent(customProduct),
-                ServiceAdapterHeaders.CUSTOMPRODUCT_CREATE_HEADER);
-    }
-
-    @Override
-    public void updateEntity(ICustomProduct customProduct) throws UpdateException {
-        updateEntity("CustomProduct",
-                ServiceAdapterEntityConverter.getUpdateCustomProductContent(customProduct),
-                ServiceAdapterHeaders.CUSTOMPRODUCT_UPDATE_HEADER);
-    }
-
-    @Override
-    public void deleteEntity(ICustomProduct customProduct) throws UpdateException {
-        deleteEntity("CustomProduct",
-                ServiceAdapterEntityConverter.getUpdateCustomProductContent(customProduct),
-                ServiceAdapterHeaders.CUSTOMPRODUCT_UPDATE_HEADER);
     }
 
     @Override
@@ -784,7 +768,7 @@ public class CloudPersistenceContext implements IPersistenceContext {
 
         if (!postData.getResponse().contains("SUCCESS")) {
             final String errorMessage = extractErrorMessage(postData.getResponse());
-            if(errorMessage != null) {
+            if (errorMessage != null) {
                 throw new CreateException(errorMessage);
             }
             throw new CreateException("Could not create entity: Unknown error");

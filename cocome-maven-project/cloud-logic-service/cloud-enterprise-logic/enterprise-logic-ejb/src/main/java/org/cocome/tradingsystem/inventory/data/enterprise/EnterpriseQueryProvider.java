@@ -79,7 +79,11 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public Collection<ICustomProduct> queryAllCustomProducts() {
-        return csvHelper.getCustomProducts(backendConnection.getCustomProducts("name=LIKE%20'*'"));
+        return csvHelper.getProducts(backendConnection.getProducts("name=LIKE%20'*'"))
+                .stream()
+                .filter(e -> e instanceof ICustomProduct)
+                .map(e -> (ICustomProduct) e)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -164,12 +168,20 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public ICustomProduct queryCustomProductByID(long productID) throws NotInDatabaseException {
-        return getSingleEntity(csvHelper::getCustomProducts, "CustomProduct", productID);
+        final IProduct product = queryProductByID(productID);
+        if (product instanceof ICustomProduct) {
+            return (ICustomProduct) product;
+        }
+        throw new NotInDatabaseException("No custom product with ID = " + productID);
     }
 
     @Override
     public ICustomProduct queryCustomProductByBarcode(long productBarcode) throws NotInDatabaseException {
-        return getSingleEntity(csvHelper::getCustomProducts, "CustomProduct", "barcode==" + productBarcode);
+        final IProduct product = queryProductByBarcode(productBarcode);
+        if (product instanceof ICustomProduct) {
+            return (ICustomProduct) product;
+        }
+        throw new NotInDatabaseException("No custom product with barcode = " + productBarcode);
     }
 
     @Override

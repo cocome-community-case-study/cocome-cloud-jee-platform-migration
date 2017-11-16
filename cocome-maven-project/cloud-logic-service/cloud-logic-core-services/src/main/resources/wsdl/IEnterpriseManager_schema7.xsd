@@ -30,8 +30,6 @@
   <xs:element name="createBooleanCustomProductParameterResponse" type="tns:createBooleanCustomProductParameterResponse"/>
   <xs:element name="createBooleanPlantOperationParameter" type="tns:createBooleanPlantOperationParameter"/>
   <xs:element name="createBooleanPlantOperationParameterResponse" type="tns:createBooleanPlantOperationParameterResponse"/>
-  <xs:element name="createCustomProduct" type="tns:createCustomProduct"/>
-  <xs:element name="createCustomProductResponse" type="tns:createCustomProductResponse"/>
   <xs:element name="createEnterprise" type="tns:createEnterprise"/>
   <xs:element name="createEnterpriseResponse" type="tns:createEnterpriseResponse"/>
   <xs:element name="createEntryPoint" type="tns:createEntryPoint"/>
@@ -58,8 +56,6 @@
   <xs:element name="deleteBooleanCustomProductParameterResponse" type="tns:deleteBooleanCustomProductParameterResponse"/>
   <xs:element name="deleteBooleanPlantOperationParameter" type="tns:deleteBooleanPlantOperationParameter"/>
   <xs:element name="deleteBooleanPlantOperationParameterResponse" type="tns:deleteBooleanPlantOperationParameterResponse"/>
-  <xs:element name="deleteCustomProduct" type="tns:deleteCustomProduct"/>
-  <xs:element name="deleteCustomProductResponse" type="tns:deleteCustomProductResponse"/>
   <xs:element name="deleteEnterprise" type="tns:deleteEnterprise"/>
   <xs:element name="deleteEnterpriseResponse" type="tns:deleteEnterpriseResponse"/>
   <xs:element name="deleteEntryPoint" type="tns:deleteEntryPoint"/>
@@ -76,6 +72,8 @@
   <xs:element name="deletePlantOperation" type="tns:deletePlantOperation"/>
   <xs:element name="deletePlantOperationResponse" type="tns:deletePlantOperationResponse"/>
   <xs:element name="deletePlantResponse" type="tns:deletePlantResponse"/>
+  <xs:element name="deleteProduct" type="tns:deleteProduct"/>
+  <xs:element name="deleteProductResponse" type="tns:deleteProductResponse"/>
   <xs:element name="deleteRecipe" type="tns:deleteRecipe"/>
   <xs:element name="deleteRecipeResponse" type="tns:deleteRecipeResponse"/>
   <xs:element name="getAllCustomProducts" type="tns:getAllCustomProducts"/>
@@ -164,8 +162,6 @@
   <xs:element name="updateBooleanCustomProductParameterResponse" type="tns:updateBooleanCustomProductParameterResponse"/>
   <xs:element name="updateBooleanPlantOperationParameter" type="tns:updateBooleanPlantOperationParameter"/>
   <xs:element name="updateBooleanPlantOperationParameterResponse" type="tns:updateBooleanPlantOperationParameterResponse"/>
-  <xs:element name="updateCustomProduct" type="tns:updateCustomProduct"/>
-  <xs:element name="updateCustomProductResponse" type="tns:updateCustomProductResponse"/>
   <xs:element name="updateEntryPoint" type="tns:updateEntryPoint"/>
   <xs:element name="updateEntryPointInteraction" type="tns:updateEntryPointInteraction"/>
   <xs:element name="updateEntryPointInteractionResponse" type="tns:updateEntryPointInteractionResponse"/>
@@ -301,16 +297,6 @@
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns5:StoreWithEnterpriseTO"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="createCustomProduct">
-    <xs:sequence>
-      <xs:element name="customProductTO" type="ns6:CustomProductTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createCustomProductResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="queryPlantsByEnterpriseID">
     <xs:sequence>
       <xs:element name="enterpriseID" type="xs:long"/>
@@ -341,14 +327,6 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="ns4:PlantOperationTO"/>
     </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteCustomProduct">
-    <xs:sequence>
-      <xs:element name="customProductTO" type="ns6:CustomProductTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteCustomProductResponse">
-    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="getAllCustomProducts">
     <xs:sequence/>
@@ -442,14 +420,6 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="ns5:ProductTO"/>
     </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="updateCustomProduct">
-    <xs:sequence>
-      <xs:element name="customProductTO" type="ns6:CustomProductTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="updateCustomProductResponse">
-    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="updateEntryPoint">
     <xs:sequence>
@@ -651,6 +621,14 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="deleteNorminalCustomProductParameterResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="deleteProduct">
+    <xs:sequence>
+      <xs:element name="productTO" type="ns5:ProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteProductResponse">
     <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="queryEnterpriseById">
@@ -950,12 +928,6 @@
   </xs:complexType>
   <xs:element name="CreateException" type="tns:CreateException"/>
   <xs:complexType name="CreateException">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="message" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="IOException" type="tns:IOException"/>
-  <xs:complexType name="IOException">
     <xs:sequence>
       <xs:element minOccurs="0" name="message" type="xs:string"/>
     </xs:sequence>

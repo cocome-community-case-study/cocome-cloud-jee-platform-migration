@@ -11,6 +11,7 @@ import org.cocome.tradingsystem.inventory.application.enterprise.parameter.Normi
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -57,20 +58,30 @@ public class EnterpriseManagerIT {
     public void testCRUDForCustomProduct()
             throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
         final CustomProductTO customProductTO = new CustomProductTO();
-        customProductTO.setName("Awsome Product");
+        customProductTO.setName("Awesome Product 1");
         customProductTO.setBarcode(new Date().getTime());
         customProductTO.setPurchasePrice(10);
-        customProductTO.setId(em.createCustomProduct(customProductTO));
+        customProductTO.setId(em.createProduct(customProductTO));
 
         final CustomProductTO customProductTO2 = new CustomProductTO();
-        customProductTO2.setName("Awsome Product");
+        customProductTO2.setName("Awesome Product 1");
         customProductTO2.setBarcode(new Date().getTime());
         customProductTO2.setPurchasePrice(10);
-        customProductTO2.setId(em.createCustomProduct(customProductTO2));
+        customProductTO2.setId(em.createProduct(customProductTO2));
 
-        final Collection<CustomProductTO> products = em.getAllCustomProducts();
+        final ProductTO productTO = new ProductTO();
+        productTO.setName("Boring Product");
+        productTO.setBarcode(new Date().getTime());
+        productTO.setPurchasePrice(10);
+        productTO.setId(em.createProduct(productTO));
+
+        final List<ProductTO> products = em.getAllProducts();
         Assert.assertNotNull(products);
-        Assert.assertTrue(products.size() >= 2);
+        Assert.assertEquals(products.size(), 3);
+
+        final Collection<CustomProductTO> customProducts = em.getAllCustomProducts();
+        Assert.assertNotNull(customProducts);
+        Assert.assertTrue(customProducts.size() >= 2);
 
         Assert.assertEquals(customProductTO2.getBarcode(),
                 em.queryCustomProductByBarcode(customProductTO2.getBarcode()).getBarcode());
@@ -79,11 +90,12 @@ public class EnterpriseManagerIT {
         Assert.assertEquals(customProductTO.getName(), queriedInstance.getName());
         Assert.assertEquals(customProductTO.getPurchasePrice(), queriedInstance.getPurchasePrice(), 0.001);
 
-        em.deleteCustomProduct(customProductTO);
-        em.deleteCustomProduct(customProductTO2);
+        em.deleteProduct(productTO);
+        em.deleteProduct(customProductTO);
+        em.deleteProduct(customProductTO2);
         try {
             em.queryCustomProductByID(customProductTO.getId());
-            Assert.fail("Expect ");
+            Assert.fail("Expecting product to be deleted from the database: " + customProductTO.getId());
         } catch (final NotInDatabaseException_Exception ex) {
             //no-op
         }
@@ -113,7 +125,7 @@ public class EnterpriseManagerIT {
         customProductTO.setName("Awsome Product");
         customProductTO.setBarcode(new Date().getTime());
         customProductTO.setPurchasePrice(10);
-        customProductTO.setId(em.createCustomProduct(customProductTO));
+        customProductTO.setId(em.createProduct(customProductTO));
 
         final BooleanCustomProductParameterTO paramTO = new BooleanCustomProductParameterTO();
         paramTO.setName("A Parameter");
@@ -142,7 +154,7 @@ public class EnterpriseManagerIT {
         customProductTO.setName("Awsome Product");
         customProductTO.setBarcode(new Date().getTime());
         customProductTO.setPurchasePrice(10);
-        customProductTO.setId(em.createCustomProduct(customProductTO));
+        customProductTO.setId(em.createProduct(customProductTO));
 
         final NorminalCustomProductParameterTO paramTO = new NorminalCustomProductParameterTO();
         paramTO.setName("A Parameter");

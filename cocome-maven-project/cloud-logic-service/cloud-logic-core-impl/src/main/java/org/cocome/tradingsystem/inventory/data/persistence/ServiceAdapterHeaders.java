@@ -22,7 +22,7 @@ public final class ServiceAdapterHeaders {
     static final String STORE_CREATE_HEADER = "EnterpriseName;StoreName;StoreLocation";
     static final String STORE_UPDATE_HEADER = "EnterpriseName;StoreId;StoreName;StoreLocation";
 
-    static final String PRODUCT_HEADER = "ProductBarcode;ProductName;ProductPurchasePrice";
+    static final String PRODUCT_HEADER = "ProductBarcode;ProductName;ProductPurchasePrice;ProductType";
 
     static final String PRODUCTSUPPLIER_CREATE_HEADER = "ProductSupplierName";
     static final String PRODUCTSUPPLIER_UPDATE_HEADER = "ProductSupplierId;ProductSupplierName";
@@ -45,11 +45,6 @@ public final class ServiceAdapterHeaders {
     static final String PRODUCTIONUNITCLASS_UPDATE_HEADER = "PlantId;ProductionUnitClassId;"
             + "ProductionUnitClassName";
     static final String PRODUCTIONUNITCLASS_CREATE_HEADER = "PlantId;ProductionUnitClassName";
-
-    static final String CUSTOMPRODUCT_CREATE_HEADER = "CustomProductBarcode;CustomProductLocation;"
-            + "CustomProductPurchasePrice";
-    static final String CUSTOMPRODUCT_UPDATE_HEADER = "CustomProductId;CustomProductBarcode;CustomProductLocation;"
-            + "CustomProductPurchasePrice";
 
     static final String PRODUCTIONUNITOPERATION_CREATE_HEADER
             = "ProductionUnitOperationName;ProductionUnitOperationOID;ProductionUnitOperationExpectedTime;"

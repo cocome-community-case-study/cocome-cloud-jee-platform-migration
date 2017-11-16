@@ -36,7 +36,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlElement;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -77,7 +76,7 @@ public interface IEnterpriseManager {
     @WebMethod
     void deleteEnterprise(
             @XmlElement(required = true) @WebParam(name = "enterpriseTO") EnterpriseTO enterpriseTO)
-            throws NotInDatabaseException, UpdateException, IOException;
+            throws NotInDatabaseException, UpdateException;
 
     /* CRUD for {@link PlantTO} **************/
 
@@ -138,7 +137,7 @@ public interface IEnterpriseManager {
     void deletePlant(
             @XmlElement(required = true)
             @WebParam(name = "plantTO") PlantTO plantTO)
-            throws NotInDatabaseException, UpdateException, IOException;
+            throws NotInDatabaseException, UpdateException;
 
     /* CRUD for {@link ProductTO} **************/
 
@@ -211,6 +210,12 @@ public interface IEnterpriseManager {
     void updateProduct(
             @XmlElement(required = true) @WebParam(name = "productTO") ProductWithSupplierTO productTO)
             throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deleteProduct(
+            @XmlElement(required = true)
+            @WebParam(name = "productTO") ProductTO productTO)
+            throws NotInDatabaseException, UpdateException;
 
     /* CRUD for {@link SupplierTO} **************/
 
@@ -346,23 +351,6 @@ public interface IEnterpriseManager {
     @WebMethod
     CustomProductTO queryCustomProductByBarcode(
             @XmlElement(required = true) @WebParam(name = "barcode") long barcode) throws NotInDatabaseException;
-
-
-    @WebMethod
-    long createCustomProduct(
-            @XmlElement(required = true) @WebParam(name = "customProductTO") CustomProductTO customProductTO)
-            throws CreateException;
-
-    @WebMethod
-    void updateCustomProduct(
-            @XmlElement(required = true) @WebParam(name = "customProductTO") CustomProductTO customProductTO)
-            throws UpdateException, NotInDatabaseException;
-
-    @WebMethod
-    void deleteCustomProduct(
-            @XmlElement(required = true)
-            @WebParam(name = "customProductTO") CustomProductTO customProductTO)
-            throws UpdateException, NotInDatabaseException;
 
     /* CRUD for {@link EntryPointTO} **************/
 
@@ -710,7 +698,7 @@ public interface IEnterpriseManager {
     /**
      * Informs the enterprise manager that the entry of an plant operation order has finished
      *
-     * @param plantOperationOrderId the id fo the associated plant order
+     * @param plantOperationOrderEntryId the id fo the associated plant order
      */
     @WebMethod
     void onPlantOperationOrderEntryFinish(

@@ -8,8 +8,6 @@ public interface IBackendQuery {
 
     String getProducts(String cond);
 
-    String getCustomProducts(String cond);
-
     String getEnterprises(String cond);
 
     String getStores(String cond);

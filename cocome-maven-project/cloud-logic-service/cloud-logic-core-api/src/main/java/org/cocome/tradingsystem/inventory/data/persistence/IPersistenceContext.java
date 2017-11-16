@@ -18,7 +18,6 @@
 
 package org.cocome.tradingsystem.inventory.data.persistence;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
@@ -147,6 +146,14 @@ public interface IPersistenceContext {
     void updateEntity(IProduct product) throws UpdateException;
 
     /**
+     * Deletes a product from the database
+     *
+     * @param product the product to delete
+     * @throws UpdateException if the delete operation failed on database side
+     */
+    void deleteEntity(IProduct product) throws UpdateException;
+
+    /**
      * Creates a new user in the database.
      *
      * @param user the user to create
@@ -197,12 +204,6 @@ public interface IPersistenceContext {
     void updateEntity(IProductionUnitClass puc) throws UpdateException;
 
     void createEntity(IProductionUnitClass puc) throws CreateException;
-
-    void createEntity(ICustomProduct customProduct) throws CreateException;
-
-    void updateEntity(ICustomProduct customProduct) throws UpdateException;
-
-    void deleteEntity(ICustomProduct customProduct) throws UpdateException;
 
     void createEntity(IProductionUnitOperation operation) throws CreateException;
 

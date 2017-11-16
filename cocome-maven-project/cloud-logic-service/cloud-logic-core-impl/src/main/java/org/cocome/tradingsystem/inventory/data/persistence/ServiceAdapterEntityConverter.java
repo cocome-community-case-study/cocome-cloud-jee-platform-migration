@@ -4,7 +4,6 @@ import de.kit.ipd.java.utils.time.TimeUtils;
 import org.cocome.tradingsystem.inventory.application.usermanager.Role;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
 import org.cocome.tradingsystem.inventory.data.INameable;
-import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
@@ -195,11 +194,16 @@ class ServiceAdapterEntityConverter {
      * @return a String representation of the product
      */
     static String getProductContent(IProduct product) {
+        //TODO: WARNING, it is pure coincidence that the implementations of
+        // IProduct (Product and CustomProduct) have the same class and package names as
+        // those classes in the service-adapter subsystem
         return String.valueOf(product.getBarcode()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 encodeString(product.getName()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                product.getPurchasePrice();
+                product.getPurchasePrice() +
+                ServiceAdapterHeaders.SEPARATOR +
+                product.getClass().getName();
     }
 
     /**
@@ -288,24 +292,6 @@ class ServiceAdapterEntityConverter {
         return String.valueOf(puc.getPlantId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 encodeString(puc.getName());
-    }
-
-    static String getCreateCustomProductContent(ICustomProduct customProduct) {
-        return String.valueOf(customProduct.getBarcode()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                encodeString(customProduct.getName()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                customProduct.getPurchasePrice();
-    }
-
-    static String getUpdateCustomProductContent(ICustomProduct customProduct) {
-        return String.valueOf(customProduct.getId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(customProduct.getBarcode()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                encodeString(customProduct.getName()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                customProduct.getPurchasePrice();
     }
 
     static String getCreateProductionUnitOperationContent(IProductionUnitOperation operation) {

@@ -1,4 +1,5 @@
-/***************************************************************************
+/*
+ ****************************************************************************
  * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,17 +13,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- ***************************************************************************/
+ **************************************************************************
+ */
 
 package org.cocome.tradingsystem.inventory.application.store;
 
-import java.io.Serializable;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 
 /**
@@ -31,121 +30,113 @@ import javax.xml.bind.annotation.XmlType;
  * of persisted data which are transferred to the client, or data which is
  * transferred from the client to the application layer to be processed and
  * persisted.
- * 
+ *
  * @author Sebastian Herold
  * @author Lubomir Bulej
  */
-@XmlType(name="ProductTO", namespace="http://store.application.inventory.tradingsystem.cocome.org/")
-@XmlRootElement(name="ProductTO")
+@XmlType(name = "ProductTO", namespace = "http://store.application.inventory.tradingsystem.cocome.org/")
+@XmlRootElement(name = "ProductTO")
+@XmlSeeAlso({CustomProductTO.class})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProductTO implements Serializable {
 
-	private static final long serialVersionUID = -4566375052296560384L;
+    private static final long serialVersionUID = -4566375052296560384L;
 
-	//
+    //
 
-	@XmlElement(name="id", required=true)
-	private long __id;
-	
-	@XmlElement(name="barcode", required=true)
-	private long __barcode;
-	
-	@XmlElement(name="purchasePrice")
-	private double __purchasePrice;
+    @XmlElement(name = "id", required = true)
+    private long __id;
 
-	@XmlElement(name="name")
-	private String __name;
+    @XmlElement(name = "barcode", required = true)
+    private long __barcode;
 
-	/**
-	 * Gets id.
-	 * 
-	 * @return
-	 *         The identifier.
-	 */
-	public long getId() {
-		return __id;
-	}
+    @XmlElement(name = "purchasePrice")
+    private double __purchasePrice;
 
-	/**
-	 * sets the id.
-	 */
-	public void setId(final long id) {
-		__id = id;
-	}
+    @XmlElement(name = "name")
+    private String __name;
 
-	/**
-	 * Gets barcode value.
-	 * 
-	 * @return
-	 *         Saved barcode value.
-	 */
-	public long getBarcode() {
-		return __barcode;
-	}
+    /**
+     * Gets id.
+     *
+     * @return The identifier.
+     */
+    public long getId() {
+        return __id;
+    }
 
-	/**
-	 * Sets barcode value.
-	 * 
-	 * @param barcode
-	 */
-	public void setBarcode(final long barcode) {
-		__barcode = barcode;
-	}
+    /**
+     * sets the id.
+     */
+    public void setId(final long id) {
+        __id = id;
+    }
 
-	/**
-	 * Gets name of the product.
-	 * 
-	 * @return
-	 *         Name of product.
-	 */
-	public String getName() {
-		return __name;
-	}
+    /**
+     * Gets barcode value.
+     *
+     * @return Saved barcode value.
+     */
+    public long getBarcode() {
+        return __barcode;
+    }
 
-	/**
-	 * Sets name of product.
-	 * 
-	 * @param name
-	 *            New name.
-	 */
-	public void setName(final String name) {
-		__name = name;
-	}
+    /**
+     * Sets barcode value.
+     *
+     * @param barcode the product barcode
+     */
+    public void setBarcode(final long barcode) {
+        __barcode = barcode;
+    }
 
-	/**
-	 * Gets purchase price of product.
-	 * 
-	 * @return
-	 *         Saved purchase price.
-	 */
-	public double getPurchasePrice() {
-		return __purchasePrice;
-	}
+    /**
+     * Gets name of the product.
+     *
+     * @return Name of product.
+     */
+    public String getName() {
+        return __name;
+    }
 
-	/**
-	 * Sets purchase price of product.
-	 * 
-	 * @param purchasePrice
-	 *            Purchase price to e set.
-	 */
-	public void setPurchasePrice(final double purchasePrice) {
-		__purchasePrice = purchasePrice;
-	}
+    /**
+     * Sets name of product.
+     *
+     * @param name New name.
+     */
+    public void setName(final String name) {
+        __name = name;
+    }
 
-	/**
-	 * Checks equality to a product entity.
-	 * <p>
-	 * Required for UC 8 (see {@link AmplCplexSolver}).
-	 */
-	public boolean equalsProduct(final ProductTO that) {
-		if (that == null) {
-			return false;
-		}
+    /**
+     * Gets purchase price of product.
+     *
+     * @return Saved purchase price.
+     */
+    public double getPurchasePrice() {
+        return __purchasePrice;
+    }
 
-		return this.getBarcode() == that.getBarcode()
-				&& this.getId() == that.getId()
-				&& this.getName().equals(that.getName())
-				&& this.getPurchasePrice() == that.getPurchasePrice();
-	}
+    /**
+     * Sets purchase price of product.
+     *
+     * @param purchasePrice Purchase price to e set.
+     */
+    public void setPurchasePrice(final double purchasePrice) {
+        __purchasePrice = purchasePrice;
+    }
+
+    /**
+     * Checks equality to a product entity.
+     * <p>
+     * Required for UC 8 (see {@link AmplCplexSolver}).
+     */
+    public boolean equalsProduct(final ProductTO that) {
+        return that != null
+                && this.getBarcode() == that.getBarcode()
+                && this.getId() == that.getId()
+                && this.getName().equals(that.getName())
+                && this.getPurchasePrice() == that.getPurchasePrice();
+    }
 
 }

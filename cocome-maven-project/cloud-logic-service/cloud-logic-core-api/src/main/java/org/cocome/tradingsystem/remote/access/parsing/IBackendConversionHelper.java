@@ -54,8 +54,6 @@ public interface IBackendConversionHelper {
 
     Collection<IConditionalExpression> getConditionalExpressions(String conditionalExpression);
 
-    Collection<ICustomProduct> getCustomProducts(String customProduct);
-
     Collection<IBooleanCustomProductParameter> getBooleanCustomProductParameter(String param);
 
     Collection<INorminalCustomProductParameter> getNorminalCustomProductParameter(String param);

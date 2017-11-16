@@ -132,13 +132,23 @@ public class CSVHelper implements IBackendConversionHelper {
     }
 
     private IProduct getProductFromRow(Row<String> row) {
-        IProduct result = enterpriseFactory.getNewProduct();
+        IProduct result = getNewProductInstance(row.getColumns().get(3).getValue());
 
         result.setBarcode(Long.parseLong(row.getColumns().get(0).getValue()));
         result.setName(decodeString(row.getColumns().get(1).getValue()));
         result.setPurchasePrice(Double.parseDouble(row.getColumns().get(2).getValue()));
 
         return result;
+    }
+
+    private IProduct getNewProductInstance(String value) {
+        if (value.contains("CustomProduct")) {
+            return enterpriseFactory.getNewCustomProduct();
+        }
+        if (value.contains("Product")) {
+            return enterpriseFactory.getNewProduct();
+        }
+        throw new IllegalArgumentException("Unknown product type: " + value);
     }
 
     private IProductSupplier getProductSupplierFromRow(Row<String> row) {
@@ -573,20 +583,6 @@ public class CSVHelper implements IBackendConversionHelper {
         result.setOnFalseExpressionIds(fetchIds(row.getColumns().get(4 + offset)));
 
         return result;
-    }
-
-    @Override
-    public Collection<ICustomProduct> getCustomProducts(String customProduct) {
-        return rowToCollection(customProduct, row -> {
-            final ICustomProduct result = enterpriseFactory.getNewCustomProduct();
-
-            result.setId(Long.parseLong(row.getColumns().get(0).getValue()));
-            result.setBarcode(Long.parseLong(row.getColumns().get(1).getValue()));
-            result.setName(decodeString(row.getColumns().get(2).getValue()));
-            result.setPurchasePrice(Double.parseDouble(row.getColumns().get(3).getValue()));
-
-            return result;
-        });
     }
 
     @Override

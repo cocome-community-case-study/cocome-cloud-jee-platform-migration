@@ -31,7 +31,8 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     @Inject
     private Provider<Plant> plantProvider;
 
-    @Inject @RegularProduct
+    @Inject
+    @RegularProduct
     private Provider<Product> productProvider;
 
     @Inject
@@ -79,27 +80,17 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
 
     @Override
     public ICustomProduct convertToCustomProduct(CustomProductTO customProductTO) {
-        ICustomProduct customProduct = getNewCustomProduct();
-        customProduct.setBarcode(customProductTO.getBarcode());
-        customProduct.setId(customProductTO.getId());
-        customProduct.setName(customProductTO.getName());
-        customProduct.setPurchasePrice(customProductTO.getPurchasePrice());
-        return customProduct;
+        return (ICustomProduct) convertToProduct(customProductTO);
     }
 
     @Override
     public CustomProductTO fillCustomProductTO(ICustomProduct product) {
-        CustomProductTO customProductTO = new CustomProductTO();
-        customProductTO.setBarcode(product.getBarcode());
-        customProductTO.setId(product.getId());
-        customProductTO.setName(product.getName());
-        customProductTO.setPurchasePrice(product.getPurchasePrice());
-        return customProductTO;
+        return (CustomProductTO) fillProductTO(product);
     }
 
     @Override
     public IProduct convertToProduct(ProductTO productTO) {
-        IProduct product = getNewProduct();
+        IProduct product = getProductInstance(productTO);
         product.setBarcode(productTO.getBarcode());
         product.setId(productTO.getId());
         product.setName(productTO.getName());
@@ -107,14 +98,29 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
         return product;
     }
 
+
+    private IProduct getProductInstance(ProductTO productTO) {
+        if (productTO instanceof CustomProductTO) {
+            return getNewCustomProduct();
+        }
+        return getNewProduct();
+    }
+
     @Override
     public ProductTO fillProductTO(IProduct product) {
-        ProductTO productTO = new ProductTO();
+        ProductTO productTO = getProductTOInstance(product);
         productTO.setBarcode(product.getBarcode());
         productTO.setId(product.getId());
         productTO.setName(product.getName());
         productTO.setPurchasePrice(product.getPurchasePrice());
         return productTO;
+    }
+
+    private ProductTO getProductTOInstance(IProduct product) {
+        if (product instanceof ICustomProduct) {
+            return new CustomProductTO();
+        }
+        return new ProductTO();
     }
 
     @Override

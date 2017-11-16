@@ -60,7 +60,6 @@ import javax.ejb.CreateException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebService;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -326,22 +325,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public long createProduct(ProductTO productTO)
             throws CreateException {
-        IProduct product = enterpriseFactory.getNewProduct();
-        product.setBarcode(productTO.getBarcode());
-        product.setName(productTO.getName());
-        product.setPurchasePrice(productTO.getPurchasePrice());
-
-        saveDBCreateAction(() -> persistenceContext.createEntity(product));
-
-        return product.getId();
-    }
-
-    @Override
-    public long createCustomProduct(CustomProductTO productTO) throws CreateException {
-        final ICustomProduct product = enterpriseFactory.getNewCustomProduct();
-        product.setBarcode(productTO.getBarcode());
-        product.setName(productTO.getName());
-        product.setPurchasePrice(productTO.getPurchasePrice());
+        IProduct product = enterpriseFactory.convertToProduct(productTO);
 
         saveDBCreateAction(() -> persistenceContext.createEntity(product));
 
@@ -351,20 +335,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public void updateProduct(ProductWithSupplierTO productTO)
             throws NotInDatabaseException, UpdateException {
-        IProduct product;
-        try {
-            if (productTO.getId() != 0) {
-                product = enterpriseQuery.queryProductByID(productTO.getId());
-                product.setBarcode(productTO.getBarcode());
-            } else {
-                product = enterpriseQuery.queryProductByBarcode(productTO
-                        .getBarcode());
-            }
-        } catch (NotInDatabaseException e) {
-            LOG.error("Got NotInDatabaseException: " + e);
-            e.printStackTrace();
-            throw e;
-        }
+        final IProduct product = saveFetchFromDB(() -> queryProduct(productTO));
 
         product.setName(productTO.getName());
         product.setPurchasePrice(productTO.getPurchasePrice());
@@ -380,29 +351,6 @@ public class EnterpriseManager implements IEnterpriseManager {
             }
             product.setSupplier(supplier);
         }
-
-        saveDBUpdateAction(() -> persistenceContext.updateEntity(product));
-    }
-
-    @Override
-    public void updateCustomProduct(CustomProductTO customProductTO) throws UpdateException, NotInDatabaseException {
-        ICustomProduct product;
-        try {
-            if (customProductTO.getId() != 0) {
-                product = enterpriseQuery.queryCustomProductByID(customProductTO.getId());
-                product.setBarcode(customProductTO.getBarcode());
-            } else {
-                product = enterpriseQuery.queryCustomProductByBarcode(customProductTO
-                        .getBarcode());
-            }
-        } catch (NotInDatabaseException e) {
-            LOG.error("Got NotInDatabaseException: " + e);
-            e.printStackTrace();
-            throw e;
-        }
-
-        product.setName(customProductTO.getName());
-        product.setPurchasePrice(customProductTO.getPurchasePrice());
 
         saveDBUpdateAction(() -> persistenceContext.updateEntity(product));
     }
@@ -543,22 +491,22 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public void deleteEnterprise(EnterpriseTO enterpriseTO) throws NotInDatabaseException, UpdateException, IOException {
+    public void deleteEnterprise(EnterpriseTO enterpriseTO) throws NotInDatabaseException, UpdateException {
         final ITradingEnterprise enterprise = saveFetchFromDB(() ->
                 enterpriseQuery.queryEnterpriseById(enterpriseTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(enterprise));
     }
 
     @Override
-    public void deletePlant(PlantTO plantTO) throws NotInDatabaseException, UpdateException, IOException {
+    public void deletePlant(PlantTO plantTO) throws NotInDatabaseException, UpdateException {
         final IPlant plant = saveFetchFromDB(() -> enterpriseQuery.queryPlant(plantTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(plant));
     }
 
     @Override
-    public void deleteCustomProduct(CustomProductTO customProductTO) throws NotInDatabaseException, UpdateException {
-        final ICustomProduct customProduct = saveFetchFromDB(() -> queryCustomProduct(customProductTO));
-        saveDBUpdateAction(() -> persistenceContext.deleteEntity(customProduct));
+    public void deleteProduct(ProductTO productTO) throws NotInDatabaseException, UpdateException {
+        final IProduct product = saveFetchFromDB(() -> queryProduct(productTO));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(product));
     }
 
     @Override
@@ -934,6 +882,15 @@ public class EnterpriseManager implements IEnterpriseManager {
     public void onPlantOperationOrderEntryFinish(long plantOperationOrderEntryId) {
         LOG.info("Finished  " + plantOperationOrderEntryId);
         //TODO
+    }
+
+    private IProduct queryProduct(ProductTO productTO)
+            throws NotInDatabaseException {
+        if (productTO.getId() != 0) {
+            return enterpriseQuery.queryProductByID(productTO.getId());
+        }
+        return enterpriseQuery.queryProductByBarcode(productTO
+                .getBarcode());
     }
 
     private ICustomProduct queryCustomProduct(CustomProductTO customProductTO)
