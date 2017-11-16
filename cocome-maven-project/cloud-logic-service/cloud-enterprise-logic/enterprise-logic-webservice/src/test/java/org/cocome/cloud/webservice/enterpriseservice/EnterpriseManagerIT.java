@@ -55,7 +55,7 @@ public class EnterpriseManagerIT {
     }
 
     @Test
-    public void testCRUDForCustomProduct()
+    public void testCRUDForProducts()
             throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
         final CustomProductTO customProductTO = new CustomProductTO();
         customProductTO.setName("Awesome Product 1");
