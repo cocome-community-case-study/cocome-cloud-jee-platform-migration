@@ -1,7 +1,6 @@
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.IParameterValueTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 
 import javax.xml.bind.annotation.*;
@@ -24,7 +23,7 @@ public class PlantOperationParameterValueTO implements IParameterValueTO<PlantOp
     private long id;
     @XmlElement(name = "value", required = true)
     private String value;
-    @XmlElementRef(name = "parameter", required = true)
+    @XmlElementRef(name = "parameter")
     private PlantOperationParameterTO parameter;
 
     @Override
