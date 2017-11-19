@@ -1,0 +1,50 @@
+{
+  "expressions" : [ {
+    "operation" : {
+      "productionUnitClassName" : "PUC1",
+      "operationId" : "op1"
+    }
+  }, {
+    "operation" : {
+      "productionUnitClassName" : "PUC1",
+      "operationId" : "op1"
+    }
+  }, {
+    "ifThenElse" : {
+      "parameterName" : "Param1",
+      "testValue" : "true",
+      "onTrueExpressions" : [ {
+        "operation" : {
+          "productionUnitClassName" : "PUC2",
+          "operationId" : "op2"
+        }
+      }, {
+        "operation" : {
+          "productionUnitClassName" : "PUC2",
+          "operationId" : "op2"
+        }
+      }, {
+        "operation" : {
+          "productionUnitClassName" : "PUC2",
+          "operationId" : "op2"
+        }
+      } ],
+      "onFalseExpressions" : [ {
+        "operation" : {
+          "productionUnitClassName" : "PUC1",
+          "operationId" : "op2"
+        }
+      }, {
+        "operation" : {
+          "productionUnitClassName" : "PUC1",
+          "operationId" : "op3"
+        }
+      } ]
+    }
+  }, {
+    "operation" : {
+      "productionUnitClassName" : "PUC1",
+      "operationId" : "op2"
+    }
+  } ]
+}
