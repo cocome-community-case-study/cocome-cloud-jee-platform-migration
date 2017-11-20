@@ -117,6 +117,34 @@ public class PlantManagerIT {
 
         final TestPUC fmu = new TestPUC("FMU", FMU.values(), plant, pm);
 
+        /* Production Units */
+
+        final ProductionUnitTO xppu1 = new ProductionUnitTO();
+        xppu1.setPlant(plant);
+        xppu1.setProductionUnitClass(xppu.getProductionUnitClass());
+        xppu1.setDouble(true);
+        xppu1.setInterfaceUrl("dummy1.org");
+        xppu1.setLocation("Some Place 1");
+        xppu1.setId(pm.createProductionUnit(xppu1));
+
+        final ProductionUnitTO xppu2 = new ProductionUnitTO();
+        xppu2.setPlant(plant);
+        xppu2.setProductionUnitClass(xppu.getProductionUnitClass());
+        xppu2.setDouble(true);
+        xppu2.setInterfaceUrl("dummy2.org");
+        xppu2.setLocation("Some Place 2");
+        xppu2.setId(pm.createProductionUnit(xppu2));
+
+        final ProductionUnitTO fmu3 = new ProductionUnitTO();
+        fmu3.setPlant(plant);
+        fmu3.setProductionUnitClass(fmu.getProductionUnitClass());
+        fmu3.setDouble(true);
+        fmu3.setInterfaceUrl("dummy2.org");
+        fmu3.setLocation("Some Place 3");
+        fmu3.setId(pm.createProductionUnit(fmu3));
+
+        /* Plant Operations */
+
         final EntryPointTO e = new EntryPointTO();
         e.setName("ISO 12345 Cargo");
         e.setId(em.createEntryPoint(e));
@@ -154,32 +182,6 @@ public class PlantManagerIT {
                 fmu.getOperation(FMU.Silo2_ACT_Init)
         ));
         em.updatePlantOperation(operation);
-
-        /* Production Units */
-
-        final ProductionUnitTO xppu1 = new ProductionUnitTO();
-        xppu1.setPlant(plant);
-        xppu1.setProductionUnitClass(xppu.getProductionUnitClass());
-        xppu1.setDouble(true);
-        xppu1.setInterfaceUrl("dummy1.org");
-        xppu1.setLocation("Some Place 1");
-        xppu1.setId(pm.createProductionUnit(xppu1));
-
-        final ProductionUnitTO xppu2 = new ProductionUnitTO();
-        xppu2.setPlant(plant);
-        xppu2.setProductionUnitClass(xppu.getProductionUnitClass());
-        xppu2.setDouble(true);
-        xppu2.setInterfaceUrl("dummy2.org");
-        xppu2.setLocation("Some Place 2");
-        xppu2.setId(pm.createProductionUnit(xppu2));
-
-        final ProductionUnitTO fmu3 = new ProductionUnitTO();
-        fmu3.setPlant(plant);
-        fmu3.setProductionUnitClass(fmu.getProductionUnitClass());
-        fmu3.setDouble(true);
-        fmu3.setInterfaceUrl("dummy2.org");
-        fmu3.setLocation("Some Place 3");
-        fmu3.setId(pm.createProductionUnit(fmu3));
 
         /* Order creation */
 
