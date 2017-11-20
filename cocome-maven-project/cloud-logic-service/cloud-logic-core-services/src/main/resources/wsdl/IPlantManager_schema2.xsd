@@ -30,11 +30,20 @@
   </xs:complexType>
 
   <xs:complexType name="PlantOperationTO">
+    <xs:complexContent>
+      <xs:extension base="tns:RecipeOperationTO">
+        <xs:sequence>
+          <xs:element name="plant" type="ns3:PlantTO"/>
+          <xs:element maxOccurs="unbounded" name="expressions" type="ns4:ExpressionTO"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RecipeOperationTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>
-      <xs:element name="plant" type="ns3:PlantTO"/>
-      <xs:element maxOccurs="unbounded" name="expressions" type="ns4:ExpressionTO"/>
       <xs:element maxOccurs="unbounded" name="inputEntryPoint" type="tns:EntryPointTO"/>
       <xs:element maxOccurs="unbounded" name="outputEntryPoint" type="tns:EntryPointTO"/>
     </xs:sequence>

@@ -9,7 +9,10 @@ import org.cocome.tradingsystem.inventory.application.usermanager.CredentialType
 import org.cocome.tradingsystem.inventory.application.usermanager.Role;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredentialFactory;
-import org.cocome.tradingsystem.inventory.data.enterprise.*;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
+import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
+import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
+import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
@@ -669,6 +672,10 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setOperationIds(fetchIds(row.getColumns().get(2)));
             result.setEntryPointInteractionIds(fetchIds(row.getColumns().get(3)));
             result.setParameterInteractionIds(fetchIds(row.getColumns().get(4)));
+            result.setParameterInteractionIds(fetchIds(row.getColumns().get(4)));
+            result.setName(fetchString(row.getColumns().get(5)));
+            result.setInputEntryPointIds(fetchIds(row.getColumns().get(6)));
+            result.setOutputEntryPointIds(fetchIds(row.getColumns().get(7)));
 
             return result;
         });

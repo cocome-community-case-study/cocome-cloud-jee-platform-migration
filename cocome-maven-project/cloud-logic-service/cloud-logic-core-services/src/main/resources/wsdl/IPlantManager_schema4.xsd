@@ -19,6 +19,7 @@
   <xs:element name="ProductionUnitClassTO" type="ns1:ProductionUnitClassTO"/>
   <xs:element name="ProductionUnitOperationTO" type="ns1:ProductionUnitOperationTO"/>
   <xs:element name="ProductionUnitTO" type="ns1:ProductionUnitTO"/>
+  <xs:element name="RecipeOperationTO" type="ns6:RecipeOperationTO"/>
   <xs:element name="createConditionalExpression" type="tns:createConditionalExpression"/>
   <xs:element name="createConditionalExpressionResponse" type="tns:createConditionalExpressionResponse"/>
   <xs:element name="createProductionUnit" type="tns:createProductionUnit"/>

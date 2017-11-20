@@ -23,6 +23,7 @@
   <xs:element name="PlantTO" type="ns2:PlantTO"/>
   <xs:element name="ProductTO" type="ns5:ProductTO"/>
   <xs:element name="ProductWithSupplierTO" type="ns5:ProductWithSupplierTO"/>
+  <xs:element name="RecipeOperationTO" type="ns4:RecipeOperationTO"/>
   <xs:element name="RecipeTO" type="ns4:RecipeTO"/>
   <xs:element name="StoreTO" type="ns5:StoreTO"/>
   <xs:element name="SupplierTO" type="ns5:SupplierTO"/>

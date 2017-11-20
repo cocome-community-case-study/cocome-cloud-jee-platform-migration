@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author Rudolf Biczok
  */
-public interface IRecipe extends IIdentifiable {
+public interface IRecipe extends IRecipeOperation {
 
     /**
      * @return the custom product for which this recipe provides the production details

@@ -11,11 +11,20 @@
   <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema8.xsd"/>
 
   <xs:complexType name="PlantOperationTO">
+    <xs:complexContent>
+      <xs:extension base="tns:RecipeOperationTO">
+        <xs:sequence>
+          <xs:element name="plant" type="ns3:PlantTO"/>
+          <xs:element maxOccurs="unbounded" name="expressions" type="ns4:ExpressionTO"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RecipeOperationTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>
-      <xs:element name="plant" type="ns3:PlantTO"/>
-      <xs:element maxOccurs="unbounded" name="expressions" type="ns4:ExpressionTO"/>
       <xs:element maxOccurs="unbounded" name="inputEntryPoint" type="tns:EntryPointTO"/>
       <xs:element maxOccurs="unbounded" name="outputEntryPoint" type="tns:EntryPointTO"/>
     </xs:sequence>
@@ -29,13 +38,16 @@
   </xs:complexType>
 
   <xs:complexType name="RecipeTO">
-    <xs:sequence>
-      <xs:element name="id" type="xs:long"/>
-      <xs:element name="customProduct" type="ns5:CustomProductTO"/>
-      <xs:element maxOccurs="unbounded" name="operations" type="tns:PlantOperationTO"/>
-      <xs:element maxOccurs="unbounded" name="parameterInteractions" type="tns:ParameterInteractionTO"/>
-      <xs:element maxOccurs="unbounded" name="entryPointInteractions" type="tns:EntryPointInteractionTO"/>
-    </xs:sequence>
+    <xs:complexContent>
+      <xs:extension base="tns:RecipeOperationTO">
+        <xs:sequence>
+          <xs:element name="customProduct" type="ns5:CustomProductTO"/>
+          <xs:element maxOccurs="unbounded" name="operations" type="tns:PlantOperationTO"/>
+          <xs:element maxOccurs="unbounded" name="parameterInteractions" type="tns:ParameterInteractionTO"/>
+          <xs:element maxOccurs="unbounded" name="entryPointInteractions" type="tns:EntryPointInteractionTO"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="ParameterInteractionTO">

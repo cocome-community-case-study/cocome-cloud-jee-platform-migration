@@ -18,7 +18,6 @@
 
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 
 import javax.xml.bind.annotation.*;
@@ -34,11 +33,8 @@ import java.util.Collection;
         namespace = "http://recipe.plant.application.inventory.tradingsystem.cocome.org")
 @XmlRootElement(name = "RecipeTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RecipeTO implements IIdentifiableTO {
+public class RecipeTO extends RecipeOperationTO {
     private static final long serialVersionUID = 1L;
-
-    @XmlElement(name = "id", required = true)
-    private long id;
 
     @XmlElement(name = "customProduct", required = true)
     private CustomProductTO customProduct;
@@ -52,22 +48,6 @@ public class RecipeTO implements IIdentifiableTO {
     private Collection<ParameterInteractionTO> parameterInteractions;
     @XmlElement(name = "entryPointInteractions", required = true)
     private Collection<EntryPointInteractionTO> entryPointInteractions;
-
-    /**
-     * @return A unique identifier of this Plant.
-     */
-    @Override
-    public long getId() {
-        return this.id;
-    }
-
-    /**
-     * @param id a unique identifier of this Plant
-     */
-    @Override
-    public void setId(final long id) {
-        this.id = id;
-    }
 
     /**
      * @return the custom product for which this recipe provides production information

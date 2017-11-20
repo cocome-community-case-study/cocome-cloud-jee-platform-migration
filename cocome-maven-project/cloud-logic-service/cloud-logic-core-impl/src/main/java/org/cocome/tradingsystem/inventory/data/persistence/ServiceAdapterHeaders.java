@@ -105,9 +105,11 @@ public final class ServiceAdapterHeaders {
             = "ParameterInteractionId;ParameterInteractionToId;ParameterInteractionFromId";
 
     static final String RECIPE_CREATE_HEADER
-            = "CustomProductId;PlantOperationId;EntryPointInteractionId;ParameterInteractionId";
+            = "CustomProductId;PlantOperationId;EntryPointInteractionId;ParameterInteractionId;RecipeName;"
+            + "EntryPointInputId;EntryPointOutputId";
     static final String RECIPE_UPDATE_HEADER
-            = "RecipeId;CustomProductId;PlantOperationId;EntryPointInteractionId;ParameterInteractionId";
+            = "RecipeId;CustomProductId;PlantOperationId;EntryPointInteractionId;ParameterInteractionId;RecipeName;"
+            + "EntryPointInputId;EntryPointOutputId";
 
     static final String PLANTOPERATIONORDER_CREATE_HEADER
             = "PlantOperationOrderDeliveryDate;PlantOperationOrderOrderingDate;TradingEnterpriseId";

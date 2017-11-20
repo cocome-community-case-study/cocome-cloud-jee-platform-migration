@@ -40,8 +40,9 @@ public class Recipe implements Serializable, IRecipe {
     private static final long serialVersionUID = 1L;
 
     private long id;
-
+    private String name;
     private ICustomProduct customProduct;
+
     private long customProductId;
 
     // Represent the vertices of the recipe graph
@@ -53,6 +54,12 @@ public class Recipe implements Serializable, IRecipe {
     private Collection<IEntryPointInteraction> entryPointInteractions;
     private List<Long> parameterInteractionIds;
     private List<Long> entryPointInteractionIds;
+
+    // Input / Output ports
+    private Collection<IEntryPoint> inputEntryPoint;
+    private Collection<IEntryPoint> outputEntryPoint;
+    private List<Long> inputEntryPointIds;
+    private List<Long> outputEntryPointIds;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
@@ -66,6 +73,8 @@ public class Recipe implements Serializable, IRecipe {
         operations = null;
         entryPointInteractions = null;
         parameterInteractionIds = null;
+        inputEntryPoint = null;
+        outputEntryPoint = null;
     }
 
     @Override
@@ -76,6 +85,16 @@ public class Recipe implements Serializable, IRecipe {
     @Override
     public void setId(final long id) {
         this.id = id;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public void setName(final String name) {
+        this.name = name;
     }
 
     @Override
@@ -168,5 +187,51 @@ public class Recipe implements Serializable, IRecipe {
     @Override
     public void setParameterInteractionIds(List<Long> parameterInteractionIds) {
         this.parameterInteractionIds = parameterInteractionIds;
+    }
+
+    @Override
+    public Collection<IEntryPoint> getInputEntryPoint() throws NotInDatabaseException {
+        if (inputEntryPoint == null) {
+            inputEntryPoint = enterpriseQuery.queryEntryPoints(inputEntryPointIds);
+        }
+        return inputEntryPoint;
+    }
+
+    @Override
+    public void setInputEntryPoint(Collection<IEntryPoint> inputMaterial) {
+        this.inputEntryPoint = inputMaterial;
+    }
+
+    @Override
+    public List<Long> getInputEntryPointIds() {
+        return inputEntryPointIds;
+    }
+
+    @Override
+    public void setInputEntryPointIds(List<Long> inputEntryPointIds) {
+        this.inputEntryPointIds = inputEntryPointIds;
+    }
+
+    @Override
+    public Collection<IEntryPoint> getOutputEntryPoint() throws NotInDatabaseException {
+        if (outputEntryPoint == null) {
+            outputEntryPoint = enterpriseQuery.queryEntryPoints(outputEntryPointIds);
+        }
+        return outputEntryPoint;
+    }
+
+    @Override
+    public void setOutputEntryPoint(Collection<IEntryPoint> outputEntryPoint) {
+        this.outputEntryPoint = outputEntryPoint;
+    }
+
+    @Override
+    public List<Long> getOutputEntryPointIds() {
+        return outputEntryPointIds;
+    }
+
+    @Override
+    public void setOutputEntryPointIds(List<Long> outputEntryPointIds) {
+        this.outputEntryPointIds = outputEntryPointIds;
     }
 }

@@ -384,27 +384,27 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
             throws NotInDatabaseException {
         final RecipeTO result = new RecipeTO();
         result.setId(recipe.getId());
+        result.setName(recipe.getName());
         result.setCustomProduct(enterpriseDatatypes.fillCustomProductTO(recipe.getCustomProduct()));
         result.setOperations(new ArrayList<>());
-        for (final IPlantOperation operation : recipe.getOperations()) {
-            result.getOperations().add(fillPlantOperationTO(operation));
-        }
-        result.setParameterInteractions(new ArrayList<>());
-        for (final IParameterInteraction paramInteraction : recipe.getParameterInteractions()) {
-            result.getParameterInteractions().add(fillParameterInteractionTO(paramInteraction));
-        }
-        result.setEntryPointInteractions(new ArrayList<>());
-        for (final IEntryPointInteraction entryPointInteraction : recipe.getEntryPointInteractions()) {
-            result.getEntryPointInteractions().add(fillEntryPointInteractionTO(entryPointInteraction));
-        }
+        result.setInputEntryPoint(convertList(recipe.getInputEntryPoint(), enterpriseDatatypes::fillEntryPointTO));
+        result.setOutputEntryPoint(convertList(recipe.getOutputEntryPoint(), enterpriseDatatypes::fillEntryPointTO));
+        result.setOperations(convertList(recipe.getOperations(), this::fillPlantOperationTO));
+        result.setParameterInteractions(convertList(recipe.getParameterInteractions(), this::fillParameterInteractionTO));
+        result.setEntryPointInteractions(convertList(recipe.getEntryPointInteractions(), this::fillEntryPointInteractionTO));
+
         return result;
     }
 
     @Override
     public IRecipe convertToRecipe(RecipeTO recipeTO) {
         final IRecipe result = getNewRecipe();
+        result.setId(recipeTO.getId());
+        result.setName(recipeTO.getName());
         result.setCustomProductId(recipeTO.getCustomProduct().getId());
         result.setOperationIds(extractIdsOfCollection(recipeTO.getOperations()));
+        result.setInputEntryPointIds(extractIdsOfCollection(recipeTO.getInputEntryPoint()));
+        result.setOutputEntryPointIds(extractIdsOfCollection(recipeTO.getOutputEntryPoint()));
         result.setEntryPointInteractionIds(extractIdsOfCollection(recipeTO.getEntryPointInteractions()));
         result.setParameterInteractionIds(extractIdsOfCollection(recipeTO.getParameterInteractions()));
         return result;

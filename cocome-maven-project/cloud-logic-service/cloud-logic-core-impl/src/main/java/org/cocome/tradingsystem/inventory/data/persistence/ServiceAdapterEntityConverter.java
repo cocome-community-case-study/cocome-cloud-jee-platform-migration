@@ -508,7 +508,12 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 joinValues(recipe.getEntryPointInteractionIds()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getParameterInteractionIds());
+                joinValues(recipe.getParameterInteractionIds()) +
+                recipe.getName() +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(recipe.getInputEntryPointIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(recipe.getOutputEntryPointIds());
     }
 
     static String getUpdateRecipeContent(IRecipe recipe) {
@@ -520,7 +525,12 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 joinValues(recipe.getEntryPointInteractionIds()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getParameterInteractionIds());
+                joinValues(recipe.getParameterInteractionIds()) +
+                recipe.getName() +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(recipe.getInputEntryPointIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                joinValues(recipe.getOutputEntryPointIds());
     }
 
     static String getCreatePlantOperationOrderContent(IPlantOperationOrder order) {
