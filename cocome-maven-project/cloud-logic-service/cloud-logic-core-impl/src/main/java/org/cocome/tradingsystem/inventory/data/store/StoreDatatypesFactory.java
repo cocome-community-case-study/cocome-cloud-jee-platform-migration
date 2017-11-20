@@ -57,8 +57,8 @@ public class StoreDatatypesFactory implements IStoreDataFactory {
     public IOrderEntry convertToOrderEntry(ComplexOrderEntryTO entryTO) {
         IOrderEntry entry = getNewOrderEntry();
         entry.setAmount(entryTO.getAmount());
-        entry.setProduct(enterpriseDatatypes.convertToProduct(entryTO.getProductTO()));
-        entry.setProductBarcode(entryTO.getProductTO().getBarcode());
+        entry.setProduct(enterpriseDatatypes.convertToProduct(entryTO.getProductTO().getProductTO()));
+        entry.setProductBarcode(entryTO.getProductTO().getProductTO().getBarcode());
 
         return entry;
     }
@@ -171,10 +171,7 @@ public class StoreDatatypesFactory implements IStoreDataFactory {
         final ProductWithStockItemTO result = new ProductWithStockItemTO();
         final IProduct product = stockItem.getProduct();
 
-        result.setId(product.getId());
-        result.setName(product.getName());
-        result.setBarcode(product.getBarcode());
-        result.setPurchasePrice(product.getPurchasePrice());
+        result.setProductTO(enterpriseDatatypes.fillProductTO(product));
         result.setStockItemTO(fillStockItemTO(stockItem));
 
         return result;
@@ -186,10 +183,7 @@ public class StoreDatatypesFactory implements IStoreDataFactory {
         final ProductWithSupplierAndStockItemTO result = new ProductWithSupplierAndStockItemTO();
         final IProduct product = stockItem.getProduct();
 
-        result.setId(product.getId());
-        result.setName(product.getName());
-        result.setBarcode(product.getBarcode());
-        result.setPurchasePrice(product.getPurchasePrice());
+        result.setProductTO(enterpriseDatatypes.fillProductTO(stockItem.getProduct()));
         result.setSupplierTO(enterpriseDatatypes.fillSupplierTO(product.getSupplier()));
         result.setStockItemTO(fillStockItemTO(stockItem));
 

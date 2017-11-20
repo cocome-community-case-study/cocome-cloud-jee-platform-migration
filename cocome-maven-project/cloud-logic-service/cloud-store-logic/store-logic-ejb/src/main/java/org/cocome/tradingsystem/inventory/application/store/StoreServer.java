@@ -212,10 +212,10 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
         final LinkedList<IStockItem> updatedStockItems = new LinkedList<>();
 
         for (final ComplexOrderEntryTO coeto : complexOrder.getOrderEntryTOs()) {
-            final IProduct product = sq.queryProductByBarcode(coeto.getProductTO()
+            final IProduct product = sq.queryProductByBarcode(coeto.getProductTO().getProductTO()
                     .getBarcode());
 
-            __debug("Found product %d", coeto.getProductTO().getBarcode());
+            __debug("Found product %d", coeto.getProductTO().getProductTO().getBarcode());
 
             IOrderEntry oe = storeFactory.getNewOrderEntry();
             oe.setProduct(product);
@@ -709,10 +709,10 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
         item.setSalesPrice(stockItemTO.getStockItemTO().getSalesPrice());
 
         IProduct product;
-        if (stockItemTO.getId() != 0) {
-            product = __enterpriseQuery.queryProductByID(stockItemTO.getId());
+        if (stockItemTO.getProductTO().getId() != 0) {
+            product = __enterpriseQuery.queryProductByID(stockItemTO.getProductTO().getId());
         } else {
-            product = __enterpriseQuery.queryProductByBarcode(stockItemTO.getBarcode());
+            product = __enterpriseQuery.queryProductByBarcode(stockItemTO.getProductTO().getBarcode());
         }
 
         item.setProduct(product);

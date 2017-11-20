@@ -335,10 +335,10 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public void updateProduct(ProductWithSupplierTO productTO)
             throws NotInDatabaseException, UpdateException {
-        final IProduct product = saveFetchFromDB(() -> queryProduct(productTO));
+        final IProduct product = saveFetchFromDB(() -> queryProduct(productTO.getProductTO()));
 
-        product.setName(productTO.getName());
-        product.setPurchasePrice(productTO.getPurchasePrice());
+        product.setName(productTO.getProductTO().getName());
+        product.setPurchasePrice(productTO.getProductTO().getPurchasePrice());
 
         if (productTO.getSupplierTO().getId() != 0) {
             IProductSupplier supplier;
@@ -890,15 +890,6 @@ public class EnterpriseManager implements IEnterpriseManager {
             return enterpriseQuery.queryProductByID(productTO.getId());
         }
         return enterpriseQuery.queryProductByBarcode(productTO
-                .getBarcode());
-    }
-
-    private ICustomProduct queryCustomProduct(CustomProductTO customProductTO)
-            throws NotInDatabaseException {
-        if (customProductTO.getId() != 0) {
-            return enterpriseQuery.queryCustomProductByID(customProductTO.getId());
-        }
-        return enterpriseQuery.queryCustomProductByBarcode(customProductTO
                 .getBarcode());
     }
 

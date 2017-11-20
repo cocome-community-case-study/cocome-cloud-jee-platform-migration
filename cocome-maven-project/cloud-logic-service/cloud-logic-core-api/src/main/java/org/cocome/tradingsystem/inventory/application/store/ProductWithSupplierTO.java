@@ -16,11 +16,8 @@
 
 package org.cocome.tradingsystem.inventory.application.store;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 /**
  * A transfer object class for transferring basic product and additional
@@ -28,40 +25,49 @@ import javax.xml.bind.annotation.XmlType;
  * layer. It contains either copies of persisted data which are transferred to
  * the client, or data which is transferred from the client to the application
  * layer to be processed and persisted.
- * 
+ *
  * @author Sebastian Herold
  * @author Lubomir Bulej
  */
-@XmlType(name="ProductWithSupplierTO", namespace="http://store.application.inventory.tradingsystem.cocome.org/")
-@XmlRootElement(name="ProductWithSupplierTO")
+@XmlType(name = "ProductWithSupplierTO", namespace = "http://store.application.inventory.tradingsystem.cocome.org/")
+@XmlRootElement(name = "ProductWithSupplierTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProductWithSupplierTO extends ProductTO {
+public class ProductWithSupplierTO implements Serializable {
 
-	private static final long serialVersionUID = 5315366349773650L;
+    private static final long serialVersionUID = 5315366349773650L;
 
-	//
+    //
 
-	@XmlElement(name="supplierTO", required=true)
-	private SupplierTO __supplierTO;
+    @XmlElement(name = "supplierTO", required = true)
+    private SupplierTO __supplierTO;
 
-	/**
-	 * Gets transfer object for supplier which offers this product.
-	 * 
-	 * @return
-	 *         Transfer object for supplier.
-	 */
-	public SupplierTO getSupplierTO() {
-		return __supplierTO;
-	}
+    @XmlElementRef(name = "product")
+    private ProductTO _productTO;
 
-	/**
-	 * Sets transfer object for supplier.
-	 * 
-	 * @param supplierTO
-	 *            new supplier transfer object
-	 */
-	public void setSupplierTO(final SupplierTO supplierTO) {
-		__supplierTO = supplierTO;
-	}
+    public ProductTO getProductTO() {
+        return _productTO;
+    }
+
+    public void setProductTO(final ProductTO productTO) {
+        this._productTO = productTO;
+    }
+
+    /**
+     * Gets transfer object for supplier which offers this product.
+     *
+     * @return Transfer object for supplier.
+     */
+    public SupplierTO getSupplierTO() {
+        return __supplierTO;
+    }
+
+    /**
+     * Sets transfer object for supplier.
+     *
+     * @param supplierTO new supplier transfer object
+     */
+    public void setSupplierTO(final SupplierTO supplierTO) {
+        __supplierTO = supplierTO;
+    }
 
 }

@@ -146,14 +146,14 @@ public class ProductWrapper {
 	
 	public static ProductWithSupplierTO convertToProductTO(ProductWrapper product) {
 		ProductWithSupplierTO productTO = new ProductWithSupplierTO();
-		fillProductTO(productTO, product);
+		fillProductTO(productTO.getProductTO(), product);
 		productTO.setSupplierTO(new SupplierTO());
 		return productTO;
 	}
 	
 	public static ProductWithStockItemTO convertToProductWithStockItemTO(ProductWrapper product) {
 		ProductWithStockItemTO productTO = new ProductWithStockItemTO();
-		fillProductTO(productTO, product);
+		fillProductTO(productTO.getProductTO(), product);
 		
 		StockItemTO stockItemTO = product.getStockItemTO();
 		

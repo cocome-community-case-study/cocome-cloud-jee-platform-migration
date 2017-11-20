@@ -356,7 +356,7 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
 		
 		this.runningTotal = this.computeNewRunningTotal(price);
 
-		this.sendRunningTotalChangedEvent(product.getName(), price);
+		this.sendRunningTotalChangedEvent(product.getProductTO().getName(), price);
 	}
 
 	private void checkSufficientProductStockAmount(

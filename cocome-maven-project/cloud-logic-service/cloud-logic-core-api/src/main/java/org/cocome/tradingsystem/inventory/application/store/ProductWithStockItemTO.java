@@ -1,4 +1,5 @@
-/***************************************************************************
+/*
+ *************************************************************************
  * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,14 +13,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- ***************************************************************************/
+ *************************************************************************
+ */
 
 package org.cocome.tradingsystem.inventory.application.store;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 /**
  * A transfer object class for exchanging basic product information and
@@ -28,43 +28,47 @@ import javax.xml.bind.annotation.XmlType;
  * contains either copies of persisted data which are transferred to the client,
  * or data which is transferred from the client to the application layer to be
  * processed and persisted.
- * 
+ *
  * @author Sebastian Herold
  * @author Lubomir Bulej
  */
-@XmlType(name="ProductWithStockItemTO", namespace="http://store.application.inventory.tradingsystem.cocome.org/")
+@XmlType(name = "ProductWithStockItemTO", namespace = "http://store.application.inventory.tradingsystem.cocome.org/")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProductWithStockItemTO
-		extends ProductTO {
+public class ProductWithStockItemTO implements Serializable {
 
-	private static final long serialVersionUID = 3541228255270656771L;
+    private static final long serialVersionUID = 3541228255270656771L;
 
-	//
+    //
 
-	@XmlElement(name="stockItemTO", required=true)
-	private StockItemTO __stockItemTO;
+    @XmlElement(name = "stockItemTO", required = true)
+    private StockItemTO __stockItemTO;
 
-	/*
-	 * @see StockItemTOAccessor#getStockItemTO()
-	 */
-	public StockItemTO getStockItemTO() {
-		return __stockItemTO;
-	}
+    @XmlElementRef(name = "product")
+    private ProductTO _productTO;
 
-	/*
-	 * @see StockItemTOAccessor#setStockItemTO(StockItemTO)
-	 */
-	public void setStockItemTO(final StockItemTO stockItemTO) {
-		__stockItemTO = stockItemTO;
-	}
-	
-	public boolean equals(Object e) {
-		if (e instanceof ProductWithStockItemTO) {
-			ProductWithStockItemTO prod = (ProductWithStockItemTO) e;
-			return prod.getBarcode() == this.getBarcode() 
-					&& prod.getStockItemTO().getId() == this.getStockItemTO().getId();
-		}
-		return false;
-	}
+    public ProductTO getProductTO() {
+        return _productTO;
+    }
+
+    public void setProductTO(final ProductTO productTO) {
+        this._productTO = productTO;
+    }
+
+    public StockItemTO getStockItemTO() {
+        return __stockItemTO;
+    }
+
+    public void setStockItemTO(final StockItemTO stockItemTO) {
+        __stockItemTO = stockItemTO;
+    }
+
+    public boolean equals(Object e) {
+        if (e instanceof ProductWithStockItemTO) {
+            ProductWithStockItemTO prod = (ProductWithStockItemTO) e;
+            return prod._productTO.getBarcode() == this._productTO.getBarcode()
+                    && prod.getStockItemTO().getId() == this.getStockItemTO().getId();
+        }
+        return false;
+    }
 
 }

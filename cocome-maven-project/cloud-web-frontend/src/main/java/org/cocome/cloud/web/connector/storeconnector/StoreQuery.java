@@ -76,7 +76,7 @@ public class StoreQuery implements IStoreQuery {
 		List<ProductWithSupplierAndStockItemTO> items = storeManager.getProductsWithStockItems(storeID);
 		LOG.debug("Querying stock items: Creating product wrappers.");
 		for (ProductWithSupplierAndStockItemTO item : items) {
-			ProductWrapper newItem = new ProductWrapper(item, item.getStockItemTO(), store);
+			ProductWrapper newItem = new ProductWrapper(item.getProductTO(), item.getStockItemTO(), store);
 			stockItems.add(newItem);
 		}
 		return stockItems;

@@ -1,6 +1,8 @@
-<xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:tns="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://store.application.inventory.tradingsystem.cocome.org/" version="1.0">
+<xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:ns2="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://store.application.inventory.tradingsystem.cocome.org/" version="1.0">
 
   <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema7.xsd"/>
+
+  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema8.xsd"/>
 
   <xs:complexType name="EnterpriseTO">
     <xs:sequence>
@@ -44,13 +46,13 @@
   </xs:complexType>
 
   <xs:complexType name="ProductWithSupplierTO">
-    <xs:complexContent>
-      <xs:extension base="tns:ProductTO">
-        <xs:sequence>
-          <xs:element name="supplierTO" type="tns:SupplierTO"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
+    <xs:sequence>
+      <xs:element name="supplierTO" type="tns:SupplierTO"/>
+      <xs:choice>
+        <xs:element ref="ns1:ProductTO"/>
+        <xs:element ref="ns1:CustomProductTO"/>
+      </xs:choice>
+    </xs:sequence>
   </xs:complexType>
 
 </xs:schema>

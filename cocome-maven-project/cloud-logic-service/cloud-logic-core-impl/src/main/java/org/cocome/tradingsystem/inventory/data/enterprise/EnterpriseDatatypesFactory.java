@@ -160,10 +160,8 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     @Override
     public ProductWithSupplierTO fillProductWithSupplierTO(IProduct product) throws NotInDatabaseException {
         final ProductWithSupplierTO result = new ProductWithSupplierTO();
-        result.setId(product.getId());
-        result.setBarcode(product.getBarcode());
-        result.setName(product.getName());
-        result.setPurchasePrice(product.getPurchasePrice());
+
+        result.setProductTO(fillProductTO(product));
         result.setSupplierTO(fillSupplierTO(product.getSupplier()));
 
         return result;
