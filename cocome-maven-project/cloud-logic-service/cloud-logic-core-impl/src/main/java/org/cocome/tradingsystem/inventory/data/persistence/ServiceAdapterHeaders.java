@@ -88,12 +88,11 @@ public final class ServiceAdapterHeaders {
             + "BooleanPlantOperationParameterCategory";
 
     static final String NORMINAL_PLANT_OPERATION_PARAM_CREATE_HEADER
-            = "PlantOperationId;NorminalPlantOperationParameterId;NorminalPlantOperationParameterName;"
+            = "PlantOperationId;NorminalPlantOperationParameterName;"
             + "NorminalPlantOperationParameterCategory;NorminalPlantOperationParameterOptions";
     static final String NORMINAL_PLANT_OPERATION_PARAM_UPDATE_HEADER
-            = "PlantOperationId;NorminalPlantOperationParameterName;NorminalPlantOperationParameterCategory;"
-            + "NorminalPlantOperationParameterOptions";
-
+            = "PlantOperationId;NorminalPlantOperationParameterId;NorminalPlantOperationParameterName;"
+            + "NorminalPlantOperationParameterCategory;NorminalPlantOperationParameterOptions";
     static final String ENTRYPOINTINTERACTION_CREATE_HEADER
             = "EntryPointInteractionToId;EntryPointInteractionFromId";
     static final String ENTRYPOINTINTERACTION_UPDATE_HEADER
