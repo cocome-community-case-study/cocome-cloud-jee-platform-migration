@@ -1,4 +1,4 @@
-package org.cocome.tradingsystem.inventory.application.plant.iface;
+package org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub;
 
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.PUCOperationMeta;
 

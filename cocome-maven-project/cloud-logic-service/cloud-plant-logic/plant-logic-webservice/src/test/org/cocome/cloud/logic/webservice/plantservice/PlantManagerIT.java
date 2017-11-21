@@ -7,8 +7,8 @@ import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
-import org.cocome.tradingsystem.inventory.application.plant.iface.FMU;
-import org.cocome.tradingsystem.inventory.application.plant.iface.TestPUC;
+import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.FMU;
+import org.cocome.tradingsystem.inventory.application.plant.iface.PUCImporter;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
@@ -113,9 +113,9 @@ public class PlantManagerIT {
 
         /* Environmental setup */
 
-        final TestPUC xppu = new TestPUC("Default xPPU", XPPU.values(), plant, pm);
+        final PUCImporter xppu = new PUCImporter("Default xPPU", XPPU.values(), plant, pm);
 
-        final TestPUC fmu = new TestPUC("FMU", FMU.values(), plant, pm);
+        final PUCImporter fmu = new PUCImporter("FMU", FMU.values(), plant, pm);
 
         /* Production Units */
 
