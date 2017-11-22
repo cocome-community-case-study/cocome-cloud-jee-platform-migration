@@ -19,17 +19,25 @@
 package org.cocome.cloud.webservice.enterpriseservice;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.cocome.cloud.logic.stub.CreateException_Exception;
-import org.cocome.cloud.logic.stub.IEnterpriseManager;
-import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.logic.stub.UpdateException_Exception;
+import org.cocome.cloud.logic.stub.*;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
+import org.cocome.tradingsystem.inventory.application.plant.iface.PUCImporter;
+import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.FMU;
+import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.ParameterInteractionTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -39,13 +47,15 @@ import java.util.*;
 public class EnterpriseManagerIT {
 
     private static IEnterpriseManager em;
+    private static IPlantManager pm;
 
     @BeforeClass
     public static void createClient() {
-        JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        factory.setServiceClass(IEnterpriseManager.class);
-        factory.setAddress("http://127.0.0.1:40797/EnterpriseService/IEnterpriseManager");
-        em = (IEnterpriseManager) factory.create();
+        em = createJaxWsClient(IEnterpriseManager.class,
+                "http://127.0.0.1:40797/EnterpriseService/IEnterpriseManager");
+
+        pm = createJaxWsClient(IPlantManager.class,
+                "http://127.0.0.1:41897/PlantService/IPlantManager");
     }
 
     @Test
@@ -207,5 +217,190 @@ public class EnterpriseManagerIT {
             return em.queryEnterpriseByName(enterpriseName);
         }
         return enterprise;
+    }
+
+    @Test
+    public void testOrderShit() throws Exception {
+        final EnterpriseTO enterprise = getOrCreateEnterprise();
+        final PlantTO plant = getOrCreatePlant(enterprise);
+
+        /* Environmental setup */
+
+        final PUCImporter xppu = new PUCImporter("Default xPPU", XPPU.values(), plant, pm);
+        final PUCImporter fmu = new PUCImporter("FMU", FMU.values(), plant, pm);
+
+        /* Production Units */
+
+        final ProductionUnitTO xppu1 = new ProductionUnitTO();
+        xppu1.setPlant(plant);
+        xppu1.setProductionUnitClass(xppu.getProductionUnitClass());
+        xppu1.setDouble(true);
+        xppu1.setInterfaceUrl("dummy1.org");
+        xppu1.setLocation("Some Place 1");
+        xppu1.setId(pm.createProductionUnit(xppu1));
+
+        final ProductionUnitTO xppu2 = new ProductionUnitTO();
+        xppu2.setPlant(plant);
+        xppu2.setProductionUnitClass(xppu.getProductionUnitClass());
+        xppu2.setDouble(true);
+        xppu2.setInterfaceUrl("dummy2.org");
+        xppu2.setLocation("Some Place 2");
+        xppu2.setId(pm.createProductionUnit(xppu2));
+
+        final ProductionUnitTO fmu3 = new ProductionUnitTO();
+        fmu3.setPlant(plant);
+        fmu3.setProductionUnitClass(fmu.getProductionUnitClass());
+        fmu3.setDouble(true);
+        fmu3.setInterfaceUrl("dummy2.org");
+        fmu3.setLocation("Some Place 3");
+        fmu3.setId(pm.createProductionUnit(fmu3));
+
+        /* Plant Operations */
+
+        final EntryPointTO e = new EntryPointTO();
+        e.setName("ISO 12345 Cargo");
+        e.setId(em.createEntryPoint(e));
+
+        final PlantOperationTO operation = new PlantOperationTO();
+        operation.setName("Produce Yogurt");
+        operation.setPlant(plant);
+        operation.setOutputEntryPoint(Collections.singletonList(e));
+        operation.setId(em.createPlantOperation(operation));
+
+        final BooleanPlantOperationParameterTO param = new BooleanPlantOperationParameterTO();
+        param.setCategory("Yogurt Preparation");
+        param.setName("Organic");
+        param.setId(em.createBooleanPlantOperationParameter(param, operation));
+
+        final ConditionalExpressionTO conditionalExpression = new ConditionalExpressionTO();
+        conditionalExpression.setParameter(param);
+        conditionalExpression.setParameterValue(IBooleanParameter.TRUE_VALUE);
+        conditionalExpression.setOnTrueExpressions(Arrays.asList(
+                xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
+                xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
+                xppu.getOperation(XPPU.Crane_ACT_PickUpWP)));
+        conditionalExpression.setOnFalseExpressions(Arrays.asList(
+                xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
+                xppu.getOperation(XPPU.Stamp_ACT_Stamp),
+                xppu.getOperation(XPPU.Stamp_ACT_Stamp)));
+        conditionalExpression.setId(pm.createConditionalExpression(conditionalExpression));
+
+        operation.setExpressions(Arrays.asList(
+                xppu.getOperation(XPPU.Crane_ACT_Init),
+                xppu.getOperation(XPPU.Stack_ACT_Init),
+                conditionalExpression,
+                fmu.getOperation(FMU.Silo0_ACT_Init),
+                fmu.getOperation(FMU.Silo1_ACT_Init),
+                fmu.getOperation(FMU.Silo2_ACT_Init)
+        ));
+        em.updatePlantOperation(operation);
+
+        final EntryPointTO op2out1 = new EntryPointTO();
+        op2out1.setName("ISO 33333 Bottle");
+        op2out1.setId(em.createEntryPoint(op2out1));
+
+        final PlantOperationTO operation2 = new PlantOperationTO();
+        operation2.setName("Produce Yogurt");
+        operation2.setPlant(plant);
+        operation2.setOutputEntryPoint(Collections.singletonList(op2out1));
+        operation2.setExpressions(Arrays.asList(
+                xppu.getOperation(XPPU.Crane_ACT_Init),
+                fmu.getOperation(FMU.Silo0_ACT_Init),
+                fmu.getOperation(FMU.Silo2_ACT_Init)
+        ));
+        operation2.setId(em.createPlantOperation(operation2));
+
+        final NorminalPlantOperationParameterTO opr2param = new NorminalPlantOperationParameterTO();
+        opr2param.setCategory("Yogurt Filling");
+        opr2param.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
+        opr2param.setName("Bottle");
+        opr2param.setId(em.createNorminalPlantOperationParameter(opr2param, operation2));
+
+        final EntryPointTO op3in1 = new EntryPointTO();
+        op3in1.setName("ISO 12345 Cargo");
+        op3in1.setId(em.createEntryPoint(op3in1));
+
+        final EntryPointTO op3in2 = new EntryPointTO();
+        op3in2.setName("ISO 33333 Bottle");
+        op3in2.setId(em.createEntryPoint(op3in2));
+
+        final EntryPointTO op3out1 = new EntryPointTO();
+        op3out1.setName("ISO 321 Package");
+        op3out1.setId(em.createEntryPoint(op3out1));
+
+        final PlantOperationTO operation3 = new PlantOperationTO();
+        operation3.setName("Produce Yogurt");
+        operation3.setPlant(plant);
+        operation3.setInputEntryPoint(Arrays.asList(op3in1, op3in2));
+        operation3.setOutputEntryPoint(Collections.singletonList(op3out1));
+        operation3.setExpressions(Arrays.asList(
+                xppu.getOperation(XPPU.Crane_ACT_Init),
+                fmu.getOperation(FMU.Silo0_ACT_Init),
+                fmu.getOperation(FMU.Silo2_ACT_Init)
+        ));
+        operation3.setId(em.createPlantOperation(operation3));
+
+        /* Recipe creation */
+
+        final EntryPointTO recipeOut1 = new EntryPointTO();
+        recipeOut1.setName("ISO 321 Package");
+        recipeOut1.setId(em.createEntryPoint(recipeOut1));
+
+        final CustomProductTO customProduct = new CustomProductTO();
+        customProduct.setBarcode(new Date().getTime());
+        customProduct.setName("Yogurt");
+        customProduct.setPurchasePrice(10);
+        customProduct.setId(em.createProduct(customProduct));
+
+        final BooleanCustomProductParameterTO cparam1 = new BooleanCustomProductParameterTO();
+        cparam1.setCategory("Yogurt Preparation");
+        cparam1.setName("Organic");
+        cparam1.setCustomProduct(customProduct);
+        cparam1.setId(em.createBooleanCustomProductParameter(cparam1));
+
+        final NorminalCustomProductParameterTO cparam2 = new NorminalCustomProductParameterTO();
+        cparam2.setCategory("Yogurt Filling");
+        cparam2.setName("Bottle");
+        cparam2.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
+        cparam2.setCustomProduct(customProduct);
+        cparam2.setId(em.createNorminalCustomProductParameter(cparam2));
+
+        final ParameterInteractionTO interaction1 = new ParameterInteractionTO();
+        interaction1.setFrom(cparam1);
+        interaction1.setTo(param);
+        interaction1.setId(em.createParameterInteraction(interaction1));
+
+        final ParameterInteractionTO interaction2 = new ParameterInteractionTO();
+        interaction2.setFrom(cparam2);
+        interaction2.setTo(opr2param);
+        interaction2.setId(em.createParameterInteraction(interaction2));
+
+        final RecipeTO recipe = new RecipeTO();
+        recipe.setName("Create Yoghurt");
+        recipe.setCustomProduct(customProduct);
+        recipe.setOutputEntryPoint(Collections.singletonList(recipeOut1));
+        recipe.setParameterInteractions(Arrays.asList(interaction1, interaction2));
+        recipe.setOperations(Arrays.asList(operation, operation2, operation3));
+        //recipe.setEntryPointInteractions(Arrays.asList());
+
+        /* Order creation */
+
+    }
+
+    private PlantTO getOrCreatePlant(final EnterpriseTO enterprise) throws CreateException_Exception, NotInDatabaseException_Exception {
+        final PlantTO plant = new PlantTO();
+        plant.setName("Plant1");
+        plant.setEnterpriseTO(enterprise);
+        em.createPlant(plant);
+        final Collection<PlantTO> plants = em.queryPlantsByEnterpriseID(enterprise.getId());
+        return plants.iterator().next();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> T createJaxWsClient(final Class<T> clientClass, final String url) {
+        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+        factory.setServiceClass(clientClass);
+        factory.setAddress(url);
+        return (T) factory.create();
     }
 }
