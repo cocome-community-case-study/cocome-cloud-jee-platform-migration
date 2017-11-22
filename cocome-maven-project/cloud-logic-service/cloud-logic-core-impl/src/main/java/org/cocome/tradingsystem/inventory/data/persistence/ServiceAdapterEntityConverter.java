@@ -510,6 +510,7 @@ class ServiceAdapterEntityConverter {
                 joinValues(recipe.getEntryPointInteractionIds()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 joinValues(recipe.getParameterInteractionIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
                 recipe.getName() +
                 ServiceAdapterHeaders.SEPARATOR +
                 joinValues(recipe.getInputEntryPointIds()) +
@@ -527,6 +528,7 @@ class ServiceAdapterEntityConverter {
                 joinValues(recipe.getEntryPointInteractionIds()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 joinValues(recipe.getParameterInteractionIds()) +
+                ServiceAdapterHeaders.SEPARATOR +
                 recipe.getName() +
                 ServiceAdapterHeaders.SEPARATOR +
                 joinValues(recipe.getInputEntryPointIds()) +

@@ -31,10 +31,9 @@ import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.ParameterInteractionTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
@@ -257,14 +256,14 @@ public class EnterpriseManagerIT {
 
         /* Plant Operations */
 
-        final EntryPointTO e = new EntryPointTO();
-        e.setName("ISO 12345 Cargo");
-        e.setId(em.createEntryPoint(e));
+        final EntryPointTO op1out1 = new EntryPointTO();
+        op1out1.setName("ISO 12345 Cargo");
+        op1out1.setId(em.createEntryPoint(op1out1));
 
         final PlantOperationTO operation = new PlantOperationTO();
         operation.setName("Produce Yogurt");
         operation.setPlant(plant);
-        operation.setOutputEntryPoint(Collections.singletonList(e));
+        operation.setOutputEntryPoint(Collections.singletonList(op1out1));
         operation.setId(em.createPlantOperation(operation));
 
         final BooleanPlantOperationParameterTO param = new BooleanPlantOperationParameterTO();
@@ -375,19 +374,36 @@ public class EnterpriseManagerIT {
         interaction2.setTo(opr2param);
         interaction2.setId(em.createParameterInteraction(interaction2));
 
+        final EntryPointInteractionTO epInteraction1 = new EntryPointInteractionTO();
+        epInteraction1.setFrom(op1out1);
+        epInteraction1.setTo(op3in1);
+        epInteraction1.setId(em.createEntryPointInteraction(epInteraction1));
+
+        final EntryPointInteractionTO epInteraction2 = new EntryPointInteractionTO();
+        epInteraction2.setFrom(op2out1);
+        epInteraction2.setTo(op3in2);
+        epInteraction2.setId(em.createEntryPointInteraction(epInteraction2));
+
+        final EntryPointInteractionTO epInteraction3 = new EntryPointInteractionTO();
+        epInteraction3.setFrom(op3out1);
+        epInteraction3.setTo(recipeOut1);
+        epInteraction3.setId(em.createEntryPointInteraction(epInteraction3));
+
         final RecipeTO recipe = new RecipeTO();
         recipe.setName("Create Yoghurt");
         recipe.setCustomProduct(customProduct);
         recipe.setOutputEntryPoint(Collections.singletonList(recipeOut1));
+        recipe.setEntryPointInteractions(Arrays.asList(epInteraction1, epInteraction2, epInteraction3));
         recipe.setParameterInteractions(Arrays.asList(interaction1, interaction2));
         recipe.setOperations(Arrays.asList(operation, operation2, operation3));
-        //recipe.setEntryPointInteractions(Arrays.asList());
+        recipe.setId(em.createRecipe(recipe));
 
         /* Order creation */
 
     }
 
-    private PlantTO getOrCreatePlant(final EnterpriseTO enterprise) throws CreateException_Exception, NotInDatabaseException_Exception {
+    private PlantTO getOrCreatePlant(final EnterpriseTO enterprise) throws CreateException_Exception,
+            NotInDatabaseException_Exception {
         final PlantTO plant = new PlantTO();
         plant.setName("Plant1");
         plant.setEnterpriseTO(enterprise);
