@@ -8,6 +8,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
@@ -551,6 +552,24 @@ class ServiceAdapterEntityConverter {
                 String.valueOf(order.getEnterpriseId());
     }
 
+    public static String getCreateProductionOrderContent(IProductionOrder order) {
+        return TimeUtils.convertToStringDate(order.getDeliveryDate()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                TimeUtils.convertToStringDate(order.getOrderingDate()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.getEnterpriseId());
+    }
+
+    public static String getUpdateProductionOrderContent(IProductionOrder order) {
+        return String.valueOf(order.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                TimeUtils.convertToStringDate(order.getDeliveryDate()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                TimeUtils.convertToStringDate(order.getOrderingDate()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.getEnterpriseId());
+    }
+
     static String getCreatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry,
                                                            IPlantOperationOrder order) {
         return String.valueOf(orderEntry.getAmount()) +
@@ -582,6 +601,45 @@ class ServiceAdapterEntityConverter {
 
     static String getUpdatePlantOperationParameterValueContent(IPlantOperationParameterValue value,
                                                                IPlantOperationOrderEntry orderEntry) {
+        return String.valueOf(value.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(value.getValue()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(value.getParameterId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.getId());
+    }
+
+    static String getCreateProductionOrderEntryContent(IProductionOrderEntry orderEntry, IProductionOrder order) {
+        return String.valueOf(orderEntry.getAmount()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.getRecipe().getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.getId());
+    }
+
+    static String getUpdateProductionOrderEntryContent(IProductionOrderEntry orderEntry, IProductionOrder order) {
+        return String.valueOf(orderEntry.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.getAmount()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.getRecipe().getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.getId());
+    }
+
+
+    static String getUpdateCustomProductParameterValueContent(ICustomProductParameterValue value,
+                                                              IProductionOrderEntry orderEntry) {
+        return String.valueOf(value.getValue()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(value.getParameterId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.getId());
+    }
+
+    static String getCreateCustomProductParameterValueContent(ICustomProductParameterValue value,
+                                                              IProductionOrderEntry orderEntry) {
         return String.valueOf(value.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(value.getValue()) +

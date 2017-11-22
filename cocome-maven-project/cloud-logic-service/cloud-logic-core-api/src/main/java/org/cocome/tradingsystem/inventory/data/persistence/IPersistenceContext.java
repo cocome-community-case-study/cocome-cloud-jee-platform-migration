@@ -22,6 +22,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
@@ -304,4 +305,30 @@ public interface IPersistenceContext {
     void deleteEntity(IPlantOperationParameterValue recipe, IPlantOperationOrderEntry orderEntry)
             throws UpdateException;
 
+    void createEntity(IProductionOrder order) throws CreateException;
+
+    void updateEntity(IProductionOrder order) throws UpdateException;
+
+    void deleteEntity(IProductionOrder order) throws UpdateException;
+
+    void createEntity(IProductionOrderEntry orderEntry,
+                      IProductionOrder order)
+            throws CreateException;
+
+    void updateEntity(IProductionOrderEntry orderEntry,
+                      IProductionOrder order)
+            throws UpdateException;
+
+    void deleteEntity(IProductionOrderEntry orderEntry,
+                      IProductionOrder order)
+            throws UpdateException;
+
+    void createEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry)
+            throws CreateException;
+
+    void updateEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry)
+            throws UpdateException;
+
+    void deleteEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry)
+            throws UpdateException;
 }

@@ -93,6 +93,7 @@ public final class ServiceAdapterHeaders {
     static final String NORMINAL_PLANT_OPERATION_PARAM_UPDATE_HEADER
             = "PlantOperationId;NorminalPlantOperationParameterId;NorminalPlantOperationParameterName;"
             + "NorminalPlantOperationParameterCategory;NorminalPlantOperationParameterOptions";
+
     static final String ENTRYPOINTINTERACTION_CREATE_HEADER
             = "EntryPointInteractionToId;EntryPointInteractionFromId";
     static final String ENTRYPOINTINTERACTION_UPDATE_HEADER
@@ -116,16 +117,33 @@ public final class ServiceAdapterHeaders {
             = "PlantOperationOrderId;PlantOperationOrderDeliveryDate;PlantOperationOrderOrderingDate;"
             + "TradingEnterpriseId";
 
-    static final String PLANTOPERATIONENTRY_CREATE_HEADER
+    static final String PLANTOPERATIONORDERENTRY_CREATE_HEADER
             = "PlantOperationOrderEntryAmount;PlantOperationId;PlantOperationOrderId";
-    static final String PLANTOPERATIONENTRY_UPDATE_HEADER
+    static final String PLANTOPERATIONORDERENTRY_UPDATE_HEADER
             = "PlantOperationOrderEntryId;PlantOperationOrderEntryAmount;PlantOperationId;PlantOperationOrderId";
 
-    static final String PARAMETERVALUECONTENT_CREATE_HEADER
+    static final String PLANTOPERATIONPARAMETERVALUE_CREATE_HEADER
             = "PlantOperationParameterValueValue;PlantOperationParameterId;PlantOperationOrderEntryId";
-    static final String PARAMETERVALUECONTENT_UPDATE_HEADER
+    static final String PLANTOPERATIONPARAMETERVALUE_UPDATE_HEADER
             = "PlantOperationParameterValueId;PlantOperationParameterValueValue;PlantOperationParameterId;"
             + "PlantOperationOrderEntryId";
+
+    static final String PRODUCTIONORDER_CREATE_HEADER
+            = "ProductionOrderDeliveryDate;ProductionOrderOrderingDate;TradingEnterpriseId";
+    static final String PRODUCTIONORDER_UPDATE_HEADER
+            = "ProductionOrderId;ProductionOrderDeliveryDate;ProductionOrderOrderingDate;"
+            + "TradingEnterpriseId";
+
+    static final String PRODUCTIONORDERENTRY_CREATE_HEADER
+            = "ProductionOrderEntryAmount;RecipeId;ProductionOrderId";
+    static final String PRODUCTIONORDERENTRY_UPDATE_HEADER
+            = "ProductionOrderEntryId;ProductionOrderEntryAmount;RecipeId;ProductionOrderId";
+
+    static final String CUSTOMPRODUCTPARAMETERVALUE_CREATE_HEADER
+            = "CustomProductParameterValueValue;CustomProductParameterId;ProductionOrderEntryId";
+    static final String CUSTOMPRODUCTPARAMETERVALUE_UPDATE_HEADER
+            = "CustomProductParameterValueId;CustomProductParameterValueValue;CustomProductParameterId;"
+            + "ProductionOrderEntryId";
 
     static final String PRODUCTIONUNIT_CREATE_HEADER
             = "ProductionUnitLocation;ProductionUnitInterfaceURL;ProductionUnitDouble;PlantId;ProductionUnitClassId";

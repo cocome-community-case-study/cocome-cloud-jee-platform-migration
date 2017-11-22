@@ -24,6 +24,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
@@ -681,7 +682,7 @@ public class CloudPersistenceContext implements IPersistenceContext {
 
     @Override
     public void deleteEntity(IPlantOperationOrder order) throws UpdateException {
-        updateEntity("PlantOperationOrder",
+        deleteEntity("PlantOperationOrder",
                 ServiceAdapterEntityConverter.getUpdatePlantOperationOrderContent(order),
                 ServiceAdapterHeaders.PLANTOPERATIONORDER_UPDATE_HEADER);
     }
@@ -692,7 +693,7 @@ public class CloudPersistenceContext implements IPersistenceContext {
         createEntity(orderEntry,
                 "PlantOperationOrderEntry",
                 ServiceAdapterEntityConverter.getCreatePlantOperationOrderEntryContent(orderEntry, order),
-                ServiceAdapterHeaders.PLANTOPERATIONENTRY_CREATE_HEADER);
+                ServiceAdapterHeaders.PLANTOPERATIONORDERENTRY_CREATE_HEADER);
     }
 
     @Override
@@ -700,15 +701,15 @@ public class CloudPersistenceContext implements IPersistenceContext {
                              IPlantOperationOrder order) throws UpdateException {
         updateEntity("PlantOperationOrderEntry",
                 ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry, order),
-                ServiceAdapterHeaders.PLANTOPERATIONENTRY_UPDATE_HEADER);
+                ServiceAdapterHeaders.PLANTOPERATIONORDERENTRY_UPDATE_HEADER);
     }
 
     @Override
     public void deleteEntity(IPlantOperationOrderEntry orderEntry,
                              IPlantOperationOrder order) throws UpdateException {
-        updateEntity("PlantOperationOrderEntry",
+        deleteEntity("PlantOperationOrderEntry",
                 ServiceAdapterEntityConverter.getUpdatePlantOperationOrderEntryContent(orderEntry, order),
-                ServiceAdapterHeaders.PLANTOPERATIONENTRY_UPDATE_HEADER);
+                ServiceAdapterHeaders.PLANTOPERATIONORDERENTRY_UPDATE_HEADER);
     }
 
     @Override
@@ -716,21 +717,87 @@ public class CloudPersistenceContext implements IPersistenceContext {
         createEntity(value,
                 "PlantOperationParameterValue",
                 ServiceAdapterEntityConverter.getCreatePlantOperationParameterValueContent(value, orderEntry),
-                ServiceAdapterHeaders.PARAMETERVALUECONTENT_CREATE_HEADER);
+                ServiceAdapterHeaders.PLANTOPERATIONPARAMETERVALUE_CREATE_HEADER);
     }
 
     @Override
     public void updateEntity(IPlantOperationParameterValue value, IPlantOperationOrderEntry orderEntry) throws UpdateException {
         updateEntity("PlantOperationParameterValue",
                 ServiceAdapterEntityConverter.getUpdatePlantOperationParameterValueContent(value, orderEntry),
-                ServiceAdapterHeaders.PARAMETERVALUECONTENT_UPDATE_HEADER);
+                ServiceAdapterHeaders.PLANTOPERATIONPARAMETERVALUE_UPDATE_HEADER);
     }
 
     @Override
     public void deleteEntity(IPlantOperationParameterValue value, IPlantOperationOrderEntry orderEntry) throws UpdateException {
-        updateEntity("PlantOperationParameterValue",
+        deleteEntity("PlantOperationParameterValue",
                 ServiceAdapterEntityConverter.getUpdatePlantOperationParameterValueContent(value, orderEntry),
-                ServiceAdapterHeaders.PARAMETERVALUECONTENT_UPDATE_HEADER);
+                ServiceAdapterHeaders.PLANTOPERATIONPARAMETERVALUE_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IProductionOrder order) throws CreateException {
+        createEntity(order,
+                "ProductionOrder",
+                ServiceAdapterEntityConverter.getCreateProductionOrderContent(order),
+                ServiceAdapterHeaders.PRODUCTIONORDER_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IProductionOrder order) throws UpdateException {
+        updateEntity("ProductionOrder",
+                ServiceAdapterEntityConverter.getUpdateProductionOrderContent(order),
+                ServiceAdapterHeaders.PRODUCTIONORDER_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IProductionOrder order) throws UpdateException {
+        deleteEntity("ProductionOrder",
+                ServiceAdapterEntityConverter.getUpdateProductionOrderContent(order),
+                ServiceAdapterHeaders.PRODUCTIONORDER_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(IProductionOrderEntry orderEntry, IProductionOrder order) throws CreateException {
+        createEntity(orderEntry,
+                "ProductionOrderEntry",
+                ServiceAdapterEntityConverter.getCreateProductionOrderEntryContent(orderEntry, order),
+                ServiceAdapterHeaders.PLANTOPERATIONORDERENTRY_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(IProductionOrderEntry orderEntry, IProductionOrder order) throws UpdateException {
+        updateEntity("ProductionOrderEntry",
+                ServiceAdapterEntityConverter.getUpdateProductionOrderEntryContent(orderEntry, order),
+                ServiceAdapterHeaders.PLANTOPERATIONORDERENTRY_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(IProductionOrderEntry orderEntry, IProductionOrder order) throws UpdateException {
+        deleteEntity("ProductionOrderEntry",
+                ServiceAdapterEntityConverter.getUpdateProductionOrderEntryContent(orderEntry, order),
+                ServiceAdapterHeaders.PLANTOPERATIONORDERENTRY_UPDATE_HEADER);
+    }
+
+    @Override
+    public void createEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry) throws CreateException {
+        createEntity(orderEntry,
+                "CustomProductParameterValue",
+                ServiceAdapterEntityConverter.getCreateCustomProductParameterValueContent(value, orderEntry),
+                ServiceAdapterHeaders.PLANTOPERATIONORDERENTRY_CREATE_HEADER);
+    }
+
+    @Override
+    public void updateEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry) throws UpdateException {
+        updateEntity("CustomProductParameterValue",
+                ServiceAdapterEntityConverter.getUpdateCustomProductParameterValueContent(value, orderEntry),
+                ServiceAdapterHeaders.PLANTOPERATIONPARAMETERVALUE_UPDATE_HEADER);
+    }
+
+    @Override
+    public void deleteEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry) throws UpdateException {
+        deleteEntity("CustomProductParameterValue",
+                ServiceAdapterEntityConverter.getUpdateCustomProductParameterValueContent(value, orderEntry),
+                ServiceAdapterHeaders.PLANTOPERATIONPARAMETERVALUE_UPDATE_HEADER);
     }
 
     @Override
