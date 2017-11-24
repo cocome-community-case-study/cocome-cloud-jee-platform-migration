@@ -48,6 +48,20 @@ public class RecipeExecutionGraph {
 
     private final List<RecipeExecutionGraphNode> startNodes = new LinkedList<>();
 
+    /**
+     * Constructs a new execution graph based on the given recipe.
+     * <p>
+     * During construction checks for:
+     * <ol>
+     * <li>If all nodes and entry points are used / connected with each other</li>
+     * <li>If the recipe is directed acyclic graph</li>
+     * <li>If all plant operation parameters are assigned to their corresponding custom product parameters</li>
+     * </ol>
+     *
+     * @param recipe the recipe extracted from the database
+     * @throws NotInDatabaseException if some elements in the recipe appear to be invalid database references
+     * @throws RecipeException        if the recipe has semantic errors
+     */
     public RecipeExecutionGraph(IRecipe recipe)
             throws NotInDatabaseException, RecipeException {
         Objects.requireNonNull(recipe);
