@@ -22,6 +22,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -63,6 +64,8 @@ public class PlantOperation implements Serializable, IPlantOperation {
 
     private IPlantQuery plantQuery;
 
+    private Collection<IPlantOperationParameter> parameters;
+
     @PostConstruct
     public void initPlant() {
         enterpriseQuery = enterpriseQueryInstance.get();
@@ -71,6 +74,7 @@ public class PlantOperation implements Serializable, IPlantOperation {
         expressions = null;
         inputEntryPoint = null;
         outputEntryPoint = null;
+        parameters = null;
     }
 
     @Override
@@ -183,5 +187,18 @@ public class PlantOperation implements Serializable, IPlantOperation {
     @Override
     public void setExpressionIds(List<Long> expressionIds) {
         this.expressionIds = expressionIds;
+    }
+
+    @Override
+    public Collection<IPlantOperationParameter> getParameters() throws NotInDatabaseException {
+        if (parameters == null) {
+            parameters = enterpriseQuery.queryParametersByPlantOperationID(this.id);
+        }
+        return parameters;
+    }
+
+    @Override
+    public void setParameters(final Collection<IPlantOperationParameter> parameters) {
+        this.parameters = parameters;
     }
 }
