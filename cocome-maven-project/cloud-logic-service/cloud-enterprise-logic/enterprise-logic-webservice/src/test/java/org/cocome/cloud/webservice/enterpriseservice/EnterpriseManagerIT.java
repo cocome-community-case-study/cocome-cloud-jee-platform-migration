@@ -260,16 +260,16 @@ public class EnterpriseManagerIT {
         op1out1.setName("ISO 12345 Cargo");
         op1out1.setId(em.createEntryPoint(op1out1));
 
-        final PlantOperationTO operation = new PlantOperationTO();
-        operation.setName("Produce Yogurt");
-        operation.setPlant(plant);
-        operation.setOutputEntryPoint(Collections.singletonList(op1out1));
-        operation.setId(em.createPlantOperation(operation));
+        final PlantOperationTO operation1 = new PlantOperationTO();
+        operation1.setName("Produce Yogurt");
+        operation1.setPlant(plant);
+        operation1.setOutputEntryPoint(Collections.singletonList(op1out1));
+        operation1.setId(em.createPlantOperation(operation1));
 
         final BooleanPlantOperationParameterTO param = new BooleanPlantOperationParameterTO();
-        param.setCategory("Yogurt Preparation");
+        param.setCategory("Ingredients");
         param.setName("Organic");
-        param.setId(em.createBooleanPlantOperationParameter(param, operation));
+        param.setId(em.createBooleanPlantOperationParameter(param, operation1));
 
         final ConditionalExpressionTO conditionalExpression = new ConditionalExpressionTO();
         conditionalExpression.setParameter(param);
@@ -284,7 +284,7 @@ public class EnterpriseManagerIT {
                 xppu.getOperation(XPPU.Stamp_ACT_Stamp)));
         conditionalExpression.setId(pm.createConditionalExpression(conditionalExpression));
 
-        operation.setExpressions(Arrays.asList(
+        operation1.setExpressions(Arrays.asList(
                 xppu.getOperation(XPPU.Crane_ACT_Init),
                 xppu.getOperation(XPPU.Stack_ACT_Init),
                 conditionalExpression,
@@ -292,14 +292,14 @@ public class EnterpriseManagerIT {
                 fmu.getOperation(FMU.Silo1_ACT_Init),
                 fmu.getOperation(FMU.Silo2_ACT_Init)
         ));
-        em.updatePlantOperation(operation);
+        em.updatePlantOperation(operation1);
 
         final EntryPointTO op2out1 = new EntryPointTO();
         op2out1.setName("ISO 33333 Bottle");
         op2out1.setId(em.createEntryPoint(op2out1));
 
         final PlantOperationTO operation2 = new PlantOperationTO();
-        operation2.setName("Produce Yogurt");
+        operation2.setName("Fill Yogurt");
         operation2.setPlant(plant);
         operation2.setOutputEntryPoint(Collections.singletonList(op2out1));
         operation2.setExpressions(Arrays.asList(
@@ -310,7 +310,7 @@ public class EnterpriseManagerIT {
         operation2.setId(em.createPlantOperation(operation2));
 
         final NorminalPlantOperationParameterTO opr2param = new NorminalPlantOperationParameterTO();
-        opr2param.setCategory("Yogurt Filling");
+        opr2param.setCategory("Bottle");
         opr2param.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
         opr2param.setName("Bottle");
         opr2param.setId(em.createNorminalPlantOperationParameter(opr2param, operation2));
@@ -328,7 +328,7 @@ public class EnterpriseManagerIT {
         op3out1.setId(em.createEntryPoint(op3out1));
 
         final PlantOperationTO operation3 = new PlantOperationTO();
-        operation3.setName("Produce Yogurt");
+        operation3.setName("Package Yogurt");
         operation3.setPlant(plant);
         operation3.setInputEntryPoint(Arrays.asList(op3in1, op3in2));
         operation3.setOutputEntryPoint(Collections.singletonList(op3out1));
@@ -339,11 +339,7 @@ public class EnterpriseManagerIT {
         ));
         operation3.setId(em.createPlantOperation(operation3));
 
-        /* Recipe creation */
-
-        final EntryPointTO recipeOut1 = new EntryPointTO();
-        recipeOut1.setName("ISO 321 Package");
-        recipeOut1.setId(em.createEntryPoint(recipeOut1));
+        /* Custom Product creation */
 
         final CustomProductTO customProduct = new CustomProductTO();
         customProduct.setBarcode(new Date().getTime());
@@ -352,17 +348,23 @@ public class EnterpriseManagerIT {
         customProduct.setId(em.createProduct(customProduct));
 
         final BooleanCustomProductParameterTO cparam1 = new BooleanCustomProductParameterTO();
-        cparam1.setCategory("Yogurt Preparation");
+        cparam1.setCategory("Ingredients");
         cparam1.setName("Organic");
         cparam1.setCustomProduct(customProduct);
         cparam1.setId(em.createBooleanCustomProductParameter(cparam1));
 
         final NorminalCustomProductParameterTO cparam2 = new NorminalCustomProductParameterTO();
-        cparam2.setCategory("Yogurt Filling");
+        cparam2.setCategory("Packaging");
         cparam2.setName("Bottle");
         cparam2.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
         cparam2.setCustomProduct(customProduct);
         cparam2.setId(em.createNorminalCustomProductParameter(cparam2));
+
+        /* Recipe creation */
+
+        final EntryPointTO recipeOut1 = new EntryPointTO();
+        recipeOut1.setName("ISO 321 Package");
+        recipeOut1.setId(em.createEntryPoint(recipeOut1));
 
         final ParameterInteractionTO interaction1 = new ParameterInteractionTO();
         interaction1.setFrom(cparam1);
@@ -390,13 +392,15 @@ public class EnterpriseManagerIT {
         epInteraction3.setId(em.createEntryPointInteraction(epInteraction3));
 
         final RecipeTO recipe = new RecipeTO();
-        recipe.setName("Create Yoghurt");
+        recipe.setName("Yoghurt Recipe");
         recipe.setCustomProduct(customProduct);
         recipe.setOutputEntryPoint(Collections.singletonList(recipeOut1));
         recipe.setEntryPointInteractions(Arrays.asList(epInteraction1, epInteraction2, epInteraction3));
         recipe.setParameterInteractions(Arrays.asList(interaction1, interaction2));
-        recipe.setOperations(Arrays.asList(operation, operation2, operation3));
+        recipe.setOperations(Arrays.asList(operation1, operation2, operation3));
         recipe.setId(em.createRecipe(recipe));
+
+        em.validateRecipe(recipe);
 
         /* Order creation */
 

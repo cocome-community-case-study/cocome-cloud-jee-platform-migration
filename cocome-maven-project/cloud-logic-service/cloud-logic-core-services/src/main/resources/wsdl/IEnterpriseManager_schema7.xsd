@@ -183,6 +183,8 @@
   <xs:element name="updateRecipeResponse" type="tns:updateRecipeResponse"/>
   <xs:element name="updateStore" type="tns:updateStore"/>
   <xs:element name="updateStoreResponse" type="tns:updateStoreResponse"/>
+  <xs:element name="validateRecipe" type="tns:validateRecipe"/>
+  <xs:element name="validateRecipeResponse" type="tns:validateRecipeResponse"/>
   <xs:complexType name="deleteBooleanPlantOperationParameter">
     <xs:sequence>
       <xs:element name="booleanPlantOperationParameterID" type="ns1:BooleanPlantOperationParameterTO"/>
@@ -697,6 +699,14 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="updateParameterInteractionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="validateRecipe">
+    <xs:sequence>
+      <xs:element name="recipeID" type="ns4:RecipeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="validateRecipeResponse">
     <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="queryParameterInteractions">

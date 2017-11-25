@@ -20,8 +20,10 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -70,4 +72,15 @@ public interface IPlantOperation extends IRecipeOperation {
      * @param plantId the ids the expressions used for this operation
      */
     void setExpressionIds(List<Long> plantId);
+
+    /**
+     * @return the list of parameters needed for this plant operation
+     * @throws NotInDatabaseException if the associated plant operation does not exist
+     */
+    Collection<IPlantOperationParameter> getParameters() throws NotInDatabaseException;
+
+    /**
+     * @param parameters the list of parameters needed for this plant operation
+     */
+    void setParameters(final Collection<IPlantOperationParameter> parameters);
 }

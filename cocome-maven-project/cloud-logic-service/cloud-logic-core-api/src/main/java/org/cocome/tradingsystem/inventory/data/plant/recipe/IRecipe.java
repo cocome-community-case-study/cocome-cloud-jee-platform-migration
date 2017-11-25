@@ -18,9 +18,9 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.util.exception.RecipeException;
 
 import java.util.Collection;
 import java.util.List;
@@ -75,12 +75,12 @@ public interface IRecipe extends IRecipeOperation {
     /**
      * @return the list of interactions
      */
-    Collection<IEntryPointInteraction> getEntryPointInteractions();
+    Collection<IEntryPointInteraction> getEntryPointInteractions() throws NotInDatabaseException;
 
     /**
      * @param entryPointInteractions the list of interactions
      */
-    void setEntryPointInteractions(Collection<IEntryPointInteraction> entryPointInteractions) throws NotInDatabaseException;
+    void setEntryPointInteractions(Collection<IEntryPointInteraction> entryPointInteractions);
 
     /**
      * @return the list of interaction IDs

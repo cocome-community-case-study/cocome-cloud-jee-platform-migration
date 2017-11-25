@@ -48,9 +48,11 @@ import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOper
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.exec.RecipeExecutionGraph;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.util.exception.RecipeException;
 import org.cocome.tradingsystem.util.scope.CashDeskRegistry;
 import org.cocome.tradingsystem.util.scope.ICashDeskRegistryFactory;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
@@ -838,6 +840,12 @@ public class EnterpriseManager implements IEnterpriseManager {
         final IParameterInteraction param = saveFetchFromDB(() ->
                 enterpriseQuery.queryParameterInteractionByID(parameterInteractionTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+    }
+
+    @Override
+    public void validateRecipe(RecipeTO recipeTO) throws RecipeException, NotInDatabaseException {
+        final IRecipe recipe = plantFactory.convertToRecipe(recipeTO);
+        new RecipeExecutionGraph(recipe);
     }
 
     @Override

@@ -21,7 +21,6 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-import org.cocome.tradingsystem.util.exception.RecipeException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
@@ -29,9 +28,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents the top-level recipe for producing a custom product.
@@ -236,96 +233,5 @@ public class Recipe implements Serializable, IRecipe {
     @Override
     public void setOutputEntryPointIds(List<Long> outputEntryPointIds) {
         this.outputEntryPointIds = outputEntryPointIds;
-    }
-
-    @Override
-    public void validate() throws RecipeException, NotInDatabaseException {
-        final Map<String, Boolean> visitedNodes = new HashMap<>();
-        for (final IPlantOperation operation : this.getOperations()) {
-            visitedNodes.put(operation.getName(), false);
-        }
-
-        checkForMissingEdges(this, visitedNodes);
-        if (!visitedNodes.entrySet().stream().allMatch(Map.Entry::getValue)) {
-            throw new RecipeException("Not fully connected");
-        }
-        checkForMissingParameterInteractions();
-    }
-
-    private void checkForMissingParameterInteractions() throws NotInDatabaseException {
-    }
-
-    private void checkForMissingEdges(final IRecipeOperation recipeStep, final Map<String, Boolean> visitedNodes)
-            throws NotInDatabaseException, RecipeException {
-        for (final IEntryPoint inputEntryPoint : this.getInputEntryPoint()) {
-            final IPlantOperation operation = this.getOutgoingNeighbour(recipeStep, inputEntryPoint);
-            if (operation == null) {
-                throw new RecipeException(String.format("No output port specified for '%s'.'%s'",
-                        recipeStep.getName(),
-                        inputEntryPoint.getName()));
-            }
-            if (visitedNodes.get(operation.getName())) {
-                throw new RecipeException(String.format("Cyclic reference between '%s' and '%s'",
-                        recipeStep.getName(),
-                        operation.getName()));
-            }
-            visitedNodes.put(operation.getName(), true);
-            checkForMissingEdges(operation, visitedNodes);
-        }
-        for (final IEntryPoint outputEntryPoint : this.getOutputEntryPoint()) {
-            final IPlantOperation operation = this.getIngoingNeighbour(recipeStep, outputEntryPoint);
-            if (operation == null) {
-                throw new RecipeException(String.format("No input port specified for '%s'.'%s'",
-                        recipeStep.getName(),
-                        outputEntryPoint.getName()));
-            }
-            if (visitedNodes.get(operation.getName())) {
-                throw new RecipeException(String.format("Cyclic reference between '%s' and '%s'",
-                        recipeStep.getName(),
-                        operation.getName()));
-            }
-            visitedNodes.put(operation.getName(), true);
-            checkForMissingEdges(operation, visitedNodes);
-        }
-    }
-
-    private IPlantOperation getIngoingNeighbour(final IRecipeOperation operation, final IEntryPoint entryPoint)
-            throws NotInDatabaseException {
-        for (final IEntryPoint inEntry : operation.getInputEntryPoint()) {
-            if (inEntry.getId() == entryPoint.getId()) {
-                for (final IEntryPointInteraction interaction : this.getEntryPointInteractions()) {
-                    if (interaction.getTo().getId() == entryPoint.getId()) {
-                        for (final IPlantOperation nextOperation : this.getOperations()) {
-                            for (final IEntryPoint outEntry : nextOperation.getInputEntryPoint()) {
-                                if (outEntry.getId() == interaction.getFrom().getId()) {
-                                    return nextOperation;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    private IPlantOperation getOutgoingNeighbour(final IRecipeOperation operation, final IEntryPoint entryPoint)
-            throws NotInDatabaseException {
-        for (final IEntryPoint outEntry : operation.getOutputEntryPoint()) {
-            if (outEntry.getId() == entryPoint.getId()) {
-                for (final IEntryPointInteraction interaction : this.getEntryPointInteractions()) {
-                    if (interaction.getFrom().getId() == entryPoint.getId()) {
-                        for (final IPlantOperation nextOperation : this.getOperations()) {
-                            for (final IEntryPoint inEntry : nextOperation.getInputEntryPoint()) {
-                                if (inEntry.getId() == interaction.getTo().getId()) {
-                                    return nextOperation;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return null;
     }
 }

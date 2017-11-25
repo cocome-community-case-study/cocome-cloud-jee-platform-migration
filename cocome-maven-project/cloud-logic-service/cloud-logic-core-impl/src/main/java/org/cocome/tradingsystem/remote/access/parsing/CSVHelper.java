@@ -672,7 +672,6 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setOperationIds(fetchIds(row.getColumns().get(2)));
             result.setEntryPointInteractionIds(fetchIds(row.getColumns().get(3)));
             result.setParameterInteractionIds(fetchIds(row.getColumns().get(4)));
-            result.setParameterInteractionIds(fetchIds(row.getColumns().get(4)));
             result.setName(fetchString(row.getColumns().get(5)));
             result.setInputEntryPointIds(fetchIds(row.getColumns().get(6)));
             result.setOutputEntryPointIds(fetchIds(row.getColumns().get(7)));

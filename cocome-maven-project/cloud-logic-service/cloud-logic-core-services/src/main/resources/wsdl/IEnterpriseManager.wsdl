@@ -249,6 +249,10 @@
     <wsdl:part name="parameters" element="tns:updateParameterInteraction">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="validateRecipe">
+    <wsdl:part name="parameters" element="tns:validateRecipe">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryParameterInteractions">
     <wsdl:part name="parameters" element="tns:queryParameterInteractions">
     </wsdl:part>
@@ -547,6 +551,10 @@
   </wsdl:message>
   <wsdl:message name="deleteEntryPoint">
     <wsdl:part name="parameters" element="tns:deleteEntryPoint">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateRecipeResponse">
+    <wsdl:part name="parameters" element="tns:validateRecipeResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateParameterInteractionResponse">
@@ -1110,6 +1118,14 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateRecipe">
+      <wsdl:input name="validateRecipe" message="tns:validateRecipe">
+    </wsdl:input>
+      <wsdl:output name="validateRecipeResponse" message="tns:validateRecipeResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryParameterInteractions">
@@ -2008,6 +2024,18 @@
       </wsdl:fault>
       <wsdl:fault name="UpdateException">
         <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateRecipe">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateRecipe">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateRecipeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryParameterInteractions">

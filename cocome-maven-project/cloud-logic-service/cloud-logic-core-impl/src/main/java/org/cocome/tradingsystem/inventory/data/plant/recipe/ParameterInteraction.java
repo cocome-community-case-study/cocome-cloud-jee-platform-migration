@@ -75,7 +75,7 @@ public class ParameterInteraction extends InteractionEntity<
     @Override
     public IPlantOperationParameter getTo() throws NotInDatabaseException {
         if (to == null) {
-            to = enterpriseQuery.queryPlantOperationParameterById(fromId);
+            to = enterpriseQuery.queryPlantOperationParameterById(toId);
         }
         return to;
     }

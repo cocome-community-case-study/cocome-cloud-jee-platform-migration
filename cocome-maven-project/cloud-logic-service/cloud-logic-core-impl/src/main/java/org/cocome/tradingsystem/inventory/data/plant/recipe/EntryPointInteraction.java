@@ -65,7 +65,7 @@ public class EntryPointInteraction extends InteractionEntity<IEntryPoint, IEntry
     @Override
     public IEntryPoint getTo() throws NotInDatabaseException {
         if (to == null) {
-            to = enterpriseQuery.queryEntryPointByID(fromId);
+            to = enterpriseQuery.queryEntryPointByID(toId);
         }
         return to;
     }

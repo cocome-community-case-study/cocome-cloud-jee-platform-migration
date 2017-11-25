@@ -36,8 +36,8 @@ public abstract class InteractionEntity<
     private static final long serialVersionUID = 1L;
 
     protected long id;
-    protected long fromId;
-    protected long toId;
+    long fromId;
+    long toId;
 
     @Override
     public long getId() {

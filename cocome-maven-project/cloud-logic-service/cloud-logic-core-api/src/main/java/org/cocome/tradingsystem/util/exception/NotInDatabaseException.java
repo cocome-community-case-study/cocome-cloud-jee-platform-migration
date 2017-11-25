@@ -4,20 +4,27 @@ import javax.xml.ws.WebFault;
 
 /**
  * Needed because EntityNotFounException resets transaction.
- * 
- * @author Tobias Pöppke
  *
+ * @author Tobias Pöppke
  */
 @WebFault
 public class NotInDatabaseException extends BaseException {
 
-	public NotInDatabaseException(String string) {
-		super(string);
-	}
+    public NotInDatabaseException(String string) {
+        super(string);
+    }
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    public NotInDatabaseException(Throwable cause) {
+        super(cause);
+    }
+
+    public NotInDatabaseException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
 }

@@ -1,6 +1,7 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
+import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
@@ -191,7 +192,7 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public Collection<IEntryPoint> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException {
-        return getEntitiesByIdCollection(csvHelper::getEntryPoints, "EntryPoint", entryPointIds);
+        return queryEntitiesByIdList(entryPointIds, this::queryEntryPointByID);
     }
 
     @Override
@@ -251,26 +252,17 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
 
     @Override
     public Collection<IEntryPointInteraction> queryEntryPointInteractions(List<Long> entryPointInteractionIds) throws NotInDatabaseException {
-        return getEntitiesByIdCollection(
-                csvHelper::getEntryPointInteraction,
-                "EntryPointInteraction",
-                entryPointInteractionIds);
+        return queryEntitiesByIdList(entryPointInteractionIds, this::queryEntryPointInteractionByID);
     }
 
     @Override
     public Collection<IParameterInteraction> queryParameterInteractions(List<Long> parameterInteractionIds) throws NotInDatabaseException {
-        return getEntitiesByIdCollection(
-                csvHelper::getParameterInteraction,
-                "ParameterInteraction",
-                parameterInteractionIds);
+        return queryEntitiesByIdList(parameterInteractionIds, this::queryParameterInteractionByID);
     }
 
     @Override
     public Collection<IPlantOperation> queryPlantOperations(List<Long> operationIds) throws NotInDatabaseException {
-        return getEntitiesByIdCollection(
-                csvHelper::getPlantOperation,
-                "PlantOperation",
-                operationIds);
+        return queryEntitiesByIdList(operationIds, this::queryPlantOperationByID);
     }
 
     @Override
@@ -367,27 +359,17 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
         } catch (NoSuchElementException e) {
             throw new NotInDatabaseException(String.format(
                     "No matching entity of type '%s' and id '%d' found in database!",
-                    entity, entityId));
+                    entity, entityId), e);
         }
     }
 
-    private <T> Collection<T> getEntitiesByIdCollection(final Function<String, Collection<T>> converter,
-                                                        final String entity,
-                                                        final Collection<Long> entryPointInteractionIds) {
-        return converter.apply(backendConnection.getEntity(entity, "id IN ("
-                + entryPointInteractionIds.stream().map(String::valueOf).collect(Collectors.joining(",")) + ")"));
-    }
-
-    private <T> T getSingleEntity(final Function<String, Collection<T>> converter,
-                                  final String entity,
-                                  final String condition) throws NotInDatabaseException {
-        try {
-            return converter.apply(backendConnection.getEntity(entity, condition)).iterator().next();
-        } catch (NoSuchElementException e) {
-            throw new NotInDatabaseException(String.format(
-                    "No matching entity of type '%s' and condition '%s' found in database!",
-                    entity, condition));
+    private <T> Collection<T> queryEntitiesByIdList(List<Long> ids,
+                                                    ThrowingFunction<Long, T, NotInDatabaseException> queryFunction)
+            throws NotInDatabaseException {
+        final Collection<T> retrivedElements = new ArrayList<>(ids.size());
+        for (final Long id : ids) {
+            retrivedElements.add(queryFunction.apply(id));
         }
+        return retrivedElements;
     }
-
 }
