@@ -21,9 +21,16 @@ package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
 /**
  * Represents a customization that can either be turned on or off.
  * (e.g. yogurt with extra chocolate sprinkles or not)
+ *
  * @author Rudolf Biczok
  */
 public interface IBooleanParameter extends IParameter {
     String TRUE_VALUE = "true";
     String FALSE_VALUE = "false";
+
+    @Override
+    default boolean isValidValue(String value) {
+        return IBooleanParameter.TRUE_VALUE.equals(value)
+                || IBooleanParameter.FALSE_VALUE.equals(value);
+    }
 }

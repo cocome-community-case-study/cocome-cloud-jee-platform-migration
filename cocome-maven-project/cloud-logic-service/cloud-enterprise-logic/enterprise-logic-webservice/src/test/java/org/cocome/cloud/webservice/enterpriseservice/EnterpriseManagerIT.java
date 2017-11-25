@@ -22,6 +22,7 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.cocome.cloud.logic.stub.*;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
@@ -392,7 +393,7 @@ public class EnterpriseManagerIT {
         epInteraction3.setId(em.createEntryPointInteraction(epInteraction3));
 
         final RecipeTO recipe = new RecipeTO();
-        recipe.setName("Yoghurt Recipe");
+        recipe.setName("Yogurt Recipe");
         recipe.setCustomProduct(customProduct);
         recipe.setOutputEntryPoint(Collections.singletonList(recipeOut1));
         recipe.setEntryPointInteractions(Arrays.asList(epInteraction1, epInteraction2, epInteraction3));
@@ -404,6 +405,24 @@ public class EnterpriseManagerIT {
 
         /* Order creation */
 
+        final ProductionOrderTO operationOrder = new ProductionOrderTO();
+        operationOrder.setEnterprise(enterprise);
+
+        final CustomProductParameterValueTO cparam1Value = new CustomProductParameterValueTO();
+        cparam1Value.setParameter(cparam1);
+        cparam1Value.setValue(IBooleanParameter.FALSE_VALUE);
+
+        final CustomProductParameterValueTO cparam2Value = new CustomProductParameterValueTO();
+        cparam2Value.setParameter(cparam1);
+        cparam2Value.setValue(IBooleanParameter.FALSE_VALUE);
+
+        final ProductionOrderEntryTO entry = new ProductionOrderEntryTO();
+        entry.setRecipe(recipe);
+        entry.setAmount(2);
+        entry.setParameterValues(Arrays.asList(cparam1Value, cparam2Value));
+
+        operationOrder.setOrderEntries(Collections.singletonList(entry));
+        em.submitProductionOrder(operationOrder);
     }
 
     private PlantTO getOrCreatePlant(final EnterpriseTO enterprise) throws CreateException_Exception,

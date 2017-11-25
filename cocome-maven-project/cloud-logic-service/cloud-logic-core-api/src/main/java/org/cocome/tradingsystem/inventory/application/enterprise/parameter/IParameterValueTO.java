@@ -30,9 +30,4 @@ public interface IParameterValueTO<T extends IParameterTO> extends Serializable,
      * @param value the parameter value
      */
     void setValue(String value);
-
-    /**
-     * @return
-     */
-    boolean isValid();
 }

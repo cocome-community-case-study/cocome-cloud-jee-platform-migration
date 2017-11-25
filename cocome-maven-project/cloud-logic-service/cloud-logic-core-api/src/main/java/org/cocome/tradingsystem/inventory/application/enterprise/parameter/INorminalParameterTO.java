@@ -18,7 +18,6 @@
 
 package org.cocome.tradingsystem.inventory.application.enterprise.parameter;
 
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -37,15 +36,4 @@ public interface INorminalParameterTO extends IParameterTO {
      * @param options The possible values this options a user can set for this option
      */
     void setOptions(final Set<String> options);
-
-    @Override
-    default boolean isValidValue(String value) {
-        for (final String option : getOptions()) {
-            if (Objects.equals(option, value)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }

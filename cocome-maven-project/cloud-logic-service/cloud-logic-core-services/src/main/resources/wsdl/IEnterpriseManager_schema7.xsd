@@ -9,6 +9,7 @@
   <xs:element name="BooleanCustomProductParameterTO" type="ns7:BooleanCustomProductParameterTO"/>
   <xs:element name="BooleanPlantOperationParameterTO" type="ns1:BooleanPlantOperationParameterTO"/>
   <xs:element name="CustomProductParameterTO" type="ns7:CustomProductParameterTO"/>
+  <xs:element name="CustomProductParameterValueTO" type="ns4:CustomProductParameterValueTO"/>
   <xs:element name="CustomProductTO" type="ns6:CustomProductTO"/>
   <xs:element name="EnterpriseTO" type="ns5:EnterpriseTO"/>
   <xs:element name="EntryPointInteractionTO" type="ns4:EntryPointInteractionTO"/>
@@ -23,6 +24,8 @@
   <xs:element name="PlantTO" type="ns2:PlantTO"/>
   <xs:element name="ProductTO" type="ns5:ProductTO"/>
   <xs:element name="ProductWithSupplierTO" type="ns5:ProductWithSupplierTO"/>
+  <xs:element name="ProductionOrderEntryTO" type="ns4:ProductionOrderEntryTO"/>
+  <xs:element name="ProductionOrderTO" type="ns4:ProductionOrderTO"/>
   <xs:element name="RecipeOperationTO" type="ns4:RecipeOperationTO"/>
   <xs:element name="RecipeTO" type="ns4:RecipeTO"/>
   <xs:element name="StoreTO" type="ns5:StoreTO"/>
@@ -159,6 +162,8 @@
   <xs:element name="querySupplierForProductResponse" type="tns:querySupplierForProductResponse"/>
   <xs:element name="querySuppliers" type="tns:querySuppliers"/>
   <xs:element name="querySuppliersResponse" type="tns:querySuppliersResponse"/>
+  <xs:element name="submitProductionOrder" type="tns:submitProductionOrder"/>
+  <xs:element name="submitProductionOrderResponse" type="tns:submitProductionOrderResponse"/>
   <xs:element name="updateBooleanCustomProductParameter" type="tns:updateBooleanCustomProductParameter"/>
   <xs:element name="updateBooleanCustomProductParameterResponse" type="tns:updateBooleanCustomProductParameterResponse"/>
   <xs:element name="updateBooleanPlantOperationParameter" type="tns:updateBooleanPlantOperationParameter"/>
@@ -467,6 +472,14 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="ns5:ProductTO"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="submitProductionOrder">
+    <xs:sequence>
+      <xs:element name="productionOrderTO" type="ns4:ProductionOrderTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="submitProductionOrderResponse">
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="createParameterInteraction">
     <xs:sequence>
@@ -939,6 +952,12 @@
   </xs:complexType>
   <xs:element name="CreateException" type="tns:CreateException"/>
   <xs:complexType name="CreateException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RecipeException" type="tns:RecipeException"/>
+  <xs:complexType name="RecipeException">
     <xs:sequence>
       <xs:element minOccurs="0" name="message" type="xs:string"/>
     </xs:sequence>

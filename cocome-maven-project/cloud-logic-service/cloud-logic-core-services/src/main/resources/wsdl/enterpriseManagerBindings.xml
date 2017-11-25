@@ -39,6 +39,15 @@
         <bindings node="//xsd:complexType[@name='RecipeTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO"/>
         </bindings>
+        <bindings node="//xsd:complexType[@name='ProductionOrderTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.ProductionOrderTO"/>
+        </bindings>
+        <bindings node="//xsd:complexType[@name='ProductionOrderEntryTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.ProductionOrderEntryTO"/>
+        </bindings>
+        <bindings node="//xsd:complexType[@name='CustomProductParameterValueTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO"/>
+        </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema3.xsd">
         <bindings node="//xsd:complexType[@name='PlantTO']">

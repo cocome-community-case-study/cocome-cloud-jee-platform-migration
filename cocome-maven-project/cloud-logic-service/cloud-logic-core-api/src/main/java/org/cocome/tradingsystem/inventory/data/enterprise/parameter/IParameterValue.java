@@ -41,4 +41,11 @@ public interface IParameterValue<T extends IParameter> extends Serializable, IId
      * @param value the parameter value
      */
     void setValue(String value);
+
+    /**
+     * @return {@code true} if this parameter is valid
+     */
+    default boolean isValid() throws NotInDatabaseException {
+        return null != this.getParameter() && this.getParameter().isValidValue(this.getValue());
+    }
 }

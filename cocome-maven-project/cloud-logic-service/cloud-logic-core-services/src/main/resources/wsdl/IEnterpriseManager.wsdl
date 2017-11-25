@@ -309,6 +309,10 @@
     <wsdl:part name="parameters" element="tns:deleteProductResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="submitProductionOrderResponse">
+    <wsdl:part name="parameters" element="tns:submitProductionOrderResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="querySuppliers">
     <wsdl:part name="parameters" element="tns:querySuppliers">
     </wsdl:part>
@@ -429,6 +433,10 @@
     <wsdl:part name="parameters" element="tns:queryEntryPointInteractionByIdResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="RecipeException">
+    <wsdl:part name="RecipeException" element="tns:RecipeException">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryEntryPointById">
     <wsdl:part name="parameters" element="tns:queryEntryPointById">
     </wsdl:part>
@@ -503,6 +511,10 @@
   </wsdl:message>
   <wsdl:message name="querySuppliersResponse">
     <wsdl:part name="parameters" element="tns:querySuppliersResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="submitProductionOrder">
+    <wsdl:part name="parameters" element="tns:submitProductionOrder">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createParameterInteraction">
@@ -904,6 +916,16 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="submitProductionOrder">
+      <wsdl:input name="submitProductionOrder" message="tns:submitProductionOrder">
+    </wsdl:input>
+      <wsdl:output name="submitProductionOrderResponse" message="tns:submitProductionOrderResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="CreateException" message="tns:CreateException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="createParameterInteraction">
       <wsdl:input name="createParameterInteraction" message="tns:createParameterInteraction">
     </wsdl:input>
@@ -1126,6 +1148,8 @@
       <wsdl:output name="validateRecipeResponse" message="tns:validateRecipeResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="RecipeException" message="tns:RecipeException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryParameterInteractions">
@@ -1702,6 +1726,21 @@
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="submitProductionOrder">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="submitProductionOrder">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="submitProductionOrderResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="CreateException">
+        <soap:fault name="CreateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="createParameterInteraction">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="createParameterInteraction">
@@ -2036,6 +2075,9 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="RecipeException">
+        <soap:fault name="RecipeException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryParameterInteractions">

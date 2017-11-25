@@ -714,6 +714,13 @@ public interface IEnterpriseManager {
 
     /* Other Methods **************/
 
+    @WebMethod
+    void submitProductionOrder(
+            @XmlElement(required = true)
+            @WebParam(name = "productionOrderTO")
+                    ProductionOrderTO productionOrderTO)
+            throws NotInDatabaseException, CreateException;
+
     /**
      * @param supplier   The supplier which delivers the products
      * @param enterprise The enterprise for which the products are delivered

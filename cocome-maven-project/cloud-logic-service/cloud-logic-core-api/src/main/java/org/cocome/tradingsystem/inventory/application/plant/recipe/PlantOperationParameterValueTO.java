@@ -57,11 +57,6 @@ public class PlantOperationParameterValueTO implements IParameterValueTO<PlantOp
     }
 
     @Override
-    public boolean isValid() {
-        return null != this.parameter && this.parameter.isValidValue(this.value);
-    }
-
-    @Override
     public String toString() {
         return "PlantOperationParameterValueTO{" +
                 "id=" + id +

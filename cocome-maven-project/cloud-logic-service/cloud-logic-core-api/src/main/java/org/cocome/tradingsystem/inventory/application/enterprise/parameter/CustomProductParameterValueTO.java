@@ -54,11 +54,6 @@ public class CustomProductParameterValueTO implements IParameterValueTO<CustomPr
     }
 
     @Override
-    public boolean isValid() {
-        return null != this.parameter && this.parameter.isValidValue(this.value);
-    }
-
-    @Override
     public String toString() {
         return "PlantOperationParameterValueTO{" +
                 "id=" + id +

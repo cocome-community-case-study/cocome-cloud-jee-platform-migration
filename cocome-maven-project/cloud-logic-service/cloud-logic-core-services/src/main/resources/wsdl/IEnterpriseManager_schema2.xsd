@@ -1,4 +1,4 @@
-<xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns4="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns5="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
+<xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns4="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns5="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns6="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
   <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema7.xsd"/>
 
@@ -9,6 +9,8 @@
   <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema6.xsd"/>
 
   <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema8.xsd"/>
+
+  <xs:import namespace="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema5.xsd"/>
 
   <xs:complexType name="PlantOperationTO">
     <xs:complexContent>
@@ -72,6 +74,37 @@
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ProductionOrderTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="deliveryDate" type="xs:dateTime"/>
+      <xs:element name="orderingDate" type="xs:dateTime"/>
+      <xs:element name="enterprise" type="ns2:EnterpriseTO"/>
+      <xs:element maxOccurs="unbounded" name="orderEntries" type="tns:ProductionOrderEntryTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ProductionOrderEntryTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="amount" type="xs:long"/>
+      <xs:element name="recipe" type="tns:RecipeTO"/>
+      <xs:element maxOccurs="unbounded" name="parameterValues" type="tns:CustomProductParameterValueTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CustomProductParameterValueTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="value" type="xs:string"/>
+      <xs:choice>
+        <xs:element ref="ns1:CustomProductParameterTO"/>
+        <xs:element ref="ns1:NorminalCustomProductParameterTO"/>
+        <xs:element ref="ns1:BooleanCustomProductParameterTO"/>
+      </xs:choice>
+    </xs:sequence>
   </xs:complexType>
 
 </xs:schema>

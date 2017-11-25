@@ -38,10 +38,4 @@ public interface IParameterTO extends Serializable, INameableTO {
      * @param category The parameter category
      */
     void setCategory(String category);
-
-    /**
-     * @param value the target parameter value
-     * @return <code>true</code> if the given string is a valid value for this parameter
-     */
-    boolean isValidValue(String value);
 }

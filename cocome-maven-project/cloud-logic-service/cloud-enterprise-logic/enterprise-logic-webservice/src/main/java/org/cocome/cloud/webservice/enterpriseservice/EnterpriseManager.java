@@ -881,15 +881,21 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public void onPlantOperationOrderFinish(long plantOperationOrderId) {
-        LOG.info("onPlantOperationOrderFinish " + plantOperationOrderId);
+    public void onPlantOperationOrderEntryFinish(long plantOperationOrderEntryId) {
+        LOG.info("Finished plant operation order entry: " + plantOperationOrderEntryId);
         //TODO
     }
 
     @Override
-    public void onPlantOperationOrderEntryFinish(long plantOperationOrderEntryId) {
-        LOG.info("Finished  " + plantOperationOrderEntryId);
+    public void onPlantOperationOrderFinish(long plantOperationOrderId) {
+        LOG.info("Finished plant operation order " + plantOperationOrderId);
         //TODO
+    }
+
+    @Override
+    public void submitProductionOrder(ProductionOrderTO productionOrderTO)
+            throws NotInDatabaseException, CreateException {
+
     }
 
     private IProduct queryProduct(ProductTO productTO)

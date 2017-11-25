@@ -12,10 +12,9 @@ import org.cocome.tradingsystem.inventory.application.plant.productionunit.Produ
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.pu.PUManager;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderEntryTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationParameterValueTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameterValue;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
@@ -279,8 +278,8 @@ public class PlantManager implements IPlantManager {
     @Override
     public void orderOperation(final PlantOperationOrderTO plantOperationOrderTO)
             throws NotInDatabaseException, CreateException {
-        checkOrder(plantOperationOrderTO);
         final IPlantOperationOrder order = plantFactory.convertToPlantOperationOrder(plantOperationOrderTO);
+        checkOrder(order);
         order.setOrderingDate(new Date());
         persistOrder(order);
         puManager.submitOrder(order);
@@ -306,18 +305,17 @@ public class PlantManager implements IPlantManager {
         return sw.toString();
     }
 
-    private void checkOrder(final PlantOperationOrderTO plantOperationOrderTO) throws NotInDatabaseException {
-        for (final PlantOperationOrderEntryTO entry : plantOperationOrderTO.getOrderEntries()) {
+    private void checkOrder(final IPlantOperationOrder plantOperationOrderTO) throws NotInDatabaseException {
+        for (final IPlantOperationOrderEntry entry : plantOperationOrderTO.getOrderEntries()) {
             final Map<Long, String> parameterValues = extractParameterValueMap(entry.getParameterValues());
-            final Collection<IPlantOperationParameter> parameterList =
-                    enterpriseQuery.queryParametersByPlantOperationID(entry.getPlantOperation().getId());
+            final Collection<IPlantOperationParameter> parameterList = entry.getPlantOperation().getParameters();
             for (final IPlantOperationParameter param : parameterList) {
                 if (!parameterValues.containsKey(param.getId())) {
                     throw new IllegalArgumentException("Missing value for parameter:"
                             + param.toString());
                 }
             }
-            for (final PlantOperationParameterValueTO parameterValue : entry.getParameterValues()) {
+            for (final IPlantOperationParameterValue parameterValue : entry.getParameterValues()) {
                 if (!parameterValue.isValid()) {
                     throw new IllegalArgumentException("Invalid parameter value for parameter: " + parameterValue);
                 }
@@ -325,9 +323,9 @@ public class PlantManager implements IPlantManager {
         }
     }
 
-    private Map<Long, String> extractParameterValueMap(final Collection<PlantOperationParameterValueTO> parameterValues) {
+    private Map<Long, String> extractParameterValueMap(final Collection<? extends IParameterValue> parameterValues) {
         return StreamUtil.ofNullable(parameterValues).collect(Collectors.toMap(
-                e -> e.getParameter().getId(),
-                PlantOperationParameterValueTO::getValue));
+                IParameterValue::getParameterId,
+                IParameterValue::getValue));
     }
 }
