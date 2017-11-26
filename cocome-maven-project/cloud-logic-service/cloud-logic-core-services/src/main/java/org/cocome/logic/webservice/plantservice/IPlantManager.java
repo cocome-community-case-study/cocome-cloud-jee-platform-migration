@@ -187,9 +187,9 @@ public interface IPlantManager {
     /* Business Logic **************/
 
     @WebMethod
-    void orderOperation(
+    long orderOperation(
             @XmlElement(required = true)
             @WebParam(name = "plantOperationOrderTO")
                     PlantOperationOrderTO plantOperationOrderTO)
-            throws NotInDatabaseException, CreateException;
+            throws NotInDatabaseException, CreateException, UpdateException;
 }

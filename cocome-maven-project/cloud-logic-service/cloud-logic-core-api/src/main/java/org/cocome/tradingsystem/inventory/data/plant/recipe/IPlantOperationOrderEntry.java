@@ -18,36 +18,12 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.IIdentifiable;
-
-import java.util.Collection;
-
 /**
  * Represents a single {@link IPlantOperationOrder} entry in the database.
  *
  * @author Rudolf Biczok
  */
-public interface IPlantOperationOrderEntry extends IIdentifiable {
-
-    /**
-     * @return The amount of ordered products
-     */
-    long getAmount();
-
-    /**
-     * @param amount The amount of ordered products
-     */
-    void setAmount(final long amount);
-
-    /**
-     * @return the parameter values
-     */
-    Collection<IPlantOperationParameterValue> getParameterValues();
-
-    /**
-     * @param parameterValues the parameter values
-     */
-    void setParameterValues(Collection<IPlantOperationParameterValue> parameterValues);
+public interface IPlantOperationOrderEntry extends IRecipeOperationOrderEntry<IPlantOperationParameterValue> {
 
     /**
      * @return the target plant operation

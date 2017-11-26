@@ -23,10 +23,6 @@ public class PlantJob {
 
     private final UUID uuid;
 
-    public IEnterpriseManager getEnterpriseManager() {
-        return enterpriseManager;
-    }
-
     private final IEnterpriseManager enterpriseManager;
     private final IPlantOperationOrder order;
     private final IPlantOperationOrderEntry orderEntry;
@@ -55,6 +51,13 @@ public class PlantJob {
             currentPUC = inst.getPUC();
             currentList.add(inst.getOperationId());
         }
+    }
+
+    /**
+     * @return the enterprise manager client
+     */
+    public IEnterpriseManager getEnterpriseManager() {
+        return enterpriseManager;
     }
 
     /**

@@ -94,7 +94,9 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="orderOperationResponse">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryConditionalExpressionByID">
     <xs:sequence>

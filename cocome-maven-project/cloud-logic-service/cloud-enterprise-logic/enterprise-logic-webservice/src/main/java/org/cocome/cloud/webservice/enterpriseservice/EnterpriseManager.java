@@ -20,10 +20,7 @@ package org.cocome.cloud.webservice.enterpriseservice;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
-import org.cocome.cloud.logic.webservice.DBCreateAction;
-import org.cocome.cloud.logic.webservice.DBObjectSupplier;
-import org.cocome.cloud.logic.webservice.DBUpdateAction;
-import org.cocome.cloud.logic.webservice.ThrowingFunction;
+import org.cocome.cloud.logic.webservice.*;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
@@ -37,9 +34,7 @@ import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOpera
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.*;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
@@ -63,9 +58,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebService;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -254,6 +247,11 @@ public class EnterpriseManager implements IEnterpriseManager {
         return queryCollectionByEnterpriseID(enterpriseId,
                 enterpriseQuery::queryStoresByEnterpriseId,
                 storeFactory::fillStoreWithEnterpriseTO);
+    }
+
+    @Override
+    public StoreWithEnterpriseTO queryStoreByID(long storeId) throws NotInDatabaseException {
+        return storeFactory.fillStoreWithEnterpriseTO(enterpriseQuery.queryStoreByID(storeId));
     }
 
     @Override
@@ -895,7 +893,11 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public void submitProductionOrder(ProductionOrderTO productionOrderTO)
             throws NotInDatabaseException, CreateException {
-
+        final IProductionOrder order = plantFactory.convertToProductionOrder(productionOrderTO);
+        checkOrder(order);
+        order.setOrderingDate(new Date());
+        persistOrder(order);
+        //puManager.submitOrder(order);
     }
 
     private IProduct queryProduct(ProductTO productTO)
@@ -957,5 +959,46 @@ public class EnterpriseManager implements IEnterpriseManager {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    //TODO code duplication (see PlantManager)
+    private void persistOrder(IProductionOrder order) throws CreateException {
+        persistenceContext.createEntity(order);
+        for (final IProductionOrderEntry entry : order.getOrderEntries()) {
+            persistenceContext.createEntity(entry, order);
+            for (final ICustomProductParameterValue values : entry.getParameterValues()) {
+                persistenceContext.createEntity(values, entry);
+            }
+        }
+    }
+
+    //TODO code duplication (see PlantManager)
+    private void checkOrder(final IProductionOrder plantOperationOrderTO) throws NotInDatabaseException {
+        for (final IProductionOrderEntry entry : plantOperationOrderTO.getOrderEntries()) {
+            final Map<Long, String> parameterValues = extractParameterValueMap(entry.getParameterValues());
+            final Collection<ICustomProductParameter> parameterList = entry.getRecipe().getCustomProduct().getParameters();
+            for (final ICustomProductParameter param : parameterList) {
+                if (!parameterValues.containsKey(param.getId())) {
+                    throw new IllegalArgumentException("Missing value for parameter:"
+                            + param.toString());
+                }
+            }
+            for (final ICustomProductParameterValue parameterValue : entry.getParameterValues()) {
+                if (!parameterValue.isValid()) {
+                    throw new IllegalArgumentException(String.format(
+                            "Invalid parameter value [%d:%s]=%s",
+                            parameterValue.getParameter().getId(),
+                            parameterValue.getParameter().getName(),
+                            parameterValue.getValue()));
+                }
+            }
+        }
+    }
+
+    //TODO code duplication (see PlantManager)
+    private Map<Long, String> extractParameterValueMap(final Collection<? extends IParameterValue> parameterValues) {
+        return StreamUtil.ofNullable(parameterValues).collect(Collectors.toMap(
+                IParameterValue::getParameterId,
+                IParameterValue::getValue));
     }
 }

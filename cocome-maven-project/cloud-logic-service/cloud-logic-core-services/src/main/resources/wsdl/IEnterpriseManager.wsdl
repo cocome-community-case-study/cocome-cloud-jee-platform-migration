@@ -133,6 +133,10 @@
     <wsdl:part name="parameters" element="tns:queryPlantOperationsResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryStoreByID">
+    <wsdl:part name="parameters" element="tns:queryStoreByID">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createBooleanPlantOperationParameterResponse">
     <wsdl:part name="parameters" element="tns:createBooleanPlantOperationParameterResponse">
     </wsdl:part>
@@ -427,6 +431,10 @@
   </wsdl:message>
   <wsdl:message name="createEntryPointInteractionResponse">
     <wsdl:part name="parameters" element="tns:createEntryPointInteractionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryStoreByIDResponse">
+    <wsdl:part name="parameters" element="tns:queryStoreByIDResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryEntryPointInteractionByIdResponse">
@@ -866,6 +874,14 @@
       <wsdl:input name="getProductByBarcode" message="tns:getProductByBarcode">
     </wsdl:input>
       <wsdl:output name="getProductByBarcodeResponse" message="tns:getProductByBarcodeResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryStoreByID">
+      <wsdl:input name="queryStoreByID" message="tns:queryStoreByID">
+    </wsdl:input>
+      <wsdl:output name="queryStoreByIDResponse" message="tns:queryStoreByIDResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
@@ -1651,6 +1667,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getProductByBarcodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryStoreByID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryStoreByID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryStoreByIDResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">

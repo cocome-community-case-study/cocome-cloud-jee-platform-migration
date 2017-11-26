@@ -18,71 +18,36 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.IIdentifiable;
-import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
+import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-
-import java.util.Collection;
-import java.util.Date;
 
 /**
  * The class represents an order of a {@link IRecipe} in the database.
  *
  * @author Rudolf Biczok
  */
-public interface IProductionOrder extends IIdentifiable {
+public interface IProductionOrder extends IRecipeOperationOrder<ICustomProductParameterValue,
+        IProductionOrderEntry> {
 
     /**
-     * @return The date of ordering.
+     * @return the source store from which the order came from
      */
-    Date getOrderingDate();
+    IStore getStore() throws NotInDatabaseException;
 
     /**
-     * @param orderingDate the date of ordering
+     * @param store the source store from which the order came from
      */
-    void setOrderingDate(final Date orderingDate);
+    void setStore(final IStore store);
 
     /**
-     * The delivery date is used for computing the mean time to delivery
-     *
-     * @return The date of order fulfillment.
+     * @return The id of the source store from which the order came from
      */
-    Date getDeliveryDate();
+    long getStoreId();
 
     /**
-     * The delivery date is used for computing the mean time to delivery
-     *
-     * @param deliveryDate the date of order fulfillment
+     * @param storeId the id of the source store from which the order came from
      */
-    void setDeliveryDate(final Date deliveryDate);
+    void setStoreId(final long storeId);
 
-    /**
-     * @return the order entries.
-     */
-    Collection<IProductionOrderEntry> getOrderEntries();
-
-    /**
-     * @param orderEntries the order entries.
-     */
-    void setOrderEntries(Collection<IProductionOrderEntry> orderEntries);
-
-    /**
-     * @return The enterprise where the order is placed.
-     */
-    ITradingEnterprise getEnterprise() throws NotInDatabaseException;
-
-    /**
-     * @param enterprise the enterprise where the order is placed
-     */
-    void setEnterprise(final ITradingEnterprise enterprise);
-
-    /**
-     * @return The id of the enterprise where the order is placed.
-     */
-    long getEnterpriseId();
-
-    /**
-     * @param enterprise the id of the enterprise where the order is placed
-     */
-    void setEnterpriseId(final long enterprise);
 }

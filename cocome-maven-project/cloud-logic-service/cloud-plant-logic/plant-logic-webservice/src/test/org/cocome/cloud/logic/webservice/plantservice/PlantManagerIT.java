@@ -198,7 +198,8 @@ public class PlantManagerIT {
         entry.setParameterValues(Collections.singletonList(paramValue));
 
         operationOrder.setOrderEntries(Collections.singletonList(entry));
-        pm.orderOperation(operationOrder);
+        operationOrder.setId(pm.orderOperation(operationOrder));
+        Assert.assertTrue(operationOrder.getId() > 0);
     }
 
     private EnterpriseTO getOrCreateEnterprise() throws CreateException_Exception, NotInDatabaseException_Exception {

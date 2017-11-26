@@ -158,6 +158,11 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public IStore queryStoreByID(long storeID) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getStores, "Store", storeID);
+    }
+
+    @Override
     public Collection<IPlant> queryPlantsByEnterpriseId(long enterpriseID) {
         return csvHelper.getPlants(backendConnection.getEntity("Plant", "enterprise.id==" + enterpriseID));
     }

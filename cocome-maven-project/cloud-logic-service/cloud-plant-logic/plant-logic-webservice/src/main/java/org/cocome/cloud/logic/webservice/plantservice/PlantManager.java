@@ -276,13 +276,14 @@ public class PlantManager implements IPlantManager {
     }
 
     @Override
-    public void orderOperation(final PlantOperationOrderTO plantOperationOrderTO)
-            throws NotInDatabaseException, CreateException {
+    public long orderOperation(final PlantOperationOrderTO plantOperationOrderTO)
+            throws NotInDatabaseException, CreateException, UpdateException {
         final IPlantOperationOrder order = plantFactory.convertToPlantOperationOrder(plantOperationOrderTO);
         checkOrder(order);
         order.setOrderingDate(new Date());
         persistOrder(order);
         puManager.submitOrder(order);
+        return order.getId();
     }
 
     private void persistOrder(IPlantOperationOrder order) throws CreateException {
@@ -317,7 +318,11 @@ public class PlantManager implements IPlantManager {
             }
             for (final IPlantOperationParameterValue parameterValue : entry.getParameterValues()) {
                 if (!parameterValue.isValid()) {
-                    throw new IllegalArgumentException("Invalid parameter value for parameter: " + parameterValue);
+                    throw new IllegalArgumentException(String.format(
+                            "Invalid parameter value [%d:%s]=%s",
+                            parameterValue.getParameter().getId(),
+                            parameterValue.getParameter().getName(),
+                            parameterValue.getValue()));
                 }
             }
         }

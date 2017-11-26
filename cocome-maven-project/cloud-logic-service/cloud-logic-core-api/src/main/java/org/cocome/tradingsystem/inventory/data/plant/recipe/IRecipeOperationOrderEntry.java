@@ -18,22 +18,36 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
+import org.cocome.tradingsystem.inventory.data.IIdentifiable;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameterValue;
+
+import java.util.Collection;
 
 /**
  * Represents a single {@link IProductionOrder} entry in the database.
  *
+ * @param <T> the parameter value type
  * @author Rudolf Biczok
  */
-public interface IProductionOrderEntry extends IRecipeOperationOrderEntry<ICustomProductParameterValue> {
+public interface IRecipeOperationOrderEntry<T extends IParameterValue> extends IIdentifiable {
 
     /**
-     * @return the target recipe
+     * @return The amount of ordered products
      */
-    IRecipe getRecipe();
+    long getAmount();
 
     /**
-     * @param recipe the target recipe
+     * @param amount The amount of ordered products
      */
-    void setRecipe(final IRecipe recipe);
+    void setAmount(final long amount);
+
+    /**
+     * @return the parameter values
+     */
+    Collection<T> getParameterValues();
+
+    /**
+     * @param parameterValues the parameter values
+     */
+    void setParameterValues(Collection<T> parameterValues);
 }

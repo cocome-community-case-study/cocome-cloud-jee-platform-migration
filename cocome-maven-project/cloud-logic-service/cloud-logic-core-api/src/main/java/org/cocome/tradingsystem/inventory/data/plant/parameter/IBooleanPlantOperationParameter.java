@@ -27,5 +27,5 @@ import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
  *
  * @author Rudolf Biczok
  */
-public interface IBooleanPlantOperationParameter extends IPlantOperationParameter, IBooleanParameterTO {
+public interface IBooleanPlantOperationParameter extends IPlantOperationParameter, IBooleanParameter {
 }

@@ -91,6 +91,16 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public IStore queryStoreByID(long storeID) throws NotInDatabaseException {
+        IEnterpriseManager enterpriseManager = enterpriseClientFactory.createClient(defaultEnterpriseIndex);
+        try {
+            return storeFactory.convertToStore(enterpriseManager.queryStoreByID(storeID));
+        } catch (NotInDatabaseException_Exception e) {
+            throw new NotInDatabaseException(e.getFaultInfo().getMessage());
+        }
+    }
+
+    @Override
     public IStore queryStoreByEnterprise(long enterpriseID, long storeID) throws NotInDatabaseException {
         IEnterpriseManager enterpriseManager = enterpriseClientFactory.createClient(enterpriseID);
         try {

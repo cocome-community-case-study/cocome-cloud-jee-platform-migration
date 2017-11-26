@@ -37,6 +37,7 @@ import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
+import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -223,6 +224,7 @@ public class EnterpriseManagerIT {
     public void testOrderShit() throws Exception {
         final EnterpriseTO enterprise = getOrCreateEnterprise();
         final PlantTO plant = getOrCreatePlant(enterprise);
+        final StoreWithEnterpriseTO store = getOrCreateStore(enterprise);
 
         /* Environmental setup */
 
@@ -406,15 +408,15 @@ public class EnterpriseManagerIT {
         /* Order creation */
 
         final ProductionOrderTO operationOrder = new ProductionOrderTO();
-        operationOrder.setEnterprise(enterprise);
+        operationOrder.setStore(store);
 
         final CustomProductParameterValueTO cparam1Value = new CustomProductParameterValueTO();
         cparam1Value.setParameter(cparam1);
         cparam1Value.setValue(IBooleanParameter.FALSE_VALUE);
 
         final CustomProductParameterValueTO cparam2Value = new CustomProductParameterValueTO();
-        cparam2Value.setParameter(cparam1);
-        cparam2Value.setValue(IBooleanParameter.FALSE_VALUE);
+        cparam2Value.setParameter(cparam2);
+        cparam2Value.setValue("Glass");
 
         final ProductionOrderEntryTO entry = new ProductionOrderEntryTO();
         entry.setRecipe(recipe);
@@ -425,14 +427,22 @@ public class EnterpriseManagerIT {
         em.submitProductionOrder(operationOrder);
     }
 
+    private StoreWithEnterpriseTO getOrCreateStore(EnterpriseTO enterprise) throws CreateException_Exception {
+        final StoreWithEnterpriseTO store = new StoreWithEnterpriseTO();
+        store.setName("Store1");
+        store.setLocation("Test Location");
+        store.setEnterpriseTO(enterprise);
+        store.setId(em.createStore(store));
+        return store;
+    }
+
     private PlantTO getOrCreatePlant(final EnterpriseTO enterprise) throws CreateException_Exception,
             NotInDatabaseException_Exception {
         final PlantTO plant = new PlantTO();
         plant.setName("Plant1");
         plant.setEnterpriseTO(enterprise);
-        em.createPlant(plant);
-        final Collection<PlantTO> plants = em.queryPlantsByEnterpriseID(enterprise.getId());
-        return plants.iterator().next();
+        plant.setId(em.createPlant(plant));
+        return plant;
     }
 
     @SuppressWarnings("unchecked")

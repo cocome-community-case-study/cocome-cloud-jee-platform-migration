@@ -3,10 +3,13 @@ package org.cocome.tradingsystem.inventory.application.plant.pu;
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.webservice.StreamUtil;
-import org.cocome.tradingsystem.inventory.application.plant.pu.events.PUJobFinishedEvent;
-import org.cocome.tradingsystem.inventory.application.plant.pu.events.PUJobProgressEvent;
-import org.cocome.tradingsystem.inventory.application.plant.pu.events.PUJobStartedEvent;
+import org.cocome.tradingsystem.inventory.application.plant.pu.events.PlantJobFinishedEvent;
+import org.cocome.tradingsystem.inventory.application.plant.pu.events.PlantJobProgressEvent;
+import org.cocome.tradingsystem.inventory.application.plant.pu.events.PlantJobStartedEvent;
 import org.cocome.tradingsystem.inventory.data.enterprise.EnterpriseClientFactory;
+import org.cocome.tradingsystem.inventory.data.persistence.CloudPersistenceContext;
+import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
+import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrderEntry;
@@ -17,6 +20,7 @@ import javax.ejb.Singleton;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -31,15 +35,18 @@ public class PUManager {
     private static final Logger LOG = Logger.getLogger(PUManager.class);
 
     @Inject
+    private IPersistenceContext persistenceContext;
+
+    @Inject
     private EnterpriseClientFactory enterpriseClientFactory;
 
     @Inject
     private PUWorkerPool workerPool;
 
     @Inject
-    private PUJobPool jobPool;
+    private PlantJobPool jobPool;
 
-    public void submitOrder(final IPlantOperationOrder order) throws NotInDatabaseException {
+    public void submitOrder(final IPlantOperationOrder order) throws NotInDatabaseException, UpdateException {
         for (final IPlantOperationOrderEntry orderEntry : order.getOrderEntries()) {
             for (int i = 0; i < orderEntry.getAmount(); i++) {
                 final IEnterpriseManager enterpriseManager = enterpriseClientFactory.createClient(
@@ -51,19 +58,19 @@ public class PUManager {
         }
     }
 
-    public void onPUJobStart(@Observes PUJobStartedEvent event) {
+    public void onPUJobStart(@Observes PlantJobStartedEvent event) {
         LOG.info("PUJob Start: " + event.getJob());
     }
 
-    public void onPUJobProgress(@Observes PUJobProgressEvent event) {
+    public void onPUJobProgress(@Observes PlantJobProgressEvent event) {
         LOG.info("PUJob Progress: " + event.getJob());
     }
 
-    public void onPUJobFinish(@Observes PUJobFinishedEvent event) {
+    public void onPUJobFinish(@Observes PlantJobFinishedEvent event) {
         LOG.info("PUJob Finished: " + event.getJob());
         try {
             processJob(event.getJob());
-        } catch (final NotInDatabaseException e) {
+        } catch (final UpdateException | NotInDatabaseException e) {
             LOG.error("Exception occurred while processing pu job", e);
             throw new IllegalStateException(e);
         }
@@ -73,7 +80,7 @@ public class PUManager {
         this.workerPool.addWorker(unit);
     }
 
-    private void processJob(final PlantJob job) throws NotInDatabaseException {
+    private void processJob(final PlantJob job) throws NotInDatabaseException, UpdateException {
         if (job.getWorkingPackages().isEmpty()) {
             jobPool.removeJob(job);
             LOG.info("Job finished: " + job.getUUID());
@@ -85,6 +92,8 @@ public class PUManager {
             }
             if (!jobPool.hasJobs(job.getOrder())) {
                 LOG.info("Order finished: " + job.getOrderEntry());
+                job.getOrder().setDeliveryDate(new Date());
+                persistenceContext.updateEntity(job.getOrder());
                 job.getEnterpriseManager().onPlantOperationOrderFinish(job.getOrder().getId());
             }
             return;

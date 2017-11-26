@@ -2,6 +2,7 @@ package org.cocome.tradingsystem.inventory.data.plant;
 
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
@@ -12,6 +13,7 @@ import org.cocome.tradingsystem.inventory.application.plant.productionunit.Produ
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 import org.cocome.tradingsystem.inventory.data.plant.expression.ConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
@@ -20,6 +22,7 @@ import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOpe
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.*;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
+import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.enterprise.context.Dependent;
@@ -74,7 +77,19 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     private Provider<IPlantOperationParameterValue> plantOperationParameterValueProvider;
 
     @Inject
+    private Provider<IProductionOrder> productionOrderProvider;
+
+    @Inject
+    private Provider<IProductionOrderEntry> productionOrderEntryProvider;
+
+    @Inject
+    private Provider<ICustomProductParameterValue> customProductParameterValueProvider;
+
+    @Inject
     private IEnterpriseDataFactory enterpriseDatatypes;
+
+    @Inject
+    private IStoreDataFactory storeDatatypes;
 
     @Override
     public IProductionUnitClass getNewProductionUnitClass() {
@@ -429,7 +444,8 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public IPlantOperationOrder convertToPlantOperationOrder(PlantOperationOrderTO plantOperationOrderTO) {
+    public IPlantOperationOrder convertToPlantOperationOrder(PlantOperationOrderTO plantOperationOrderTO)
+            throws NotInDatabaseException {
         final IPlantOperationOrder result = getNewPlantOperationOrder();
         result.setId(plantOperationOrderTO.getId());
         result.setOrderingDate(plantOperationOrderTO.getOrderingDate());
@@ -446,7 +462,8 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public PlantOperationOrderEntryTO fillPlantOperationOrderEntryTO(IPlantOperationOrderEntry plantOperationOrderEntry) throws NotInDatabaseException {
+    public PlantOperationOrderEntryTO fillPlantOperationOrderEntryTO(IPlantOperationOrderEntry plantOperationOrderEntry)
+            throws NotInDatabaseException {
         final PlantOperationOrderEntryTO result = new PlantOperationOrderEntryTO();
         result.setId(plantOperationOrderEntry.getId());
         result.setPlantOperation(fillPlantOperationTO(plantOperationOrderEntry.getPlantOperation()));
@@ -457,7 +474,9 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public IPlantOperationOrderEntry convertToPlantOperationOrderEntry(PlantOperationOrderEntryTO plantOperationOrderEntryTO) {
+    public IPlantOperationOrderEntry convertToPlantOperationOrderEntry(
+            PlantOperationOrderEntryTO plantOperationOrderEntryTO)
+            throws NotInDatabaseException {
         final IPlantOperationOrderEntry result = getNewPlantOperationOrderEntry();
         result.setId(plantOperationOrderEntryTO.getId());
         result.setAmount(plantOperationOrderEntryTO.getAmount());
@@ -473,7 +492,8 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public PlantOperationParameterValueTO fillPlantOperationParameterValueTO(IPlantOperationParameterValue plantOperationParameterValue)
+    public PlantOperationParameterValueTO fillPlantOperationParameterValueTO(
+            IPlantOperationParameterValue plantOperationParameterValue)
             throws NotInDatabaseException {
         final PlantOperationParameterValueTO result = new PlantOperationParameterValueTO();
         result.setId(plantOperationParameterValue.getId());
@@ -483,8 +503,96 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public IPlantOperationParameterValue convertToPlantOperationParameterValue(PlantOperationParameterValueTO plantOperationParameterValueTO) {
+    public IPlantOperationParameterValue convertToPlantOperationParameterValue(
+            PlantOperationParameterValueTO plantOperationParameterValueTO) {
         final IPlantOperationParameterValue result = getNewPlantOperationParameterValue();
+        result.setId(plantOperationParameterValueTO.getId());
+        result.setValue(plantOperationParameterValueTO.getValue());
+        result.setParameterId(plantOperationParameterValueTO.getParameter().getId());
+        return result;
+    }
+
+    @Override
+    public IProductionOrder getNewProductionOrder() {
+        return productionOrderProvider.get();
+    }
+
+    @Override
+    public ProductionOrderTO fillProductionOrderTO(IProductionOrder productionOrder)
+            throws NotInDatabaseException {
+        final ProductionOrderTO result = new ProductionOrderTO();
+        result.setId(productionOrder.getId());
+        result.setOrderingDate(productionOrder.getOrderingDate());
+        result.setDeliveryDate(productionOrder.getDeliveryDate());
+        result.setStore(storeDatatypes.fillStoreWithEnterpriseTO(productionOrder.getStore()));
+        result.setOrderEntries(convertList(productionOrder.getOrderEntries(),
+                this::fillProductionOrderEntryTO));
+        return result;
+    }
+
+    @Override
+    public IProductionOrder convertToProductionOrder(ProductionOrderTO productionOrderTO)
+            throws NotInDatabaseException {
+        final IProductionOrder result = getNewProductionOrder();
+        result.setId(productionOrderTO.getId());
+        result.setOrderingDate(productionOrderTO.getOrderingDate());
+        result.setDeliveryDate(productionOrderTO.getDeliveryDate());
+        result.setStoreId(productionOrderTO.getStore().getId());
+        result.setOrderEntries(convertList(productionOrderTO.getOrderEntries(),
+                this::convertToProductionOrderEntry));
+        return result;
+    }
+
+    @Override
+    public IProductionOrderEntry getNewProductionOrderEntry() {
+        return productionOrderEntryProvider.get();
+    }
+
+    @Override
+    public ProductionOrderEntryTO fillProductionOrderEntryTO(IProductionOrderEntry productionOrderEntry)
+            throws NotInDatabaseException {
+        final ProductionOrderEntryTO result = new ProductionOrderEntryTO();
+        result.setId(productionOrderEntry.getId());
+        result.setRecipe(fillRecipeTO(productionOrderEntry.getRecipe()));
+        result.setAmount(productionOrderEntry.getAmount());
+        result.setParameterValues(convertList(productionOrderEntry.getParameterValues(),
+                this::fillCustomProductParameterValueTO));
+        return result;
+    }
+
+    @Override
+    public IProductionOrderEntry convertToProductionOrderEntry(ProductionOrderEntryTO productionnOrderEntryTO)
+            throws NotInDatabaseException {
+        final IProductionOrderEntry result = getNewProductionOrderEntry();
+        result.setId(productionnOrderEntryTO.getId());
+        result.setAmount(productionnOrderEntryTO.getAmount());
+        result.setRecipe(convertToRecipe(productionnOrderEntryTO.getRecipe()));
+        result.setParameterValues(convertList(productionnOrderEntryTO.getParameterValues(),
+                this::convertToCustomProductParameterValue));
+        return result;
+    }
+
+    @Override
+    public ICustomProductParameterValue getNewCustomProductParameterValue() {
+        return customProductParameterValueProvider.get();
+    }
+
+    @Override
+    public CustomProductParameterValueTO fillCustomProductParameterValueTO(
+            ICustomProductParameterValue plantOperationParameterValue)
+            throws NotInDatabaseException {
+        final CustomProductParameterValueTO result = new CustomProductParameterValueTO();
+        result.setId(plantOperationParameterValue.getId());
+        result.setValue(plantOperationParameterValue.getValue());
+        result.setParameter(enterpriseDatatypes.fillCustomProductParameterTO(
+                plantOperationParameterValue.getParameter()));
+        return result;
+    }
+
+    @Override
+    public ICustomProductParameterValue convertToCustomProductParameterValue(
+            CustomProductParameterValueTO plantOperationParameterValueTO) {
+        final ICustomProductParameterValue result = getNewCustomProductParameterValue();
         result.setId(plantOperationParameterValueTO.getId());
         result.setValue(plantOperationParameterValueTO.getValue());
         result.setParameterId(plantOperationParameterValueTO.getParameter().getId());
@@ -500,7 +608,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
 
     private <T1, T2, E extends Throwable> Collection<T1> convertList(Collection<T2> collection,
                                                                      ThrowingFunction<T2, T1, E> converter)
-            throws E {
+            throws E, NotInDatabaseException {
         if (collection == null) {
             return Collections.emptyList();
         }

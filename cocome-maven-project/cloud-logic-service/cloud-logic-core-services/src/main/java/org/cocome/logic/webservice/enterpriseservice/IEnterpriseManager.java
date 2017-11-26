@@ -267,6 +267,15 @@ public interface IEnterpriseManager {
             @XmlElement(required = true) @WebParam(name = "enterpriseID") long enterpriseId) throws NotInDatabaseException;
 
     /**
+     * @param storeId the unique identifier of a Store entity
+     * @return A StoreWithEntepriseTO object with the given store identifier.
+     * @throws NotInDatabaseException if the entity could not be found in the database
+     */
+    @WebMethod
+    StoreWithEnterpriseTO queryStoreByID(
+            @XmlElement(required = true) @WebParam(name = "storeID") long storeId) throws NotInDatabaseException;
+
+    /**
      * @param enterpriseId the unique identifier of a TradingEnterprise entity
      * @param storeId      the unique identifier of a Store entity
      * @return A StoreWithEntepriseTO object with the given store identifier and

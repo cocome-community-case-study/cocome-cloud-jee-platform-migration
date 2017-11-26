@@ -9,7 +9,7 @@ import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionU
  *
  * @author Rudolf Biczok
  */
-public class PUJobProgressEvent extends AbstractPUJobEvent {
+public class PlantJobProgressEvent extends AbstractPlantJobEvent {
 
     private static final long serialVersionUID = -1L;
 
@@ -20,7 +20,7 @@ public class PUJobProgressEvent extends AbstractPUJobEvent {
      * @param job            the job data used for execution
      * @param historyEntry   the history object causing this event
      */
-    public PUJobProgressEvent(IProductionUnit productionUnit, PlantJob job, HistoryEntry historyEntry) {
+    public PlantJobProgressEvent(IProductionUnit productionUnit, PlantJob job, HistoryEntry historyEntry) {
         super(productionUnit, job, historyEntry);
     }
 }

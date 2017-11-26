@@ -19,7 +19,7 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
-import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -44,10 +44,10 @@ public class ProductionOrder implements Serializable, IProductionOrder {
     private long id;
     private Date deliveryDate;
     private Date orderingDate;
-    private ITradingEnterprise enterprise;
+    private IStore store;
     private Collection<IProductionOrderEntry> orderEntries = new LinkedList<>();
 
-    private long enterpriseId;
+    private long storeId;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
@@ -57,7 +57,7 @@ public class ProductionOrder implements Serializable, IProductionOrder {
     @PostConstruct
     public void initPlant() {
         enterpriseQuery = enterpriseQueryInstance.get();
-        enterprise = null;
+        store = null;
         orderEntries = null;
     }
 
@@ -102,25 +102,25 @@ public class ProductionOrder implements Serializable, IProductionOrder {
     }
 
     @Override
-    public ITradingEnterprise getEnterprise() throws NotInDatabaseException {
-        if (enterprise == null) {
-            enterprise = enterpriseQuery.queryEnterpriseById(enterpriseId);
+    public IStore getStore() throws NotInDatabaseException {
+        if (store == null) {
+            store = enterpriseQuery.queryStoreByID(storeId);
         }
-        return this.enterprise;
+        return this.store;
     }
 
     @Override
-    public void setEnterprise(final ITradingEnterprise enterprise) {
-        this.enterprise = enterprise;
+    public void setStore(final IStore store) {
+        this.store = store;
     }
 
     @Override
-    public long getEnterpriseId() {
-        return enterpriseId;
+    public long getStoreId() {
+        return storeId;
     }
 
     @Override
-    public void setEnterpriseId(long enterpriseId) {
-        this.enterpriseId = enterpriseId;
+    public void setStoreId(long enterpriseId) {
+        this.storeId = enterpriseId;
     }
 }

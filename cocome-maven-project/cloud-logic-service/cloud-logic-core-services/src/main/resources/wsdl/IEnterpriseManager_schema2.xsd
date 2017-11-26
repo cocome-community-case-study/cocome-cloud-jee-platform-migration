@@ -81,7 +81,7 @@
       <xs:element name="id" type="xs:long"/>
       <xs:element name="deliveryDate" type="xs:dateTime"/>
       <xs:element name="orderingDate" type="xs:dateTime"/>
-      <xs:element name="enterprise" type="ns2:EnterpriseTO"/>
+      <xs:element name="store" type="ns2:StoreWithEnterpriseTO"/>
       <xs:element maxOccurs="unbounded" name="orderEntries" type="tns:ProductionOrderEntryTO"/>
     </xs:sequence>
   </xs:complexType>

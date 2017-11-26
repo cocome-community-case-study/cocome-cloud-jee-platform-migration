@@ -547,7 +547,7 @@ class ServiceAdapterEntityConverter {
     static String getUpdatePlantOperationOrderContent(IPlantOperationOrder order) {
         return String.valueOf(order.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                TimeUtils.convertToStringDate(order.getDeliveryDate()) +
+                TimeUtils.convertNullableToStringDate(order.getDeliveryDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -555,21 +555,21 @@ class ServiceAdapterEntityConverter {
     }
 
     public static String getCreateProductionOrderContent(IProductionOrder order) {
-        return TimeUtils.convertToStringDate(order.getDeliveryDate()) +
+        return TimeUtils.convertNullableToStringDate(order.getDeliveryDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(order.getEnterpriseId());
+                String.valueOf(order.getStoreId());
     }
 
     public static String getUpdateProductionOrderContent(IProductionOrder order) {
         return String.valueOf(order.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                TimeUtils.convertToStringDate(order.getDeliveryDate()) +
+                TimeUtils.convertNullableToStringDate(order.getDeliveryDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(order.getEnterpriseId());
+                String.valueOf(order.getStoreId());
     }
 
     static String getCreatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry,

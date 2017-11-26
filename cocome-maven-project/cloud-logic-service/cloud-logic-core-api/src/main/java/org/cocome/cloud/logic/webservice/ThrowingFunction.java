@@ -1,5 +1,7 @@
 package org.cocome.cloud.logic.webservice;
 
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+
 /**
  * Represents a specialized version of {@link java.util.function.Function}
  * In contrast to a {@link java.util.function.Function}, it does also have a
@@ -19,5 +21,5 @@ public interface ThrowingFunction<T, R, E extends Throwable> {
      * @return the function result
      * @throws E the exception that might occur during execution
      */
-    R apply(T t) throws E;
+    R apply(T t) throws E, NotInDatabaseException;
 }

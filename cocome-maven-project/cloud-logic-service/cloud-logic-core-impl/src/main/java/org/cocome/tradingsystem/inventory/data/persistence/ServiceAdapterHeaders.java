@@ -129,10 +129,10 @@ public final class ServiceAdapterHeaders {
             + "PlantOperationOrderEntryId";
 
     static final String PRODUCTIONORDER_CREATE_HEADER
-            = "ProductionOrderDeliveryDate;ProductionOrderOrderingDate;TradingEnterpriseId";
+            = "ProductionOrderDeliveryDate;ProductionOrderOrderingDate;StoreId";
     static final String PRODUCTIONORDER_UPDATE_HEADER
             = "ProductionOrderId;ProductionOrderDeliveryDate;ProductionOrderOrderingDate;"
-            + "TradingEnterpriseId";
+            + "StoreId";
 
     static final String PRODUCTIONORDERENTRY_CREATE_HEADER
             = "ProductionOrderEntryAmount;RecipeId;ProductionOrderId";

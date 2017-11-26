@@ -65,6 +65,15 @@ public interface IEnterpriseQuery {
             long enterpriseID);
 
     /**
+     * Retrieves a specific store from the database.
+     *
+     * @param storeID the unique identifier of the Store entity
+     * @return The Store if found
+     * @throws NotInDatabaseException if no Store could be found
+     */
+    IStore queryStoreByID(long storeID) throws NotInDatabaseException;
+
+    /**
      * Retrieves a specific store belonging to this enterprise from the database.
      *
      * @param enterpriseID the unique identifier of a TradingEnterprise entity

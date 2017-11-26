@@ -18,55 +18,17 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 /**
  * The class represents an order of a {@link IPlantOperation} in the database.
  *
  * @author Rudolf Biczok
  */
-public interface IPlantOperationOrder extends IIdentifiable {
-
-    /**
-     * @return The date of ordering.
-     */
-    Date getOrderingDate();
-
-    /**
-     * @param orderingDate the date of ordering
-     */
-    void setOrderingDate(final Date orderingDate);
-
-    /**
-     * The delivery date is used for computing the mean time to delivery
-     *
-     * @return The date of order fulfillment.
-     */
-    Date getDeliveryDate();
-
-    /**
-     * The delivery date is used for computing the mean time to delivery
-     *
-     * @param deliveryDate the date of order fulfillment
-     */
-    void setDeliveryDate(final Date deliveryDate);
-
-    /**
-     * @return the order entries.
-     */
-    Collection<IPlantOperationOrderEntry> getOrderEntries();
-
-    /**
-     * @param orderEntries the order entries.
-     */
-    void setOrderEntries(Collection<IPlantOperationOrderEntry> orderEntries);
-
+public interface IPlantOperationOrder extends IRecipeOperationOrder<
+        IPlantOperationParameterValue,
+        IPlantOperationOrderEntry> {
     /**
      * @return The enterprise where the order is placed.
      */

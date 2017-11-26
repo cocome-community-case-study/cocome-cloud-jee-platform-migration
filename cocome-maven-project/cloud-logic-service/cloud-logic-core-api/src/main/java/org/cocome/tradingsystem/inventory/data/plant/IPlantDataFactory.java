@@ -18,6 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.plant;
 
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
@@ -26,6 +27,7 @@ import org.cocome.tradingsystem.inventory.application.plant.productionunit.Produ
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
@@ -142,13 +144,13 @@ public interface IPlantDataFactory {
 
     IRecipe convertToRecipe(RecipeTO recipeTO);
 
-        /* Plant Operation Order */
+    /* Plant Operation Order */
 
     IPlantOperationOrder getNewPlantOperationOrder();
 
     PlantOperationOrderTO fillPlantOperationOrderTO(IPlantOperationOrder plantOperationOrder) throws NotInDatabaseException;
 
-    IPlantOperationOrder convertToPlantOperationOrder(PlantOperationOrderTO plantOperationOrderTO);
+    IPlantOperationOrder convertToPlantOperationOrder(PlantOperationOrderTO plantOperationOrderTO) throws NotInDatabaseException;
 
     /* Plant Operation Order Entry */
 
@@ -156,7 +158,7 @@ public interface IPlantDataFactory {
 
     PlantOperationOrderEntryTO fillPlantOperationOrderEntryTO(IPlantOperationOrderEntry plantOperationOrderEntry) throws NotInDatabaseException;
 
-    IPlantOperationOrderEntry convertToPlantOperationOrderEntry(PlantOperationOrderEntryTO plantOperationOrderEntryTO);
+    IPlantOperationOrderEntry convertToPlantOperationOrderEntry(PlantOperationOrderEntryTO plantOperationOrderEntryTO) throws NotInDatabaseException;
 
     /* Plant Operation Order Parameter Value */
 
@@ -166,4 +168,29 @@ public interface IPlantDataFactory {
             throws NotInDatabaseException;
 
     IPlantOperationParameterValue convertToPlantOperationParameterValue(PlantOperationParameterValueTO plantOperationParameterValueTO);
+
+        /* Production Order */
+
+    IProductionOrder getNewProductionOrder();
+
+    ProductionOrderTO fillProductionOrderTO(IProductionOrder productionOrder) throws NotInDatabaseException;
+
+    IProductionOrder convertToProductionOrder(ProductionOrderTO productionOrderTO) throws NotInDatabaseException;
+
+    /* Production Order Entry */
+
+    IProductionOrderEntry getNewProductionOrderEntry();
+
+    ProductionOrderEntryTO fillProductionOrderEntryTO(IProductionOrderEntry productionOrderEntry) throws NotInDatabaseException;
+
+    IProductionOrderEntry convertToProductionOrderEntry(ProductionOrderEntryTO productionOrderEntryTO) throws NotInDatabaseException;
+
+    /* Plant Operation Order Parameter Value */
+
+    ICustomProductParameterValue getNewCustomProductParameterValue();
+
+    CustomProductParameterValueTO fillCustomProductParameterValueTO(ICustomProductParameterValue customProductParameterValue)
+            throws NotInDatabaseException;
+
+    ICustomProductParameterValue convertToCustomProductParameterValue(CustomProductParameterValueTO customProductParameterValueTO);
 }

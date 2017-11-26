@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Rudolf Biczok
  */
-public abstract class AbstractPUJobEvent implements Serializable {
+public abstract class AbstractPlantJobEvent implements Serializable {
 
     private static final long serialVersionUID = -1L;
 
@@ -26,9 +26,9 @@ public abstract class AbstractPUJobEvent implements Serializable {
      * @param job            the job data used for execution
      * @param historyEntry   the history object causing this event
      */
-    AbstractPUJobEvent(IProductionUnit productionUnit,
-                       PlantJob job,
-                       HistoryEntry historyEntry) {
+    AbstractPlantJobEvent(IProductionUnit productionUnit,
+                          PlantJob job,
+                          HistoryEntry historyEntry) {
         this.productionUnit = productionUnit;
         this.job = job;
         this.historyEntry = historyEntry;
