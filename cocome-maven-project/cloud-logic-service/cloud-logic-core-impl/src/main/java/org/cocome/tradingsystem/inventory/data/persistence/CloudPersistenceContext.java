@@ -761,43 +761,43 @@ public class CloudPersistenceContext implements IPersistenceContext {
         createEntity(orderEntry,
                 "ProductionOrderEntry",
                 ServiceAdapterEntityConverter.getCreateProductionOrderEntryContent(orderEntry, order),
-                ServiceAdapterHeaders.PLANTOPERATIONORDERENTRY_CREATE_HEADER);
+                ServiceAdapterHeaders.PRODUCTIONORDERENTRY_CREATE_HEADER);
     }
 
     @Override
     public void updateEntity(IProductionOrderEntry orderEntry, IProductionOrder order) throws UpdateException {
         updateEntity("ProductionOrderEntry",
                 ServiceAdapterEntityConverter.getUpdateProductionOrderEntryContent(orderEntry, order),
-                ServiceAdapterHeaders.PLANTOPERATIONORDERENTRY_UPDATE_HEADER);
+                ServiceAdapterHeaders.PRODUCTIONORDERENTRY_UPDATE_HEADER);
     }
 
     @Override
     public void deleteEntity(IProductionOrderEntry orderEntry, IProductionOrder order) throws UpdateException {
         deleteEntity("ProductionOrderEntry",
                 ServiceAdapterEntityConverter.getUpdateProductionOrderEntryContent(orderEntry, order),
-                ServiceAdapterHeaders.PLANTOPERATIONORDERENTRY_UPDATE_HEADER);
+                ServiceAdapterHeaders.PRODUCTIONORDERENTRY_UPDATE_HEADER);
     }
 
     @Override
     public void createEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry) throws CreateException {
-        createEntity(orderEntry,
+        createEntity(value,
                 "CustomProductParameterValue",
                 ServiceAdapterEntityConverter.getCreateCustomProductParameterValueContent(value, orderEntry),
-                ServiceAdapterHeaders.PLANTOPERATIONORDERENTRY_CREATE_HEADER);
+                ServiceAdapterHeaders.CUSTOMPRODUCTPARAMETERVALUE_CREATE_HEADER);
     }
 
     @Override
     public void updateEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry) throws UpdateException {
         updateEntity("CustomProductParameterValue",
                 ServiceAdapterEntityConverter.getUpdateCustomProductParameterValueContent(value, orderEntry),
-                ServiceAdapterHeaders.PLANTOPERATIONPARAMETERVALUE_UPDATE_HEADER);
+                ServiceAdapterHeaders.CUSTOMPRODUCTPARAMETERVALUE_UPDATE_HEADER);
     }
 
     @Override
     public void deleteEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry) throws UpdateException {
         deleteEntity("CustomProductParameterValue",
                 ServiceAdapterEntityConverter.getUpdateCustomProductParameterValueContent(value, orderEntry),
-                ServiceAdapterHeaders.PLANTOPERATIONPARAMETERVALUE_UPDATE_HEADER);
+                ServiceAdapterHeaders.CUSTOMPRODUCTPARAMETERVALUE_UPDATE_HEADER);
     }
 
     @Override

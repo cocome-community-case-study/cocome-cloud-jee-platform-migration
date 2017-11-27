@@ -123,11 +123,10 @@ public class ProductionManager {
             final PlantOperationOrderTO operationOrder = new PlantOperationOrderTO();
             operationOrder.setEnterprise(enterpriseDatatypesFactory.fillEnterpriseTO(
                     job.getOrder().getStore().getEnterprise()));
-            operationOrder.setOrderEntries(entry.getValue().values());
+            operationOrder.setOrderEntries(new ArrayList<>(entry.getValue().values()));
 
             final IPlantManager pm = plantClientFactory.createClient(entry.getKey());
-            operationOrder.setId(pm.orderOperation(operationOrder));
-            this.plantOrderProductionJobMapping.put(operationOrder.getId(), new ProductionJobContext(job, nodes));
+            this.plantOrderProductionJobMapping.put(pm.orderOperation(operationOrder), new ProductionJobContext(job, nodes));
         }
     }
 

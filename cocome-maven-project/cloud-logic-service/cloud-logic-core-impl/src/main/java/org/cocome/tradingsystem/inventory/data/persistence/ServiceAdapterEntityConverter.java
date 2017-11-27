@@ -633,7 +633,9 @@ class ServiceAdapterEntityConverter {
 
     static String getUpdateCustomProductParameterValueContent(ICustomProductParameterValue value,
                                                               IProductionOrderEntry orderEntry) {
-        return String.valueOf(value.getValue()) +
+        return String.valueOf(value.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(value.getValue()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(value.getParameterId()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -642,9 +644,7 @@ class ServiceAdapterEntityConverter {
 
     static String getCreateCustomProductParameterValueContent(ICustomProductParameterValue value,
                                                               IProductionOrderEntry orderEntry) {
-        return String.valueOf(value.getId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(value.getValue()) +
+        return String.valueOf(value.getValue()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(value.getParameterId()) +
                 ServiceAdapterHeaders.SEPARATOR +

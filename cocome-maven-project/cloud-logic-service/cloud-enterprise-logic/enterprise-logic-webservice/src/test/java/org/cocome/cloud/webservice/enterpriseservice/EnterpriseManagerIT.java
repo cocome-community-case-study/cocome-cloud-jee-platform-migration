@@ -221,7 +221,7 @@ public class EnterpriseManagerIT {
     }
 
     @Test
-    public void testOrderShit() throws Exception {
+    public void testSubmitProductionOrder() throws Exception {
         final EnterpriseTO enterprise = getOrCreateEnterprise();
         final PlantTO plant = getOrCreatePlant(enterprise);
         final StoreWithEnterpriseTO store = getOrCreateStore(enterprise);
@@ -302,7 +302,7 @@ public class EnterpriseManagerIT {
         op2out1.setId(em.createEntryPoint(op2out1));
 
         final PlantOperationTO operation2 = new PlantOperationTO();
-        operation2.setName("Fill Yogurt");
+        operation2.setName("Create Package");
         operation2.setPlant(plant);
         operation2.setOutputEntryPoint(Collections.singletonList(op2out1));
         operation2.setExpressions(Arrays.asList(
