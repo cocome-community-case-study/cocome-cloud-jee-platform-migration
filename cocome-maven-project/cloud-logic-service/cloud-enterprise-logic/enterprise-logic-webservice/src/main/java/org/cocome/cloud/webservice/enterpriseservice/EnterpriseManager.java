@@ -32,6 +32,8 @@ import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPla
 import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
+import org.cocome.tradingsystem.inventory.application.production.ProductionManager;
+import org.cocome.tradingsystem.inventory.application.production.events.PlantOperationOrderFinishedEvent;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.*;
@@ -55,6 +57,7 @@ import org.cocome.tradingsystem.util.scope.RegistryKeys;
 
 import javax.ejb.CreateException;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.jws.WebService;
 import java.net.URISyntaxException;
@@ -108,6 +111,12 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Inject
     private IPlantDataFactory plantFactory;
+
+    @Inject
+    private ProductionManager productionManager;
+
+    @Inject
+    private Event<PlantOperationOrderFinishedEvent> orderFinishedEvent;
 
     @Inject
     private long defaultEnterpriseIndex;
@@ -875,29 +884,28 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Override
     public void onPlantOperationFinish(long plantOperationOrderEntryId) {
         LOG.info("Finished plant operation for order entry: " + plantOperationOrderEntryId);
-        //TODO
     }
 
     @Override
     public void onPlantOperationOrderEntryFinish(long plantOperationOrderEntryId) {
         LOG.info("Finished plant operation order entry: " + plantOperationOrderEntryId);
-        //TODO
     }
 
     @Override
     public void onPlantOperationOrderFinish(long plantOperationOrderId) {
         LOG.info("Finished plant operation order " + plantOperationOrderId);
-        //TODO
+        orderFinishedEvent.fire(new PlantOperationOrderFinishedEvent(plantOperationOrderId));
     }
 
     @Override
-    public void submitProductionOrder(ProductionOrderTO productionOrderTO)
-            throws NotInDatabaseException, CreateException {
+    public long submitProductionOrder(ProductionOrderTO productionOrderTO)
+            throws NotInDatabaseException, CreateException, RecipeException {
         final IProductionOrder order = plantFactory.convertToProductionOrder(productionOrderTO);
         checkOrder(order);
         order.setOrderingDate(new Date());
         persistOrder(order);
-        //puManager.submitOrder(order);
+        productionManager.submitOrder(order);
+        return order.getId();
     }
 
     private IProduct queryProduct(ProductTO productTO)

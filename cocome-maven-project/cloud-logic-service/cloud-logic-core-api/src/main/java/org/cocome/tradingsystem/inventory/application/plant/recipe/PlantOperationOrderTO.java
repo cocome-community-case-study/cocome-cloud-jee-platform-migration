@@ -18,18 +18,13 @@
 
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
-import org.cocome.cloud.logic.webservice.StreamUtil;
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * The class represents an order of a {@link PlantOperationTO} in the database.
@@ -55,6 +50,23 @@ public class PlantOperationOrderTO implements Serializable, IIdentifiableTO {
     private EnterpriseTO enterprise;
     @XmlElement(name = "orderEntries", required = true)
     private Collection<PlantOperationOrderEntryTO> orderEntries;
+
+    /**
+     * Minimal constructor
+     */
+    public PlantOperationOrderTO() {
+    }
+
+    /**
+     * Canonical constructor
+     *
+     * @param enterprise   the enterprise from which this order came from
+     * @param orderEntries the order entries
+     */
+    public PlantOperationOrderTO(final EnterpriseTO enterprise, Collection<PlantOperationOrderEntryTO> orderEntries) {
+        this.enterprise = enterprise;
+        this.orderEntries = orderEntries;
+    }
 
     @Override
     public long getId() {

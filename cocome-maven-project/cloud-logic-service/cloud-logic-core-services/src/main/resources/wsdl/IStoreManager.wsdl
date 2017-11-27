@@ -21,8 +21,16 @@
     <wsdl:part name="parameters" element="tns:orderProductsResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="onProductionFinish">
+    <wsdl:part name="parameters" element="tns:onProductionFinish">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="updateStockItemResponse">
     <wsdl:part name="parameters" element="tns:updateStockItemResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="onProductionOrderEntryFinishResponse">
+    <wsdl:part name="parameters" element="tns:onProductionOrderEntryFinishResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="markProductsUnavailableInStock">
@@ -31,6 +39,10 @@
   </wsdl:message>
   <wsdl:message name="getStockItems">
     <wsdl:part name="parameters" element="tns:getStockItems">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="onProductionOrderFinish">
+    <wsdl:part name="parameters" element="tns:onProductionOrderFinish">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createStockItemResponse">
@@ -77,6 +89,10 @@
     <wsdl:part name="parameters" element="tns:changePriceResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="onProductionOrderFinishResponse">
+    <wsdl:part name="parameters" element="tns:onProductionOrderFinishResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getProductsWithStockItemsResponse">
     <wsdl:part name="parameters" element="tns:getProductsWithStockItemsResponse">
     </wsdl:part>
@@ -121,6 +137,10 @@
     <wsdl:part name="parameters" element="tns:getOutstandingOrders">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="onProductionFinishResponse">
+    <wsdl:part name="parameters" element="tns:onProductionFinishResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="markProductsUnavailableInStockResponse">
     <wsdl:part name="parameters" element="tns:markProductsUnavailableInStockResponse">
     </wsdl:part>
@@ -143,6 +163,10 @@
   </wsdl:message>
   <wsdl:message name="ProductOutOfStockException">
     <wsdl:part name="ProductOutOfStockException" element="tns:ProductOutOfStockException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="onProductionOrderEntryFinish">
+    <wsdl:part name="parameters" element="tns:onProductionOrderEntryFinish">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="accountSale">
@@ -182,6 +206,12 @@
       <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="onProductionFinish">
+      <wsdl:input name="onProductionFinish" message="tns:onProductionFinish">
+    </wsdl:input>
+      <wsdl:output name="onProductionFinishResponse" message="tns:onProductionFinishResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="markProductsUnavailableInStock">
       <wsdl:input name="markProductsUnavailableInStock" message="tns:markProductsUnavailableInStock">
     </wsdl:input>
@@ -203,6 +233,12 @@
     </wsdl:fault>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="onProductionOrderFinish">
+      <wsdl:input name="onProductionOrderFinish" message="tns:onProductionOrderFinish">
+    </wsdl:input>
+      <wsdl:output name="onProductionOrderFinishResponse" message="tns:onProductionOrderFinishResponse">
+    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getProductWithStockItem">
       <wsdl:input name="getProductWithStockItem" message="tns:getProductWithStockItem">
@@ -257,6 +293,12 @@
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="onProductionOrderEntryFinish">
+      <wsdl:input name="onProductionOrderEntryFinish" message="tns:onProductionOrderEntryFinish">
+    </wsdl:input>
+      <wsdl:output name="onProductionOrderEntryFinishResponse" message="tns:onProductionOrderEntryFinishResponse">
+    </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="accountSale">
       <wsdl:input name="accountSale" message="tns:accountSale">
@@ -345,6 +387,15 @@
         <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="onProductionFinish">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="onProductionFinish">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="onProductionFinishResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="markProductsUnavailableInStock">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="markProductsUnavailableInStock">
@@ -377,6 +428,15 @@
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="onProductionOrderFinish">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="onProductionOrderFinish">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="onProductionOrderFinishResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getProductWithStockItem">
       <soap:operation soapAction="" style="document"/>
@@ -458,6 +518,15 @@
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="onProductionOrderEntryFinish">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="onProductionOrderEntryFinish">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="onProductionOrderEntryFinishResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="accountSale">
       <soap:operation soapAction="" style="document"/>

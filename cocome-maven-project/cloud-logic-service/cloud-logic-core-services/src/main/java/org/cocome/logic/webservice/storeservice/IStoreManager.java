@@ -99,4 +99,20 @@ public interface IStoreManager {
             @XmlElement(required = true) @WebParam(name = "productBarcode") long productBarcode)
             throws NoSuchProductException, NotInDatabaseException;
 
+    /* Plant Operation callbacks **************/
+
+    @WebMethod
+    void onProductionFinish(
+            @XmlElement(required = true)
+            @WebParam(name = "productionOrderEntryID") final long productionOrderEntryId);
+
+    @WebMethod
+    void onProductionOrderFinish(
+            @XmlElement(required = true)
+            @WebParam(name = "productionOrderID") final long productionOrderId);
+
+    @WebMethod
+    void onProductionOrderEntryFinish(
+            @XmlElement(required = true)
+            @WebParam(name = "productionOrderEntryID") final long productioinOrderEntryId);
 }

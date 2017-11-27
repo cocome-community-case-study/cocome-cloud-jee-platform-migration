@@ -37,6 +37,12 @@
   <xs:element name="getStoreResponse" type="tns:getStoreResponse"/>
   <xs:element name="markProductsUnavailableInStock" type="tns:markProductsUnavailableInStock"/>
   <xs:element name="markProductsUnavailableInStockResponse" type="tns:markProductsUnavailableInStockResponse"/>
+  <xs:element name="onProductionFinish" type="tns:onProductionFinish"/>
+  <xs:element name="onProductionFinishResponse" type="tns:onProductionFinishResponse"/>
+  <xs:element name="onProductionOrderEntryFinish" type="tns:onProductionOrderEntryFinish"/>
+  <xs:element name="onProductionOrderEntryFinishResponse" type="tns:onProductionOrderEntryFinishResponse"/>
+  <xs:element name="onProductionOrderFinish" type="tns:onProductionOrderFinish"/>
+  <xs:element name="onProductionOrderFinishResponse" type="tns:onProductionOrderFinishResponse"/>
   <xs:element name="orderProducts" type="tns:orderProducts"/>
   <xs:element name="orderProductsResponse" type="tns:orderProductsResponse"/>
   <xs:element name="rollInReceivedOrder" type="tns:rollInReceivedOrder"/>
@@ -74,6 +80,14 @@
   <xs:complexType name="createStockItemResponse">
     <xs:sequence/>
   </xs:complexType>
+  <xs:complexType name="onProductionFinish">
+    <xs:sequence>
+      <xs:element name="productionOrderEntryID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onProductionFinishResponse">
+    <xs:sequence/>
+  </xs:complexType>
   <xs:complexType name="markProductsUnavailableInStock">
     <xs:sequence>
       <xs:element name="storeID" type="xs:long"/>
@@ -93,6 +107,14 @@
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ComplexOrderEntryTO"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onProductionOrderFinish">
+    <xs:sequence>
+      <xs:element name="productionOrderID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onProductionOrderFinishResponse">
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="getProductWithStockItem">
     <xs:sequence>
@@ -153,6 +175,14 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="ns1:StoreWithEnterpriseTO"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onProductionOrderEntryFinish">
+    <xs:sequence>
+      <xs:element name="productionOrderEntryID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onProductionOrderEntryFinishResponse">
+    <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="accountSale">
     <xs:sequence>

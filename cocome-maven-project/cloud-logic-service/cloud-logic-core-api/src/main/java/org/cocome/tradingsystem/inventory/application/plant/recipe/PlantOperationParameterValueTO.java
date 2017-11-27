@@ -26,6 +26,21 @@ public class PlantOperationParameterValueTO implements IParameterValueTO<PlantOp
     @XmlElementRef(name = "parameter")
     private PlantOperationParameterTO parameter;
 
+    /**
+     * Minimal constructor
+     */
+    public PlantOperationParameterValueTO() {
+    }
+
+    /**
+     * @param value     the parameter value
+     * @param parameter the parameter
+     */
+    public PlantOperationParameterValueTO(final String value, final PlantOperationParameterTO parameter) {
+        this.value = value;
+        this.parameter = parameter;
+    }
+
     @Override
     public long getId() {
         return id;

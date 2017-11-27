@@ -1,10 +1,21 @@
 package org.cocome.tradingsystem.inventory.application.production;
 
 import org.apache.log4j.Logger;
-import org.cocome.cloud.logic.stub.IStoreManager;
+import org.cocome.cloud.logic.stub.*;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderEntryTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.production.events.PlantOperationOrderFinishedEvent;
+import org.cocome.tradingsystem.inventory.data.enterprise.EnterpriseDatatypesFactory;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
+import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
+import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
+import org.cocome.tradingsystem.inventory.data.plant.PlantClientFactory;
+import org.cocome.tradingsystem.inventory.data.plant.PlantDatatypesFactory;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IParameterInteraction;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IProductionOrder;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IProductionOrderEntry;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.exec.RecipeExecutionGraphNode;
 import org.cocome.tradingsystem.inventory.data.store.StoreClientFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.exception.RecipeException;
@@ -13,6 +24,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import java.util.*;
 
 /**
  * Generates the actual interface classes for access the production unit services
@@ -29,7 +41,21 @@ public class ProductionManager {
     private StoreClientFactory storeClientFactory;
 
     @Inject
+    private PlantClientFactory plantClientFactory;
+
+    @Inject
     private ProductionJobPool jobPool;
+
+    @Inject
+    private IPersistenceContext persistenceContext;
+
+    @Inject
+    private EnterpriseDatatypesFactory enterpriseDatatypesFactory;
+
+    @Inject
+    private PlantDatatypesFactory plantDatatypesFactory;
+
+    private Map<Long, ProductionJobContext> plantOrderProductionJobMapping = new HashMap<>();
 
     public void submitOrder(final IProductionOrder order) throws NotInDatabaseException, RecipeException {
         for (final IProductionOrderEntry orderEntry : order.getOrderEntries()) {
@@ -38,49 +64,112 @@ public class ProductionManager {
                         order.getStore().getId());
                 final ProductionJob job = new ProductionJob(storeManager, order, orderEntry);
                 jobPool.addJob(job);
-                processJob(job);
+                startJob(job);
             }
         }
     }
 
-    public void onPUJobFinish(@Observes PlantOperationOrderFinishedEvent event) {
-        /*LOG.info("PUJob Finished: " + event.getJob());
+    public void onOperationFinished(@Observes PlantOperationOrderFinishedEvent event) {
+        LOG.info("Plant Operation Finished: " + event.getPlantOperationOrderID());
+        if (!plantOrderProductionJobMapping.containsKey(event.getPlantOperationOrderID())) {
+            throw new IllegalStateException("Unknown plant operation order: " + event.getPlantOperationOrderID());
+        }
         try {
-            processJob(event.getJob());
-        } catch (final NotInDatabaseException e) {
+            final ProductionJobContext jobContext = plantOrderProductionJobMapping.get(event.getPlantOperationOrderID());
+            plantOrderProductionJobMapping.remove(event.getPlantOperationOrderID());
+            processJob(jobContext);
+        } catch (final UpdateException_Exception | NotInDatabaseException | UpdateException |
+                CreateException_Exception | NotInDatabaseException_Exception e) {
             LOG.error("Exception occurred while processing pu job", e);
             throw new IllegalStateException(e);
-        }*/
+        }
     }
 
-    private void processJob(final ProductionJob job) throws NotInDatabaseException {
-        /*if (job.getWorkingPackages().isEmpty()) {
-            jobPool.removeJob(job);
-            LOG.info("Job finished: " + job.getUUID());
+    private void startJob(ProductionJob job) throws NotInDatabaseException {
+        try {
+            submitPlantOperatins(job, job.getExecutionGraph().getStartNodes());
+        } catch (final UpdateException_Exception | CreateException_Exception | NotInDatabaseException_Exception e) {
+            LOG.error("Exception occurred while processing pu job", e);
+            throw new IllegalStateException(e);
+        }
+    }
 
-            job.getEnterpriseManager().onPlantOperationFinish(job.getOrderEntry().getId());
-            if (!jobPool.hasJobs(job.getOrder(), job.getOrderEntry())) {
-                LOG.info("Order entry finished: " + job.getOrderEntry());
-                job.getEnterpriseManager().onPlantOperationOrderEntryFinish(job.getOrderEntry().getId());
+    private void submitPlantOperatins(final ProductionJob job, final List<RecipeExecutionGraphNode> nodes)
+            throws NotInDatabaseException, CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
+
+        final Map<Long, Map<Long, PlantOperationOrderEntryTO>> orderEntryMapping = new HashMap<>();
+
+        for (final RecipeExecutionGraphNode node : nodes) {
+            orderEntryMapping.putIfAbsent(node.getPlantOperation().getPlant().getId(), new HashMap<>());
+            if (!orderEntryMapping.get(node.getPlantOperation().getPlant().getId())
+                    .containsKey(node.getPlantOperation().getId())) {
+                final PlantOperationOrderEntryTO entry = new PlantOperationOrderEntryTO();
+                entry.setPlantOperation(plantDatatypesFactory.fillPlantOperationTO(node.getPlantOperation()));
+                entry.setAmount(1);
+                entry.setParameterValues(extractParameters(
+                        job.getOrderEntry().getParameterValues(),
+                        node.getParameterInteractions()));
+                orderEntryMapping.get(node.getPlantOperation().getPlant().getId())
+                        .put(node.getPlantOperation().getId(), entry);
+                continue;
             }
-            if (!jobPool.hasJobs(job.getOrder())) {
-                LOG.info("Order finished: " + job.getOrderEntry());
-                job.getOrder().setDeliveryDate(new Date());
-                persistenceContext.updateEntity(job.getOrder());
-                job.getEnterpriseManager().onPlantOperationOrderFinish(job.getOrder().getId());
+            final PlantOperationOrderEntryTO orderEntry = orderEntryMapping
+                    .get(node.getPlantOperation().getPlant().getId())
+                    .get(node.getPlantOperation().getId());
+            orderEntry.setAmount(orderEntry.getAmount() + 1);
+        }
+
+        for (final Map.Entry<Long, Map<Long, PlantOperationOrderEntryTO>> entry : orderEntryMapping.entrySet()) {
+            final PlantOperationOrderTO operationOrder = new PlantOperationOrderTO();
+            operationOrder.setEnterprise(enterpriseDatatypesFactory.fillEnterpriseTO(
+                    job.getOrder().getStore().getEnterprise()));
+            operationOrder.setOrderEntries(entry.getValue().values());
+
+            final IPlantManager pm = plantClientFactory.createClient(entry.getKey());
+            operationOrder.setId(pm.orderOperation(operationOrder));
+            this.plantOrderProductionJobMapping.put(operationOrder.getId(), new ProductionJobContext(job, nodes));
+        }
+    }
+
+    private Collection<PlantOperationParameterValueTO> extractParameters(
+            final Collection<ICustomProductParameterValue> parameterValues,
+            final List<IParameterInteraction> parameterInteractions) throws NotInDatabaseException {
+        final List<PlantOperationParameterValueTO> plantValueParameter = new ArrayList<>(parameterInteractions.size());
+        for (final IParameterInteraction parameterInteraction : parameterInteractions) {
+            for (final ICustomProductParameterValue parameterValue : parameterValues) {
+                if (parameterInteraction.getFrom().getId() == parameterValue.getParameter().getId()) {
+                    final PlantOperationParameterValueTO plantOperationParameterValue = new PlantOperationParameterValueTO();
+                    plantOperationParameterValue.setValue(parameterValue.getValue());
+                    plantOperationParameterValue.setParameter(
+                            plantDatatypesFactory.fillPlantOperationParameterTO(parameterInteraction.getTo()));
+                    plantValueParameter.add(plantOperationParameterValue);
+                    break;
+                }
+            }
+        }
+        return plantValueParameter;
+    }
+
+    private void processJob(final ProductionJobContext jobContext) throws NotInDatabaseException, UpdateException,
+            CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
+        final List<RecipeExecutionGraphNode> nextNodes = jobContext.getJob().getNextNodes(jobContext.getAssociatedNodes());
+        if (jobContext.getJob().hasFinished()) {
+            jobPool.removeJob(jobContext.getJob());
+            LOG.info("Production Job finished: " + jobContext.getJob().getUUID());
+
+            jobContext.getJob().getStoreManager().onProductionFinish(jobContext.getJob().getOrderEntry().getId());
+            if (!jobPool.hasJobs(jobContext.getJob().getOrder(), jobContext.getJob().getOrderEntry())) {
+                LOG.info("Production order entry finished: " + jobContext.getJob().getOrderEntry());
+                jobContext.getJob().getStoreManager().onProductionOrderEntryFinish(jobContext.getJob().getOrderEntry().getId());
+            }
+            if (!jobPool.hasJobs(jobContext.getJob().getOrder())) {
+                LOG.info("Production Order finished: " + jobContext.getJob().getOrderEntry());
+                jobContext.getJob().getOrder().setDeliveryDate(new Date());
+                persistenceContext.updateEntity(jobContext.getJob().getOrder());
+                jobContext.getJob().getStoreManager().onProductionOrderFinish(jobContext.getJob().getOrder().getId());
             }
             return;
         }
-        final PUWorkingPackage workingPackage = job.getWorkingPackages().poll();
-
-        //Implicit policy: submit next working package to the production unit with the lowest work load
-        final Optional<PUWorker<ProductionJob>> nextWorker =
-                StreamUtil.ofNullable(this.workerPool.getWorkers(workingPackage.getPUC()))
-                        .min(Comparator.comparingLong(PUWorker::getWorkLoad));
-        if (!nextWorker.isPresent()) {
-            throw new IllegalStateException("No PU is running for production unit class: "
-                    + workingPackage.getPUC().getName());
-        }
-        nextWorker.get().submitJob(job, workingPackage.getOperations());*/
+        submitPlantOperatins(jobContext.getJob(), nextNodes);
     }
 }

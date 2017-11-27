@@ -1,7 +1,7 @@
 package org.cocome.tradingsystem.inventory.application.production;
 
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrderEntry;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IProductionOrder;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IProductionOrderEntry;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
@@ -64,8 +64,8 @@ public class ProductionJobPool {
      * @param orderEntry the target order entry
      * @return {@code true} if the order entry has unfinished jobs in the job pool
      */
-    public boolean hasJobs(final IPlantOperationOrder order,
-                           final IPlantOperationOrderEntry orderEntry) {
+    public boolean hasJobs(final IProductionOrder order,
+                           final IProductionOrderEntry orderEntry) {
         return jobPool.containsKey(order.getId())
                 && jobPool.get(order.getId()).containsKey(orderEntry.getId());
     }
@@ -74,7 +74,7 @@ public class ProductionJobPool {
      * @param order the target order
      * @return {@code true} if the order has unfinished jobs in the job pool.
      */
-    public boolean hasJobs(final IPlantOperationOrder order) {
+    public boolean hasJobs(final IProductionOrder order) {
         return jobPool.containsKey(order.getId());
     }
 }

@@ -211,6 +211,8 @@
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
       <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
@@ -408,6 +410,9 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="CreateException">
         <soap:fault name="CreateException" use="literal"/>

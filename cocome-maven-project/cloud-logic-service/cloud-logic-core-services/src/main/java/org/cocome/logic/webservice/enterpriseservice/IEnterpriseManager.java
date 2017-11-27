@@ -724,11 +724,11 @@ public interface IEnterpriseManager {
     /* Other Methods **************/
 
     @WebMethod
-    void submitProductionOrder(
+    long submitProductionOrder(
             @XmlElement(required = true)
             @WebParam(name = "productionOrderTO")
                     ProductionOrderTO productionOrderTO)
-            throws NotInDatabaseException, CreateException;
+            throws NotInDatabaseException, CreateException, RecipeException;
 
     /**
      * @param supplier   The supplier which delivers the products

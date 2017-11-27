@@ -18,7 +18,7 @@ public class PlantOperationOrderFinishedEvent implements Serializable {
      *
      * @param plantOperationOrderID plant operation order
      */
-    PlantOperationOrderFinishedEvent(final long plantOperationOrderID) {
+    public PlantOperationOrderFinishedEvent(final long plantOperationOrderID) {
         this.plantOperationOrderID = plantOperationOrderID;
     }
 

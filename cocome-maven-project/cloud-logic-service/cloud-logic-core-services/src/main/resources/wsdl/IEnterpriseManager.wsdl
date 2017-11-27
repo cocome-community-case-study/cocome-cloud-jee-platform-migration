@@ -939,6 +939,8 @@
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
+      <wsdl:fault name="RecipeException" message="tns:RecipeException">
+    </wsdl:fault>
       <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
@@ -1764,6 +1766,9 @@
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="RecipeException">
+        <soap:fault name="RecipeException" use="literal"/>
       </wsdl:fault>
       <wsdl:fault name="CreateException">
         <soap:fault name="CreateException" use="literal"/>

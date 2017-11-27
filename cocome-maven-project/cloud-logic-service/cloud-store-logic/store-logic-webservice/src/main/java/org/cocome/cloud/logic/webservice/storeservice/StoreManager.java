@@ -190,4 +190,19 @@ public class StoreManager implements IStoreManager {
         setContextRegistry(storeID);
         storeManager.createStockItem(storeID, stockItemTO);
     }
+
+    @Override
+    public void onProductionFinish(long plantOperationOrderEntryId) {
+        LOG.info("Finished production for order entry: " + plantOperationOrderEntryId);
+    }
+
+    @Override
+    public void onProductionOrderEntryFinish(long productionOrderEntryId) {
+        LOG.info("Finished production order entry: " + productionOrderEntryId);
+    }
+
+    @Override
+    public void onProductionOrderFinish(long productionOrderId) {
+        LOG.info("Finished production order " + productionOrderId);
+    }
 }

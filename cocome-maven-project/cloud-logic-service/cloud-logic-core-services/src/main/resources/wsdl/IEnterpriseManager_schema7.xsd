@@ -491,7 +491,9 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="submitProductionOrderResponse">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createParameterInteraction">
     <xs:sequence>
