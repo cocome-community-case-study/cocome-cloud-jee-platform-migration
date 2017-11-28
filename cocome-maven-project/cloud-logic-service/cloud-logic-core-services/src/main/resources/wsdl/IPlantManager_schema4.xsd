@@ -10,6 +10,7 @@
   <xs:element name="EnterpriseTO" type="ns4:EnterpriseTO"/>
   <xs:element name="EntryPointTO" type="ns6:EntryPointTO"/>
   <xs:element name="ExpressionTO" type="ns2:ExpressionTO"/>
+  <xs:element name="NorminalPlantOperationParameterTO" type="ns5:NorminalPlantOperationParameterTO"/>
   <xs:element name="PlantOperationOrderEntryTO" type="ns6:PlantOperationOrderEntryTO"/>
   <xs:element name="PlantOperationOrderTO" type="ns6:PlantOperationOrderTO"/>
   <xs:element name="PlantOperationParameterTO" type="ns5:PlantOperationParameterTO"/>

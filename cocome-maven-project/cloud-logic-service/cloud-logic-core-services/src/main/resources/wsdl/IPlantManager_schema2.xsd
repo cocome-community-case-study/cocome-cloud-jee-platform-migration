@@ -63,6 +63,7 @@
       <xs:choice>
         <xs:element ref="ns1:PlantOperationParameterTO"/>
         <xs:element ref="ns1:BooleanPlantOperationParameterTO"/>
+        <xs:element ref="ns1:NorminalPlantOperationParameterTO"/>
       </xs:choice>
     </xs:sequence>
   </xs:complexType>

@@ -16,4 +16,14 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="NorminalPlantOperationParameterTO">
+    <xs:complexContent>
+      <xs:extension base="tns:PlantOperationParameterTO">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="options" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
 </xs:schema>

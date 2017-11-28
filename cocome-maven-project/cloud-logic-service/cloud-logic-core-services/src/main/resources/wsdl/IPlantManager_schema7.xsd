@@ -14,7 +14,11 @@
     <xs:complexContent>
       <xs:extension base="tns:ExpressionTO">
         <xs:sequence>
-          <xs:element name="parameter" type="ns2:PlantOperationParameterTO"/>
+          <xs:choice>
+            <xs:element ref="ns1:PlantOperationParameterTO"/>
+            <xs:element ref="ns1:BooleanPlantOperationParameterTO"/>
+            <xs:element ref="ns1:NorminalPlantOperationParameterTO"/>
+          </xs:choice>
           <xs:element name="parameterValue" type="xs:string"/>
           <xs:element maxOccurs="unbounded" name="onTrueExpressions" type="tns:ExpressionTO"/>
           <xs:element maxOccurs="unbounded" name="onFalseExpressions" type="tns:ExpressionTO"/>

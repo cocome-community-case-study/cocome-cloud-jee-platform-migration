@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.*;
 @XmlType(
         name = "PlantOperationParameterTO",
         namespace = "http://parameter.plant.application.inventory.tradingsystem.cocome.org")
-@XmlSeeAlso({BooleanPlantOperationParameterTO.class, BooleanPlantOperationParameterTO.class})
+@XmlSeeAlso({BooleanPlantOperationParameterTO.class, NorminalPlantOperationParameterTO.class})
 @XmlRootElement(name = "PlantOperationParameterTO")
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class PlantOperationParameterTO implements IParameterTO {

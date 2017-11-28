@@ -35,7 +35,7 @@ import java.util.List;
 public class ConditionalExpressionTO extends ExpressionTO {
     private static final long serialVersionUID = 1L;
 
-    @XmlElement(name = "parameter", required = true)
+    @XmlElementRef(name = "parameter")
     private PlantOperationParameterTO parameter;
     @XmlElement(name = "parameterValue", required = true)
     private String parameterValue;
