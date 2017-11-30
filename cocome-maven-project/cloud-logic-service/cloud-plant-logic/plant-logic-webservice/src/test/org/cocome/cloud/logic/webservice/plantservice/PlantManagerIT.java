@@ -5,10 +5,11 @@ import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.test.TestConfig;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
-import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.FMU;
 import org.cocome.tradingsystem.inventory.application.plant.iface.PUCImporter;
+import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.FMU;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
@@ -18,24 +19,16 @@ import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.*;
 
 public class PlantManagerIT {
 
-    private static IEnterpriseManager em;
-    private static IPlantManager pm;
-
-    @BeforeClass
-    public static void createClient() {
-        em = createJaxWsClient(IEnterpriseManager.class,
-                "http://127.0.0.1:40797/EnterpriseService/IEnterpriseManager");
-
-        pm = createJaxWsClient(IPlantManager.class,
-                "http://127.0.0.1:41897/PlantService/IPlantManager");
-    }
+    private static IEnterpriseManager em = createJaxWsClient(IEnterpriseManager.class,
+            TestConfig.getEnterpriseServiceWSDL());
+    private static IPlantManager pm = createJaxWsClient(IPlantManager.class,
+            TestConfig.getPlantManagerWSDL());
 
     @Test
     public void testCRUDForProductionUnitClass() throws Exception {

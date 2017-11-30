@@ -20,6 +20,7 @@ package org.cocome.cloud.webservice.enterpriseservice;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.cocome.cloud.logic.stub.*;
+import org.cocome.test.TestConfig;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
@@ -40,24 +41,16 @@ import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.*;
 
 public class EnterpriseManagerIT {
 
-    private static IEnterpriseManager em;
-    private static IPlantManager pm;
-
-    @BeforeClass
-    public static void createClient() {
-        em = createJaxWsClient(IEnterpriseManager.class,
-                "http://127.0.0.1:40797/EnterpriseService/IEnterpriseManager");
-
-        pm = createJaxWsClient(IPlantManager.class,
-                "http://127.0.0.1:41897/PlantService/IPlantManager");
-    }
+    private static IEnterpriseManager em = createJaxWsClient(IEnterpriseManager.class,
+            TestConfig.getEnterpriseServiceWSDL());
+    private static IPlantManager pm = createJaxWsClient(IPlantManager.class,
+            TestConfig.getPlantManagerWSDL());
 
     @Test
     public void testCRUDForPlant() throws Exception {

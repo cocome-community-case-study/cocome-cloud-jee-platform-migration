@@ -95,6 +95,13 @@ public class TestUtils {
             T property = (T) CONFIG.getString(point);
             return property;
         }
+        if (ejbClass == long.class) {
+            InjectionPoint point = Mockito.mock(InjectionPoint.class);
+            Mockito.when(point.getMember()).thenReturn(field);
+            @SuppressWarnings("unchecked")
+            T property = (T) new Long(CONFIG.getLong(point));
+            return property;
+        }
 
         if (hasAnnotation(ejbClass, LocalBean.class) || hasAnnotation(ejbClass, Startup.class)) {
             return createInstance(ejbClass);
