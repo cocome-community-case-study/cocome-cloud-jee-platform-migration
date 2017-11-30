@@ -50,8 +50,8 @@ public class PlantManagerIT {
 
     @Test
     public void testCRUDForProductionUnitClass() throws Exception {
-        final EnterpriseTO enterprise = WSTestUtils.getOrCreateEnterprise(em);
-        final PlantTO plant = WSTestUtils.getOrCreatePlant(enterprise, em);
+        final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
+        final PlantTO plant = WSTestUtils.createPlant(enterprise, em);
 
         final ProductionUnitClassTO puc = new ProductionUnitClassTO();
         puc.setName("PUC1");
@@ -75,8 +75,8 @@ public class PlantManagerIT {
 
     @Test
     public void testCRUDForProductionUnitOperation() throws Exception {
-        final EnterpriseTO enterprise = WSTestUtils.getOrCreateEnterprise(em);
-        final PlantTO plant = WSTestUtils.getOrCreatePlant(enterprise, em);
+        final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
+        final PlantTO plant = WSTestUtils.createPlant(enterprise, em);
 
         final ProductionUnitClassTO puc = new ProductionUnitClassTO();
         puc.setName("PUC1");
@@ -119,8 +119,8 @@ public class PlantManagerIT {
 
     @Test
     public void testOrderPlantOperation() throws Exception {
-        final EnterpriseTO enterprise = WSTestUtils.getOrCreateEnterprise(em);
-        final PlantTO plant = WSTestUtils.getOrCreatePlant(enterprise, em);
+        final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
+        final PlantTO plant = WSTestUtils.createPlant(enterprise, em);
 
         /* Environmental setup */
 
