@@ -18,10 +18,8 @@
 
 package org.cocome.cloud.logic.webservice.plantservice;
 
-import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.IPlantManager;
-import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.test.TestConfig;
 import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
@@ -39,7 +37,9 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanPara
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class PlantManagerIT {
 
@@ -50,8 +50,8 @@ public class PlantManagerIT {
 
     @Test
     public void testCRUDForProductionUnitClass() throws Exception {
-        final EnterpriseTO enterprise = getOrCreateEnterprise();
-        final PlantTO plant = getOrCreatePlant(enterprise);
+        final EnterpriseTO enterprise = WSTestUtils.getOrCreateEnterprise(em);
+        final PlantTO plant = WSTestUtils.getOrCreatePlant(enterprise, em);
 
         final ProductionUnitClassTO puc = new ProductionUnitClassTO();
         puc.setName("PUC1");
@@ -75,8 +75,8 @@ public class PlantManagerIT {
 
     @Test
     public void testCRUDForProductionUnitOperation() throws Exception {
-        final EnterpriseTO enterprise = getOrCreateEnterprise();
-        final PlantTO plant = getOrCreatePlant(enterprise);
+        final EnterpriseTO enterprise = WSTestUtils.getOrCreateEnterprise(em);
+        final PlantTO plant = WSTestUtils.getOrCreatePlant(enterprise, em);
 
         final ProductionUnitClassTO puc = new ProductionUnitClassTO();
         puc.setName("PUC1");
@@ -119,8 +119,8 @@ public class PlantManagerIT {
 
     @Test
     public void testOrderPlantOperation() throws Exception {
-        final EnterpriseTO enterprise = getOrCreateEnterprise();
-        final PlantTO plant = getOrCreatePlant(enterprise);
+        final EnterpriseTO enterprise = WSTestUtils.getOrCreateEnterprise(em);
+        final PlantTO plant = WSTestUtils.getOrCreatePlant(enterprise, em);
 
         /* Environmental setup */
 
@@ -211,26 +211,5 @@ public class PlantManagerIT {
         operationOrder.setOrderEntries(Collections.singletonList(entry));
         operationOrder.setId(pm.orderOperation(operationOrder));
         Assert.assertTrue(operationOrder.getId() > 0);
-    }
-
-    private EnterpriseTO getOrCreateEnterprise() throws CreateException_Exception, NotInDatabaseException_Exception {
-        final String enterpriseName = String.format("Enterprise-%s", UUID.randomUUID().toString());
-        final EnterpriseTO enterprise;
-        try {
-            enterprise = em.queryEnterpriseByName(enterpriseName);
-        } catch (NotInDatabaseException_Exception e) {
-            em.createEnterprise(enterpriseName);
-            return em.queryEnterpriseByName(enterpriseName);
-        }
-        return enterprise;
-    }
-
-    private PlantTO getOrCreatePlant(final EnterpriseTO enterprise) throws CreateException_Exception, NotInDatabaseException_Exception {
-        final PlantTO plant = new PlantTO();
-        plant.setName("Plant1");
-        plant.setEnterpriseTO(enterprise);
-        em.createPlant(plant);
-        final Collection<PlantTO> plants = em.queryPlantsByEnterpriseID(enterprise.getId());
-        return plants.iterator().next();
     }
 }
