@@ -18,9 +18,9 @@
 
 package org.cocome.cloud.webservice.enterpriseservice;
 
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.cocome.cloud.logic.stub.*;
 import org.cocome.test.TestConfig;
+import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
@@ -47,14 +47,14 @@ import java.util.*;
 
 public class EnterpriseManagerIT {
 
-    private static IEnterpriseManager em = createJaxWsClient(IEnterpriseManager.class,
+    private static IEnterpriseManager em = WSTestUtils.createJaxWsClient(IEnterpriseManager.class,
             TestConfig.getEnterpriseServiceWSDL());
-    private static IPlantManager pm = createJaxWsClient(IPlantManager.class,
+    private static IPlantManager pm = WSTestUtils.createJaxWsClient(IPlantManager.class,
             TestConfig.getPlantManagerWSDL());
 
     @Test
     public void testCRUDForPlant() throws Exception {
-        final EnterpriseTO enterprise = getOrCreateEnterprise();
+        final EnterpriseTO enterprise = WSTestUtils.getOrCreateEnterprise(em);
         PlantTO plant = new PlantTO();
         plant.setName("Plant1");
         plant.setLocation("Some Location");
@@ -201,23 +201,11 @@ public class EnterpriseManagerIT {
         }
     }
 
-    private EnterpriseTO getOrCreateEnterprise() throws CreateException_Exception, NotInDatabaseException_Exception {
-        final String enterpriseName = String.format("Enterprise-%s", UUID.randomUUID().toString());
-        final EnterpriseTO enterprise;
-        try {
-            enterprise = em.queryEnterpriseByName(enterpriseName);
-        } catch (NotInDatabaseException_Exception e) {
-            em.createEnterprise(enterpriseName);
-            return em.queryEnterpriseByName(enterpriseName);
-        }
-        return enterprise;
-    }
-
     @Test
     public void testSubmitProductionOrder() throws Exception {
-        final EnterpriseTO enterprise = getOrCreateEnterprise();
-        final PlantTO plant = getOrCreatePlant(enterprise);
-        final StoreWithEnterpriseTO store = getOrCreateStore(enterprise);
+        final EnterpriseTO enterprise = WSTestUtils.getOrCreateEnterprise(em);
+        final PlantTO plant = WSTestUtils.getOrCreatePlant(enterprise, em);
+        final StoreWithEnterpriseTO store = WSTestUtils.getOrCreateStore(enterprise, em);
 
         /* Environmental setup */
 
@@ -418,31 +406,5 @@ public class EnterpriseManagerIT {
 
         operationOrder.setOrderEntries(Collections.singletonList(entry));
         em.submitProductionOrder(operationOrder);
-    }
-
-    private StoreWithEnterpriseTO getOrCreateStore(EnterpriseTO enterprise) throws CreateException_Exception {
-        final StoreWithEnterpriseTO store = new StoreWithEnterpriseTO();
-        store.setName("Store1");
-        store.setLocation("Test Location");
-        store.setEnterpriseTO(enterprise);
-        store.setId(em.createStore(store));
-        return store;
-    }
-
-    private PlantTO getOrCreatePlant(final EnterpriseTO enterprise) throws CreateException_Exception,
-            NotInDatabaseException_Exception {
-        final PlantTO plant = new PlantTO();
-        plant.setName("Plant1");
-        plant.setEnterpriseTO(enterprise);
-        plant.setId(em.createPlant(plant));
-        return plant;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> T createJaxWsClient(final Class<T> clientClass, final String url) {
-        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        factory.setServiceClass(clientClass);
-        factory.setAddress(url);
-        return (T) factory.create();
     }
 }

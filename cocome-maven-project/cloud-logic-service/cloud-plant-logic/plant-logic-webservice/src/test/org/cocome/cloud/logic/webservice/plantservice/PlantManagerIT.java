@@ -1,11 +1,29 @@
+/*
+ *************************************************************************
+ * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *************************************************************************
+ */
+
 package org.cocome.cloud.logic.webservice.plantservice;
 
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.test.TestConfig;
+import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.iface.PUCImporter;
@@ -25,9 +43,9 @@ import java.util.*;
 
 public class PlantManagerIT {
 
-    private static IEnterpriseManager em = createJaxWsClient(IEnterpriseManager.class,
+    private static IEnterpriseManager em = WSTestUtils.createJaxWsClient(IEnterpriseManager.class,
             TestConfig.getEnterpriseServiceWSDL());
-    private static IPlantManager pm = createJaxWsClient(IPlantManager.class,
+    private static IPlantManager pm = WSTestUtils.createJaxWsClient(IPlantManager.class,
             TestConfig.getPlantManagerWSDL());
 
     @Test
@@ -214,13 +232,5 @@ public class PlantManagerIT {
         em.createPlant(plant);
         final Collection<PlantTO> plants = em.queryPlantsByEnterpriseID(enterprise.getId());
         return plants.iterator().next();
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> T createJaxWsClient(final Class<T> clientClass, final String url) {
-        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        factory.setServiceClass(clientClass);
-        factory.setAddress(url);
-        return (T) factory.create();
     }
 }
