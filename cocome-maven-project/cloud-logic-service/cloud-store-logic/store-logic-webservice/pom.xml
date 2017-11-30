@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>cloud-store-logic</artifactId>
@@ -7,11 +8,10 @@
     </parent>
 
     <artifactId>store-logic-webservice</artifactId>
-    
-    <name>Store Logic - Webservice</name>
-     
-    <packaging>war</packaging>
 
+    <name>Store Logic - Webservice</name>
+
+    <packaging>war</packaging>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -19,58 +19,84 @@
 
     <dependencies>
         <dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-logic-core-api</artifactId>
-        	<version>1.1</version>
-        	<scope>provided</scope>
+            <groupId>org.cocome</groupId>
+            <artifactId>cloud-logic-core-api</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-logic-core-impl</artifactId>
-        	<version>1.1</version>
-        	<scope>provided</scope>
+            <groupId>org.cocome</groupId>
+            <artifactId>cloud-logic-core-impl</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>store-logic-ejb</artifactId>
-        	<version>1.1</version>
-        	<scope>provided</scope>
+            <groupId>org.cocome</groupId>
+            <artifactId>store-logic-ejb</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-			<groupId>org.cocome</groupId>
-			<artifactId>cloud-registry-client</artifactId>
-			<version>1.1</version>
-			<scope>provided</scope>
-		</dependency>
-        <dependency>
-        	<groupId>org.apache.logging.log4j</groupId>
-        	<artifactId>log4j-1.2-api</artifactId>
-        	<scope>provided</scope>
+            <groupId>org.cocome</groupId>
+            <artifactId>cloud-registry-client</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-        	<groupId>org.jboss.spec</groupId>
-        	<artifactId>jboss-javaee-web-6.0</artifactId>
-        	<type>pom</type>
-        	<scope>provided</scope>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-web-6.0</artifactId>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.cocome</groupId>
+            <artifactId>cloud-logic-core-api</artifactId>
+            <type>test-jar</type>
+            <version>1.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.cocome</groupId>
+            <artifactId>cloud-logic-core-services</artifactId>
+            <type>test-jar</type>
+            <version>1.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <version>${cxf.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-		<plugins>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-<!--                 <configuration>
-                    <compilerArguments>
-                        <endorseddirs>${endorsed.dir}</endorseddirs>
-                    </compilerArguments>
-                </configuration> -->
+                <!--                 <configuration>
+                                    <compilerArguments>
+                                        <endorseddirs>${endorsed.dir}</endorseddirs>
+                                    </compilerArguments>
+                                </configuration> -->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
