@@ -1,4 +1,5 @@
-/***************************************************************************
+/*
+ *************************************************************************
  * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,9 +13,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- ***************************************************************************/
+ *************************************************************************
+ */
 
 package org.cocome.tradingsystem.inventory.application.store;
+
+import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 
 import java.io.Serializable;
 
@@ -24,7 +28,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
  * A transfer object class for exchanging basic stock item information between
  * client and the service-oriented application layer. It contains either copies
@@ -32,7 +35,7 @@ import javax.xml.bind.annotation.XmlType;
  * transferred from the client to the application layer to be processed and
  * persisted.
  * 
- * @see StockItem
+ * @see IStockItem
  * 
  * @author Sebastian Herold
  * @author Lubomir Bulej
@@ -64,20 +67,20 @@ public class StockItemTO implements Serializable {
 	private long __incomingAmount;
 
 	/**
-	 * Returns the unique identifier of the {@link StockItem} entity.
+	 * Returns the unique identifier of the {@link IStockItem} entity.
 	 * 
 	 * @return
-	 *         {@link StockItem} entity identifier.
+	 *         {@link IStockItem} entity identifier.
 	 */
 	public long getId() {
 		return __id;
 	}
 
 	/**
-	 * Sets the unique identifier of the {@link StockItem} entity.
+	 * Sets the unique identifier of the {@link IStockItem} entity.
 	 * 
 	 * @param id
-	 *            new {@link StockItem} entity identifier
+	 *            new {@link IStockItem} entity identifier
 	 */
 	public void setId(final long id) {
 		__id = id;

@@ -54,8 +54,33 @@ class ServiceAdapterEntityConverter {
      * @param stockItem the stock item to convert
      * @return a String representation of the stock item
      */
-    static String getStockItemContent(IStockItem stockItem) {
-        return String.valueOf(stockItem.getStore().getId()) +
+    static String getCreateStockItemContent(IStockItem stockItem) {
+        return String.valueOf(stockItem.getStoreId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getProductBarcode() +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getMinStock() +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getMaxStock() +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getIncomingAmount() +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getAmount() +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getSalesPrice();
+    }
+
+
+    /**
+     * Returns a string containing information about the given stock item.
+     *
+     * @param stockItem the stock item to convert
+     * @return a String representation of the stock item
+     */
+    static String getUpdateStockItemContent(IStockItem stockItem) {
+        return String.valueOf(stockItem.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(stockItem.getStoreId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 stockItem.getProductBarcode() +
                 ServiceAdapterHeaders.SEPARATOR +

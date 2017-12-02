@@ -83,6 +83,15 @@ public interface IPersistenceContext {
     void updateEntity(IStockItem stockItem) throws UpdateException;
 
     /**
+     * Deletes a stock item.
+     *
+     * @param stockItem the stock item to delete
+     * @throws UpdateException if deletion failed on database side
+     */
+    void deleteEntity(IStockItem stockItem) throws UpdateException;
+
+
+    /**
      * Creates a new trading enterprise in the database.
      *
      * @param enterprise the trading enterprise to create

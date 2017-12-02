@@ -2,6 +2,7 @@ package org.cocome.tradingsystem.inventory.data.store;
 
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 public interface IStockItem extends IIdentifiable {
 
@@ -94,23 +95,18 @@ public interface IStockItem extends IIdentifiable {
     /**
      * @return The store where the StockItem belongs to
      */
-    IStore getStore();
+    IStore getStore() throws NotInDatabaseException;
 
     /**
      * @param store The store where the StockItem belongs to
      */
     void setStore(IStore store);
 
-    String getStoreName();
+    long getStoreId();
 
-    void setStoreName(String storeName);
+    void setStoreId(long storeName);
 
     long getProductBarcode();
 
     void setProductBarcode(long productBarcode);
-
-    String getStoreLocation();
-
-    void setStoreLocation(String storeLocation);
-
 }

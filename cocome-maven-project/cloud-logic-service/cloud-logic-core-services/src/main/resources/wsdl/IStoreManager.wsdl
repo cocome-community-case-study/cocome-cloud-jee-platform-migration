@@ -65,8 +65,16 @@
     <wsdl:part name="parameters" element="tns:rollInReceivedOrderResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="deleteStockItem">
+    <wsdl:part name="parameters" element="tns:deleteStockItem">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="NoSuchProductException">
     <wsdl:part name="NoSuchProductException" element="tns:NoSuchProductException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteStockItemResponse">
+    <wsdl:part name="parameters" element="tns:deleteStockItemResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getProductsWithStockItems">
@@ -300,6 +308,16 @@
       <wsdl:output name="onProductionOrderEntryFinishResponse" message="tns:onProductionOrderEntryFinishResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="deleteStockItem">
+      <wsdl:input name="deleteStockItem" message="tns:deleteStockItem">
+    </wsdl:input>
+      <wsdl:output name="deleteStockItemResponse" message="tns:deleteStockItemResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="accountSale">
       <wsdl:input name="accountSale" message="tns:accountSale">
     </wsdl:input>
@@ -527,6 +545,21 @@
       <wsdl:output name="onProductionOrderEntryFinishResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteStockItem">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteStockItem">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteStockItemResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="accountSale">
       <soap:operation soapAction="" style="document"/>

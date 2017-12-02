@@ -118,22 +118,6 @@ public class CSVHelper implements IBackendConversionHelper {
         return result;
     }
 
-    private IStockItem getStockItemFromRow(Row<String> row) {
-        IStockItem result = storeFactory.getNewStockItem();
-
-        result.setStoreName(decodeString(row.getColumns().get(1).getValue()));
-        result.setStoreLocation(decodeString(row.getColumns().get(2).getValue()));
-        result.setProductBarcode(Long.parseLong(row.getColumns().get(3).getValue()));
-        result.setId(Long.parseLong(row.getColumns().get(4).getValue()));
-        result.setMinStock(Long.parseLong(row.getColumns().get(5).getValue()));
-        result.setMaxStock(Long.parseLong(row.getColumns().get(6).getValue()));
-        result.setIncomingAmount(Long.parseLong(row.getColumns().get(7).getValue()));
-        result.setAmount(Long.parseLong(row.getColumns().get(8).getValue()));
-        result.setSalesPrice(Double.parseDouble(row.getColumns().get(9).getValue()));
-
-        return result;
-    }
-
     private IProduct getProductFromRow(Row<String> row) {
         IProduct result = getNewProductInstance(row.getColumns().get(3).getValue());
 
@@ -203,14 +187,10 @@ public class CSVHelper implements IBackendConversionHelper {
     @Override
     public Collection<IPlant> getPlants(String input) {
         return rowToCollection(input, row -> {
-            IPlant result = enterpriseFactory.getNewPlant();
-
+            final IPlant result = enterpriseFactory.getNewPlant();
             result.setEnterpriseId(fetchLong(row.getColumns().get(0)));
-
             result.setId(fetchLong(row.getColumns().get(1)));
-
             result.setName(fetchString(row.getColumns().get(2)));
-
             result.setLocation(fetchString(row.getColumns().get(3)));
 
             return result;
@@ -442,18 +422,20 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Override
     public Collection<IStockItem> getStockItems(String input) {
-        CSVParser parser = new CSVParser();
-        parser.parse(input);
+        return rowToCollection(input, row -> {
+            final IStockItem result = storeFactory.getNewStockItem();
 
-        LinkedList<IStockItem> stockItems = new LinkedList<>();
+            result.setId(fetchLong(row.getColumns().get(0)));
+            result.setStoreId(fetchLong(row.getColumns().get(1)));
+            result.setProductBarcode(fetchLong(row.getColumns().get(2)));
+            result.setMinStock(fetchLong(row.getColumns().get(3)));
+            result.setMaxStock(fetchLong(row.getColumns().get(4)));
+            result.setIncomingAmount(fetchLong(row.getColumns().get(5)));
+            result.setAmount(fetchLong(row.getColumns().get(6)));
+            result.setSalesPrice(fetchDouble(row.getColumns().get(7)));
 
-        if (parser.getModel().getRows().size() > 0) {
-            for (Row<String> row : parser.getModel().getRows()) {
-                stockItems.add(getStockItemFromRow(row));
-            }
-        }
-
-        return stockItems;
+            return result;
+        });
     }
 
     @Override
@@ -828,6 +810,13 @@ public class CSVHelper implements IBackendConversionHelper {
                 column,
                 Long::parseLong,
                 Long.MIN_VALUE);
+    }
+
+    private double fetchDouble(Column<String> column) {
+        return fetchColVal(
+                column,
+                Double::parseDouble,
+                Double.MIN_VALUE);
     }
 
     private Set<String> fetchStringSet(Column<String> column) {

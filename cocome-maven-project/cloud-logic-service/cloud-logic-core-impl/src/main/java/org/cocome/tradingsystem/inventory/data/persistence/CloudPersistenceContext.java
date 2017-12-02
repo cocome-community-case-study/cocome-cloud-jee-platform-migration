@@ -94,36 +94,24 @@ public class CloudPersistenceContext implements IPersistenceContext {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createEntity(IStockItem stockItem) throws CreateException {
-        String content = ServiceAdapterEntityConverter.getStockItemContent(stockItem);
-        try {
-            postData.sendCreateQuery("StockItem", ServiceAdapterHeaders.STOCKITEM_HEADER, content);
-        } catch (IOException e) {
-            LOG.error("Could not execute post because of an IOException: " + e.getMessage());
-            throw new CreateException("Could not create entity!");
-        }
-
-        if (!postData.getResponse().contains("SUCCESS")) {
-            throw new CreateException("Could not create entity!");
-        }
-
-        stockItem.setId(fetchDatabaseID(postData.getResponse()));
+        createEntity(stockItem, "StockItem",
+                ServiceAdapterEntityConverter.getCreateStockItemContent(stockItem),
+                ServiceAdapterHeaders.STOCKITEM_CREATE_HEADER);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void updateEntity(IStockItem stockItem) throws UpdateException {
-        String content = ServiceAdapterEntityConverter.getStockItemContent(stockItem);
+        updateEntity("StockItem",
+                ServiceAdapterEntityConverter.getUpdateStockItemContent(stockItem),
+                ServiceAdapterHeaders.STOCKITEM_UPDATE_HEADER);
+    }
 
-        try {
-            postData.sendUpdateQuery("StockItem", ServiceAdapterHeaders.STOCKITEM_HEADER, content);
-        } catch (IOException e) {
-            LOG.error("Could not execute post because of an IOException: " + e.getMessage());
-            throw new UpdateException("Could not update entity!", e);
-        }
-
-        if (!postData.getResponse().contains("SUCCESS")) {
-            throw new UpdateException("Could not update entity!");
-        }
+    @Override
+    public void deleteEntity(IStockItem stockItem) throws UpdateException {
+        deleteEntity("StockItem",
+                ServiceAdapterEntityConverter.getUpdateStockItemContent(stockItem),
+                ServiceAdapterHeaders.STOCKITEM_UPDATE_HEADER);
     }
 
     @Override

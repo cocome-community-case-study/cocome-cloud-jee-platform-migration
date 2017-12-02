@@ -24,6 +24,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
  * Represents a concrete product in the, store including sales price,
@@ -49,9 +50,7 @@ public class StockItem implements Serializable, IStockItem {
 
 	private long incomingAmount;
 	
-	private String storeName;
-	
-	private String storeLocation;
+	private long storeId;
 	
 	private long productBarcode;
 
@@ -60,7 +59,7 @@ public class StockItem implements Serializable, IStockItem {
 	private IProduct product;
 	
 	@Inject
-	Instance<IStoreQuery> storeQueryInstance;
+	private Instance<IStoreQuery> storeQueryInstance;
 	
 	private IStoreQuery storeQuery;
 	
@@ -69,73 +68,46 @@ public class StockItem implements Serializable, IStockItem {
 		storeQuery = storeQueryInstance.get();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#getId()
-	 */
 	@Override
 	public long getId() {
 		return id;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#setId(long)
-	 */
 	@Override
 	public void setId(final long id) {
 		this.id = id;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#getAmount()
-	 */
 	@Override
 	public long getAmount() {
 		return amount;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#setAmount(long)
-	 */
 	@Override
 	public void setAmount(final long amount) {
 		this.amount = amount;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#getMaxStock()
-	 */
 	@Override
 	public long getMaxStock() {
 		return maxStock;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#setMaxStock(long)
-	 */
 	@Override
 	public void setMaxStock(final long maxStock) {
 		this.maxStock = maxStock;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#getMinStock()
-	 */
 	@Override
 	public long getMinStock() {
 		return minStock;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#setMinStock(long)
-	 */
 	@Override
 	public void setMinStock(final long minStock) {
 		this.minStock = minStock;
 	}
 
-	/**
-	 * @return The Product of a StockItem.
-	 */
 	@Override
 	public IProduct getProduct() {
 		if (product == null) {
@@ -144,112 +116,61 @@ public class StockItem implements Serializable, IStockItem {
 		return product;
 	}
 
-	/**
-	 * @param product
-	 *            the Product of a StockItem
-	 */
 	@Override
 	public void setProduct(final IProduct product) {
 		this.product = product;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#getSalesPrice()
-	 */
 	@Override
 	public double getSalesPrice() {
 		return salesPrice;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#setSalesPrice(double)
-	 */
 	@Override
 	public void setSalesPrice(final double salesPrice) {
 		this.salesPrice = salesPrice;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#getIncomingAmount()
-	 */
 	@Override
 	public long getIncomingAmount() {
 		return this.incomingAmount;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#setIncomingAmount(long)
-	 */
 	@Override
 	public void setIncomingAmount(final long incomingAmount) {
 		this.incomingAmount = incomingAmount;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#getStore()
-	 */
 	@Override
-	public IStore getStore() {
+	public IStore getStore() throws NotInDatabaseException {
 		if(store == null) {
-			store = storeQuery.queryStore(storeName, storeLocation);
+			store = storeQuery.queryStoreById(storeId);
 		}
 		return store;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#setStore(org.cocome.tradingsystem.inventory.data.store.Store)
-	 */
 	@Override
 	public void setStore(final IStore store) {
 		this.store = store;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#getStoreName()
-	 */
 	@Override
-	public String getStoreName() {
-		return storeName;
+	public long getStoreId() {
+		return storeId;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#setStoreName(java.lang.String)
-	 */
 	@Override
-	public void setStoreName(String storeName) {
-		this.storeName = storeName;
+	public void setStoreId(long storeId) {
+		this.storeId = storeId;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#getProductBarcode()
-	 */
 	@Override
 	public long getProductBarcode() {
 		return productBarcode;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#setProductBarcode(long)
-	 */
 	@Override
 	public void setProductBarcode(long productBarcode) {
 		this.productBarcode = productBarcode;
 	}
-
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#getStoreLocation()
-	 */
-	@Override
-	public String getStoreLocation() {
-		return storeLocation;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.cocome.tradingsystem.inventory.data.store.IStockItem#setStoreLocation(java.lang.String)
-	 */
-	@Override
-	public void setStoreLocation(String storeLocation) {
-		this.storeLocation = storeLocation;
-	}
-
 }

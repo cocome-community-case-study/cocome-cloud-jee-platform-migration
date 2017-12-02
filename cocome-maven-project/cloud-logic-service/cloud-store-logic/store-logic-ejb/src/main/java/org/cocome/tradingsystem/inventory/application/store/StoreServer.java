@@ -372,19 +372,25 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
     @Override
     public void accountSale(long storeID, final SaleTO sale)
             throws ProductOutOfStockException, NotInDatabaseException, UpdateException {
-        __bookSale(storeID, sale);
+        try {
+            __bookSale(storeID, sale);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     private void __bookSale(long storeID, final SaleTO saleTO)
             throws ProductOutOfStockException, NotInDatabaseException, UpdateException {
         for (final ProductWithStockItemTO pwsto : saleTO.getProductTOs()) {
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!:" + pwsto.getStockItemTO().getId());
             final IStockItem si = __storeQuery.queryStockItemById(pwsto
                     .getStockItemTO().getId());
+            System.out.println("?????????????????????" + si.getId());
 
-            long amount = si.getAmount();
-
-            if (amount == 0) {
+            if (si.getAmount() == 0) {
                 // Normally this should not happen...
                 throw new ProductOutOfStockException(
                         "The requested product is not in stock anymore!");
@@ -697,7 +703,7 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
     }
 
     @Override
-    public void createStockItem(long storeID, ProductWithStockItemTO stockItemTO)
+    public long createStockItem(long storeID, ProductWithStockItemTO stockItemTO)
             throws NotInDatabaseException, CreateException {
         IStore store = __storeQuery.queryStoreById(storeID);
 
@@ -718,10 +724,19 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
         item.setProduct(product);
         item.setProductBarcode(product.getBarcode());
         item.setStore(store);
-        item.setStoreLocation(store.getLocation());
-        item.setStoreName(store.getName());
+        item.setStoreId(store.getId());
 
         pctx.createEntity(item);
+        return item.getId();
+    }
+
+    @Override
+    public void deleteStockItem(long storeID, ProductWithStockItemTO stockItemTO)
+            throws NotInDatabaseException, UpdateException {
+        final IStockItem item = storeFactory.convertToStockItem(stockItemTO.getStockItemTO());
+        item.setProductBarcode(stockItemTO.getProductTO().getBarcode());
+        item.setStoreId(storeID);
+        pctx.deleteEntity(item);
     }
 
 }

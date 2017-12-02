@@ -94,10 +94,16 @@ public interface IStoreManager {
             throws NotInDatabaseException, UpdateException;
 
     @WebMethod
-    void createStockItem(
+    long createStockItem(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
             @XmlElement(required = true) @WebParam(name = "stockItemTO") ProductWithStockItemTO stockItemTO)
             throws NotInDatabaseException, CreateException;
+
+    @WebMethod
+    void deleteStockItem(
+            @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
+            @XmlElement(required = true) @WebParam(name = "stockItemTO") ProductWithStockItemTO stockItemTO)
+            throws NotInDatabaseException, UpdateException;
 
     @WebMethod
     void markProductsUnavailableInStock(

@@ -92,7 +92,7 @@ public class EnterpriseManagerIT {
 
         final List<ProductTO> products = em.getAllProducts();
         Assert.assertNotNull(products);
-        Assert.assertEquals(products.size(), 3);
+        Assert.assertTrue(products.size() >= 3);
 
         final Collection<CustomProductTO> customProducts = em.getAllCustomProducts();
         Assert.assertNotNull(customProducts);

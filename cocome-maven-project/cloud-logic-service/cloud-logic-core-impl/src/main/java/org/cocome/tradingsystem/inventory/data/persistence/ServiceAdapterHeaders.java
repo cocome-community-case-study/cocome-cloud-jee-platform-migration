@@ -10,8 +10,14 @@ public final class ServiceAdapterHeaders {
 
     static final String PRODUCTORDER_HEADER = "ProductOrderId;StoreId;ProductBarcode;"
             + "OrderDeliveryDate;OrderOrderingDate;OrderAmount";
-    static final String STOCKITEM_HEADER = "StoreId;ProductBarcode;StockItemMinStock;"
-            + "StockItemMaxStock;StockItemIncomingAmount;StockItemAmount;StockItemSalesPrice";
+
+    static final String STOCKITEM_CREATE_HEADER =
+            "StoreId;ProductBarcode;StockItemMinStock;StockItemMaxStock;StockItemIncomingAmount;StockItemAmount;"
+                    + "StockItemSalesPrice";
+
+    static final String STOCKITEM_UPDATE_HEADER =
+            "StockItemId;StoreId;ProductBarcode;StockItemMinStock;StockItemMaxStock;StockItemIncomingAmount;"
+                    + "StockItemAmount;StockItemSalesPrice";
 
     static final String ENTERPRISE_CREATE_HEADER = "EnterpriseName";
     static final String ENTERPRISE_UPDATE_HEADER = "EnterpriseId;EnterpriseName";

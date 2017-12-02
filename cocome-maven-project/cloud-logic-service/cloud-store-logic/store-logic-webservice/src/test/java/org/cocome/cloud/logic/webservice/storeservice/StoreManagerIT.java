@@ -18,12 +18,16 @@
 
 package org.cocome.cloud.logic.webservice.storeservice;
 
-import org.cocome.cloud.logic.stub.IEnterpriseManager;
-import org.cocome.cloud.logic.stub.IPlantManager;
-import org.cocome.cloud.logic.stub.IStoreManager;
+import org.cocome.cloud.logic.stub.*;
+import org.cocome.test.EnterpriseInfo;
 import org.cocome.test.TestConfig;
 import org.cocome.test.WSTestUtils;
+import org.cocome.tradingsystem.inventory.application.store.*;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.Collections;
+import java.util.Date;
 
 public class StoreManagerIT {
 
@@ -34,8 +38,62 @@ public class StoreManagerIT {
     private static IStoreManager sm = WSTestUtils.createJaxWsClient(IStoreManager.class,
             TestConfig.getStoreManagerWSDL());
 
-    @Test
-    public void testAccountSale() throws Exception {
+    private static EnterpriseInfo enterpriseInfo;
+
+    @BeforeClass
+    public static void initEnvironment()
+            throws CreateException_Exception,
+            NotInDatabaseException_Exception,
+            RecipeException_Exception,
+            UpdateException_Exception {
+        //enterpriseInfo = WSTestUtils.createEnvironmentWithSimpleRecipe(em, pm);
     }
 
+    @Test
+    public void testNormalAccountSale() throws Exception {
+        final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
+        final StoreWithEnterpriseTO store = WSTestUtils.createStore(enterprise, em);
+
+        final ProductTO product = new ProductTO();
+        product.setBarcode(new Date().getTime());
+        product.setName("Test Product");
+        product.setPurchasePrice(10);
+        product.setId(em.createProduct(product));
+
+        final ProductWithStockItemTO item = new ProductWithStockItemTO();
+        final StockItemTO stockItem = new StockItemTO();
+        stockItem.setAmount(10);
+        stockItem.setMinStock(5);
+        stockItem.setMaxStock(20);
+        stockItem.setSalesPrice(12);
+        item.setStockItemTO(stockItem);
+        item.setProductTO(product);
+        item.getStockItemTO().setId(sm.createStockItem(store.getId(), item));
+
+        SaleTO sale = new SaleTO();
+        sale.setProductTOs(Collections.singletonList(item));
+
+        sm.accountSale(store.getId(), sale);
+        sm.deleteStockItem(store.getId(), item);
+    }
+
+    @Test
+    public void testAccountSaleWithCustomProductAsStockItem() throws Exception {
+        final ProductWithStockItemTO item = new ProductWithStockItemTO();
+        final StockItemTO stockItem = new StockItemTO();
+        stockItem.setAmount(10);
+        stockItem.setMinStock(5);
+        stockItem.setMaxStock(20);
+        stockItem.setSalesPrice(12);
+        item.setStockItemTO(stockItem);
+        item.setProductTO(enterpriseInfo.getCustomProducts().get(0).getCustomProduct());
+        item.getStockItemTO().setId(sm.createStockItem(enterpriseInfo.getStores().get(0).getId(), item));
+
+        SaleTO sale = new SaleTO();
+        sale.setProductTOs(Collections.singletonList(item));
+
+        System.out.println(item.getStockItemTO().getId());
+
+        sm.accountSale(enterpriseInfo.getStores().get(0).getId(), sale);
+    }
 }

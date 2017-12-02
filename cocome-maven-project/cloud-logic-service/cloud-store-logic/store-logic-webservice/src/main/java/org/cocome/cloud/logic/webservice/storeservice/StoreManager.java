@@ -198,10 +198,17 @@ public class StoreManager implements IStoreManager {
     }
 
     @Override
-    public void createStockItem(long storeID, ProductWithStockItemTO stockItemTO)
+    public long createStockItem(long storeID, ProductWithStockItemTO stockItemTO)
             throws NotInDatabaseException, CreateException {
         setContextRegistry(storeID);
-        storeManager.createStockItem(storeID, stockItemTO);
+        return storeManager.createStockItem(storeID, stockItemTO);
+    }
+
+    @Override
+    public void deleteStockItem(long storeID, ProductWithStockItemTO stockItemTO)
+            throws NotInDatabaseException, UpdateException {
+        setContextRegistry(storeID);
+        storeManager.deleteStockItem(storeID, stockItemTO);
     }
 
     @Override
