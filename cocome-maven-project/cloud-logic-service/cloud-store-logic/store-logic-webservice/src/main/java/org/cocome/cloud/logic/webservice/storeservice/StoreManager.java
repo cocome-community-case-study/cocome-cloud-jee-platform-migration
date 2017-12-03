@@ -101,10 +101,10 @@ public class StoreManager implements IStoreManager {
     }
 
     @Override
-    public void accountSale(long storeID, SaleTO sale)
+    public long accountSale(long storeID, SaleTO sale)
             throws ProductOutOfStockException, NotInDatabaseException, UpdateException {
         setContextRegistry(storeID);
-        storeManager.accountSale(storeID, sale);
+        return storeManager.accountSale(storeID, sale);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class StoreManager implements IStoreManager {
     }
 
     @Override
-    public List<ProductWithStockItemTO> getProductsWithLowStock(long storeID)
+    public List<ProductWithItemTO> getProductsWithLowStock(long storeID)
             throws NotInDatabaseException {
         setContextRegistry(storeID);
         return storeManager.getProductsWithLowStock(storeID);
@@ -163,11 +163,11 @@ public class StoreManager implements IStoreManager {
     }
 
     @Override
-    public ProductWithStockItemTO changePrice(long storeID, StockItemTO stockItemTO)
+    public ProductWithItemTO changePrice(long storeID, ProductWithItemTO itemTO)
             throws NotInDatabaseException, UpdateException {
-        LOG.debug("Changing price from stockItem " + stockItemTO.getId() + " to " + stockItemTO.getSalesPrice());
+        LOG.debug("Changing price from stockItem " + itemTO.getItem().getId() + " to " + itemTO.getItem().getSalesPrice());
         setContextRegistry(storeID);
-        return storeManager.changePrice(storeID, stockItemTO);
+        return storeManager.changePrice(storeID, itemTO);
     }
 
     @Override
@@ -185,30 +185,30 @@ public class StoreManager implements IStoreManager {
     }
 
     @Override
-    public ProductWithStockItemTO getProductWithStockItem(long storeID, long productBarcode)
+    public ProductWithItemTO getProductWithStockItem(long storeID, long productBarcode)
             throws NoSuchProductException, NotInDatabaseException {
         setContextRegistry(storeID);
         return storeInventory.getProductWithStockItem(storeID, productBarcode);
     }
 
     @Override
-    public void updateStockItem(long storeID, StockItemTO stockItemTO) throws NotInDatabaseException, UpdateException {
+    public void updateItem(long storeID, ProductWithItemTO itemTO) throws NotInDatabaseException, UpdateException {
         setContextRegistry(storeID);
-        storeManager.updateStockItem(storeID, stockItemTO);
+        storeManager.updateItem(storeID, itemTO);
     }
 
     @Override
-    public long createStockItem(long storeID, ProductWithStockItemTO stockItemTO)
+    public long createItem(long storeID, ProductWithItemTO itemTO)
             throws NotInDatabaseException, CreateException {
         setContextRegistry(storeID);
-        return storeManager.createStockItem(storeID, stockItemTO);
+        return storeManager.createItem(storeID, itemTO);
     }
 
     @Override
-    public void deleteStockItem(long storeID, ProductWithStockItemTO stockItemTO)
+    public void deleteItem(long storeID, ProductWithItemTO itemTO)
             throws NotInDatabaseException, UpdateException {
         setContextRegistry(storeID);
-        storeManager.deleteStockItem(storeID, stockItemTO);
+        storeManager.deleteItem(storeID, itemTO);
     }
 
     @Override

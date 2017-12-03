@@ -32,10 +32,7 @@ import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionU
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
-import org.cocome.tradingsystem.inventory.data.store.IOnDemandItem;
-import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
-import org.cocome.tradingsystem.inventory.data.store.IStockItem;
-import org.cocome.tradingsystem.inventory.data.store.IStore;
+import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 
@@ -96,6 +93,12 @@ public interface IPersistenceContext {
     void updateEntity(IOnDemandItem onDemandItem) throws UpdateException;
 
     void deleteEntity(IOnDemandItem onDemandItem) throws UpdateException;
+
+    void createEntity(IItem item) throws CreateException;
+
+    void updateEntity(IItem item) throws UpdateException;
+
+    void deleteEntity(IItem item) throws UpdateException;
 
     /**
      * Creates a new trading enterprise in the database.

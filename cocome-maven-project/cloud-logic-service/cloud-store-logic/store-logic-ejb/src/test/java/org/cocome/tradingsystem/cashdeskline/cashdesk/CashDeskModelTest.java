@@ -153,7 +153,7 @@
 //		when(sessionContext.getName()).thenReturn(CASHDESK_NAME);
 //		when(registry.getLong(RegistryKeys.STORE_ID)).thenReturn(STORE_ID);
 //		
-//		when(inventory.getProductWithStockItem(STORE_ID, prod.getBarcode())).thenReturn(FillTransferObjects.fillProductWithStockItemTO(stock));
+//		when(inventory.getProductWithStockItem(STORE_ID, prod.getBarcode())).thenReturn(FillTransferObjects.fillProductWithItemTO(stock));
 //		
 //		when(remoteBank.validateCard(CARD_INFO, CARD_PIN)).thenReturn(transaction);
 //		when(remoteBank.debitCard(transaction)).thenReturn(DebitResult.OK);
@@ -213,7 +213,7 @@
 //	@Test
 //	public void testFinishSale() throws IllegalCashDeskStateException {
 //		cashDeskModel.state = CashDeskState.EXPECTING_ITEMS;
-//		cashDeskModel.saleProducts.add(FillTransferObjects.fillProductWithStockItemTO(stock));
+//		cashDeskModel.saleProducts.add(FillTransferObjects.fillProductWithItemTO(stock));
 //		
 //		cashDeskModel.finishSale();
 //		
@@ -269,7 +269,7 @@
 //		accountSaleEventCaptor = ArgumentCaptor.forClass(AccountSaleEvent.class);
 //		saleRegisteredEventCaptor = ArgumentCaptor.forClass(SaleRegisteredEvent.class);
 //		cashDeskModel.state = CashDeskState.PAID_BY_CASH;
-//		cashDeskModel.saleProducts.add(FillTransferObjects.fillProductWithStockItemTO(stock));
+//		cashDeskModel.saleProducts.add(FillTransferObjects.fillProductWithItemTO(stock));
 //		
 //		cashDeskModel.finishCashPayment();
 //		
@@ -290,7 +290,7 @@
 //	@Test
 //	public void testStartCreditCardPayment() throws IllegalCashDeskStateException {
 //		cashDeskModel.state = CashDeskState.EXPECTING_CARD_INFO;
-//		cashDeskModel.saleProducts.add(FillTransferObjects.fillProductWithStockItemTO(stock));
+//		cashDeskModel.saleProducts.add(FillTransferObjects.fillProductWithItemTO(stock));
 //		
 //		cashDeskModel.startCreditCardPayment(CARD_INFO);
 //		
@@ -302,7 +302,7 @@
 //		accountSaleEventCaptor = ArgumentCaptor.forClass(AccountSaleEvent.class);
 //		saleRegisteredEventCaptor = ArgumentCaptor.forClass(SaleRegisteredEvent.class);
 //		cashDeskModel.state = CashDeskState.PAYING_BY_CREDIT_CARD;
-//		cashDeskModel.saleProducts.add(FillTransferObjects.fillProductWithStockItemTO(stock));
+//		cashDeskModel.saleProducts.add(FillTransferObjects.fillProductWithItemTO(stock));
 //		cashDeskModel.cardInfo = CARD_INFO;
 //		
 //		cashDeskModel.finishCreditCardPayment(CARD_PIN);

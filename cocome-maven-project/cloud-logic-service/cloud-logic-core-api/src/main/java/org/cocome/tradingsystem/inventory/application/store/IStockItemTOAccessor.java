@@ -18,7 +18,7 @@ package org.cocome.tradingsystem.inventory.application.store;
 
 /**
  * Interface provide access to the {@link StockItemTO} transfer object. This is
- * necessary to allow creating code that need to handle access to {@link ProductWithStockItemTO}, {@link ProductWithSupplierTO}, and
+ * necessary to allow creating code that need to handle access to {@link ProductWithItemTO}, {@link ProductWithSupplierTO}, and
  * {@link ProductWithSupplierAndStockItemTO} instances in a generic way.
  * 
  * 

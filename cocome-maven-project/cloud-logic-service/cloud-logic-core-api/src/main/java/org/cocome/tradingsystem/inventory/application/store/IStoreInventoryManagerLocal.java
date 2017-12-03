@@ -48,11 +48,14 @@ public interface IStoreInventoryManagerLocal {
      * for realization of UC 1 and UC 8.
      *
      * @param sale the sale to be registered in stock
+     * @return an ticket id that can be used to observe the status of on demand production orders.
+     * It is equal to 0 if the sale only consists of stock items
      * @throws ProductOutOfStockException
      * @throws NotInDatabaseException
      * @throws UpdateException
      */
-    void accountSale(long storeID, final SaleTO sale) throws ProductOutOfStockException, NotInDatabaseException, UpdateException;
+    long accountSale(long storeID, final SaleTO sale)
+            throws ProductOutOfStockException, NotInDatabaseException, UpdateException;
 
     /**
      * Returns information on the store in which the component is running. This
@@ -71,7 +74,7 @@ public interface IStoreInventoryManagerLocal {
      *
      * @return List of products and their stock item in the given store.
      */
-    List<ProductWithStockItemTO> getProductsWithLowStock(long storeID);
+    List<ProductWithItemTO> getProductsWithLowStock(long storeID);
 
     /**
      * Returns all products offered by a given store (a stock item exists for a
@@ -144,13 +147,13 @@ public interface IStoreInventoryManagerLocal {
      * Updates sales price of a stock item. Used for realization of UC 7.
      *
      * @param stockItemTO Stock item with new price.
-     * @return Instance of ProductWithStockItemTO which holds product
+     * @return Instance of ProductWithItemTO which holds product
      * information and updated price information for stock item
      * identified by <code>stockItemTO</code>.
      * @throws NotInDatabaseException
      * @throws UpdateException
      */
-    ProductWithStockItemTO changePrice(long storeID, StockItemTO stockItemTO) throws NotInDatabaseException, UpdateException;
+    ProductWithItemTO changePrice(long storeID, ProductWithItemTO stockItemTO) throws NotInDatabaseException, UpdateException;
 
     /**
      * Initiates the delivery of products that ran out at another store. The
@@ -188,36 +191,36 @@ public interface IStoreInventoryManagerLocal {
     /**
      * Updates a stock item.
      *
-     * @param stockItemTO Stock item with new information.
-     * @return Instance of ProductWithStockItemTO which holds product
-     * information and updated price information for stock item
-     * identified by <code>stockItemTO</code>.
+     * @param itemTO item with new information.
+     * @return Instance of ProductWithItemTO which holds product
+     * information and updated price information for item
+     * identified by {@code itemTO}.
      * @throws NotInDatabaseException
      * @throws UpdateException
      */
-    ProductWithStockItemTO updateStockItem(long storeID, StockItemTO stockItemTO) throws NotInDatabaseException, UpdateException;
+    ProductWithItemTO updateItem(long storeID, ProductWithItemTO itemTO) throws NotInDatabaseException, UpdateException;
 
     /**
-     * Creates a new stock item.
+     * Creates a new item.
      *
-     * @param storeID     ID of the store where to create the new stock item.
-     * @param stockItemTO Instance of ProductWithStockItemTO which holds the product
-     *                    information and the information about the new stock item.
+     * @param storeID ID of the store where to create the new item.
+     * @param itemTO  Instance of ProductWithItemTO which holds the product
+     *                information and the information about the new item.
      * @throws NotInDatabaseException
      * @throws CreateException
      */
-    long createStockItem(long storeID, ProductWithStockItemTO stockItemTO)
+    long createItem(long storeID, ProductWithItemTO itemTO)
             throws NotInDatabaseException, CreateException;
 
     /**
-     * Deletes the given stock item.
+     * Deletes the given item.
      *
-     * @param storeID     ID of the store where to create the new stock item.
-     * @param stockItemTO Instance of ProductWithStockItemTO which holds the product
-     *                    information and the information about the new stock item.
+     * @param storeID ID of the store where to create the new item.
+     * @param itemTO  Instance of ProductWithItemTO which holds the product
+     *                information and the information about the item.
      * @throws NotInDatabaseException
      * @throws UpdateException
      */
-    void deleteStockItem(long storeID, ProductWithStockItemTO stockItemTO)
+    void deleteItem(long storeID, ProductWithItemTO itemTO)
             throws NotInDatabaseException, UpdateException;
 }

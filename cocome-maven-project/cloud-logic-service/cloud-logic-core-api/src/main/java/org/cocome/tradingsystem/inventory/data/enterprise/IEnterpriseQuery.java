@@ -294,6 +294,8 @@ public interface IEnterpriseQuery {
 
     IRecipe queryRecipeByID(long recipeId) throws NotInDatabaseException;
 
+    IRecipe queryRecipeByCustomProductID(long id) throws NotInDatabaseException;
+
     Collection<IEntryPointInteraction> queryEntryPointInteractions(List<Long> entryPointInteractionIds)
             throws NotInDatabaseException;
 

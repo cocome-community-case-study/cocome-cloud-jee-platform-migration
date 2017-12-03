@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.*;
 @XmlType(
         name = "CustomProductParameterTO",
         namespace = "http://parameter.enterprise.application.inventory.tradingsystem.cocome.org")
-@XmlSeeAlso({BooleanCustomProductParameterTO.class, BooleanCustomProductParameterTO.class})
+@XmlSeeAlso({BooleanCustomProductParameterTO.class, NorminalCustomProductParameterTO.class})
 @XmlRootElement(name = "CustomProductParameterTO")
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class CustomProductParameterTO implements IParameterTO {

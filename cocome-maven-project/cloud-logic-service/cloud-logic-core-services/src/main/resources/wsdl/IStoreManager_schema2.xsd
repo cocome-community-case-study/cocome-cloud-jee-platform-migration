@@ -1,8 +1,29 @@
-<xs:schema xmlns:ns1="http://store.webservice.logic.cocome.org/" xmlns:ns2="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://store.application.inventory.tradingsystem.cocome.org/" version="1.0">
+<xs:schema xmlns:ns1="http://store.webservice.logic.cocome.org/" xmlns:ns2="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns4="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://store.application.inventory.tradingsystem.cocome.org/" version="1.0">
 
   <xs:import namespace="http://store.webservice.logic.cocome.org/" schemaLocation="IStoreManager_schema1.xsd"/>
 
-  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema3.xsd"/>
+  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema5.xsd"/>
+
+  <xs:import namespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema3.xsd"/>
+
+  <xs:import namespace="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema4.xsd"/>
+
+  <xs:complexType name="ProductWithItemTO">
+    <xs:sequence>
+      <xs:element name="item" type="tns:ItemTO"/>
+      <xs:choice>
+        <xs:element ref="ns1:ProductTO"/>
+        <xs:element ref="ns1:CustomProductTO"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="ItemTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="salesPrice" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
 
   <xs:complexType name="StockItemTO">
     <xs:complexContent>
@@ -17,29 +38,12 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType abstract="true" name="ItemTO">
-    <xs:sequence>
-      <xs:element name="id" type="xs:long"/>
-      <xs:element name="salesPrice" type="xs:double"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType abstract="true" name="OnDemandItemTO">
+  <xs:complexType name="OnDemandItemTO">
     <xs:complexContent>
       <xs:extension base="tns:ItemTO">
         <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="ProductWithStockItemTO">
-    <xs:sequence>
-      <xs:element name="stockItemTO" type="tns:StockItemTO"/>
-      <xs:choice>
-        <xs:element ref="ns1:ProductTO"/>
-        <xs:element ref="ns1:CustomProductTO"/>
-      </xs:choice>
-    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="ProductTO">
@@ -151,13 +155,14 @@
   <xs:complexType name="SaleTO">
     <xs:sequence>
       <xs:element name="date" type="xs:dateTime"/>
-      <xs:element name="productTOs">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element maxOccurs="unbounded" name="productTO" type="tns:ProductWithStockItemTO"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
+      <xs:element maxOccurs="unbounded" name="entries" type="tns:SaleEntryTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SaleEntryTO">
+    <xs:sequence>
+      <xs:element name="item" type="tns:ProductWithItemTO"/>
+      <xs:element maxOccurs="unbounded" name="parameterValues" type="ns3:CustomProductParameterValueTO"/>
     </xs:sequence>
   </xs:complexType>
 

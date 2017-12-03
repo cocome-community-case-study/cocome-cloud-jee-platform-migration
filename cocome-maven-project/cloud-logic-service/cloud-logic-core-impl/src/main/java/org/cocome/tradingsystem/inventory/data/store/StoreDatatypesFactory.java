@@ -131,6 +131,25 @@ public class StoreDatatypesFactory implements IStoreDataFactory {
     }
 
     @Override
+    public IItem convertToItem(ItemTO itemTO) {
+        if (itemTO instanceof IStockItem) {
+            return this.convertToStockItem((StockItemTO) itemTO);
+        } else if (itemTO instanceof IOnDemandItem) {
+            return this.convertToOnDemandItem((OnDemandItemTO) itemTO);
+        } else {
+            throw new UnsupportedOperationException("Unknown item type: " + itemTO.getClass().getName());
+        }
+    }
+
+    @Override
+    public IOnDemandItem convertToOnDemandItem(OnDemandItemTO itemTO) {
+        IOnDemandItem result = getNewOnDemandItem();
+        result.setId(itemTO.getId());
+        result.setSalesPrice(itemTO.getSalesPrice());
+        return result;
+    }
+
+    @Override
     public IStockItem convertToStockItem(StockItemTO stockItemTO) {
         IStockItem result = getNewStockItem();
         result.setAmount(stockItemTO.getAmount());
@@ -143,16 +162,14 @@ public class StoreDatatypesFactory implements IStoreDataFactory {
     }
 
     @Override
-    public StockItemTO fillStockItemTO(IStockItem stockItem) {
-        final StockItemTO result = new StockItemTO();
-        result.setId(stockItem.getId());
-        result.setAmount(stockItem.getAmount());
-        result.setMinStock(stockItem.getMinStock());
-        result.setMaxStock(stockItem.getMaxStock());
-        result.setSalesPrice(stockItem.getSalesPrice());
-        result.setIncomingAmount(stockItem.getIncomingAmount());
-
-        return result;
+    public ItemTO fillItemTO(IItem item) {
+        if (item instanceof IStockItem) {
+            return this.fillStockItemTO((IStockItem) item);
+        } else if (item instanceof IOnDemandItem) {
+            return this.fillOnDemandItemTO((IOnDemandItem) item);
+        } else {
+            throw new UnsupportedOperationException("Unknown item type: " + item.getClass().getName());
+        }
     }
 
     @Override
@@ -193,12 +210,34 @@ public class StoreDatatypesFactory implements IStoreDataFactory {
     }
 
     @Override
-    public ProductWithStockItemTO fillProductWithStockItemTO(IStockItem stockItem) {
-        final ProductWithStockItemTO result = new ProductWithStockItemTO();
-        final IProduct product = stockItem.getProduct();
+    public ProductWithItemTO fillProductWithItemTO(IItem item) {
+        final ProductWithItemTO result = new ProductWithItemTO();
+        final IProduct product = item.getProduct();
 
-        result.setProductTO(enterpriseDatatypes.fillProductTO(product));
-        result.setStockItemTO(fillStockItemTO(stockItem));
+        result.setProduct(enterpriseDatatypes.fillProductTO(product));
+        result.setItem(fillItemTO(item));
+
+        return result;
+    }
+
+    @Override
+    public StockItemTO fillStockItemTO(IStockItem stockItem) {
+        final StockItemTO result = new StockItemTO();
+        result.setId(stockItem.getId());
+        result.setAmount(stockItem.getAmount());
+        result.setMinStock(stockItem.getMinStock());
+        result.setMaxStock(stockItem.getMaxStock());
+        result.setSalesPrice(stockItem.getSalesPrice());
+        result.setIncomingAmount(stockItem.getIncomingAmount());
+
+        return result;
+    }
+
+    @Override
+    public OnDemandItemTO fillOnDemandItemTO(IOnDemandItem onDemandItem) {
+        final OnDemandItemTO result = new OnDemandItemTO();
+        result.setId(onDemandItem.getId());
+        result.setSalesPrice(onDemandItem.getSalesPrice());
 
         return result;
     }

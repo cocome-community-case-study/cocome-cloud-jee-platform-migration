@@ -44,9 +44,17 @@ public interface IStoreDataFactory {
 
     ComplexOrderTO fillComplexOrderTO(IProductOrder order) throws NotInDatabaseException;
 
+    IOnDemandItem convertToOnDemandItem(OnDemandItemTO onDemandItemTO);
+
+    IItem convertToItem(ItemTO itemTO);
+
     IStockItem convertToStockItem(StockItemTO stockItemTO);
 
+    ItemTO fillItemTO(IItem item);
+
     StockItemTO fillStockItemTO(IStockItem stockItem);
+
+    OnDemandItemTO fillOnDemandItemTO(IOnDemandItem onDemandItem);
 
     IStore convertToStore(StoreTO storeTO);
 
@@ -56,7 +64,7 @@ public interface IStoreDataFactory {
 
     OrderTO fillOrderTO(IProductOrder order);
 
-    ProductWithStockItemTO fillProductWithStockItemTO(IStockItem stockItem);
+    ProductWithItemTO fillProductWithItemTO(IItem stockItem);
 
     ProductWithSupplierAndStockItemTO fillProductWithSupplierAndStockItemTO(
             IStockItem stockItem) throws NotInDatabaseException;

@@ -401,6 +401,10 @@
     <wsdl:part name="parameters" element="tns:createPlantOperation">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryRecipeByCustomProductIdResponse">
+    <wsdl:part name="parameters" element="tns:queryRecipeByCustomProductIdResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createRecipe">
     <wsdl:part name="parameters" element="tns:createRecipe">
     </wsdl:part>
@@ -547,6 +551,10 @@
   </wsdl:message>
   <wsdl:message name="getEnterprises">
     <wsdl:part name="parameters" element="tns:getEnterprises">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryRecipeByCustomProductId">
+    <wsdl:part name="parameters" element="tns:queryRecipeByCustomProductId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateRecipeResponse">
@@ -975,6 +983,14 @@
     </wsdl:input>
       <wsdl:output name="getEnterprisesResponse" message="tns:getEnterprisesResponse">
     </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryRecipeByCustomProductId">
+      <wsdl:input name="queryRecipeByCustomProductId" message="tns:queryRecipeByCustomProductId">
+    </wsdl:input>
+      <wsdl:output name="queryRecipeByCustomProductIdResponse" message="tns:queryRecipeByCustomProductIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="deleteNorminalPlantOperationParameter">
       <wsdl:input name="deleteNorminalPlantOperationParameter" message="tns:deleteNorminalPlantOperationParameter">
@@ -1821,6 +1837,18 @@
       <wsdl:output name="getEnterprisesResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryRecipeByCustomProductId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryRecipeByCustomProductId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryRecipeByCustomProductIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="deleteNorminalPlantOperationParameter">
       <soap:operation soapAction="" style="document"/>

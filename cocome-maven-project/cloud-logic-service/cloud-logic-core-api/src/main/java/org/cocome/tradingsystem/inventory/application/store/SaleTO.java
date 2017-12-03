@@ -29,6 +29,7 @@ import java.util.List;
  *
  * @author Sebastian Herold
  * @author Lubomir Bulej
+ * @author Rudolf Biczok
  */
 @XmlType(name = "SaleTO", namespace = "http://store.application.inventory.tradingsystem.cocome.org/")
 @XmlRootElement(name = "SaleTO")
@@ -37,15 +38,11 @@ public class SaleTO implements Serializable {
 
     private static final long serialVersionUID = 5164217707863683479L;
 
-    //
     @XmlElement(name = "date", required = true)
-    private Date __date;
+    private Date date;
 
-    @XmlElementWrapper(name = "productTOs", required = true)
-    @XmlElement(name = "productTO", required = true)
-    private List<ProductWithStockItemTO> __productTOs;
-
-    //
+    @XmlElement(name = "entries", required = true)
+    private List<SaleEntryTO> entries;
 
     /**
      * Gets date of sale.
@@ -53,7 +50,7 @@ public class SaleTO implements Serializable {
      * @return Date of sale.
      */
     public Date getDate() {
-        return __date;
+        return date;
     }
 
     /**
@@ -62,26 +59,25 @@ public class SaleTO implements Serializable {
      * @param date Date to be set.
      */
     public void setDate(final Date date) {
-        __date = date;
+        this.date = date;
     }
 
     /**
      * Gets list of products and corresponding item in stock which the sale
      * consists of.
      *
-     * @return List of contained products.
+     * @return List of contained sale entries.
      */
-    public List<ProductWithStockItemTO> getProductTOs() {
-        return __productTOs;
+    public List<SaleEntryTO> getEntries() {
+        return entries;
     }
 
     /**
-     * Sets list of products for the sale.
+     * Sets list of sale entries.
      *
-     * @param productTOs List of products the sale should contain.
+     * @param entries List of sale entries the sale should contain.
      */
-    public void setProductTOs(final List<ProductWithStockItemTO> productTOs) {
-        __productTOs = productTOs;
+    public void setEntries(final List<SaleEntryTO> entries) {
+        this.entries = entries;
     }
-
 }

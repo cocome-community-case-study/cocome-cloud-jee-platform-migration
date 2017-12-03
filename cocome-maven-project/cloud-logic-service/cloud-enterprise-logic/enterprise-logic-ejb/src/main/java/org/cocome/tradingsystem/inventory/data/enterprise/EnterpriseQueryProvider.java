@@ -256,6 +256,11 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public IRecipe queryRecipeByCustomProductID(long customProductId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getRecipe, "Recipe", "customProduct.id==" + customProductId);
+    }
+
+    @Override
     public Collection<IEntryPointInteraction> queryEntryPointInteractions(List<Long> entryPointInteractionIds) throws NotInDatabaseException {
         return queryEntitiesByIdList(entryPointInteractionIds, this::queryEntryPointInteractionByID);
     }
@@ -359,12 +364,18 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     private <T> T getSingleEntity(Function<String, Collection<T>> converter,
                                   String entity,
                                   long entityId) throws NotInDatabaseException {
+        return this.getSingleEntity(converter, entity, "id==" + entityId);
+    }
+
+    private <T> T getSingleEntity(Function<String, Collection<T>> converter,
+                                  String entity,
+                                  String cond) throws NotInDatabaseException {
         try {
-            return converter.apply(backendConnection.getEntity(entity, "id==" + entityId)).iterator().next();
+            return converter.apply(backendConnection.getEntity(entity, cond)).iterator().next();
         } catch (NoSuchElementException e) {
             throw new NotInDatabaseException(String.format(
-                    "No matching entity of type '%s' and id '%d' found in database!",
-                    entity, entityId), e);
+                    "No matching entity of type '%s' found in database! Used condition: %s",
+                    entity, cond), e);
         }
     }
 

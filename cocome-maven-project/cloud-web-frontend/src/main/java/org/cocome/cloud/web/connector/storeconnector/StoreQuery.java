@@ -9,7 +9,7 @@ import org.cocome.cloud.web.data.storedata.ProductWrapper;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderEntryTO;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
-import org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductWithItemTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndStockItemTO;
 
 import javax.enterprise.context.RequestScoped;
@@ -87,7 +87,7 @@ public class StoreQuery implements IStoreQuery {
         long storeID = store.getID();
         try {
             storeManager = lookupStoreManager(storeID);
-            storeManager.updateStockItem(storeID, stockItem.getStockItemTO());
+            storeManager.updateItem(storeID, new ProductWithItemTO(stockItem.getStockItemTO(), stockItem.getProductTO()));
             return true;
         } catch (NotInDatabaseException_Exception | UpdateException_Exception e) {
             LOG.error(String.format("Error while updating stock item: %s\n", e.getMessage()),e);
@@ -172,8 +172,8 @@ public class StoreQuery implements IStoreQuery {
 
         try {
             storeManager = lookupStoreManager(storeID);
-            ProductWithStockItemTO stockItemTO = ProductWrapper.convertToProductWithStockItemTO(product);
-            storeManager.createStockItem(storeID, stockItemTO);
+            ProductWithItemTO stockItemTO = ProductWrapper.convertToProductWithStockItemTO(product);
+            storeManager.createItem(storeID, stockItemTO);
         } catch (CreateException_Exception | NotInDatabaseException_Exception e) {
             LOG.error(String.format("Error while creating stock item: %s\n", e.getMessage()), e);
             return false;

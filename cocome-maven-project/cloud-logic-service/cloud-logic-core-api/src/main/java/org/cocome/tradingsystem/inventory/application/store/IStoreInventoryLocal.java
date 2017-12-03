@@ -38,7 +38,7 @@ public interface IStoreInventoryLocal {
 	 * @param productBarcode
 	 *            the product barcode
 	 * @return
-	 *         An instance of {@link ProductWithStockItemTO} transfer object
+	 *         An instance of {@link ProductWithItemTO} transfer object
 	 *         containing a product and stock item description corresponding
 	 *         to the given barcode.
 	 * 
@@ -46,8 +46,8 @@ public interface IStoreInventoryLocal {
 	 *             if there is no product (or a stock item for product) with the
 	 *             given barcode in the store
 	 */
-	public ProductWithStockItemTO getProductWithStockItem(long storeID, 
-			long productBarcode
+	public ProductWithItemTO getProductWithStockItem(long storeID,
+													 long productBarcode
 			) throws NoSuchProductException;
 
 }

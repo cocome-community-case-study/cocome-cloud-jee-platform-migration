@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "OnDemandItemTO", namespace = "http://store.application.inventory.tradingsystem.cocome.org/")
 @XmlRootElement(name = "OnDemandItemTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class OnDemandItemTO extends ItemTO {
+public class OnDemandItemTO extends ItemTO {
 
     private static final long serialVersionUID = 5874806761123366899L;
 

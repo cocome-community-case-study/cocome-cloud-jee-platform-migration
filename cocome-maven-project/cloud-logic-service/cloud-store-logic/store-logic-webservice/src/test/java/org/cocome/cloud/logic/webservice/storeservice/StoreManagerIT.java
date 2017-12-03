@@ -23,6 +23,7 @@ import org.cocome.test.EnterpriseInfo;
 import org.cocome.test.TestConfig;
 import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.store.*;
+import org.cocome.tradingsystem.inventory.application.store.SaleEntryTO;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -60,39 +61,39 @@ public class StoreManagerIT {
         product.setPurchasePrice(10);
         product.setId(em.createProduct(product));
 
-        final ProductWithStockItemTO item = new ProductWithStockItemTO();
+        final ProductWithItemTO item = new ProductWithItemTO();
         final StockItemTO stockItem = new StockItemTO();
         stockItem.setAmount(10);
         stockItem.setMinStock(5);
         stockItem.setMaxStock(20);
         stockItem.setSalesPrice(12);
-        item.setStockItemTO(stockItem);
-        item.setProductTO(product);
-        item.getStockItemTO().setId(sm.createStockItem(store.getId(), item));
+        item.setItem(stockItem);
+        item.setProduct(product);
+        item.getItem().setId(sm.createItem(store.getId(), item));
 
-        SaleTO sale = new SaleTO();
-        sale.setProductTOs(Collections.singletonList(item));
+        final SaleTO sale = new SaleTO();
+        sale.setEntries(Collections.singletonList(new SaleEntryTO(item)));
 
         sm.accountSale(store.getId(), sale);
-        sm.deleteStockItem(store.getId(), item);
+        sm.deleteItem(store.getId(), item);
     }
 
     @Test
     public void testAccountSaleWithCustomProductAsStockItem() throws Exception {
-        final ProductWithStockItemTO item = new ProductWithStockItemTO();
+        final ProductWithItemTO item = new ProductWithItemTO();
         final StockItemTO stockItem = new StockItemTO();
         stockItem.setAmount(10);
         stockItem.setMinStock(5);
         stockItem.setMaxStock(20);
         stockItem.setSalesPrice(12);
-        item.setStockItemTO(stockItem);
-        item.setProductTO(enterpriseInfo.getCustomProducts().get(0).getCustomProduct());
-        item.getStockItemTO().setId(sm.createStockItem(enterpriseInfo.getStores().get(0).getId(), item));
+        item.setItem(stockItem);
+        item.setProduct(enterpriseInfo.getCustomProducts().get(0).getCustomProduct());
+        item.getItem().setId(sm.createItem(enterpriseInfo.getStores().get(0).getId(), item));
 
-        SaleTO sale = new SaleTO();
-        sale.setProductTOs(Collections.singletonList(item));
+        final SaleTO sale = new SaleTO();
+        sale.setEntries(Collections.singletonList(new SaleEntryTO(item)));
 
-        System.out.println(item.getStockItemTO().getId());
+        System.out.println(item.getItem().getId());
 
         sm.accountSale(enterpriseInfo.getStores().get(0).getId(), sale);
     }

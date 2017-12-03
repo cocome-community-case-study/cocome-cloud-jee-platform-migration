@@ -668,6 +668,12 @@ public interface IEnterpriseManager {
                     long recipeId) throws NotInDatabaseException;
 
     @WebMethod
+    RecipeTO queryRecipeByCustomProductId(
+            @XmlElement(required = true)
+            @WebParam(name = "customProductID")
+                    long customProductId) throws NotInDatabaseException;
+
+    @WebMethod
     long createRecipe(
             @XmlElement(required = true)
             @WebParam(name = "recipeTO")

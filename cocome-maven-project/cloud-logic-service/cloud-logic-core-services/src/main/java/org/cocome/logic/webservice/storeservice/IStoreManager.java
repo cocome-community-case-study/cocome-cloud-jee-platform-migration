@@ -33,7 +33,7 @@ import java.util.List;
 public interface IStoreManager {
 
     @WebMethod
-    void accountSale(
+    long accountSale(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
             @XmlElement(required = true) @WebParam(name = "sale") SaleTO sale)
             throws ProductOutOfStockException, NotInDatabaseException, UpdateException;
@@ -44,7 +44,7 @@ public interface IStoreManager {
             throws NotInDatabaseException;
 
     @WebMethod
-    List<ProductWithStockItemTO> getProductsWithLowStock(
+    List<ProductWithItemTO> getProductsWithLowStock(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID)
             throws NotInDatabaseException;
 
@@ -82,27 +82,27 @@ public interface IStoreManager {
             throws InvalidRollInRequestException, NotInDatabaseException, UpdateException;
 
     @WebMethod
-    ProductWithStockItemTO changePrice(
+    ProductWithItemTO changePrice(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
-            @XmlElement(required = true) @WebParam(name = "stockItemTO") StockItemTO stockItemTO)
+            @XmlElement(required = true) @WebParam(name = "itemTO") ProductWithItemTO itemTO)
             throws NotInDatabaseException, UpdateException;
 
     @WebMethod
-    void updateStockItem(
+    void updateItem(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
-            @XmlElement(required = true) @WebParam(name = "stockItemTO") StockItemTO stockItemTO)
+            @XmlElement(required = true) @WebParam(name = "itemTO") ProductWithItemTO itemTO)
             throws NotInDatabaseException, UpdateException;
 
     @WebMethod
-    long createStockItem(
+    long createItem(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
-            @XmlElement(required = true) @WebParam(name = "stockItemTO") ProductWithStockItemTO stockItemTO)
+            @XmlElement(required = true) @WebParam(name = "itemTO") ProductWithItemTO itemTO)
             throws NotInDatabaseException, CreateException;
 
     @WebMethod
-    void deleteStockItem(
+    void deleteItem(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
-            @XmlElement(required = true) @WebParam(name = "stockItemTO") ProductWithStockItemTO stockItemTO)
+            @XmlElement(required = true) @WebParam(name = "itemTO") ProductWithItemTO itemTO)
             throws NotInDatabaseException, UpdateException;
 
     @WebMethod
@@ -118,7 +118,7 @@ public interface IStoreManager {
             throws NotInDatabaseException, NotImplementedException;
 
     @WebMethod
-    ProductWithStockItemTO getProductWithStockItem(
+    ProductWithItemTO getProductWithStockItem(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
             @XmlElement(required = true) @WebParam(name = "productBarcode") long productBarcode)
             throws NoSuchProductException, NotInDatabaseException;

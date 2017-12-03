@@ -862,6 +862,12 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
+    public RecipeTO queryRecipeByCustomProductId(long customProductId) throws NotInDatabaseException {
+        return plantFactory.fillRecipeTO(
+                enterpriseQuery.queryRecipeByCustomProductID(customProductId));
+    }
+
+    @Override
     public long createRecipe(RecipeTO recipeTO) throws CreateException {
         final IRecipe param = plantFactory.convertToRecipe(recipeTO);
         saveDBCreateAction(() -> persistenceContext.createEntity(param));

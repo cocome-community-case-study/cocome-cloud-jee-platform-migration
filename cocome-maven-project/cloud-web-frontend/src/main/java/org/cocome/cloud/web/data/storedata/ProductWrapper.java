@@ -2,7 +2,7 @@ package org.cocome.cloud.web.data.storedata;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
-import org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductWithItemTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
@@ -151,16 +151,16 @@ public class ProductWrapper {
 		return productTO;
 	}
 	
-	public static ProductWithStockItemTO convertToProductWithStockItemTO(ProductWrapper product) {
-		ProductWithStockItemTO productTO = new ProductWithStockItemTO();
-		fillProductTO(productTO.getProductTO(), product);
+	public static ProductWithItemTO convertToProductWithStockItemTO(ProductWrapper product) {
+		ProductWithItemTO productTO = new ProductWithItemTO();
+		fillProductTO(productTO.getProduct(), product);
 		
 		StockItemTO stockItemTO = product.getStockItemTO();
 		
 		if (stockItemTO == null) {
 			stockItemTO = getNewStockItemTO();
 		}
-		productTO.setStockItemTO(stockItemTO);
+		productTO.setItem(stockItemTO);
 		return productTO;
 	}
 

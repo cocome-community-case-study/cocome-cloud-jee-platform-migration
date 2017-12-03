@@ -13,6 +13,14 @@
     <wsdl:part name="parameters" element="tns:getOrder">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="createItemResponse">
+    <wsdl:part name="parameters" element="tns:createItemResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteItem">
+    <wsdl:part name="parameters" element="tns:deleteItem">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getStockItemsResponse">
     <wsdl:part name="parameters" element="tns:getStockItemsResponse">
     </wsdl:part>
@@ -23,10 +31,6 @@
   </wsdl:message>
   <wsdl:message name="onProductionFinish">
     <wsdl:part name="parameters" element="tns:onProductionFinish">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateStockItemResponse">
-    <wsdl:part name="parameters" element="tns:updateStockItemResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="onProductionOrderEntryFinishResponse">
@@ -45,12 +49,16 @@
     <wsdl:part name="parameters" element="tns:onProductionOrderFinish">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="createStockItemResponse">
-    <wsdl:part name="parameters" element="tns:createStockItemResponse">
+  <wsdl:message name="deleteItemResponse">
+    <wsdl:part name="parameters" element="tns:deleteItemResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getProductsWithLowStock">
     <wsdl:part name="parameters" element="tns:getProductsWithLowStock">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createItem">
+    <wsdl:part name="parameters" element="tns:createItem">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllStoreProducts">
@@ -65,24 +73,16 @@
     <wsdl:part name="parameters" element="tns:rollInReceivedOrderResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="deleteStockItem">
-    <wsdl:part name="parameters" element="tns:deleteStockItem">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="NoSuchProductException">
     <wsdl:part name="NoSuchProductException" element="tns:NoSuchProductException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteStockItemResponse">
-    <wsdl:part name="parameters" element="tns:deleteStockItemResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getProductsWithStockItems">
     <wsdl:part name="parameters" element="tns:getProductsWithStockItems">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="updateStockItem">
-    <wsdl:part name="parameters" element="tns:updateStockItem">
+  <wsdl:message name="updateItem">
+    <wsdl:part name="parameters" element="tns:updateItem">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getProductWithStockItemResponse">
@@ -105,10 +105,6 @@
     <wsdl:part name="parameters" element="tns:getProductsWithStockItemsResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="createStockItem">
-    <wsdl:part name="parameters" element="tns:createStockItem">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getOutstandingOrdersResponse">
     <wsdl:part name="parameters" element="tns:getOutstandingOrdersResponse">
     </wsdl:part>
@@ -123,6 +119,10 @@
   </wsdl:message>
   <wsdl:message name="InvalidRollInRequestException">
     <wsdl:part name="InvalidRollInRequestException" element="tns:InvalidRollInRequestException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateItemResponse">
+    <wsdl:part name="parameters" element="tns:updateItemResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="CreateException">
@@ -204,14 +204,14 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="createStockItem">
-      <wsdl:input name="createStockItem" message="tns:createStockItem">
+    <wsdl:operation name="deleteItem">
+      <wsdl:input name="deleteItem" message="tns:deleteItem">
     </wsdl:input>
-      <wsdl:output name="createStockItemResponse" message="tns:createStockItemResponse">
+      <wsdl:output name="deleteItemResponse" message="tns:deleteItemResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
-      <wsdl:fault name="CreateException" message="tns:CreateException">
+      <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="onProductionFinish">
@@ -274,6 +274,16 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="createItem">
+      <wsdl:input name="createItem" message="tns:createItem">
+    </wsdl:input>
+      <wsdl:output name="createItemResponse" message="tns:createItemResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+      <wsdl:fault name="CreateException" message="tns:CreateException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getAllStoreProducts">
       <wsdl:input name="getAllStoreProducts" message="tns:getAllStoreProducts">
     </wsdl:input>
@@ -308,16 +318,6 @@
       <wsdl:output name="onProductionOrderEntryFinishResponse" message="tns:onProductionOrderEntryFinishResponse">
     </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="deleteStockItem">
-      <wsdl:input name="deleteStockItem" message="tns:deleteStockItem">
-    </wsdl:input>
-      <wsdl:output name="deleteStockItemResponse" message="tns:deleteStockItemResponse">
-    </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
-    </wsdl:fault>
-      <wsdl:fault name="UpdateException" message="tns:UpdateException">
-    </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="accountSale">
       <wsdl:input name="accountSale" message="tns:accountSale">
     </wsdl:input>
@@ -338,10 +338,10 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="updateStockItem">
-      <wsdl:input name="updateStockItem" message="tns:updateStockItem">
+    <wsdl:operation name="updateItem">
+      <wsdl:input name="updateItem" message="tns:updateItem">
     </wsdl:input>
-      <wsdl:output name="updateStockItemResponse" message="tns:updateStockItemResponse">
+      <wsdl:output name="updateItemResponse" message="tns:updateItemResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
@@ -390,19 +390,19 @@
         <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="createStockItem">
+    <wsdl:operation name="deleteItem">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="createStockItem">
+      <wsdl:input name="deleteItem">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="createStockItemResponse">
+      <wsdl:output name="deleteItemResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
-      <wsdl:fault name="CreateException">
-        <soap:fault name="CreateException" use="literal"/>
+      <wsdl:fault name="UpdateException">
+        <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="onProductionFinish">
@@ -495,6 +495,21 @@
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="createItem">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createItem">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createItemResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="CreateException">
+        <soap:fault name="CreateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="getAllStoreProducts">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getAllStoreProducts">
@@ -546,21 +561,6 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="deleteStockItem">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="deleteStockItem">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="deleteStockItemResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException">
-        <soap:fault name="NotInDatabaseException" use="literal"/>
-      </wsdl:fault>
-      <wsdl:fault name="UpdateException">
-        <soap:fault name="UpdateException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
     <wsdl:operation name="accountSale">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="accountSale">
@@ -591,12 +591,12 @@
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="updateStockItem">
+    <wsdl:operation name="updateItem">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="updateStockItem">
+      <wsdl:input name="updateItem">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="updateStockItemResponse">
+      <wsdl:output name="updateItemResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">

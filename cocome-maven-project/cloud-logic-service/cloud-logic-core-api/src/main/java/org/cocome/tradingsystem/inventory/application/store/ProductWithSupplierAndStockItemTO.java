@@ -44,14 +44,14 @@ public class ProductWithSupplierAndStockItemTO
 	private StockItemTO __stockItemTO;
 
 	/*
-	 * @see StockItemTOAccessor#getStockItemTO()
+	 * @see StockItemTOAccessor#getItemInfo()
 	 */
 	public StockItemTO getStockItemTO() {
 		return __stockItemTO;
 	}
 
 	/*
-	 * @see StockItemTOAccessor#setStockItemTO(StockItemTO)
+	 * @see StockItemTOAccessor#setItemData(StockItemTO)
 	 */
 	public void setStockItemTO(final StockItemTO stockitemTO) {
 		__stockItemTO = stockitemTO;

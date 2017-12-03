@@ -6,9 +6,9 @@
             <class
                     ref="org.cocome.tradingsystem.inventory.application.store.ProductTO"/>
         </bindings>
-        <bindings node="//xsd:complexType[@name='ProductWithStockItemTO']">
+        <bindings node="//xsd:complexType[@name='ProductWithItemTO']">
             <class
-                    ref="org.cocome.tradingsystem.inventory.application.store.ProductWithStockItemTO"/>
+                    ref="org.cocome.tradingsystem.inventory.application.store.ProductWithItemTO"/>
         </bindings>
         <bindings node="//xsd:complexType[@name='SupplierTO']">
             <class
@@ -65,7 +65,7 @@
                     ref="org.cocome.tradingsystem.inventory.application.store.EnterpriseTO"/>
         </bindings>
     </bindings>
-    <bindings if-exists="true" schemaLocation="IStoreManager_schema3.xsd">
+    <bindings if-exists="true" schemaLocation="IStoreManager_schema5.xsd">
         <bindings node="//xsd:complexType[@name='CustomProductTO']">
             <class
                     ref="org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO"/>

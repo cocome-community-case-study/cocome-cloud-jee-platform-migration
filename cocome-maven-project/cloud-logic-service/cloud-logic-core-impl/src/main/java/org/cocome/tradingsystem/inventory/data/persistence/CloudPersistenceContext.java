@@ -34,10 +34,7 @@ import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionU
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
-import org.cocome.tradingsystem.inventory.data.store.IOnDemandItem;
-import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
-import org.cocome.tradingsystem.inventory.data.store.IStockItem;
-import org.cocome.tradingsystem.inventory.data.store.IStore;
+import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 import org.cocome.tradingsystem.remote.access.connection.IPersistenceConnection;
@@ -138,6 +135,42 @@ public class CloudPersistenceContext implements IPersistenceContext {
         deleteEntity("OnDemandItem",
                 ServiceAdapterEntityConverter.getUpdateOnDemandItemContent(onDemandItem),
                 ServiceAdapterHeaders.ONDEMANDITEM_UPDATE_HEADER);
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void createEntity(IItem item) throws CreateException {
+        if(item instanceof IOnDemandItem) {
+            this.createEntity((IOnDemandItem) item);
+        } else if(item instanceof IStockItem) {
+            this.createEntity((IStockItem) item);
+        } else {
+            throw new IllegalArgumentException("Unknown entity type: " + item.getClass().getName());
+        }
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void updateEntity(IItem item) throws UpdateException {
+        if(item instanceof IOnDemandItem) {
+            this.updateEntity((IOnDemandItem) item);
+        } else if(item instanceof IStockItem) {
+            this.updateEntity((IStockItem) item);
+        } else {
+            throw new IllegalArgumentException("Unknown entity type: " + item.getClass().getName());
+        }
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void deleteEntity(IItem item) throws UpdateException {
+        if(item instanceof IOnDemandItem) {
+            this.deleteEntity((IOnDemandItem) item);
+        } else if(item instanceof IStockItem) {
+            this.deleteEntity((IStockItem) item);
+        } else {
+            throw new IllegalArgumentException("Unknown entity type: " + item.getClass().getName());
+        }
     }
 
     @Override
