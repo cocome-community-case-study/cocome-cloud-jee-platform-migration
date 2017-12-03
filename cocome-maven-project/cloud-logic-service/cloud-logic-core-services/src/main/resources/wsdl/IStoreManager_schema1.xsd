@@ -3,6 +3,8 @@
   <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema3.xsd"/>
   <xs:element name="CustomProductTO" type="ns2:CustomProductTO"/>
   <xs:element name="EnterpriseTO" type="ns1:EnterpriseTO"/>
+  <xs:element name="ItemTO" type="ns1:ItemTO"/>
+  <xs:element name="OnDemandItemTO" type="ns1:OnDemandItemTO"/>
   <xs:element name="OrderEntryTO" type="ns1:OrderEntryTO"/>
   <xs:element name="OrderTO" type="ns1:OrderTO"/>
   <xs:element name="ProductAmountTO" type="ns1:ProductAmountTO"/>

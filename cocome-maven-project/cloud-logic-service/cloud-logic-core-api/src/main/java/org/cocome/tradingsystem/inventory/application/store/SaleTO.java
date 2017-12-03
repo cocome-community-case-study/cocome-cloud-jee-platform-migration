@@ -1,4 +1,5 @@
-/***************************************************************************
+/*
+ *************************************************************************
  * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,84 +13,75 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- ***************************************************************************/
+ *************************************************************************
+ */
 
 package org.cocome.tradingsystem.inventory.application.store;
 
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-
 /**
  * A transfer object class for exchanging sale information between client and
  * the service-oriented application layer. It has no persistent counterpart.
- * 
+ *
  * @author Sebastian Herold
  * @author Lubomir Bulej
  */
-@XmlType(name="SaleTO", namespace="http://store.application.inventory.tradingsystem.cocome.org/")
-@XmlRootElement(name="SaleTO")
+@XmlType(name = "SaleTO", namespace = "http://store.application.inventory.tradingsystem.cocome.org/")
+@XmlRootElement(name = "SaleTO")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SaleTO implements Serializable {
 
-	private static final long serialVersionUID = 5164217707863683479L;
+    private static final long serialVersionUID = 5164217707863683479L;
 
-	//
-	@XmlElement(name="date", required=true)
-	private Date __date;
+    //
+    @XmlElement(name = "date", required = true)
+    private Date __date;
 
-	@XmlElementWrapper(name="productTOs", required=true)
-	@XmlElement(name="productTO", required=true)
-	private List<ProductWithStockItemTO> __productTOs;
+    @XmlElementWrapper(name = "productTOs", required = true)
+    @XmlElement(name = "productTO", required = true)
+    private List<ProductWithStockItemTO> __productTOs;
 
-	//
+    //
 
-	/**
-	 * Gets date of sale.
-	 * 
-	 * @return
-	 *         Date of sale.
-	 */
-	public Date getDate() {
-		return __date;
-	}
+    /**
+     * Gets date of sale.
+     *
+     * @return Date of sale.
+     */
+    public Date getDate() {
+        return __date;
+    }
 
-	/**
-	 * Sets date of sale.
-	 * 
-	 * @param date
-	 *            Date to be set.
-	 */
-	public void setDate(final Date date) {
-		__date = date;
-	}
+    /**
+     * Sets date of sale.
+     *
+     * @param date Date to be set.
+     */
+    public void setDate(final Date date) {
+        __date = date;
+    }
 
-	/**
-	 * Gets list of products and corresponding item in stock which the sale
-	 * consists of.
-	 * 
-	 * @return
-	 *         List of contained products.
-	 */
-	public List<ProductWithStockItemTO> getProductTOs() {
-		return __productTOs;
-	}
+    /**
+     * Gets list of products and corresponding item in stock which the sale
+     * consists of.
+     *
+     * @return List of contained products.
+     */
+    public List<ProductWithStockItemTO> getProductTOs() {
+        return __productTOs;
+    }
 
-	/**
-	 * Sets list of products for the sale.
-	 * 
-	 * @param productTOs
-	 *            List of products the sale should contain.
-	 */
-	public void setProductTOs(final List<ProductWithStockItemTO> productTOs) {
-		__productTOs = productTOs;
-	}
+    /**
+     * Sets list of products for the sale.
+     *
+     * @param productTOs List of products the sale should contain.
+     */
+    public void setProductTOs(final List<ProductWithStockItemTO> productTOs) {
+        __productTOs = productTOs;
+    }
 
 }

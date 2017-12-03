@@ -18,10 +18,7 @@ import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionU
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
-import org.cocome.tradingsystem.inventory.data.store.IOrderEntry;
-import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
-import org.cocome.tradingsystem.inventory.data.store.IStockItem;
-import org.cocome.tradingsystem.inventory.data.store.IStore;
+import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 import org.cocome.tradingsystem.util.java.DualElement;
@@ -91,6 +88,38 @@ class ServiceAdapterEntityConverter {
                 stockItem.getIncomingAmount() +
                 ServiceAdapterHeaders.SEPARATOR +
                 stockItem.getAmount() +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getSalesPrice();
+    }
+
+    /**
+     * Returns a string containing information about the given on demand item.
+     *
+     * @param stockItem the stock item to convert
+     * @return a String representation of the stock item
+     */
+    static String getCreateOnDemandItemContent(IOnDemandItem stockItem) {
+        return String.valueOf(stockItem.getStoreId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getProductBarcode() +
+                ServiceAdapterHeaders.SEPARATOR +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getSalesPrice();
+    }
+
+
+    /**
+     * Returns a string containing information about the given on demand item.
+     *
+     * @param stockItem the stock item to convert
+     * @return a String representation of the stock item
+     */
+    static String getUpdateOnDemandItemContent(IOnDemandItem stockItem) {
+        return String.valueOf(stockItem.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(stockItem.getStoreId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                stockItem.getProductBarcode() +
                 ServiceAdapterHeaders.SEPARATOR +
                 stockItem.getSalesPrice();
     }

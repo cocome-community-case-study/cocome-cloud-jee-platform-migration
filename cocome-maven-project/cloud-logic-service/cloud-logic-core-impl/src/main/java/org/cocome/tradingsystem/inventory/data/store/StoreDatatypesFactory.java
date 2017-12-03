@@ -1,3 +1,21 @@
+/*
+ ***************************************************************************
+ * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************
+ */
+
 package org.cocome.tradingsystem.inventory.data.store;
 
 import org.apache.log4j.Logger;
@@ -19,19 +37,22 @@ public class StoreDatatypesFactory implements IStoreDataFactory {
     private static final Logger LOG = Logger.getLogger(StoreDatatypesFactory.class);
 
     @Inject
-    Provider<OrderEntry> orderEntryProvider;
+    private Provider<OrderEntry> orderEntryProvider;
 
     @Inject
-    Provider<ProductOrder> productOrderProvider;
+    private Provider<ProductOrder> productOrderProvider;
 
     @Inject
-    Provider<StockItem> stockItemProvider;
+    private Provider<StockItem> stockItemProvider;
 
     @Inject
-    Provider<Store> storeProvider;
+    private Provider<OnDemandItem> onDemandItemProvider;
 
     @Inject
-    IEnterpriseDataFactory enterpriseDatatypes;
+    private Provider<Store> storeProvider;
+
+    @Inject
+    private IEnterpriseDataFactory enterpriseDatatypes;
 
     @Override
     public IOrderEntry getNewOrderEntry() {
@@ -46,6 +67,11 @@ public class StoreDatatypesFactory implements IStoreDataFactory {
     @Override
     public IStockItem getNewStockItem() {
         return stockItemProvider.get();
+    }
+
+    @Override
+    public IOnDemandItem getNewOnDemandItem() {
+        return onDemandItemProvider.get();
     }
 
     @Override

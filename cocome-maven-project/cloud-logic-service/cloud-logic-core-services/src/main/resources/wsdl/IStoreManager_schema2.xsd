@@ -5,14 +5,31 @@
   <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema3.xsd"/>
 
   <xs:complexType name="StockItemTO">
+    <xs:complexContent>
+      <xs:extension base="tns:ItemTO">
+        <xs:sequence>
+          <xs:element name="amount" type="xs:long"/>
+          <xs:element name="minStock" type="xs:long"/>
+          <xs:element name="maxStock" type="xs:long"/>
+          <xs:element name="incomingAmount" type="xs:long"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="ItemTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="salesPrice" type="xs:double"/>
-      <xs:element name="amount" type="xs:long"/>
-      <xs:element name="minStock" type="xs:long"/>
-      <xs:element name="maxStock" type="xs:long"/>
-      <xs:element name="incomingAmount" type="xs:long"/>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="OnDemandItemTO">
+    <xs:complexContent>
+      <xs:extension base="tns:ItemTO">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="ProductWithStockItemTO">

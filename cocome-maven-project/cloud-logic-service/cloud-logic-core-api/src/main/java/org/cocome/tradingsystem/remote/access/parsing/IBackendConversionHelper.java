@@ -1,6 +1,5 @@
 package org.cocome.tradingsystem.remote.access.parsing;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
@@ -17,9 +16,7 @@ import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionU
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
-import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
-import org.cocome.tradingsystem.inventory.data.store.IStockItem;
-import org.cocome.tradingsystem.inventory.data.store.IStore;
+import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 
@@ -81,4 +78,8 @@ public interface IBackendConversionHelper {
     Collection<IPlantOperationOrderEntry> getPlantOperationOrderEntry(String orderEntry);
 
     Collection<IPlantOperationParameterValue> getPlantOperationParameterValue(String parameterValue);
+
+    Collection<IItem> getItem(String itemId);
+
+    Collection<IOnDemandItem> getOnDemandItem(String onDemandItemId);
 }

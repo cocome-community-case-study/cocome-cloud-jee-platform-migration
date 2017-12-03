@@ -34,6 +34,7 @@ import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionU
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
+import org.cocome.tradingsystem.inventory.data.store.IOnDemandItem;
 import org.cocome.tradingsystem.inventory.data.store.IProductOrder;
 import org.cocome.tradingsystem.inventory.data.store.IStockItem;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -108,10 +109,35 @@ public class CloudPersistenceContext implements IPersistenceContext {
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void deleteEntity(IStockItem stockItem) throws UpdateException {
         deleteEntity("StockItem",
                 ServiceAdapterEntityConverter.getUpdateStockItemContent(stockItem),
                 ServiceAdapterHeaders.STOCKITEM_UPDATE_HEADER);
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void createEntity(IOnDemandItem onDemandItem) throws CreateException {
+        createEntity(onDemandItem, "OnDemandItem",
+                ServiceAdapterEntityConverter.getCreateOnDemandItemContent(onDemandItem),
+                ServiceAdapterHeaders.ONDEMANDITEM_CREATE_HEADER);
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void updateEntity(IOnDemandItem onDemandItem) throws UpdateException {
+        updateEntity("OnDemandItem",
+                ServiceAdapterEntityConverter.getUpdateOnDemandItemContent(onDemandItem),
+                ServiceAdapterHeaders.ONDEMANDITEM_UPDATE_HEADER);
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void deleteEntity(IOnDemandItem onDemandItem) throws UpdateException {
+        deleteEntity("OnDemandItem",
+                ServiceAdapterEntityConverter.getUpdateOnDemandItemContent(onDemandItem),
+                ServiceAdapterHeaders.ONDEMANDITEM_UPDATE_HEADER);
     }
 
     @Override

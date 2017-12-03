@@ -422,20 +422,22 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Override
     public Collection<IStockItem> getStockItems(String input) {
-        return rowToCollection(input, row -> {
-            final IStockItem result = storeFactory.getNewStockItem();
+        return rowToCollection(input, row -> processStockItemRow(row, 0));
+    }
 
-            result.setId(fetchLong(row.getColumns().get(0)));
-            result.setStoreId(fetchLong(row.getColumns().get(1)));
-            result.setProductBarcode(fetchLong(row.getColumns().get(2)));
-            result.setMinStock(fetchLong(row.getColumns().get(3)));
-            result.setMaxStock(fetchLong(row.getColumns().get(4)));
-            result.setIncomingAmount(fetchLong(row.getColumns().get(5)));
-            result.setAmount(fetchLong(row.getColumns().get(6)));
-            result.setSalesPrice(fetchDouble(row.getColumns().get(7)));
+    private IStockItem processStockItemRow(Row<String> row, int offset) {
+        final IStockItem result = storeFactory.getNewStockItem();
 
-            return result;
-        });
+        result.setId(fetchLong(row.getColumns().get(offset)));
+        result.setStoreId(fetchLong(row.getColumns().get(1 + offset)));
+        result.setProductBarcode(fetchLong(row.getColumns().get(2 + offset)));
+        result.setMinStock(fetchLong(row.getColumns().get(3 + offset)));
+        result.setMaxStock(fetchLong(row.getColumns().get(4 + offset)));
+        result.setIncomingAmount(fetchLong(row.getColumns().get(5 + offset)));
+        result.setAmount(fetchLong(row.getColumns().get(6 + offset)));
+        result.setSalesPrice(fetchDouble(row.getColumns().get(7 + offset)));
+
+        return result;
     }
 
     @Override
@@ -713,6 +715,36 @@ public class CSVHelper implements IBackendConversionHelper {
 
             return result;
         });
+    }
+
+    @Override
+    public Collection<IItem> getItem(String itemId) {
+        return rowToCollection(itemId, row -> {
+            final String typeName = row.getColumns().get(0).getValue();
+            final int offset = Integer.parseInt(row.getColumns().get(1).getValue());
+            if (typeName.contains("StockItem")) {
+                return processStockItemRow(row, offset);
+            } else if (typeName.contains("OnDemandItem")) {
+                return processOnDemandItemRow(row, offset);
+            }
+            throw new IllegalArgumentException("Unsupported type: " + typeName);
+        });
+    }
+
+    @Override
+    public Collection<IOnDemandItem> getOnDemandItem(String onDemandItemId) {
+        return rowToCollection(onDemandItemId, row -> processOnDemandItemRow(row, 0));
+    }
+
+    private IOnDemandItem processOnDemandItemRow(Row<String> row, int offset) {
+        final IOnDemandItem result = storeFactory.getNewOnDemandItem();
+
+        result.setId(fetchLong(row.getColumns().get(offset)));
+        result.setStoreId(fetchLong(row.getColumns().get(1 + offset)));
+        result.setProductBarcode(fetchLong(row.getColumns().get(2 + offset)));
+        result.setSalesPrice(fetchDouble(row.getColumns().get(3 + offset)));
+
+        return result;
     }
 
     @Override

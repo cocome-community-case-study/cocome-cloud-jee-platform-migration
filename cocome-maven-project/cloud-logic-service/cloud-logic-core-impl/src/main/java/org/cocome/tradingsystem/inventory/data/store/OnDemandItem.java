@@ -18,15 +18,14 @@
 
 package org.cocome.tradingsystem.inventory.data.store;
 
-import java.io.Serializable;
+import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-
-import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import java.io.Serializable;
 
 /**
  * Represents a concrete product in the, store including sales price,
@@ -37,21 +36,13 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  */
 
 @Dependent
-public class StockItem implements Serializable, IStockItem {
+public class OnDemandItem implements Serializable, IOnDemandItem {
 
 	private static final long serialVersionUID = -293179135307588628L;
 	private long id;
 
 	private double salesPrice;
 
-	private long amount;
-
-	private long minStock;
-
-	private long maxStock;
-
-	private long incomingAmount;
-	
 	private long storeId;
 	
 	private long productBarcode;
@@ -81,36 +72,6 @@ public class StockItem implements Serializable, IStockItem {
 	}
 
 	@Override
-	public long getAmount() {
-		return amount;
-	}
-
-	@Override
-	public void setAmount(final long amount) {
-		this.amount = amount;
-	}
-
-	@Override
-	public long getMaxStock() {
-		return maxStock;
-	}
-
-	@Override
-	public void setMaxStock(final long maxStock) {
-		this.maxStock = maxStock;
-	}
-
-	@Override
-	public long getMinStock() {
-		return minStock;
-	}
-
-	@Override
-	public void setMinStock(final long minStock) {
-		this.minStock = minStock;
-	}
-
-	@Override
 	public IProduct getProduct() {
 		if (product == null) {
 			product = storeQuery.queryProductByBarcode(productBarcode);
@@ -131,16 +92,6 @@ public class StockItem implements Serializable, IStockItem {
 	@Override
 	public void setSalesPrice(final double salesPrice) {
 		this.salesPrice = salesPrice;
-	}
-
-	@Override
-	public long getIncomingAmount() {
-		return this.incomingAmount;
-	}
-
-	@Override
-	public void setIncomingAmount(final long incomingAmount) {
-		this.incomingAmount = incomingAmount;
 	}
 
 	@Override

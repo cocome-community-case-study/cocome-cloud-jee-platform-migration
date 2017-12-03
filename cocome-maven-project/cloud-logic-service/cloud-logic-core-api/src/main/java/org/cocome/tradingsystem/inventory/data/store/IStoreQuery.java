@@ -62,6 +62,15 @@ public interface IStoreQuery {
     IStore queryStoreById(long storeId) throws NotInDatabaseException;
 
     /**
+     * Returns a {@link IItem} entity corresponding to the given unique identifier.
+     *
+     * @param itemId unique identifier of a {@link IItem} entity
+     * @return {@link IItem} entity
+     * @throws NotInDatabaseException if a item with the given id could not be found
+     */
+    IItem queryItemById(long itemId) throws NotInDatabaseException;
+
+    /**
      * Returns a {@link IStockItem} entity corresponding to the given unique identifier.
      *
      * @param stockItemId unique identifier of a {@link IStockItem} entity
@@ -69,6 +78,15 @@ public interface IStoreQuery {
      * @throws NotInDatabaseException if a stock item with the given id could not be found
      */
     IStockItem queryStockItemById(long stockItemId) throws NotInDatabaseException;
+
+    /**
+     * Returns a {@link IOnDemandItem} entity corresponding to the given unique identifier.
+     *
+     * @param onDemandItemId unique identifier of a {@link IStockItem} entity
+     * @return {@link IOnDemandItem} entity
+     * @throws NotInDatabaseException if an item with the given id could not be found
+     */
+    IOnDemandItem queryOnDemandItemById(long onDemandItemId) throws NotInDatabaseException;
 
     /**
      * Returns a {@link IProduct} entity corresponding to the given unique identifier.
