@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
@@ -27,6 +28,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  * @author Rudolf Biczok
  */
 public interface IPlantOperationOrder extends IRecipeOperationOrder<
+        IPlantOperationParameter,
         IPlantOperationParameterValue,
         IPlantOperationOrderEntry> {
     /**

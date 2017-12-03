@@ -18,7 +18,10 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import org.cocome.cloud.logic.webservice.StreamUtil;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameter;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameterValue;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -30,6 +33,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The class represents an order of a {@link IRecipe} in the database.

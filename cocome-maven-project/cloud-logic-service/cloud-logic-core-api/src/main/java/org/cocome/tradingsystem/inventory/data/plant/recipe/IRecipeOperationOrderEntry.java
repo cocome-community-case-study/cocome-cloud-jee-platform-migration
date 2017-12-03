@@ -19,17 +19,22 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameterValue;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.Collection;
 
 /**
  * Represents a single {@link IProductionOrder} entry in the database.
  *
- * @param <T> the parameter value type
+ * @param <T1> the parameter type
+ * @param <T2> the parameter value type
  * @author Rudolf Biczok
  */
-public interface IRecipeOperationOrderEntry<T extends IParameterValue> extends IIdentifiable {
+public interface IRecipeOperationOrderEntry<
+        T1 extends IParameter,
+        T2 extends IParameterValue> extends IIdentifiable {
 
     /**
      * @return The amount of ordered products
@@ -42,12 +47,17 @@ public interface IRecipeOperationOrderEntry<T extends IParameterValue> extends I
     void setAmount(final long amount);
 
     /**
+     * @return the parameter of this operation
+     */
+    Collection<T1> getParameters() throws NotInDatabaseException;
+
+    /**
      * @return the parameter values
      */
-    Collection<T> getParameterValues();
+    Collection<T2> getParameterValues();
 
     /**
      * @param parameterValues the parameter values
      */
-    void setParameterValues(Collection<T> parameterValues);
+    void setParameterValues(Collection<T2> parameterValues);
 }

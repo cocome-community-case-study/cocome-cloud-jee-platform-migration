@@ -18,12 +18,16 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+
 /**
  * Represents a single {@link IPlantOperationOrder} entry in the database.
  *
  * @author Rudolf Biczok
  */
-public interface IPlantOperationOrderEntry extends IRecipeOperationOrderEntry<IPlantOperationParameterValue> {
+public interface IPlantOperationOrderEntry extends IRecipeOperationOrderEntry<
+        IPlantOperationParameter,
+        IPlantOperationParameterValue> {
 
     /**
      * @return the target plant operation

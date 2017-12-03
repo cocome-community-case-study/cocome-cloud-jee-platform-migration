@@ -18,6 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 
 /**
@@ -25,7 +26,7 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProdu
  *
  * @author Rudolf Biczok
  */
-public interface IProductionOrderEntry extends IRecipeOperationOrderEntry<ICustomProductParameterValue> {
+public interface IProductionOrderEntry extends IRecipeOperationOrderEntry<ICustomProductParameter, ICustomProductParameterValue> {
 
     /**
      * @return the target recipe

@@ -18,7 +18,9 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.enterprise.context.Dependent;
 import java.io.Serializable;
@@ -57,6 +59,11 @@ public class ProductionOrderEntry implements Serializable, IProductionOrderEntry
     @Override
     public void setAmount(final long amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public Collection<ICustomProductParameter> getParameters() throws NotInDatabaseException {
+        return this.getRecipe().getCustomProduct().getParameters();
     }
 
     @Override

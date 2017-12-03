@@ -19,7 +19,6 @@
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
-import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 
 import javax.xml.bind.annotation.*;

@@ -2,7 +2,6 @@ package org.cocome.cloud.logic.webservice.plantservice;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
-import org.cocome.cloud.logic.webservice.StreamUtil;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.cloud.logic.webservice.ThrowingSupplier;
 import org.cocome.cloud.registry.service.Names;
@@ -14,14 +13,12 @@ import org.cocome.tradingsystem.inventory.application.plant.productionunit.Produ
 import org.cocome.tradingsystem.inventory.application.plant.pu.PUManager;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameterValue;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
@@ -37,15 +34,11 @@ import javax.ejb.CreateException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebService;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @WebService(
         serviceName = "IPlantManagerService",
@@ -279,7 +272,7 @@ public class PlantManager implements IPlantManager {
     public long orderOperation(final PlantOperationOrderTO plantOperationOrderTO)
             throws NotInDatabaseException, CreateException, UpdateException {
         final IPlantOperationOrder order = plantFactory.convertToPlantOperationOrder(plantOperationOrderTO);
-        checkOrder(order);
+        order.check();
         order.setOrderingDate(new Date());
         persistOrder(order);
         puManager.submitOrder(order);
@@ -294,43 +287,5 @@ public class PlantManager implements IPlantManager {
                 persistenceContext.createEntity(values, entry);
             }
         }
-    }
-
-    private String exceptionToString(Throwable ex) {
-        /*
-         * TODO Potential security issue to report entire stack trace in productive environment however,
-         * it is beneficial during development
-         */
-        final StringWriter sw = new StringWriter();
-        ex.printStackTrace(new PrintWriter(sw));
-        return sw.toString();
-    }
-
-    private void checkOrder(final IPlantOperationOrder plantOperationOrderTO) throws NotInDatabaseException {
-        for (final IPlantOperationOrderEntry entry : plantOperationOrderTO.getOrderEntries()) {
-            final Map<Long, String> parameterValues = extractParameterValueMap(entry.getParameterValues());
-            final Collection<IPlantOperationParameter> parameterList = entry.getPlantOperation().getParameters();
-            for (final IPlantOperationParameter param : parameterList) {
-                if (!parameterValues.containsKey(param.getId())) {
-                    throw new IllegalArgumentException("Missing value for parameter:"
-                            + param.toString());
-                }
-            }
-            for (final IPlantOperationParameterValue parameterValue : entry.getParameterValues()) {
-                if (!parameterValue.isValid()) {
-                    throw new IllegalArgumentException(String.format(
-                            "Invalid parameter value [%d:%s]=%s",
-                            parameterValue.getParameter().getId(),
-                            parameterValue.getParameter().getName(),
-                            parameterValue.getValue()));
-                }
-            }
-        }
-    }
-
-    private Map<Long, String> extractParameterValueMap(final Collection<? extends IParameterValue> parameterValues) {
-        return StreamUtil.ofNullable(parameterValues).collect(Collectors.toMap(
-                IParameterValue::getParameterId,
-                IParameterValue::getValue));
     }
 }
