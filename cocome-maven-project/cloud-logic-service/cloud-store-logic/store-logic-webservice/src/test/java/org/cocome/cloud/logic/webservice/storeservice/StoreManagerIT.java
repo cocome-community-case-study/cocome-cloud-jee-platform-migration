@@ -93,8 +93,6 @@ public class StoreManagerIT {
         final SaleTO sale = new SaleTO();
         sale.setEntries(Collections.singletonList(new SaleEntryTO(item)));
 
-        System.out.println(item.getItem().getId());
-
         sm.accountSale(enterpriseInfo.getStores().get(0).getId(), sale);
     }
 }

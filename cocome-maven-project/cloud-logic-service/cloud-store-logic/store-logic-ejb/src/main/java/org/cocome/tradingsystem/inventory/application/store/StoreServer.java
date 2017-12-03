@@ -353,6 +353,7 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
         final StoreWithEnterpriseTO store = this.getStore(storeID);
 
         final ProductionOrderTO productionOrder = new ProductionOrderTO();
+        productionOrder.setOrderEntries(new LinkedHashSet<>());
         productionOrder.setStore(store);
 
         for (final SaleEntryTO entry : saleTO.getEntries()) {

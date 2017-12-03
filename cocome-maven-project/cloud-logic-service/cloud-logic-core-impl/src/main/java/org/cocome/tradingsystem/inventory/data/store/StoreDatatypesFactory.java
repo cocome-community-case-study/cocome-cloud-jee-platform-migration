@@ -132,9 +132,9 @@ public class StoreDatatypesFactory implements IStoreDataFactory {
 
     @Override
     public IItem convertToItem(ItemTO itemTO) {
-        if (itemTO instanceof IStockItem) {
+        if (itemTO instanceof StockItemTO) {
             return this.convertToStockItem((StockItemTO) itemTO);
-        } else if (itemTO instanceof IOnDemandItem) {
+        } else if (itemTO instanceof OnDemandItemTO) {
             return this.convertToOnDemandItem((OnDemandItemTO) itemTO);
         } else {
             throw new UnsupportedOperationException("Unknown item type: " + itemTO.getClass().getName());
