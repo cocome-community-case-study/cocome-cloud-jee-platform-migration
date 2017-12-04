@@ -16,16 +16,16 @@
 
 package org.cocome.tradingsystem.inventory.application.store;
 
-import javax.ejb.Local;
-import javax.enterprise.event.Observes;
-
 import org.cocome.tradingsystem.cashdeskline.events.AccountSaleEvent;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import javax.ejb.Local;
+import javax.enterprise.event.Observes;
+
 /**
  * Defines events handled asynchronously by the store inventory application.
- * 
+ *
  * @author Lubomir Bulej
  * @author Tobias Pöppke
  * @author Robert Heinrich
@@ -33,16 +33,15 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 @Local
 public interface IStoreEventConsumerLocal {
 
-	/**
-	 * Registers the sale described in the event in the inventory system.
-	 * 
-	 * @param event
-	 *            event describing the sale made at a cash desk
-	 * @throws ProductOutOfStockException 
-	 * @throws NotInDatabaseException 
-	 * @throws UpdateException 
-	 */
-	public void onEvent(@Observes final AccountSaleEvent event) 
-			throws ProductOutOfStockException, NotInDatabaseException, UpdateException;
+    /**
+     * Registers the sale described in the event in the inventory system.
+     *
+     * @param event event describing the sale made at a cash desk
+     * @throws ProductOutOfStockException
+     * @throws NotInDatabaseException
+     * @throws UpdateException
+     */
+    void onEvent(@Observes final AccountSaleEvent event)
+            throws ProductOutOfStockException, NotInDatabaseException, UpdateException;
 
 }

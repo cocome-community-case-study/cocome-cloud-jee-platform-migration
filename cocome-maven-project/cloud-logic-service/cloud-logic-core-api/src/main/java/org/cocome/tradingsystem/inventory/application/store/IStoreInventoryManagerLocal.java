@@ -20,6 +20,7 @@ package org.cocome.tradingsystem.inventory.application.store;
 
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.util.exception.RecipeException;
 
 import javax.ejb.CreateException;
 import javax.ejb.Local;

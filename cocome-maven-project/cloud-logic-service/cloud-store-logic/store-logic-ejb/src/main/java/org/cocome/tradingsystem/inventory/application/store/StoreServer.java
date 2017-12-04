@@ -30,8 +30,10 @@ import org.cocome.tradingsystem.inventory.data.enterprise.*;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
 import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.util.exception.RecipeException;
 import org.cocome.tradingsystem.util.java.Lists;
 import org.cocome.tradingsystem.util.java.Maps;
 import org.cocome.tradingsystem.util.qualifier.StoreRequired;
@@ -337,13 +339,7 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
     @Override
     public long accountSale(long storeID, final SaleTO sale)
             throws ProductOutOfStockException, NotInDatabaseException, UpdateException {
-        try {
-            return __bookSale(storeID, sale);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-
+        return __bookSale(storeID, sale);
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -371,11 +367,11 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
                 si.setAmount(si.getAmount() - 1);
                 pctx.updateEntity(si);
             } else if (entry.getItemInfo().getItem() instanceof OnDemandItemTO) {
-                final RecipeTO recipe = plantFactory.fillRecipeTO(
-                        enterpriseQuery.queryRecipeByCustomProductID(entry.getItemInfo().getProduct().getId()));
+                final IRecipe recipe = enterpriseQuery.queryRecipeByCustomProductID(entry.getItemInfo().getProduct().getId());
+                final RecipeTO recipeTO = plantFactory.fillRecipeTO(recipe);
                 final ProductionOrderEntryTO productionOrderEntry = new ProductionOrderEntryTO();
                 productionOrderEntry.setAmount(1);
-                productionOrderEntry.setRecipe(recipe);
+                productionOrderEntry.setRecipe(recipeTO);
                 productionOrderEntry.setParameterValues(entry.getParameterValues());
                 productionOrder.getOrderEntries().add(productionOrderEntry);
             } else {

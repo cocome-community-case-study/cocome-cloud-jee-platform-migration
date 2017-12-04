@@ -23,6 +23,8 @@ import javax.enterprise.event.Observes;
 import org.cocome.tradingsystem.cashdeskline.events.AccountSaleEvent;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.util.exception.RecipeException;
+
 /**
  * Store server event dao. Handles events supported by the store inventory
  * application.

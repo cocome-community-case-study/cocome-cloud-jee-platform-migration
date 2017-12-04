@@ -872,8 +872,8 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public RecipeTO queryRecipeByCustomProductId(long customProductId) throws NotInDatabaseException {
-        return plantFactory.fillRecipeTO(
-                enterpriseQuery.queryRecipeByCustomProductID(customProductId));
+        final IRecipe r = enterpriseQuery.queryRecipeByCustomProductID(customProductId);
+        return plantFactory.fillRecipeTO(r);
     }
 
     @Override

@@ -19,9 +19,9 @@ public final class ServiceAdapterHeaders {
                     + "StockItemAmount;StockItemSalesPrice";
 
     static final String ONDEMANDITEM_CREATE_HEADER =
-            "StoreId;ProductBarcode;StockItemSalesPrice";
+            "StoreId;ProductBarcode;OnDemandItemSalesPrice";
     static final String ONDEMANDITEM_UPDATE_HEADER =
-            "OnDemandItemId;StoreId;ProductBarcode;StockItemSalesPrice";
+            "OnDemandItemId;StoreId;ProductBarcode;OnDemandItemSalesPrice";
 
     static final String ENTERPRISE_CREATE_HEADER = "EnterpriseName";
     static final String ENTERPRISE_UPDATE_HEADER = "EnterpriseId;EnterpriseName";

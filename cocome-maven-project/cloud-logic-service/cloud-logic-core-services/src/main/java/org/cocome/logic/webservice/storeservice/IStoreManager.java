@@ -21,6 +21,7 @@ package org.cocome.logic.webservice.storeservice;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.util.exception.RecipeException;
 
 import javax.ejb.CreateException;
 import javax.jws.WebMethod;
@@ -36,7 +37,7 @@ public interface IStoreManager {
     long accountSale(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
             @XmlElement(required = true) @WebParam(name = "sale") SaleTO sale)
-            throws ProductOutOfStockException, NotInDatabaseException, UpdateException;
+            throws ProductOutOfStockException, NotInDatabaseException, UpdateException, RecipeException;
 
     @WebMethod
     StoreWithEnterpriseTO getStore(

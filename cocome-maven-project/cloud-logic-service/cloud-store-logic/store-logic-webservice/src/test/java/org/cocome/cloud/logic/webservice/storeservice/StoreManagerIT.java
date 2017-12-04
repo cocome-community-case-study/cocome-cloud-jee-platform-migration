@@ -22,11 +22,15 @@ import org.cocome.cloud.logic.stub.*;
 import org.cocome.test.EnterpriseInfo;
 import org.cocome.test.TestConfig;
 import org.cocome.test.WSTestUtils;
+import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
+import org.cocome.tradingsystem.inventory.application.store.OnDemandItemTO;
 import org.cocome.tradingsystem.inventory.application.store.SaleEntryTO;
+import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 
@@ -47,7 +51,7 @@ public class StoreManagerIT {
             NotInDatabaseException_Exception,
             RecipeException_Exception,
             UpdateException_Exception {
-        //enterpriseInfo = WSTestUtils.createEnvironmentWithSimpleRecipe(em, pm);
+        enterpriseInfo = WSTestUtils.createEnvironmentWithSimpleRecipe(em, pm);
     }
 
     @Test
@@ -81,17 +85,21 @@ public class StoreManagerIT {
     @Test
     public void testAccountSaleWithCustomProductAsStockItem() throws Exception {
         final ProductWithItemTO item = new ProductWithItemTO();
-        final StockItemTO stockItem = new StockItemTO();
-        stockItem.setAmount(10);
-        stockItem.setMinStock(5);
-        stockItem.setMaxStock(20);
-        stockItem.setSalesPrice(12);
-        item.setItem(stockItem);
+        final OnDemandItemTO onDemandItem = new OnDemandItemTO();
+        onDemandItem.setSalesPrice(12);
+        item.setItem(onDemandItem);
         item.setProduct(enterpriseInfo.getCustomProducts().get(0).getCustomProduct());
         item.getItem().setId(sm.createItem(enterpriseInfo.getStores().get(0).getId(), item));
 
         final SaleTO sale = new SaleTO();
-        sale.setEntries(Collections.singletonList(new SaleEntryTO(item)));
+        sale.setEntries(Collections.singletonList(new SaleEntryTO(item,
+                Arrays.asList(
+                        new CustomProductParameterValueTO(
+                                enterpriseInfo.getCustomProducts().get(0).getParameters().get(0),
+                                IBooleanParameter.FALSE_VALUE),
+                        new CustomProductParameterValueTO(
+                                enterpriseInfo.getCustomProducts().get(0).getParameters().get(1),
+                                "Glass")))));
 
         sm.accountSale(enterpriseInfo.getStores().get(0).getId(), sale);
     }

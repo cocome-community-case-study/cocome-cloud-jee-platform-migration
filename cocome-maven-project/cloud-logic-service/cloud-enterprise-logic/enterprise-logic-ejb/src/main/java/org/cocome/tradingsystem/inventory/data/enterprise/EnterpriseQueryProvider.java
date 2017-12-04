@@ -331,8 +331,10 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     @Override
     public IProduct queryProductByID(long productID) throws NotInDatabaseException {
         try {
-            return csvHelper.getProducts(backendConnection.getProducts("id==" + productID)).iterator()
+            IProduct p = csvHelper.getProducts(backendConnection.getProducts("id==" + productID)).iterator()
                     .next();
+            p.setId(productID);
+            return p;
         } catch (NoSuchElementException e) {
             throw new NotInDatabaseException("No matching product found in database!");
         }

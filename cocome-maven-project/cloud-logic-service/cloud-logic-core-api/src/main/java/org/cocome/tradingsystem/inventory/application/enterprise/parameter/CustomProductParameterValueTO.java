@@ -23,6 +23,14 @@ public class CustomProductParameterValueTO implements IParameterValueTO<CustomPr
     @XmlElementRef(name = "parameter")
     private CustomProductParameterTO parameter;
 
+    public CustomProductParameterValueTO() {
+    }
+
+    public CustomProductParameterValueTO(CustomProductParameterTO parameter, String value) {
+        this.value = value;
+        this.parameter = parameter;
+    }
+
     @Override
     public long getId() {
         return id;

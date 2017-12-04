@@ -103,7 +103,6 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 stockItem.getProductBarcode() +
                 ServiceAdapterHeaders.SEPARATOR +
-                ServiceAdapterHeaders.SEPARATOR +
                 stockItem.getSalesPrice();
     }
 

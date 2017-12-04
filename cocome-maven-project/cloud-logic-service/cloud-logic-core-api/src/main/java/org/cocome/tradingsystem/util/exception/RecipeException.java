@@ -14,4 +14,8 @@ public class RecipeException extends BaseException {
     public RecipeException(String string) {
         super(string);
     }
+
+    public RecipeException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

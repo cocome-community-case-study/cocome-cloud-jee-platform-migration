@@ -50,6 +50,13 @@ public class SaleEntryTO implements Serializable {
         this.item = item;
     }
 
+    public SaleEntryTO(ProductWithItemTO item,
+                       Collection<CustomProductParameterValueTO> parameterValues) {
+        this.item = item;
+        this.parameterValues = parameterValues;
+    }
+
+
     /**
      * @return the plant operation to process
      */
