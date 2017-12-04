@@ -21,7 +21,7 @@ public class DummyUser implements IUser {
 	public DummyUser(String username, ICredential credentials) {
 		this.username = username;
 		this.credentials = credentials;
-		this.permissions = new HashMap<String, IPermission>();
+		this.permissions = new HashMap<>();
 	}
 	
 	@Override

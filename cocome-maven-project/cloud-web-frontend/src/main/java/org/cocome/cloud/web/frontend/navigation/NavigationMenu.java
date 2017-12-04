@@ -61,7 +61,9 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
     private List<INavigationElement> populatePlantView() {
         List<INavigationElement> plantViewList = new LinkedList<>();
-        plantViewList.add(new NavigationElement(NavigationElements.PLANT_MAIN, labelResolver));
+        plantViewList.add(new NavigationElement(NavigationElements.PLANT_OPERATION, labelResolver));
+        plantViewList.add(new NavigationElement(NavigationElements.PLANT_PU, labelResolver));
+        plantViewList.add(new NavigationElement(NavigationElements.PLANT_PUC, labelResolver));
         return plantViewList;
     }
 
@@ -88,9 +90,6 @@ public class NavigationMenu implements INavigationMenu, Serializable {
         return new LinkedList<>();
     }
 
-    /* (non-Javadoc)
-     * @see org.cocome.cloud.shop.navigation.INavigationMenu#getElements()
-     */
     @Override
     public List<INavigationElement> getElements() {
         if (elements == null || elements.isEmpty()) {
@@ -125,6 +124,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
                 return NavigationElements.START_SALE.getNavigationOutcome();
             case STORE_VIEW:
                 return NavigationElements.STORE_MAIN.getNavigationOutcome();
+            case PLANT_VIEW:
+                return NavigationElements.PLANT_MAIN.getNavigationOutcome();
             case ENTERPRISE_VIEW:
                 return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
             default:
