@@ -25,7 +25,7 @@ import java.util.LinkedList;
  */
 @Named
 @SessionScoped
-public class EnterpriseInformation implements Serializable, IEnterpriseInformation {
+public class EnterpriseInformation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private long activeEnterpriseID = Long.MIN_VALUE;
@@ -36,22 +36,20 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
     private static final Logger LOG = Logger.getLogger(EnterpriseInformation.class);
 
     @Inject
-    IEnterpriseDAO enterpriseDAO;
+    private IEnterpriseDAO enterpriseDAO;
 
     @Inject
-    IStoreDAO storeDAO;
+    private IStoreDAO storeDAO;
 
     @Inject
-    PlantDAO plantDAO;
+    private PlantDAO plantDAO;
 
     private boolean enterpriseSubmitted = false;
 
-    @Override
     public Collection<EnterpriseViewData> getEnterprises() throws NotInDatabaseException_Exception {
         return enterpriseDAO.getAllEnterprises();
     }
 
-    @Override
     public Collection<StoreViewData> getStores() throws NotInDatabaseException_Exception {
         if (activeEnterpriseID != Long.MIN_VALUE) {
             return storeDAO.getStoresInEnterprise(activeEnterpriseID);
@@ -60,7 +58,6 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
         return new LinkedList<>();
     }
 
-    @Override
     public Collection<PlantViewData> getPlants() throws NotInDatabaseException_Exception {
         if (activeEnterpriseID != Long.MIN_VALUE) {
             return plantDAO.getPlantsInEnterprise(activeEnterpriseID);
@@ -69,18 +66,15 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
         return new LinkedList<>();
     }
 
-    @Override
     public long getActiveEnterpriseID() {
         return activeEnterpriseID;
     }
 
-    @Override
-    public void setActiveEnterpriseID(long enterpriseID) {
+    public void setActiveEnterpriseID(@NotNull long enterpriseID) {
         LOG.debug("Active enterprise was set to " + enterpriseID);
         this.activeEnterpriseID = enterpriseID;
     }
 
-    @Override
     public EnterpriseViewData getActiveEnterprise() throws NotInDatabaseException_Exception {
         if (activeEnterprise == null && activeEnterpriseID != Long.MIN_VALUE) {
             activeEnterprise = enterpriseDAO.getEnterpriseByID(activeEnterpriseID);
@@ -88,7 +82,6 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
         return activeEnterprise;
     }
 
-    @Override
     public String submitActiveEnterprise() {
         if (isEnterpriseSet()) {
             enterpriseSubmitted = true;
@@ -99,33 +92,27 @@ public class EnterpriseInformation implements Serializable, IEnterpriseInformati
         }
     }
 
-    @Override
     public boolean isEnterpriseSubmitted() {
         return enterpriseSubmitted;
     }
 
-    @Override
     public boolean isEnterpriseSet() {
         return activeEnterpriseID != Long.MIN_VALUE;
     }
 
-    @Override
     public void setEnterpriseSubmitted(boolean submitted) {
         this.enterpriseSubmitted = submitted;
     }
 
-    @Override
     public void setActiveEnterprise(@NotNull EnterpriseViewData enterprise) {
         activeEnterpriseID = enterprise.getId();
         this.activeEnterprise = enterprise;
     }
 
-    @Override
     public void setNewEnterpriseName(String name) {
         newEnterpriseName = name;
     }
 
-    @Override
     public String getNewEnterpriseName() {
         return newEnterpriseName;
     }

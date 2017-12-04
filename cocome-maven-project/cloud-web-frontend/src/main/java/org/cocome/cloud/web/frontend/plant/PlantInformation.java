@@ -27,25 +27,26 @@ import java.io.Serializable;
  */
 @Named
 @SessionScoped
-public class PlantInformation implements IPlantInformation, Serializable {
+public class PlantInformation implements Serializable {
+    public static final long PLANT_ID_NOT_SET = Long.MIN_VALUE;
+
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOG = Logger.getLogger(PlantInformation.class);
 
-    private long activePlantID = IPlantInformation.PLANT_ID_NOT_SET;
+    private long activePlantID = PLANT_ID_NOT_SET;
     private PlantViewData activePlant;
     private boolean hasChanged = false;
 
     @Inject
-    PlantDAO plantDAO;
+    private PlantDAO plantDAO;
 
     @Inject
-    IEnterpriseDAO enterpriseDAO;
+    private IEnterpriseDAO enterpriseDAO;
 
     @Inject
-    Event<ChangeViewEvent> changeViewEvent;
+    private Event<ChangeViewEvent> changeViewEvent;
 
-    @Override
     public PlantViewData getActivePlant() {
         if ((activePlant == null || hasChanged) && activePlantID != PLANT_ID_NOT_SET) {
             LOG.debug("Active plant is being retrieved from the database");
@@ -64,7 +65,6 @@ public class PlantInformation implements IPlantInformation, Serializable {
         return activePlant;
     }
 
-    @Override
     public void setActivePlantID(long plantID) {
         LOG.debug("Active plant was set to id " + plantID);
         if (activePlantID != plantID) {
@@ -73,12 +73,10 @@ public class PlantInformation implements IPlantInformation, Serializable {
         }
     }
 
-    @Override
     public long getActivePlantID() {
         return activePlantID;
     }
 
-    @Override
     public String submitPlant() {
         LOG.debug("Submit plant was called");
         if (isPlantSet()) {
@@ -89,16 +87,14 @@ public class PlantInformation implements IPlantInformation, Serializable {
         }
     }
 
-    @Override
     public boolean isPlantSet() {
-        return activePlantID != IPlantInformation.PLANT_ID_NOT_SET;
+        return activePlantID != PlantInformation.PLANT_ID_NOT_SET;
     }
 
     public void observeLoginEvent(@Observes LoginEvent event) {
         setActivePlantID(event.getStoreID());
     }
 
-    @Override
     public String switchToPlant(@NotNull PlantViewData store, String destination) {
         setActivePlantID(store.getID());
         activePlant = store;

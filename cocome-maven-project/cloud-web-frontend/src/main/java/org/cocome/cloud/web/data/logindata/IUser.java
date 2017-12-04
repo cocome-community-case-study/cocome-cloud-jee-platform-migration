@@ -1,17 +1,19 @@
 package org.cocome.cloud.web.data.logindata;
 
-public interface IUser {
-	public String getUsername();
+import java.io.Serializable;
+
+public interface IUser extends Serializable {
+	String getUsername();
 	
-	public void setCredentials(ICredential credentials);
+	void setCredentials(ICredential credentials);
 	
-	public ICredential getCredentials();
+	ICredential getCredentials();
 	
-	public boolean checkCredentials(ICredential credentials);
+	boolean checkCredentials(ICredential credentials);
 	
-	public boolean hasPermissionString(String permission);
+	boolean hasPermissionString(String permission);
 	
-	public boolean hasPermission(IPermission permission);
+	boolean hasPermission(IPermission permission);
 	
-	public void addPermission(IPermission permission);
+	void addPermission(IPermission permission);
 }

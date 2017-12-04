@@ -1,49 +1,50 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
 
 
 <h:body>
 
-	<ui:composition template="/templates/commonTemplate.xhtml">
-		<f:metadata>
-			<f:viewParam name="enterprise_id"
-				value="#{enterpriseInformation.activeEnterprise}" required="true"
-				converter="#{enterpriseConverter}"
-				converterMessage="#{strings['enterprise.conversion.error.text']}"
-				requiredMessage="#{strings['enterprise.required.text']}" />
-		</f:metadata>
-		<ui:define name="body">
-			<h:form>
-				<table>
-					<tr>
-						<td><h:outputText
-								value="#{strings['plant.create.name.text']}" /></td>
-						<td colspan="2"><h:inputText value="#{name}" required="true"
-											validatorMessage="#{strings['plant.create.validation.name.failed']}">
-								<f:validateLength minimum="3" maximum="30"/>
-								<f:validateRegex pattern="[^;]*" />
-							</h:inputText>
-						</td>
-					</tr>
-					<tr>
-						<td><h:outputText value="#{strings['plant.create.location.text']}" /></td>
-						<td colspan="2"><h:inputText value="#{location}"
-								required="true" validatorMessage="#{strings['plant.create.validation.location.failed']}">
-								<f:validateLength minimum="3" maximum="30"/>
-								<f:validateRegex pattern="#{strings['input.string.regex']}" />
-							</h:inputText>		
-						</td>
-						<td><h:commandButton
-								action="#{plantPersistence.createPlant(enterpriseInformation.activeEnterpriseID, name, location)}"
-								value="#{strings['plant.create.button.label']}" /></td>
-					</tr>
-				</table>
-			</h:form>
-		</ui:define>
-	</ui:composition>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <f:metadata>
+            <f:viewParam name="enterprise_id"
+                         value="#{enterpriseInformation.activeEnterprise}" required="true"
+                         converter="#{enterpriseConverter}"
+                         converterMessage="#{strings['enterprise.conversion.error.text']}"
+                         requiredMessage="#{strings['enterprise.required.text']}"/>
+        </f:metadata>
+        <ui:define name="body">
+            <h:form>
+                <table>
+                    <tr>
+                        <td><h:outputText
+                                value="#{strings['plant.create.name.text']}"/></td>
+                        <td colspan="2"><h:inputText value="#{name}" required="true"
+                                                     validatorMessage="#{strings['plant.create.validation.name.failed']}">
+                            <f:validateLength minimum="3" maximum="30"/>
+                            <f:validateRegex pattern="[^;]*"/>
+                        </h:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h:outputText value="#{strings['plant.create.location.text']}"/></td>
+                        <td colspan="2"><h:inputText value="#{location}"
+                                                     required="true"
+                                                     validatorMessage="#{strings['plant.create.validation.location.failed']}">
+                            <f:validateLength minimum="3" maximum="30"/>
+                            <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                        </h:inputText>
+                        </td>
+                        <td><h:commandButton
+                                action="#{plantPersistence.createPlant(enterpriseInformation.activeEnterpriseID, name, location)}"
+                                value="#{strings['plant.create.button.label']}"/></td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
 </h:body>
 
 </html>

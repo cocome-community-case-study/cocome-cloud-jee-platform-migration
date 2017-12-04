@@ -29,16 +29,16 @@ public class Login implements Serializable {
 	private static final long serialVersionUID = 8680398263548700980L;
 
 	@Inject
-	IAuthenticator authenticator;
+	private IAuthenticator authenticator;
 	
 	@Inject
-	ICredentialFactory credFactory;
+	private ICredentialFactory credFactory;
 
 	@Inject
-	Event<LoginEvent> loginEvent;
+	private Event<LoginEvent> loginEvent;
 
 	@Inject
-	Event<LogoutEvent> logoutEvent;
+	private Event<LogoutEvent> logoutEvent;
 
 	private String username = "";
 	private ICredential password;
@@ -133,10 +133,7 @@ public class Login implements Serializable {
 	}
 
 	public boolean isStoreRequired() {
-		if (requestedRole.associatedView() != NavigationViewStates.ENTERPRISE_VIEW) {
-			return true;
-		}
-		return false;
+		return requestedRole.associatedView() != NavigationViewStates.ENTERPRISE_VIEW;
 	}
 
 	@Produces

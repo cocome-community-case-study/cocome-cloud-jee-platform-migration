@@ -6,9 +6,7 @@
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
         <ui:define name="body">
-            <h:form>
-                <h:outputText value="Welcome to the CoCoME Web Frontend!"/>
-            </h:form>
+            Welcome to the #{storeInformation.activeStore.name} Store at #{storeInformation.activeStore.location}!
         </ui:define>
     </ui:composition>
 </h:body>

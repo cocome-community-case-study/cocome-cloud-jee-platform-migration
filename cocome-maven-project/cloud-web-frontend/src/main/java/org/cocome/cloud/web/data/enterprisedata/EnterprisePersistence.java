@@ -14,7 +14,7 @@ import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
 public class EnterprisePersistence implements IEnterprisePersistence {
 
 	@Inject
-	IEnterpriseQuery enterpriseQuery;
+	private IEnterpriseQuery enterpriseQuery;
 
 	@Override
 	public String createEnterprise(String name) throws NotInDatabaseException_Exception {

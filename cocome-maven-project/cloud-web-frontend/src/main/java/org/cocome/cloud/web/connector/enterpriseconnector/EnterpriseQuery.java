@@ -44,10 +44,10 @@ public class EnterpriseQuery implements IEnterpriseQuery {
     private IEnterpriseManager enterpriseManager;
 
     @Inject
-    long defaultEnterpriseIndex;
+    private long defaultEnterpriseIndex;
 
     @Inject
-    IApplicationHelper applicationHelper;
+    private IApplicationHelper applicationHelper;
 
     private IEnterpriseManager lookupEnterpriseManager(long enterpriseID) throws NotInDatabaseException_Exception {
         try {
