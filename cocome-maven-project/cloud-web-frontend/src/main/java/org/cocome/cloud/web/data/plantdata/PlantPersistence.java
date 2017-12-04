@@ -14,12 +14,11 @@ import javax.validation.constraints.NotNull;
 
 @Named
 @ApplicationScoped
-public class PlantPersistence implements IPlantPersistence {
+public class PlantPersistence {
 
     @Inject
-    IEnterpriseQuery enterpriseQuery;
+    private IEnterpriseQuery enterpriseQuery;
 
-    @Override
     public String updatePlant(@NotNull PlantViewData plant) throws NotInDatabaseException_Exception {
         plant.updatePlantInformation();
         if (enterpriseQuery.updatePlant(plant)) {
@@ -36,7 +35,6 @@ public class PlantPersistence implements IPlantPersistence {
         return "error";
     }
 
-    @Override
     public String createPlant(long enterpriseID,
                               @NotNull String name,
                               @NotNull String location) throws NotInDatabaseException_Exception {

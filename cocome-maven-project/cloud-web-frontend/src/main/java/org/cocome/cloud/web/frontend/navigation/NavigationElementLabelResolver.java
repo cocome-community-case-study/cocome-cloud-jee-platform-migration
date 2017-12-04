@@ -26,9 +26,6 @@ public class NavigationElementLabelResolver implements Serializable, ILabelResol
 	            "cocome.frontend.Strings", locale);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.web.frontend.navigation.ILabelResolver#getLabel(java.lang.String)
-	 */
 	@Override
 	public String getLabel(String navOutcome) {
 		String transformedOutcome = transformOutcomeToRef(navOutcome);

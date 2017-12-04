@@ -21,6 +21,8 @@
                                           itemLabel="#{strings['login.enterprise_manager.text']}"/>
                             <f:selectItem itemValue="#{'STORE_MANAGER'}"
                                           itemLabel="#{strings['login.store_manager.text']}"/>
+                            <f:selectItem itemValue="#{'PLANT_MANAGER'}"
+                                          itemLabel="#{strings['login.plant_manager.text']}"/>
                             <f:selectItem itemValue="#{'STOCK_MANAGER'}"
                                           itemLabel="#{strings['login.stock_manager.text']}"/>
                             <f:selectItem itemValue="#{'CASHIER'}" itemLabel="#{strings['login.cashier.text']}"/>
@@ -35,6 +37,10 @@
                     <p>
                         <h:outputText value="Store ID: "/>
                         <h:inputText value="#{login.requestedStoreId}" rendered="#{login.storeRequired}"/>
+                    </p>
+                    <p>
+                        <h:outputText value="Plant ID: "/>
+                        <h:inputText value="#{login.requestedPlantId}" rendered="#{login.plantRequired}"/>
                     </p>
                     <p>
                         <h:outputText value="User ID: "/>

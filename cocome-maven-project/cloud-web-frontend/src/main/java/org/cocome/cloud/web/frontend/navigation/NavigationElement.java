@@ -38,9 +38,6 @@ public class NavigationElement implements INavigationElement {
 		this(navElement.getNavigationOutcome(), displayText, requiredPermission, labelResolver);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.web.frontend.navigation.INavigationElement#getNavOutcome()
-	 */
 	@Override
 	public String getNavOutcome() {
 		return navOutcome;
@@ -54,9 +51,6 @@ public class NavigationElement implements INavigationElement {
 		this.navOutcome = navOutcome;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.web.frontend.navigation.INavigationElement#getDisplayText()
-	 */
 	@Override
 	public String getDisplayText() {
 		if ((displayText == null || displayText.equals("")) && resolver != null) {

@@ -18,7 +18,7 @@ public enum NavigationElements {
     private String navOutcome;
     private String permission;
 
-    private NavigationElements(String navOutcome, String permission) {
+    NavigationElements(String navOutcome, String permission) {
         this.navOutcome = navOutcome;
         this.permission = permission;
     }

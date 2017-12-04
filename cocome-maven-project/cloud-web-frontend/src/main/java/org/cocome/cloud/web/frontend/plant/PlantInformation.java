@@ -92,14 +92,14 @@ public class PlantInformation implements Serializable {
     }
 
     public void observeLoginEvent(@Observes LoginEvent event) {
-        setActivePlantID(event.getStoreID());
+        setActivePlantID(event.getPlantID());
     }
 
-    public String switchToPlant(@NotNull PlantViewData store, String destination) {
-        setActivePlantID(store.getID());
-        activePlant = store;
+    public String switchToPlant(@NotNull PlantViewData plant, String destination) {
+        setActivePlantID(plant.getID());
+        activePlant = plant;
         hasChanged = true;
-        changeViewEvent.fire(new ChangeViewEvent(NavigationViewStates.STORE_VIEW));
-        return destination != null ? destination : NavigationElements.STORE_MAIN.getNavigationOutcome();
+        changeViewEvent.fire(new ChangeViewEvent(NavigationViewStates.PLANT_VIEW));
+        return destination != null ? destination : NavigationElements.PLANT_MAIN.getNavigationOutcome();
     }
 }
