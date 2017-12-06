@@ -42,9 +42,6 @@ public class PlantInformation implements Serializable {
     private PlantDAO plantDAO;
 
     @Inject
-    private IEnterpriseDAO enterpriseDAO;
-
-    @Inject
     private Event<ChangeViewEvent> changeViewEvent;
 
     public PlantViewData getActivePlant() {

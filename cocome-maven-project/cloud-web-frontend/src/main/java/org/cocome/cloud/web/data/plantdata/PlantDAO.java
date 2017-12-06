@@ -14,7 +14,7 @@ import java.util.Collection;
 public class PlantDAO {
 
     @Inject
-    EnterpriseQuery enterpriseQuery;
+    private EnterpriseQuery enterpriseQuery;
 
     public Collection<PlantViewData> getPlantsInEnterprise(long enterpriseID) throws NotInDatabaseException_Exception {
         return enterpriseQuery.getPlants(enterpriseID);

@@ -32,16 +32,16 @@ public class StockOrderView implements Serializable {
 	private static final Logger LOG = Logger.getLogger(StockOrderView.class);
 
 	@Inject
-	StockOrderData orderData;
+	private StockOrderData orderData;
 
 	@Inject
-	StoreInformation storeInformation;
+	private StoreInformation storeInformation;
 	
 	@Inject
-	IStorePersistence storePersistence;
+	private IStorePersistence storePersistence;
 
 	@Inject
-	Conversation conversation;
+	private Conversation conversation;
 
 	public String selectOrderItem(ProductWrapper item) {
 		LOG.debug(String.format("Selecting item %s for ordering...", item.getName()));

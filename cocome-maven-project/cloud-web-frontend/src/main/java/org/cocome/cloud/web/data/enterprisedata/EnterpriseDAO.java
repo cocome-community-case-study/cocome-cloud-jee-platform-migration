@@ -16,7 +16,7 @@ import org.cocome.cloud.web.data.storedata.ProductWrapper;
 public class EnterpriseDAO implements IEnterpriseDAO {
 
 	@Inject
-	IEnterpriseQuery enterpriseQuery;
+	private IEnterpriseQuery enterpriseQuery;
 	
 	@Override
 	public Collection<EnterpriseViewData> getAllEnterprises() throws NotInDatabaseException_Exception {

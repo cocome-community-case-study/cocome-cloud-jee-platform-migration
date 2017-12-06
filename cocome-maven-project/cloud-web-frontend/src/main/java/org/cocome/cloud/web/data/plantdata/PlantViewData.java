@@ -1,52 +1,51 @@
 package org.cocome.cloud.web.data.plantdata;
 
+import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 
 /**
- * Holds informtaion about a Plant.
+ * Holds the information about a plant.
  *
  * @author Rudolf Biczok
  */
 public class PlantViewData {
-    private long id;
-    private EnterpriseTO enterprise;
-    private String name;
-    private String location;
-    private boolean editingEnabled = false;
+
+    private PlantTO plant = new PlantTO();
+    private boolean editingEnabled;
     private String newName;
     private String newLocation;
 
     public PlantViewData(long id, EnterpriseTO enterprise, String location, String name) {
-        this.id = id;
-        setEnterprise(enterprise);
-        this.name = name;
-        this.location = location;
+        this.plant.setId(id);
+        this.plant.setEnterpriseTO(enterprise);
+        this.plant.setName(name);
+        this.plant.setLocation(location);
         this.setNewLocation(location);
         this.setNewName(name);
     }
 
     public long getID() {
-        return id;
+        return this.plant.getId();
     }
 
     public void setID(long storeID) {
-        this.id = storeID;
+        this.plant.setId(storeID);
     }
 
     public String getName() {
-        return name;
+        return this.plant.getName();
     }
 
-    public void setName(String storeName) {
-        this.name = storeName;
+    public void setName(String name) {
+        this.plant.setName(name);
     }
 
     public String getLocation() {
-        return location;
+        return this.plant.getLocation();
     }
 
     public void setLocation(String storeLocation) {
-        this.location = storeLocation;
+        this.plant.setLocation(storeLocation);
     }
 
     public boolean isEditingEnabled() {
@@ -55,18 +54,18 @@ public class PlantViewData {
 
     public void setEditingEnabled(boolean editingEnabled) {
         if (!editingEnabled) {
-            newName = name;
-            newLocation = location;
+            newName = this.plant.getName();
+            newLocation = this.plant.getLocation();
         }
         this.editingEnabled = editingEnabled;
     }
 
     public EnterpriseTO getEnterprise() {
-        return enterprise;
+        return this.plant.getEnterpriseTO();
     }
 
     public void setEnterprise(EnterpriseTO enterprise) {
-        this.enterprise = enterprise;
+        this.plant.setEnterpriseTO(enterprise);
     }
 
     public String getNewName() {
@@ -85,8 +84,12 @@ public class PlantViewData {
         this.newLocation = newLocation;
     }
 
+    public PlantTO getPlantTO() {
+        return plant;
+    }
+
     void updatePlantInformation() {
-        name = newName;
-        location = newLocation;
+        this.plant.setName(newName);
+        this.plant.setLocation(newLocation);
     }
 }

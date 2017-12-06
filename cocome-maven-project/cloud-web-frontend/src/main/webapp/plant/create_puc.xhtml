@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+<h:body>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="body">
+            <h:form>
+                <table>
+                    <tr>
+                        <td>
+                            <h:outputText
+                                    value="#{strings['puc.create.name.text']}"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{name}"
+                                         required="true"
+                                         validatorMessage="#{strings['puc.create.validation.name.failed']}">
+                                <f:validateLength minimum="3" maximum="30"/>
+                                <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                            </h:inputText>
+                        </td>
+                        <td>
+                            <h:commandButton
+                                    action="#{plantPersistence.createPUC(name, plantInformation.activePlant)}"
+                                    value="#{strings['puc.create.button.label']}"/>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>
