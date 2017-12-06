@@ -53,7 +53,7 @@ public class PUDouble implements IPUInterface {
                     final OperationDoubleEntry operationEntry = new OperationDoubleEntry();
                     operationEntry.setName(entry.getName());
                     operationEntry.setOperationId(entry.getOperationId());
-                    operationEntry.setExecutionDurationInMillis(entry.getExecutionDurationInMillis() * timingFactor);
+                    operationEntry.setExecutionDurationInMillis(entry.setExecutionDurationInMillis() * timingFactor);
                     return operationEntry;
                 },
                 (e1, e2) -> {

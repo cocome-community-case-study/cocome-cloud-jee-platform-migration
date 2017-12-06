@@ -1,10 +1,12 @@
 package org.cocome.tradingsystem.inventory.application.plant.pu;
 
+import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryAction;
 import org.cocome.tradingsystem.inventory.application.plant.iface.HistoryEntry;
 import org.cocome.tradingsystem.inventory.application.plant.iface.IPUInterface;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 
+import javax.ws.rs.client.ResponseProcessingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -22,6 +24,8 @@ import java.util.function.Supplier;
  * @author Rudolf Biczok
  */
 public class PUWorker<T> implements AutoCloseable {
+
+    private static final Logger LOG = Logger.getLogger(PUWorker.class);
 
     private class Job implements Runnable {
 
@@ -45,7 +49,9 @@ public class PUWorker<T> implements AutoCloseable {
 
         @Override
         public void run() {
-            HistoryEntry startEntry = PUWorker.this.iface.startOperationsInBatch(
+            LOG.info("Sending command string: " +
+                    String.join(";", this.operations));
+            final HistoryEntry startEntry = PUWorker.this.iface.startOperationsInBatch(
                     String.join(";", this.operations));
             PUWorker.this.callback.onStart(PUWorker.this.unit, payload, startEntry);
             for (final String operationId : this.operations) {
@@ -128,7 +134,12 @@ public class PUWorker<T> implements AutoCloseable {
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>());
 
-        this.iface.switchToAutomaticMode();
+        try {
+            //TODO
+            this.iface.switchToAutomaticMode();
+        } catch (ResponseProcessingException e) {
+            LOG.info(e);
+        }
     }
 
     /**

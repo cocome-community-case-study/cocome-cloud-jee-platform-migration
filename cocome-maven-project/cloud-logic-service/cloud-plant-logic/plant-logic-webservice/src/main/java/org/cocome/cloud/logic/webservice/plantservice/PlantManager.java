@@ -160,7 +160,8 @@ public class PlantManager implements IPlantManager {
         for (final OperationEntry entry : iface.getOperations()) {
             final IProductionUnitOperation op = plantFactory.getNewProductionUnitOperation();
             op.setProductionUnitClass(puc);
-            op.setProductionUnitClassId(puc.getPlantId());
+            op.setExecutionDurationInMillis(2);
+            op.setProductionUnitClassId(puc.getId());
             op.setOperationId(entry.getOperationId());
             op.setName(entry.getName());
             this.persistenceContext.createEntity(op);

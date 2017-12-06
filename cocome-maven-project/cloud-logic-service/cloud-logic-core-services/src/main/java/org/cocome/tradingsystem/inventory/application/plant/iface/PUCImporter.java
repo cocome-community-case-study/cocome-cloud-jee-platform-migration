@@ -2,12 +2,16 @@ package org.cocome.tradingsystem.inventory.application.plant.iface;
 
 import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IPlantManager;
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.PUCOperationMeta;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -21,7 +25,25 @@ public class PUCImporter {
 
     private ProductionUnitClassTO puc;
 
-    private Map<PUCOperationMeta, ProductionUnitOperationTO> operators;
+    private Map<String, ProductionUnitOperationTO> operators;
+
+    public PUCImporter(final String pucName,
+                       final PlantTO plant,
+                       final IPlantManager pm) throws CreateException_Exception,
+            NotInDatabaseException_Exception {
+
+        final long pucId =
+                pm.importProductionUnitClass("Test", "http://129.187.88.30:4567", plant);
+
+        puc = pm.queryProductionUnitClassByID(pucId);
+
+        final List<ProductionUnitOperationTO> oprs = pm.queryProductionUnitOperationsByProductionUnitClassID(pucId);
+
+        operators = oprs.stream().collect(Collectors.toMap(
+                ProductionUnitOperationTO::getOperationId,
+                Function.identity()));
+    }
+
 
     public PUCImporter(final String pucName,
                        final PUCOperationMeta[] operations,
@@ -33,7 +55,7 @@ public class PUCImporter {
         puc.setPlant(plant);
         puc.setId(pm.createProductionUnitClass(puc));
 
-        operators = Arrays.stream(operations).collect(Collectors.toMap(Function.identity(),
+        operators = Arrays.stream(operations).collect(Collectors.toMap(PUCOperationMeta::getOperationId,
                 e -> {
                     final ProductionUnitOperationTO operation = new ProductionUnitOperationTO();
                     operation.setName(e.getName());
@@ -57,7 +79,7 @@ public class PUCImporter {
     }
 
     public ProductionUnitOperationTO getOperation(final PUCOperationMeta op) {
-        return this.operators.get(op);
+        return this.operators.get(op.getOperationId());
     }
 
 }

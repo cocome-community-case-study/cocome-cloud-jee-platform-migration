@@ -103,14 +103,14 @@ public class QueryProviderAndPersistanceIT {
         operation1.setOperationId("__OP1");
         operation1.setName("Name_of_op1");
         operation1.setProductionUnitClassId(puc.getId());
-        operation1.getExecutionDurationInMillis(10);
+        operation1.setExecutionDurationInMillis(10);
         persistenceContext.createEntity(operation1);
 
         final IProductionUnitOperation operation2 = new ProductionUnitOperation();
         operation2.setOperationId("__OP2");
         operation2.setName("Name_of_op2");
         operation2.setProductionUnitClassId(puc.getId());
-        operation2.getExecutionDurationInMillis(10);
+        operation2.setExecutionDurationInMillis(10);
         persistenceContext.createEntity(operation2);
 
         final Set<String> queriedInstances = plantQuery

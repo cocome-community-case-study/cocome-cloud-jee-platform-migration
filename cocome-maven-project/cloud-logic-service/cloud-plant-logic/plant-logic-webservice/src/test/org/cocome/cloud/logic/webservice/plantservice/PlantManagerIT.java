@@ -122,9 +122,9 @@ public class PlantManagerIT {
         final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
         final PlantTO plant = WSTestUtils.createPlant(enterprise, em);
 
-        final long pucId = pm.importProductionUnitClass("Test","http://129.187.88.30:4567", plant);
+        final long pucId = pm.importProductionUnitClass("Test", "http://129.187.88.30:4567", plant);
 
-        System.out.println(pucId);
+        Assert.assertTrue(pucId != 0);
     }
 
     @Test
@@ -135,6 +135,7 @@ public class PlantManagerIT {
         /* Environmental setup */
 
         final PUCImporter xppu = new PUCImporter("Default xPPU", XPPU.values(), plant, pm);
+        //final PUCImporter xppu = new PUCImporter("Default xPPU", plant, pm);
 
         final PUCImporter fmu = new PUCImporter("FMU", FMU.values(), plant, pm);
 
@@ -144,7 +145,7 @@ public class PlantManagerIT {
         xppu1.setPlant(plant);
         xppu1.setProductionUnitClass(xppu.getProductionUnitClass());
         xppu1.setDouble(true);
-        xppu1.setInterfaceUrl("dummy1.org");
+        xppu1.setInterfaceUrl("http://129.187.88.30:4567");
         xppu1.setLocation("Some Place 1");
         xppu1.setId(pm.createProductionUnit(xppu1));
 
@@ -185,9 +186,10 @@ public class PlantManagerIT {
         conditionalExpression.setParameter(param);
         conditionalExpression.setParameterValue(IBooleanParameter.TRUE_VALUE);
         conditionalExpression.setOnTrueExpressions(Arrays.asList(
-                xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
-                xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
-                xppu.getOperation(XPPU.Crane_ACT_PickUpWP)));
+                xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
+                xppu.getOperation(XPPU.Crane_ACT_PickUpWP),
+                xppu.getOperation(XPPU.Crane_ACT_TurnToStamp),
+                xppu.getOperation(XPPU.Crane_ACT_PutDownWP)));
         conditionalExpression.setOnFalseExpressions(Arrays.asList(
                 xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
                 xppu.getOperation(XPPU.Stamp_ACT_Stamp),
@@ -196,6 +198,7 @@ public class PlantManagerIT {
 
         operation.setExpressions(Arrays.asList(
                 xppu.getOperation(XPPU.Crane_ACT_Init),
+                xppu.getOperation(XPPU.Stamp_ACT_Init),
                 xppu.getOperation(XPPU.Stack_ACT_Init),
                 conditionalExpression,
                 fmu.getOperation(FMU.Silo0_ACT_Init),

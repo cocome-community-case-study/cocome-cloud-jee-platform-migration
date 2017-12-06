@@ -27,7 +27,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  *
  * @author Rudolf Biczok
  */
-public interface IProductionUnitOperation extends IExpression, INameable {
+public interface  IProductionUnitOperation extends IExpression, INameable {
 
     /**
      * @return The operation id unique to the production plant
@@ -52,12 +52,12 @@ public interface IProductionUnitOperation extends IExpression, INameable {
     /**
      * @return the expected time needed for this operation to finish (in milliseconds)
      */
-    long getExecutionDurationInMillis();
+    long setExecutionDurationInMillis();
 
     /**
      * @param expectedExecutionTime the expected time needed for this operation to finish (in milliseconds)
      */
-    void getExecutionDurationInMillis(long expectedExecutionTime);
+    void setExecutionDurationInMillis(long expectedExecutionTime);
 
     /**
      * @return id of the associated {@link IProductionUnitClass}
