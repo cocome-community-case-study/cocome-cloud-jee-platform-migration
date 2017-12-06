@@ -141,6 +141,10 @@
     <wsdl:part name="UpdateException" element="tns:UpdateException">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="RecipeException">
+    <wsdl:part name="RecipeException" element="tns:RecipeException">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getOutstandingOrders">
     <wsdl:part name="parameters" element="tns:getOutstandingOrders">
     </wsdl:part>
@@ -328,6 +332,8 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+      <wsdl:fault name="RecipeException" message="tns:RecipeException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getProductsWithStockItems">
@@ -577,6 +583,9 @@
       </wsdl:fault>
       <wsdl:fault name="UpdateException">
         <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="RecipeException">
+        <soap:fault name="RecipeException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getProductsWithStockItems">

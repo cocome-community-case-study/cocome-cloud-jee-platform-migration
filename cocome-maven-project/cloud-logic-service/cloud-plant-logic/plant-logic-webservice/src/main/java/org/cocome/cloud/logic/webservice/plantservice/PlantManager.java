@@ -1,12 +1,17 @@
 package org.cocome.cloud.logic.webservice.plantservice;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.cloud.logic.webservice.ThrowingSupplier;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.plantservice.IPlantManager;
+import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
+import org.cocome.tradingsystem.inventory.application.plant.iface.IPUInterface;
+import org.cocome.tradingsystem.inventory.application.plant.iface.OperationEntry;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
@@ -37,6 +42,7 @@ import javax.jws.WebService;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -136,6 +142,31 @@ public class PlantManager implements IPlantManager {
             throws NotInDatabaseException {
         return plantFactory.fillProductionUnitClassTO(
                 plantQuery.queryProductionUnitClass(productionUnitClassId));
+    }
+
+    @Override
+    public long importProductionUnitClass(final String name,
+                                          final String interfaceURL,
+                                          final PlantTO plantTO) throws CreateException, NotInDatabaseException {
+        final IPUInterface iface = JAXRSClientFactory.create(interfaceURL, IPUInterface.class,
+                Collections.singletonList(new JacksonJsonProvider()));
+
+        final IProductionUnitClass puc = plantFactory.getNewProductionUnitClass();
+        puc.setPlant(enterpriseQuery.queryPlant(plantTO.getId()));
+        puc.setPlantId(plantTO.getId());
+        puc.setName(name);
+        this.persistenceContext.createEntity(puc);
+
+        for (final OperationEntry entry : iface.getOperations()) {
+            final IProductionUnitOperation op = plantFactory.getNewProductionUnitOperation();
+            op.setProductionUnitClass(puc);
+            op.setProductionUnitClassId(puc.getPlantId());
+            op.setOperationId(entry.getOperationId());
+            op.setName(entry.getName());
+            this.persistenceContext.createEntity(op);
+        }
+
+        return puc.getId();
     }
 
     @Override

@@ -18,6 +18,7 @@
 
 package org.cocome.logic.webservice.plantservice;
 
+import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
@@ -56,6 +57,19 @@ public interface IPlantManager {
             @WebParam(name = "productionUnitClassID")
                     long productionUnitClassId)
             throws NotInDatabaseException;
+
+    @WebMethod
+    long importProductionUnitClass(
+            @XmlElement(required = true)
+            @WebParam(name = "name")
+                    String name,
+            @XmlElement(required = true)
+            @WebParam(name = "interfaceURL")
+                    String interfaceURL,
+            @XmlElement(required = true)
+            @WebParam(name = "plantTO")
+                    PlantTO plantTO)
+            throws CreateException, NotInDatabaseException;
 
     @WebMethod
     long createProductionUnitClass(

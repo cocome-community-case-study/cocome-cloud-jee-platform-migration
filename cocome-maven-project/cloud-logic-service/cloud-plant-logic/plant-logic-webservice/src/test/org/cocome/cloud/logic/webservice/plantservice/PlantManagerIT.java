@@ -118,6 +118,16 @@ public class PlantManagerIT {
     }
 
     @Test
+    public void testPUCImport() throws Exception {
+        final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
+        final PlantTO plant = WSTestUtils.createPlant(enterprise, em);
+
+        final long pucId = pm.importProductionUnitClass("Test","http://129.187.88.30:4567", plant);
+
+        System.out.println(pucId);
+    }
+
+    @Test
     public void testOrderPlantOperation() throws Exception {
         final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
         final PlantTO plant = WSTestUtils.createPlant(enterprise, em);

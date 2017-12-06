@@ -37,6 +37,8 @@
   <xs:element name="deleteProductionUnitOperation" type="tns:deleteProductionUnitOperation"/>
   <xs:element name="deleteProductionUnitOperationResponse" type="tns:deleteProductionUnitOperationResponse"/>
   <xs:element name="deleteProductionUnitResponse" type="tns:deleteProductionUnitResponse"/>
+  <xs:element name="importProductionUnitClass" type="tns:importProductionUnitClass"/>
+  <xs:element name="importProductionUnitClassResponse" type="tns:importProductionUnitClassResponse"/>
   <xs:element name="orderOperation" type="tns:orderOperation"/>
   <xs:element name="orderOperationResponse" type="tns:orderOperationResponse"/>
   <xs:element name="queryConditionalExpressionByID" type="tns:queryConditionalExpressionByID"/>
@@ -115,6 +117,18 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="createConditionalExpressionResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="importProductionUnitClass">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="interfaceURL" type="xs:string"/>
+      <xs:element name="plantTO" type="ns3:PlantTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="importProductionUnitClassResponse">
     <xs:sequence>
       <xs:element name="return" type="xs:long"/>
     </xs:sequence>

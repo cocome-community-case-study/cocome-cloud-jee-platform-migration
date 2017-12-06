@@ -117,6 +117,10 @@
     <wsdl:part name="parameters" element="tns:createConditionalExpression">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="importProductionUnitClass">
+    <wsdl:part name="parameters" element="tns:importProductionUnitClass">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="updateProductionUnitClass">
     <wsdl:part name="parameters" element="tns:updateProductionUnitClass">
     </wsdl:part>
@@ -131,6 +135,10 @@
   </wsdl:message>
   <wsdl:message name="createProductionUnitOperationResponse">
     <wsdl:part name="parameters" element="tns:createProductionUnitOperationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="importProductionUnitClassResponse">
+    <wsdl:part name="parameters" element="tns:importProductionUnitClassResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateProductionUnitOperation">
@@ -229,6 +237,16 @@
     </wsdl:input>
       <wsdl:output name="createConditionalExpressionResponse" message="tns:createConditionalExpressionResponse">
     </wsdl:output>
+      <wsdl:fault name="CreateException" message="tns:CreateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="importProductionUnitClass">
+      <wsdl:input name="importProductionUnitClass" message="tns:importProductionUnitClass">
+    </wsdl:input>
+      <wsdl:output name="importProductionUnitClassResponse" message="tns:importProductionUnitClassResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
       <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
@@ -438,6 +456,21 @@
       <wsdl:output name="createConditionalExpressionResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+      <wsdl:fault name="CreateException">
+        <soap:fault name="CreateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="importProductionUnitClass">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="importProductionUnitClass">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="importProductionUnitClassResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
       <wsdl:fault name="CreateException">
         <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
