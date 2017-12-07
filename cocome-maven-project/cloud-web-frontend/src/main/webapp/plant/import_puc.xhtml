@@ -18,15 +18,27 @@
                             <h:inputText value="#{name}"
                                          required="true"
                                          validatorMessage="#{of:format1(strings['validation.name.failed'],
-                                         ['puc.table.header_name'])}">
+                                         ['puc_opr.table.header_name'])}">
                                 <f:validateLength minimum="3" maximum="30"/>
                                 <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                             </h:inputText>
                         </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputText
+                                    value="#{strings['pu.table.header.interfacurl']}"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{interfaceUrl}"
+                                         required="true">
+                                <f:validateLength minimum="3" maximum="100"/>
+                            </h:inputText>
+                        </td>
                         <td>
                             <h:commandButton
-                                    action="#{productionUnitClassView.createPUC(name, plantInformation.activePlant)}"
-                                    value=" #{of:format1(strings['button.create.label'],strings['puc.short.text'])}"/>
+                                    action="#{productionUnitClassView.importPUC(name, interfaceUrl, plantInformation.activePlant)}"
+                                    value=" #{of:format1(strings['button.import.label'],strings['puc.short.text'])}"/>
                         </td>
                     </tr>
                 </table>

@@ -2,68 +2,165 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:of="http://omnifaces.org/functions">
 
 <h:body>
 
     <ui:composition template="/templates/commonTemplate.xhtml">
 
         <ui:define name="body">
-            <h:form>
-                <h:dataTable value="#{productionUnitClassView.pucs}" var="item"
-                             styleClass="product-table" headerClass="product-table-header"
-                             rowClasses="product-table-odd-row,product-table-even-row"
-                             columnClasses="product-table-text-col, product-table-number-col">
-                    <h:column>
-                        <f:facet name="header">#{strings['puc.table.header_name']}</f:facet>
-                        <h:outputText value="#{item.PUC.name}" rendered="#{not item.editingEnabled}"/>
-                        <h:inputText value="#{item.PUC.name}" rendered="#{item.editingEnabled}"
-                                     validatorMessage="#{strings['puc.create.validation.name.failed']}">
-                            <f:validateLength minimum="3" maximum="30"/>
-                            <f:validateRegex pattern="#{strings['input.string.regex']}"/>
-                        </h:inputText>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{strings['enterprise.table.header_action']}</f:facet>
-                        <h:commandLink action="#{item.setEditingEnabled(true)}"
-                                       styleClass="button"
-                                       title="#{strings['action.edit']}"
-                                       rendered="#{not item.editingEnabled}">
-                            <h:graphicImage
-                                    value="#{resource['icon:icon_shoppingcart_edit.png']}"
-                                    styleClass="button"/>
-                        </h:commandLink>
-                        <h:commandLink action="#{productionUnitClassView.deletePUC(item)}"
-                                       styleClass="button"
-                                       title="#{strings['action.remove']}"
-                                       rendered="#{not item.editingEnabled}">
-                            <h:graphicImage
-                                    value="#{resource['icon:icon_shoppingcart_delete.png']}"
-                                    styleClass="button"/>
-                        </h:commandLink>
-                        <h:commandLink action="#{productionUnitClassView.updatePUC(item)}"
-                                       styleClass="button"
-                                       title="#{strings['action.save']}"
-                                       rendered="#{item.editingEnabled}">
-                            <h:graphicImage value="#{resource['icon:icon_save.png']}"
+            <h:form width="100%">
+                <table class="product-table">
+                    <ui:repeat value="#{productionUnitClassView.pucs}" var="puc">
+                        <tr>
+                            <th class="product-table-header product-table-text-col">
+                                <h:outputText value="#{strings['puc.create.name.text']} "/>
+                                <h:outputText value="#{puc.PUC.name}" rendered="#{not puc.editingEnabled}"/>
+                                <h:inputText value="#{puc.PUC.name}" rendered="#{puc.editingEnabled}"
+                                             validatorMessage="#{of:format1(strings['validation.name.failed'],
+                                                                 ['puc.table.header_name'])}">
+                                    <f:validateLength minimum="3" maximum="30"/>
+                                    <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                                </h:inputText>
+                            </th>
+                            <th class="product-table-header product-table-number-col">
+                                <h:commandLink action="#{puc.setEditingEnabled(true)}"
+                                               styleClass="button"
+                                               title="#{strings['action.edit']}"
+                                               rendered="#{not puc.editingEnabled}">
+                                    <h:graphicImage
+                                            value="#{resource['icon:icon_edit.png']}"
                                             styleClass="button"/>
-                        </h:commandLink>
-                        <h:commandLink styleClass="button"
-                                       title="#{strings['action.cancel']}"
-                                       rendered="#{item.editingEnabled}">
-                            <h:graphicImage value="#{resource['icon:icon_reset.png']}"
+                                </h:commandLink>
+                                <h:commandLink action="#{productionUnitClassView.deletePUC(puc)}"
+                                               styleClass="button"
+                                               title="#{strings['action.remove']}"
+                                               rendered="#{not puc.editingEnabled}">
+                                    <h:graphicImage
+                                            value="#{resource['icon:icon_remove.png']}"
                                             styleClass="button"/>
-                        </h:commandLink>
-                    </h:column>
-                </h:dataTable>
+                                </h:commandLink>
+                                <h:commandLink action="#{productionUnitClassView.updatePUC(puc)}"
+                                               styleClass="button"
+                                               title="#{strings['action.save']}"
+                                               rendered="#{puc.editingEnabled}">
+                                    <h:graphicImage value="#{resource['icon:icon_save.png']}"
+                                                    styleClass="button"/>
+                                </h:commandLink>
+                                <h:commandLink action="#{puc.setEditingEnabled(false)}"
+                                               immediate="true"
+                                               styleClass="button"
+                                               title="#{strings['action.cancel']}"
+                                               rendered="#{puc.editingEnabled}">
+                                    <h:graphicImage value="#{resource['icon:icon_reset.png']}"
+                                                    styleClass="button"/>
+                                </h:commandLink>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <h:dataTable value="#{puc.operations}" var="opr"
+                                             styleClass="product-table" headerClass="product-table-header"
+                                             rowClasses="product-table-odd-row, product-table-even-row"
+                                             columnClasses="
+                                                product-table-text-col,
+                                                product-table-text-col,
+    				                            product-table-number-col,
+    				                            product-table-number-col">
+                                    <h:column>
+                                        <f:facet name="header">#{strings['puc_opr.table.header_name']}</f:facet>
+                                        <h:outputText value="#{opr.operation.name}"
+                                                      rendered="#{not opr.editingEnabled}"/>
+                                        <h:inputText value="#{opr.operation.name}" rendered="#{opr.editingEnabled}"
+                                                     validatorMessage="#{of:format1(strings['validation.name.failed'],
+                                                     ['puc_opr.table.header_name'])}">
+                                            <f:validateLength minimum="3" maximum="30"/>
+                                            <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                                        </h:inputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">#{strings['puc_opr.table.header_operationid']}</f:facet>
+                                        <h:outputText value="#{opr.operation.operationId}"
+                                                      rendered="#{not opr.editingEnabled}"/>
+                                        <h:inputText value="#{opr.operation.operationId}"
+                                                     rendered="#{opr.editingEnabled}"
+                                                     validatorMessage="#{of:format1(strings['validation.name.failed'],
+                                                     ['puc_opr.table.header_operationid'])}">
+                                            <f:validateLength minimum="3" maximum="30"/>
+                                            <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                                        </h:inputText>
+                                    </h:column>
+                                    <h:column headerClass="product-table-header-right">
+                                        <f:facet name="header">#{strings['puc_opr.table.header_exectime']}</f:facet>
+                                        <h:outputText value="#{opr.operation.executionDurationInMillis}"
+                                                      rendered="#{not opr.editingEnabled}"/>
+                                        <h:inputText value="#{opr.operation.executionDurationInMillis}"
+                                                     rendered="#{opr.editingEnabled}"
+                                                     styleClass="product-table-number-col"
+                                                     converterMessage="#{of:format1(strings['validation.number.text'],
+                                                     ['puc_opr.table.header_exectime'])}">
+                                            <f:converter converterId="javax.faces.Long"/>
+                                        </h:inputText>
+                                    </h:column>
+                                    <h:column>
+                                        <h:commandLink action="#{opr.setEditingEnabled(true)}"
+                                                       styleClass="button"
+                                                       title="#{strings['action.edit']}"
+                                                       rendered="#{not opr.editingEnabled}">
+                                            <h:graphicImage
+                                                    value="#{resource['icon:icon_edit.png']}"
+                                                    styleClass="button"/>
+                                        </h:commandLink>
+                                        <h:commandLink action="#{productionUnitClassView.deletePUOperation(opr)}"
+                                                       styleClass="button"
+                                                       title="#{strings['action.remove']}"
+                                                       rendered="#{not opr.editingEnabled}">
+                                            <h:graphicImage
+                                                    value="#{resource['icon:icon_remove.png']}"
+                                                    styleClass="button"/>
+                                        </h:commandLink>
+                                        <h:commandLink action="#{productionUnitClassView.updatePUOperation(opr)}"
+                                                       styleClass="button"
+                                                       title="#{strings['action.save']}"
+                                                       rendered="#{opr.editingEnabled}">
+                                            <h:graphicImage value="#{resource['icon:icon_save.png']}"
+                                                            styleClass="button"/>
+                                        </h:commandLink>
+                                        <h:commandLink action="#{opr.setEditingEnabled(false)}"
+                                                       immediate="true"
+                                                       styleClass="button"
+                                                       title="#{strings['action.cancel']}"
+                                                       rendered="#{opr.editingEnabled}">
+                                            <h:graphicImage value="#{resource['icon:icon_reset.png']}"
+                                                            styleClass="button"/>
+                                        </h:commandLink>
+                                    </h:column>
+                                </h:dataTable>
+                                <table width="100%">
+                                    <tr>
+                                        <td align="left">
+                                            <h:button outcome="/plant/create_puc_operation"
+                                                      value="#{of:format1(strings['button.add.label'],strings['puc_opr.short.text'])}">
+                                                <f:param name="pucId" value="#{puc.PUC.id}"/>
+                                            </h:button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                </table>
             </h:form>
 
             <h:form>
                 <table width="100%">
                     <tr>
-                        <td align="left">
+                        <td align="center">
                             <h:button outcome="/plant/create_puc"
-                                      value="#{strings['puc.add.button.label']}"/>
+                                      value="#{of:format1(strings['button.add.label'],strings['puc.short.text'])}"/>
+                            <h:button outcome="/plant/import_puc"
+                                      value="#{of:format1(strings['button.import.label'],strings['puc.short.text'])}"/>
                         </td>
                     </tr>
                 </table>
