@@ -10,7 +10,7 @@
 
         <ui:define name="body">
             <h:form>
-                <h:dataTable value="#{PUCView.pucs}" var="item"
+                <h:dataTable value="#{productionUnitClassView.pucs}" var="item"
                              styleClass="product-table" headerClass="product-table-header"
                              rowClasses="product-table-odd-row,product-table-even-row"
                              columnClasses="product-table-text-col, product-table-number-col">
@@ -33,7 +33,7 @@
                                     value="#{resource['icon:icon_shoppingcart_edit.png']}"
                                     styleClass="button"/>
                         </h:commandLink>
-                        <h:commandLink action="#{productionUnitClassDAO.delete(item)}"
+                        <h:commandLink action="#{productionUnitClassView.deletePUC(item)}"
                                        styleClass="button"
                                        title="#{strings['action.remove']}"
                                        rendered="#{not item.editingEnabled}">
@@ -41,7 +41,7 @@
                                     value="#{resource['icon:icon_shoppingcart_delete.png']}"
                                     styleClass="button"/>
                         </h:commandLink>
-                        <h:commandLink action="#{productionUnitClassDAO.update(item)}"
+                        <h:commandLink action="#{productionUnitClassView.updatePUC(item)}"
                                        styleClass="button"
                                        title="#{strings['action.save']}"
                                        rendered="#{item.editingEnabled}">
