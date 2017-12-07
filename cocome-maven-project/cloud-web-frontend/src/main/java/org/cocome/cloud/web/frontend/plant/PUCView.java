@@ -2,8 +2,8 @@ package org.cocome.cloud.web.frontend.plant;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.connector.plantconnector.PlantQuery;
 import org.cocome.cloud.web.data.plantdata.PUCWrapper;
+import org.cocome.cloud.web.data.plantdata.ProductionUnitClassDAO;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -26,7 +26,7 @@ public class PUCView implements Serializable {
     private static final Logger LOG = Logger.getLogger(PUCView.class);
 
     @Inject
-    private PlantQuery plantQuery;
+    private ProductionUnitClassDAO productionUnitClassDAO;
 
     @Inject
     private PlantInformation plantInformation;
@@ -37,7 +37,7 @@ public class PUCView implements Serializable {
     public void queryPUCs() {
         LOG.info("Query PUCs");
         try {
-            this.pucs = plantQuery.queryPUCs(plantInformation.getActivePlant());
+            this.pucs = productionUnitClassDAO.queryAll(plantInformation.getActivePlant());
         } catch (NotInDatabaseException_Exception e) {
             LOG.error("Unable to load PUC list", e);
         }

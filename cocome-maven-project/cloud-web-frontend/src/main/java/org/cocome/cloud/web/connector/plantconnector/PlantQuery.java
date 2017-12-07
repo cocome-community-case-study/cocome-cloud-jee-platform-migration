@@ -2,23 +2,17 @@ package org.cocome.cloud.web.connector.plantconnector;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
-import org.cocome.cloud.logic.stub.*;
-import org.cocome.cloud.logic.webservice.StreamUtil;
+import org.cocome.cloud.logic.stub.IPlantManager;
+import org.cocome.cloud.logic.stub.IPlantManagerService;
+import org.cocome.cloud.logic.stub.NotBoundException_Exception;
+import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.registry.service.Names;
-import org.cocome.cloud.web.data.plantdata.PUCWrapper;
-import org.cocome.cloud.web.data.plantdata.PlantViewData;
-import org.cocome.cloud.web.data.storedata.ProductWrapper;
-import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
-import org.cocome.tradingsystem.inventory.application.store.ProductWithItemTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.constraints.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Used to retrieve data structures specific to a plant
@@ -51,50 +45,6 @@ public class PlantQuery {
                 return lookupPlantManager(defaultPlantIndex);
             }
         }
-    }
-
-    public boolean deletePUC(final PUCWrapper puc) {
-        try {
-            final IPlantManager plantManager = lookupPlantManager(puc.getPlant().getID());
-            plantManager.deleteProductionUnitClass(puc.getPUC());
-        } catch (UpdateException_Exception | NotInDatabaseException_Exception e) {
-            LOG.error(String.format("Error while updating puc: %s\n", e.getMessage()), e);
-            return false;
-        }
-        return true;
-    }
-
-    public boolean updatePUC(final PUCWrapper puc) {
-        try {
-            final IPlantManager plantManager = lookupPlantManager(puc.getPlant().getID());
-            plantManager.updateProductionUnitClass(puc.getPUC());
-        } catch (UpdateException_Exception | NotInDatabaseException_Exception e) {
-            LOG.error(String.format("Error while updating puc: %s\n", e.getMessage()), e);
-            return false;
-        }
-        return true;
-    }
-
-    public boolean createPUC(String name, PlantViewData plant) {
-        try {
-            final IPlantManager plantManager = lookupPlantManager(plant.getID());
-            final ProductionUnitClassTO pucTO = new ProductionUnitClassTO();
-            pucTO.setName(name);
-            pucTO.setPlant(plant.getPlantTO());
-            pucTO.setId(plantManager.createProductionUnitClass(pucTO));
-        } catch (CreateException_Exception | NotInDatabaseException_Exception e) {
-            LOG.error(String.format("Error while creating puc: %s\n", e.getMessage()), e);
-            return false;
-        }
-        return true;
-    }
-
-    public List<PUCWrapper> queryPUCs(@NotNull PlantViewData plant) throws NotInDatabaseException_Exception {
-        LOG.debug("Querying production unit classes");
-
-        final IPlantManager plantManager = lookupPlantManager(plant.getID());
-        return StreamUtil.ofNullable(plantManager.queryProductionUnitClassesByPlantID(plant.getID()))
-                .map(e -> new PUCWrapper(e, plant)).collect(Collectors.toList());
     }
 
 }

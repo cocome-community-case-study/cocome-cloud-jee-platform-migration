@@ -173,12 +173,12 @@ public class StockOrderView implements Serializable {
 		try {
 			orderAmount = Long.parseLong(input);
 		} catch (NumberFormatException e) {
-			handleFailedValidationMessage(context, comp, Messages.getLocalizedMessage("stock.order.validation.amount.failed"));
+			handleFailedValidationMessage(context, comp, Messages.get("stock.order.validation.amount.failed"));
 			return;
 		}
 
 		if (orderAmount < 0) {
-			handleFailedValidationMessage(context, comp, Messages.getLocalizedMessage("stock.order.validation.amount.failed"));
+			handleFailedValidationMessage(context, comp, Messages.get("stock.order.validation.amount.failed"));
 			return;
 		}
 		
@@ -187,7 +187,7 @@ public class StockOrderView implements Serializable {
 		// TODO Use some configurable percentage for flexibility when ordering
 		// more than the max stock instead of hard coded one
 		if ((selectedItem.getAmount() + orderAmount) > (selectedItem.getStockItemTO().getMaxStock() * 1.2)) {
-			handleFailedValidationMessage(context, comp, Messages.getLocalizedMessage("stock.order.validation.amount.exceed_max"));
+			handleFailedValidationMessage(context, comp, Messages.get("stock.order.validation.amount.exceed_max"));
 		}
 	}
 

@@ -15,14 +15,11 @@ public class PUCWrapper {
     public PUCWrapper(ProductionUnitClassTO puc, PlantViewData plant) {
         this.puc = puc;
         this.plant = plant;
-        this.newName = plant.getName();
     }
 
     private PlantViewData plant;
 
     private boolean editingEnabled = false;
-
-    private String newName;
 
     public ProductionUnitClassTO getPUC() {
         return puc;
@@ -46,18 +43,5 @@ public class PUCWrapper {
 
     public void setEditingEnabled(boolean editingEnabled) {
         this.editingEnabled = editingEnabled;
-    }
-
-    public void submitEdit()  {
-        this.puc.setName(newName);
-        this.setEditingEnabled(false);
-    }
-
-    public String getNewName() {
-        return newName;
-    }
-
-    public void setNewName(String newName) {
-        this.newName = newName;
     }
 }

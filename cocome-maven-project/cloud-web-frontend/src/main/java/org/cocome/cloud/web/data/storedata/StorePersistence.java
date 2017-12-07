@@ -31,11 +31,11 @@ public class StorePersistence implements IStorePersistence {
 		if (enterpriseQuery.updateStore(store)) {
 			store.setEditingEnabled(false);
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, Messages.getLocalizedMessage("store.update.success"), null));
+					new FacesMessage(FacesMessage.SEVERITY_INFO, Messages.get("store.update.success"), null));
 			return null;
 		}
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, Messages.getLocalizedMessage("store.update.failed"), null));
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, Messages.get("store.update.failed"), null));
 
 		return "error";
 	}
@@ -44,10 +44,10 @@ public class StorePersistence implements IStorePersistence {
 	public String createStore(long enterpriseID, @NotNull String name, @NotNull String location) throws NotInDatabaseException_Exception {
 		if (enterpriseQuery.createStore(enterpriseID, name, location)) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, Messages.getLocalizedMessage("store.create.success"), null));
+					new FacesMessage(FacesMessage.SEVERITY_INFO, Messages.get("store.create.success"), null));
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, Messages.getLocalizedMessage("store.create.failed"), null));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, Messages.get("store.create.failed"), null));
 		}
 
 		return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();

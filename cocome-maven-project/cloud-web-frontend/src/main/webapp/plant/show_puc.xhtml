@@ -17,7 +17,7 @@
                     <h:column>
                         <f:facet name="header">#{strings['puc.table.header_name']}</f:facet>
                         <h:outputText value="#{item.PUC.name}" rendered="#{not item.editingEnabled}"/>
-                        <h:inputText value="#{item.newName}" rendered="#{item.editingEnabled}"
+                        <h:inputText value="#{item.PUC.name}" rendered="#{item.editingEnabled}"
                                      validatorMessage="#{strings['puc.create.validation.name.failed']}">
                             <f:validateLength minimum="3" maximum="30"/>
                             <f:validateRegex pattern="#{strings['input.string.regex']}"/>
@@ -33,7 +33,7 @@
                                     value="#{resource['icon:icon_shoppingcart_edit.png']}"
                                     styleClass="button"/>
                         </h:commandLink>
-                        <h:commandLink action="#{plantPersistence.deletePUC(item)}"
+                        <h:commandLink action="#{productionUnitClassDAO.delete(item)}"
                                        styleClass="button"
                                        title="#{strings['action.remove']}"
                                        rendered="#{not item.editingEnabled}">
@@ -41,7 +41,7 @@
                                     value="#{resource['icon:icon_shoppingcart_delete.png']}"
                                     styleClass="button"/>
                         </h:commandLink>
-                        <h:commandLink action="#{plantPersistence.updatePUC(item)}"
+                        <h:commandLink action="#{productionUnitClassDAO.update(item)}"
                                        styleClass="button"
                                        title="#{strings['action.save']}"
                                        rendered="#{item.editingEnabled}">

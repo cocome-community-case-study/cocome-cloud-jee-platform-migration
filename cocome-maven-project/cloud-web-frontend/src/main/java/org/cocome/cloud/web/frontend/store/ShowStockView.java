@@ -23,11 +23,11 @@ public class ShowStockView {
 		if (storePersistence.createStockItem(storeInformation.getActiveStore(), item)) {
 			storeInformation.queryStockItems();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-					Messages.getLocalizedMessage("stock.add.success"), null));
+					Messages.get("stock.add.success"), null));
 			return NavigationElements.SHOW_STOCK.getNavigationOutcome();
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					Messages.getLocalizedMessage("stock.add.failed"), null));
+					Messages.get("stock.add.failed"), null));
 		}
 		return null;
 	}
@@ -37,16 +37,16 @@ public class ShowStockView {
 			item.submitEdit();
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					Messages.getLocalizedMessage("stock.validation.amount.failed"), null));
+					Messages.get("stock.validation.amount.failed"), null));
 			return null;
 		}
 		
 		if (storePersistence.updateStockItem(item.getOriginStore(), item)) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, Messages.getLocalizedMessage("stock.update.success"), null));
+					new FacesMessage(FacesMessage.SEVERITY_INFO, Messages.get("stock.update.success"), null));
 		} else {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, Messages.getLocalizedMessage("stock.update.failed"), null));
+					new FacesMessage(FacesMessage.SEVERITY_INFO, Messages.get("stock.update.failed"), null));
 		}
 		return null;
 	}

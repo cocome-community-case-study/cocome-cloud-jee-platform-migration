@@ -88,7 +88,7 @@ public class CashDeskView implements Serializable {
 		try {
 			expressMode = cashDeskDAO.isInExpressMode(cashDeskName, storeID);
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
-			addFacesError(Messages.getLocalizedMessage("cashdesk.error.express.retrieve"));
+			addFacesError(Messages.get("cashdesk.error.express.retrieve"));
 		}
 		
 		cashDesk.setInExpressMode(expressMode);
@@ -108,7 +108,7 @@ public class CashDeskView implements Serializable {
 		try {
 			displayMessage = cashDeskDAO.getDisplayMessage(cashDeskName, storeID);
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
-			addFacesError(Messages.getLocalizedMessage("cashdesk.error.display.retrieve"));
+			addFacesError(Messages.get("cashdesk.error.display.retrieve"));
 		}
 		
 		cashDesk.setDisplayMessage(displayMessage);
@@ -121,7 +121,7 @@ public class CashDeskView implements Serializable {
 		try {
 			cashDeskDAO.enterCashAmount(cashDeskName, storeID, cashAmount);
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception | IllegalCashDeskStateException_Exception e) {
-			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.cash_pay.failed"), e.getMessage()));
+			addFacesError(String.format(Messages.get("cashdesk.error.cash_pay.failed"), e.getMessage()));
 		}
 		
 		updateDisplayAndPrinter();
@@ -138,7 +138,7 @@ public class CashDeskView implements Serializable {
 		} catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
 				| NotInDatabaseException_Exception e) {
 			addFacesError(
-					String.format(Messages.getLocalizedMessage("cashdesk.error.card_pay.failed"), e.getMessage()));
+					String.format(Messages.get("cashdesk.error.card_pay.failed"), e.getMessage()));
 		}
 		updateDisplayAndPrinter();
 		updateExpressMode();
@@ -156,7 +156,7 @@ public class CashDeskView implements Serializable {
 			cashDesk.setCardPayment(false);
 		} catch (NotInDatabaseException_Exception | ProductOutOfStockException_Exception | UnhandledException_Exception
 				| IllegalCashDeskStateException_Exception | IllegalInputException_Exception e) {
-			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.start_cash_pay.failed"),
+			addFacesError(String.format(Messages.get("cashdesk.error.start_cash_pay.failed"),
 					e.getMessage()));
 		}
 
@@ -176,7 +176,7 @@ public class CashDeskView implements Serializable {
 			cashDesk.setCashPayment(false);
 		} catch (NotInDatabaseException_Exception | ProductOutOfStockException_Exception | UnhandledException_Exception
 				| IllegalCashDeskStateException_Exception | IllegalInputException_Exception e) {
-			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.error.start_card_pay.failed"),
+			addFacesError(String.format(Messages.get("cashdesk.error.start_card_pay.failed"),
 					e.getMessage()));
 		}
 
@@ -198,7 +198,7 @@ public class CashDeskView implements Serializable {
 			clearBarcode();
 		} catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
 				| NotInDatabaseException_Exception e) {
-			addFacesError(Messages.getLocalizedMessage("cashdesk.error.illegal_state.start_sale"));
+			addFacesError(Messages.get("cashdesk.error.illegal_state.start_sale"));
 		}
 
 		
@@ -238,7 +238,7 @@ public class CashDeskView implements Serializable {
 		} catch (NumberFormatException e) {
 			InputValidator.handleFailedValidationMessage(FacesContext.getCurrentInstance(),
 					FacesContext.getCurrentInstance().getViewRoot().findComponent("barcodetext"),
-					Messages.getLocalizedMessage("cashdesk.validation.barcode.failed"));
+					Messages.get("cashdesk.validation.barcode.failed"));
 			return getSalePageRedirectOutcome();
 		}
 
@@ -250,7 +250,7 @@ public class CashDeskView implements Serializable {
 		} catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
 				| NotInDatabaseException_Exception | NoSuchProductException_Exception
 				| ProductOutOfStockException_Exception e) {
-			addFacesError(String.format(Messages.getLocalizedMessage("cashdesk.barcode.scan.failed"), e.getMessage()));
+			addFacesError(String.format(Messages.get("cashdesk.barcode.scan.failed"), e.getMessage()));
 		}
 		
 		updateDisplayAndPrinter();
@@ -281,7 +281,7 @@ public class CashDeskView implements Serializable {
 			printerOutput = cashDeskDAO.getPrinterOutput(cashDeskName, storeID);
 		} catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
 			addFacesError(
-					String.format(Messages.getLocalizedMessage("cashdesk.error.printer.retrieve"), e.getMessage()));
+					String.format(Messages.get("cashdesk.error.printer.retrieve"), e.getMessage()));
 			printerOutput = EMPTY_OUTPUT;
 		}
 		cashDesk.setPrinterOutput(printerOutput);
