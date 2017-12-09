@@ -67,12 +67,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.cocome.cloud.shop.inventory.connection.IEnterpriseQuery#
-     * getEnterprises()
-     */
     @Override
     public Collection<EnterpriseViewData> getEnterprises() throws NotInDatabaseException_Exception {
         if (enterprises != null) {
@@ -83,13 +77,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return enterprises.values();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.cocome.cloud.shop.inventory.connection.IEnterpriseQuery#getStores(
-     * long)
-     */
     @Override
     public Collection<StoreViewData> getStores(long enterpriseID) throws NotInDatabaseException_Exception {
         if (storeCollections == null) {
@@ -246,7 +233,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
 
     @Override
     public boolean updateStore(@NotNull StoreViewData store) throws NotInDatabaseException_Exception {
-        StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
+        final StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
         storeTO.setId(store.getID());
         storeTO.setLocation(store.getLocation());
         storeTO.setName(store.getName());
@@ -260,7 +247,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         }
 
         if (!checkStoresAvailable()) {
-            // Error occured while retrieving the stores
+            // Error occurred while retrieving the stores
             return false;
         }
 
