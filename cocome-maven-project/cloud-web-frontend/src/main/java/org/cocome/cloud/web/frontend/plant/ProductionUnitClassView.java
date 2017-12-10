@@ -1,9 +1,7 @@
 package org.cocome.cloud.web.frontend.plant;
 
 import org.apache.log4j.Logger;
-import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.connector.plantconnector.PlantQuery;
 import org.cocome.cloud.web.data.ViewData;
 import org.cocome.cloud.web.data.plantdata.*;
 import org.cocome.cloud.web.frontend.AbstractView;
@@ -33,9 +31,6 @@ public class ProductionUnitClassView extends AbstractView {
     private static final Logger LOG = Logger.getLogger(ProductionUnitClassView.class);
 
     @Inject
-    private PlantQuery plantQuery;
-
-    @Inject
     private ProductionUnitClassDAO productionUnitClassDAO;
 
     @Inject
@@ -62,8 +57,7 @@ public class ProductionUnitClassView extends AbstractView {
             @NotNull PlantViewData plant) throws NotInDatabaseException_Exception {
 
         return processFacesAction(() -> {
-                    final IPlantManager plantManager = plantQuery.lookupPlantManager(plant.getID());
-                    plantManager.importProductionUnitClass(name, interfaceUrl, plant.getPlantTO());
+                    productionUnitClassDAO.importPUC(name, interfaceUrl, plant);
                 },
                 Messages.get("message.import.success", Messages.get("puc.short.text")),
                 Messages.get("message.import.failed", Messages.get("puc.short.text")),

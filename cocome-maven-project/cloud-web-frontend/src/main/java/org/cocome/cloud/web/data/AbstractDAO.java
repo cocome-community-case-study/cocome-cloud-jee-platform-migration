@@ -27,8 +27,8 @@ public abstract class AbstractDAO<
 
     private static final Logger LOG = Logger.getLogger(ProductionUnitOperationDAO.class);
 
-    private final Map<Long, Boolean> queried = new HashMap<>();
-    private final Map<Long, DBObjectCache<ViewData<TTargetContent>>> cache = new HashMap<>();
+    protected final Map<Long, Boolean> queried = new HashMap<>();
+    protected final Map<Long, DBObjectCache<ViewData<TTargetContent>>> cache = new HashMap<>();
 
     public Collection<ViewData<TTargetContent>> getAllByParentObj(@NotNull ViewData<TParentContent> parent)
             throws NotInDatabaseException_Exception {
