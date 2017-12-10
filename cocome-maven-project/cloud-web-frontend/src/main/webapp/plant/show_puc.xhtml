@@ -12,7 +12,8 @@
         <ui:define name="body">
             <h:form width="100%">
                 <table class="product-table">
-                    <ui:repeat value="#{productionUnitClassView.pucs}" var="puc">
+                    <ui:repeat value="#{productionUnitClassDAO.getAllByParentObj(plantInformation.activePlant)}"
+                               var="puc">
                         <tr>
                             <th class="product-table-header product-table-text-col">
                                 <h:outputText value="#{strings['puc.create.name.text']} "/>
@@ -33,7 +34,7 @@
                                             value="#{resource['icon:icon_edit.png']}"
                                             styleClass="button"/>
                                 </h:commandLink>
-                                <h:commandLink action="#{productionUnitClassView.deletePUC(puc)}"
+                                <h:commandLink action="#{productionUnitClassView.delete(puc)}"
                                                styleClass="button"
                                                title="#{strings['action.remove']}"
                                                rendered="#{not puc.editingEnabled}">
@@ -41,7 +42,7 @@
                                             value="#{resource['icon:icon_remove.png']}"
                                             styleClass="button"/>
                                 </h:commandLink>
-                                <h:commandLink action="#{productionUnitClassView.updatePUC(puc)}"
+                                <h:commandLink action="#{productionUnitClassView.update(puc)}"
                                                styleClass="button"
                                                title="#{strings['action.save']}"
                                                rendered="#{puc.editingEnabled}">
@@ -113,7 +114,7 @@
                                                     value="#{resource['icon:icon_edit.png']}"
                                                     styleClass="button"/>
                                         </h:commandLink>
-                                        <h:commandLink action="#{productionUnitClassView.deletePUOperation(opr)}"
+                                        <h:commandLink action="#{productionUnitOperationView.delete(opr)}"
                                                        styleClass="button"
                                                        title="#{strings['action.remove']}"
                                                        rendered="#{not opr.editingEnabled}">
@@ -121,7 +122,7 @@
                                                     value="#{resource['icon:icon_remove.png']}"
                                                     styleClass="button"/>
                                         </h:commandLink>
-                                        <h:commandLink action="#{productionUnitClassView.updatePUOperation(opr)}"
+                                        <h:commandLink action="#{productionUnitOperationView.update(opr)}"
                                                        styleClass="button"
                                                        title="#{strings['action.save']}"
                                                        rendered="#{opr.editingEnabled}">
@@ -160,6 +161,8 @@
                         <td align="center">
                             <h:button outcome="/plant/create_puc"
                                       value="#{of:format1(strings['button.add.label'],strings['puc.short.text'])}"/>
+                        </td>
+                        <td align="center">
                             <h:button outcome="/plant/import_puc"
                                       value="#{of:format1(strings['button.import.label'],strings['puc.short.text'])}"/>
                         </td>

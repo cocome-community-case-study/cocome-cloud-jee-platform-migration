@@ -5,8 +5,6 @@ import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.connector.plantconnector.PlantQuery;
 import org.cocome.cloud.web.data.AbstractDAO;
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
-import org.cocome.tradingsystem.inventory.application.INameableTO;
-import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 
 import javax.inject.Inject;
 

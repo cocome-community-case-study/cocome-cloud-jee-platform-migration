@@ -16,7 +16,7 @@
                             <h:outputText value="#{strings['puc_opr.create.name.text']}"/>
                         </td>
                         <td>
-                            <h:inputText value="#{location}"
+                            <h:inputText value="#{productionUnitView.newInstance.data.location}"
                                          required="true"
                                          validatorMessage="#{of:format1(strings['validation.name.failed'],
                                          ['puc_opr.table.header_name'])}">
@@ -30,7 +30,7 @@
                             <h:outputText value="Interface URL"/>
                         </td>
                         <td>
-                            <h:inputText value="#{interfaceUrl}"
+                            <h:inputText value="#{productionUnitView.newInstance.data.interfaceUrl}"
                                          required="true"
                                          validatorMessage="#{of:format1(strings['validation.name.failed'],
                                          strings['pu.table.header.interfacurl'])}">
@@ -42,7 +42,7 @@
                             <h:outputText value="Double Flag"/>
                         </td>
                         <td>
-                            <h:selectBooleanCheckbox value="#{double}">
+                            <h:selectBooleanCheckbox value="#{productionUnitView.newInstance.data.double}">
                             </h:selectBooleanCheckbox>
                         </td>
                     </tr>
@@ -51,15 +51,16 @@
                             <h:outputText value="Production Unit Class"/>
                         </td>
                         <td>
-                            <h:selectOneMenu value="#{pucId}" converter="omnifaces.SelectItemsConverter">
-                                <f:selectItems value="#{productionUnitClassDAO.getAllByParentObj(plantInformation.activePlant)}"
+                            <h:selectOneMenu value="#{productionUnitView.newInstance.data.productionUnitClass}"
+                                             converter="omnifaces.SelectItemsConverter">
+                                <f:selectItems value="#{productionUnitView.PUCs}"
                                                var="c"
-                                               itemLabel="#{c.data.name}"/>
+                                               itemLabel="#{c.name}"/>
                             </h:selectOneMenu>
                         </td>
                         <td>
                             <h:commandButton
-                                    action="#{productionUnitView.createPU(location, interfaceUrl, double, plantInformation.activePlant, pucId)}"
+                                    action="#{productionUnitView.create(productionUnitView.newInstance)}"
                                     value="#{of:format1(strings['button.create.label'],strings['pu.short.text'])}"/>
                         </td>
                     </tr>

@@ -3,11 +3,15 @@ package org.cocome.cloud.web.frontend;
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.webservice.ThrowingProcedure;
+import org.cocome.cloud.web.data.AbstractDAO;
+import org.cocome.cloud.web.data.ViewData;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.util.Messages;
+import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -15,39 +19,33 @@ import java.io.Serializable;
  *
  * @author Rudolf Biczok
  */
-public class AbstractView implements Serializable {
+public abstract class AbstractView<TTargetContent extends IIdentifiableTO> implements Serializable {
     private static final Logger LOG = Logger.getLogger(AbstractView.class);
 
-    protected String createAction(final ThrowingProcedure<Exception> proc,
-                                  final String objectNameKey,
-                                  final NavigationElements nextNavigationElement)
-            throws NotInDatabaseException_Exception {
+    public String create(@NotNull ViewData<TTargetContent> viewData) throws NotInDatabaseException_Exception {
         return processFacesAction(
-                proc,
-                Messages.get("message.create.success", Messages.get(objectNameKey)),
-                Messages.get("message.create.failed", Messages.get(objectNameKey)),
-                nextNavigationElement);
+                () -> getDAO().create(viewData),
+                Messages.get("message.create.success", getObjectName()),
+                Messages.get("message.create.failed", getObjectName()),
+                getNextNavigationElement());
     }
 
-    protected String updateAction(final ThrowingProcedure<Exception> proc,
-                                  final String objectNameKey,
-                                  final NavigationElements nextNavigationElement)
+    public String update(@NotNull ViewData<TTargetContent> viewData)
             throws NotInDatabaseException_Exception {
         return processFacesAction(
-                proc,
-                Messages.get("message.update.success", Messages.get(objectNameKey)),
-                Messages.get("message.update.failed", Messages.get(objectNameKey)),
-                nextNavigationElement);
+                () -> getDAO().update(viewData),
+                Messages.get("message.update.success", getObjectName()),
+                Messages.get("message.update.failed", getObjectName()),
+                getNextNavigationElement());
     }
 
-    protected String deleteAction(final ThrowingProcedure<Exception> proc,
-                                  final String objectNameKey,
-                                  final NavigationElements nextNavigationElement)
+    public String delete(@NotNull ViewData<TTargetContent> viewData)
             throws NotInDatabaseException_Exception {
-        return processFacesAction(proc,
-                Messages.get("message.delete.success", Messages.get(objectNameKey)),
-                Messages.get("message.delete.failed", Messages.get(objectNameKey)),
-                nextNavigationElement);
+        return processFacesAction(
+                () -> getDAO().delete(viewData),
+                Messages.get("message.delete.success", getObjectName()),
+                Messages.get("message.delete.failed", getObjectName()),
+                getNextNavigationElement());
     }
 
     protected String processFacesAction(final ThrowingProcedure<Exception> proc,
@@ -72,4 +70,9 @@ public class AbstractView implements Serializable {
         return null;
     }
 
+    protected abstract AbstractDAO<?, TTargetContent, ?> getDAO();
+
+    protected abstract NavigationElements getNextNavigationElement();
+
+    protected abstract String getObjectName();
 }

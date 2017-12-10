@@ -18,7 +18,7 @@ import java.util.Collection;
 public class ProductionUnitDAO extends AbstractPlantDAO<ProductionUnitTO, PlantTO> {
 
     @Override
-    public Collection<ProductionUnitTO> queryAllByParentObj(IPlantManager iPlantManager, long id)
+    protected Collection<ProductionUnitTO> queryAllByParentObj(IPlantManager iPlantManager, long id)
             throws NotInDatabaseException_Exception {
         return iPlantManager.queryProductionUnitsByPlantID(id);
     }

@@ -70,7 +70,7 @@
                                     value="#{resource['icon:icon_edit.png']}"
                                     styleClass="button"/>
                         </h:commandLink>
-                        <h:commandLink action="#{productionUnitView.deletePU(item)}"
+                        <h:commandLink action="#{productionUnitView.delete(item)}"
                                        styleClass="button"
                                        title="#{strings['action.remove']}"
                                        rendered="#{not item.editingEnabled}">
@@ -78,7 +78,7 @@
                                     value="#{resource['icon:icon_remove.png']}"
                                     styleClass="button"/>
                         </h:commandLink>
-                        <h:commandLink action="#{productionUnitView.updatePU(item)}"
+                        <h:commandLink action="#{productionUnitView.update(item)}"
                                        styleClass="button"
                                        title="#{strings['action.save']}"
                                        rendered="#{item.editingEnabled}">

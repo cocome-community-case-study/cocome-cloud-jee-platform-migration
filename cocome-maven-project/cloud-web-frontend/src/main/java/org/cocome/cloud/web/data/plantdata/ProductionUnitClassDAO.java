@@ -29,7 +29,7 @@ public class ProductionUnitClassDAO extends AbstractPlantDAO<ProductionUnitClass
     }
 
     @Override
-    public Collection<ProductionUnitClassTO> queryAllByParentObj(IPlantManager iPlantManager, long id) throws NotInDatabaseException_Exception {
+    protected Collection<ProductionUnitClassTO> queryAllByParentObj(IPlantManager iPlantManager, long id) throws NotInDatabaseException_Exception {
         return iPlantManager.queryProductionUnitClassesByPlantID(id);
     }
 

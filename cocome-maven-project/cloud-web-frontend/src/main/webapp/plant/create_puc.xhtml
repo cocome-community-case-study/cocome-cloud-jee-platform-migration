@@ -2,7 +2,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:of="http://omnifaces.org/functions">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:of="http://omnifaces.org/functions">
 
 <h:body>
     <ui:composition template="/templates/commonTemplate.xhtml">
@@ -15,7 +16,7 @@
                                     value="#{strings['puc.create.name.text']}"/>
                         </td>
                         <td>
-                            <h:inputText value="#{name}"
+                            <h:inputText value="#{productionUnitClassView.newInstance.data.name}"
                                          required="true"
                                          validatorMessage="#{of:format1(strings['validation.name.failed'],
                                          ['puc.table.header_name'])}">
@@ -25,7 +26,7 @@
                         </td>
                         <td>
                             <h:commandButton
-                                    action="#{productionUnitClassView.createPUC(name, plantInformation.activePlant)}"
+                                    action="#{productionUnitClassView.create(productionUnitClassView.newInstance)}"
                                     value=" #{of:format1(strings['button.create.label'],strings['puc.short.text'])}"/>
                         </td>
                     </tr>

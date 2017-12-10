@@ -9,7 +9,8 @@
     <ui:composition template="/templates/commonTemplate.xhtml">
 
         <f:metadata>
-            <f:viewParam name="pucId" value="#{pucId}"/>
+            <f:viewParam name="pucId" value="#{productionUnitOperationView.pucId}" required="true"/>
+            <f:viewAction action="#{productionUnitOperationView.createNewInstance}"/>
         </f:metadata>
 
         <ui:define name="body">
@@ -21,7 +22,7 @@
                                     value="#{strings['puc_opr.create.name.text']}"/>
                         </td>
                         <td>
-                            <h:inputText value="#{name}"
+                            <h:inputText value="#{productionUnitOperationView.newInstance.data.name}"
                                          required="true"
                                          validatorMessage="#{of:format1(strings['validation.name.failed'],
                                          ['puc_opr.table.header_name'])}">
@@ -36,7 +37,7 @@
                                     value="#{strings['puc_opr.create.operationid.text']}"/>
                         </td>
                         <td>
-                            <h:inputText value="#{operationId}"
+                            <h:inputText value="#{productionUnitOperationView.newInstance.data.operationId}"
                                          required="true"
                                          validatorMessage="#{of:format1(strings['validation.name.failed'],
                                          strings['puc_opr.table.header_operationid'])}">
@@ -51,16 +52,17 @@
                                     value="#{strings['puc_opr.create.exectime.text']}"/>
                         </td>
                         <td>
-                            <h:inputText value="#{executionDurationInMillis}"
-                                         required="true"
-                                         converterMessage="#{of:format1(strings['validation.name.failed'],
+                            <h:inputText
+                                    value="#{productionUnitOperationView.newInstance.data.executionDurationInMillis}"
+                                    required="true"
+                                    converterMessage="#{of:format1(strings['validation.name.failed'],
                                          strings['puc_opr.table.header_operationid'])}">
                                 <f:converter converterId="javax.faces.Long"/>
                             </h:inputText>
                         </td>
                         <td>
                             <h:commandButton
-                                    action="#{productionUnitClassView.createPUOperation(name, operationId, executionDurationInMillis, pucId)}"
+                                    action="#{productionUnitOperationView.create(productionUnitOperationView.newInstance)}"
                                     value="#{of:format1(strings['button.create.label'],strings['puc_opr.short.text'])}"/>
                         </td>
                     </tr>
