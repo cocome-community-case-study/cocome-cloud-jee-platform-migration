@@ -16,8 +16,8 @@
                         <tr>
                             <th class="product-table-header product-table-text-col">
                                 <h:outputText value="#{strings['puc.create.name.text']} "/>
-                                <h:outputText value="#{puc.PUC.name}" rendered="#{not puc.editingEnabled}"/>
-                                <h:inputText value="#{puc.PUC.name}" rendered="#{puc.editingEnabled}"
+                                <h:outputText value="#{puc.data.name}" rendered="#{not puc.editingEnabled}"/>
+                                <h:inputText value="#{puc.data.name}" rendered="#{puc.editingEnabled}"
                                              validatorMessage="#{of:format1(strings['validation.name.failed'],
                                                                  ['puc.table.header_name'])}">
                                     <f:validateLength minimum="3" maximum="30"/>
@@ -60,7 +60,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <h:dataTable value="#{puc.operations}" var="opr"
+                                <h:dataTable value="#{productionUnitOperationDAO.getAllByParentObj(puc)}" var="opr"
                                              styleClass="product-table" headerClass="product-table-header"
                                              rowClasses="product-table-odd-row, product-table-even-row"
                                              columnClasses="
@@ -70,9 +70,9 @@
     				                            product-table-number-col">
                                     <h:column>
                                         <f:facet name="header">#{strings['puc_opr.table.header_name']}</f:facet>
-                                        <h:outputText value="#{opr.operation.name}"
+                                        <h:outputText value="#{opr.data.name}"
                                                       rendered="#{not opr.editingEnabled}"/>
-                                        <h:inputText value="#{opr.operation.name}" rendered="#{opr.editingEnabled}"
+                                        <h:inputText value="#{opr.data.name}" rendered="#{opr.editingEnabled}"
                                                      validatorMessage="#{of:format1(strings['validation.name.failed'],
                                                      ['puc_opr.table.header_name'])}">
                                             <f:validateLength minimum="3" maximum="30"/>
@@ -81,9 +81,9 @@
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">#{strings['puc_opr.table.header_operationid']}</f:facet>
-                                        <h:outputText value="#{opr.operation.operationId}"
+                                        <h:outputText value="#{opr.data.operationId}"
                                                       rendered="#{not opr.editingEnabled}"/>
-                                        <h:inputText value="#{opr.operation.operationId}"
+                                        <h:inputText value="#{opr.data.operationId}"
                                                      rendered="#{opr.editingEnabled}"
                                                      validatorMessage="#{of:format1(strings['validation.name.failed'],
                                                      ['puc_opr.table.header_operationid'])}">
@@ -93,9 +93,9 @@
                                     </h:column>
                                     <h:column headerClass="product-table-header-right">
                                         <f:facet name="header">#{strings['puc_opr.table.header_exectime']}</f:facet>
-                                        <h:outputText value="#{opr.operation.executionDurationInMillis}"
+                                        <h:outputText value="#{opr.data.executionDurationInMillis}"
                                                       rendered="#{not opr.editingEnabled}"/>
-                                        <h:inputText value="#{opr.operation.executionDurationInMillis}"
+                                        <h:inputText value="#{opr.data.executionDurationInMillis}"
                                                      rendered="#{opr.editingEnabled}"
                                                      styleClass="product-table-number-col"
                                                      converterMessage="#{of:format1(strings['validation.number.text'],
@@ -104,6 +104,7 @@
                                         </h:inputText>
                                     </h:column>
                                     <h:column>
+                                        <f:facet name="header">#{strings['enterprise.table.header_action']}</f:facet>
                                         <h:commandLink action="#{opr.setEditingEnabled(true)}"
                                                        styleClass="button"
                                                        title="#{strings['action.edit']}"
@@ -142,7 +143,7 @@
                                         <td align="left">
                                             <h:button outcome="/plant/create_puc_operation"
                                                       value="#{of:format1(strings['button.add.label'],strings['puc_opr.short.text'])}">
-                                                <f:param name="pucId" value="#{puc.PUC.id}"/>
+                                                <f:param name="pucId" value="#{puc.data.id}"/>
                                             </h:button>
                                         </td>
                                     </tr>

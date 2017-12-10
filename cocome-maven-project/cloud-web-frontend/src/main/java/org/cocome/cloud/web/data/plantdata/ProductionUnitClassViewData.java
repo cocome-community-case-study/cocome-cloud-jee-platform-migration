@@ -1,49 +1,27 @@
 package org.cocome.cloud.web.data.plantdata;
 
-import org.apache.log4j.Logger;
+import org.cocome.cloud.web.data.ViewData;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
-
-import java.util.List;
 
 /**
  * UI specific wraper objects for {@link ProductionUnitClassTO}
  *
  * @author Rudolf Biczok
  */
-public class ProductionUnitClassViewData {
-    private ProductionUnitClassTO puc;
+public class ProductionUnitClassViewData extends ViewData<ProductionUnitClassTO> {
 
-    private List<ProductionUnitOperationViewData> operations;
 
-    public ProductionUnitClassViewData(final ProductionUnitClassTO puc,
-                                       final List<ProductionUnitOperationViewData> operations) {
-        this.puc = puc;
-        this.operations = operations;
+    public ProductionUnitClassViewData(ProductionUnitClassTO data) {
+        super(data);
     }
 
-    private boolean editingEnabled = false;
-
-    public List<ProductionUnitOperationViewData> getOperations() {
-        return operations;
+    @Override
+    public long getServiceId() {
+        return this.data.getPlant().getId();
     }
 
-    public void setOperations(List<ProductionUnitOperationViewData> operations) {
-        this.operations = operations;
-    }
-
-    public ProductionUnitClassTO getPUC() {
-        return puc;
-    }
-
-    public void setPUC(final ProductionUnitClassTO puc) {
-        this.puc = puc;
-    }
-
-    public boolean isEditingEnabled() {
-        return editingEnabled;
-    }
-
-    public void setEditingEnabled(boolean editingEnabled) {
-        this.editingEnabled = editingEnabled;
+    @Override
+    public long getParentId() {
+        return this.getServiceId();
     }
 }

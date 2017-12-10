@@ -1,14 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:of="http://omnifaces.org/functions">
 
 <h:body>
 
     <ui:composition template="/templates/commonTemplate.xhtml">
 
         <ui:define name="body">
-            Unfortunately there has been an error! Please try again later.
+            <h:outputText value="Unfortunately there has been an error! Please try again later." />
+            <div style="width: 600px; height: 500px; overflow-y: scroll; overflow-x: scroll;">
+                <pre>#{of:printStackTrace(requestScope['javax.servlet.error.exception'])}</pre>
+            </div>
         </ui:define>
     </ui:composition>
 </h:body>

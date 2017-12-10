@@ -20,10 +20,10 @@ import org.cocome.cloud.web.frontend.util.Messages;
 public class StorePersistence implements IStorePersistence {
 
 	@Inject
-	IEnterpriseQuery enterpriseQuery;
+	private IEnterpriseQuery enterpriseQuery;
 
 	@Inject
-	IStoreQuery storeQuery;
+	private IStoreQuery storeQuery;
 
 	@Override
 	public String updateStore(@NotNull StoreViewData store) throws NotInDatabaseException_Exception {
@@ -50,7 +50,7 @@ public class StorePersistence implements IStorePersistence {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, Messages.get("store.create.failed"), null));
 		}
 
-		return NavigationElements.SHOW_ENTERPRISES.getNavigationOutcome();
+		return NavigationElements.SHOW_STORES.getNavigationOutcome();
 	}
 
 	public boolean updateStockItem(@NotNull ProductWrapper stockItem) {

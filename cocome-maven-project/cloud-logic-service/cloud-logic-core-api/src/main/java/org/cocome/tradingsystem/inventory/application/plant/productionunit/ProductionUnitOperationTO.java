@@ -20,6 +20,7 @@ package org.cocome.tradingsystem.inventory.application.plant.productionunit;
 
 import org.cocome.tradingsystem.inventory.application.INameableTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
+import org.cocome.tradingsystem.inventory.data.IIdentifiable;
 
 import javax.xml.bind.annotation.*;
 

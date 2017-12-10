@@ -69,6 +69,8 @@ public class NavigationMenu implements INavigationMenu, Serializable {
 
     private List<INavigationElement> populateStoreView() {
         List<INavigationElement> storeViewList = new LinkedList<>();
+        storeViewList.add(new NavigationElement(NavigationElements.SHOW_STORES, labelResolver));
+        storeViewList.add(new NavigationElement(NavigationElements.SHOW_PLANTS, labelResolver));
         storeViewList.add(new NavigationElement(NavigationElements.START_SALE, labelResolver));
         storeViewList.add(new NavigationElement(NavigationElements.SHOW_STOCK, labelResolver));
         storeViewList.add(new NavigationElement(NavigationElements.STOCK_REPORT, labelResolver));
@@ -79,9 +81,7 @@ public class NavigationMenu implements INavigationMenu, Serializable {
     private List<INavigationElement> populateEnterpriseView() {
         List<INavigationElement> enterpriseViewList = new LinkedList<>();
         enterpriseViewList.add(new NavigationElement(NavigationElements.SHOW_ENTERPRISES, labelResolver));
-        enterpriseViewList.add(new NavigationElement(NavigationElements.CREATE_ENTERPRISE, labelResolver));
         enterpriseViewList.add(new NavigationElement(NavigationElements.SHOW_PRODUCTS, labelResolver));
-        enterpriseViewList.add(new NavigationElement(NavigationElements.CREATE_PRODUCT, labelResolver));
 
         return enterpriseViewList;
     }

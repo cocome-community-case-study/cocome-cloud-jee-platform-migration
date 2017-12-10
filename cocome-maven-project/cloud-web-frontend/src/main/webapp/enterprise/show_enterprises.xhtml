@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:of="http://omnifaces.org/functions">
 
 <h:body>
 
@@ -12,8 +12,7 @@
             <h:dataTable value="#{enterpriseInformation.enterprises}" var="enterprise"
                          styleClass="product-table" headerClass="product-table-header"
                          rowClasses="product-table-odd-row,product-table-even-row"
-                         columnClasses="product-table-text-col, product-table-text-col,
-    				product-table-number-col">
+                         columnClasses="product-table-text-col, product-table-text-col, product-table-number-col">
                 <h:column>
                     <f:facet name="header">#{strings['enterprise.table.header_id']}</f:facet>
                     #{enterprise.id}
@@ -29,23 +28,23 @@
                         <h:graphicImage value="#{resource['icon:icon_shop.png']}" styleClass="button"/>
                         <f:param name="enterprise_id" value="#{enterprise.id}"/>
                     </h:link>
-                    <h:link outcome="create_store"
-                            title="#{strings['enterprise.table.action.create_store']}">
-                        <h:graphicImage value="#{resource['icon:icon_add.png']}" styleClass="button"/>
-                        <f:param name="enterprise_id" value="#{enterprise.id}"/>
-                    </h:link>
                     <h:link outcome="show_plants"
                             title="#{strings['enterprise.table.action.show_plants']}">
                         <h:graphicImage value="#{resource['icon:icon_plant.png']}" styleClass="button"/>
                         <f:param name="enterprise_id" value="#{enterprise.id}"/>
                     </h:link>
-                    <h:link outcome="create_plant"
-                            title="#{strings['enterprise.table.action.create_plant']}">
-                        <h:graphicImage value="#{resource['icon:icon_add.png']}" styleClass="button"/>
-                        <f:param name="enterprise_id" value="#{enterprise.id}"/>
-                    </h:link>
                 </h:column>
             </h:dataTable>
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td align="center">
+                            <h:button outcome="/enterprise/create_enterprise"
+                                      value="#{of:format1(strings['button.add.label'], 'Enterprise')}"/>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
         </ui:define>
     </ui:composition>
 </h:body>

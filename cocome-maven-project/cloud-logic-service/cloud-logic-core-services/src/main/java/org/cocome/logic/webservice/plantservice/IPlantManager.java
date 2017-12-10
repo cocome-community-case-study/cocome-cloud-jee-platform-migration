@@ -162,6 +162,13 @@ public interface IPlantManager {
     /* CRUD for {@link ProductionUnitTO} **************/
 
     @WebMethod
+    Collection<ProductionUnitTO> queryProductionUnitsByPlantID(
+            @XmlElement(required = true)
+            @WebParam(name = "plantID")
+                    long plantId)
+            throws NotInDatabaseException;
+
+    @WebMethod
     ProductionUnitTO queryProductionUnitByID(
             @XmlElement(required = true)
             @WebParam(name = "productionUnitID")

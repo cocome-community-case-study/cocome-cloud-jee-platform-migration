@@ -53,6 +53,10 @@
     <wsdl:part name="parameters" element="tns:updateProductionUnitOperationResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryProductionUnitsByPlantID">
+    <wsdl:part name="parameters" element="tns:queryProductionUnitsByPlantID">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryPlantOperationOrderById">
     <wsdl:part name="parameters" element="tns:queryPlantOperationOrderById">
     </wsdl:part>
@@ -95,6 +99,10 @@
   </wsdl:message>
   <wsdl:message name="updateProductionUnitResponse">
     <wsdl:part name="parameters" element="tns:updateProductionUnitResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryProductionUnitsByPlantIDResponse">
+    <wsdl:part name="parameters" element="tns:queryProductionUnitsByPlantIDResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="CreateException">
@@ -304,6 +312,14 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryProductionUnitsByPlantID">
+      <wsdl:input name="queryProductionUnitsByPlantID" message="tns:queryProductionUnitsByPlantID">
+    </wsdl:input>
+      <wsdl:output name="queryProductionUnitsByPlantIDResponse" message="tns:queryProductionUnitsByPlantIDResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryPlantOperationOrderById">
@@ -557,6 +573,18 @@
       </wsdl:fault>
       <wsdl:fault name="UpdateException">
         <soap:fault name="UpdateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryProductionUnitsByPlantID">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryProductionUnitsByPlantID">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryProductionUnitsByPlantIDResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryPlantOperationOrderById">

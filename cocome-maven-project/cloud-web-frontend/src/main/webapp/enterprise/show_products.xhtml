@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:of="http://omnifaces.org/functions">
 
 
 <h:body>
@@ -30,6 +30,16 @@
                     </h:outputText>
                 </h:column>
             </h:dataTable>
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td align="center">
+                            <h:button outcome="/enterprise/create_product"
+                                      value="#{of:format1(strings['button.add.label'], 'Product')}"/>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
         </ui:define>
     </ui:composition>
 </h:body>

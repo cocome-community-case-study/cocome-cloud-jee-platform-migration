@@ -2,113 +2,93 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:of="http://omnifaces.org/functions">
 
 <h:body>
 
     <ui:composition template="/templates/commonTemplate.xhtml">
 
-        <!-- <f:metadata>
-            <f:viewAction action="#{storeInformation.queryStockItems}"/>
-        </f:metadata> -->
-
         <ui:define name="body">
             <h:form>
-                <h:dataTable value="#{storeInformation.allStockItems}" var="item"
-                             styleClass="product-table" headerClass="product-table-header"
+                <h:dataTable value="#{productionUnitDAO.getAllByParentObj(plantInformation.activePlant)}"
+                             var="item"
+                             styleClass="product-table"
+                             headerClass="product-table-header"
                              rowClasses="product-table-odd-row,product-table-even-row"
-                             columnClasses="product-table-text-col, product-table-text-col,
-    				product-table-number-col, product-table-number-col, 
-    				product-table-number-col, product-table-number-col,
-    				product-table-number-col, product-table-text-col">
+                             columnClasses="
+                                product-table-text-col,
+                                product-table-text-col,
+                                product-table-check-col,
+                                product-table-text-col,
+                                product-table-number-col">
                     <h:column>
-                        <f:facet name="header">#{strings['product.table.header_barcode']}</f:facet>
-                        #{item.barcode}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{strings['product.table.header_name']}</f:facet>
-                        #{item.name}
-                    </h:column>
-                    <h:column headerClass="product-table-header-right">
-                        <f:facet name="header">#{strings['stock.table.header_min_stock']}</f:facet>
-                        <h:outputText value="#{item.stockItemTO.minStock}"
+                        <f:facet name="header">Location</f:facet>
+                        <h:outputText value="#{item.data.location}"
                                       rendered="#{not item.editingEnabled}"/>
-                        <h:inputText value="#{item.newMinAmount}"
-                                     rendered="#{item.editingEnabled}"
-                                     styleClass="product-table-number-col"
-                                     converterMessage="#{strings['stock.validation.numbers.text']}">
-                            <f:converter converterId="javax.faces.Long"/>
-                        </h:inputText>
-                    </h:column>
-                    <h:column headerClass="product-table-header-right">
-                        <f:facet name="header">#{strings['stock.table.header_max_stock']}</f:facet>
-                        <h:outputText value="#{item.stockItemTO.maxStock}"
-                                      rendered="#{not item.editingEnabled}"/>
-                        <h:inputText value="#{item.newMaxAmount}"
-                                     rendered="#{item.editingEnabled}"
-                                     styleClass="product-table-number-col"
-                                     converterMessage="#{strings['stock.validation.numbers.text']}">
-                            <f:converter converterId="javax.faces.Long"/>
-                        </h:inputText>
-                    </h:column>
-                    <h:column headerClass="product-table-header-right">
-                        <f:facet name="header">#{strings['stock.table.header_curr_stock']}</f:facet>
-                        <h:outputText value="#{item.stockItemTO.amount}"
-                                      rendered="#{not item.editingEnabled}"/>
-                        <h:inputText value="#{item.newAmount}"
-                                     rendered="#{item.editingEnabled}"
-                                     styleClass="product-table-number-col"
-                                     converterMessage="#{strings['stock.validation.numbers.text']}">
-                            <f:converter converterId="javax.faces.Long"/>
-                        </h:inputText>
-                    </h:column>
-                    <h:column headerClass="product-table-header-right">
-                        <f:facet name="header">#{strings['stock.table.header_sales_price']}</f:facet>
-                        <h:outputText value="#{item.salesPrice}"
-                                      rendered="#{not item.editingEnabled}">
-                            <f:convertNumber type="currency" currencySymbol="€"/>
-                        </h:outputText>
-                        <h:inputText value="#{item.newSalesPrice}"
-                                     rendered="#{item.editingEnabled}"
-                                     styleClass="product-table-number-col"
-                                     converterMessage="#{strings['stock.validation.price.text']}">
-                            <f:converter converterId="javax.faces.Double"/>
+                        <h:inputText value="#{item.data.location}" rendered="#{item.editingEnabled}"
+                                     validatorMessage="#{of:format1(strings['validation.name.failed'],
+                                                                    'Location')}">
+                            <f:validateLength minimum="3" maximum="30"/>
+                            <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                         </h:inputText>
                     </h:column>
                     <h:column>
+                        <f:facet name="header">#{strings['pu.table.header.interfacurl']}</f:facet>
+                        <h:outputText value="#{item.data.interfaceUrl}"
+                                      rendered="#{not item.editingEnabled}"/>
+                        <h:inputText value="#{item.data.interfaceUrl}" rendered="#{item.editingEnabled}"
+                                     validatorMessage="#{of:format1(strings['validation.name.failed'],
+                                                                    strings['pu.table.header.interfacurl'])}">
+                            <f:validateLength minimum="3" maximum="150"/>
+                            <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                        </h:inputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Double Flag</f:facet>
+                        <h:selectBooleanCheckbox value="#{item.data.double}"
+                                     disabled='#{not item.editingEnabled}'>
+                        </h:selectBooleanCheckbox>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Production Unit Class</f:facet>
+                        <h:selectOneMenu disabled='#{not item.editingEnabled}'
+                                         value="#{item.data.productionUnitClass}"
+                                         converter="omnifaces.SelectItemsConverter">
+                            <f:selectItems value="#{productionUnitView.PUCs}"
+                                           var="c"
+                                           itemLabel="#{c.name}"/>
+                        </h:selectOneMenu>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{strings['enterprise.table.header_action']}</f:facet>
                         <h:commandLink action="#{item.setEditingEnabled(true)}"
                                        styleClass="button"
-                                       title="#{strings['stock.table.action.edit_price']}"
+                                       title="#{strings['action.edit']}"
                                        rendered="#{not item.editingEnabled}">
                             <h:graphicImage
-                                    value="#{resource['icon:icon_shoppingcart_edit.png']}"
+                                    value="#{resource['icon:icon_edit.png']}"
                                     styleClass="button"/>
                         </h:commandLink>
-                        <h:commandLink action="#{stockOrderView.selectOrderItem(item)}"
+                        <h:commandLink action="#{productionUnitView.deletePU(item)}"
                                        styleClass="button"
-                                       title="#{strings['stock.table.action.add_order']}"
-                                       rendered="#{not item.editingEnabled and not item.inCurrentOrder}">
+                                       title="#{strings['action.remove']}"
+                                       rendered="#{not item.editingEnabled}">
                             <h:graphicImage
-                                    value="#{resource['icon:icon_shoppingcart_add.png']}"
+                                    value="#{resource['icon:icon_remove.png']}"
                                     styleClass="button"/>
                         </h:commandLink>
-                        <h:commandLink action="#{stockOrderView.removeOrderItem(item)}"
+                        <h:commandLink action="#{productionUnitView.updatePU(item)}"
                                        styleClass="button"
-                                       title="#{strings['stock.table.action.remove_order']}"
-                                       rendered="#{not item.editingEnabled and item.inCurrentOrder}">
-                            <h:graphicImage
-                                    value="#{resource['icon:icon_shoppingcart_delete.png']}"
-                                    styleClass="button"/>
-                        </h:commandLink>
-                        <h:commandLink action="#{showStockView.updateStockItem(item)}"
-                                       styleClass="button"
-                                       title="#{strings['stock.table.action.save_price']}"
+                                       title="#{strings['action.save']}"
                                        rendered="#{item.editingEnabled}">
                             <h:graphicImage value="#{resource['icon:icon_save.png']}"
                                             styleClass="button"/>
                         </h:commandLink>
-                        <h:commandLink action="#{item.resetEdit()}" styleClass="button"
-                                       title="#{strings['stock.table.action.cancel']}"
+                        <h:commandLink action="#{item.setEditingEnabled(false)}"
+                                       immediate="true"
+                                       styleClass="button"
+                                       title="#{strings['action.cancel']}"
                                        rendered="#{item.editingEnabled}">
                             <h:graphicImage value="#{resource['icon:icon_reset.png']}"
                                             styleClass="button"/>
@@ -120,20 +100,10 @@
             <h:form>
                 <table width="100%">
                     <tr>
-                        <td align="left"><h:button outcome="/store/add_stock"
-                                                   value="#{strings['stock.add.button.label']}"/></td>
-                        <td align="right"><h:panelGroup
-                                rendered="#{stockOrderView.hasOrderProducts()}">
-                            <h:commandButton action="#{stockOrderView.showOrder()}"
-                                             value="#{strings['stock.order.wizard.show']}"
-                                             styleClass="wizard-button-right"/>
-                            <h:commandButton action="#{stockOrderView.cancelOrder()}"
-                                             value="#{strings['stock.order.wizard.cancel']}"
-                                             styleClass="wizard-button-right"/>
-                            <h:commandButton action="#{stockOrderView.submitOrder()}"
-                                             value="#{strings['stock.order.wizard.submit']}"
-                                             styleClass="wizard-button-right"/>
-                        </h:panelGroup></td>
+                        <td align="center">
+                            <h:button outcome="/plant/create_pu"
+                                      value="#{of:format1(strings['button.add.label'],strings['pu.short.text'])}"/>
+                        </td>
                     </tr>
                 </table>
             </h:form>

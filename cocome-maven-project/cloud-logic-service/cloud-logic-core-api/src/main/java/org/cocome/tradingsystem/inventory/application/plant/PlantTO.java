@@ -18,10 +18,10 @@
 
 package org.cocome.tradingsystem.inventory.application.plant;
 
+import org.cocome.tradingsystem.inventory.application.INameableTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 
 import javax.xml.bind.annotation.*;
-import java.io.Serializable;
 
 /**
  * Transfer object for plant and enterprise data.
@@ -33,7 +33,7 @@ import java.io.Serializable;
         namespace = "http://plant.application.inventory.tradingsystem.cocome.org/")
 @XmlRootElement(name = "PlantTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PlantTO implements Serializable {
+public class PlantTO implements INameableTO {
 
     private static final long serialVersionUID = 1L;
 

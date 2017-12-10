@@ -103,19 +103,8 @@ public class PlantManager implements IPlantManager {
         }
     }
 
-    private <T1, T2> Collection<T2> queryCollectionByID(final ThrowingSupplier<Collection<T1>, NotInDatabaseException> queryCommand,
-                                                        final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)
-            throws NotInDatabaseException {
-        Collection<T1> instances = queryCommand.get();
-        Collection<T2> toInstances = new ArrayList<>(instances.size());
-        for (T1 instance : instances) {
-            toInstances.add(conversionCommand.apply(instance));
-        }
-        return toInstances;
-    }
-
     private <T1, T2> Collection<T2> queryCollectionByParentID(final long parentId,
-                                                              final Function<Long, Collection<T1>> queryCommand,
+                                                              final ThrowingFunction<Long, Collection<T1>, NotInDatabaseException> queryCommand,
                                                               final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)
             throws NotInDatabaseException {
         //setContextRegistry(parentId);
@@ -236,6 +225,14 @@ public class PlantManager implements IPlantManager {
         return plantFactory.fillProductionUnitTO(
                 plantQuery.queryProductionUnit(productionUnitId));
     }
+
+    @Override
+    public Collection<ProductionUnitTO> queryProductionUnitsByPlantID(long plantId) throws NotInDatabaseException {
+        return this.queryCollectionByParentID(plantId,
+                plantQuery::queryProductionUnits,
+                plantFactory::fillProductionUnitTO);
+    }
+
 
     @Override
     public long createProductionUnit(final ProductionUnitTO productionUnitTO) throws CreateException {

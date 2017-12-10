@@ -1,17 +1,11 @@
 package org.cocome.cloud.web.data.plantdata;
 
 import org.apache.log4j.Logger;
-import org.cocome.cloud.logic.stub.CreateException_Exception;
-import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.logic.stub.UpdateException_Exception;
-import org.cocome.cloud.logic.webservice.StreamUtil;
 import org.cocome.cloud.logic.webservice.ThrowingSupplier;
 import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
-import org.cocome.cloud.web.connector.plantconnector.PlantQuery;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.util.Messages;
-import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
@@ -19,8 +13,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Named
 @ApplicationScoped
@@ -48,7 +40,7 @@ public class PlantPersistence {
                 () -> enterpriseQuery.createPlant(enterpriseID, name, location),
                 Messages.get("message.create.success", Messages.get("plant.short.text")),
                 Messages.get("message.create.success", Messages.get("plant.short.text")),
-                NavigationElements.SHOW_ENTERPRISES);
+                NavigationElements.SHOW_PLANTS);
     }
 
     private String processFacesAction(final ThrowingSupplier<Boolean, Exception> proc,

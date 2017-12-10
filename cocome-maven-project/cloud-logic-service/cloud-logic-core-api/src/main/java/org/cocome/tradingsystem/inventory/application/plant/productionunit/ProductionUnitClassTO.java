@@ -87,4 +87,11 @@ public class ProductionUnitClassTO implements Serializable, INameableTO {
     public void setPlant(final PlantTO plant) {
         this.plant = plant;
     }
+
+    @Override
+    public String toString() {
+        return "ProductionUnitClassTO{" +
+                "id=" + id +
+                '}';
+    }
 }

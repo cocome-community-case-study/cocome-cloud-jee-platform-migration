@@ -2,7 +2,6 @@ package org.cocome.cloud.web.data.plantdata;
 
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.connector.enterpriseconnector.EnterpriseQuery;
-import org.cocome.cloud.web.connector.storeconnector.StoreQuery;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -23,4 +22,5 @@ public class PlantDAO {
     public PlantViewData getPlantByID(long plantID) throws NotInDatabaseException_Exception {
         return enterpriseQuery.getPlantByID(plantID);
     }
+
 }

@@ -1,5 +1,6 @@
 package org.cocome.cloud.web.data.plantdata;
 
+import org.cocome.cloud.web.data.ViewData;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 
 /**
@@ -7,29 +8,19 @@ import org.cocome.tradingsystem.inventory.application.plant.productionunit.Produ
  *
  * @author Rudolf Biczok
  */
-public class ProductionUnitOperationViewData {
+public class ProductionUnitOperationViewData extends ViewData<ProductionUnitOperationTO> {
 
-    private ProductionUnitOperationTO operation;
-
-    public ProductionUnitOperationViewData(final ProductionUnitOperationTO operation) {
-        this.operation = operation;
+    public ProductionUnitOperationViewData(ProductionUnitOperationTO data) {
+        super(data);
     }
 
-    public ProductionUnitOperationTO getOperation() {
-        return operation;
+    @Override
+    public long getServiceId() {
+        return this.data.getProductionUnitClass().getPlant().getId();
     }
 
-    public void setOperation(final ProductionUnitOperationTO operation) {
-        this.operation = operation;
-    }
-
-    private boolean editingEnabled = false;
-
-    public boolean isEditingEnabled() {
-        return editingEnabled;
-    }
-
-    public void setEditingEnabled(boolean editingEnabled) {
-        this.editingEnabled = editingEnabled;
+    @Override
+    public long getParentId() {
+        return this.data.getProductionUnitClass().getId();
     }
 }

@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:of="http://omnifaces.org/functions">
 
 
 <h:body>
@@ -48,7 +48,7 @@
                         </h:inputText>
                     </h:column>
                     <h:column>
-                        <f:facet name="header"/>
+                        <f:facet name="header">#{strings['enterprise.table.header_action']}</f:facet>
                         <h:commandLink action="#{store.setEditingEnabled(true)}" styleClass="button"
                                        title="#{strings['store.table.action.edit_store']}"
                                        rendered="#{not store.editingEnabled}">
@@ -80,6 +80,19 @@
                         </h:commandLink>
                     </h:column>
                 </h:dataTable>
+            </h:form>
+
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td align="center">
+                            <h:button outcome="/enterprise/create_store"
+                                      value="#{of:format1(strings['button.add.label'], 'Store')}">
+                                <f:param name="enterprise_id" value="#{enterpriseInformation.activeEnterprise.id}"/>
+                            </h:button>
+                        </td>
+                    </tr>
+                </table>
             </h:form>
         </ui:define>
     </ui:composition>

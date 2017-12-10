@@ -1,5 +1,6 @@
 package org.cocome.cloud.web.data.plantdata;
 
+import org.cocome.cloud.web.data.ViewData;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 
@@ -8,44 +9,44 @@ import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
  *
  * @author Rudolf Biczok
  */
-public class PlantViewData {
+public class PlantViewData extends ViewData<PlantTO> {
 
-    private PlantTO plant = new PlantTO();
     private boolean editingEnabled;
     private String newName;
     private String newLocation;
 
     public PlantViewData(long id, EnterpriseTO enterprise, String location, String name) {
-        this.plant.setId(id);
-        this.plant.setEnterpriseTO(enterprise);
-        this.plant.setName(name);
-        this.plant.setLocation(location);
+        super(new PlantTO());
+        this.data.setId(id);
+        this.data.setEnterpriseTO(enterprise);
+        this.data.setName(name);
+        this.data.setLocation(location);
         this.setNewLocation(location);
         this.setNewName(name);
     }
 
     public long getID() {
-        return this.plant.getId();
+        return this.data.getId();
     }
 
     public void setID(long storeID) {
-        this.plant.setId(storeID);
+        this.data.setId(storeID);
     }
 
     public String getName() {
-        return this.plant.getName();
+        return this.data.getName();
     }
 
     public void setName(String name) {
-        this.plant.setName(name);
+        this.data.setName(name);
     }
 
     public String getLocation() {
-        return this.plant.getLocation();
+        return this.data.getLocation();
     }
 
     public void setLocation(String storeLocation) {
-        this.plant.setLocation(storeLocation);
+        this.data.setLocation(storeLocation);
     }
 
     public boolean isEditingEnabled() {
@@ -54,18 +55,28 @@ public class PlantViewData {
 
     public void setEditingEnabled(boolean editingEnabled) {
         if (!editingEnabled) {
-            newName = this.plant.getName();
-            newLocation = this.plant.getLocation();
+            newName = this.data.getName();
+            newLocation = this.data.getLocation();
         }
         this.editingEnabled = editingEnabled;
     }
 
+    @Override
+    public long getServiceId() {
+        return this.data.getEnterpriseTO().getId();
+    }
+
+    @Override
+    public long getParentId() {
+        return this.data.getEnterpriseTO().getId();
+    }
+
     public EnterpriseTO getEnterprise() {
-        return this.plant.getEnterpriseTO();
+        return this.data.getEnterpriseTO();
     }
 
     public void setEnterprise(EnterpriseTO enterprise) {
-        this.plant.setEnterpriseTO(enterprise);
+        this.data.setEnterpriseTO(enterprise);
     }
 
     public String getNewName() {
@@ -85,11 +96,11 @@ public class PlantViewData {
     }
 
     public PlantTO getPlantTO() {
-        return plant;
+        return data;
     }
 
     void updatePlantInformation() {
-        this.plant.setName(newName);
-        this.plant.setLocation(newLocation);
+        this.data.setName(newName);
+        this.data.setLocation(newLocation);
     }
 }

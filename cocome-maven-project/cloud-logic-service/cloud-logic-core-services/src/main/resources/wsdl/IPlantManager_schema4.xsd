@@ -55,6 +55,8 @@
   <xs:element name="queryProductionUnitOperationByIDResponse" type="tns:queryProductionUnitOperationByIDResponse"/>
   <xs:element name="queryProductionUnitOperationsByProductionUnitClassID" type="tns:queryProductionUnitOperationsByProductionUnitClassID"/>
   <xs:element name="queryProductionUnitOperationsByProductionUnitClassIDResponse" type="tns:queryProductionUnitOperationsByProductionUnitClassIDResponse"/>
+  <xs:element name="queryProductionUnitsByPlantID" type="tns:queryProductionUnitsByPlantID"/>
+  <xs:element name="queryProductionUnitsByPlantIDResponse" type="tns:queryProductionUnitsByPlantIDResponse"/>
   <xs:element name="updateConditionalExpression" type="tns:updateConditionalExpression"/>
   <xs:element name="updateConditionalExpressionResponse" type="tns:updateConditionalExpressionResponse"/>
   <xs:element name="updateProductionUnit" type="tns:updateProductionUnit"/>
@@ -184,6 +186,16 @@
   </xs:complexType>
   <xs:complexType name="updateProductionUnitResponse">
     <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="queryProductionUnitsByPlantID">
+    <xs:sequence>
+      <xs:element name="plantID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryProductionUnitsByPlantIDResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:ProductionUnitTO"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryPlantOperationOrderById">
     <xs:sequence>
