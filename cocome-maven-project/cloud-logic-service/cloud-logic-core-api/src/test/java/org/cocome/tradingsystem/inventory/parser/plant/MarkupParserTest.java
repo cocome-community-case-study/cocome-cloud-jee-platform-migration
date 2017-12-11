@@ -1,8 +1,8 @@
-package org.cocome.tradingsystem.inventory.parser;
+package org.cocome.tradingsystem.inventory.parser.plant;
 
-import org.cocome.tradingsystem.inventory.parser.ast.ConditionalExpressionInfo;
-import org.cocome.tradingsystem.inventory.parser.ast.PUOperationInfo;
-import org.cocome.tradingsystem.inventory.parser.ast.PlantOperationInfo;
+import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo;
+import org.cocome.tradingsystem.inventory.application.plant.expression.PUOperationInfo;
+import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,22 +13,22 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 /**
- * Test class for {@link PlantRecipeParser}
+ * Test class for {@link MarkupParser}
  *
  * @author Rudolf Biczok
  */
-public class PlantRecipeParserTest {
+public class MarkupParserTest {
 
-    private PlantRecipeParser parser = new PlantRecipeParser();
+    private MarkupParser parser = new MarkupParser();
 
     @Test
     public void testToString() throws Exception {
 
         final String expectedJson = readResourceFile(
-                PlantRecipeParserTest.class,
-                "plant_recipe_parser_out.json");
+                MarkupParserTest.class,
+                "plant_markup_parser_out.json");
 
-        final String text = parser.toString(new PlantOperationInfo(Arrays.asList(
+        final String text = parser.toString(new MarkupInfo(Arrays.asList(
                 new PUOperationInfo("PUC1", "op1"),
                 new PUOperationInfo("PUC1", "op1"),
                 new ConditionalExpressionInfo("Param1", "true",

@@ -142,6 +142,7 @@ public class ProductionManager {
             operationOrder.setEnterprise(enterpriseDatatypesFactory.fillEnterpriseTO(
                     job.getOrder().getStore().getEnterprise()));
             operationOrder.setOrderEntries(new ArrayList<>(entry.getValue().values()));
+            operationOrder.setPlant(operationOrder.getOrderEntries().iterator().next().getPlantOperation().getPlant());
 
             final IPlantManager pm = plantClientFactory.createClient(entry.getKey());
             this.plantOrderProductionJobMapping.put(pm.orderOperation(operationOrder), new ProductionJobContext(job, nodes));

@@ -3,8 +3,6 @@ package org.cocome.tradingsystem.inventory.data.plant;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
-import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
-import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
@@ -14,9 +12,6 @@ import org.cocome.tradingsystem.inventory.application.plant.productionunit.Produ
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
-import org.cocome.tradingsystem.inventory.data.plant.expression.ConditionalExpression;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
@@ -45,9 +40,6 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
 
     @Inject
     private Provider<ProductionUnitOperation> productionUnitOperationProvider;
-
-    @Inject
-    private Provider<ConditionalExpression> conditionalExpressionProvider;
 
     @Inject
     private Provider<IPlantOperation> plantOperationProvider;
@@ -122,22 +114,6 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public IConditionalExpression getNewConditionalExpression() {
-        return conditionalExpressionProvider.get();
-    }
-
-    @Override
-    public IConditionalExpression convertToConditionalExpression(ConditionalExpressionTO conditionalExpressionTO) {
-        final IConditionalExpression expression = getNewConditionalExpression();
-        expression.setId(conditionalExpressionTO.getId());
-        expression.setParameterId(conditionalExpressionTO.getParameter().getId());
-        expression.setParameterValue(conditionalExpressionTO.getParameterValue());
-        expression.setOnTrueExpressionIds(extractIdsOfCollection(conditionalExpressionTO.getOnTrueExpressions()));
-        expression.setOnFalseExpressionIds(extractIdsOfCollection(conditionalExpressionTO.getOnFalseExpressions()));
-        return expression;
-    }
-
-    @Override
     public ProductionUnitClassTO fillProductionUnitClassTO(IProductionUnitClass puc) throws NotInDatabaseException {
         final ProductionUnitClassTO result = new ProductionUnitClassTO();
         result.setId(puc.getId());
@@ -194,18 +170,6 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public ConditionalExpressionTO fillConditionalExpressionTO(IConditionalExpression expressionTO)
-            throws NotInDatabaseException {
-        final ConditionalExpressionTO result = new ConditionalExpressionTO();
-        result.setId(expressionTO.getId());
-        result.setParameter(fillPlantOperationParameterTO(expressionTO.getParameter()));
-        result.setParameterValue(expressionTO.getParameterValue());
-        result.setOnTrueExpressions(fillExpressionTOs(expressionTO.getOnTrueExpressions()));
-        result.setOnFalseExpressions(fillExpressionTOs(expressionTO.getOnFalseExpressions()));
-        return result;
-    }
-
-    @Override
     public PlantOperationParameterTO fillPlantOperationParameterTO(IPlantOperationParameter parameter)
             throws NotInDatabaseException {
         if (IBooleanPlantOperationParameter.class.isAssignableFrom(parameter.getClass())) {
@@ -241,32 +205,11 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(operation.getId());
         result.setName(operation.getName());
         result.setPlant(enterpriseDatatypes.fillPlantTO(operation.getPlant()));
-        result.setExpressions(fillExpressionTOs(operation.getExpressions()));
+        result.setMarkup(operation.getMarkup());
         result.setInputEntryPoint(convertList(operation.getInputEntryPoint(), enterpriseDatatypes::fillEntryPointTO));
         result.setOutputEntryPoint(convertList(operation.getOutputEntryPoint(),
                 enterpriseDatatypes::fillEntryPointTO));
         return result;
-    }
-
-    private List<ExpressionTO> fillExpressionTOs(List<IExpression> expressions)
-            throws NotInDatabaseException {
-        final List<ExpressionTO> expressionTOs = new ArrayList<>(expressions.size());
-        for (final IExpression expression : expressions) {
-            expressionTOs.add(fillExpressionTO(expression));
-        }
-        return expressionTOs;
-    }
-
-
-    private ExpressionTO fillExpressionTO(IExpression expressions) throws NotInDatabaseException {
-        if (IProductionUnitOperation.class.isAssignableFrom(expressions.getClass())) {
-            return this.fillProductionUnitOperationTO(
-                    (IProductionUnitOperation) expressions);
-        } else if (IConditionalExpression.class.isAssignableFrom(expressions.getClass())) {
-            return this.fillConditionalExpressionTO(
-                    (IConditionalExpression) expressions);
-        }
-        throw new IllegalArgumentException("Unknown class to handle: " + expressions.getClass());
     }
 
     @Override
@@ -275,7 +218,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(plantOperationTO.getId());
         result.setName(plantOperationTO.getName());
         result.setPlantId(plantOperationTO.getPlant().getId());
-        result.setExpressionIds(extractIdsOfCollection(plantOperationTO.getExpressions()));
+        result.setMarkup(plantOperationTO.getMarkup());
         result.setInputEntryPointIds(extractIdsOfCollection(plantOperationTO.getInputEntryPoint()));
         result.setOutputEntryPointIds(extractIdsOfCollection(plantOperationTO.getOutputEntryPoint()));
 
@@ -438,6 +381,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setOrderingDate(plantOperationOrder.getOrderingDate());
         result.setDeliveryDate(plantOperationOrder.getDeliveryDate());
         result.setEnterprise(enterpriseDatatypes.fillEnterpriseTO(plantOperationOrder.getEnterprise()));
+        result.setPlant(enterpriseDatatypes.fillPlantTO(plantOperationOrder.getPlant()));
         result.setOrderEntries(convertList(plantOperationOrder.getOrderEntries(),
                 this::fillPlantOperationOrderEntryTO));
         return result;
@@ -451,6 +395,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setOrderingDate(plantOperationOrderTO.getOrderingDate());
         result.setDeliveryDate(plantOperationOrderTO.getDeliveryDate());
         result.setEnterpriseId(plantOperationOrderTO.getEnterprise().getId());
+        result.setPlantId(plantOperationOrderTO.getPlant().getId());
         result.setOrderEntries(convertList(plantOperationOrderTO.getOrderEntries(),
                 this::convertToPlantOperationOrderEntry));
         return result;

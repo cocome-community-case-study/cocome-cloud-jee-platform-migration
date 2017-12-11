@@ -34,11 +34,17 @@
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IPlantManager_schema7.xsd">
-        <bindings node="//xsd:complexType[@name='ExpressionTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO"/>
+        <bindings node="//xsd:complexType[@name='ExpressionInfo']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionInfo"/>
         </bindings>
-        <bindings node="//xsd:complexType[@name='ConditionalExpressionTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO"/>
+        <bindings node="//xsd:complexType[@name='ConditionalExpressionInfo']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo"/>
+        </bindings>
+        <bindings node="//xsd:complexType[@name='PUOperationInfo']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.expression.PUOperationInfo"/>
+        </bindings>
+        <bindings node="//xsd:complexType[@name='MarkupInfo']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo"/>
         </bindings>
     </bindings>
 </bindings>

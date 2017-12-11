@@ -18,10 +18,9 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -45,12 +44,11 @@ public class PlantOperation implements Serializable, IPlantOperation {
     private long id;
     private String name;
     private IPlant plant;
-    private List<IExpression> expressions;
+    private MarkupInfo markupInfo;
     private Collection<IEntryPoint> inputEntryPoint;
     private Collection<IEntryPoint> outputEntryPoint;
 
     private long plantId;
-    private List<Long> expressionIds;
     private List<Long> inputEntryPointIds;
     private List<Long> outputEntryPointIds;
 
@@ -59,19 +57,12 @@ public class PlantOperation implements Serializable, IPlantOperation {
 
     private IEnterpriseQuery enterpriseQuery;
 
-    @Inject
-    private Instance<IPlantQuery> plantQueryInstance;
-
-    private IPlantQuery plantQuery;
-
     private Collection<IPlantOperationParameter> parameters;
 
     @PostConstruct
     public void initPlant() {
         enterpriseQuery = enterpriseQueryInstance.get();
-        plantQuery = plantQueryInstance.get();
         plant = null;
-        expressions = null;
         inputEntryPoint = null;
         outputEntryPoint = null;
         parameters = null;
@@ -167,26 +158,13 @@ public class PlantOperation implements Serializable, IPlantOperation {
     }
 
     @Override
-    public List<IExpression> getExpressions() throws NotInDatabaseException {
-        if (this.expressions == null) {
-            this.expressions = this.plantQuery.queryExpressionsByIdList(this.expressionIds);
-        }
-        return expressions;
+    public MarkupInfo getMarkup() {
+        return this.markupInfo;
     }
 
     @Override
-    public void setExpressions(List<IExpression> expressions) {
-        this.expressions = expressions;
-    }
-
-    @Override
-    public List<Long> getExpressionIds() {
-        return expressionIds;
-    }
-
-    @Override
-    public void setExpressionIds(List<Long> expressionIds) {
-        this.expressionIds = expressionIds;
+    public void setMarkup(MarkupInfo markup) {
+        this.markupInfo = markup;
     }
 
     @Override

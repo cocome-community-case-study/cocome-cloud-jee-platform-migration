@@ -27,7 +27,6 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCust
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
@@ -140,9 +139,9 @@ public class CloudPersistenceContext implements IPersistenceContext {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createEntity(IItem item) throws CreateException {
-        if(item instanceof IOnDemandItem) {
+        if (item instanceof IOnDemandItem) {
             this.createEntity((IOnDemandItem) item);
-        } else if(item instanceof IStockItem) {
+        } else if (item instanceof IStockItem) {
             this.createEntity((IStockItem) item);
         } else {
             throw new IllegalArgumentException("Unknown entity type: " + item.getClass().getName());
@@ -152,9 +151,9 @@ public class CloudPersistenceContext implements IPersistenceContext {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void updateEntity(IItem item) throws UpdateException {
-        if(item instanceof IOnDemandItem) {
+        if (item instanceof IOnDemandItem) {
             this.updateEntity((IOnDemandItem) item);
-        } else if(item instanceof IStockItem) {
+        } else if (item instanceof IStockItem) {
             this.updateEntity((IStockItem) item);
         } else {
             throw new IllegalArgumentException("Unknown entity type: " + item.getClass().getName());
@@ -164,9 +163,9 @@ public class CloudPersistenceContext implements IPersistenceContext {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void deleteEntity(IItem item) throws UpdateException {
-        if(item instanceof IOnDemandItem) {
+        if (item instanceof IOnDemandItem) {
             this.deleteEntity((IOnDemandItem) item);
-        } else if(item instanceof IStockItem) {
+        } else if (item instanceof IStockItem) {
             this.deleteEntity((IStockItem) item);
         } else {
             throw new IllegalArgumentException("Unknown entity type: " + item.getClass().getName());
@@ -845,28 +844,6 @@ public class CloudPersistenceContext implements IPersistenceContext {
         deleteEntity("CustomProductParameterValue",
                 ServiceAdapterEntityConverter.getUpdateCustomProductParameterValueContent(value, orderEntry),
                 ServiceAdapterHeaders.CUSTOMPRODUCTPARAMETERVALUE_UPDATE_HEADER);
-    }
-
-    @Override
-    public void createEntity(IConditionalExpression expression) throws CreateException {
-        createEntity(expression,
-                "ConditionalExpression",
-                ServiceAdapterEntityConverter.getCreateConditionalExpressionContent(expression),
-                ServiceAdapterHeaders.CONDITIONALEXPRESSION_CREATE_HEADER);
-    }
-
-    @Override
-    public void updateEntity(IConditionalExpression expression) throws UpdateException {
-        updateEntity("ConditionalExpression",
-                ServiceAdapterEntityConverter.getUpdateConditionalExpressionContent(expression),
-                ServiceAdapterHeaders.CONDITIONALEXPRESSION_UPDATE_HEADER);
-    }
-
-    @Override
-    public void deleteEntity(IConditionalExpression expression) throws UpdateException {
-        deleteEntity("ConditionalExpression",
-                ServiceAdapterEntityConverter.getUpdateConditionalExpressionContent(expression),
-                ServiceAdapterHeaders.CONDITIONALEXPRESSION_UPDATE_HEADER);
     }
 
     private void createEntity(IIdentifiable entity,

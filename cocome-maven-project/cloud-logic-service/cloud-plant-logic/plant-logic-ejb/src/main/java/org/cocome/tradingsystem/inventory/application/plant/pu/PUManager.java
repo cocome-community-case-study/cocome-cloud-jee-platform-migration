@@ -10,7 +10,9 @@ import org.cocome.tradingsystem.inventory.data.enterprise.EnterpriseClientFactor
 import org.cocome.tradingsystem.inventory.data.persistence.CloudPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
+import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrderEntry;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -19,6 +21,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Optional;
@@ -46,12 +49,17 @@ public class PUManager {
     @Inject
     private PlantJobPool jobPool;
 
+    @Inject
+    private IPlantQuery plantQuery;
+
     public void submitOrder(final IPlantOperationOrder order) throws NotInDatabaseException, UpdateException {
+        final Collection<IProductionUnitClass> pucList =
+                plantQuery.queryProductionUnitClassesByPlantId(order.getPlant().getId());
         for (final IPlantOperationOrderEntry orderEntry : order.getOrderEntries()) {
             for (int i = 0; i < orderEntry.getAmount(); i++) {
                 final IEnterpriseManager enterpriseManager = enterpriseClientFactory.createClient(
                         order.getEnterprise().getId());
-                final PlantJob job = new PlantJob(enterpriseManager, order, orderEntry);
+                final PlantJob job = new PlantJob(enterpriseManager, pucList, order, orderEntry);
                 jobPool.addJob(job);
                 processJob(job);
             }

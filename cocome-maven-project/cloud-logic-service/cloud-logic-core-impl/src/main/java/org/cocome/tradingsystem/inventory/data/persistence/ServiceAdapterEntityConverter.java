@@ -1,6 +1,9 @@
 package org.cocome.tradingsystem.inventory.data.persistence;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import de.kit.ipd.java.utils.time.TimeUtils;
+import org.apache.log4j.Logger;
+import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 import org.cocome.tradingsystem.inventory.application.usermanager.Role;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
 import org.cocome.tradingsystem.inventory.data.INameable;
@@ -11,7 +14,6 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCust
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
@@ -21,9 +23,11 @@ import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
+import org.cocome.tradingsystem.inventory.parser.plant.MarkupParser;
 import org.cocome.tradingsystem.util.java.DualElement;
 import org.cocome.tradingsystem.util.java.DualIterator;
 
+import java.util.Base64;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -37,6 +41,9 @@ import java.util.stream.Collectors;
  * @author Robert Heinrich
  */
 class ServiceAdapterEntityConverter {
+
+    private static final Logger LOG = Logger.getLogger(ServiceAdapterEntityConverter.class);
+
     private static String encodeString(String string) {
         // If the string is encoded there are problems with the
         // queries because of the way the service adapter handles
@@ -44,6 +51,8 @@ class ServiceAdapterEntityConverter {
         return string;
         // return QueryParameterEncoder.encodeQueryString(string);
     }
+
+    private static final MarkupParser MARKUP_PARSER = new MarkupParser();
 
     /**
      * Returns a string containing information about the given stock item.
@@ -491,32 +500,10 @@ class ServiceAdapterEntityConverter {
                 encodeString(joinValues(param.getOptions()));
     }
 
-    static String getCreateConditionalExpressionContent(IConditionalExpression expression) {
-        return String.valueOf(expression.getParameterId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                expression.getParameterValue() +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(expression.getOnTrueExpressionIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(expression.getOnFalseExpressionIds());
-    }
-
-    static String getUpdateConditionalExpressionContent(IConditionalExpression expression) {
-        return String.valueOf(expression.getParameterId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(expression.getId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                expression.getParameterValue() +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(expression.getOnTrueExpressionIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(expression.getOnFalseExpressionIds());
-    }
-
     static String getCreatePlantOperationContent(IPlantOperation operation) {
         return String.valueOf(operation.getPlantId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                joinValues(operation.getExpressionIds()) +
+                toBase64String(operation.getMarkup()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 operation.getName() +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -525,12 +512,22 @@ class ServiceAdapterEntityConverter {
                 joinValues(operation.getOutputEntryPointIds());
     }
 
+    private static String toBase64String(MarkupInfo markup) {
+        try {
+            final String markupString = MARKUP_PARSER.toString(markup);
+            return new String(Base64.getEncoder().encode(markupString.getBytes()));
+        } catch (JsonProcessingException e) {
+            LOG.error("Unable to convert markup to string: " + e.getMessage(), e);
+            throw new IllegalArgumentException(e);
+        }
+    }
+
     static String getUpdatePlantOperationContent(IPlantOperation operation) {
         return String.valueOf(operation.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(operation.getPlantId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                joinValues(operation.getExpressionIds()) +
+                toBase64String(operation.getMarkup()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 operation.getName() +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -594,7 +591,9 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(order.getEnterpriseId());
+                String.valueOf(order.getEnterpriseId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.getPlantId());
     }
 
     static String getUpdatePlantOperationOrderContent(IPlantOperationOrder order) {
@@ -604,10 +603,12 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(order.getEnterpriseId());
+                String.valueOf(order.getEnterpriseId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.getPlantId());
     }
 
-    public static String getCreateProductionOrderContent(IProductionOrder order) {
+    static String getCreateProductionOrderContent(IProductionOrder order) {
         return TimeUtils.convertNullableToStringDate(order.getDeliveryDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
@@ -615,7 +616,7 @@ class ServiceAdapterEntityConverter {
                 String.valueOf(order.getStoreId());
     }
 
-    public static String getUpdateProductionOrderContent(IProductionOrder order) {
+    static String getUpdateProductionOrderContent(IProductionOrder order) {
         return String.valueOf(order.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertNullableToStringDate(order.getDeliveryDate()) +

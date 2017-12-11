@@ -127,9 +127,6 @@ public class EnterpriseManager implements IEnterpriseManager {
     @Inject
     private Event<PlantOperationOrderFinishedEvent> orderFinishedEvent;
 
-    @Inject
-    private long defaultEnterpriseIndex;
-
     private void setContextRegistry(long enterpriseID) throws NotInDatabaseException {
         ITradingEnterprise enterprise;
         try {

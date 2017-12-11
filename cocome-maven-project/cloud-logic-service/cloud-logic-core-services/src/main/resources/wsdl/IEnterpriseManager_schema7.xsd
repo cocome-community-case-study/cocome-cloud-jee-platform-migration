@@ -8,16 +8,19 @@
   <xs:import namespace="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema5.xsd"/>
   <xs:element name="BooleanCustomProductParameterTO" type="ns7:BooleanCustomProductParameterTO"/>
   <xs:element name="BooleanPlantOperationParameterTO" type="ns1:BooleanPlantOperationParameterTO"/>
+  <xs:element name="ConditionalExpressionInfo" type="ns3:ConditionalExpressionInfo"/>
   <xs:element name="CustomProductParameterTO" type="ns7:CustomProductParameterTO"/>
   <xs:element name="CustomProductParameterValueTO" type="ns4:CustomProductParameterValueTO"/>
   <xs:element name="CustomProductTO" type="ns6:CustomProductTO"/>
   <xs:element name="EnterpriseTO" type="ns5:EnterpriseTO"/>
   <xs:element name="EntryPointInteractionTO" type="ns4:EntryPointInteractionTO"/>
   <xs:element name="EntryPointTO" type="ns4:EntryPointTO"/>
-  <xs:element name="ExpressionTO" type="ns3:ExpressionTO"/>
+  <xs:element name="ExpressionInfo" type="ns3:ExpressionInfo"/>
   <xs:element name="IIdentifiableTO" type="ns4:IIdentifiableTO"/>
+  <xs:element name="MarkupInfo" type="ns3:MarkupInfo"/>
   <xs:element name="NorminalCustomProductParameterTO" type="ns7:NorminalCustomProductParameterTO"/>
   <xs:element name="NorminalPlantOperationParameterTO" type="ns1:NorminalPlantOperationParameterTO"/>
+  <xs:element name="PUOperationInfo" type="ns3:PUOperationInfo"/>
   <xs:element name="ParameterInteractionTO" type="ns4:ParameterInteractionTO"/>
   <xs:element name="PlantOperationParameterTO" type="ns1:PlantOperationParameterTO"/>
   <xs:element name="PlantOperationTO" type="ns4:PlantOperationTO"/>

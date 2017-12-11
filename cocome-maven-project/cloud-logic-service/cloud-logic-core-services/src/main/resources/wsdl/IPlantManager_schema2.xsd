@@ -16,6 +16,7 @@
       <xs:element name="deliveryDate" type="xs:dateTime"/>
       <xs:element name="orderingDate" type="xs:dateTime"/>
       <xs:element name="enterprise" type="ns2:EnterpriseTO"/>
+      <xs:element name="plant" type="ns3:PlantTO"/>
       <xs:element maxOccurs="unbounded" name="orderEntries" type="tns:PlantOperationOrderEntryTO"/>
     </xs:sequence>
   </xs:complexType>
@@ -34,7 +35,7 @@
       <xs:extension base="tns:RecipeOperationTO">
         <xs:sequence>
           <xs:element name="plant" type="ns3:PlantTO"/>
-          <xs:element maxOccurs="unbounded" name="expressions" type="ns4:ExpressionTO"/>
+          <xs:element name="markup" type="ns4:MarkupInfo"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

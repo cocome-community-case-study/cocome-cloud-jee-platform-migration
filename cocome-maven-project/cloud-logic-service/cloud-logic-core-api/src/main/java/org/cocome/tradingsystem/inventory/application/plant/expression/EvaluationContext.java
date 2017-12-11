@@ -1,20 +1,18 @@
-package org.cocome.tradingsystem.inventory.data.plant.expression;
+package org.cocome.tradingsystem.inventory.application.plant.expression;
 
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationParameterValue;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- * Implementation of {@link IEvaluationContext}, no equivalent in the database
+ * Used to extract the concrete list of instructions supposed to be send to production units
  *
  * @author Rudolf Biczok
  */
-public class EvaluationContext implements IEvaluationContext {
+public class EvaluationContext {
 
     private final Map<String, String> paramValueMapping = new HashMap<>();
 
@@ -25,8 +23,7 @@ public class EvaluationContext implements IEvaluationContext {
         }
     }
 
-    @Override
-    public String getValueOf(IPlantOperationParameter parameter) {
-        return paramValueMapping.get(parameter.getName());
+    public String getValueOf(final String parameterName) {
+        return paramValueMapping.get(parameterName);
     }
 }

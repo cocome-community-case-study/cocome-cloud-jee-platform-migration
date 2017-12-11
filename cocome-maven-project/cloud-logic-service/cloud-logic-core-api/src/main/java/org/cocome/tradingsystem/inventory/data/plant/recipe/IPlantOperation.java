@@ -18,13 +18,12 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Represents an operation provided by an plant
@@ -54,24 +53,14 @@ public interface IPlantOperation extends IRecipeOperation {
     void setPlantId(long plantId);
 
     /**
-     * @return the list of expressions used to execute this operation
+     * @return the markup describing the plant operation
      */
-    List<IExpression> getExpressions() throws NotInDatabaseException;
+    MarkupInfo getMarkup();
 
     /**
-     * @param expressions the list of expressions used to execute this operation
+     * @param markup the markup describing the plant operation
      */
-    void setExpressions(List<IExpression> expressions);
-
-    /**
-     * @return the ids of the expressions used for this operation
-     */
-    List<Long> getExpressionIds();
-
-    /**
-     * @param plantId the ids the expressions used for this operation
-     */
-    void setExpressionIds(List<Long> plantId);
+    void setMarkup(MarkupInfo markup);
 
     /**
      * @return the list of parameters needed for this plant operation

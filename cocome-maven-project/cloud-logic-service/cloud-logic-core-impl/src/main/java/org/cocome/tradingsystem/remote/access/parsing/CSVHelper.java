@@ -5,6 +5,7 @@ import de.kit.ipd.java.utils.framework.table.Row;
 import de.kit.ipd.java.utils.parsing.csv.CSVParser;
 import de.kit.ipd.java.utils.time.TimeUtils;
 import org.apache.log4j.Logger;
+import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 import org.cocome.tradingsystem.inventory.application.usermanager.CredentialType;
 import org.cocome.tradingsystem.inventory.application.usermanager.Role;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
@@ -19,8 +20,6 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCus
 import org.cocome.tradingsystem.inventory.data.persistence.ServiceAdapterHeaders;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
@@ -32,15 +31,16 @@ import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.inventory.data.usermanager.ICustomer;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUser;
 import org.cocome.tradingsystem.inventory.data.usermanager.IUserDataFactory;
+import org.cocome.tradingsystem.inventory.parser.plant.MarkupParser;
 import org.cocome.tradingsystem.remote.access.connection.QueryParameterEncoder;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 
 @RequestScoped
 public class CSVHelper implements IBackendConversionHelper {
@@ -59,6 +59,8 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Inject
     private Instance<ICredentialFactory> credFactoryInstance;
+
+    private MarkupParser markupParser = new MarkupParser();
 
     private ICredentialFactory credFactory;
 
@@ -528,19 +530,17 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Override
     public Collection<IProductionUnitOperation> getProductionUnitOperations(String input) {
-        return rowToCollection(input, row -> processPlantUnitOperationRow(row, 0));
-    }
+        return rowToCollection(input, row -> {
+            final IProductionUnitOperation result = plantFactory.getNewProductionUnitOperation();
 
-    private IProductionUnitOperation processPlantUnitOperationRow(Row<String> row, int offset) {
-        final IProductionUnitOperation result = plantFactory.getNewProductionUnitOperation();
+            result.setId(fetchLong(row.getColumns().get(0)));
+            result.setName(fetchString(row.getColumns().get(1)));
+            result.setOperationId(fetchString(row.getColumns().get(2)));
+            result.setExecutionDurationInMillis(fetchLong(row.getColumns().get(3)));
+            result.setProductionUnitClassId(fetchLong(row.getColumns().get(4)));
 
-        result.setId(fetchLong(row.getColumns().get(offset)));
-        result.setName(fetchString(row.getColumns().get(1 + offset)));
-        result.setOperationId(fetchString(row.getColumns().get(2 + offset)));
-        result.setExecutionDurationInMillis(fetchLong(row.getColumns().get(3 + offset)));
-        result.setProductionUnitClassId(fetchLong(row.getColumns().get(4 + offset)));
-
-        return result;
+            return result;
+        });
     }
 
     @Override
@@ -553,23 +553,6 @@ public class CSVHelper implements IBackendConversionHelper {
 
             return result;
         });
-    }
-
-    @Override
-    public Collection<IConditionalExpression> getConditionalExpressions(String conditionalExpression) {
-        return rowToCollection(conditionalExpression, row -> processConditionalExpressionRow(row, 0));
-    }
-
-    private IConditionalExpression processConditionalExpressionRow(Row<String> row, int offset) {
-        final IConditionalExpression result = plantFactory.getNewConditionalExpression();
-
-        result.setParameterId(fetchLong(row.getColumns().get(offset)));
-        result.setId(fetchLong(row.getColumns().get(1 + offset)));
-        result.setParameterValue(fetchString(row.getColumns().get(2 + offset)));
-        result.setOnTrueExpressionIds(fetchIds(row.getColumns().get(3 + offset)));
-        result.setOnFalseExpressionIds(fetchIds(row.getColumns().get(4 + offset)));
-
-        return result;
     }
 
     @Override
@@ -665,20 +648,6 @@ public class CSVHelper implements IBackendConversionHelper {
     }
 
     @Override
-    public Collection<IExpression> getExpressions(String expression) {
-        return rowToCollection(expression, row -> {
-            final String typeName = row.getColumns().get(0).getValue();
-            final int offset = Integer.parseInt(row.getColumns().get(1).getValue());
-            if (typeName.contains("ProductionUnitOperation")) {
-                return processPlantUnitOperationRow(row, offset);
-            } else if (typeName.contains("ConditionalExpression")) {
-                return processConditionalExpressionRow(row, offset);
-            }
-            throw new IllegalArgumentException("Unsupported type: " + typeName);
-        });
-    }
-
-    @Override
     public Collection<IPlantOperationOrder> getPlantOperationOrder(String order) {
         return rowToCollection(order, row -> {
             final IPlantOperationOrder result = plantFactory.getNewPlantOperationOrder();
@@ -687,6 +656,7 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setOrderingDate(fetchDate(row.getColumns().get(1)));
             result.setDeliveryDate(fetchDate(row.getColumns().get(2)));
             result.setEnterpriseId(fetchLong(row.getColumns().get(3)));
+            result.setPlantId(fetchLong(row.getColumns().get(4)));
 
             return result;
         });
@@ -754,13 +724,26 @@ public class CSVHelper implements IBackendConversionHelper {
 
             result.setId(fetchLong(row.getColumns().get(0)));
             result.setPlantId(fetchLong(row.getColumns().get(1)));
-            result.setExpressionIds(fetchIds(row.getColumns().get(2)));
+            result.setMarkup(parseMarkup(row.getColumns().get(2)));
             result.setName(fetchString(row.getColumns().get(3)));
             result.setInputEntryPointIds(fetchIds(row.getColumns().get(4)));
             result.setOutputEntryPointIds(fetchIds(row.getColumns().get(5)));
 
             return result;
         });
+    }
+
+    private MarkupInfo parseMarkup(Column<String> base64String) {
+        if (base64String == null) {
+            return new MarkupInfo();
+        }
+        try {
+            final String decoded = new String(Base64.getDecoder().decode(base64String.getValue()));
+            return this.markupParser.parse(decoded);
+        } catch (IOException e) {
+            LOG.error("Unable to parse plant operation markup: " + e.getMessage(), e);
+            throw new IllegalStateException(e);
+        }
     }
 
     private INorminalCustomProductParameter processNorminalCustomProductParameterRow(Row<String> row, int offset) {

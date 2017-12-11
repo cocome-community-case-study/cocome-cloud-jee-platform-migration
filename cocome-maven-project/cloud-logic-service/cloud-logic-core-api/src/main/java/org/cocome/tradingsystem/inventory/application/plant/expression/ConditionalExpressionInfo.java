@@ -16,8 +16,11 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.parser.ast;
+package org.cocome.tradingsystem.inventory.application.plant.expression;
 
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
 /**
@@ -25,14 +28,24 @@ import java.util.List;
  *
  * @author Rudolf Biczok
  */
-public class ConditionalExpressionInfo implements ExpressionInfo {
+@XmlType(
+        name = "ConditionalExpressionInfo",
+        namespace = "http://expression.plant.application.inventory.tradingsystem.cocome.org")
+@XmlRootElement(name = "ConditionalExpressionInfo")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ConditionalExpressionInfo extends ExpressionInfo {
+    private static final long serialVersionUID = 1L;
 
+    @XmlElement(name = "parameterName", required = true)
     private String parameterName;
 
+    @XmlElement(name = "testValue", required = true)
     private String testValue;
 
+    @XmlElement(name = "onTrueExpressions", required = true)
     private List<ExpressionInfo> onTrueExpressions;
 
+    @XmlElement(name = "onFalseExpressions", required = true)
     private List<ExpressionInfo> onFalseExpressions;
 
     /**
@@ -88,5 +101,14 @@ public class ConditionalExpressionInfo implements ExpressionInfo {
 
     public void setOnFalseExpressions(List<ExpressionInfo> onFalseExpressions) {
         this.onFalseExpressions = onFalseExpressions;
+    }
+
+    @Override
+    public List<PUInstruction> evaluate(EvaluationContext context) throws NotInDatabaseException {
+        final String value = context.getValueOf(this.getParameterName());
+        if (this.getTestValue().equals(value)) {
+            return ExpressionInfo.evaluateList(this.getOnTrueExpressions(), context);
+        }
+        return ExpressionInfo.evaluateList(this.getOnFalseExpressions(), context);
     }
 }

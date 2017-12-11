@@ -5,11 +5,9 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
-import org.cocome.cloud.logic.webservice.ThrowingSupplier;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.plantservice.IPlantManager;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.iface.IPUInterface;
 import org.cocome.tradingsystem.inventory.application.plant.iface.OperationEntry;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
@@ -23,7 +21,6 @@ import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
@@ -44,7 +41,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.function.Function;
 
 @WebService(
         serviceName = "IPlantManagerService",
@@ -258,35 +254,6 @@ public class PlantManager implements IPlantManager {
             throws NotInDatabaseException, UpdateException {
         final IProductionUnit puc = plantQuery.queryProductionUnit(productionUnitTO.getId());
         persistenceContext.deleteEntity(puc);
-    }
-
-    /* CRUD for {@link ConditionalExpressionTO} **************/
-
-    @Override
-    public ConditionalExpressionTO queryConditionalExpressionByID(final long conditionalExpressionId)
-            throws NotInDatabaseException {
-        return plantFactory.fillConditionalExpressionTO(
-                plantQuery.queryConditionalExpression(conditionalExpressionId));
-    }
-
-    @Override
-    public long createConditionalExpression(final ConditionalExpressionTO conditionalExpressionTO) throws CreateException {
-        final IConditionalExpression expression = plantFactory.convertToConditionalExpression(conditionalExpressionTO);
-        persistenceContext.createEntity(expression);
-        return expression.getId();
-    }
-
-    @Override
-    public void updateConditionalExpression(final ConditionalExpressionTO conditionalExpressionTO)
-            throws NotInDatabaseException, UpdateException {
-        persistenceContext.updateEntity(plantFactory.convertToConditionalExpression(conditionalExpressionTO));
-    }
-
-    @Override
-    public void deleteConditionalExpression(final ConditionalExpressionTO conditionalExpressionTO) throws NotInDatabaseException,
-            UpdateException {
-        final IConditionalExpression expression = plantQuery.queryConditionalExpression(conditionalExpressionTO.getId());
-        persistenceContext.deleteEntity(expression);
     }
 
     /* Business Logic **************/

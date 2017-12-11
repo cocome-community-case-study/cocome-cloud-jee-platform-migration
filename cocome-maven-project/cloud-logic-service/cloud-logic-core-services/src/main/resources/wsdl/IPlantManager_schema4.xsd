@@ -1,36 +1,34 @@
-<xs:schema xmlns:ns1="http://productionunit.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns2="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns4="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns5="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns6="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://plant.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://plant.webservice.logic.cocome.org/">
+<xs:schema xmlns:ns1="http://productionunit.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns2="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns4="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns5="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns6="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://plant.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://plant.webservice.logic.cocome.org/">
   <xs:import namespace="http://productionunit.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema3.xsd"/>
-  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema7.xsd"/>
   <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IPlantManager_schema5.xsd"/>
   <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IPlantManager_schema1.xsd"/>
-  <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema6.xsd"/>
   <xs:import namespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema2.xsd"/>
-  <xs:element name="BooleanPlantOperationParameterTO" type="ns5:BooleanPlantOperationParameterTO"/>
-  <xs:element name="ConditionalExpressionTO" type="ns2:ConditionalExpressionTO"/>
-  <xs:element name="EnterpriseTO" type="ns4:EnterpriseTO"/>
-  <xs:element name="EntryPointTO" type="ns6:EntryPointTO"/>
-  <xs:element name="ExpressionTO" type="ns2:ExpressionTO"/>
-  <xs:element name="NorminalPlantOperationParameterTO" type="ns5:NorminalPlantOperationParameterTO"/>
-  <xs:element name="PlantOperationOrderEntryTO" type="ns6:PlantOperationOrderEntryTO"/>
-  <xs:element name="PlantOperationOrderTO" type="ns6:PlantOperationOrderTO"/>
-  <xs:element name="PlantOperationParameterTO" type="ns5:PlantOperationParameterTO"/>
-  <xs:element name="PlantOperationParameterValueTO" type="ns6:PlantOperationParameterValueTO"/>
-  <xs:element name="PlantOperationTO" type="ns6:PlantOperationTO"/>
-  <xs:element name="PlantTO" type="ns3:PlantTO"/>
+  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema7.xsd"/>
+  <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema6.xsd"/>
+  <xs:element name="BooleanPlantOperationParameterTO" type="ns6:BooleanPlantOperationParameterTO"/>
+  <xs:element name="ConditionalExpressionInfo" type="ns5:ConditionalExpressionInfo"/>
+  <xs:element name="EnterpriseTO" type="ns3:EnterpriseTO"/>
+  <xs:element name="EntryPointTO" type="ns4:EntryPointTO"/>
+  <xs:element name="ExpressionInfo" type="ns5:ExpressionInfo"/>
+  <xs:element name="MarkupInfo" type="ns5:MarkupInfo"/>
+  <xs:element name="NorminalPlantOperationParameterTO" type="ns6:NorminalPlantOperationParameterTO"/>
+  <xs:element name="PUOperationInfo" type="ns5:PUOperationInfo"/>
+  <xs:element name="PlantOperationOrderEntryTO" type="ns4:PlantOperationOrderEntryTO"/>
+  <xs:element name="PlantOperationOrderTO" type="ns4:PlantOperationOrderTO"/>
+  <xs:element name="PlantOperationParameterTO" type="ns6:PlantOperationParameterTO"/>
+  <xs:element name="PlantOperationParameterValueTO" type="ns4:PlantOperationParameterValueTO"/>
+  <xs:element name="PlantOperationTO" type="ns4:PlantOperationTO"/>
+  <xs:element name="PlantTO" type="ns2:PlantTO"/>
   <xs:element name="ProductionUnitClassTO" type="ns1:ProductionUnitClassTO"/>
   <xs:element name="ProductionUnitOperationTO" type="ns1:ProductionUnitOperationTO"/>
   <xs:element name="ProductionUnitTO" type="ns1:ProductionUnitTO"/>
-  <xs:element name="RecipeOperationTO" type="ns6:RecipeOperationTO"/>
-  <xs:element name="createConditionalExpression" type="tns:createConditionalExpression"/>
-  <xs:element name="createConditionalExpressionResponse" type="tns:createConditionalExpressionResponse"/>
+  <xs:element name="RecipeOperationTO" type="ns4:RecipeOperationTO"/>
   <xs:element name="createProductionUnit" type="tns:createProductionUnit"/>
   <xs:element name="createProductionUnitClass" type="tns:createProductionUnitClass"/>
   <xs:element name="createProductionUnitClassResponse" type="tns:createProductionUnitClassResponse"/>
   <xs:element name="createProductionUnitOperation" type="tns:createProductionUnitOperation"/>
   <xs:element name="createProductionUnitOperationResponse" type="tns:createProductionUnitOperationResponse"/>
   <xs:element name="createProductionUnitResponse" type="tns:createProductionUnitResponse"/>
-  <xs:element name="deleteConditionalExpression" type="tns:deleteConditionalExpression"/>
-  <xs:element name="deleteConditionalExpressionResponse" type="tns:deleteConditionalExpressionResponse"/>
   <xs:element name="deleteProductionUnit" type="tns:deleteProductionUnit"/>
   <xs:element name="deleteProductionUnitClass" type="tns:deleteProductionUnitClass"/>
   <xs:element name="deleteProductionUnitClassResponse" type="tns:deleteProductionUnitClassResponse"/>
@@ -41,8 +39,6 @@
   <xs:element name="importProductionUnitClassResponse" type="tns:importProductionUnitClassResponse"/>
   <xs:element name="orderOperation" type="tns:orderOperation"/>
   <xs:element name="orderOperationResponse" type="tns:orderOperationResponse"/>
-  <xs:element name="queryConditionalExpressionByID" type="tns:queryConditionalExpressionByID"/>
-  <xs:element name="queryConditionalExpressionByIDResponse" type="tns:queryConditionalExpressionByIDResponse"/>
   <xs:element name="queryPlantOperationOrderById" type="tns:queryPlantOperationOrderById"/>
   <xs:element name="queryPlantOperationOrderByIdResponse" type="tns:queryPlantOperationOrderByIdResponse"/>
   <xs:element name="queryProductionUnitByID" type="tns:queryProductionUnitByID"/>
@@ -57,8 +53,6 @@
   <xs:element name="queryProductionUnitOperationsByProductionUnitClassIDResponse" type="tns:queryProductionUnitOperationsByProductionUnitClassIDResponse"/>
   <xs:element name="queryProductionUnitsByPlantID" type="tns:queryProductionUnitsByPlantID"/>
   <xs:element name="queryProductionUnitsByPlantIDResponse" type="tns:queryProductionUnitsByPlantIDResponse"/>
-  <xs:element name="updateConditionalExpression" type="tns:updateConditionalExpression"/>
-  <xs:element name="updateConditionalExpressionResponse" type="tns:updateConditionalExpressionResponse"/>
   <xs:element name="updateProductionUnit" type="tns:updateProductionUnit"/>
   <xs:element name="updateProductionUnitClass" type="tns:updateProductionUnitClass"/>
   <xs:element name="updateProductionUnitClassResponse" type="tns:updateProductionUnitClassResponse"/>
@@ -85,40 +79,12 @@
       <xs:element name="return" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="updateConditionalExpression">
-    <xs:sequence>
-      <xs:element name="conditionalExpressionTO" type="ns2:ConditionalExpressionTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="updateConditionalExpressionResponse">
-    <xs:sequence/>
-  </xs:complexType>
   <xs:complexType name="orderOperation">
     <xs:sequence>
-      <xs:element name="plantOperationOrderTO" type="ns6:PlantOperationOrderTO"/>
+      <xs:element name="plantOperationOrderTO" type="ns4:PlantOperationOrderTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="orderOperationResponse">
-    <xs:sequence>
-      <xs:element name="return" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryConditionalExpressionByID">
-    <xs:sequence>
-      <xs:element name="conditionalExpressionID" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryConditionalExpressionByIDResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="ns2:ConditionalExpressionTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createConditionalExpression">
-    <xs:sequence>
-      <xs:element name="conditionalExpressionTO" type="ns2:ConditionalExpressionTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createConditionalExpressionResponse">
     <xs:sequence>
       <xs:element name="return" type="xs:long"/>
     </xs:sequence>
@@ -127,7 +93,7 @@
     <xs:sequence>
       <xs:element name="name" type="xs:string"/>
       <xs:element name="interfaceURL" type="xs:string"/>
-      <xs:element name="plantTO" type="ns3:PlantTO"/>
+      <xs:element name="plantTO" type="ns2:PlantTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="importProductionUnitClassResponse">
@@ -204,7 +170,7 @@
   </xs:complexType>
   <xs:complexType name="queryPlantOperationOrderByIdResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="ns6:PlantOperationOrderTO"/>
+      <xs:element minOccurs="0" name="return" type="ns4:PlantOperationOrderTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="updateProductionUnitOperation">
@@ -262,14 +228,6 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="ns1:ProductionUnitOperationTO"/>
     </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteConditionalExpression">
-    <xs:sequence>
-      <xs:element name="conditionalExpressionTO" type="ns2:ConditionalExpressionTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteConditionalExpressionResponse">
-    <xs:sequence/>
   </xs:complexType>
   <xs:element name="NotInDatabaseException" type="tns:NotInDatabaseException"/>
   <xs:complexType name="NotInDatabaseException">

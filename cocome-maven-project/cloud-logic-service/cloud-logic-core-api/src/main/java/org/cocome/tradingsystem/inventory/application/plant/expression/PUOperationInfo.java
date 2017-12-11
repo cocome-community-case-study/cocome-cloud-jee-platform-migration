@@ -16,11 +16,27 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.parser.ast;
+package org.cocome.tradingsystem.inventory.application.plant.expression;
 
-public class PUOperationInfo implements ExpressionInfo {
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
+import javax.xml.bind.annotation.*;
+import java.util.Collections;
+import java.util.List;
+
+@XmlType(
+        name = "PUOperationInfo",
+        namespace = "http://expression.plant.application.inventory.tradingsystem.cocome.org")
+@XmlRootElement(name = "PUOperationInfo")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class PUOperationInfo extends ExpressionInfo {
+
+    private static final long serialVersionUID = 1L;
+
+    @XmlElement(name = "productionUnitClassName", required = true)
     private String productionUnitClassName;
+
+    @XmlElement(name = "operationId", required = true)
     private String operationId;
 
     /**
@@ -51,5 +67,10 @@ public class PUOperationInfo implements ExpressionInfo {
 
     public void setOperationId(String operationId) {
         this.operationId = operationId;
+    }
+
+    @Override
+    public List<PUInstruction> evaluate(final EvaluationContext context) throws NotInDatabaseException {
+        return Collections.singletonList(new PUInstruction(this.getProductionUnitClassName(), this.operationId));
     }
 }

@@ -19,7 +19,6 @@
 package org.cocome.tradingsystem.inventory.data.plant.productionunit;
 
 import org.cocome.tradingsystem.inventory.data.INameable;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IExpression;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
@@ -27,7 +26,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  *
  * @author Rudolf Biczok
  */
-public interface  IProductionUnitOperation extends IExpression, INameable {
+public interface IProductionUnitOperation extends INameable {
 
     /**
      * @return The operation id unique to the production plant

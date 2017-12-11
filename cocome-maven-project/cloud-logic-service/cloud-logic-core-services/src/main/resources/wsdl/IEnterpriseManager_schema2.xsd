@@ -17,7 +17,7 @@
       <xs:extension base="tns:RecipeOperationTO">
         <xs:sequence>
           <xs:element name="plant" type="ns3:PlantTO"/>
-          <xs:element maxOccurs="unbounded" name="expressions" type="ns4:ExpressionTO"/>
+          <xs:element name="markup" type="ns4:MarkupInfo"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

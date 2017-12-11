@@ -293,7 +293,8 @@ public class PUDouble implements IPUInterface {
 
         for (final String operationId : operationIds.split(";")) {
             if (!this.operations.containsKey(operationId)) {
-                throw new IllegalArgumentException("Unknown operation: " + operationId);
+                throw new IllegalArgumentException(String.format("Unknown operation: %s (known: %s)",
+                        operationId, this.operations));
             }
             final JobData queueEntry = new JobData();
             queueEntry.setOperationId(operationId);

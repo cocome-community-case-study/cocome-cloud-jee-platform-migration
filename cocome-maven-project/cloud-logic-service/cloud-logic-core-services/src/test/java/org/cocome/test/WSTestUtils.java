@@ -24,7 +24,8 @@ import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
+import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo;
+import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 import org.cocome.tradingsystem.inventory.application.plant.iface.PUCImporter;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.FMU;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
@@ -63,7 +64,7 @@ public class WSTestUtils {
 
         /* Environmental setup */
 
-        final PUCImporter xppu = new PUCImporter("Default xPPU", XPPU.values(), plant, pm);
+        final PUCImporter xppu = new PUCImporter("xPPU", XPPU.values(), plant, pm);
         final PUCImporter fmu = new PUCImporter("FMU", FMU.values(), plant, pm);
 
         /* Production Units */
@@ -102,35 +103,31 @@ public class WSTestUtils {
         operation1.setName("Produce Yogurt");
         operation1.setPlant(plant);
         operation1.setOutputEntryPoint(Collections.singletonList(op1out1));
+        operation1.setMarkup(new MarkupInfo(
+                Arrays.asList(
+                        xppu.getOperation(XPPU.Crane_ACT_Init),
+                        xppu.getOperation(XPPU.Stack_ACT_Init),
+                        new ConditionalExpressionInfo(
+                                "Organic",
+                                IBooleanParameter.TRUE_VALUE,
+                                Arrays.asList(
+                                        xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
+                                        xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
+                                        xppu.getOperation(XPPU.Crane_ACT_PickUpWP)),
+                                Arrays.asList(
+                                        xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
+                                        xppu.getOperation(XPPU.Stamp_ACT_Stamp),
+                                        xppu.getOperation(XPPU.Stamp_ACT_Stamp))),
+                        fmu.getOperation(FMU.Silo0_ACT_Init),
+                        fmu.getOperation(FMU.Silo1_ACT_Init),
+                        fmu.getOperation(FMU.Silo2_ACT_Init)
+                )));
         operation1.setId(em.createPlantOperation(operation1));
 
         final BooleanPlantOperationParameterTO param = new BooleanPlantOperationParameterTO();
         param.setCategory("Ingredients");
         param.setName("Organic");
         param.setId(em.createBooleanPlantOperationParameter(param, operation1));
-
-        final ConditionalExpressionTO conditionalExpression = new ConditionalExpressionTO();
-        conditionalExpression.setParameter(param);
-        conditionalExpression.setParameterValue(IBooleanParameter.TRUE_VALUE);
-        conditionalExpression.setOnTrueExpressions(Arrays.asList(
-                xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
-                xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
-                xppu.getOperation(XPPU.Crane_ACT_PickUpWP)));
-        conditionalExpression.setOnFalseExpressions(Arrays.asList(
-                xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
-                xppu.getOperation(XPPU.Stamp_ACT_Stamp),
-                xppu.getOperation(XPPU.Stamp_ACT_Stamp)));
-        conditionalExpression.setId(pm.createConditionalExpression(conditionalExpression));
-
-        operation1.setExpressions(Arrays.asList(
-                xppu.getOperation(XPPU.Crane_ACT_Init),
-                xppu.getOperation(XPPU.Stack_ACT_Init),
-                conditionalExpression,
-                fmu.getOperation(FMU.Silo0_ACT_Init),
-                fmu.getOperation(FMU.Silo1_ACT_Init),
-                fmu.getOperation(FMU.Silo2_ACT_Init)
-        ));
-        em.updatePlantOperation(operation1);
 
         final EntryPointTO op2out1 = new EntryPointTO();
         op2out1.setName("ISO 33333 Bottle");
@@ -140,11 +137,11 @@ public class WSTestUtils {
         operation2.setName("Create Package");
         operation2.setPlant(plant);
         operation2.setOutputEntryPoint(Collections.singletonList(op2out1));
-        operation2.setExpressions(Arrays.asList(
+        operation2.setMarkup(new MarkupInfo(Arrays.asList(
                 xppu.getOperation(XPPU.Crane_ACT_Init),
                 fmu.getOperation(FMU.Silo0_ACT_Init),
                 fmu.getOperation(FMU.Silo2_ACT_Init)
-        ));
+        )));
         operation2.setId(em.createPlantOperation(operation2));
 
         final NorminalPlantOperationParameterTO opr2param = new NorminalPlantOperationParameterTO();
@@ -170,11 +167,11 @@ public class WSTestUtils {
         operation3.setPlant(plant);
         operation3.setInputEntryPoint(Arrays.asList(op3in1, op3in2));
         operation3.setOutputEntryPoint(Collections.singletonList(op3out1));
-        operation3.setExpressions(Arrays.asList(
+        operation3.setMarkup(new MarkupInfo(Arrays.asList(
                 xppu.getOperation(XPPU.Crane_ACT_Init),
                 fmu.getOperation(FMU.Silo0_ACT_Init),
                 fmu.getOperation(FMU.Silo2_ACT_Init)
-        ));
+        )));
         operation3.setId(em.createPlantOperation(operation3));
 
         /* Custom Product creation */

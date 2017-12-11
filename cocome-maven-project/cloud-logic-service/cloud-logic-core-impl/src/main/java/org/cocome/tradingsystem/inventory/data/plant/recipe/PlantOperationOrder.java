@@ -20,8 +20,7 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
-import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
-import org.cocome.tradingsystem.inventory.data.store.IOrderEntry;
+import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -29,7 +28,9 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedList;
 
 /**
  * The class represents an order of a {@link IPlantOperation} in the database.
@@ -45,9 +46,11 @@ public class PlantOperationOrder implements Serializable, IPlantOperationOrder {
     private Date deliveryDate;
     private Date orderingDate;
     private ITradingEnterprise enterprise;
+    private IPlant plant;
     private Collection<IPlantOperationOrderEntry> orderEntries = new LinkedList<>();
 
     private long enterpriseId;
+    private long plantId;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
@@ -59,6 +62,7 @@ public class PlantOperationOrder implements Serializable, IPlantOperationOrder {
         enterpriseQuery = enterpriseQueryInstance.get();
         enterprise = null;
         orderEntries = null;
+        plant = null;
     }
 
     @Override
@@ -122,5 +126,28 @@ public class PlantOperationOrder implements Serializable, IPlantOperationOrder {
     @Override
     public void setEnterpriseId(long enterpriseId) {
         this.enterpriseId = enterpriseId;
+    }
+
+    @Override
+    public IPlant getPlant() throws NotInDatabaseException {
+        if (plant == null) {
+            plant = enterpriseQuery.queryPlant(plantId);
+        }
+        return plant;
+    }
+
+    @Override
+    public void setPlant(IPlant plant) {
+        this.plant = plant;
+    }
+
+    @Override
+    public long getPlantId() {
+        return plantId;
+    }
+
+    @Override
+    public void setPlantId(long plantId) {
+        this.plantId = plantId;
     }
 }

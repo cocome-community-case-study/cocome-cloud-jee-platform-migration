@@ -19,7 +19,6 @@
 package org.cocome.tradingsystem.inventory.data.plant;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
-import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
@@ -28,7 +27,6 @@ import org.cocome.tradingsystem.inventory.application.plant.productionunit.Produ
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
@@ -69,14 +67,6 @@ public interface IPlantDataFactory {
 
     ProductionUnitTO fillProductionUnitTO(IProductionUnit operation)
             throws NotInDatabaseException;
-
-    /* Conditional Expression */
-
-    IConditionalExpression getNewConditionalExpression();
-
-    IConditionalExpression convertToConditionalExpression(ConditionalExpressionTO conditionalExpressionTO);
-
-    ConditionalExpressionTO fillConditionalExpressionTO(IConditionalExpression conditionalExpression) throws NotInDatabaseException;
 
     /* Plant Operation */
 

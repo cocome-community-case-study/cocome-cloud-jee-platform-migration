@@ -18,14 +18,10 @@
 
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.application.INameableTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionTO;
+import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 
 import javax.xml.bind.annotation.*;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Represents an operation provided by an plant
@@ -43,8 +39,8 @@ public class PlantOperationTO extends RecipeOperationTO {
     @XmlElement(name = "plant", required = true)
     private PlantTO plant;
 
-    @XmlElement(name = "expressions", required = true)
-    private List<ExpressionTO> expressions;
+    @XmlElement(name = "markup", required = true)
+    private MarkupInfo markup;
 
     /**
      * @return the plant that owns this production unit
@@ -61,17 +57,17 @@ public class PlantOperationTO extends RecipeOperationTO {
     }
 
     /**
-     * @return returns the list of expressions used to execute this operation
+     * @return rdescribing the internals of the plant operation
      */
-    public List<ExpressionTO> getExpressions() {
-        return expressions;
+    public MarkupInfo getMarkup() {
+        return markup;
     }
 
     /**
-     * @param expressions the list of expressions used to execute this operation
+     * @param markup the markup describing the internals of the plant operation
      */
-    public void setExpressions(List<ExpressionTO> expressions) {
-        this.expressions = expressions;
+    public void setMarkup(MarkupInfo markup) {
+        this.markup = markup;
     }
 
 }

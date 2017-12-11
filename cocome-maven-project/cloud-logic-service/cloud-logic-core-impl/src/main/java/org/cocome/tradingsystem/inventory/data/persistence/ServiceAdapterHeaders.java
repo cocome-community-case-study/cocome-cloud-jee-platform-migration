@@ -6,7 +6,7 @@ public final class ServiceAdapterHeaders {
 
     public static final String SET_SEPARATOR = ",";
 
-    public static final String NULL_VALUE = "null";
+    static final String NULL_VALUE = "null";
 
     static final String PRODUCTORDER_HEADER = "ProductOrderId;StoreId;ProductBarcode;"
             + "OrderDeliveryDate;OrderOrderingDate;OrderAmount";
@@ -66,13 +66,6 @@ public final class ServiceAdapterHeaders {
     static final String ENTRYPOINT_CREATE_HEADER = "EntryPointName";
     static final String ENTRYPOINT_UPDATE_HEADER = "EntryPointId;EntryPointName";
 
-    static final String CONDITIONALEXPRESSION_CREATE_HEADER
-            = "PlantOperationParameterId;ConditionalExpressionParameterValue;"
-            + "ConditionalExpressionOnTrueExpressions;ConditionalExpressionOnFalseExpressions";
-    static final String CONDITIONALEXPRESSION_UPDATE_HEADER
-            = "PlantOperationParameterId;ConditionalExpressionId;ConditionalExpressionParameterValue;"
-            + "ConditionalExpressionOnTrueExpressions;ConditionalExpressionOnFalseExpressions";
-
     static final String BOOLEAN_CUSTOM_PRODUCT_PARAM_CREATE_HEADER
             = "CustomProductId;BooleanCustomProductParameterName;BooleanCustomProductParameterCategory\n";
     static final String BOOLEAN_CUSTOM_PRODUCT_PARAM_UPDATE_HEADER
@@ -86,9 +79,9 @@ public final class ServiceAdapterHeaders {
             = " CustomProductId;NorminalCustomProductParameterId;NorminalCustomProductParameterName;"
             + "NorminalCustomProductParameterCategory;NorminalCustomProductParameterOptions";
 
-    static final String PLANTOPERATION_CREATE_HEADER = "PlantId;ExpressionId;PlantOperationName;"
+    static final String PLANTOPERATION_CREATE_HEADER = "PlantId;PlantOperationMarkup;PlantOperationName;"
             + "EntryPointInputId;EntryPointOutputId";
-    static final String PLANTOPERATION_UPDATE_HEADER = "PlantOperationId;PlantId;ExpressionId;PlantOperationName;"
+    static final String PLANTOPERATION_UPDATE_HEADER = "PlantOperationId;PlantId;PlantOperationMarkup;PlantOperationName;"
             + "EntryPointInputId;EntryPointOutputId";
 
     static final String BOOLEAN_PLANT_OPERATION_PARAM_CREATE_HEADER
@@ -122,10 +115,10 @@ public final class ServiceAdapterHeaders {
             + "EntryPointInputId;EntryPointOutputId";
 
     static final String PLANTOPERATIONORDER_CREATE_HEADER
-            = "PlantOperationOrderDeliveryDate;PlantOperationOrderOrderingDate;TradingEnterpriseId";
+            = "PlantOperationOrderDeliveryDate;PlantOperationOrderOrderingDate;TradingEnterpriseId;PlantId";
     static final String PLANTOPERATIONORDER_UPDATE_HEADER
             = "PlantOperationOrderId;PlantOperationOrderDeliveryDate;PlantOperationOrderOrderingDate;"
-            + "TradingEnterpriseId";
+            + "TradingEnterpriseId;PlantId";
 
     static final String PLANTOPERATIONORDERENTRY_CREATE_HEADER
             = "PlantOperationOrderEntryAmount;PlantOperationId;PlantOperationOrderId";

@@ -25,7 +25,6 @@ import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCust
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.expression.IConditionalExpression;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
@@ -259,12 +258,6 @@ public interface IPersistenceContext {
     void updateEntity(IPlantOperation operation) throws UpdateException;
 
     void deleteEntity(IPlantOperation operation) throws UpdateException;
-
-    void createEntity(IConditionalExpression expression) throws CreateException;
-
-    void updateEntity(IConditionalExpression expression) throws UpdateException;
-
-    void deleteEntity(IConditionalExpression expression) throws UpdateException;
 
     void createEntity(IBooleanPlantOperationParameter param, IPlantOperation operation) throws CreateException;
 

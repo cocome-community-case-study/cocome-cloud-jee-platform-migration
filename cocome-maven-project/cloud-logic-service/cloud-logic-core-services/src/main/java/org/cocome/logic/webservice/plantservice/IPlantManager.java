@@ -19,7 +19,6 @@
 package org.cocome.logic.webservice.plantservice;
 
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
@@ -127,36 +126,6 @@ public interface IPlantManager {
             @XmlElement(required = true)
             @WebParam(name = "productionUnitOperationTO")
                     ProductionUnitOperationTO productionUnitOperationTO)
-            throws NotInDatabaseException, UpdateException;
-
-    /* CRUD for {@link ConditionalExpressionTO} **************/
-
-    @WebMethod
-    ConditionalExpressionTO queryConditionalExpressionByID(
-            @XmlElement(required = true)
-            @WebParam(name = "conditionalExpressionID")
-                    long conditionalExpressionId)
-            throws NotInDatabaseException;
-
-    @WebMethod
-    long createConditionalExpression(
-            @XmlElement(required = true)
-            @WebParam(name = "conditionalExpressionTO")
-                    ConditionalExpressionTO conditionalExpressionTO)
-            throws CreateException;
-
-    @WebMethod
-    void updateConditionalExpression(
-            @XmlElement(required = true)
-            @WebParam(name = "conditionalExpressionTO")
-                    ConditionalExpressionTO conditionalExpressionTO)
-            throws NotInDatabaseException, UpdateException;
-
-    @WebMethod
-    void deleteConditionalExpression(
-            @XmlElement(required = true)
-            @WebParam(name = "conditionalExpressionTO")
-                    ConditionalExpressionTO conditionalExpressionTO)
             throws NotInDatabaseException, UpdateException;
 
     /* CRUD for {@link ProductionUnitTO} **************/

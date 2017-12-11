@@ -4,11 +4,11 @@ import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.expression.PUOperationInfo;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.PUCOperationMeta;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
-import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
 
 import java.util.Arrays;
 import java.util.List;
@@ -78,8 +78,9 @@ public class PUCImporter {
         return puc;
     }
 
-    public ProductionUnitOperationTO getOperation(final PUCOperationMeta op) {
-        return this.operators.get(op.getOperationId());
+    public PUOperationInfo getOperation(final PUCOperationMeta op) {
+        final ProductionUnitOperationTO oprTO = this.operators.get(op.getOperationId());
+        return new PUOperationInfo(this.puc.getName(), oprTO.getOperationId());
     }
 
 }

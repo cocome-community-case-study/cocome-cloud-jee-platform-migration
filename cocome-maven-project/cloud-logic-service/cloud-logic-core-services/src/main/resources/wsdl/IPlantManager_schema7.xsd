@@ -1,27 +1,36 @@
-<xs:schema xmlns:ns1="http://plant.webservice.logic.cocome.org/" xmlns:ns2="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
+<xs:schema xmlns:ns1="http://plant.webservice.logic.cocome.org/" xmlns:tns="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
   <xs:import namespace="http://plant.webservice.logic.cocome.org/" schemaLocation="IPlantManager_schema4.xsd"/>
 
-  <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema6.xsd"/>
-
-  <xs:complexType name="ExpressionTO">
+  <xs:complexType name="MarkupInfo">
     <xs:sequence>
-      <xs:element name="id" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" name="expressions" type="tns:ExpressionInfo"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="ConditionalExpressionTO">
+  <xs:complexType abstract="true" name="ExpressionInfo">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="PUOperationInfo">
     <xs:complexContent>
-      <xs:extension base="tns:ExpressionTO">
+      <xs:extension base="tns:ExpressionInfo">
         <xs:sequence>
-          <xs:choice>
-            <xs:element ref="ns1:PlantOperationParameterTO"/>
-            <xs:element ref="ns1:BooleanPlantOperationParameterTO"/>
-            <xs:element ref="ns1:NorminalPlantOperationParameterTO"/>
-          </xs:choice>
-          <xs:element name="parameterValue" type="xs:string"/>
-          <xs:element maxOccurs="unbounded" name="onTrueExpressions" type="tns:ExpressionTO"/>
-          <xs:element maxOccurs="unbounded" name="onFalseExpressions" type="tns:ExpressionTO"/>
+          <xs:element name="productionUnitClassName" type="xs:string"/>
+          <xs:element name="operationId" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ConditionalExpressionInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:ExpressionInfo">
+        <xs:sequence>
+          <xs:element name="parameterName" type="xs:string"/>
+          <xs:element name="testValue" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" name="onTrueExpressions" type="tns:ExpressionInfo"/>
+          <xs:element maxOccurs="unbounded" name="onFalseExpressions" type="tns:ExpressionInfo"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

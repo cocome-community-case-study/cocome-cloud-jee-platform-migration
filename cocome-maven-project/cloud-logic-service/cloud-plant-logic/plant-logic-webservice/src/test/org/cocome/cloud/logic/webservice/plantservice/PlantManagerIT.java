@@ -23,7 +23,9 @@ import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.test.TestConfig;
 import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionTO;
+import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo;
+import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
+import org.cocome.tradingsystem.inventory.application.plant.expression.PUOperationInfo;
 import org.cocome.tradingsystem.inventory.application.plant.iface.PUCImporter;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.FMU;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
@@ -35,6 +37,7 @@ import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -117,7 +120,10 @@ public class PlantManagerIT {
         em.deleteEnterprise(enterprise);
     }
 
-    @Test
+    /*
+     * Can only be executed when xPPU device is running at the IP address below
+     */
+    @Ignore
     public void testPUCImport() throws Exception {
         final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
         final PlantTO plant = WSTestUtils.createPlant(enterprise, em);
@@ -134,8 +140,8 @@ public class PlantManagerIT {
 
         /* Environmental setup */
 
-        final PUCImporter xppu = new PUCImporter("Default xPPU", XPPU.values(), plant, pm);
-        //final PUCImporter xppu = new PUCImporter("Default xPPU", plant, pm);
+        final PUCImporter xppu = new PUCImporter("xPPU", XPPU.values(), plant, pm);
+        //final PUCImporter xppu = new PUCImporter("xPPU", plant, pm);
 
         final PUCImporter fmu = new PUCImporter("FMU", FMU.values(), plant, pm);
 
@@ -172,9 +178,28 @@ public class PlantManagerIT {
         e.setId(em.createEntryPoint(e));
 
         final PlantOperationTO operation = new PlantOperationTO();
-        operation.setName("Produce Joghurt");
+        operation.setName("Produce Yogurt");
         operation.setPlant(plant);
         operation.setOutputEntryPoint(Collections.singletonList(e));
+        operation.setMarkup(new MarkupInfo(
+                Arrays.asList(
+                        xppu.getOperation(XPPU.Crane_ACT_Init),
+                        xppu.getOperation(XPPU.Stack_ACT_Init),
+                        new ConditionalExpressionInfo(
+                                "Organic",
+                                IBooleanParameter.TRUE_VALUE,
+                                Arrays.asList(
+                                        xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
+                                        xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
+                                        xppu.getOperation(XPPU.Crane_ACT_PickUpWP)),
+                                Arrays.asList(
+                                        xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
+                                        xppu.getOperation(XPPU.Stamp_ACT_Stamp),
+                                        xppu.getOperation(XPPU.Stamp_ACT_Stamp))),
+                        fmu.getOperation(FMU.Silo0_ACT_Init),
+                        fmu.getOperation(FMU.Silo1_ACT_Init),
+                        fmu.getOperation(FMU.Silo2_ACT_Init)
+                )));
         operation.setId(em.createPlantOperation(operation));
 
         final BooleanPlantOperationParameterTO param = new BooleanPlantOperationParameterTO();
@@ -182,35 +207,11 @@ public class PlantManagerIT {
         param.setName("Organic");
         param.setId(em.createBooleanPlantOperationParameter(param, operation));
 
-        final ConditionalExpressionTO conditionalExpression = new ConditionalExpressionTO();
-        conditionalExpression.setParameter(param);
-        conditionalExpression.setParameterValue(IBooleanParameter.TRUE_VALUE);
-        conditionalExpression.setOnTrueExpressions(Arrays.asList(
-                xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
-                xppu.getOperation(XPPU.Crane_ACT_PickUpWP),
-                xppu.getOperation(XPPU.Crane_ACT_TurnToStamp),
-                xppu.getOperation(XPPU.Crane_ACT_PutDownWP)));
-        conditionalExpression.setOnFalseExpressions(Arrays.asList(
-                xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
-                xppu.getOperation(XPPU.Stamp_ACT_Stamp),
-                xppu.getOperation(XPPU.Stamp_ACT_Stamp)));
-        conditionalExpression.setId(pm.createConditionalExpression(conditionalExpression));
-
-        operation.setExpressions(Arrays.asList(
-                xppu.getOperation(XPPU.Crane_ACT_Init),
-                xppu.getOperation(XPPU.Stamp_ACT_Init),
-                xppu.getOperation(XPPU.Stack_ACT_Init),
-                conditionalExpression,
-                fmu.getOperation(FMU.Silo0_ACT_Init),
-                fmu.getOperation(FMU.Silo1_ACT_Init),
-                fmu.getOperation(FMU.Silo2_ACT_Init)
-        ));
-        em.updatePlantOperation(operation);
-
         /* Order creation */
 
         final PlantOperationOrderTO operationOrder = new PlantOperationOrderTO();
         operationOrder.setEnterprise(enterprise);
+        operationOrder.setPlant(plant);
 
         final PlantOperationParameterValueTO paramValue = new PlantOperationParameterValueTO();
         paramValue.setParameter(param);

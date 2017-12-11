@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
+import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 
 import javax.xml.bind.annotation.*;
@@ -48,6 +49,8 @@ public class PlantOperationOrderTO implements Serializable, IIdentifiableTO {
     private Date orderingDate;
     @XmlElement(name = "enterprise", required = true)
     private EnterpriseTO enterprise;
+    @XmlElement(name = "plant", required = true)
+    private PlantTO plant;
     @XmlElement(name = "orderEntries", required = true)
     private Collection<PlantOperationOrderEntryTO> orderEntries;
 
@@ -122,6 +125,14 @@ public class PlantOperationOrderTO implements Serializable, IIdentifiableTO {
      */
     public void setEnterprise(final EnterpriseTO enterprise) {
         this.enterprise = enterprise;
+    }
+
+    public PlantTO getPlant() {
+        return plant;
+    }
+
+    public void setPlant(PlantTO plant) {
+        this.plant = plant;
     }
 
     /**

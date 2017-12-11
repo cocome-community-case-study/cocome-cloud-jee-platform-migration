@@ -16,12 +16,12 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.parser;
+package org.cocome.tradingsystem.inventory.parser.plant;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.cocome.tradingsystem.inventory.parser.ast.ExpressionInfo;
-import org.cocome.tradingsystem.inventory.parser.ast.PlantOperationInfo;
+import org.cocome.tradingsystem.inventory.application.plant.expression.ExpressionInfo;
+import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 
 import java.io.IOException;
 
@@ -30,7 +30,7 @@ import java.io.IOException;
  *
  * @author Rudolf Biczok
  */
-public class PlantRecipeParser {
+public class MarkupParser {
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -40,8 +40,8 @@ public class PlantRecipeParser {
      * @param text the JSON string
      * @return a list of extracted {@link ExpressionInfo}
      */
-    PlantOperationInfo parse(final String text) throws IOException {
-        return mapper.readValue(text, PlantOperationInfo.class);
+    public MarkupInfo parse(final String text) throws IOException {
+        return mapper.readValue(text, MarkupInfo.class);
     }
 
     /**
@@ -50,7 +50,7 @@ public class PlantRecipeParser {
      * @param plantOperationInfo the list of expressions
      * @return the JSON string representation of the given list of expressions
      */
-    String toString(final PlantOperationInfo plantOperationInfo) throws JsonProcessingException {
+    public String toString(final MarkupInfo plantOperationInfo) throws JsonProcessingException {
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(plantOperationInfo);
     }
 
