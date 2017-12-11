@@ -18,19 +18,54 @@
 
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
+
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 /**
+ * Represents the top-level recipe for producing a custom product.
+ *
  * @author Rudolf Biczok
  */
 @XmlType(
-        name = "EntryPointInteractionTO",
+        name = "RecipeNodeTO",
         namespace = "http://recipe.plant.application.inventory.tradingsystem.cocome.org")
-@XmlRootElement(name = "EntryPointInteractionTO")
+@XmlRootElement(name = "RecipeNodeTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EntryPointInteractionTO extends InteractionEntityTO<EntryPointTO> {
+public class RecipeNodeTO implements IIdentifiableTO, Serializable {
     private static final long serialVersionUID = 1L;
+
+    @XmlElement(name = "id", required = true)
+    private long id;
+    @XmlElement(name = "parent", required = true)
+    private RecipeTO recipe;
+    @XmlElementRef(name = "child")
+    private RecipeOperationTO operation;
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public RecipeTO getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(RecipeTO recipe) {
+        this.recipe = recipe;
+    }
+
+    public RecipeOperationTO getOperation() {
+        return operation;
+    }
+
+    public void setOperation(RecipeOperationTO operation) {
+        this.operation = operation;
+    }
 }

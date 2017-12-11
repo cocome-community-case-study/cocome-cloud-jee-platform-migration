@@ -8,12 +8,14 @@ import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPUD
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnit;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@Ignore
 public class PUWorkerTest {
 
     private static class DataCollectionCallback implements IPUCallback<UUID> {

@@ -31,12 +31,25 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "EntryPointTO")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EntryPointTO implements INameableTO {
+    @XmlType(
+            name = "DirectionTO",
+            namespace = "http://recipe.plant.application.inventory.tradingsystem.cocome.org")
+    @XmlRootElement(name = "DirectionTO")
+    @XmlEnum
+    public enum DirectionTO {
+        INPUT, OUTPUT
+    }
+
     private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "id", required = true)
     private long id;
     @XmlElement(name = "name", required = true)
     private String name;
+    @XmlElementRef(name = "operation")
+    private RecipeOperationTO operation;
+    @XmlElement(name = "direction", required = true)
+    private DirectionTO direction;
 
     /**
      * @return the database id
@@ -70,6 +83,22 @@ public class EntryPointTO implements INameableTO {
     @Override
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public RecipeOperationTO getOperation() {
+        return operation;
+    }
+
+    public void setOperation(RecipeOperationTO operation) {
+        this.operation = operation;
+    }
+
+    public DirectionTO getDirection() {
+        return direction;
+    }
+
+    public void setDirection(DirectionTO direction) {
+        this.direction = direction;
     }
 
 }

@@ -19,7 +19,7 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe.exec;
 
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IParameterInteraction;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipeOperation;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,16 +31,16 @@ import java.util.List;
  */
 public class RecipeExecutionGraphNode {
 
-    private IPlantOperation plantOperation;
+    private IRecipeOperation plantOperation;
     private List<RecipeExecutionGraphEdge> edges = new LinkedList<>();
 
     private List<IParameterInteraction> parameterInteractions = new LinkedList<>();
 
-    public RecipeExecutionGraphNode(final IPlantOperation plantOperation) {
+    public RecipeExecutionGraphNode(final IRecipeOperation plantOperation) {
         this.plantOperation = plantOperation;
     }
 
-    public IPlantOperation getPlantOperation() {
+    public IRecipeOperation getOperation() {
         return plantOperation;
     }
 

@@ -38,7 +38,7 @@ public class PlantJob {
         Map<String, IProductionUnitClass> pucMapping = StreamUtil.ofNullable(pucList)
                 .collect(Collectors.toMap(IProductionUnitClass::getName, Function.identity()));
         final List<PUInstruction> instructionList =
-                orderEntry.getPlantOperation().getMarkup()
+                orderEntry.getOperation().getMarkup()
                         .evaluate(new EvaluationContext(orderEntry.getParameterValues()));
 
         this.workingPackages = new LinkedList<>();
@@ -56,7 +56,7 @@ public class PlantJob {
             currentPUC = pucMapping.get(inst.getPUCName());
             currentList.add(inst.getOperationId());
         }
-        if(!currentList.isEmpty()) {
+        if (!currentList.isEmpty()) {
             this.workingPackages.add(new PUWorkingPackage(currentPUC, currentList));
         }
     }

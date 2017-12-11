@@ -65,7 +65,7 @@
                     ref="org.cocome.tradingsystem.inventory.application.store.EnterpriseTO"/>
         </bindings>
     </bindings>
-    <bindings if-exists="true" schemaLocation="IStoreManager_schema5.xsd">
+    <bindings if-exists="true" schemaLocation="IStoreManager_schema7.xsd">
         <bindings node="//xsd:complexType[@name='CustomProductTO']">
             <class
                     ref="org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO"/>

@@ -20,7 +20,6 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
@@ -28,29 +27,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  *
  * @author Rudolf Biczok
  */
-public interface IPlantOperationOrder extends IRecipeOperationOrder<
-        IPlantOperationParameter,
-        IPlantOperationParameterValue,
-        IPlantOperationOrderEntry> {
-    /**
-     * @return The enterprise where the order is placed.
-     */
-    ITradingEnterprise getEnterprise() throws NotInDatabaseException;
-
-    /**
-     * @param enterprise the enterprise where the order is placed
-     */
-    void setEnterprise(final ITradingEnterprise enterprise);
-
-    /**
-     * @return The id of the enterprise where the order is placed.
-     */
-    long getEnterpriseId();
-
-    /**
-     * @param enterprise the id of the enterprise where the order is placed
-     */
-    void setEnterpriseId(final long enterprise);
+public interface IPlantOperationOrder extends IRecipeOperationOrder<IPlantOperation, IPlantOperationOrderEntry> {
 
     IPlant getPlant() throws NotInDatabaseException;
 

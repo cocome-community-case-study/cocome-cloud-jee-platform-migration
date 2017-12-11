@@ -3,13 +3,10 @@ package org.cocome.tradingsystem.remote.access.parsing;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INominalParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
@@ -47,19 +44,13 @@ public interface IBackendConversionHelper {
 
     Collection<IEntryPoint> getEntryPoints(String entryPoint);
 
-    Collection<IBooleanCustomProductParameter> getBooleanCustomProductParameter(String param);
-
-    Collection<INorminalCustomProductParameter> getNorminalCustomProductParameter(String param);
-
-    Collection<ICustomProductParameter> getCustomProductParameter(String customProductParameter);
-
     Collection<IPlantOperation> getPlantOperation(String plantOperation);
 
-    Collection<IBooleanPlantOperationParameter> getBooleanPlantOperationParameter(String param);
+    Collection<IBooleanParameter> getBooleanParameter(String param);
 
-    Collection<INorminalPlantOperationParameter> getNorminalPlantOperationParameter(String param);
+    Collection<INominalParameter> getNominalParameter(String param);
 
-    Collection<IPlantOperationParameter> getPlantOperationParameters(String plantOperationParameter);
+    Collection<IParameter> getParameters(String plantOperationParameter);
 
     Collection<IEntryPointInteraction> getEntryPointInteraction(String entryPointInteraction);
 
@@ -71,9 +62,13 @@ public interface IBackendConversionHelper {
 
     Collection<IPlantOperationOrderEntry> getPlantOperationOrderEntry(String orderEntry);
 
-    Collection<IPlantOperationParameterValue> getPlantOperationParameterValue(String parameterValue);
+    Collection<IParameterValue> getParameterValue(String parameterValue);
 
-    Collection<IItem> getItem(String itemId);
+    Collection<IItem> getItem(String item);
 
-    Collection<IOnDemandItem> getOnDemandItem(String onDemandItemId);
+    Collection<IOnDemandItem> getOnDemandItem(String onDemandItem);
+
+    Collection<IRecipeOperation> getRecipeOperation(String recipeOperation);
+
+    Collection<IRecipeNode> getRecipeNode(String recipeNode);
 }

@@ -1,12 +1,12 @@
-<xs:schema xmlns:ns1="http://store.webservice.logic.cocome.org/" xmlns:ns2="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns4="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://store.application.inventory.tradingsystem.cocome.org/" version="1.0">
+<xs:schema xmlns:ns1="http://store.webservice.logic.cocome.org/" xmlns:ns2="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns4="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://store.application.inventory.tradingsystem.cocome.org/" version="1.0">
 
   <xs:import namespace="http://store.webservice.logic.cocome.org/" schemaLocation="IStoreManager_schema1.xsd"/>
 
-  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema5.xsd"/>
+  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema7.xsd"/>
 
   <xs:import namespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema3.xsd"/>
 
-  <xs:import namespace="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema4.xsd"/>
+  <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema5.xsd"/>
 
   <xs:complexType name="ProductWithItemTO">
     <xs:sequence>
@@ -162,7 +162,7 @@
   <xs:complexType name="SaleEntryTO">
     <xs:sequence>
       <xs:element name="item" type="tns:ProductWithItemTO"/>
-      <xs:element maxOccurs="unbounded" name="parameterValues" type="ns3:CustomProductParameterValueTO"/>
+      <xs:element maxOccurs="unbounded" name="parameterValues" type="ns3:ParameterValueTO"/>
     </xs:sequence>
   </xs:complexType>
 

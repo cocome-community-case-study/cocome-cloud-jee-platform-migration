@@ -14,15 +14,12 @@ import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.persistence.ServiceAdapterHeaders;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INominalParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
@@ -546,58 +543,44 @@ public class CSVHelper implements IBackendConversionHelper {
     @Override
     public Collection<IEntryPoint> getEntryPoints(String entryPoint) {
         return rowToCollection(entryPoint, row -> {
-            final IEntryPoint result = enterpriseFactory.getNewEntryPoint();
+            final IEntryPoint result = plantFactory.getNewEntryPoint();
 
             result.setId(fetchLong(row.getColumns().get(0)));
             result.setName(fetchString(row.getColumns().get(1)));
+            result.setOperationId(fetchLong(row.getColumns().get(2)));
+            result.setDirection(fetchEnumValue(IEntryPoint.Direction.class, row.getColumns().get(3)));
 
             return result;
         });
     }
 
-    @Override
-    public Collection<IBooleanCustomProductParameter> getBooleanCustomProductParameter(String param) {
-        return rowToCollection(param, row -> processBooleanCustomProductParameterRow(row, 0));
+    @SuppressWarnings("unchecked")
+    private <T extends Enum<T>> T fetchEnumValue(Class<T> directionClass, Column<String> stringColumn) {
+        if (stringColumn == null) {
+            return null;
+        }
+        return Enum.valueOf(directionClass, stringColumn.getValue());
     }
 
     @Override
-    public Collection<INorminalCustomProductParameter> getNorminalCustomProductParameter(String param) {
-        return rowToCollection(param, row -> processNorminalCustomProductParameterRow(row, 0));
+    public Collection<IBooleanParameter> getBooleanParameter(String param) {
+        return rowToCollection(param, row -> processBooleanParameterRow(row, 0));
     }
 
     @Override
-    public Collection<ICustomProductParameter> getCustomProductParameter(String param) {
+    public Collection<INominalParameter> getNominalParameter(String param) {
+        return rowToCollection(param, row -> processNominalParameterRow(row, 0));
+    }
+
+    @Override
+    public Collection<IParameter> getParameters(String param) {
         return rowToCollection(param, row -> {
             final String typeName = row.getColumns().get(0).getValue();
             final int offset = Integer.parseInt(row.getColumns().get(1).getValue());
-            if (typeName.contains("BooleanCustomProductParameter")) {
-                return processBooleanCustomProductParameterRow(row, offset);
-            } else if (typeName.contains("NorminalCustomProductParameter")) {
-                return processNorminalCustomProductParameterRow(row, offset);
-            }
-            throw new IllegalArgumentException("Unsupported type: " + typeName);
-        });
-    }
-
-    @Override
-    public Collection<IBooleanPlantOperationParameter> getBooleanPlantOperationParameter(String param) {
-        return rowToCollection(param, row -> processBooleanPlantOperationParameterRow(row, 0));
-    }
-
-    @Override
-    public Collection<INorminalPlantOperationParameter> getNorminalPlantOperationParameter(String param) {
-        return rowToCollection(param, row -> processNorminalPlantOperationParameterRow(row, 0));
-    }
-
-    @Override
-    public Collection<IPlantOperationParameter> getPlantOperationParameters(String param) {
-        return rowToCollection(param, row -> {
-            final String typeName = row.getColumns().get(0).getValue();
-            final int offset = Integer.parseInt(row.getColumns().get(1).getValue());
-            if (typeName.contains("BooleanPlantOperationParameter")) {
-                return processBooleanPlantOperationParameterRow(row, offset);
-            } else if (typeName.contains("NorminalPlantOperationParameter")) {
-                return processNorminalPlantOperationParameterRow(row, offset);
+            if (typeName.contains("BooleanParameter")) {
+                return processBooleanParameterRow(row, offset);
+            } else if (typeName.contains("NominalParameter")) {
+                return processNominalParameterRow(row, offset);
             }
             throw new IllegalArgumentException("Unsupported type: " + typeName);
         });
@@ -631,17 +614,28 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Override
     public Collection<IRecipe> getRecipe(String recipe) {
-        return rowToCollection(recipe, row -> {
-            final IRecipe result = plantFactory.getNewRecipe();
+        return rowToCollection(recipe, row -> processRecipeRow(row, 0));
+    }
+
+    private IRecipe processRecipeRow(Row<String> row, int offset) {
+        final IRecipe result = plantFactory.getNewRecipe();
+
+        result.setId(fetchLong(row.getColumns().get(offset)));
+        result.setCustomProductId(fetchLong(row.getColumns().get(1 + offset)));
+        result.setName(fetchString(row.getColumns().get(2 + offset)));
+        result.setEnterpriseId(fetchLong(row.getColumns().get(3 + offset)));
+
+        return result;
+    }
+
+    @Override
+    public Collection<IRecipeNode> getRecipeNode(String recipeNode) {
+        return rowToCollection(recipeNode, row -> {
+            final IRecipeNode result = plantFactory.getNewRecipeNode();
 
             result.setId(fetchLong(row.getColumns().get(0)));
-            result.setCustomProductId(fetchLong(row.getColumns().get(1)));
-            result.setOperationIds(fetchIds(row.getColumns().get(2)));
-            result.setEntryPointInteractionIds(fetchIds(row.getColumns().get(3)));
-            result.setParameterInteractionIds(fetchIds(row.getColumns().get(4)));
-            result.setName(fetchString(row.getColumns().get(5)));
-            result.setInputEntryPointIds(fetchIds(row.getColumns().get(6)));
-            result.setOutputEntryPointIds(fetchIds(row.getColumns().get(7)));
+            result.setRecipeId(fetchLong(row.getColumns().get(1)));
+            result.setOperationId(fetchLong(row.getColumns().get(2)));
 
             return result;
         });
@@ -675,9 +669,9 @@ public class CSVHelper implements IBackendConversionHelper {
     }
 
     @Override
-    public Collection<IPlantOperationParameterValue> getPlantOperationParameterValue(String parameterValue) {
+    public Collection<IParameterValue> getParameterValue(String parameterValue) {
         return rowToCollection(parameterValue, row -> {
-            final IPlantOperationParameterValue result = plantFactory.getNewPlantOperationParameterValue();
+            final IParameterValue result = plantFactory.getNewParameterValue();
 
             result.setId(fetchLong(row.getColumns().get(0)));
             result.setValue(fetchString(row.getColumns().get(1)));
@@ -706,6 +700,20 @@ public class CSVHelper implements IBackendConversionHelper {
         return rowToCollection(onDemandItemId, row -> processOnDemandItemRow(row, 0));
     }
 
+    @Override
+    public Collection<IRecipeOperation> getRecipeOperation(String recipeOperation) {
+        return rowToCollection(recipeOperation, row -> {
+            final String typeName = row.getColumns().get(0).getValue();
+            final int offset = Integer.parseInt(row.getColumns().get(1).getValue());
+            if (typeName.contains("PlantOperation")) {
+                return processPlantOperationRow(row, offset);
+            } else if (typeName.contains("Recipe")) {
+                return processRecipeRow(row, offset);
+            }
+            throw new IllegalArgumentException("Unsupported type: " + typeName);
+        });
+    }
+
     private IOnDemandItem processOnDemandItemRow(Row<String> row, int offset) {
         final IOnDemandItem result = storeFactory.getNewOnDemandItem();
 
@@ -719,19 +727,20 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Override
     public Collection<IPlantOperation> getPlantOperation(String plantOperation) {
-        return rowToCollection(plantOperation, row -> {
-            final IPlantOperation result = plantFactory.getNewPlantOperation();
-
-            result.setId(fetchLong(row.getColumns().get(0)));
-            result.setPlantId(fetchLong(row.getColumns().get(1)));
-            result.setMarkup(parseMarkup(row.getColumns().get(2)));
-            result.setName(fetchString(row.getColumns().get(3)));
-            result.setInputEntryPointIds(fetchIds(row.getColumns().get(4)));
-            result.setOutputEntryPointIds(fetchIds(row.getColumns().get(5)));
-
-            return result;
-        });
+        return rowToCollection(plantOperation, row -> processPlantOperationRow(row, 0));
     }
+
+    private IPlantOperation processPlantOperationRow(Row<String> row, int offset) {
+        final IPlantOperation result = plantFactory.getNewPlantOperation();
+
+        result.setId(fetchLong(row.getColumns().get(offset)));
+        result.setPlantId(fetchLong(row.getColumns().get(1 + offset)));
+        result.setMarkup(parseMarkup(row.getColumns().get(2 + offset)));
+        result.setName(fetchString(row.getColumns().get(3 + offset)));
+
+        return result;
+    }
+
 
     private MarkupInfo parseMarkup(Column<String> base64String) {
         if (base64String == null) {
@@ -746,9 +755,8 @@ public class CSVHelper implements IBackendConversionHelper {
         }
     }
 
-    private INorminalCustomProductParameter processNorminalCustomProductParameterRow(Row<String> row, int offset) {
-        final INorminalCustomProductParameter result = enterpriseFactory.getNewNorminalCustomProductParameter();
-        result.setCustomProductId(Long.parseLong(row.getColumns().get(offset).getValue()));
+    private INominalParameter processNominalParameterRow(Row<String> row, int offset) {
+        final INominalParameter result = plantFactory.getNewNominalParameter();
         result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
         result.setName(row.getColumns().get(2 + offset).getValue());
         result.setCategory(row.getColumns().get(3 + offset).getValue());
@@ -757,28 +765,8 @@ public class CSVHelper implements IBackendConversionHelper {
         return result;
     }
 
-    private IBooleanCustomProductParameter processBooleanCustomProductParameterRow(Row<String> row, int offset) {
-        final IBooleanCustomProductParameter result = enterpriseFactory.getNewBooleanCustomProductParameter();
-        result.setCustomProductId(Long.parseLong(row.getColumns().get(offset).getValue()));
-        result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
-        result.setName(row.getColumns().get(2 + offset).getValue());
-        result.setCategory(row.getColumns().get(3 + offset).getValue());
-
-        return result;
-    }
-
-    private INorminalPlantOperationParameter processNorminalPlantOperationParameterRow(Row<String> row, int offset) {
-        final INorminalPlantOperationParameter result = plantFactory.getNewNorminalPlantOperationParameter();
-        result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
-        result.setName(row.getColumns().get(2 + offset).getValue());
-        result.setCategory(row.getColumns().get(3 + offset).getValue());
-        result.setOptions(fetchStringSet(row.getColumns().get(4 + offset)));
-
-        return result;
-    }
-
-    private IBooleanPlantOperationParameter processBooleanPlantOperationParameterRow(Row<String> row, int offset) {
-        final IBooleanPlantOperationParameter result = plantFactory.getNewBooleanPlantOperationParameter();
+    private IBooleanParameter processBooleanParameterRow(Row<String> row, int offset) {
+        final IBooleanParameter result = plantFactory.getNewBooleanParameter();
         result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
         result.setName(row.getColumns().get(2 + offset).getValue());
         result.setCategory(row.getColumns().get(3 + offset).getValue());
@@ -840,14 +828,6 @@ public class CSVHelper implements IBackendConversionHelper {
                 str -> Arrays.stream(str.split(ServiceAdapterHeaders.SET_SEPARATOR))
                         .collect(Collectors.toSet()),
                 Collections.emptySet());
-    }
-
-    private List<Long> fetchIds(Column<String> column) {
-        return fetchColVal(
-                column,
-                str -> Arrays.stream(str.split(ServiceAdapterHeaders.SET_SEPARATOR))
-                        .map(Long::valueOf).collect(Collectors.toList()),
-                Collections.emptyList());
     }
 
     private String fetchString(Column<String> column) {

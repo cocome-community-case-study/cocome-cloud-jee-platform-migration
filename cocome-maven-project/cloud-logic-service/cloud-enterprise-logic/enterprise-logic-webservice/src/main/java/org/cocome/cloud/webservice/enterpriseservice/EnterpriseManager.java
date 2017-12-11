@@ -27,29 +27,22 @@ import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.enterpriseservice.IEnterpriseManager;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.production.ProductionManager;
 import org.cocome.tradingsystem.inventory.application.production.events.PlantOperationOrderFinishedEvent;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INominalParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.exec.RecipeExecutionGraph;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
@@ -70,7 +63,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -315,12 +307,6 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public CustomProductParameterTO queryCustomProductParameterByID(long customProductParameterId) throws NotInDatabaseException {
-        return enterpriseFactory.fillCustomProductParameterTO(
-                enterpriseQuery.queryCustomProductParameterByID(customProductParameterId));
-    }
-
-    @Override
     public void updatePlant(PlantTO plantTO)
             throws NotInDatabaseException, UpdateException {
         final ITradingEnterprise enterprise = saveFetchFromDB(() ->
@@ -525,26 +511,44 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public Collection<EntryPointTO> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException {
-        return queryCollection(enterpriseQuery.queryEntryPoints(entryPointIds),
-                enterpriseFactory::fillEntryPointTO);
-    }
-
-    @Override
     public EntryPointTO queryEntryPointById(long entryPointId) throws NotInDatabaseException {
-        return enterpriseFactory.fillEntryPointTO(enterpriseQuery.queryEntryPointByID(entryPointId));
+        return plantFactory.fillEntryPointTO(enterpriseQuery.queryEntryPointByID(entryPointId));
     }
 
     @Override
-    public long createEntryPoint(EntryPointTO entryPointTO) throws CreateException {
-        final IEntryPoint entryPoint = enterpriseFactory.convertToEntryPoint(entryPointTO);
+    public Collection<EntryPointTO> queryInputEntryPointsByRecipeId(long operationId) throws NotInDatabaseException {
+        Collection<IEntryPoint> entryPoints = enterpriseQuery.queryInputEntryPointsByRecipeOperationId(operationId);
+        Collection<EntryPointTO> entryPointTOs = new ArrayList<>(entryPoints.size());
+
+        for (IEntryPoint store : entryPoints) {
+            entryPointTOs.add(plantFactory.fillEntryPointTO(store));
+        }
+
+        return entryPointTOs;
+    }
+
+    @Override
+    public Collection<EntryPointTO> queryOutputEntryPointsByRecipeId(long operationId) throws NotInDatabaseException {
+        Collection<IEntryPoint> entryPoints = enterpriseQuery.queryOutputEntryPointsByRecipeOperationId(operationId);
+        Collection<EntryPointTO> entryPointTOs = new ArrayList<>(entryPoints.size());
+
+        for (IEntryPoint store : entryPoints) {
+            entryPointTOs.add(plantFactory.fillEntryPointTO(store));
+        }
+
+        return entryPointTOs;
+    }
+
+    @Override
+    public long createEntryPoint(EntryPointTO entryPointTO) throws CreateException, NotInDatabaseException {
+        final IEntryPoint entryPoint = plantFactory.convertToEntryPoint(entryPointTO);
         saveDBCreateAction(() -> persistenceContext.createEntity(entryPoint));
         return entryPoint.getId();
     }
 
     @Override
     public void updateEntryPoint(EntryPointTO entryPointTO) throws UpdateException, NotInDatabaseException {
-        final IEntryPoint entryPoint = enterpriseFactory.convertToEntryPoint(entryPointTO);
+        final IEntryPoint entryPoint = plantFactory.convertToEntryPoint(entryPointTO);
         saveDBUpdateAction(() -> persistenceContext.updateEntity(entryPoint));
     }
 
@@ -556,22 +560,12 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public Collection<CustomProductParameterTO> queryParametersByCustomProductID(long customProductId)
-            throws NotInDatabaseException {
-        Collection<ICustomProductParameter> instances = enterpriseQuery.queryParametersByCustomProductID(customProductId);
-        Collection<CustomProductParameterTO> toInstances = new ArrayList<>(instances.size());
-        for (ICustomProductParameter instance : instances) {
+    public Collection<RecipeNodeTO> queryRecipeNodesByRecipeId(long recipeId) throws NotInDatabaseException {
+        Collection<IRecipeNode> instances = enterpriseQuery.queryRecipeNodesByRecipeId(recipeId);
+        Collection<RecipeNodeTO> toInstances = new ArrayList<>(instances.size());
+        for (IRecipeNode instance : instances) {
             try {
-                if (IBooleanCustomProductParameter.class.isAssignableFrom(instance.getClass())) {
-                    toInstances.add(enterpriseFactory.fillBooleanCustomProductParameterTO(
-                            (IBooleanCustomProductParameter) instance));
-                    continue;
-                } else if (INorminalCustomProductParameter.class.isAssignableFrom(instance.getClass())) {
-                    toInstances.add(enterpriseFactory.fillNorminalCustomProductParameterTO(
-                            (INorminalCustomProductParameter) instance));
-                    continue;
-                }
-                throw new IllegalArgumentException("Unknown class to handle: " + instance.getClass());
+                toInstances.add(plantFactory.fillRecipeNodeTO(instance));
             } catch (NotInDatabaseException e) {
                 LOG.error("Got NotInDatabaseException: " + e, e);
                 throw e;
@@ -581,78 +575,22 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public BooleanCustomProductParameterTO queryBooleanCustomProductParameterById(long booleanCustomProductParameterId)
-            throws NotInDatabaseException {
-        return enterpriseFactory.fillBooleanCustomProductParameterTO(
-                enterpriseQuery.queryBooleanCustomProductParameterByID(booleanCustomProductParameterId));
-    }
-
-    @Override
-    public long createBooleanCustomProductParameter(BooleanCustomProductParameterTO booleanCustomProductParameterTO)
-            throws CreateException {
-        final IBooleanCustomProductParameter param = enterpriseFactory.convertToBooleanCustomProductParameter(booleanCustomProductParameterTO);
+    public long createRecipeNode(RecipeNodeTO recipeNodeTO) throws CreateException, NotInDatabaseException {
+        final IRecipeNode param = plantFactory.convertToRecipeNode(recipeNodeTO);
         saveDBCreateAction(() -> persistenceContext.createEntity(param));
         return param.getId();
     }
 
     @Override
-    public void updateBooleanCustomProductParameter(BooleanCustomProductParameterTO booleanCustomProductParameterTO)
-            throws UpdateException, NotInDatabaseException {
-        final IBooleanCustomProductParameter param = enterpriseFactory.convertToBooleanCustomProductParameter(booleanCustomProductParameterTO);
+    public void updateRecipeNode(RecipeNodeTO recipeNodeTO) throws UpdateException, NotInDatabaseException {
+        final IRecipeNode param = plantFactory.convertToRecipeNode(recipeNodeTO);
         saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
     }
 
     @Override
-    public void deleteBooleanCustomProductParameter(BooleanCustomProductParameterTO booleanCustomProductParameterTO)
-            throws UpdateException, NotInDatabaseException {
-        final IBooleanCustomProductParameter param = saveFetchFromDB(() ->
-                enterpriseQuery.queryBooleanCustomProductParameterByID(booleanCustomProductParameterTO.getId()));
+    public void deleteRecipeNode(RecipeNodeTO recipeNodeTO) throws UpdateException, NotInDatabaseException {
+        final IRecipeNode param = plantFactory.convertToRecipeNode(recipeNodeTO);
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
-    }
-
-    @Override
-    public NorminalCustomProductParameterTO queryNorminalCustomProductParameterById(long norminalCustomProductParameterId)
-            throws NotInDatabaseException {
-        return enterpriseFactory.fillNorminalCustomProductParameterTO(
-                enterpriseQuery.queryNorminalCustomProductParameterByID(norminalCustomProductParameterId));
-    }
-
-    @Override
-    public long createNorminalCustomProductParameter(NorminalCustomProductParameterTO norminalCustomProductParameterTO)
-            throws CreateException {
-        final INorminalCustomProductParameter param = enterpriseFactory.convertToNorminalCustomProductParameter(norminalCustomProductParameterTO);
-        saveDBCreateAction(() -> persistenceContext.createEntity(param));
-        return param.getId();
-    }
-
-    @Override
-    public void updateNorminalCustomProductParameter(NorminalCustomProductParameterTO norminalCustomProductParameterTO)
-            throws UpdateException, NotInDatabaseException {
-        final INorminalCustomProductParameter param = enterpriseFactory.convertToNorminalCustomProductParameter(norminalCustomProductParameterTO);
-        saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
-    }
-
-    @Override
-    public void deleteNorminalCustomProductParameter(NorminalCustomProductParameterTO norminalCustomProductParameterTO)
-            throws UpdateException, NotInDatabaseException {
-        final INorminalCustomProductParameter param = saveFetchFromDB(() ->
-                enterpriseQuery.queryNorminalCustomProductParameterByID(norminalCustomProductParameterTO.getId()));
-        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
-    }
-
-    @Override
-    public Collection<PlantOperationTO> queryPlantOperations(List<Long> operationIDs) throws NotInDatabaseException {
-        Collection<IPlantOperation> instances = enterpriseQuery.queryPlantOperations(operationIDs);
-        Collection<PlantOperationTO> toInstances = new ArrayList<>(instances.size());
-        for (IPlantOperation instance : instances) {
-            try {
-                toInstances.add(plantFactory.fillPlantOperationTO(instance));
-            } catch (NotInDatabaseException e) {
-                LOG.error("Got NotInDatabaseException: " + e, e);
-                throw e;
-            }
-        }
-        return toInstances;
     }
 
     @Override
@@ -682,112 +620,87 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public PlantOperationParameterTO queryPlantOperationParameterById(long plantOperationParameterId) throws NotInDatabaseException {
-        return plantFactory.fillPlantOperationParameterTO(
-                enterpriseQuery.queryPlantOperationParameterById(plantOperationParameterId));
+    public ParameterTO queryParameterById(long operationId) throws NotInDatabaseException {
+        return plantFactory.fillParameterTO(
+                enterpriseQuery.queryParameterById(operationId));
     }
 
     @Override
-    public Collection<PlantOperationParameterTO> queryParametersByPlantOperationID(long plantOperationId)
+    public Collection<ParameterTO> queryParametersByRecipeOperationID(long parameterId)
             throws NotInDatabaseException {
-        Collection<IPlantOperationParameter> instances = enterpriseQuery.queryParametersByPlantOperationID(plantOperationId);
-        Collection<PlantOperationParameterTO> toInstances = new ArrayList<>(instances.size());
-        for (IPlantOperationParameter instance : instances) {
-            try {
-                if (IBooleanPlantOperationParameter.class.isAssignableFrom(instance.getClass())) {
-                    toInstances.add(plantFactory.fillBooleanPlantOperationParameterTO(
-                            (IBooleanPlantOperationParameter) instance));
-                    continue;
-                } else if (INorminalPlantOperationParameter.class.isAssignableFrom(instance.getClass())) {
-                    toInstances.add(plantFactory.fillNorminalPlantOperationParameterTO(
-                            (INorminalPlantOperationParameter) instance));
-                    continue;
-                }
-                throw new IllegalArgumentException("Unknown class to handle: " + instance.getClass());
-            } catch (NotInDatabaseException e) {
-                LOG.error("Got NotInDatabaseException: " + e, e);
-                throw e;
-            }
+        Collection<IParameter> instances = enterpriseQuery.queryParametersByRecipeOperationID(parameterId);
+        Collection<ParameterTO> toInstances = new ArrayList<>(instances.size());
+        for (IParameter instance : instances) {
+            toInstances.add(plantFactory.fillParameterTO(instance));
         }
         return toInstances;
     }
 
     @Override
-    public BooleanPlantOperationParameterTO queryBooleanPlantOperationParameterById(long booleanPlantOperationParameterId)
+    public BooleanParameterTO queryBooleanParameterById(long booleanParameterId)
             throws NotInDatabaseException {
-        return plantFactory.fillBooleanPlantOperationParameterTO(
-                enterpriseQuery.queryBooleanPlantOperationParameterByID(booleanPlantOperationParameterId));
+        return plantFactory.fillBooleanParameterTO(
+                enterpriseQuery.queryBooleanParameterByID(booleanParameterId));
     }
 
     @Override
-    public long createBooleanPlantOperationParameter(BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
-                                                     PlantOperationTO operationTO)
+    public long createBooleanParameter(BooleanParameterTO booleanParameterTO)
             throws CreateException {
-        final IBooleanPlantOperationParameter param = plantFactory.convertToBooleanPlantOperationParameter(
-                booleanPlantOperationParameterTO);
-        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
-        saveDBCreateAction(() -> persistenceContext.createEntity(param, operation));
+        final IBooleanParameter param = plantFactory.convertToBooleanParameter(
+                booleanParameterTO);
+        saveDBCreateAction(() -> persistenceContext.createEntity(param));
         return param.getId();
     }
 
     @Override
-    public void updateBooleanPlantOperationParameter(BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
-                                                     PlantOperationTO operationTO)
+    public void updateBooleanParameter(BooleanParameterTO booleanPlantOperationParameterTO)
             throws UpdateException, NotInDatabaseException {
-        final IBooleanPlantOperationParameter param = plantFactory.convertToBooleanPlantOperationParameter(booleanPlantOperationParameterTO);
-        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
-        saveDBUpdateAction(() -> persistenceContext.updateEntity(param, operation));
+        final IBooleanParameter param = plantFactory.convertToBooleanParameter(booleanPlantOperationParameterTO);
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
     }
 
     @Override
-    public void deleteBooleanPlantOperationParameter(BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
-                                                     PlantOperationTO operationTO)
+    public void deleteBooleanParameter(BooleanParameterTO booleanPlantOperationParameterTO)
             throws UpdateException, NotInDatabaseException {
-        final IBooleanPlantOperationParameter param = saveFetchFromDB(() ->
-                enterpriseQuery.queryBooleanPlantOperationParameterByID(booleanPlantOperationParameterTO.getId()));
-        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
-        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param, operation));
+        final IBooleanParameter param = saveFetchFromDB(() ->
+                enterpriseQuery.queryBooleanParameterByID(booleanPlantOperationParameterTO.getId()));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
     }
 
     @Override
-    public NorminalPlantOperationParameterTO queryNorminalPlantOperationParameterById(long norminalPlantOperationParameterId)
+    public NominalParameterTO queryNominalParameterById(long nominalParameterId)
             throws NotInDatabaseException {
-        return plantFactory.fillNorminalPlantOperationParameterTO(
-                enterpriseQuery.queryNorminalPlantOperationParameterByID(norminalPlantOperationParameterId));
+        return plantFactory.fillNominalParameterTO(
+                enterpriseQuery.queryNominalParameterByID(nominalParameterId));
     }
 
     @Override
-    public long createNorminalPlantOperationParameter(NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
-                                                      PlantOperationTO operationTO)
+    public long createNominalParameter(NominalParameterTO nominalParameterTO)
             throws CreateException {
-        final INorminalPlantOperationParameter param = plantFactory.convertToNorminalPlantOperationParameter(norminalPlantOperationParameterTO);
-        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
-        saveDBCreateAction(() -> persistenceContext.createEntity(param, operation));
+        final INominalParameter param = plantFactory.convertToNominalParameter(nominalParameterTO);
+        saveDBCreateAction(() -> persistenceContext.createEntity(param));
         return param.getId();
     }
 
     @Override
-    public void updateNorminalPlantOperationParameter(NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
-                                                      PlantOperationTO operationTO)
+    public void updateNominalParameter(NominalParameterTO nominalParameterTO)
             throws UpdateException, NotInDatabaseException {
-        final INorminalPlantOperationParameter param = plantFactory.convertToNorminalPlantOperationParameter(norminalPlantOperationParameterTO);
-        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
-        saveDBUpdateAction(() -> persistenceContext.updateEntity(param, operation));
+        final INominalParameter param = plantFactory.convertToNominalParameter(nominalParameterTO);
+        saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
     }
 
     @Override
-    public void deleteNorminalPlantOperationParameter(NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
-                                                      PlantOperationTO operationTO)
+    public void deleteNominalParameter(NominalParameterTO norminalParameterTO)
             throws UpdateException, NotInDatabaseException {
-        final INorminalPlantOperationParameter param = saveFetchFromDB(() ->
-                enterpriseQuery.queryNorminalPlantOperationParameterByID(norminalPlantOperationParameterTO.getId()));
-        final IPlantOperation operation = plantFactory.convertToPlantOperation(operationTO);
-        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param, operation));
+        final INominalParameter param = saveFetchFromDB(() ->
+                enterpriseQuery.queryNominalParameterByID(norminalParameterTO.getId()));
+        saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
     }
 
     @Override
-    public Collection<EntryPointInteractionTO> queryEntryPointInteractions(List<Long> entryPointInteractionIds) throws NotInDatabaseException {
-        return queryCollection(enterpriseQuery.queryEntryPointInteractions(entryPointInteractionIds),
+    public Collection<EntryPointInteractionTO> queryEntryPointInteractionsByRecipeId(long recipeId)
+            throws NotInDatabaseException {
+        return queryCollection(enterpriseQuery.queryEntryPointInteractionsByRecipeId(recipeId),
                 plantFactory::fillEntryPointInteractionTO);
     }
 
@@ -821,8 +734,8 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public Collection<ParameterInteractionTO> queryParameterInteractions(List<Long> parameterInteractionIds) throws NotInDatabaseException {
-        return queryCollection(enterpriseQuery.queryParameterInteractions(parameterInteractionIds),
+    public Collection<ParameterInteractionTO> queryParameterInteractionsByRecipeId(long recipeId) throws NotInDatabaseException {
+        return queryCollection(enterpriseQuery.queryParameterInteractionsByRecipeId(recipeId),
                 plantFactory::fillParameterInteractionTO);
     }
 
@@ -853,6 +766,12 @@ public class EnterpriseManager implements IEnterpriseManager {
         final IParameterInteraction param = saveFetchFromDB(() ->
                 enterpriseQuery.queryParameterInteractionByID(parameterInteractionTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+    }
+
+    @Override
+    public RecipeOperationTO queryRecipeOperationById(long recipeOperationId) throws NotInDatabaseException {
+        return plantFactory.fillRecipeOperationTO(
+                enterpriseQuery.queryRecipeOperationById(recipeOperationId));
     }
 
     @Override
@@ -985,9 +904,9 @@ public class EnterpriseManager implements IEnterpriseManager {
     private void persistOrder(IProductionOrder order) throws CreateException {
         persistenceContext.createEntity(order);
         for (final IProductionOrderEntry entry : order.getOrderEntries()) {
-            persistenceContext.createEntity(entry, order);
-            for (final ICustomProductParameterValue values : entry.getParameterValues()) {
-                persistenceContext.createEntity(values, entry);
+            persistenceContext.createEntity(entry);
+            for (final IParameterValue values : entry.getParameterValues()) {
+                persistenceContext.createEntity(values);
             }
         }
     }

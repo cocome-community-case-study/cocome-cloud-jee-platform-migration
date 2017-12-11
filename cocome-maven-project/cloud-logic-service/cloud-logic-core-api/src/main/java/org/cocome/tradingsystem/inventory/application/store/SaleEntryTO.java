@@ -18,7 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.application.store;
 
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -41,7 +41,7 @@ public class SaleEntryTO implements Serializable {
     @XmlElement(name = "item", required = true)
     private ProductWithItemTO item;
     @XmlElement(name = "parameterValues", required = true)
-    private Collection<CustomProductParameterValueTO> parameterValues;
+    private Collection<ParameterValueTO> parameterValues;
 
     public SaleEntryTO() {
     }
@@ -51,7 +51,7 @@ public class SaleEntryTO implements Serializable {
     }
 
     public SaleEntryTO(ProductWithItemTO item,
-                       Collection<CustomProductParameterValueTO> parameterValues) {
+                       Collection<ParameterValueTO> parameterValues) {
         this.item = item;
         this.parameterValues = parameterValues;
     }
@@ -74,14 +74,14 @@ public class SaleEntryTO implements Serializable {
     /**
      * @return parameter values
      */
-    public Collection<CustomProductParameterValueTO> getParameterValues() {
+    public Collection<ParameterValueTO> getParameterValues() {
         return parameterValues;
     }
 
     /**
      * @param parameterValues parameter values
      */
-    public void setParameterValues(final Collection<CustomProductParameterValueTO> parameterValues) {
+    public void setParameterValues(final Collection<ParameterValueTO> parameterValues) {
         this.parameterValues = parameterValues;
     }
 

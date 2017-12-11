@@ -19,7 +19,7 @@
 package org.cocome.test;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO;
 
 import java.util.List;
 
@@ -31,16 +31,16 @@ import java.util.List;
 public class CustomProductInfo {
 
     private final CustomProductTO customProduct;
-    private final List<CustomProductParameterTO> parameters;
+    private final List<ParameterTO> parameters;
 
     /**
      * Canonical constructor
      *
      * @param customProduct the custom product
-     * @param parameters        the parameters of the custom product
+     * @param parameters    the parameters of the custom product
      */
     public CustomProductInfo(final CustomProductTO customProduct,
-                             final List<CustomProductParameterTO> parameters) {
+                             final List<ParameterTO> parameters) {
         this.customProduct = customProduct;
         this.parameters = parameters;
     }
@@ -49,7 +49,7 @@ public class CustomProductInfo {
         return customProduct;
     }
 
-    public List<CustomProductParameterTO> getParameters() {
+    public List<ParameterTO> getParameters() {
         return parameters;
     }
 

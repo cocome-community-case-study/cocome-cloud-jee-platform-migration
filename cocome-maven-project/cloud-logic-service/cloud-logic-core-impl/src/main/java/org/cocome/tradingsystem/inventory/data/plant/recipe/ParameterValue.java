@@ -1,7 +1,7 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -11,25 +11,26 @@ import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
- * Holds a value for a particular {@link IPlantOperationParameter}
+ * Holds a value for a particular {@link IParameter}
  *
  * @author Rudolf Biczok
  */
 @Dependent
-public class PlantOperationParameterValue implements Serializable, IPlantOperationParameterValue {
+public class ParameterValue implements Serializable, IParameterValue {
 
     private static final long serialVersionUID = -2577328715744776645L;
 
     private long id;
     private String value;
-    private IPlantOperationParameter parameter;
+    private IParameter parameter;
+    private IRecipeOperationOrderEntry orderEntry;
     private long parameterId;
+    private long orderEntryId;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
 
     private IEnterpriseQuery enterpriseQuery;
-
 
     @PostConstruct
     public void initPlant() {
@@ -58,15 +59,35 @@ public class PlantOperationParameterValue implements Serializable, IPlantOperati
     }
 
     @Override
-    public IPlantOperationParameter getParameter() throws NotInDatabaseException {
+    public IRecipeOperationOrderEntry getOrderEntry() throws NotInDatabaseException {
+        return this.orderEntry;
+    }
+
+    @Override
+    public void setOrderEntry(IRecipeOperationOrderEntry orderEntry) {
+        this.orderEntry = orderEntry;
+    }
+
+    @Override
+    public long getOrderEntryId() {
+        return orderEntryId;
+    }
+
+    @Override
+    public void setOrderEntryId(long orderEntryId) {
+        this.orderEntryId = orderEntryId;
+    }
+
+    @Override
+    public IParameter getParameter() throws NotInDatabaseException {
         if (parameter == null) {
-            parameter = enterpriseQuery.queryPlantOperationParameterById(parameterId);
+            parameter = enterpriseQuery.queryParameterById(parameterId);
         }
         return parameter;
     }
 
     @Override
-    public void setParameter(IPlantOperationParameter parameter) {
+    public void setParameter(IParameter parameter) {
         this.parameter = parameter;
     }
 

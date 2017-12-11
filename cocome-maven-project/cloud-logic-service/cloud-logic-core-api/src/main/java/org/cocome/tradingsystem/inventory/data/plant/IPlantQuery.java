@@ -21,9 +21,9 @@ package org.cocome.tradingsystem.inventory.data.plant;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IParameterValue;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrderEntry;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationParameterValue;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.ejb.Local;
@@ -90,7 +90,7 @@ public interface IPlantQuery {
      * @return the parameter value of the corresponding database id
      * @throws NotInDatabaseException if the parameter value does not exist
      */
-    IPlantOperationParameterValue queryPlantOperationParameterValueById(long paramValueId)
+    IParameterValue queryParameterValueById(long paramValueId)
             throws NotInDatabaseException;
 
     /**

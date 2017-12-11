@@ -19,12 +19,9 @@
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 
 import javax.xml.bind.annotation.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Represents the top-level recipe for producing a custom product.
@@ -42,15 +39,8 @@ public class RecipeTO extends RecipeOperationTO {
     @XmlElement(name = "customProduct", required = true)
     private CustomProductTO customProduct;
 
-    // Represent the vertices of the recipe graph
-    @XmlElement(name = "operations", required = true)
-    private Collection<PlantOperationTO> operations;
-
-    // Represent the edges of the recipe graph
-    @XmlElement(name = "parameterInteractions", required = true)
-    private Collection<ParameterInteractionTO> parameterInteractions;
-    @XmlElement(name = "entryPointInteractions", required = true)
-    private Collection<EntryPointInteractionTO> entryPointInteractions;
+    @XmlElement(name = "enterprise", required = true)
+    private EnterpriseTO enterprise;
 
     /**
      * @return the custom product for which this recipe provides production information
@@ -66,45 +56,12 @@ public class RecipeTO extends RecipeOperationTO {
         this.customProduct = customProduct;
     }
 
-    /**
-     * @return the plant operation that is supposed to be executed within this interaction step
-     */
-    public Collection<PlantOperationTO> getOperations() {
-        return operations;
+    public EnterpriseTO getEnterprise() {
+        return enterprise;
     }
 
-    /**
-     * @param operations the plant operation that is supposed to be executed within this interaction step
-     */
-    public void setOperations(Collection<PlantOperationTO> operations) {
-        this.operations = operations;
+    public void setEnterprise(EnterpriseTO enterprise) {
+        this.enterprise = enterprise;
     }
 
-    /**
-     * @return the list of interactions
-     */
-    public Collection<EntryPointInteractionTO> getEntryPointInteractions() {
-        return entryPointInteractions;
-    }
-
-    /**
-     * @param entryPointInteractions the list of interaction
-     */
-    public void setEntryPointInteractions(Collection<EntryPointInteractionTO> entryPointInteractions) {
-        this.entryPointInteractions = entryPointInteractions;
-    }
-
-    /**
-     * @return the list of parameter bindings
-     */
-    public Collection<ParameterInteractionTO> getParameterInteractions() {
-        return parameterInteractions;
-    }
-
-    /**
-     * @param parameterInteractions the list of parameter bindings
-     */
-    public void setParameterInteractions(Collection<ParameterInteractionTO> parameterInteractions) {
-        this.parameterInteractions = parameterInteractions;
-    }
 }

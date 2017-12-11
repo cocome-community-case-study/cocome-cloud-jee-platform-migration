@@ -18,8 +18,6 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -28,10 +26,7 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
  *
  * @author Rudolf Biczok
  */
-public interface IProductionOrder extends IRecipeOperationOrder<
-        ICustomProductParameter,
-        ICustomProductParameterValue,
-        IProductionOrderEntry> {
+public interface IProductionOrder extends IRecipeOperationOrder<IRecipe, IProductionOrderEntry> {
 
     /**
      * @return the source store from which the order came from

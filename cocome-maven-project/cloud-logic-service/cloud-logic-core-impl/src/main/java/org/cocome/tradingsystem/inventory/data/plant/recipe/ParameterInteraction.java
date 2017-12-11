@@ -21,8 +21,7 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -38,14 +37,13 @@ import javax.inject.Inject;
  * @author Rudolf Biczok
  */
 @Dependent
-public class ParameterInteraction extends InteractionEntity<
-        ICustomProductParameter,
-        IPlantOperationParameter>
+public class ParameterInteraction extends InteractionEntity<IParameter>
         implements IParameterInteraction {
     private static final long serialVersionUID = 1L;
 
-    private ICustomProductParameter from;
-    private IPlantOperationParameter to;
+    private IParameter from;
+    private IParameter to;
+    private IRecipe recipe;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
@@ -60,28 +58,41 @@ public class ParameterInteraction extends InteractionEntity<
     }
 
     @Override
-    public ICustomProductParameter getFrom() throws NotInDatabaseException {
+    public IParameter getFrom() throws NotInDatabaseException {
         if (from == null) {
-            from = enterpriseQuery.queryCustomProductParameterByID(fromId);
+            from = enterpriseQuery.queryParameterById(fromId);
         }
         return from;
     }
 
     @Override
-    public void setFrom(ICustomProductParameter from) {
+    public void setFrom(IParameter from) {
         this.from = from;
     }
 
     @Override
-    public IPlantOperationParameter getTo() throws NotInDatabaseException {
+    public IParameter getTo() throws NotInDatabaseException {
         if (to == null) {
-            to = enterpriseQuery.queryPlantOperationParameterById(toId);
+            to = enterpriseQuery.queryParameterById(toId);
         }
         return to;
     }
 
     @Override
-    public void setTo(IPlantOperationParameter to) {
+    public void setTo(IParameter to) {
         this.to = to;
+    }
+
+    @Override
+    public IRecipe getRecipe() throws NotInDatabaseException {
+        if (recipe == null) {
+            recipe = enterpriseQuery.queryRecipeByID(recipeId);
+        }
+        return this.recipe;
+    }
+
+    @Override
+    public void setRecipe(IRecipe recipe) {
+        this.recipe = recipe;
     }
 }

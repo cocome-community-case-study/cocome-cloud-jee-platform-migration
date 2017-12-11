@@ -25,52 +25,34 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 /**
  * Used as common interface for classes who connect two other entity types with each other
  *
- * @param <FromType> the type of the first interaction partner
- * @param <ToType>   the type of the second interaction partner
+ * @param <T> the type of the interaction element
  * @author Rudolf Biczok
  */
 public interface IInteractionEntity<
-        FromType extends INameable,
-        ToType extends INameable>
+        T extends INameable>
         extends IIdentifiable {
 
-    /**
-     * @return the first / source instance
-     */
-    FromType getFrom() throws NotInDatabaseException;
+    T getFrom() throws NotInDatabaseException;
 
-    /**
-     * @param from the first / source instance
-     */
-    void setFrom(FromType from);
+    void setFrom(T from);
 
-    /**
-     * @return the first / source instance id
-     */
     long getFromId();
 
-    /**
-     * @param from the first / source instance id
-     */
     void setFromId(long from);
 
-    /**
-     * @return the second / destination instance
-     */
-    ToType getTo() throws NotInDatabaseException;
+    T getTo() throws NotInDatabaseException;
 
-    /**
-     * @param to the second / destination instance
-     */
-    void setTo(ToType to);
+    void setTo(T to);
 
-    /**
-     * @return the second / destination instance id
-     */
     long getToId();
 
-    /**
-     * @param to the second / destination instance id
-     */
     void setToId(long to);
+
+    IRecipe getRecipe() throws NotInDatabaseException;
+
+    void setRecipe(IRecipe recipe);
+
+    long getRecipeId();
+
+    void setRecipeId(long recipeId);
 }

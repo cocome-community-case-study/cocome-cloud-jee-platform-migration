@@ -21,5 +21,5 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 /**
  * @author Rudolf Biczok
  */
-public interface IEntryPointInteraction extends IInteractionEntity<IEntryPoint, IEntryPoint> {
+public interface IEntryPointInteraction extends IInteractionEntity<IEntryPoint> {
 }

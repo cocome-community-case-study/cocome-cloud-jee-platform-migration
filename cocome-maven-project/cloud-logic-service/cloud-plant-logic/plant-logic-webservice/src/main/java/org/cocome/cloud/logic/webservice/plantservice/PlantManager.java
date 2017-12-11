@@ -24,9 +24,9 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IParameterValue;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrderEntry;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationParameterValue;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.scope.CashDeskRegistry;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
@@ -278,9 +278,9 @@ public class PlantManager implements IPlantManager {
     private void persistOrder(IPlantOperationOrder order) throws CreateException {
         persistenceContext.createEntity(order);
         for (final IPlantOperationOrderEntry entry : order.getOrderEntries()) {
-            persistenceContext.createEntity(entry, order);
-            for (final IPlantOperationParameterValue values : entry.getParameterValues()) {
-                persistenceContext.createEntity(values, entry);
+            persistenceContext.createEntity(entry);
+            for (final IParameterValue values : entry.getParameterValues()) {
+                persistenceContext.createEntity(values);
             }
         }
     }

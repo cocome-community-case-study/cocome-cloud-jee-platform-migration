@@ -16,12 +16,14 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
+package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
 import org.cocome.tradingsystem.inventory.data.INameable;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipeOperation;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
- * Represents a product customization parameter
+ * Interface for all types of parameters
  *
  * @author Rudolf Biczok
  */
@@ -38,8 +40,23 @@ public interface IParameter extends INameable {
     void setCategory(String category);
 
     /**
+     * @return the corresponding recipe operation
+     */
+    IRecipeOperation getOperation() throws NotInDatabaseException;
+
+    /**
+     * @param operation the corresponding recipe operation
+     */
+    void setOperation(IRecipeOperation operation);
+
+    long getOperationId();
+
+    void setOperationId(long operation);
+
+    /**
      * @param value the target parameter value
      * @return <code>true</code> if the given string is a valid value for this parameter
      */
     boolean isValidValue(String value);
+
 }

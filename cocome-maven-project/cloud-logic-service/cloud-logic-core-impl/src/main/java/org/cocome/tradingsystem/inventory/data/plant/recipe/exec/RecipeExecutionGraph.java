@@ -18,14 +18,12 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe.exec;
 
-import org.cocome.tradingsystem.inventory.data.INameable;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.exception.RecipeException;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * This class is used for recipe validation and processing
@@ -35,12 +33,12 @@ import java.util.stream.Collectors;
 public class RecipeExecutionGraph {
 
     private static class EdgeMatch {
-        private EdgeMatch(final IPlantOperation prev, IEntryPointInteraction interaction) {
+        private EdgeMatch(final IRecipeOperation prev, IEntryPointInteraction interaction) {
             this.prev = prev;
             this.interaction = interaction;
         }
 
-        private IPlantOperation prev;
+        private IRecipeOperation prev;
         private IEntryPointInteraction interaction;
     }
 
@@ -72,18 +70,20 @@ public class RecipeExecutionGraph {
 
         this.recipe = recipe;
 
-        final Map<String, RecipeExecutionGraphNode> nodesMapping = this.recipe.getOperations().stream()
-                .collect(Collectors.toMap(INameable::getName, RecipeExecutionGraphNode::new));
-        final Map<String, Boolean> visited = this.recipe.getOperations().stream()
-                .collect(Collectors.toMap(INameable::getName, e -> false));
-        final Map<String, Boolean> finished = this.recipe.getOperations().stream()
-                .collect(Collectors.toMap(INameable::getName, e -> false));
+        final Map<String, RecipeExecutionGraphNode> nodesMapping = new HashMap<>();
+        final Map<String, Boolean> visited = new HashMap<>();
+        final Map<String, Boolean> finished = new HashMap<>();
         final Map<Long, Boolean> entryPointMapping = new HashMap<>();
-        for (final IPlantOperation operation : this.recipe.getOperations()) {
-            for (final IEntryPoint entryPoint : operation.getInputEntryPoint()) {
+
+        for (final IRecipeNode node : this.recipe.getNodes()) {
+            nodesMapping.putIfAbsent(node.getOperation().getName(),
+                    new RecipeExecutionGraphNode(node.getOperation()));
+            visited.putIfAbsent(node.getOperation().getName(), false);
+            finished.putIfAbsent(node.getOperation().getName(), false);
+            for (final IEntryPoint entryPoint : node.getOperation().getInputEntryPoint()) {
                 entryPointMapping.putIfAbsent(entryPoint.getId(), false);
             }
-            for (final IEntryPoint entryPoint : operation.getOutputEntryPoint()) {
+            for (final IEntryPoint entryPoint : node.getOperation().getOutputEntryPoint()) {
                 entryPointMapping.putIfAbsent(entryPoint.getId(), false);
             }
         }
@@ -141,7 +141,7 @@ public class RecipeExecutionGraph {
             traverse(nextNeighbor, nodesMapping, visited, finished, entryPointsVisited);
         }
 
-        for (final IPlantOperationParameter param : neighbor.prev.getParameters()) {
+        for (final IParameter param : neighbor.prev.getParameters()) {
             nodesMapping.get(neighbor.prev.getName()).getParameterInteractions()
                     .add(getInteractionOf(neighbor.prev, param));
         }
@@ -152,8 +152,8 @@ public class RecipeExecutionGraph {
         finished.put(neighbor.prev.getName(), true);
     }
 
-    private IParameterInteraction getInteractionOf(final IPlantOperation operation,
-                                                   final IPlantOperationParameter param)
+    private IParameterInteraction getInteractionOf(final IRecipeOperation operation,
+                                                   final IParameter param)
             throws NotInDatabaseException, RecipeException {
         for (final IParameterInteraction paramInteraction : this.recipe.getParameterInteractions()) {
             if (paramInteraction.getTo().getId() == param.getId()) {
@@ -170,10 +170,10 @@ public class RecipeExecutionGraph {
             throws NotInDatabaseException, RecipeException {
         for (final IEntryPointInteraction interaction : this.recipe.getEntryPointInteractions()) {
             if (interaction.getTo().getId() == entryPoint.getId()) {
-                for (final IPlantOperation operation : this.recipe.getOperations()) {
-                    for (final IEntryPoint nextEP : operation.getOutputEntryPoint()) {
+                for (final IRecipeNode operation : this.recipe.getNodes()) {
+                    for (final IEntryPoint nextEP : operation.getOperation().getOutputEntryPoint()) {
                         if (nextEP.getId() == interaction.getFrom().getId()) {
-                            return new EdgeMatch(operation, interaction);
+                            return new EdgeMatch(operation.getOperation(), interaction);
                         }
                     }
                 }

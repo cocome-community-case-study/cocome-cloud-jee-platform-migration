@@ -20,7 +20,7 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.Collection;
@@ -62,14 +62,10 @@ public interface IPlantOperation extends IRecipeOperation {
      */
     void setMarkup(MarkupInfo markup);
 
-    /**
-     * @return the list of parameters needed for this plant operation
-     * @throws NotInDatabaseException if the associated plant operation does not exist
-     */
-    Collection<IPlantOperationParameter> getParameters() throws NotInDatabaseException;
+    Collection<IParameter> getParameters() throws NotInDatabaseException;
 
     /**
      * @param parameters the list of parameters needed for this plant operation
      */
-    void setParameters(final Collection<IPlantOperationParameter> parameters);
+    void setParameters(final Collection<IParameter> parameters);
 }

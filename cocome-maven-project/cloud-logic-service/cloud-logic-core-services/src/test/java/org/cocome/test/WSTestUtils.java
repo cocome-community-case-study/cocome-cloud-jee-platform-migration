@@ -21,23 +21,22 @@ package org.cocome.test;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.cocome.cloud.logic.stub.*;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo;
 import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 import org.cocome.tradingsystem.inventory.application.plant.iface.PUCImporter;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.FMU;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeNodeTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
 
 import java.util.*;
 
@@ -95,14 +94,9 @@ public class WSTestUtils {
 
         /* Plant Operations */
 
-        final EntryPointTO op1out1 = new EntryPointTO();
-        op1out1.setName("ISO 12345 Cargo");
-        op1out1.setId(em.createEntryPoint(op1out1));
-
         final PlantOperationTO operation1 = new PlantOperationTO();
         operation1.setName("Produce Yogurt");
         operation1.setPlant(plant);
-        operation1.setOutputEntryPoint(Collections.singletonList(op1out1));
         operation1.setMarkup(new MarkupInfo(
                 Arrays.asList(
                         xppu.getOperation(XPPU.Crane_ACT_Init),
@@ -124,19 +118,21 @@ public class WSTestUtils {
                 )));
         operation1.setId(em.createPlantOperation(operation1));
 
-        final BooleanPlantOperationParameterTO param = new BooleanPlantOperationParameterTO();
+        final EntryPointTO op1out1 = new EntryPointTO();
+        op1out1.setName("ISO 12345 Cargo");
+        op1out1.setOperation(operation1);
+        op1out1.setDirection(EntryPointTO.DirectionTO.OUTPUT);
+        op1out1.setId(em.createEntryPoint(op1out1));
+
+        final BooleanParameterTO param = new BooleanParameterTO();
         param.setCategory("Ingredients");
         param.setName("Organic");
-        param.setId(em.createBooleanPlantOperationParameter(param, operation1));
-
-        final EntryPointTO op2out1 = new EntryPointTO();
-        op2out1.setName("ISO 33333 Bottle");
-        op2out1.setId(em.createEntryPoint(op2out1));
+        param.setOperation(operation1);
+        param.setId(em.createBooleanParameter(param));
 
         final PlantOperationTO operation2 = new PlantOperationTO();
         operation2.setName("Create Package");
         operation2.setPlant(plant);
-        operation2.setOutputEntryPoint(Collections.singletonList(op2out1));
         operation2.setMarkup(new MarkupInfo(Arrays.asList(
                 xppu.getOperation(XPPU.Crane_ACT_Init),
                 fmu.getOperation(FMU.Silo0_ACT_Init),
@@ -144,35 +140,46 @@ public class WSTestUtils {
         )));
         operation2.setId(em.createPlantOperation(operation2));
 
-        final NorminalPlantOperationParameterTO opr2param = new NorminalPlantOperationParameterTO();
+        final EntryPointTO op2out1 = new EntryPointTO();
+        op2out1.setName("ISO 33333 Bottle");
+        op2out1.setOperation(operation2);
+        op2out1.setDirection(EntryPointTO.DirectionTO.OUTPUT);
+        op2out1.setId(em.createEntryPoint(op2out1));
+
+        final NominalParameterTO opr2param = new NominalParameterTO();
         opr2param.setCategory("Bottle");
         opr2param.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
         opr2param.setName("Bottle");
-        opr2param.setId(em.createNorminalPlantOperationParameter(opr2param, operation2));
-
-        final EntryPointTO op3in1 = new EntryPointTO();
-        op3in1.setName("ISO 12345 Cargo");
-        op3in1.setId(em.createEntryPoint(op3in1));
-
-        final EntryPointTO op3in2 = new EntryPointTO();
-        op3in2.setName("ISO 33333 Bottle");
-        op3in2.setId(em.createEntryPoint(op3in2));
-
-        final EntryPointTO op3out1 = new EntryPointTO();
-        op3out1.setName("ISO 321 Package");
-        op3out1.setId(em.createEntryPoint(op3out1));
+        opr2param.setOperation(operation2);
+        opr2param.setId(em.createNominalParameter(opr2param));
 
         final PlantOperationTO operation3 = new PlantOperationTO();
         operation3.setName("Package Yogurt");
         operation3.setPlant(plant);
-        operation3.setInputEntryPoint(Arrays.asList(op3in1, op3in2));
-        operation3.setOutputEntryPoint(Collections.singletonList(op3out1));
         operation3.setMarkup(new MarkupInfo(Arrays.asList(
                 xppu.getOperation(XPPU.Crane_ACT_Init),
                 fmu.getOperation(FMU.Silo0_ACT_Init),
                 fmu.getOperation(FMU.Silo2_ACT_Init)
         )));
         operation3.setId(em.createPlantOperation(operation3));
+
+        final EntryPointTO op3in1 = new EntryPointTO();
+        op3in1.setName("ISO 12345 Cargo");
+        op3in1.setOperation(operation3);
+        op3in1.setDirection(EntryPointTO.DirectionTO.INPUT);
+        op3in1.setId(em.createEntryPoint(op3in1));
+
+        final EntryPointTO op3in2 = new EntryPointTO();
+        op3in2.setName("ISO 33333 Bottle");
+        op3in2.setOperation(operation3);
+        op3in2.setDirection(EntryPointTO.DirectionTO.INPUT);
+        op3in2.setId(em.createEntryPoint(op3in2));
+
+        final EntryPointTO op3out1 = new EntryPointTO();
+        op3out1.setName("ISO 321 Package");
+        op3out1.setOperation(operation3);
+        op3out1.setDirection(EntryPointTO.DirectionTO.OUTPUT);
+        op3out1.setId(em.createEntryPoint(op3out1));
 
         /* Custom Product creation */
 
@@ -182,23 +189,45 @@ public class WSTestUtils {
         customProduct.setPurchasePrice(10);
         customProduct.setId(em.createProduct(customProduct));
 
-        final BooleanCustomProductParameterTO cparam1 = new BooleanCustomProductParameterTO();
+        /* Recipe creation */
+
+        final RecipeTO recipe = new RecipeTO();
+        recipe.setName("Yogurt Recipe");
+        recipe.setCustomProduct(customProduct);
+        recipe.setId(em.createRecipe(recipe));
+
+        final RecipeNodeTO node1 = new RecipeNodeTO();
+        node1.setRecipe(recipe);
+        node1.setOperation(operation1);
+        node1.setId(em.createRecipeNode(node1));
+
+        final RecipeNodeTO node2 = new RecipeNodeTO();
+        node2.setRecipe(recipe);
+        node2.setOperation(operation2);
+        node2.setId(em.createRecipeNode(node2));
+
+        final RecipeNodeTO node3 = new RecipeNodeTO();
+        node3.setRecipe(recipe);
+        node3.setOperation(operation3);
+        node3.setId(em.createRecipeNode(node3));
+
+        final BooleanParameterTO cparam1 = new BooleanParameterTO();
         cparam1.setCategory("Ingredients");
         cparam1.setName("Organic");
-        cparam1.setCustomProduct(customProduct);
-        cparam1.setId(em.createBooleanCustomProductParameter(cparam1));
+        cparam1.setOperation(recipe);
+        cparam1.setId(em.createBooleanParameter(cparam1));
 
-        final NorminalCustomProductParameterTO cparam2 = new NorminalCustomProductParameterTO();
+        final NominalParameterTO cparam2 = new NominalParameterTO();
         cparam2.setCategory("Packaging");
         cparam2.setName("Bottle");
         cparam2.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
-        cparam2.setCustomProduct(customProduct);
-        cparam2.setId(em.createNorminalCustomProductParameter(cparam2));
-
-        /* Recipe creation */
+        cparam1.setOperation(recipe);
+        cparam2.setId(em.createNominalParameter(cparam2));
 
         final EntryPointTO recipeOut1 = new EntryPointTO();
         recipeOut1.setName("ISO 321 Package");
+        recipeOut1.setOperation(recipe);
+        recipeOut1.setDirection(EntryPointTO.DirectionTO.OUTPUT);
         recipeOut1.setId(em.createEntryPoint(recipeOut1));
 
         final ParameterInteractionTO interaction1 = new ParameterInteractionTO();
@@ -209,31 +238,26 @@ public class WSTestUtils {
         final ParameterInteractionTO interaction2 = new ParameterInteractionTO();
         interaction2.setFrom(cparam2);
         interaction2.setTo(opr2param);
+        interaction2.setOperation(recipe);
         interaction2.setId(em.createParameterInteraction(interaction2));
 
         final EntryPointInteractionTO epInteraction1 = new EntryPointInteractionTO();
         epInteraction1.setFrom(op1out1);
         epInteraction1.setTo(op3in1);
+        epInteraction1.setOperation(recipe);
         epInteraction1.setId(em.createEntryPointInteraction(epInteraction1));
 
         final EntryPointInteractionTO epInteraction2 = new EntryPointInteractionTO();
         epInteraction2.setFrom(op2out1);
         epInteraction2.setTo(op3in2);
+        epInteraction2.setOperation(recipe);
         epInteraction2.setId(em.createEntryPointInteraction(epInteraction2));
 
         final EntryPointInteractionTO epInteraction3 = new EntryPointInteractionTO();
         epInteraction3.setFrom(op3out1);
         epInteraction3.setTo(recipeOut1);
+        epInteraction3.setOperation(recipe);
         epInteraction3.setId(em.createEntryPointInteraction(epInteraction3));
-
-        final RecipeTO recipe = new RecipeTO();
-        recipe.setName("Yogurt Recipe");
-        recipe.setCustomProduct(customProduct);
-        recipe.setOutputEntryPoint(Collections.singletonList(recipeOut1));
-        recipe.setEntryPointInteractions(Arrays.asList(epInteraction1, epInteraction2, epInteraction3));
-        recipe.setParameterInteractions(Arrays.asList(interaction1, interaction2));
-        recipe.setOperations(Arrays.asList(operation1, operation2, operation3));
-        recipe.setId(em.createRecipe(recipe));
 
         em.validateRecipe(recipe);
 
@@ -266,6 +290,26 @@ public class WSTestUtils {
         store.setEnterpriseTO(enterprise);
         store.setId(em.createStore(store));
         return store;
+    }
+
+    public static CustomProductTO createCustomProduct(final IEnterpriseManager em) throws CreateException_Exception {
+        final CustomProductTO customProductTO = new CustomProductTO();
+        customProductTO.setName("Awsome Product");
+        customProductTO.setBarcode(new Date().getTime());
+        customProductTO.setPurchasePrice(10);
+        customProductTO.setId(em.createProduct(customProductTO));
+        return customProductTO;
+    }
+
+    public static RecipeTO createRecipe(final EnterpriseTO enterprise,
+                                        final CustomProductTO customProduct,
+                                        final IEnterpriseManager em) throws CreateException_Exception {
+        final RecipeTO recipeTO = new RecipeTO();
+        recipeTO.setName("Produce " + customProduct.getName());
+        recipeTO.setCustomProduct(customProduct);
+        recipeTO.setEnterprise(enterprise);
+        recipeTO.setId(em.createRecipe(recipeTO));
+        return recipeTO;
     }
 
     public static PlantTO createPlant(final EnterpriseTO enterprise,

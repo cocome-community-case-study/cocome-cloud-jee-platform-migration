@@ -1,8 +1,7 @@
 package org.cocome.tradingsystem.inventory.application.plant.expression;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationParameterValue;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IParameterValue;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +15,7 @@ public class ConditionalExpressionInfoTest {
 
     @Test
     public void testEvaluate() throws NotInDatabaseException {
-        final IBooleanPlantOperationParameter param = Mockito.mock(IBooleanPlantOperationParameter.class);
+        final IBooleanParameter param = Mockito.mock(IBooleanParameter.class);
         Mockito.when(param.getName()).thenReturn("Some Parameter");
 
         final PUOperationInfo op1 = new PUOperationInfo("PUC1", "_OP1");
@@ -30,7 +29,7 @@ public class ConditionalExpressionInfoTest {
         conditionalExpression.setOnTrueExpressions(Arrays.asList(op1, op2));
         conditionalExpression.setOnFalseExpressions(Arrays.asList(op3, op4));
 
-        final IPlantOperationParameterValue paramValue = Mockito.mock(IPlantOperationParameterValue.class);
+        final IParameterValue paramValue = Mockito.mock(IParameterValue.class);
         Mockito.when(paramValue.getValue()).thenReturn(IBooleanParameter.FALSE_VALUE);
         Mockito.when(paramValue.getParameter()).thenReturn(param);
 

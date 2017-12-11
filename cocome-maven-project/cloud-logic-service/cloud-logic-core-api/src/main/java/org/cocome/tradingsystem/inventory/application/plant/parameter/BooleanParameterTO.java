@@ -16,23 +16,23 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
+package org.cocome.tradingsystem.inventory.application.plant.parameter;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
- * Represents a product customization parameter.
+ * Represents a boolean parameter
  *
  * @author Rudolf Biczok
  */
-public interface ICustomProductParameter extends IParameter {
-
-    long getCustomProductId();
-
-    void setCustomProductId(long customProduct);
-
-    ICustomProduct getCustomProduct() throws NotInDatabaseException;
-
-    void setCustomProduct(ICustomProduct customProduct);
+@XmlType(
+        name = "BooleanParameterTO",
+        namespace = "http://parameter.plant.application.inventory.tradingsystem.cocome.org")
+@XmlRootElement(name = "BooleanParameterTO")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class BooleanParameterTO extends ParameterTO {
+    private static final long serialVersionUID = -2577328715744776645L;
 }

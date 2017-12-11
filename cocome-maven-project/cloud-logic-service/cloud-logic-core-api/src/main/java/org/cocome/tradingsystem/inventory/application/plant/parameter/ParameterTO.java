@@ -18,23 +18,24 @@
 
 package org.cocome.tradingsystem.inventory.application.plant.parameter;
 
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.IParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.cocome.tradingsystem.inventory.application.INameableTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeOperationTO;
 
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 /**
- * Abstract class of {@link IParameterTO} for {@link PlantOperationTO}
+ * Represents a specified value for a parameter
  *
  * @author Rudolf Biczok
  */
 @XmlType(
-        name = "PlantOperationParameterTO",
+        name = "ParameterTO",
         namespace = "http://parameter.plant.application.inventory.tradingsystem.cocome.org")
-@XmlSeeAlso({BooleanPlantOperationParameterTO.class, NorminalPlantOperationParameterTO.class})
-@XmlRootElement(name = "PlantOperationParameterTO")
+@XmlSeeAlso({BooleanParameterTO.class, NominalParameterTO.class})
+@XmlRootElement(name = "ParameterTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class PlantOperationParameterTO implements IParameterTO {
+public abstract class ParameterTO implements Serializable, INameableTO {
 
     private static final long serialVersionUID = -2577328715744776645L;
 
@@ -44,6 +45,8 @@ public abstract class PlantOperationParameterTO implements IParameterTO {
     private String name;
     @XmlElement(name = "category", required = true)
     private String category;
+    @XmlElementRef(name = "operation")
+    private RecipeOperationTO operation;
 
     @Override
     public long getId() {
@@ -65,13 +68,19 @@ public abstract class PlantOperationParameterTO implements IParameterTO {
         this.name = name;
     }
 
-    @Override
     public String getCategory() {
         return category;
     }
 
-    @Override
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public RecipeOperationTO getOperation() {
+        return operation;
+    }
+
+    public void setOperation(RecipeOperationTO operation) {
+        this.operation = operation;
     }
 }

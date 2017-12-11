@@ -1,20 +1,18 @@
 package org.cocome.tradingsystem.inventory.data.plant;
 
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
-import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INominalParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.*;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
@@ -26,8 +24,6 @@ import javax.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Dependent
 public class PlantDatatypesFactory implements IPlantDataFactory {
@@ -45,16 +41,19 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     private Provider<IPlantOperation> plantOperationProvider;
 
     @Inject
-    private Provider<IBooleanPlantOperationParameter> booleanPlantOperationParameterProvider;
+    private Provider<IBooleanParameter> booleanPlantOperationParameterProvider;
 
     @Inject
-    private Provider<INorminalPlantOperationParameter> norminalPlantOperationParameterProvider;
+    private Provider<INominalParameter> norminalPlantOperationParameterProvider;
 
     @Inject
     private Provider<IEntryPointInteraction> entryPointInteractionProvider;
 
     @Inject
     private Provider<IParameterInteraction> parameterInteractionProvider;
+
+    @Inject
+    private Provider<IEntryPoint> entryPointProvider;
 
     @Inject
     private Provider<IRecipe> recipeProvider;
@@ -66,7 +65,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     private Provider<IPlantOperationOrderEntry> plantOperationOrderEntryProvider;
 
     @Inject
-    private Provider<IPlantOperationParameterValue> plantOperationParameterValueProvider;
+    private Provider<IParameterValue> parameterValueProvider;
 
     @Inject
     private Provider<IProductionOrder> productionOrderProvider;
@@ -75,7 +74,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     private Provider<IProductionOrderEntry> productionOrderEntryProvider;
 
     @Inject
-    private Provider<ICustomProductParameterValue> customProductParameterValueProvider;
+    private Provider<IRecipeNode> recipeNodeProvider;
 
     @Inject
     private IEnterpriseDataFactory enterpriseDatatypes;
@@ -170,28 +169,79 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public PlantOperationParameterTO fillPlantOperationParameterTO(IPlantOperationParameter parameter)
+    public IEntryPoint getNewEntryPoint() {
+        return entryPointProvider.get();
+    }
+
+    @Override
+    public EntryPointTO fillEntryPointTO(IEntryPoint entryPoint) throws NotInDatabaseException {
+        final EntryPointTO entryPointTO = new EntryPointTO();
+        entryPointTO.setId(entryPoint.getId());
+        entryPointTO.setName(entryPoint.getName());
+        entryPointTO.setOperation(fillRecipeOperationTO(entryPoint.getOperation()));
+        entryPointTO.setDirection(EntryPointTO.DirectionTO.valueOf(entryPoint.getDirection().name()));
+
+        return entryPointTO;
+    }
+
+    @Override
+    public IEntryPoint convertToEntryPoint(EntryPointTO entryPointTO) {
+        final IEntryPoint entryPoint = getNewEntryPoint();
+        entryPoint.setId(entryPointTO.getId());
+        entryPoint.setName(entryPointTO.getName());
+        entryPoint.setOperation(convertToRecipeOperation(entryPointTO.getOperation()));
+        entryPoint.setOperationId(entryPointTO.getOperation().getId());
+        entryPoint.setDirection(IEntryPoint.Direction.valueOf(entryPointTO.getDirection().name()));
+
+        return entryPoint;
+    }
+
+    @Override
+    public RecipeOperationTO fillRecipeOperationTO(IRecipeOperation operation) throws NotInDatabaseException {
+        if (IPlantOperation.class.isAssignableFrom(operation.getClass())) {
+            return this.fillPlantOperationTO(
+                    (IPlantOperation) operation);
+        } else if (IRecipe.class.isAssignableFrom(operation.getClass())) {
+            return this.fillRecipeTO(
+                    (IRecipe) operation);
+        }
+        throw new IllegalArgumentException("Unknown class to handle: " + operation.getClass());
+    }
+
+    @Override
+    public IRecipeOperation convertToRecipeOperation(RecipeOperationTO operationTO) {
+        if (PlantOperationTO.class.isAssignableFrom(operationTO.getClass())) {
+            return this.convertToPlantOperation((PlantOperationTO) operationTO);
+        } else if (RecipeTO.class.isAssignableFrom(operationTO.getClass())) {
+            return this.convertToRecipe(
+                    (RecipeTO) operationTO);
+        }
+        throw new IllegalArgumentException("Unknown class to handle: " + operationTO.getClass());
+    }
+
+    @Override
+    public ParameterTO fillParameterTO(IParameter parameter)
             throws NotInDatabaseException {
-        if (IBooleanPlantOperationParameter.class.isAssignableFrom(parameter.getClass())) {
-            return this.fillBooleanPlantOperationParameterTO(
-                    (IBooleanPlantOperationParameter) parameter);
-        } else if (INorminalPlantOperationParameter.class.isAssignableFrom(parameter.getClass())) {
-            return this.fillNorminalPlantOperationParameterTO(
-                    (INorminalPlantOperationParameter) parameter);
+        if (IBooleanParameter.class.isAssignableFrom(parameter.getClass())) {
+            return this.fillBooleanParameterTO(
+                    (IBooleanParameter) parameter);
+        } else if (INominalParameter.class.isAssignableFrom(parameter.getClass())) {
+            return this.fillNominalParameterTO(
+                    (INominalParameter) parameter);
         }
         throw new IllegalArgumentException("Unknown class to handle: " + parameter.getClass());
     }
 
     @Override
-    public IPlantOperationParameter convertToPlantOperationParameter(PlantOperationParameterTO plantOperationParameterTO) {
-        if (BooleanPlantOperationParameterTO.class.isAssignableFrom(plantOperationParameterTO.getClass())) {
-            return this.convertToBooleanPlantOperationParameter(
-                    (BooleanPlantOperationParameterTO) plantOperationParameterTO);
-        } else if (NorminalPlantOperationParameterTO.class.isAssignableFrom(plantOperationParameterTO.getClass())) {
-            return this.convertToNorminalPlantOperationParameter(
-                    (NorminalPlantOperationParameterTO) plantOperationParameterTO);
+    public IParameter convertToParameter(ParameterTO parameterTO) {
+        if (BooleanParameterTO.class.isAssignableFrom(parameterTO.getClass())) {
+            return this.convertToBooleanParameter(
+                    (BooleanParameterTO) parameterTO);
+        } else if (NominalParameterTO.class.isAssignableFrom(parameterTO.getClass())) {
+            return this.convertToNominalParameter(
+                    (NominalParameterTO) parameterTO);
         }
-        throw new IllegalArgumentException("Unknown class to handle: " + plantOperationParameterTO.getClass());
+        throw new IllegalArgumentException("Unknown class to handle: " + parameterTO.getClass());
     }
 
     @Override
@@ -206,9 +256,6 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setName(operation.getName());
         result.setPlant(enterpriseDatatypes.fillPlantTO(operation.getPlant()));
         result.setMarkup(operation.getMarkup());
-        result.setInputEntryPoint(convertList(operation.getInputEntryPoint(), enterpriseDatatypes::fillEntryPointTO));
-        result.setOutputEntryPoint(convertList(operation.getOutputEntryPoint(),
-                enterpriseDatatypes::fillEntryPointTO));
         return result;
     }
 
@@ -219,65 +266,63 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setName(plantOperationTO.getName());
         result.setPlantId(plantOperationTO.getPlant().getId());
         result.setMarkup(plantOperationTO.getMarkup());
-        result.setInputEntryPointIds(extractIdsOfCollection(plantOperationTO.getInputEntryPoint()));
-        result.setOutputEntryPointIds(extractIdsOfCollection(plantOperationTO.getOutputEntryPoint()));
 
         return result;
     }
 
     @Override
-    public IBooleanPlantOperationParameter getNewBooleanPlantOperationParameter() {
+    public IBooleanParameter getNewBooleanParameter() {
         return booleanPlantOperationParameterProvider.get();
     }
 
     @Override
-    public BooleanPlantOperationParameterTO fillBooleanPlantOperationParameterTO(
-            IBooleanPlantOperationParameter booleanPlantOperationParameter)
+    public BooleanParameterTO fillBooleanParameterTO(
+            IBooleanParameter booleanParameter)
             throws NotInDatabaseException {
-        final BooleanPlantOperationParameterTO result = new BooleanPlantOperationParameterTO();
-        result.setId(booleanPlantOperationParameter.getId());
-        result.setName(booleanPlantOperationParameter.getName());
-        result.setCategory(booleanPlantOperationParameter.getCategory());
+        final BooleanParameterTO result = new BooleanParameterTO();
+        result.setId(booleanParameter.getId());
+        result.setName(booleanParameter.getName());
+        result.setCategory(booleanParameter.getCategory());
 
         return result;
     }
 
     @Override
-    public IBooleanPlantOperationParameter convertToBooleanPlantOperationParameter(BooleanPlantOperationParameterTO booleanPlantOperationParameterTO) {
-        final IBooleanPlantOperationParameter result = getNewBooleanPlantOperationParameter();
-        result.setId(booleanPlantOperationParameterTO.getId());
-        result.setName(booleanPlantOperationParameterTO.getName());
-        result.setCategory(booleanPlantOperationParameterTO.getCategory());
+    public IBooleanParameter convertToBooleanParameter(BooleanParameterTO booleanParameterTO) {
+        final IBooleanParameter result = getNewBooleanParameter();
+        result.setId(booleanParameterTO.getId());
+        result.setName(booleanParameterTO.getName());
+        result.setCategory(booleanParameterTO.getCategory());
 
         return result;
     }
 
     @Override
-    public INorminalPlantOperationParameter getNewNorminalPlantOperationParameter() {
+    public INominalParameter getNewNominalParameter() {
         return norminalPlantOperationParameterProvider.get();
     }
 
     @Override
-    public NorminalPlantOperationParameterTO fillNorminalPlantOperationParameterTO(
-            INorminalPlantOperationParameter norminalPlantOperationParameter)
+    public NominalParameterTO fillNominalParameterTO(
+            INominalParameter nominalParameter)
             throws NotInDatabaseException {
-        final NorminalPlantOperationParameterTO result = new NorminalPlantOperationParameterTO();
-        result.setId(norminalPlantOperationParameter.getId());
-        result.setName(norminalPlantOperationParameter.getName());
-        result.setCategory(norminalPlantOperationParameter.getCategory());
-        result.setOptions(norminalPlantOperationParameter.getOptions());
+        final NominalParameterTO result = new NominalParameterTO();
+        result.setId(nominalParameter.getId());
+        result.setName(nominalParameter.getName());
+        result.setCategory(nominalParameter.getCategory());
+        result.setOptions(nominalParameter.getOptions());
 
         return result;
     }
 
     @Override
-    public INorminalPlantOperationParameter convertToNorminalPlantOperationParameter(NorminalPlantOperationParameterTO norminalPlantOperationParameterTO) {
-        final INorminalPlantOperationParameter result = getNewNorminalPlantOperationParameter();
-        result.setId(norminalPlantOperationParameterTO.getId());
-        result.setName(norminalPlantOperationParameterTO.getName());
-        result.setCategory(norminalPlantOperationParameterTO.getCategory());
-        result.setOptions(norminalPlantOperationParameterTO.getOptions());
+    public INominalParameter convertToNominalParameter(NominalParameterTO nominalParameterTO) {
+        final INominalParameter result = getNewNominalParameter();
+        result.setName(nominalParameterTO.getName());
+        result.setCategory(nominalParameterTO.getCategory());
+        result.setOptions(nominalParameterTO.getOptions());
 
+        result.setId(nominalParameterTO.getId());
         return result;
     }
 
@@ -292,8 +337,8 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
             throws NotInDatabaseException {
         final EntryPointInteractionTO result = new EntryPointInteractionTO();
         result.setId(entryPointInteraction.getId());
-        result.setFrom(enterpriseDatatypes.fillEntryPointTO(entryPointInteraction.getFrom()));
-        result.setTo(enterpriseDatatypes.fillEntryPointTO(entryPointInteraction.getTo()));
+        result.setFrom(fillEntryPointTO(entryPointInteraction.getFrom()));
+        result.setTo(fillEntryPointTO(entryPointInteraction.getTo()));
         return result;
     }
 
@@ -317,8 +362,8 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
             throws NotInDatabaseException {
         final ParameterInteractionTO result = new ParameterInteractionTO();
         result.setId(parameterInteraction.getId());
-        result.setFrom(enterpriseDatatypes.fillCustomProductParameterTO(parameterInteraction.getFrom()));
-        result.setTo(fillPlantOperationParameterTO(parameterInteraction.getTo()));
+        result.setFrom(fillParameterTO(parameterInteraction.getFrom()));
+        result.setTo(fillParameterTO(parameterInteraction.getTo()));
         return result;
     }
 
@@ -344,12 +389,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(recipe.getId());
         result.setName(recipe.getName());
         result.setCustomProduct(enterpriseDatatypes.fillCustomProductTO(recipe.getCustomProduct()));
-        result.setOperations(new ArrayList<>());
-        result.setInputEntryPoint(convertList(recipe.getInputEntryPoint(), enterpriseDatatypes::fillEntryPointTO));
-        result.setOutputEntryPoint(convertList(recipe.getOutputEntryPoint(), enterpriseDatatypes::fillEntryPointTO));
-        result.setOperations(convertList(recipe.getOperations(), this::fillPlantOperationTO));
-        result.setParameterInteractions(convertList(recipe.getParameterInteractions(), this::fillParameterInteractionTO));
-        result.setEntryPointInteractions(convertList(recipe.getEntryPointInteractions(), this::fillEntryPointInteractionTO));
+        result.setEnterprise(enterpriseDatatypes.fillEnterpriseTO(recipe.getEnterprise()));
 
         return result;
     }
@@ -360,11 +400,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(recipeTO.getId());
         result.setName(recipeTO.getName());
         result.setCustomProductId(recipeTO.getCustomProduct().getId());
-        result.setOperationIds(extractIdsOfCollection(recipeTO.getOperations()));
-        result.setInputEntryPointIds(extractIdsOfCollection(recipeTO.getInputEntryPoint()));
-        result.setOutputEntryPointIds(extractIdsOfCollection(recipeTO.getOutputEntryPoint()));
-        result.setEntryPointInteractionIds(extractIdsOfCollection(recipeTO.getEntryPointInteractions()));
-        result.setParameterInteractionIds(extractIdsOfCollection(recipeTO.getParameterInteractions()));
+        result.setEnterpriseId(recipeTO.getEnterprise().getId());
         return result;
     }
 
@@ -411,10 +447,10 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
             throws NotInDatabaseException {
         final PlantOperationOrderEntryTO result = new PlantOperationOrderEntryTO();
         result.setId(plantOperationOrderEntry.getId());
-        result.setPlantOperation(fillPlantOperationTO(plantOperationOrderEntry.getPlantOperation()));
+        result.setPlantOperation(fillPlantOperationTO(plantOperationOrderEntry.getOperation()));
         result.setAmount(plantOperationOrderEntry.getAmount());
         result.setParameterValues(convertList(plantOperationOrderEntry.getParameterValues(),
-                this::fillPlantOperationParameterValueTO));
+                this::fillParameterValueTO));
         return result;
     }
 
@@ -425,35 +461,35 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         final IPlantOperationOrderEntry result = getNewPlantOperationOrderEntry();
         result.setId(plantOperationOrderEntryTO.getId());
         result.setAmount(plantOperationOrderEntryTO.getAmount());
-        result.setPlantOperation(convertToPlantOperation(plantOperationOrderEntryTO.getPlantOperation()));
+        result.setOperation(convertToPlantOperation(plantOperationOrderEntryTO.getPlantOperation()));
         result.setParameterValues(convertList(plantOperationOrderEntryTO.getParameterValues(),
-                this::convertToPlantOperationParameterValue));
+                this::convertToParameterValue));
         return result;
     }
 
     @Override
-    public IPlantOperationParameterValue getNewPlantOperationParameterValue() {
-        return plantOperationParameterValueProvider.get();
+    public IParameterValue getNewParameterValue() {
+        return parameterValueProvider.get();
     }
 
     @Override
-    public PlantOperationParameterValueTO fillPlantOperationParameterValueTO(
-            IPlantOperationParameterValue plantOperationParameterValue)
+    public ParameterValueTO fillParameterValueTO(
+            IParameterValue plantOperationParameterValue)
             throws NotInDatabaseException {
-        final PlantOperationParameterValueTO result = new PlantOperationParameterValueTO();
+        final ParameterValueTO result = new ParameterValueTO();
         result.setId(plantOperationParameterValue.getId());
         result.setValue(plantOperationParameterValue.getValue());
-        result.setParameter(fillPlantOperationParameterTO(plantOperationParameterValue.getParameter()));
+        result.setParameter(fillParameterTO(plantOperationParameterValue.getParameter()));
         return result;
     }
 
     @Override
-    public IPlantOperationParameterValue convertToPlantOperationParameterValue(
-            PlantOperationParameterValueTO plantOperationParameterValueTO) {
-        final IPlantOperationParameterValue result = getNewPlantOperationParameterValue();
-        result.setId(plantOperationParameterValueTO.getId());
-        result.setValue(plantOperationParameterValueTO.getValue());
-        result.setParameterId(plantOperationParameterValueTO.getParameter().getId());
+    public IParameterValue convertToParameterValue(
+            ParameterValueTO parameterValueTO) {
+        final IParameterValue result = getNewParameterValue();
+        result.setId(parameterValueTO.getId());
+        result.setValue(parameterValueTO.getValue());
+        result.setParameterId(parameterValueTO.getParameter().getId());
         return result;
     }
 
@@ -498,10 +534,10 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
             throws NotInDatabaseException {
         final ProductionOrderEntryTO result = new ProductionOrderEntryTO();
         result.setId(productionOrderEntry.getId());
-        result.setRecipe(fillRecipeTO(productionOrderEntry.getRecipe()));
+        result.setRecipe(fillRecipeTO(productionOrderEntry.getOperation()));
         result.setAmount(productionOrderEntry.getAmount());
         result.setParameterValues(convertList(productionOrderEntry.getParameterValues(),
-                this::fillCustomProductParameterValueTO));
+                this::fillParameterValueTO));
         return result;
     }
 
@@ -511,44 +547,33 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         final IProductionOrderEntry result = getNewProductionOrderEntry();
         result.setId(productionnOrderEntryTO.getId());
         result.setAmount(productionnOrderEntryTO.getAmount());
-        result.setRecipe(convertToRecipe(productionnOrderEntryTO.getRecipe()));
+        result.setOperation(convertToRecipe(productionnOrderEntryTO.getRecipe()));
         result.setParameterValues(convertList(productionnOrderEntryTO.getParameterValues(),
-                this::convertToCustomProductParameterValue));
+                this::convertToParameterValue));
         return result;
     }
 
     @Override
-    public ICustomProductParameterValue getNewCustomProductParameterValue() {
-        return customProductParameterValueProvider.get();
+    public IRecipeNode getNewRecipeNode() {
+        return this.recipeNodeProvider.get();
     }
 
     @Override
-    public CustomProductParameterValueTO fillCustomProductParameterValueTO(
-            ICustomProductParameterValue plantOperationParameterValue)
-            throws NotInDatabaseException {
-        final CustomProductParameterValueTO result = new CustomProductParameterValueTO();
-        result.setId(plantOperationParameterValue.getId());
-        result.setValue(plantOperationParameterValue.getValue());
-        result.setParameter(enterpriseDatatypes.fillCustomProductParameterTO(
-                plantOperationParameterValue.getParameter()));
+    public RecipeNodeTO fillRecipeNodeTO(IRecipeNode recipeNode) throws NotInDatabaseException {
+        final RecipeNodeTO result = new RecipeNodeTO();
+        result.setId(recipeNode.getId());
+        result.setOperation(fillRecipeOperationTO(recipeNode.getOperation()));
+        result.setRecipe(fillRecipeTO(recipeNode.getRecipe()));
         return result;
     }
 
     @Override
-    public ICustomProductParameterValue convertToCustomProductParameterValue(
-            CustomProductParameterValueTO plantOperationParameterValueTO) {
-        final ICustomProductParameterValue result = getNewCustomProductParameterValue();
-        result.setId(plantOperationParameterValueTO.getId());
-        result.setValue(plantOperationParameterValueTO.getValue());
-        result.setParameterId(plantOperationParameterValueTO.getParameter().getId());
+    public IRecipeNode convertToRecipeNode(RecipeNodeTO recipeNode) throws NotInDatabaseException {
+        final IRecipeNode result = getNewRecipeNode();
+        result.setId(recipeNode.getId());
+        result.setOperation(convertToRecipeOperation(recipeNode.getOperation()));
+        result.setRecipe(convertToRecipe(recipeNode.getRecipe()));
         return result;
-    }
-
-    private List<Long> extractIdsOfCollection(Collection<? extends IIdentifiableTO> collection) {
-        if (collection == null) {
-            return Collections.emptyList();
-        }
-        return collection.stream().map(IIdentifiableTO::getId).collect(Collectors.toList());
     }
 
     private <T1, T2, E extends Throwable> Collection<T1> convertList(Collection<T2> collection,

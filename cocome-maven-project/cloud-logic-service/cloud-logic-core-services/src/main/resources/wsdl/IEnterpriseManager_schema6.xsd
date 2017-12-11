@@ -1,39 +1,930 @@
-<xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:tns="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
-
-  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema7.xsd"/>
-
-  <xs:complexType name="MarkupInfo">
+<xs:schema xmlns:ns1="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns4="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns5="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns6="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://enterprise.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://enterprise.webservice.logic.cocome.org/">
+  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema7.xsd"/>
+  <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema1.xsd"/>
+  <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema4.xsd"/>
+  <xs:import namespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema2.xsd"/>
+  <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema3.xsd"/>
+  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema5.xsd"/>
+  <xs:element name="BooleanParameterTO" type="ns3:BooleanParameterTO"/>
+  <xs:element name="ConditionalExpressionInfo" type="ns6:ConditionalExpressionInfo"/>
+  <xs:element name="CustomProductTO" type="ns1:CustomProductTO"/>
+  <xs:element name="DirectionTO" type="ns4:DirectionTO"/>
+  <xs:element name="EnterpriseTO" type="ns2:EnterpriseTO"/>
+  <xs:element name="EntryPointInteractionTO" type="ns4:EntryPointInteractionTO"/>
+  <xs:element name="EntryPointTO" type="ns4:EntryPointTO"/>
+  <xs:element name="ExpressionInfo" type="ns6:ExpressionInfo"/>
+  <xs:element name="IIdentifiableTO" type="ns4:IIdentifiableTO"/>
+  <xs:element name="MarkupInfo" type="ns6:MarkupInfo"/>
+  <xs:element name="NominalParameterTO" type="ns3:NominalParameterTO"/>
+  <xs:element name="PUOperationInfo" type="ns6:PUOperationInfo"/>
+  <xs:element name="ParameterInteractionTO" type="ns4:ParameterInteractionTO"/>
+  <xs:element name="ParameterTO" type="ns3:ParameterTO"/>
+  <xs:element name="ParameterValueTO" type="ns4:ParameterValueTO"/>
+  <xs:element name="PlantOperationTO" type="ns4:PlantOperationTO"/>
+  <xs:element name="PlantTO" type="ns5:PlantTO"/>
+  <xs:element name="ProductTO" type="ns2:ProductTO"/>
+  <xs:element name="ProductWithSupplierTO" type="ns2:ProductWithSupplierTO"/>
+  <xs:element name="ProductionOrderEntryTO" type="ns4:ProductionOrderEntryTO"/>
+  <xs:element name="ProductionOrderTO" type="ns4:ProductionOrderTO"/>
+  <xs:element name="RecipeNodeTO" type="ns4:RecipeNodeTO"/>
+  <xs:element name="RecipeOperationTO" type="ns4:RecipeOperationTO"/>
+  <xs:element name="RecipeTO" type="ns4:RecipeTO"/>
+  <xs:element name="StoreTO" type="ns2:StoreTO"/>
+  <xs:element name="SupplierTO" type="ns2:SupplierTO"/>
+  <xs:element name="createBooleanParameter" type="tns:createBooleanParameter"/>
+  <xs:element name="createBooleanParameterResponse" type="tns:createBooleanParameterResponse"/>
+  <xs:element name="createEnterprise" type="tns:createEnterprise"/>
+  <xs:element name="createEnterpriseResponse" type="tns:createEnterpriseResponse"/>
+  <xs:element name="createEntryPoint" type="tns:createEntryPoint"/>
+  <xs:element name="createEntryPointInteraction" type="tns:createEntryPointInteraction"/>
+  <xs:element name="createEntryPointInteractionResponse" type="tns:createEntryPointInteractionResponse"/>
+  <xs:element name="createEntryPointResponse" type="tns:createEntryPointResponse"/>
+  <xs:element name="createNominalParameter" type="tns:createNominalParameter"/>
+  <xs:element name="createNominalParameterResponse" type="tns:createNominalParameterResponse"/>
+  <xs:element name="createParameterInteraction" type="tns:createParameterInteraction"/>
+  <xs:element name="createParameterInteractionResponse" type="tns:createParameterInteractionResponse"/>
+  <xs:element name="createPlant" type="tns:createPlant"/>
+  <xs:element name="createPlantOperation" type="tns:createPlantOperation"/>
+  <xs:element name="createPlantOperationResponse" type="tns:createPlantOperationResponse"/>
+  <xs:element name="createPlantResponse" type="tns:createPlantResponse"/>
+  <xs:element name="createProduct" type="tns:createProduct"/>
+  <xs:element name="createProductResponse" type="tns:createProductResponse"/>
+  <xs:element name="createRecipe" type="tns:createRecipe"/>
+  <xs:element name="createRecipeNode" type="tns:createRecipeNode"/>
+  <xs:element name="createRecipeNodeResponse" type="tns:createRecipeNodeResponse"/>
+  <xs:element name="createRecipeResponse" type="tns:createRecipeResponse"/>
+  <xs:element name="createStore" type="tns:createStore"/>
+  <xs:element name="createStoreResponse" type="tns:createStoreResponse"/>
+  <xs:element name="deleteBooleanParameter" type="tns:deleteBooleanParameter"/>
+  <xs:element name="deleteBooleanParameterResponse" type="tns:deleteBooleanParameterResponse"/>
+  <xs:element name="deleteEnterprise" type="tns:deleteEnterprise"/>
+  <xs:element name="deleteEnterpriseResponse" type="tns:deleteEnterpriseResponse"/>
+  <xs:element name="deleteEntryPoint" type="tns:deleteEntryPoint"/>
+  <xs:element name="deleteEntryPointInteraction" type="tns:deleteEntryPointInteraction"/>
+  <xs:element name="deleteEntryPointInteractionResponse" type="tns:deleteEntryPointInteractionResponse"/>
+  <xs:element name="deleteEntryPointResponse" type="tns:deleteEntryPointResponse"/>
+  <xs:element name="deleteNominalParameter" type="tns:deleteNominalParameter"/>
+  <xs:element name="deleteNominalParameterResponse" type="tns:deleteNominalParameterResponse"/>
+  <xs:element name="deleteParameterInteraction" type="tns:deleteParameterInteraction"/>
+  <xs:element name="deleteParameterInteractionResponse" type="tns:deleteParameterInteractionResponse"/>
+  <xs:element name="deletePlant" type="tns:deletePlant"/>
+  <xs:element name="deletePlantOperation" type="tns:deletePlantOperation"/>
+  <xs:element name="deletePlantOperationResponse" type="tns:deletePlantOperationResponse"/>
+  <xs:element name="deletePlantResponse" type="tns:deletePlantResponse"/>
+  <xs:element name="deleteProduct" type="tns:deleteProduct"/>
+  <xs:element name="deleteProductResponse" type="tns:deleteProductResponse"/>
+  <xs:element name="deleteRecipe" type="tns:deleteRecipe"/>
+  <xs:element name="deleteRecipeNode" type="tns:deleteRecipeNode"/>
+  <xs:element name="deleteRecipeNodeResponse" type="tns:deleteRecipeNodeResponse"/>
+  <xs:element name="deleteRecipeResponse" type="tns:deleteRecipeResponse"/>
+  <xs:element name="getAllCustomProducts" type="tns:getAllCustomProducts"/>
+  <xs:element name="getAllCustomProductsResponse" type="tns:getAllCustomProductsResponse"/>
+  <xs:element name="getAllEnterpriseProducts" type="tns:getAllEnterpriseProducts"/>
+  <xs:element name="getAllEnterpriseProductsResponse" type="tns:getAllEnterpriseProductsResponse"/>
+  <xs:element name="getAllProducts" type="tns:getAllProducts"/>
+  <xs:element name="getAllProductsResponse" type="tns:getAllProductsResponse"/>
+  <xs:element name="getEnterprises" type="tns:getEnterprises"/>
+  <xs:element name="getEnterprisesResponse" type="tns:getEnterprisesResponse"/>
+  <xs:element name="getMeanTimeToDelivery" type="tns:getMeanTimeToDelivery"/>
+  <xs:element name="getMeanTimeToDeliveryResponse" type="tns:getMeanTimeToDeliveryResponse"/>
+  <xs:element name="getProductByBarcode" type="tns:getProductByBarcode"/>
+  <xs:element name="getProductByBarcodeResponse" type="tns:getProductByBarcodeResponse"/>
+  <xs:element name="getProductByID" type="tns:getProductByID"/>
+  <xs:element name="getProductByIDResponse" type="tns:getProductByIDResponse"/>
+  <xs:element name="getProductsBySupplier" type="tns:getProductsBySupplier"/>
+  <xs:element name="getProductsBySupplierResponse" type="tns:getProductsBySupplierResponse"/>
+  <xs:element name="getSupplierByID" type="tns:getSupplierByID"/>
+  <xs:element name="getSupplierByIDResponse" type="tns:getSupplierByIDResponse"/>
+  <xs:element name="onPlantOperationFinish" type="tns:onPlantOperationFinish"/>
+  <xs:element name="onPlantOperationFinishResponse" type="tns:onPlantOperationFinishResponse"/>
+  <xs:element name="onPlantOperationOrderEntryFinish" type="tns:onPlantOperationOrderEntryFinish"/>
+  <xs:element name="onPlantOperationOrderEntryFinishResponse" type="tns:onPlantOperationOrderEntryFinishResponse"/>
+  <xs:element name="onPlantOperationOrderFinish" type="tns:onPlantOperationOrderFinish"/>
+  <xs:element name="onPlantOperationOrderFinishResponse" type="tns:onPlantOperationOrderFinishResponse"/>
+  <xs:element name="queryBooleanParameterById" type="tns:queryBooleanParameterById"/>
+  <xs:element name="queryBooleanParameterByIdResponse" type="tns:queryBooleanParameterByIdResponse"/>
+  <xs:element name="queryCustomProductByBarcode" type="tns:queryCustomProductByBarcode"/>
+  <xs:element name="queryCustomProductByBarcodeResponse" type="tns:queryCustomProductByBarcodeResponse"/>
+  <xs:element name="queryCustomProductByID" type="tns:queryCustomProductByID"/>
+  <xs:element name="queryCustomProductByIDResponse" type="tns:queryCustomProductByIDResponse"/>
+  <xs:element name="queryEnterpriseById" type="tns:queryEnterpriseById"/>
+  <xs:element name="queryEnterpriseByIdResponse" type="tns:queryEnterpriseByIdResponse"/>
+  <xs:element name="queryEnterpriseByName" type="tns:queryEnterpriseByName"/>
+  <xs:element name="queryEnterpriseByNameResponse" type="tns:queryEnterpriseByNameResponse"/>
+  <xs:element name="queryEntryPointById" type="tns:queryEntryPointById"/>
+  <xs:element name="queryEntryPointByIdResponse" type="tns:queryEntryPointByIdResponse"/>
+  <xs:element name="queryEntryPointInteractionById" type="tns:queryEntryPointInteractionById"/>
+  <xs:element name="queryEntryPointInteractionByIdResponse" type="tns:queryEntryPointInteractionByIdResponse"/>
+  <xs:element name="queryEntryPointInteractionsByRecipeId" type="tns:queryEntryPointInteractionsByRecipeId"/>
+  <xs:element name="queryEntryPointInteractionsByRecipeIdResponse" type="tns:queryEntryPointInteractionsByRecipeIdResponse"/>
+  <xs:element name="queryInputEntryPointsByRecipeId" type="tns:queryInputEntryPointsByRecipeId"/>
+  <xs:element name="queryInputEntryPointsByRecipeIdResponse" type="tns:queryInputEntryPointsByRecipeIdResponse"/>
+  <xs:element name="queryNominalParameterById" type="tns:queryNominalParameterById"/>
+  <xs:element name="queryNominalParameterByIdResponse" type="tns:queryNominalParameterByIdResponse"/>
+  <xs:element name="queryOutputEntryPointsByRecipeId" type="tns:queryOutputEntryPointsByRecipeId"/>
+  <xs:element name="queryOutputEntryPointsByRecipeIdResponse" type="tns:queryOutputEntryPointsByRecipeIdResponse"/>
+  <xs:element name="queryParameterById" type="tns:queryParameterById"/>
+  <xs:element name="queryParameterByIdResponse" type="tns:queryParameterByIdResponse"/>
+  <xs:element name="queryParameterInteractionById" type="tns:queryParameterInteractionById"/>
+  <xs:element name="queryParameterInteractionByIdResponse" type="tns:queryParameterInteractionByIdResponse"/>
+  <xs:element name="queryParameterInteractionsByRecipeId" type="tns:queryParameterInteractionsByRecipeId"/>
+  <xs:element name="queryParameterInteractionsByRecipeIdResponse" type="tns:queryParameterInteractionsByRecipeIdResponse"/>
+  <xs:element name="queryParametersByRecipeOperationID" type="tns:queryParametersByRecipeOperationID"/>
+  <xs:element name="queryParametersByRecipeOperationIDResponse" type="tns:queryParametersByRecipeOperationIDResponse"/>
+  <xs:element name="queryPlantByID" type="tns:queryPlantByID"/>
+  <xs:element name="queryPlantByIDResponse" type="tns:queryPlantByIDResponse"/>
+  <xs:element name="queryPlantByName" type="tns:queryPlantByName"/>
+  <xs:element name="queryPlantByNameResponse" type="tns:queryPlantByNameResponse"/>
+  <xs:element name="queryPlantOperationById" type="tns:queryPlantOperationById"/>
+  <xs:element name="queryPlantOperationByIdResponse" type="tns:queryPlantOperationByIdResponse"/>
+  <xs:element name="queryPlantsByEnterpriseID" type="tns:queryPlantsByEnterpriseID"/>
+  <xs:element name="queryPlantsByEnterpriseIDResponse" type="tns:queryPlantsByEnterpriseIDResponse"/>
+  <xs:element name="queryRecipeByCustomProductId" type="tns:queryRecipeByCustomProductId"/>
+  <xs:element name="queryRecipeByCustomProductIdResponse" type="tns:queryRecipeByCustomProductIdResponse"/>
+  <xs:element name="queryRecipeById" type="tns:queryRecipeById"/>
+  <xs:element name="queryRecipeByIdResponse" type="tns:queryRecipeByIdResponse"/>
+  <xs:element name="queryRecipeNodesByRecipeId" type="tns:queryRecipeNodesByRecipeId"/>
+  <xs:element name="queryRecipeNodesByRecipeIdResponse" type="tns:queryRecipeNodesByRecipeIdResponse"/>
+  <xs:element name="queryRecipeOperationById" type="tns:queryRecipeOperationById"/>
+  <xs:element name="queryRecipeOperationByIdResponse" type="tns:queryRecipeOperationByIdResponse"/>
+  <xs:element name="queryStoreByEnterpriseID" type="tns:queryStoreByEnterpriseID"/>
+  <xs:element name="queryStoreByEnterpriseIDResponse" type="tns:queryStoreByEnterpriseIDResponse"/>
+  <xs:element name="queryStoreByID" type="tns:queryStoreByID"/>
+  <xs:element name="queryStoreByIDResponse" type="tns:queryStoreByIDResponse"/>
+  <xs:element name="queryStoreByName" type="tns:queryStoreByName"/>
+  <xs:element name="queryStoreByNameResponse" type="tns:queryStoreByNameResponse"/>
+  <xs:element name="queryStoresByEnterpriseID" type="tns:queryStoresByEnterpriseID"/>
+  <xs:element name="queryStoresByEnterpriseIDResponse" type="tns:queryStoresByEnterpriseIDResponse"/>
+  <xs:element name="querySupplierForProduct" type="tns:querySupplierForProduct"/>
+  <xs:element name="querySupplierForProductResponse" type="tns:querySupplierForProductResponse"/>
+  <xs:element name="querySuppliers" type="tns:querySuppliers"/>
+  <xs:element name="querySuppliersResponse" type="tns:querySuppliersResponse"/>
+  <xs:element name="submitProductionOrder" type="tns:submitProductionOrder"/>
+  <xs:element name="submitProductionOrderResponse" type="tns:submitProductionOrderResponse"/>
+  <xs:element name="updateBooleanParameter" type="tns:updateBooleanParameter"/>
+  <xs:element name="updateBooleanParameterResponse" type="tns:updateBooleanParameterResponse"/>
+  <xs:element name="updateEntryPoint" type="tns:updateEntryPoint"/>
+  <xs:element name="updateEntryPointInteraction" type="tns:updateEntryPointInteraction"/>
+  <xs:element name="updateEntryPointInteractionResponse" type="tns:updateEntryPointInteractionResponse"/>
+  <xs:element name="updateEntryPointResponse" type="tns:updateEntryPointResponse"/>
+  <xs:element name="updateNominalParameter" type="tns:updateNominalParameter"/>
+  <xs:element name="updateNominalParameterResponse" type="tns:updateNominalParameterResponse"/>
+  <xs:element name="updateParameterInteraction" type="tns:updateParameterInteraction"/>
+  <xs:element name="updateParameterInteractionResponse" type="tns:updateParameterInteractionResponse"/>
+  <xs:element name="updatePlant" type="tns:updatePlant"/>
+  <xs:element name="updatePlantOperation" type="tns:updatePlantOperation"/>
+  <xs:element name="updatePlantOperationResponse" type="tns:updatePlantOperationResponse"/>
+  <xs:element name="updatePlantResponse" type="tns:updatePlantResponse"/>
+  <xs:element name="updateProduct" type="tns:updateProduct"/>
+  <xs:element name="updateProductResponse" type="tns:updateProductResponse"/>
+  <xs:element name="updateRecipe" type="tns:updateRecipe"/>
+  <xs:element name="updateRecipeNode" type="tns:updateRecipeNode"/>
+  <xs:element name="updateRecipeNodeResponse" type="tns:updateRecipeNodeResponse"/>
+  <xs:element name="updateRecipeResponse" type="tns:updateRecipeResponse"/>
+  <xs:element name="updateStore" type="tns:updateStore"/>
+  <xs:element name="updateStoreResponse" type="tns:updateStoreResponse"/>
+  <xs:element name="validateRecipe" type="tns:validateRecipe"/>
+  <xs:element name="validateRecipeResponse" type="tns:validateRecipeResponse"/>
+  <xs:complexType name="queryCustomProductByBarcode">
     <xs:sequence>
-      <xs:element maxOccurs="unbounded" name="expressions" type="tns:ExpressionInfo"/>
+      <xs:element name="barcode" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
-
-  <xs:complexType abstract="true" name="ExpressionInfo">
+  <xs:complexType name="queryCustomProductByBarcodeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:CustomProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryBooleanParameterById">
+    <xs:sequence>
+      <xs:element name="booleanParameterID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryBooleanParameterByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns3:BooleanParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createPlantOperation">
+    <xs:sequence>
+      <xs:element name="plantOperationID" type="ns4:PlantOperationTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createPlantOperationResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createRecipe">
+    <xs:sequence>
+      <xs:element name="recipeTO" type="ns4:RecipeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createRecipeResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateRecipe">
+    <xs:sequence>
+      <xs:element name="recipe" type="ns4:RecipeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateRecipeResponse">
     <xs:sequence/>
   </xs:complexType>
-
-  <xs:complexType name="PUOperationInfo">
-    <xs:complexContent>
-      <xs:extension base="tns:ExpressionInfo">
-        <xs:sequence>
-          <xs:element name="productionUnitClassName" type="xs:string"/>
-          <xs:element name="operationId" type="xs:string"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
+  <xs:complexType name="createEntryPointInteraction">
+    <xs:sequence>
+      <xs:element name="entryPointInteractionID" type="ns4:EntryPointInteractionTO"/>
+    </xs:sequence>
   </xs:complexType>
-
-  <xs:complexType name="ConditionalExpressionInfo">
-    <xs:complexContent>
-      <xs:extension base="tns:ExpressionInfo">
-        <xs:sequence>
-          <xs:element name="parameterName" type="xs:string"/>
-          <xs:element name="testValue" type="xs:string"/>
-          <xs:element maxOccurs="unbounded" name="onTrueExpressions" type="tns:ExpressionInfo"/>
-          <xs:element maxOccurs="unbounded" name="onFalseExpressions" type="tns:ExpressionInfo"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
+  <xs:complexType name="createEntryPointInteractionResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
   </xs:complexType>
-
+  <xs:complexType name="queryParameterInteractionsByRecipeId">
+    <xs:sequence>
+      <xs:element name="recipeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryParameterInteractionsByRecipeIdResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:ParameterInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPointInteractionsByRecipeId">
+    <xs:sequence>
+      <xs:element name="recipeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPointInteractionsByRecipeIdResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:EntryPointInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryStoresByEnterpriseID">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryStoresByEnterpriseIDResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:StoreWithEnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateRecipeNode">
+    <xs:sequence>
+      <xs:element name="recipeNodeTO" type="ns4:RecipeNodeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateRecipeNodeResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="deleteRecipeNode">
+    <xs:sequence>
+      <xs:element name="recipeNodeTO" type="ns4:RecipeNodeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteRecipeNodeResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="updatePlant">
+    <xs:sequence>
+      <xs:element name="plantTO" type="ns5:PlantTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updatePlantResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="queryOutputEntryPointsByRecipeId">
+    <xs:sequence>
+      <xs:element name="operationId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryOutputEntryPointsByRecipeIdResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:EntryPointTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPointById">
+    <xs:sequence>
+      <xs:element name="entryPointID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPointByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns4:EntryPointTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryStoreByName">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+      <xs:element name="storeName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryStoreByNameResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:StoreWithEnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryNominalParameterById">
+    <xs:sequence>
+      <xs:element name="nominalParameterID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryNominalParameterByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns3:NominalParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantsByEnterpriseID">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantsByEnterpriseIDResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns5:PlantTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryStoreByEnterpriseID">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryStoreByEnterpriseIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns2:StoreWithEnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantOperationById">
+    <xs:sequence>
+      <xs:element name="plantOperationID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantOperationByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns4:PlantOperationTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createNominalParameter">
+    <xs:sequence>
+      <xs:element name="nominalParameterID" type="ns3:NominalParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createNominalParameterResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAllCustomProducts">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getAllCustomProductsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:CustomProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deletePlant">
+    <xs:sequence>
+      <xs:element name="plantTO" type="ns5:PlantTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deletePlantResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getAllEnterpriseProducts">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAllEnterpriseProductsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:ProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getMeanTimeToDelivery">
+    <xs:sequence>
+      <xs:element name="productSupplier" type="ns2:SupplierTO"/>
+      <xs:element name="enterprise" type="ns2:EnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getMeanTimeToDeliveryResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryParametersByRecipeOperationID">
+    <xs:sequence>
+      <xs:element name="operationID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryParametersByRecipeOperationIDResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns3:ParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateEntryPointInteraction">
+    <xs:sequence>
+      <xs:element name="entryPointInteractionID" type="ns4:EntryPointInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateEntryPointInteractionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="createPlant">
+    <xs:sequence>
+      <xs:element name="plantTO" type="ns5:PlantTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createPlantResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeOperationById">
+    <xs:sequence>
+      <xs:element name="recipeOperationID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeOperationByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns4:RecipeOperationTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeNodesByRecipeId">
+    <xs:sequence>
+      <xs:element name="recipeNodeTO" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeNodesByRecipeIdResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:RecipeNodeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onPlantOperationFinish">
+    <xs:sequence>
+      <xs:element name="plantOperationOrderEntryID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onPlantOperationFinishResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getProductByBarcode">
+    <xs:sequence>
+      <xs:element name="barcode" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getProductByBarcodeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns2:ProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryStoreByID">
+    <xs:sequence>
+      <xs:element name="storeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryStoreByIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns2:StoreWithEnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateEntryPoint">
+    <xs:sequence>
+      <xs:element name="entryPointTO" type="ns4:EntryPointTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateEntryPointResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="queryParameterInteractionById">
+    <xs:sequence>
+      <xs:element name="parameterInteractionID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryParameterInteractionByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns4:ParameterInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updatePlantOperation">
+    <xs:sequence>
+      <xs:element name="PlantOperationID" type="ns4:PlantOperationTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updatePlantOperationResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="deleteEnterprise">
+    <xs:sequence>
+      <xs:element name="enterpriseTO" type="ns2:EnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteEnterpriseResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getProductByID">
+    <xs:sequence>
+      <xs:element name="productID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getProductByIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns2:ProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="submitProductionOrder">
+    <xs:sequence>
+      <xs:element name="productionOrderTO" type="ns4:ProductionOrderTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="submitProductionOrderResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createParameterInteraction">
+    <xs:sequence>
+      <xs:element name="parameterInteractionID" type="ns4:ParameterInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createParameterInteractionResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deletePlantOperation">
+    <xs:sequence>
+      <xs:element name="plantOperationID" type="ns4:PlantOperationTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deletePlantOperationResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getEnterprises">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getEnterprisesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:EnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeByCustomProductId">
+    <xs:sequence>
+      <xs:element name="customProductID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeByCustomProductIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns4:RecipeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPointInteractionById">
+    <xs:sequence>
+      <xs:element name="entryPointInteractionID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEntryPointInteractionByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns4:EntryPointInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantByID">
+    <xs:sequence>
+      <xs:element name="plantID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantByIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns5:PlantTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteParameterInteraction">
+    <xs:sequence>
+      <xs:element name="parameterInteractionID" type="ns4:ParameterInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteParameterInteractionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="createRecipeNode">
+    <xs:sequence>
+      <xs:element name="recipeNodeTO" type="ns4:RecipeNodeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createRecipeNodeResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteEntryPoint">
+    <xs:sequence>
+      <xs:element name="entryPointTO" type="ns4:EntryPointTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteEntryPointResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="updateBooleanParameter">
+    <xs:sequence>
+      <xs:element name="booleanParameterID" type="ns3:BooleanParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateBooleanParameterResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getSupplierByID">
+    <xs:sequence>
+      <xs:element name="supplierID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSupplierByIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns2:SupplierTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryCustomProductByID">
+    <xs:sequence>
+      <xs:element name="customProductID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryCustomProductByIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns1:CustomProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteProduct">
+    <xs:sequence>
+      <xs:element name="productTO" type="ns2:ProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteProductResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="queryEnterpriseById">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEnterpriseByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns2:EnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeById">
+    <xs:sequence>
+      <xs:element name="recipeID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns4:RecipeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateProduct">
+    <xs:sequence>
+      <xs:element name="productTO" type="ns2:ProductWithSupplierTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateProductResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="querySupplierForProduct">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+      <xs:element name="productBarcode" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="querySupplierForProductResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns2:SupplierTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateParameterInteraction">
+    <xs:sequence>
+      <xs:element name="parameterInteractionID" type="ns4:ParameterInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateParameterInteractionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="validateRecipe">
+    <xs:sequence>
+      <xs:element name="recipeID" type="ns4:RecipeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="validateRecipeResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="deleteBooleanParameter">
+    <xs:sequence>
+      <xs:element name="booleanParameterID" type="ns3:BooleanParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteBooleanParameterResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="updateNominalParameter">
+    <xs:sequence>
+      <xs:element name="nominalParameterID" type="ns3:NominalParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateNominalParameterResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="createEntryPoint">
+    <xs:sequence>
+      <xs:element name="entryPointTO" type="ns4:EntryPointTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createEntryPointResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryInputEntryPointsByRecipeId">
+    <xs:sequence>
+      <xs:element name="operationId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryInputEntryPointsByRecipeIdResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:EntryPointTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createEnterprise">
+    <xs:sequence>
+      <xs:element name="enterpriseName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createEnterpriseResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createBooleanParameter">
+    <xs:sequence>
+      <xs:element name="booleanParameterID" type="ns3:BooleanParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createBooleanParameterResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getProductsBySupplier">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+      <xs:element name="supplierID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getProductsBySupplierResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:ProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onPlantOperationOrderEntryFinish">
+    <xs:sequence>
+      <xs:element name="plantOperationOrderEntryID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onPlantOperationOrderEntryFinishResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="updateStore">
+    <xs:sequence>
+      <xs:element name="storeTO" type="ns2:StoreWithEnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateStoreResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getAllProducts">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getAllProductsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:ProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEnterpriseByName">
+    <xs:sequence>
+      <xs:element name="enterpriseName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryEnterpriseByNameResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns2:EnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="querySuppliers">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="querySuppliersResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:SupplierTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteRecipe">
+    <xs:sequence>
+      <xs:element name="recipeID" type="ns4:RecipeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteRecipeResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="queryPlantByName">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+      <xs:element name="PlantName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantByNameResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns5:PlantTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryParameterById">
+    <xs:sequence>
+      <xs:element name="parameterID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryParameterByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns3:ParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteNominalParameter">
+    <xs:sequence>
+      <xs:element name="nominalParameterID" type="ns3:NominalParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteNominalParameterResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="createProduct">
+    <xs:sequence>
+      <xs:element name="productTO" type="ns2:ProductTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createProductResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteEntryPointInteraction">
+    <xs:sequence>
+      <xs:element name="entryPointInteractionID" type="ns4:EntryPointInteractionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="deleteEntryPointInteractionResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="onPlantOperationOrderFinish">
+    <xs:sequence>
+      <xs:element name="plantOperationOrderID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="onPlantOperationOrderFinishResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="createStore">
+    <xs:sequence>
+      <xs:element name="storeTO" type="ns2:StoreWithEnterpriseTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="createStoreResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NotInDatabaseException" type="tns:NotInDatabaseException"/>
+  <xs:complexType name="NotInDatabaseException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CreateException" type="tns:CreateException"/>
+  <xs:complexType name="CreateException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UpdateException" type="tns:UpdateException"/>
+  <xs:complexType name="UpdateException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RecipeException" type="tns:RecipeException"/>
+  <xs:complexType name="RecipeException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
 </xs:schema>

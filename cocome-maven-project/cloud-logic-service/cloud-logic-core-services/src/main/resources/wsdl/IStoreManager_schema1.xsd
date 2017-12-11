@@ -1,22 +1,32 @@
-<xs:schema xmlns:ns1="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns2="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns4="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://store.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://store.webservice.logic.cocome.org/">
+<xs:schema xmlns:ns1="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns2="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns4="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns5="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns6="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://store.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://store.webservice.logic.cocome.org/">
   <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IStoreManager_schema2.xsd"/>
-  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema5.xsd"/>
+  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema7.xsd"/>
   <xs:import namespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema3.xsd"/>
-  <xs:import namespace="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema4.xsd"/>
-  <xs:element name="BooleanCustomProductParameterTO" type="ns4:BooleanCustomProductParameterTO"/>
-  <xs:element name="CustomProductParameterTO" type="ns4:CustomProductParameterTO"/>
-  <xs:element name="CustomProductParameterValueTO" type="ns3:CustomProductParameterValueTO"/>
+  <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema5.xsd"/>
+  <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IStoreManager_schema4.xsd"/>
+  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema6.xsd"/>
+  <xs:element name="BooleanParameterTO" type="ns4:BooleanParameterTO"/>
+  <xs:element name="ConditionalExpressionInfo" type="ns6:ConditionalExpressionInfo"/>
   <xs:element name="CustomProductTO" type="ns2:CustomProductTO"/>
   <xs:element name="EnterpriseTO" type="ns1:EnterpriseTO"/>
+  <xs:element name="ExpressionInfo" type="ns6:ExpressionInfo"/>
   <xs:element name="ItemTO" type="ns1:ItemTO"/>
-  <xs:element name="NorminalCustomProductParameterTO" type="ns4:NorminalCustomProductParameterTO"/>
+  <xs:element name="MarkupInfo" type="ns6:MarkupInfo"/>
+  <xs:element name="NominalParameterTO" type="ns4:NominalParameterTO"/>
   <xs:element name="OnDemandItemTO" type="ns1:OnDemandItemTO"/>
   <xs:element name="OrderEntryTO" type="ns1:OrderEntryTO"/>
   <xs:element name="OrderTO" type="ns1:OrderTO"/>
+  <xs:element name="PUOperationInfo" type="ns6:PUOperationInfo"/>
+  <xs:element name="ParameterTO" type="ns4:ParameterTO"/>
+  <xs:element name="ParameterValueTO" type="ns3:ParameterValueTO"/>
+  <xs:element name="PlantOperationTO" type="ns3:PlantOperationTO"/>
+  <xs:element name="PlantTO" type="ns5:PlantTO"/>
   <xs:element name="ProductAmountTO" type="ns1:ProductAmountTO"/>
   <xs:element name="ProductMovementTO" type="ns1:ProductMovementTO"/>
   <xs:element name="ProductTO" type="ns1:ProductTO"/>
   <xs:element name="ProductWithSupplierTO" type="ns1:ProductWithSupplierTO"/>
+  <xs:element name="RecipeOperationTO" type="ns3:RecipeOperationTO"/>
+  <xs:element name="RecipeTO" type="ns3:RecipeTO"/>
   <xs:element name="SaleEntryTO" type="ns1:SaleEntryTO"/>
   <xs:element name="SaleTO" type="ns1:SaleTO"/>
   <xs:element name="StockItemTO" type="ns1:StockItemTO"/>

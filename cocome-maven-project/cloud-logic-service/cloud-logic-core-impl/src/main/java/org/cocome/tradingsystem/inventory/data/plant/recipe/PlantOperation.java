@@ -21,7 +21,7 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -30,7 +30,6 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Represents an operation provided by an plant
@@ -49,15 +48,13 @@ public class PlantOperation implements Serializable, IPlantOperation {
     private Collection<IEntryPoint> outputEntryPoint;
 
     private long plantId;
-    private List<Long> inputEntryPointIds;
-    private List<Long> outputEntryPointIds;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
 
     private IEnterpriseQuery enterpriseQuery;
 
-    private Collection<IPlantOperationParameter> parameters;
+    private Collection<IParameter> parameters;
 
     @PostConstruct
     public void initPlant() {
@@ -91,7 +88,7 @@ public class PlantOperation implements Serializable, IPlantOperation {
     @Override
     public Collection<IEntryPoint> getInputEntryPoint() throws NotInDatabaseException {
         if (inputEntryPoint == null) {
-            inputEntryPoint = enterpriseQuery.queryEntryPoints(inputEntryPointIds);
+            inputEntryPoint = enterpriseQuery.queryInputEntryPointsByRecipeOperationId(this.id);
         }
         return inputEntryPoint;
     }
@@ -102,19 +99,9 @@ public class PlantOperation implements Serializable, IPlantOperation {
     }
 
     @Override
-    public List<Long> getInputEntryPointIds() {
-        return inputEntryPointIds;
-    }
-
-    @Override
-    public void setInputEntryPointIds(List<Long> inputEntryPointIds) {
-        this.inputEntryPointIds = inputEntryPointIds;
-    }
-
-    @Override
     public Collection<IEntryPoint> getOutputEntryPoint() throws NotInDatabaseException {
         if (outputEntryPoint == null) {
-            outputEntryPoint = enterpriseQuery.queryEntryPoints(outputEntryPointIds);
+            outputEntryPoint = enterpriseQuery.queryOutputEntryPointsByRecipeOperationId(this.id);
         }
         return outputEntryPoint;
     }
@@ -122,16 +109,6 @@ public class PlantOperation implements Serializable, IPlantOperation {
     @Override
     public void setOutputEntryPoint(Collection<IEntryPoint> outputEntryPoint) {
         this.outputEntryPoint = outputEntryPoint;
-    }
-
-    @Override
-    public List<Long> getOutputEntryPointIds() {
-        return outputEntryPointIds;
-    }
-
-    @Override
-    public void setOutputEntryPointIds(List<Long> outputEntryPointIds) {
-        this.outputEntryPointIds = outputEntryPointIds;
     }
 
     @Override
@@ -168,15 +145,15 @@ public class PlantOperation implements Serializable, IPlantOperation {
     }
 
     @Override
-    public Collection<IPlantOperationParameter> getParameters() throws NotInDatabaseException {
+    public Collection<IParameter> getParameters() throws NotInDatabaseException {
         if (parameters == null) {
-            parameters = enterpriseQuery.queryParametersByPlantOperationID(this.id);
+            parameters = enterpriseQuery.queryParametersByRecipeOperationID(this.id);
         }
         return parameters;
     }
 
     @Override
-    public void setParameters(final Collection<IPlantOperationParameter> parameters) {
+    public void setParameters(final Collection<IParameter> parameters) {
         this.parameters = parameters;
     }
 }

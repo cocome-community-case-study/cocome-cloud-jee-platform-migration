@@ -19,13 +19,10 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.cocome.tradingsystem.inventory.application.reporting.IReportingLocal;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INominalParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -33,7 +30,6 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import javax.ejb.Local;
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * This interface provides methods for querying the database. It is used by the
@@ -264,29 +260,18 @@ public interface IEnterpriseQuery {
      */
     IEntryPoint queryEntryPointByID(long entryPointId) throws NotInDatabaseException;
 
-    Collection<IEntryPoint> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException;
-
-    IBooleanCustomProductParameter queryBooleanCustomProductParameterByID(long booleanCustomProductParameterId)
-            throws NotInDatabaseException;
-
-    INorminalCustomProductParameter queryNorminalCustomProductParameterByID(long norminalCustomProductParameterId)
-            throws NotInDatabaseException;
-
-    Collection<ICustomProductParameter> queryParametersByCustomProductID(long customProductId)
-            throws NotInDatabaseException;
-
     IPlantOperation queryPlantOperationByID(long plantOperationId) throws NotInDatabaseException;
 
-    Collection<IPlantOperationParameter> queryParametersByPlantOperationID(long plantOperationId)
+    Collection<IParameter> queryParametersByRecipeOperationID(long plantOperationId)
             throws NotInDatabaseException;
 
-    IBooleanPlantOperationParameter queryBooleanPlantOperationParameterByID(long booleanPlantOperationParameterId)
+    IBooleanParameter queryBooleanParameterByID(long booleanParameterId)
             throws NotInDatabaseException;
 
-    INorminalPlantOperationParameter queryNorminalPlantOperationParameterByID(long norminalPlantOperationParameterId)
+    INominalParameter queryNominalParameterByID(long nominalParameterId)
             throws NotInDatabaseException;
 
-    IPlantOperationParameter queryPlantOperationParameterById(long parameterId) throws NotInDatabaseException;
+    IParameter queryParameterById(long parameterId) throws NotInDatabaseException;
 
     IEntryPointInteraction queryEntryPointInteractionByID(long entryPointInteractionId) throws NotInDatabaseException;
 
@@ -296,13 +281,17 @@ public interface IEnterpriseQuery {
 
     IRecipe queryRecipeByCustomProductID(long id) throws NotInDatabaseException;
 
-    Collection<IEntryPointInteraction> queryEntryPointInteractions(List<Long> entryPointInteractionIds)
+    Collection<IEntryPointInteraction> queryEntryPointInteractionsByRecipeId(long recipeId)
             throws NotInDatabaseException;
 
-    Collection<IParameterInteraction> queryParameterInteractions(List<Long> parameterInteractionIds)
+    Collection<IParameterInteraction> queryParameterInteractionsByRecipeId(long recipeId)
             throws NotInDatabaseException;
 
-    Collection<IPlantOperation> queryPlantOperations(List<Long> operationIds) throws NotInDatabaseException;
+    Collection<IRecipeNode> queryRecipeNodesByRecipeId(long recipeId) throws NotInDatabaseException;
 
-    ICustomProductParameter queryCustomProductParameterByID(long fromId) throws NotInDatabaseException;
+    IRecipeOperation queryRecipeOperationById(long operationId) throws NotInDatabaseException;
+
+    Collection<IEntryPoint> queryInputEntryPointsByRecipeOperationId(long operationId) throws NotInDatabaseException;
+
+    Collection<IEntryPoint> queryOutputEntryPointsByRecipeOperationId(long operationId) throws NotInDatabaseException;
 }

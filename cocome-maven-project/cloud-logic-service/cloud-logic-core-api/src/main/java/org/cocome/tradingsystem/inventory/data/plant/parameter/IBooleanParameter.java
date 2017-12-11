@@ -16,21 +16,14 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
+package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
 /**
- * Represents a customization that can either be turned on or off.
- * (e.g. yogurt with extra chocolate sprinkles or not)
+ * Represents a parameter that can either take {@code true} or {@code false} as value
  *
  * @author Rudolf Biczok
  */
 public interface IBooleanParameter extends IParameter {
     String TRUE_VALUE = "true";
     String FALSE_VALUE = "false";
-
-    @Override
-    default boolean isValidValue(String value) {
-        return IBooleanParameter.TRUE_VALUE.equals(value)
-                || IBooleanParameter.FALSE_VALUE.equals(value);
-    }
 }

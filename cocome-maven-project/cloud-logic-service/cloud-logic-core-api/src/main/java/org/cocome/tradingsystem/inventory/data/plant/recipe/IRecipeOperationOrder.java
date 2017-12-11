@@ -20,8 +20,8 @@ package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.cloud.logic.webservice.StreamUtil;
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameterValue;
+import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.Collection;
@@ -35,9 +35,8 @@ import java.util.stream.Collectors;
  * @author Rudolf Biczok
  */
 public interface IRecipeOperationOrder<
-        TParam extends IParameter,
-        TParamValue extends IParameterValue,
-        TEntry extends IRecipeOperationOrderEntry<TParam, TParamValue>>
+        TOperation extends IRecipeOperation,
+        TEntry extends IRecipeOperationOrderEntry<TOperation>>
         extends IIdentifiable {
 
     /**
@@ -65,6 +64,26 @@ public interface IRecipeOperationOrder<
     void setDeliveryDate(final Date deliveryDate);
 
     /**
+     * @return The enterprise where the order is placed.
+     */
+    ITradingEnterprise getEnterprise() throws NotInDatabaseException;
+
+    /**
+     * @param enterprise the enterprise where the order is placed
+     */
+    void setEnterprise(final ITradingEnterprise enterprise);
+
+    /**
+     * @return The id of the enterprise where the order is placed.
+     */
+    long getEnterpriseId();
+
+    /**
+     * @param enterprise the id of the enterprise where the order is placed
+     */
+    void setEnterpriseId(final long enterprise);
+
+    /**
      * @return the order entries.
      */
     Collection<TEntry> getOrderEntries();
@@ -85,7 +104,7 @@ public interface IRecipeOperationOrder<
                     Collectors.toMap(
                             IParameterValue::getParameterId,
                             IParameterValue::getValue));
-            final Collection<? extends IParameter> parameterList = entry.getParameters();
+            final Collection<IParameter> parameterList = entry.getOperation().getParameters();
             for (final IParameter param : parameterList) {
                 if (!parameterValues.containsKey(param.getId())) {
                     throw new IllegalArgumentException("Missing value for parameter:"

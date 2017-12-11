@@ -1,21 +1,55 @@
-<xs:schema xmlns:ns1="http://store.webservice.logic.cocome.org/" xmlns:ns2="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
+<xs:schema xmlns:ns1="http://store.webservice.logic.cocome.org/" xmlns:ns2="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns4="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns5="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns6="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
   <xs:import namespace="http://store.webservice.logic.cocome.org/" schemaLocation="IStoreManager_schema1.xsd"/>
 
-  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema5.xsd"/>
+  <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema5.xsd"/>
 
-  <xs:import namespace="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema4.xsd"/>
+  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema7.xsd"/>
 
-  <xs:complexType name="CustomProductParameterValueTO">
+  <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IStoreManager_schema2.xsd"/>
+
+  <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IStoreManager_schema4.xsd"/>
+
+  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema6.xsd"/>
+
+  <xs:complexType name="ParameterValueTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="value" type="xs:string"/>
       <xs:choice>
-        <xs:element ref="ns1:CustomProductParameterTO"/>
-        <xs:element ref="ns1:BooleanCustomProductParameterTO"/>
-        <xs:element ref="ns1:NorminalCustomProductParameterTO"/>
+        <xs:element ref="ns1:ParameterTO"/>
+        <xs:element ref="ns1:BooleanParameterTO"/>
+        <xs:element ref="ns1:NominalParameterTO"/>
       </xs:choice>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="RecipeOperationTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RecipeTO">
+    <xs:complexContent>
+      <xs:extension base="tns:RecipeOperationTO">
+        <xs:sequence>
+          <xs:element name="customProduct" type="ns3:CustomProductTO"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="PlantOperationTO">
+    <xs:complexContent>
+      <xs:extension base="tns:RecipeOperationTO">
+        <xs:sequence>
+          <xs:element name="plant" type="ns5:PlantTO"/>
+          <xs:element name="markup" type="ns6:MarkupInfo"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
 </xs:schema>

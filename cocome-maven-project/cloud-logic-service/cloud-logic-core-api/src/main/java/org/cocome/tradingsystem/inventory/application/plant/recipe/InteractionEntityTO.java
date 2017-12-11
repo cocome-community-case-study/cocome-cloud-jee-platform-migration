@@ -26,8 +26,7 @@ import javax.xml.bind.annotation.*;
 /**
  * Used as common interface for classes who connect two other entity types with each other
  *
- * @param <FromType> the type of the first interaction partner
- * @param <ToType>   the type of the second interaction partner
+ * @param <T> the type of the interaction entity
  * @author Rudolf Biczok
  */
 @XmlType(
@@ -35,18 +34,18 @@ import javax.xml.bind.annotation.*;
         namespace = "http://recipe.plant.application.inventory.tradingsystem.cocome.org")
 @XmlRootElement(name = "IIdentifiableTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class InteractionEntityTO<
-        FromType extends INameableTO,
-        ToType extends INameableTO>
+public abstract class InteractionEntityTO<T extends INameableTO>
         implements IIdentifiableTO {
     private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "id", required = true)
     private long id;
     @XmlElement(name = "from", required = true)
-    private FromType from;
+    private T from;
     @XmlElement(name = "to", required = true)
-    private ToType to;
+    private T to;
+    @XmlElementRef(name = "operation")
+    private RecipeOperationTO operation;
 
     /**
      * @return the database id
@@ -66,28 +65,36 @@ public abstract class InteractionEntityTO<
     /**
      * @return the first / source instance
      */
-    public FromType getFrom() {
+    public T getFrom() {
         return from;
     }
 
     /**
      * @param from the first / source instance
      */
-    public void setFrom(FromType from) {
+    public void setFrom(T from) {
         this.from = from;
     }
 
     /**
      * @return the second / destination instance
      */
-    public ToType getTo() {
+    public T getTo() {
         return to;
     }
 
     /**
      * @param to the second / destination instance
      */
-    public void setTo(ToType to) {
+    public void setTo(T to) {
         this.to = to;
+    }
+
+    public RecipeOperationTO getOperation() {
+        return operation;
+    }
+
+    public void setOperation(RecipeOperationTO operation) {
+        this.operation = operation;
     }
 }

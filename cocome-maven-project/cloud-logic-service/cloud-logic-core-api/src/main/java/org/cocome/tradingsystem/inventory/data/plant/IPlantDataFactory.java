@@ -18,18 +18,17 @@
 
 package org.cocome.tradingsystem.inventory.data.plant;
 
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INominalParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
@@ -68,6 +67,20 @@ public interface IPlantDataFactory {
     ProductionUnitTO fillProductionUnitTO(IProductionUnit operation)
             throws NotInDatabaseException;
 
+    /* Entry Point *****/
+
+    IEntryPoint getNewEntryPoint();
+
+    EntryPointTO fillEntryPointTO(IEntryPoint iEntryPoint) throws NotInDatabaseException;
+
+    IEntryPoint convertToEntryPoint(EntryPointTO entryPointTO);
+
+    /* Recipe Operation *****/
+
+    IRecipeOperation convertToRecipeOperation(RecipeOperationTO operation);
+
+    RecipeOperationTO fillRecipeOperationTO(IRecipeOperation operation) throws NotInDatabaseException;
+
     /* Plant Operation */
 
     IPlantOperation getNewPlantOperation();
@@ -79,32 +92,32 @@ public interface IPlantDataFactory {
 
     /* Plant Operation Parameter */
 
-    PlantOperationParameterTO fillPlantOperationParameterTO(IPlantOperationParameter parameter)
+    ParameterTO fillParameterTO(IParameter parameter)
             throws NotInDatabaseException;
 
-    IPlantOperationParameter convertToPlantOperationParameter(PlantOperationParameterTO plantOperationParameterTO);
+    IParameter convertToParameter(ParameterTO parameterTO);
 
     /* Boolean Plant Operation Parameter */
 
-    IBooleanPlantOperationParameter getNewBooleanPlantOperationParameter();
+    IBooleanParameter getNewBooleanParameter();
 
-    BooleanPlantOperationParameterTO fillBooleanPlantOperationParameterTO(
-            IBooleanPlantOperationParameter booleanPlantOperationParameter)
+    BooleanParameterTO fillBooleanParameterTO(
+            IBooleanParameter booleanParameter)
             throws NotInDatabaseException;
 
-    IBooleanPlantOperationParameter convertToBooleanPlantOperationParameter(
-            BooleanPlantOperationParameterTO booleanPlantOperationParameterTO);
+    IBooleanParameter convertToBooleanParameter(
+            BooleanParameterTO booleanParameterTO);
 
     /* Norminal Plant Operation Parameter */
 
-    INorminalPlantOperationParameter getNewNorminalPlantOperationParameter();
+    INominalParameter getNewNominalParameter();
 
-    NorminalPlantOperationParameterTO fillNorminalPlantOperationParameterTO(
-            INorminalPlantOperationParameter norminalPlantOperationParameter)
+    NominalParameterTO fillNominalParameterTO(
+            INominalParameter nominalParameter)
             throws NotInDatabaseException;
 
-    INorminalPlantOperationParameter convertToNorminalPlantOperationParameter(
-            NorminalPlantOperationParameterTO norminalPlantOperationParameterTO);
+    INominalParameter convertToNominalParameter(
+            NominalParameterTO nominalParameterTO);
 
     /* Entry Point Interaction */
 
@@ -152,12 +165,12 @@ public interface IPlantDataFactory {
 
     /* Plant Operation Order Parameter Value */
 
-    IPlantOperationParameterValue getNewPlantOperationParameterValue();
+    IParameterValue getNewParameterValue();
 
-    PlantOperationParameterValueTO fillPlantOperationParameterValueTO(IPlantOperationParameterValue plantOperationParameterValue)
+    ParameterValueTO fillParameterValueTO(IParameterValue plantOperationParameterValue)
             throws NotInDatabaseException;
 
-    IPlantOperationParameterValue convertToPlantOperationParameterValue(PlantOperationParameterValueTO plantOperationParameterValueTO);
+    IParameterValue convertToParameterValue(ParameterValueTO plantOperationParameterValueTO);
 
         /* Production Order */
 
@@ -175,12 +188,12 @@ public interface IPlantDataFactory {
 
     IProductionOrderEntry convertToProductionOrderEntry(ProductionOrderEntryTO productionOrderEntryTO) throws NotInDatabaseException;
 
-    /* Plant Operation Order Parameter Value */
+    /* Recipe Node */
 
-    ICustomProductParameterValue getNewCustomProductParameterValue();
+    IRecipeNode getNewRecipeNode();
 
-    CustomProductParameterValueTO fillCustomProductParameterValueTO(ICustomProductParameterValue customProductParameterValue)
-            throws NotInDatabaseException;
+    RecipeNodeTO fillRecipeNodeTO(IRecipeNode recipeNode) throws NotInDatabaseException;
 
-    ICustomProductParameterValue convertToCustomProductParameterValue(CustomProductParameterValueTO customProductParameterValueTO);
+    IRecipeNode convertToRecipeNode(RecipeNodeTO recipeNode) throws NotInDatabaseException;
+
 }

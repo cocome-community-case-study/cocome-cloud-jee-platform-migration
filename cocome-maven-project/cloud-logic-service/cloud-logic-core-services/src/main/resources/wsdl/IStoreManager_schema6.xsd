@@ -1,6 +1,6 @@
-<xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:tns="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
+<xs:schema xmlns:ns1="http://store.webservice.logic.cocome.org/" xmlns:tns="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
-  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema6.xsd"/>
+  <xs:import namespace="http://store.webservice.logic.cocome.org/" schemaLocation="IStoreManager_schema1.xsd"/>
 
   <xs:complexType name="MarkupInfo">
     <xs:sequence>

@@ -16,29 +16,30 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.plant.parameter;
+package org.cocome.tradingsystem.inventory.application.plant.parameter;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalParameter;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
-
-import javax.enterprise.context.Dependent;
+import javax.xml.bind.annotation.*;
 import java.util.Set;
 
 /**
- * Implementation of {@link INorminalParameter} for {@link IPlantOperation}
+ * Represents a parameter with multiple values a user can choose from
  *
  * @author Rudolf Biczok
  */
-@Dependent
-public class NorminalPlantOperationParameter extends PlantOperationParameter implements INorminalPlantOperationParameter {
+@XmlType(
+        name = "NominalParameterTO",
+        namespace = "http://parameter.plant.application.inventory.tradingsystem.cocome.org")
+@XmlRootElement(name = "NominalParameterTO")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class NominalParameterTO extends ParameterTO {
     private static final long serialVersionUID = -2577328715744776645L;
 
+    @XmlElement(name = "options", required = true)
     private Set<String> options;
 
     /**
      * @return The possible values this options a user can set for this option
      */
-    @Override
     public Set<String> getOptions() {
         return options;
     }
@@ -46,7 +47,6 @@ public class NorminalPlantOperationParameter extends PlantOperationParameter imp
     /**
      * @param options The possible values this options a user can set for this option
      */
-    @Override
     public void setOptions(final Set<String> options) {
         this.options = options;
     }

@@ -30,12 +30,13 @@ import javax.inject.Inject;
  * @author Rudolf Biczok
  */
 @Dependent
-public class EntryPointInteraction extends InteractionEntity<IEntryPoint, IEntryPoint>
+public class EntryPointInteraction extends InteractionEntity<IEntryPoint>
         implements IEntryPointInteraction {
     private static final long serialVersionUID = 1L;
 
     private IEntryPoint from;
     private IEntryPoint to;
+    private IRecipe recipe;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
@@ -43,7 +44,7 @@ public class EntryPointInteraction extends InteractionEntity<IEntryPoint, IEntry
     private IEnterpriseQuery enterpriseQuery;
 
     @PostConstruct
-    public void initPlant() {
+    public void init() {
         enterpriseQuery = enterpriseQueryInstance.get();
         from = null;
         to = null;
@@ -73,5 +74,18 @@ public class EntryPointInteraction extends InteractionEntity<IEntryPoint, IEntry
     @Override
     public void setTo(IEntryPoint to) {
         this.to = to;
+    }
+
+    @Override
+    public IRecipe getRecipe() throws NotInDatabaseException {
+        if (recipe == null) {
+            recipe = enterpriseQuery.queryRecipeByID(recipeId);
+        }
+        return this.recipe;
+    }
+
+    @Override
+    public void setRecipe(IRecipe recipe) {
+        this.recipe = recipe;
     }
 }

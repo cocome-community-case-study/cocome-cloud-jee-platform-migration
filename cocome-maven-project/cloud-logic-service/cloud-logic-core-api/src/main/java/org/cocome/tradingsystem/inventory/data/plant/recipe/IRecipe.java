@@ -19,11 +19,10 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
+import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-import org.cocome.tradingsystem.util.exception.RecipeException;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Represents the top-level recipe for producing a custom product.
@@ -32,83 +31,31 @@ import java.util.List;
  */
 public interface IRecipe extends IRecipeOperation {
 
-    /**
-     * @return the custom product for which this recipe provides the production details
-     */
     ICustomProduct getCustomProduct() throws NotInDatabaseException;
 
-    /**
-     * @param customProduct the custom product for which this recipe provides the production details
-     */
     void setCustomProduct(ICustomProduct customProduct);
 
-    /**
-     * @return the custom product id for which this recipe provides the production details
-     */
     long getCustomProductId();
 
-    /**
-     * @param customProduct the custom product id for which this recipe provides the production details
-     */
-    void setCustomProductId(long customProduct);
+    void setCustomProductId(long customProductId);
 
-    /**
-     * @return the list of plant operations needed to be executed
-     */
-    Collection<IPlantOperation> getOperations() throws NotInDatabaseException;
+    ITradingEnterprise getEnterprise() throws NotInDatabaseException;
 
-    /**
-     * @param operations the list of plant operations needed to be executed
-     */
-    void setOperations(Collection<IPlantOperation> operations);
+    void setEnterprise(ITradingEnterprise enterprise);
 
-    /**
-     * @return the list of plant operation IDs
-     */
-    List<Long> getOperationIds();
+    long getEnterpriseId();
 
-    /**
-     * @param operationIds the list of plant operation IDs
-     */
-    void setOperationIds(List<Long> operationIds);
+    void setEnterpriseId(long enterpriseId);
 
-    /**
-     * @return the list of interactions
-     */
+    Collection<IRecipeNode> getNodes() throws NotInDatabaseException;
+
+    void setNodes(Collection<IRecipeNode> nodes);
+
     Collection<IEntryPointInteraction> getEntryPointInteractions() throws NotInDatabaseException;
 
-    /**
-     * @param entryPointInteractions the list of interactions
-     */
     void setEntryPointInteractions(Collection<IEntryPointInteraction> entryPointInteractions);
 
-    /**
-     * @return the list of interaction IDs
-     */
-    List<Long> getEntryPointInteractionIds();
-
-    /**
-     * @param entryPointInteractionIds the list of interactions
-     */
-    void setEntryPointInteractionIds(List<Long> entryPointInteractionIds);
-
-    /**
-     * @return the list of parameter bindings
-     */
     Collection<IParameterInteraction> getParameterInteractions() throws NotInDatabaseException;
 
-    /**
-     * @param parameterInteractions the list of parameter bindings
-     */
     void setParameterInteractions(Collection<IParameterInteraction> parameterInteractions);
-
-    /**
-     * @return the list of parameter bindings
-     */
-    List<Long> getParameterInteractionIds();
-
-    /**
-     * @param parameterInteractionIds the list of parameter bindings
-     */
-    void setParameterInteractionIds(List<Long> parameterInteractionIds);
 }

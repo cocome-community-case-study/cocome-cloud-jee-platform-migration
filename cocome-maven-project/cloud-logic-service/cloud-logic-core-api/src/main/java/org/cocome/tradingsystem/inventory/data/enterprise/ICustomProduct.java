@@ -18,27 +18,11 @@
 
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-
-import java.util.Collection;
-
 /**
  * Represents a customizable product
  *
  * @author Rudolf Biczok
  */
 public interface ICustomProduct extends IProduct {
-
-    /**
-     * @return the list of parameters needed for this custom product
-     * @throws NotInDatabaseException if the associated custom product does not exist
-     */
-    Collection<ICustomProductParameter> getParameters() throws NotInDatabaseException;
-
-    /**
-     * @param parameters the list of parameters needed for this custom product
-     */
-    void setParameters(final Collection<ICustomProductParameter> parameters);
 
 }

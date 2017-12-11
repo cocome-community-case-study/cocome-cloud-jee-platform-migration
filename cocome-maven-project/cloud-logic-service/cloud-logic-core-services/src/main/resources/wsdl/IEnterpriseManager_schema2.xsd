@@ -1,38 +1,18 @@
-<xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns4="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns5="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns6="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
+<xs:schema xmlns:ns1="http://enterprise.webservice.logic.cocome.org/" xmlns:ns2="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns4="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns5="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns6="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
-  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema7.xsd"/>
+  <xs:import namespace="http://enterprise.webservice.logic.cocome.org/" schemaLocation="IEnterpriseManager_schema6.xsd"/>
+
+  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema7.xsd"/>
 
   <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema1.xsd"/>
 
   <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema3.xsd"/>
 
-  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema6.xsd"/>
+  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema5.xsd"/>
 
-  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema8.xsd"/>
+  <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema4.xsd"/>
 
-  <xs:import namespace="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IEnterpriseManager_schema5.xsd"/>
-
-  <xs:complexType name="PlantOperationTO">
-    <xs:complexContent>
-      <xs:extension base="tns:RecipeOperationTO">
-        <xs:sequence>
-          <xs:element name="plant" type="ns3:PlantTO"/>
-          <xs:element name="markup" type="ns4:MarkupInfo"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="RecipeOperationTO">
-    <xs:sequence>
-      <xs:element name="id" type="xs:long"/>
-      <xs:element name="name" type="xs:string"/>
-      <xs:element maxOccurs="unbounded" name="inputEntryPoint" type="tns:EntryPointTO"/>
-      <xs:element maxOccurs="unbounded" name="outputEntryPoint" type="tns:EntryPointTO"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="EntryPointTO">
+  <xs:complexType abstract="true" name="RecipeOperationTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>
@@ -43,16 +23,24 @@
     <xs:complexContent>
       <xs:extension base="tns:RecipeOperationTO">
         <xs:sequence>
-          <xs:element name="customProduct" type="ns5:CustomProductTO"/>
-          <xs:element maxOccurs="unbounded" name="operations" type="tns:PlantOperationTO"/>
-          <xs:element maxOccurs="unbounded" name="parameterInteractions" type="tns:ParameterInteractionTO"/>
-          <xs:element maxOccurs="unbounded" name="entryPointInteractions" type="tns:EntryPointInteractionTO"/>
+          <xs:element name="customProduct" type="ns2:CustomProductTO"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="ParameterInteractionTO">
+  <xs:complexType name="PlantOperationTO">
+    <xs:complexContent>
+      <xs:extension base="tns:RecipeOperationTO">
+        <xs:sequence>
+          <xs:element name="plant" type="ns4:PlantTO"/>
+          <xs:element name="markup" type="ns5:MarkupInfo"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="EntryPointInteractionTO">
     <xs:complexContent>
       <xs:extension base="tns:IIdentifiableTO">
         <xs:sequence/>
@@ -65,10 +53,15 @@
       <xs:element name="id" type="xs:long"/>
       <xs:element name="from" type="xs:anyType"/>
       <xs:element name="to" type="xs:anyType"/>
+      <xs:choice>
+        <xs:element ref="ns1:RecipeOperationTO"/>
+        <xs:element ref="ns1:RecipeTO"/>
+        <xs:element ref="ns1:PlantOperationTO"/>
+      </xs:choice>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="EntryPointInteractionTO">
+  <xs:complexType name="ParameterInteractionTO">
     <xs:complexContent>
       <xs:extension base="tns:IIdentifiableTO">
         <xs:sequence/>
@@ -76,12 +69,38 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="RecipeNodeTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="recipe" type="tns:RecipeTO"/>
+      <xs:choice>
+        <xs:element ref="ns1:RecipeOperationTO"/>
+        <xs:element ref="ns1:RecipeTO"/>
+        <xs:element ref="ns1:PlantOperationTO"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EntryPointTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:choice>
+        <xs:element ref="ns1:RecipeOperationTO"/>
+        <xs:element ref="ns1:RecipeTO"/>
+        <xs:element ref="ns1:PlantOperationTO"/>
+      </xs:choice>
+      <xs:element name="direction" type="tns:DirectionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ProductionOrderTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="deliveryDate" type="xs:dateTime"/>
       <xs:element name="orderingDate" type="xs:dateTime"/>
-      <xs:element name="store" type="ns2:StoreWithEnterpriseTO"/>
+      <xs:element name="enterprise" type="ns3:EnterpriseTO"/>
+      <xs:element name="store" type="ns3:StoreWithEnterpriseTO"/>
       <xs:element maxOccurs="unbounded" name="orderEntries" type="tns:ProductionOrderEntryTO"/>
     </xs:sequence>
   </xs:complexType>
@@ -91,20 +110,27 @@
       <xs:element name="id" type="xs:long"/>
       <xs:element name="amount" type="xs:long"/>
       <xs:element name="recipe" type="tns:RecipeTO"/>
-      <xs:element maxOccurs="unbounded" name="parameterValues" type="tns:CustomProductParameterValueTO"/>
+      <xs:element maxOccurs="unbounded" name="parameterValues" type="tns:ParameterValueTO"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="CustomProductParameterValueTO">
+  <xs:complexType name="ParameterValueTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="value" type="xs:string"/>
       <xs:choice>
-        <xs:element ref="ns1:CustomProductParameterTO"/>
-        <xs:element ref="ns1:NorminalCustomProductParameterTO"/>
-        <xs:element ref="ns1:BooleanCustomProductParameterTO"/>
+        <xs:element ref="ns1:ParameterTO"/>
+        <xs:element ref="ns1:BooleanParameterTO"/>
+        <xs:element ref="ns1:NominalParameterTO"/>
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
+
+  <xs:simpleType name="DirectionTO">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="INPUT"/>
+      <xs:enumeration value="OUTPUT"/>
+    </xs:restriction>
+  </xs:simpleType>
 
 </xs:schema>

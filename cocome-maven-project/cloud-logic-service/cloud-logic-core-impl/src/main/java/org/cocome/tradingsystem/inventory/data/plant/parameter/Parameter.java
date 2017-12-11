@@ -16,10 +16,10 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
+package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipeOperation;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.annotation.PostConstruct;
@@ -28,18 +28,19 @@ import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
- * Implementation of {@link ICustomProductParameter}
+ * Class used to act as parameter for certain production operations
  *
  * @author Rudolf Biczok
  */
-public abstract class CustomProductParameter implements Serializable, ICustomProductParameter {
+public abstract class Parameter implements Serializable, IParameter {
+
     private static final long serialVersionUID = -2577328715744776645L;
 
     private long id;
     private String name;
     private String category;
-    private long customProductId;
-    private ICustomProduct customProduct;
+    private IRecipeOperation operation;
+    private long operationId;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
@@ -47,9 +48,9 @@ public abstract class CustomProductParameter implements Serializable, ICustomPro
     private IEnterpriseQuery enterpriseQuery;
 
     @PostConstruct
-    public void init() {
+    public void initPlant() {
         enterpriseQuery = enterpriseQueryInstance.get();
-        customProduct = null;
+        operation = null;
     }
 
     @Override
@@ -83,26 +84,34 @@ public abstract class CustomProductParameter implements Serializable, ICustomPro
     }
 
     @Override
-    public long getCustomProductId() {
-        return customProductId;
-    }
-
-    @Override
-    public void setCustomProductId(long customProductId) {
-        this.customProductId = customProductId;
-    }
-
-    @Override
-    public ICustomProduct getCustomProduct() throws NotInDatabaseException {
-        if (customProduct == null) {
-            customProduct = enterpriseQuery.queryCustomProductByID(customProductId);
+    public IRecipeOperation getOperation() throws NotInDatabaseException {
+        if(operation == null) {
+            operation = enterpriseQuery.queryRecipeOperationById(operationId);
         }
-        return customProduct;
+        return operation;
     }
 
     @Override
-    public void setCustomProduct(ICustomProduct customProduct) {
-        this.customProduct = customProduct;
+    public void setOperation(IRecipeOperation operation) {
+        this.operation = operation;
     }
 
+    @Override
+    public long getOperationId() {
+        return operationId;
+    }
+
+    @Override
+    public void setOperationId(long operationId) {
+        this.operationId = operationId;
+    }
+
+    @Override
+    public String toString() {
+        return "Parameter{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }

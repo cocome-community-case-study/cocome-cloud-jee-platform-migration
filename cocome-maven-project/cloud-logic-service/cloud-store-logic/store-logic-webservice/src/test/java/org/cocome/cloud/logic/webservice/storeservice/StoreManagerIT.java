@@ -25,6 +25,7 @@ import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.application.store.OnDemandItemTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.SaleEntryTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
 import org.junit.BeforeClass;

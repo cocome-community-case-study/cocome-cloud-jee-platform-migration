@@ -25,19 +25,18 @@ import java.io.Serializable;
 /**
  * Used as common interface for classes who connect two other entity types with each other
  *
- * @param <FromType> the type of the first interaction partner
- * @param <ToType>   the type of the second interaction partner
+ * @param <T> the interaction type
  * @author Rudolf Biczok
  */
 public abstract class InteractionEntity<
-        FromType extends INameable,
-        ToType extends INameable>
-        implements Serializable, IInteractionEntity<FromType, ToType> {
+        T extends INameable>
+        implements Serializable, IInteractionEntity<T> {
     private static final long serialVersionUID = 1L;
 
-    protected long id;
+    long id;
     long fromId;
     long toId;
+    long recipeId;
 
     @Override
     public long getId() {
@@ -67,5 +66,15 @@ public abstract class InteractionEntity<
     @Override
     public void setToId(long toId) {
         this.toId = toId;
+    }
+
+    @Override
+    public long getRecipeId() {
+        return recipeId;
+    }
+
+    @Override
+    public void setRecipeId(long recipeId) {
+        this.recipeId = recipeId;
     }
 }

@@ -76,9 +76,9 @@ public class EnterprisePlantQueryProvider implements IPlantQuery {
     }
 
     @Override
-    public IPlantOperationParameterValue queryPlantOperationParameterValueById(long paramValueId)
+    public IParameterValue queryParameterValueById(long paramValueId)
             throws NotInDatabaseException {
-        return getSingleEntity(csvHelper::getPlantOperationParameterValue, "PlantOperationParameterValue", paramValueId);
+        return getSingleEntity(csvHelper::getParameterValue, "PlantOperationParameterValue", paramValueId);
     }
 
     @Override

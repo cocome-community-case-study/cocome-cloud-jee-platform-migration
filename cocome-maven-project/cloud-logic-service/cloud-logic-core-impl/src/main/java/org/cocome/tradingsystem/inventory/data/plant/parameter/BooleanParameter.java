@@ -16,30 +16,32 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
+package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
+
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipeOperation;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
-import java.util.Set;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 
 /**
- * Gives the user a finite number of options to customize a product
+ * Abstract class of {@link IBooleanParameter} for {@link IPlantOperation}
  *
  * @author Rudolf Biczok
  */
 @Dependent
-public class NorminalCustomProductParameter extends CustomProductParameter
-        implements INorminalCustomProductParameter {
+public class BooleanParameter extends Parameter implements IBooleanParameter {
     private static final long serialVersionUID = -2577328715744776645L;
 
-    private Set<String> options;
-
     @Override
-    public Set<String> getOptions() {
-        return options;
+    public boolean isValidValue(String value) {
+        return IBooleanParameter.TRUE_VALUE.equals(value)
+                || IBooleanParameter.FALSE_VALUE.equals(value);
     }
 
-    @Override
-    public void setOptions(final Set<String> options) {
-        this.options = options;
-    }
 }

@@ -1,14 +1,11 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
-import org.cocome.cloud.logic.webservice.ThrowingFunction;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
+import org.cocome.cloud.logic.webservice.StreamUtil;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INominalParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
@@ -20,7 +17,10 @@ import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -196,47 +196,22 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IEntryPoint> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException {
-        return queryEntitiesByIdList(entryPointIds, this::queryEntryPointByID);
-    }
-
-    @Override
-    public IBooleanCustomProductParameter queryBooleanCustomProductParameterByID(long booleanCustomProductParameterId)
+    public IBooleanParameter queryBooleanParameterByID(long booleanParameterId)
             throws NotInDatabaseException {
-        return getSingleEntity(csvHelper::getBooleanCustomProductParameter, "BooleanCustomProductParameter", booleanCustomProductParameterId);
+        return getSingleEntity(csvHelper::getBooleanParameter,
+                "BooleanParameter",
+                booleanParameterId);
     }
 
     @Override
-    public INorminalCustomProductParameter queryNorminalCustomProductParameterByID(long norminalCustomProductParameterId)
+    public INominalParameter queryNominalParameterByID(long nominalParameterId)
             throws NotInDatabaseException {
-        return getSingleEntity(csvHelper::getNorminalCustomProductParameter, "NorminalCustomProductParameter", norminalCustomProductParameterId);
+        return getSingleEntity(csvHelper::getNominalParameter, "NominalParameter", nominalParameterId);
     }
 
     @Override
-    public Collection<ICustomProductParameter> queryParametersByCustomProductID(long customProductId) {
-        return csvHelper
-                .getCustomProductParameter(backendConnection.getEntity(
-                        "CustomProductParameter",
-                        "product.id==" + customProductId));
-    }
-
-    @Override
-    public IBooleanPlantOperationParameter queryBooleanPlantOperationParameterByID(long booleanPlantOperationParameterId)
-            throws NotInDatabaseException {
-        return getSingleEntity(csvHelper::getBooleanPlantOperationParameter,
-                "BooleanPlantOperationParameter",
-                booleanPlantOperationParameterId);
-    }
-
-    @Override
-    public INorminalPlantOperationParameter queryNorminalPlantOperationParameterByID(long norminalPlantOperationParameterId)
-            throws NotInDatabaseException {
-        return getSingleEntity(csvHelper::getNorminalPlantOperationParameter, "NorminalPlantOperationParameter", norminalPlantOperationParameterId);
-    }
-
-    @Override
-    public IPlantOperationParameter queryPlantOperationParameterById(long parameterId) throws NotInDatabaseException {
-        return getSingleEntity(csvHelper::getPlantOperationParameters, "PlantOperationParameter", parameterId);
+    public IParameter queryParameterById(long parameterId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getParameters, "Parameter", parameterId);
     }
 
     @Override
@@ -261,31 +236,53 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IEntryPointInteraction> queryEntryPointInteractions(List<Long> entryPointInteractionIds) throws NotInDatabaseException {
-        return queryEntitiesByIdList(entryPointInteractionIds, this::queryEntryPointInteractionByID);
+    public Collection<IEntryPointInteraction> queryEntryPointInteractionsByRecipeId(long recipeId) throws NotInDatabaseException {
+        return csvHelper.getEntryPointInteraction(
+                backendConnection.getEntity("EntryPointInteraction", "recipe.id==" + recipeId));
     }
 
     @Override
-    public Collection<IParameterInteraction> queryParameterInteractions(List<Long> parameterInteractionIds) throws NotInDatabaseException {
-        return queryEntitiesByIdList(parameterInteractionIds, this::queryParameterInteractionByID);
+    public Collection<IParameterInteraction> queryParameterInteractionsByRecipeId(long recipeId) throws NotInDatabaseException {
+        return csvHelper.getParameterInteraction(
+                backendConnection.getEntity("ParameterInteraction", "recipe.id==" + recipeId));
     }
 
     @Override
-    public Collection<IPlantOperation> queryPlantOperations(List<Long> operationIds) throws NotInDatabaseException {
-        return queryEntitiesByIdList(operationIds, this::queryPlantOperationByID);
+    public Collection<IRecipeNode> queryRecipeNodesByRecipeId(long recipeId) throws NotInDatabaseException {
+        return csvHelper.getRecipeNode(
+                backendConnection.getEntity("RecipeNode", "recipe.id==" + recipeId));
     }
 
     @Override
-    public ICustomProductParameter queryCustomProductParameterByID(long customProductParameterId) throws NotInDatabaseException {
-        return getSingleEntity(csvHelper::getCustomProductParameter, "CustomProductParameter", customProductParameterId);
+    public IRecipeOperation queryRecipeOperationById(long operationId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getRecipeOperation, "RecipeOperation", operationId);
     }
 
     @Override
-    public Collection<IPlantOperationParameter> queryParametersByPlantOperationID(long PlantOperationId) {
+    public Collection<IEntryPoint> queryInputEntryPointsByRecipeOperationId(long operationId) {
+        return StreamUtil.ofNullable(queryEntryPointsByRecipeOperationId(operationId))
+                .filter(e -> e.getDirection() == IEntryPoint.Direction.INPUT).collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<IEntryPoint> queryOutputEntryPointsByRecipeOperationId(long operationId) {
+        return StreamUtil.ofNullable(queryEntryPointsByRecipeOperationId(operationId))
+                .filter(e -> e.getDirection() == IEntryPoint.Direction.OUTPUT).collect(Collectors.toList());
+    }
+
+    private Collection<IEntryPoint> queryEntryPointsByRecipeOperationId(long operationId) {
         return csvHelper
-                .getPlantOperationParameters(backendConnection.getEntity(
-                        "PlantOperationParameter",
-                        "plantOperation.id==" + PlantOperationId));
+                .getEntryPoints(backendConnection.getEntity(
+                        "EntryPoint",
+                        "operation.id==" + operationId));
+    }
+
+    @Override
+    public Collection<IParameter> queryParametersByRecipeOperationID(long PlantOperationId) {
+        return csvHelper
+                .getParameters(backendConnection.getEntity(
+                        "Parameter",
+                        "operation.id==" + PlantOperationId));
     }
 
     @Override
@@ -379,15 +376,5 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
                     "No matching entity of type '%s' found in database! Used condition: %s",
                     entity, cond), e);
         }
-    }
-
-    private <T> Collection<T> queryEntitiesByIdList(List<Long> ids,
-                                                    ThrowingFunction<Long, T, NotInDatabaseException> queryFunction)
-            throws NotInDatabaseException {
-        final Collection<T> retrivedElements = new ArrayList<>(ids.size());
-        for (final Long id : ids) {
-            retrivedElements.add(queryFunction.apply(id));
-        }
-        return retrivedElements;
     }
 }

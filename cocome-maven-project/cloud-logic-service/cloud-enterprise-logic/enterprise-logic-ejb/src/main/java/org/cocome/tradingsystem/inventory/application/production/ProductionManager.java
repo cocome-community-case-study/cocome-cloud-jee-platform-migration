@@ -20,19 +20,16 @@ package org.cocome.tradingsystem.inventory.application.production;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.*;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderEntryTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.production.events.PlantOperationOrderFinishedEvent;
 import org.cocome.tradingsystem.inventory.data.enterprise.EnterpriseDatatypesFactory;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.inventory.data.plant.PlantClientFactory;
 import org.cocome.tradingsystem.inventory.data.plant.PlantDatatypesFactory;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IParameterInteraction;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IProductionOrder;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IProductionOrderEntry;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.exec.RecipeExecutionGraphNode;
 import org.cocome.tradingsystem.inventory.data.store.StoreClientFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
@@ -115,29 +112,34 @@ public class ProductionManager {
     private void submitPlantOperatins(final ProductionJob job, final List<RecipeExecutionGraphNode> nodes)
             throws NotInDatabaseException, CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
 
-        final Map<Long, Map<Long, PlantOperationOrderEntryTO>> orderEntryMapping = new HashMap<>();
+        final Map<Long, Map<Long, PlantOperationOrderEntryTO>> plantOperationOrderEntryMapping = new HashMap<>();
 
         for (final RecipeExecutionGraphNode node : nodes) {
-            orderEntryMapping.putIfAbsent(node.getPlantOperation().getPlant().getId(), new HashMap<>());
-            if (!orderEntryMapping.get(node.getPlantOperation().getPlant().getId())
-                    .containsKey(node.getPlantOperation().getId())) {
-                final PlantOperationOrderEntryTO entry = new PlantOperationOrderEntryTO();
-                entry.setPlantOperation(plantDatatypesFactory.fillPlantOperationTO(node.getPlantOperation()));
-                entry.setAmount(1);
-                entry.setParameterValues(extractParameters(
-                        job.getOrderEntry().getParameterValues(),
-                        node.getParameterInteractions()));
-                orderEntryMapping.get(node.getPlantOperation().getPlant().getId())
-                        .put(node.getPlantOperation().getId(), entry);
-                continue;
+            if (node.getOperation() instanceof IPlantOperation) {
+                final IPlantOperation plantOperation = (IPlantOperation) node.getOperation();
+                plantOperationOrderEntryMapping.putIfAbsent(plantOperation.getPlant().getId(), new HashMap<>());
+                if (!plantOperationOrderEntryMapping.get(plantOperation.getPlant().getId())
+                        .containsKey(node.getOperation().getId())) {
+                    final PlantOperationOrderEntryTO entry = new PlantOperationOrderEntryTO();
+                    entry.setPlantOperation(plantDatatypesFactory.fillPlantOperationTO(plantOperation));
+                    entry.setAmount(1);
+                    entry.setParameterValues(extractParameters(
+                            job.getOrderEntry().getParameterValues(),
+                            node.getParameterInteractions()));
+                    plantOperationOrderEntryMapping.get(plantOperation.getPlant().getId())
+                            .put(plantOperation.getId(), entry);
+                    continue;
+                }
+                final PlantOperationOrderEntryTO orderEntry = plantOperationOrderEntryMapping
+                        .get(plantOperation.getPlant().getId())
+                        .get(plantOperation.getId());
+                orderEntry.setAmount(orderEntry.getAmount() + 1);
+            } else {
+                throw new IllegalArgumentException("Unknown operation type: " + node.getOperation().getClass().getName());
             }
-            final PlantOperationOrderEntryTO orderEntry = orderEntryMapping
-                    .get(node.getPlantOperation().getPlant().getId())
-                    .get(node.getPlantOperation().getId());
-            orderEntry.setAmount(orderEntry.getAmount() + 1);
         }
 
-        for (final Map.Entry<Long, Map<Long, PlantOperationOrderEntryTO>> entry : orderEntryMapping.entrySet()) {
+        for (final Map.Entry<Long, Map<Long, PlantOperationOrderEntryTO>> entry : plantOperationOrderEntryMapping.entrySet()) {
             final PlantOperationOrderTO operationOrder = new PlantOperationOrderTO();
             operationOrder.setEnterprise(enterpriseDatatypesFactory.fillEnterpriseTO(
                     job.getOrder().getStore().getEnterprise()));
@@ -149,17 +151,17 @@ public class ProductionManager {
         }
     }
 
-    private Collection<PlantOperationParameterValueTO> extractParameters(
-            final Collection<ICustomProductParameterValue> parameterValues,
+    private Collection<ParameterValueTO> extractParameters(
+            final Collection<IParameterValue> parameterValues,
             final List<IParameterInteraction> parameterInteractions) throws NotInDatabaseException {
-        final List<PlantOperationParameterValueTO> plantValueParameter = new ArrayList<>(parameterInteractions.size());
+        final List<ParameterValueTO> plantValueParameter = new ArrayList<>(parameterInteractions.size());
         for (final IParameterInteraction parameterInteraction : parameterInteractions) {
-            for (final ICustomProductParameterValue parameterValue : parameterValues) {
+            for (final IParameterValue parameterValue : parameterValues) {
                 if (parameterInteraction.getFrom().getId() == parameterValue.getParameter().getId()) {
-                    final PlantOperationParameterValueTO plantOperationParameterValue = new PlantOperationParameterValueTO();
+                    final ParameterValueTO plantOperationParameterValue = new ParameterValueTO();
                     plantOperationParameterValue.setValue(parameterValue.getValue());
                     plantOperationParameterValue.setParameter(
-                            plantDatatypesFactory.fillPlantOperationParameterTO(parameterInteraction.getTo()));
+                            plantDatatypesFactory.fillParameterTO(parameterInteraction.getTo()));
                     plantValueParameter.add(plantOperationParameterValue);
                     break;
                 }

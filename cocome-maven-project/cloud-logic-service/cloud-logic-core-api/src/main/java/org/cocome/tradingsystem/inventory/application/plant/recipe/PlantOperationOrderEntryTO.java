@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -45,7 +46,7 @@ public class PlantOperationOrderEntryTO implements Serializable, IIdentifiableTO
     @XmlElement(name = "plantOperation", required = true)
     private PlantOperationTO plantOperation;
     @XmlElement(name = "parameterValues", required = true)
-    private Collection<PlantOperationParameterValueTO> parameterValues;
+    private Collection<ParameterValueTO> parameterValues;
 
     @Override
     public long getId() {
@@ -88,14 +89,14 @@ public class PlantOperationOrderEntryTO implements Serializable, IIdentifiableTO
     /**
      * @return parameter values
      */
-    public Collection<PlantOperationParameterValueTO> getParameterValues() {
+    public Collection<ParameterValueTO> getParameterValues() {
         return parameterValues;
     }
 
     /**
      * @param parameterValues parameter values
      */
-    public void setParameterValues(final Collection<PlantOperationParameterValueTO> parameterValues) {
+    public void setParameterValues(final Collection<ParameterValueTO> parameterValues) {
         this.parameterValues = parameterValues;
     }
 

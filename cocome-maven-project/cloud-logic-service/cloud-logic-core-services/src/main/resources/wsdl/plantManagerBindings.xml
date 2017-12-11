@@ -7,14 +7,17 @@
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IPlantManager_schema2.xsd">
+        <bindings node="//xsd:complexType[@name='RecipeOperationTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeOperationTO"/>
+        </bindings>
         <bindings node="//xsd:complexType[@name='PlantOperationOrderTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO"/>
         </bindings>
         <bindings node="//xsd:complexType[@name='PlantOperationOrderEntryTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderEntryTO"/>
         </bindings>
-        <bindings node="//xsd:complexType[@name='PlantOperationParameterValueTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationParameterValueTO"/>
+        <bindings node="//xsd:complexType[@name='ParameterValueTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO"/>
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IPlantManager_schema3.xsd">

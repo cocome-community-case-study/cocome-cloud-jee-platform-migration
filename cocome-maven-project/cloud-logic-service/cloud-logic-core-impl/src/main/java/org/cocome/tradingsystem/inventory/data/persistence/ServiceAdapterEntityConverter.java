@@ -10,12 +10,9 @@ import org.cocome.tradingsystem.inventory.data.INameable;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INominalParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
@@ -407,27 +404,33 @@ class ServiceAdapterEntityConverter {
     }
 
     static String getCreateEntryPointContent(IEntryPoint entryPoint) {
-        return entryPoint.getName();
+        return entryPoint.getName() +
+                ServiceAdapterHeaders.SEPARATOR +
+                entryPoint.getOperationId() +
+                ServiceAdapterHeaders.SEPARATOR +
+                entryPoint.getDirection();
     }
 
     static String getUpdateEntryPointContent(IEntryPoint entryPoint) {
         return String.valueOf(entryPoint.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                entryPoint.getName();
+                entryPoint.getName() +
+                ServiceAdapterHeaders.SEPARATOR +
+                entryPoint.getOperationId() +
+                ServiceAdapterHeaders.SEPARATOR +
+                entryPoint.getDirection();
     }
 
-    static String getCreateBooleanPlantOperationParameterContent(IBooleanPlantOperationParameter param,
-                                                                 IPlantOperation operation) {
-        return String.valueOf(operation.getId()) +
+    static String getCreateBooleanParameterContent(IBooleanParameter param) {
+        return String.valueOf(param.getOperationId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(param.getName()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 encodeString(param.getCategory());
     }
 
-    static String getUpdateBooleanPlantOperationParameterContent(IBooleanPlantOperationParameter param,
-                                                                 IPlantOperation operation) {
-        return String.valueOf(operation.getId()) +
+    static String getUpdateBooleanParameterContent(IBooleanParameter param) {
+        return String.valueOf(param.getOperationId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(param.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -436,9 +439,8 @@ class ServiceAdapterEntityConverter {
                 encodeString(param.getCategory());
     }
 
-    static String getCreateNorminalPlantOperationParameterContent(INorminalPlantOperationParameter param,
-                                                                  IPlantOperation operation) {
-        return String.valueOf(operation.getId()) +
+    static String getCreateNominalParameterContent(INominalParameter param) {
+        return String.valueOf(param.getOperationId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 encodeString(String.valueOf(param.getName())) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -447,49 +449,8 @@ class ServiceAdapterEntityConverter {
                 joinValues(param.getOptions());
     }
 
-    static String getUpdateNorminalPlantOperationParameterContent(INorminalPlantOperationParameter param,
-                                                                  IPlantOperation operation) {
-        return String.valueOf(operation.getId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(param.getId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                encodeString(String.valueOf(param.getName())) +
-                ServiceAdapterHeaders.SEPARATOR +
-                encodeString(param.getCategory()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                encodeString(joinValues(param.getOptions()));
-    }
-
-    static String getCreateBooleanCustomProductParameterContent(IBooleanCustomProductParameter param) {
-        return String.valueOf(param.getCustomProductId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(param.getName()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                encodeString(param.getCategory());
-    }
-
-    static String getUpdateBooleanCustomProductParameterContent(IBooleanCustomProductParameter param) {
-        return String.valueOf(param.getCustomProductId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(param.getId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(param.getName()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                encodeString(param.getCategory());
-    }
-
-    static String getCreateNorminalCustomProductParameterContent(INorminalCustomProductParameter param) {
-        return String.valueOf(param.getCustomProductId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                encodeString(String.valueOf(param.getName())) +
-                ServiceAdapterHeaders.SEPARATOR +
-                encodeString(param.getCategory()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(param.getOptions());
-    }
-
-    static String getUpdateNorminalCustomProductParameterContent(INorminalCustomProductParameter param) {
-        return String.valueOf(param.getCustomProductId()) +
+    static String getUpdateNominalParameterContent(INominalParameter param) {
+        return String.valueOf(param.getOperationId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(param.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -505,11 +466,7 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 toBase64String(operation.getMarkup()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                operation.getName() +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(operation.getInputEntryPointIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(operation.getOutputEntryPointIds());
+                operation.getName();
     }
 
     private static String toBase64String(MarkupInfo markup) {
@@ -529,43 +486,49 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 toBase64String(operation.getMarkup()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                operation.getName() +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(operation.getInputEntryPointIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(operation.getOutputEntryPointIds());
+                operation.getName();
     }
 
-    static <T1 extends INameable, T2 extends INameable>
-    String getCreateInteractionContent(IInteractionEntity<T1, T2> interaction) {
+    static <T extends INameable>
+    String getCreateInteractionContent(IInteractionEntity<T> interaction) {
         return String.valueOf(interaction.getToId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(interaction.getFromId());
+                String.valueOf(interaction.getFromId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(interaction.getRecipeId());
     }
 
-    static <T1 extends INameable, T2 extends INameable>
-    String getUpdateInteractionContent(IInteractionEntity<T1, T2> interaction) {
+    static <T extends INameable>
+    String getUpdateInteractionContent(IInteractionEntity<T> interaction) {
         return String.valueOf(interaction.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(interaction.getToId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(interaction.getFromId());
+                String.valueOf(interaction.getFromId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(interaction.getRecipeId());
+    }
+
+    static String getCreateRecipeNodeContent(IRecipeNode recipeNode) {
+        return String.valueOf(recipeNode.getRecipeId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(recipeNode.getOperationId());
+    }
+
+    static String getUpdateRecipeNodeContent(IRecipeNode recipeNode) {
+        return String.valueOf(recipeNode.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(recipeNode.getRecipeId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(recipeNode.getOperationId());
     }
 
     static String getCreateRecipeContent(IRecipe recipe) {
         return String.valueOf(recipe.getCustomProductId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getOperationIds()) +
+                recipe.getName()+
                 ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getEntryPointInteractionIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getParameterInteractionIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                recipe.getName() +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getInputEntryPointIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getOutputEntryPointIds());
+                recipe.getEnterpriseId();
     }
 
     static String getUpdateRecipeContent(IRecipe recipe) {
@@ -573,17 +536,9 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(recipe.getCustomProductId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getOperationIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getEntryPointInteractionIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getParameterInteractionIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
                 recipe.getName() +
                 ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getInputEntryPointIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getOutputEntryPointIds());
+                recipe.getEnterpriseId();
     }
 
     static String getCreatePlantOperationOrderContent(IPlantOperationOrder order) {
@@ -626,83 +581,60 @@ class ServiceAdapterEntityConverter {
                 String.valueOf(order.getStoreId());
     }
 
-    static String getCreatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry,
-                                                           IPlantOperationOrder order) {
+    static String getCreatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry) {
         return String.valueOf(orderEntry.getAmount()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getPlantOperation().getId()) +
+                String.valueOf(orderEntry.getOperation().getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(order.getId());
+                String.valueOf(orderEntry.getOrderId());
     }
 
-    static String getUpdatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry,
-                                                           IPlantOperationOrder order) {
+    static String getUpdatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry) {
         return String.valueOf(orderEntry.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(orderEntry.getAmount()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getPlantOperation().getId()) +
+                String.valueOf(orderEntry.getOperation().getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(order.getId());
+                String.valueOf(orderEntry.getOrderId());
     }
 
-    static String getCreatePlantOperationParameterValueContent(IPlantOperationParameterValue value,
-                                                               IPlantOperationOrderEntry orderEntry) {
+    static String getCreateParameterValueContent(IParameterValue value) {
         return String.valueOf(value.getValue()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(value.getParameterId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getId());
+                String.valueOf(value.getOrderEntryId());
     }
 
-    static String getUpdatePlantOperationParameterValueContent(IPlantOperationParameterValue value,
-                                                               IPlantOperationOrderEntry orderEntry) {
+    static String getUpdateParameterValueContent(IParameterValue value) {
         return String.valueOf(value.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(value.getValue()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(value.getParameterId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getId());
+                String.valueOf(value.getId()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(value.getOrderEntryId());
     }
 
-    static String getCreateProductionOrderEntryContent(IProductionOrderEntry orderEntry, IProductionOrder order) {
+    static String getCreateProductionOrderEntryContent(IProductionOrderEntry orderEntry) {
         return String.valueOf(orderEntry.getAmount()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getRecipe().getId()) +
+                String.valueOf(orderEntry.getOperation().getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(order.getId());
+                String.valueOf(orderEntry.getOrderId());
     }
 
-    static String getUpdateProductionOrderEntryContent(IProductionOrderEntry orderEntry, IProductionOrder order) {
+    static String getUpdateProductionOrderEntryContent(IProductionOrderEntry orderEntry) {
         return String.valueOf(orderEntry.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(orderEntry.getAmount()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getRecipe().getId()) +
+                String.valueOf(orderEntry.getOperation().getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(order.getId());
-    }
-
-
-    static String getUpdateCustomProductParameterValueContent(ICustomProductParameterValue value,
-                                                              IProductionOrderEntry orderEntry) {
-        return String.valueOf(value.getId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(value.getValue()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(value.getParameterId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getId());
-    }
-
-    static String getCreateCustomProductParameterValueContent(ICustomProductParameterValue value,
-                                                              IProductionOrderEntry orderEntry) {
-        return String.valueOf(value.getValue()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(value.getParameterId()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(orderEntry.getId());
+                String.valueOf(orderEntry.getOrderId());
     }
 
     private static void appendPrefferedStore(ICustomer customer, StringBuilder content) {

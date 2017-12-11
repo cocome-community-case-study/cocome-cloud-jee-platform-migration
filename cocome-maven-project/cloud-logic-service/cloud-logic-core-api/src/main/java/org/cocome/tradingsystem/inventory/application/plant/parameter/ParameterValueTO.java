@@ -1,21 +1,21 @@
-package org.cocome.tradingsystem.inventory.application.plant.recipe;
+package org.cocome.tradingsystem.inventory.application.plant.parameter;
 
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.IParameterValueTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
 
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 /**
- * Holds a value for a particular {@link PlantOperationParameterTO}
+ * Holds a value for a particular {@link ParameterTO}
  *
  * @author Rudolf Biczok
  */
 @XmlType(
-        name = "PlantOperationParameterValueTO",
+        name = "ParameterValueTO",
         namespace = "http://recipe.plant.application.inventory.tradingsystem.cocome.org")
-@XmlRootElement(name = "PlantOperationParameterValueTO")
+@XmlRootElement(name = "ParameterValueTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PlantOperationParameterValueTO implements IParameterValueTO<PlantOperationParameterTO> {
+public class ParameterValueTO implements Serializable, IIdentifiableTO {
 
     private static final long serialVersionUID = -2577328715744776645L;
 
@@ -24,19 +24,19 @@ public class PlantOperationParameterValueTO implements IParameterValueTO<PlantOp
     @XmlElement(name = "value", required = true)
     private String value;
     @XmlElementRef(name = "parameter")
-    private PlantOperationParameterTO parameter;
+    private ParameterTO parameter;
 
     /**
      * Minimal constructor
      */
-    public PlantOperationParameterValueTO() {
+    public ParameterValueTO() {
     }
 
     /**
      * @param value     the parameter value
      * @param parameter the parameter
      */
-    public PlantOperationParameterValueTO(final String value, final PlantOperationParameterTO parameter) {
+    public ParameterValueTO(final String value, final ParameterTO parameter) {
         this.value = value;
         this.parameter = parameter;
     }
@@ -51,29 +51,24 @@ public class PlantOperationParameterValueTO implements IParameterValueTO<PlantOp
         this.id = id;
     }
 
-    @Override
     public String getValue() {
         return value;
     }
 
-    @Override
     public void setValue(String value) {
         this.value = value;
     }
 
-    @Override
-    public PlantOperationParameterTO getParameter() {
+    public ParameterTO getParameter() {
         return parameter;
     }
 
-    @Override
-    public void setParameter(PlantOperationParameterTO parameter) {
+    public void setParameter(ParameterTO parameter) {
         this.parameter = parameter;
     }
 
-    @Override
     public String toString() {
-        return "PlantOperationParameterValueTO{" +
+        return "ParameterValueTO{" +
                 "id=" + id +
                 ", value='" + value + '\'' +
                 ", parameter=" + parameter +

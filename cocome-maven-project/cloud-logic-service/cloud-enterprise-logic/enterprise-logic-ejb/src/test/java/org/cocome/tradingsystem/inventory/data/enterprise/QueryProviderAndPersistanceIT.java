@@ -1,17 +1,19 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.*;
 import org.cocome.tradingsystem.inventory.data.persistence.CloudPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.Plant;
 import org.cocome.tradingsystem.inventory.data.plant.PlantDatatypesFactory;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.*;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.ProductionUnitOperation;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.EnterprisePlantQueryProvider;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.Recipe;
 import org.cocome.tradingsystem.inventory.data.store.EnterpriseStoreQueryProvider;
 import org.cocome.tradingsystem.inventory.data.store.StoreDatatypesFactory;
 import org.cocome.tradingsystem.inventory.data.usermanager.UsermanagerDatatypesFactory;
@@ -54,9 +56,9 @@ import static org.hamcrest.CoreMatchers.hasItems;
         PlantDatatypesFactory.class,
         EnterpriseDatatypesFactory.class,
         StoreDatatypesFactory.class,
-        UsermanagerDatatypesFactory.class,
-        NorminalCustomProductParameter.class,
-        BooleanCustomProductParameter.class})
+        BooleanParameter.class,
+        NominalParameter.class,
+        UsermanagerDatatypesFactory.class})
 public class QueryProviderAndPersistanceIT {
 
     @Inject
@@ -69,23 +71,41 @@ public class QueryProviderAndPersistanceIT {
     private IEnterpriseQuery enterpriseQuery;
 
     @Test
-    public void createAndDeleteNorminalCustomProductParameter() throws Exception {
+    public void createAndDeleteNominalParameter() throws Exception {
         final ICustomProduct prod = new CustomProduct();
         prod.setBarcode(new Date().getTime());
         prod.setName("Fancy Product");
         prod.setPurchasePrice(100);
         persistenceContext.createEntity(prod);
 
-        final INorminalCustomProductParameter param = new NorminalCustomProductParameter();
-        param.setCustomProduct(prod);
-        param.setCustomProductId(prod.getId());
+        final ITradingEnterprise enterprise = new TradingEnterprise();
+        enterprise.setName(randomName());
+        persistenceContext.createEntity(enterprise);
+
+        final IRecipe recipe = new Recipe();
+        recipe.setName("Produce Fancy Product");
+        recipe.setEnterprise(enterprise);
+        recipe.setEnterpriseId(enterprise.getId());
+        recipe.setCustomProduct(prod);
+        recipe.setCustomProductId(prod.getId());
+        persistenceContext.createEntity(recipe);
+
+        final INominalParameter param = new NominalParameter();
+        param.setOperation(recipe);
+        param.setOperationId(recipe.getId());
         param.setOptions(new HashSet<>(Arrays.asList("Op1", "Op2")));
         param.setCategory("SomeCategory");
         param.setName("SomeName");
         persistenceContext.createEntity(param);
 
         persistenceContext.deleteEntity(param);
+        persistenceContext.deleteEntity(recipe);
         persistenceContext.deleteEntity(prod);
+        persistenceContext.deleteEntity(enterprise);
+    }
+
+    private String randomName() {
+        return String.format("%s-%s", "Test Enterprise", UUID.randomUUID().toString());
     }
 
     @InRequestScope
@@ -137,33 +157,49 @@ public class QueryProviderAndPersistanceIT {
         prod.setPurchasePrice(100);
         persistenceContext.createEntity(prod);
 
-        final IBooleanCustomProductParameter param = new BooleanCustomProductParameter();
-        param.setCustomProductId(prod.getId());
+        final ITradingEnterprise enterprise = new TradingEnterprise();
+        enterprise.setName(randomName());
+        persistenceContext.createEntity(enterprise);
+
+        final IRecipe recipe = new Recipe();
+        recipe.setName("Produce Fancy Product");
+        recipe.setEnterprise(enterprise);
+        recipe.setEnterpriseId(enterprise.getId());
+        recipe.setCustomProduct(prod);
+        recipe.setCustomProductId(prod.getId());
+        persistenceContext.createEntity(recipe);
+
+        final IBooleanParameter param = new BooleanParameter();
+        param.setOperation(recipe);
+        param.setOperationId(recipe.getId());
         param.setCategory("SomeCategory");
         param.setName("SomeName2");
         persistenceContext.createEntity(param);
 
-        final INorminalCustomProductParameter param2 = new NorminalCustomProductParameter();
-        param2.setCustomProductId(prod.getId());
+        final INominalParameter param2 = new NominalParameter();
+        param2.setOperation(recipe);
+        param2.setOperationId(recipe.getId());
         param2.setOptions(new HashSet<>(Arrays.asList("Op1", "Op2")));
         param2.setCategory("SomeCategory");
         param2.setName("SomeName");
         persistenceContext.createEntity(param2);
 
-        final List<ICustomProductParameter> params =
-                new ArrayList<>(enterpriseQuery.queryParametersByCustomProductID(prod.getId()));
+        final List<IParameter> params =
+                new ArrayList<>(enterpriseQuery.queryParametersByRecipeOperationID(recipe.getId()));
         Assert.assertEquals(2, params.size());
         final List<Class<?>> paramClasses = params
                 .stream()
                 .map(Object::getClass)
                 .collect(Collectors.toList());
 
-        Assert.assertTrue(paramClasses.contains(BooleanCustomProductParameter.class));
-        Assert.assertTrue(paramClasses.contains(NorminalCustomProductParameter.class));
+        Assert.assertTrue(paramClasses.contains(BooleanParameter.class));
+        Assert.assertTrue(paramClasses.contains(NominalParameter.class));
 
         persistenceContext.deleteEntity(param);
         persistenceContext.deleteEntity(param2);
+        persistenceContext.deleteEntity(recipe);
         persistenceContext.deleteEntity(prod);
+        persistenceContext.deleteEntity(enterprise);
     }
 
     private ITradingEnterprise getOrCreateEnterprise() throws NotInDatabaseException, CreateException {

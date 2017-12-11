@@ -18,10 +18,8 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.cloud.logic.webservice.StreamUtil;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameterValue;
+import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
 import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
@@ -32,17 +30,15 @@ import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * The class represents an order of a {@link IRecipe} in the database.
  *
  * @author Rudolf Biczok
  */
+
 @Dependent
-public class ProductionOrder implements Serializable, IProductionOrder {
+public class ProductionOrder implements IProductionOrder, Serializable {
 
     private static final long serialVersionUID = -8340585715760459030L;
 
@@ -50,9 +46,11 @@ public class ProductionOrder implements Serializable, IProductionOrder {
     private Date deliveryDate;
     private Date orderingDate;
     private IStore store;
-    private Collection<IProductionOrderEntry> orderEntries = new LinkedList<>();
+    private ITradingEnterprise enterprise;
+    private Collection<IProductionOrderEntry> orderEntries;
 
     private long storeId;
+    private long enterpriseId;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
@@ -63,6 +61,7 @@ public class ProductionOrder implements Serializable, IProductionOrder {
     public void initPlant() {
         enterpriseQuery = enterpriseQueryInstance.get();
         store = null;
+        enterprise = null;
         orderEntries = null;
     }
 
@@ -98,12 +97,35 @@ public class ProductionOrder implements Serializable, IProductionOrder {
 
     @Override
     public Collection<IProductionOrderEntry> getOrderEntries() {
-        return orderEntries;
+        return this.orderEntries;
     }
 
     @Override
     public void setOrderEntries(Collection<IProductionOrderEntry> orderEntries) {
         this.orderEntries = orderEntries;
+    }
+
+    @Override
+    public ITradingEnterprise getEnterprise() throws NotInDatabaseException {
+        if (enterprise == null) {
+            enterprise = enterpriseQuery.queryEnterpriseById(enterpriseId);
+        }
+        return this.enterprise;
+    }
+
+    @Override
+    public void setEnterprise(ITradingEnterprise enterprise) {
+        this.enterprise = enterprise;
+    }
+
+    @Override
+    public long getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    @Override
+    public void setEnterpriseId(long enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 
     @Override
@@ -125,7 +147,7 @@ public class ProductionOrder implements Serializable, IProductionOrder {
     }
 
     @Override
-    public void setStoreId(long enterpriseId) {
-        this.storeId = enterpriseId;
+    public void setStoreId(long storeId) {
+        this.storeId = storeId;
     }
 }

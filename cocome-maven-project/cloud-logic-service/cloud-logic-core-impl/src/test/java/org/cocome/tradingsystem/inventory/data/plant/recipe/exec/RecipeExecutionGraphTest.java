@@ -1,10 +1,8 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe.exec;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.CustomProduct;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.BooleanCustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.NorminalCustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.BooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.NorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.BooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.NominalParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,7 +30,7 @@ public class RecipeExecutionGraphTest {
         op1out1.setName("ISO 12345 Cargo");
         op1out1.setId(getNextID());
 
-        final BooleanPlantOperationParameter opr1param1 = new BooleanPlantOperationParameter();
+        final BooleanParameter opr1param1 = new BooleanParameter();
         opr1param1.setCategory("Ingredient");
         opr1param1.setName("Organic");
         opr1param1.setId(getNextID());
@@ -48,7 +46,7 @@ public class RecipeExecutionGraphTest {
         op2out1.setName("ISO 33333 Bottle");
         op2out1.setId(getNextID());
 
-        final NorminalPlantOperationParameter opr2param = new NorminalPlantOperationParameter();
+        final NominalParameter opr2param = new NominalParameter();
         opr2param.setCategory("Packaging");
         opr2param.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
         opr2param.setName("Bottle");
@@ -88,26 +86,31 @@ public class RecipeExecutionGraphTest {
         customProduct.setPurchasePrice(10);
         customProduct.setId(getNextID());
 
-        final BooleanCustomProductParameter cparam1 = new BooleanCustomProductParameter();
-        cparam1.setCategory("Ingredients");
-        cparam1.setName("Organic");
-        cparam1.setCustomProduct(customProduct);
-        cparam1.setId(getNextID());
-
-        final NorminalCustomProductParameter cparam2 = new NorminalCustomProductParameter();
-        cparam2.setCategory("Packaging");
-        cparam2.setName("Bottle");
-        cparam2.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
-        cparam2.setCustomProduct(customProduct);
-        cparam2.setId(getNextID());
-
-        customProduct.setParameters(Arrays.asList(cparam1, cparam2));
-
         /* Recipe creation */
 
         final EntryPoint recipeOut1 = new EntryPoint();
         recipeOut1.setName("ISO 321 Package");
         recipeOut1.setId(getNextID());
+
+        this.recipe = new Recipe();
+        recipe.setName("Yogurt Recipe");
+        recipe.setCustomProduct(customProduct);
+        recipe.setInputEntryPoint(new ArrayList<>());
+        recipe.setOutputEntryPoint(Collections.singletonList(recipeOut1));
+        recipe.setId(getNextID());
+
+        final BooleanParameter cparam1 = new BooleanParameter();
+        cparam1.setCategory("Ingredients");
+        cparam1.setName("Organic");
+        cparam1.setOperation(recipe);
+        cparam1.setId(getNextID());
+
+        final NominalParameter cparam2 = new NominalParameter();
+        cparam2.setCategory("Packaging");
+        cparam2.setName("Bottle");
+        cparam2.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
+        cparam2.setOperation(recipe);
+        cparam2.setId(getNextID());
 
         final ParameterInteraction interaction1 = new ParameterInteraction();
         interaction1.setFrom(cparam1);
@@ -134,15 +137,24 @@ public class RecipeExecutionGraphTest {
         epInteraction3.setTo(recipeOut1);
         epInteraction3.setId(getNextID());
 
-        this.recipe = new Recipe();
-        recipe.setName("Yogurt Recipe");
-        recipe.setCustomProduct(customProduct);
-        recipe.setInputEntryPoint(new ArrayList<>());
-        recipe.setOutputEntryPoint(Collections.singletonList(recipeOut1));
+        final RecipeNode node1 = new RecipeNode();
+        node1.setOperation(operation1);
+        node1.setRecipe(recipe);
+        node1.setId(getNextID());
+
+        final RecipeNode node2 = new RecipeNode();
+        node2.setOperation(operation2);
+        node2.setRecipe(recipe);
+        node2.setId(getNextID());
+
+        final RecipeNode node3 = new RecipeNode();
+        node3.setOperation(operation3);
+        node3.setRecipe(recipe);
+        node3.setId(getNextID());
+
         recipe.setEntryPointInteractions(Arrays.asList(epInteraction1, epInteraction2, epInteraction3));
         recipe.setParameterInteractions(Arrays.asList(interaction1, interaction2));
-        recipe.setOperations(Arrays.asList(operation1, operation2, operation3));
-        recipe.setId(getNextID());
+        recipe.setNodes(Arrays.asList(node1, node2, node3));
     }
 
     @Test

@@ -18,11 +18,12 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -39,7 +40,21 @@ public class ProductionOrderEntry implements Serializable, IProductionOrderEntry
     private long id;
     private long amount;
     private IRecipe recipe;
-    private Collection<ICustomProductParameterValue> parameterValues;
+    private Collection<IParameterValue> parameterValues;
+
+    private IProductionOrder order;
+    private long orderId;
+
+    @Inject
+    private Instance<IPlantQuery> plantQueryInstance;
+
+    private IPlantQuery plantQuery;
+
+    @PostConstruct
+    public void init() {
+        plantQuery = plantQueryInstance.get();
+        order = null;
+    }
 
     @Override
     public long getId() {
@@ -62,28 +77,42 @@ public class ProductionOrderEntry implements Serializable, IProductionOrderEntry
     }
 
     @Override
-    public Collection<ICustomProductParameter> getParameters() throws NotInDatabaseException {
-        return this.getRecipe().getCustomProduct().getParameters();
-    }
-
-    @Override
-    public Collection<ICustomProductParameterValue> getParameterValues() {
+    public Collection<IParameterValue> getParameterValues() {
         return parameterValues;
     }
 
     @Override
-    public void setParameterValues(Collection<ICustomProductParameterValue> parameterValues) {
+    public void setParameterValues(Collection<IParameterValue> parameterValues) {
         this.parameterValues = parameterValues;
     }
 
     @Override
-    public IRecipe getRecipe() {
+    public IRecipe getOperation() {
         return recipe;
     }
 
     @Override
-    public void setRecipe(IRecipe operation) {
+    public void setOperation(IRecipe operation) {
         this.recipe = operation;
     }
 
+    @Override
+    public IProductionOrder getOrder() {
+        return order;
+    }
+
+    @Override
+    public void setOrder(IProductionOrder order) {
+        this.order = order;
+    }
+
+    @Override
+    public long getOrderId() {
+        return orderId;
+    }
+
+    @Override
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
+    }
 }

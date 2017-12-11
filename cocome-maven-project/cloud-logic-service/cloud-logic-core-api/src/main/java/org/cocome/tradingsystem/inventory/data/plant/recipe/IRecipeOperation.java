@@ -19,10 +19,10 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.INameable;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Common interface for nestable recipes or atomic plant operations
@@ -42,16 +42,6 @@ public interface IRecipeOperation extends INameable {
     void setInputEntryPoint(Collection<IEntryPoint> inputMaterial);
 
     /**
-     * @return the ids of input entry pints
-     */
-    List<Long> getInputEntryPointIds();
-
-    /**
-     * @param entryPointId the ids of input entry pints
-     */
-    void setInputEntryPointIds(List<Long> entryPointId);
-
-    /**
      * @return all material classes that results after the operation execution
      */
     Collection<IEntryPoint> getOutputEntryPoint() throws NotInDatabaseException;
@@ -62,13 +52,7 @@ public interface IRecipeOperation extends INameable {
     void setOutputEntryPoint(Collection<IEntryPoint> outputMaterial);
 
     /**
-     * @return the ids of output entry pints
+     * @return the parameters of this operation
      */
-    List<Long> getOutputEntryPointIds();
-
-    /**
-     * @param entryPointId the ids of input entry pints
-     */
-    void setOutputEntryPointIds(List<Long> entryPointId);
-
+    Collection<IParameter> getParameters() throws NotInDatabaseException;
 }

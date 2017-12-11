@@ -18,18 +18,14 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 
 /**
- * Used to connect parameters from {@link CustomProductTO} and {@link IPlantOperation}.
+ * Used to connect parameters from {@link IRecipeOperation} instance.
  * Other subsystems are supposed to copy the customer's parameter values to the plant
  * operation based on this mapping
  *
  * @author Rudolf Biczok
  */
-public interface IParameterInteraction extends IInteractionEntity<
-        ICustomProductParameter,
-        IPlantOperationParameter> {
+public interface IParameterInteraction extends IInteractionEntity<IParameter> {
 }

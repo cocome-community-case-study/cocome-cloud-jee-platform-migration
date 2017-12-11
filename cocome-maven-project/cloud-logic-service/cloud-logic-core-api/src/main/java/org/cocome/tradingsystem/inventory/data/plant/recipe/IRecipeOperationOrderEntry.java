@@ -19,45 +19,27 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IParameterValue;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.util.Collection;
 
 /**
  * Represents a single {@link IProductionOrder} entry in the database.
  *
- * @param <T1> the parameter type
- * @param <T2> the parameter value type
+ * @param <T> the operation type
  * @author Rudolf Biczok
  */
-public interface IRecipeOperationOrderEntry<
-        T1 extends IParameter,
-        T2 extends IParameterValue> extends IIdentifiable {
+public interface IRecipeOperationOrderEntry<T extends IRecipeOperation>
+        extends IIdentifiable {
 
-    /**
-     * @return The amount of ordered products
-     */
     long getAmount();
 
-    /**
-     * @param amount The amount of ordered products
-     */
     void setAmount(final long amount);
 
-    /**
-     * @return the parameter of this operation
-     */
-    Collection<T1> getParameters() throws NotInDatabaseException;
+    T getOperation();
 
-    /**
-     * @return the parameter values
-     */
-    Collection<T2> getParameterValues();
+    void setOperation(T operation);
 
-    /**
-     * @param parameterValues the parameter values
-     */
-    void setParameterValues(Collection<T2> parameterValues);
+    Collection<IParameterValue> getParameterValues();
+
+    void setParameterValues(Collection<IParameterValue> parameterValues);
 }

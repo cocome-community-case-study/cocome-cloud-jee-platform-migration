@@ -24,6 +24,9 @@
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema2.xsd">
+        <bindings node="//xsd:complexType[@name='RecipeOperationTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeOperationTO"/>
+        </bindings>
         <bindings node="//xsd:complexType[@name='PlantOperationTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO"/>
         </bindings>
@@ -39,14 +42,17 @@
         <bindings node="//xsd:complexType[@name='RecipeTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO"/>
         </bindings>
+        <bindings node="//xsd:complexType[@name='RecipeNodeTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeNodeTO"/>
+        </bindings>
         <bindings node="//xsd:complexType[@name='ProductionOrderTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.ProductionOrderTO"/>
         </bindings>
         <bindings node="//xsd:complexType[@name='ProductionOrderEntryTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.ProductionOrderEntryTO"/>
         </bindings>
-        <bindings node="//xsd:complexType[@name='CustomProductParameterValueTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO"/>
+        <bindings node="//xsd:complexType[@name='ParameterValueTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO"/>
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema3.xsd">
@@ -55,28 +61,17 @@
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema4.xsd">
-        <bindings node="//xsd:complexType[@name='PlantOperationParameterTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO"/>
+        <bindings node="//xsd:complexType[@name='ParameterTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO"/>
         </bindings>
-        <bindings node="//xsd:complexType[@name='BooleanPlantOperationParameterTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO"/>
+        <bindings node="//xsd:complexType[@name='BooleanParameterTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO"/>
         </bindings>
-        <bindings node="//xsd:complexType[@name='NorminalPlantOperationParameterTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO"/>
-        </bindings>
-    </bindings>
-    <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema5.xsd">
-        <bindings node="//xsd:complexType[@name='CustomProductParameterTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO"/>
-        </bindings>
-        <bindings node="//xsd:complexType[@name='BooleanCustomProductParameterTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO"/>
-        </bindings>
-        <bindings node="//xsd:complexType[@name='NorminalCustomProductParameterTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO"/>
+        <bindings node="//xsd:complexType[@name='NominalParameterTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO"/>
         </bindings>
     </bindings>
-    <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema8.xsd">
+    <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema7.xsd">
         <bindings node="//xsd:complexType[@name='CustomProductTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO"/>
         </bindings>

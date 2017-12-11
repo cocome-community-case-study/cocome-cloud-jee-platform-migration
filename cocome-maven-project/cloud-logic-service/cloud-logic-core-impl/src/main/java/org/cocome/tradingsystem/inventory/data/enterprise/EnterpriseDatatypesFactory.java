@@ -2,22 +2,13 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.Plant;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.EntryPoint;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.enterprise.context.Dependent;
@@ -39,19 +30,10 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     private Provider<ProductSupplier> productSupplierProvider;
 
     @Inject
-    private Provider<EntryPoint> entryPointProvider;
-
-    @Inject
     private Provider<TradingEnterprise> enterpriseProvider;
 
     @Inject
     private Provider<ICustomProduct> customProductProvider;
-
-    @Inject
-    private Provider<IBooleanCustomProductParameter> booleanCustomProductParameterProvider;
-
-    @Inject
-    private Provider<INorminalCustomProductParameter> norminalCustomProductParameterProvider;
 
     @Override
     public IProduct getNewProduct() {
@@ -66,11 +48,6 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     @Override
     public ITradingEnterprise getNewTradingEnterprise() {
         return enterpriseProvider.get();
-    }
-
-    @Override
-    public IEntryPoint getNewEntryPoint() {
-        return entryPointProvider.get();
     }
 
     @Override
@@ -195,109 +172,6 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
                 result.getId(),
                 result.getName(),
                 result.getEnterpriseTO().getName()));
-
-        return result;
-    }
-
-    @Override
-    public EntryPointTO fillEntryPointTO(IEntryPoint entryPoint) {
-        final EntryPointTO entryPointTO = new EntryPointTO();
-        entryPointTO.setId(entryPoint.getId());
-        entryPointTO.setName(entryPoint.getName());
-
-        return entryPointTO;
-    }
-
-    @Override
-    public IEntryPoint convertToEntryPoint(EntryPointTO entryPointTO) {
-        final IEntryPoint entryPoint = getNewEntryPoint();
-        entryPoint.setId(entryPointTO.getId());
-        entryPoint.setName(entryPointTO.getName());
-
-        return entryPoint;
-    }
-
-    @Override
-    public ICustomProductParameter convertToCustomProductParameter(CustomProductParameterTO customProductTO) {
-        if (BooleanCustomProductParameterTO.class.isAssignableFrom(customProductTO.getClass())) {
-            return this.convertToBooleanCustomProductParameter(
-                    (BooleanCustomProductParameterTO) customProductTO);
-        } else if (NorminalCustomProductParameterTO.class.isAssignableFrom(customProductTO.getClass())) {
-            return this.convertToNorminalCustomProductParameter(
-                    (NorminalCustomProductParameterTO) customProductTO);
-        }
-        throw new IllegalArgumentException("Unknown class to handle: " + customProductTO.getClass());
-    }
-
-    @Override
-    public CustomProductParameterTO fillCustomProductParameterTO(ICustomProductParameter parameter)
-            throws NotInDatabaseException {
-        if (IBooleanCustomProductParameter.class.isAssignableFrom(parameter.getClass())) {
-            return this.fillBooleanCustomProductParameterTO(
-                    (IBooleanCustomProductParameter) parameter);
-        } else if (INorminalCustomProductParameter.class.isAssignableFrom(parameter.getClass())) {
-            return this.fillNorminalCustomProductParameterTO(
-                    (INorminalCustomProductParameter) parameter);
-        }
-        throw new IllegalArgumentException("Unknown class to handle: " + parameter.getClass());
-    }
-
-    @Override
-    public IBooleanCustomProductParameter getNewBooleanCustomProductParameter() {
-        return booleanCustomProductParameterProvider.get();
-    }
-
-    @Override
-    public BooleanCustomProductParameterTO fillBooleanCustomProductParameterTO(IBooleanCustomProductParameter
-                                                                                       booleanCustomProductParameter) throws NotInDatabaseException {
-        final BooleanCustomProductParameterTO result = new BooleanCustomProductParameterTO();
-        result.setId(booleanCustomProductParameter.getId());
-        result.setName(booleanCustomProductParameter.getName());
-        result.setCategory(booleanCustomProductParameter.getCategory());
-        result.setCustomProduct(fillCustomProductTO(booleanCustomProductParameter.getCustomProduct()));
-
-        return result;
-    }
-
-    @Override
-    public IBooleanCustomProductParameter convertToBooleanCustomProductParameter(BooleanCustomProductParameterTO
-                                                                                         booleanCustomProductParameterTO) {
-        final IBooleanCustomProductParameter result = getNewBooleanCustomProductParameter();
-        result.setId(booleanCustomProductParameterTO.getId());
-        result.setName(booleanCustomProductParameterTO.getName());
-        result.setCategory(booleanCustomProductParameterTO.getCategory());
-        result.setCustomProductId(booleanCustomProductParameterTO.getCustomProduct().getId());
-
-        return result;
-    }
-
-    @Override
-    public INorminalCustomProductParameter getNewNorminalCustomProductParameter() {
-        return norminalCustomProductParameterProvider.get();
-    }
-
-    @Override
-    public NorminalCustomProductParameterTO fillNorminalCustomProductParameterTO(INorminalCustomProductParameter
-                                                                                         norminalCustomProductParameter) throws NotInDatabaseException {
-        final NorminalCustomProductParameterTO result = new NorminalCustomProductParameterTO();
-        result.setId(norminalCustomProductParameter.getId());
-        result.setName(norminalCustomProductParameter.getName());
-        result.setCategory(norminalCustomProductParameter.getCategory());
-        result.setOptions(norminalCustomProductParameter.getOptions());
-        result.setCustomProduct(fillCustomProductTO(norminalCustomProductParameter.getCustomProduct()));
-
-        return result;
-    }
-
-    @Override
-    public INorminalCustomProductParameter convertToNorminalCustomProductParameter(NorminalCustomProductParameterTO
-                                                                                           norminalCustomProductParameterTO) {
-        final INorminalCustomProductParameter result = getNewNorminalCustomProductParameter();
-        result.setId(norminalCustomProductParameterTO.getId());
-        result.setName(norminalCustomProductParameterTO.getName());
-        result.setCategory(norminalCustomProductParameterTO.getCategory());
-        result.setOptions(norminalCustomProductParameterTO.getOptions());
-        result.setCustomProductId(norminalCustomProductParameterTO.getCustomProduct().getId());
 
         return result;
     }

@@ -25,17 +25,17 @@ import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo;
 import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
-import org.cocome.tradingsystem.inventory.application.plant.expression.PUOperationInfo;
 import org.cocome.tradingsystem.inventory.application.plant.iface.PUCImporter;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.FMU;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -173,14 +173,9 @@ public class PlantManagerIT {
 
         /* Plant Operations */
 
-        final EntryPointTO e = new EntryPointTO();
-        e.setName("ISO 12345 Cargo");
-        e.setId(em.createEntryPoint(e));
-
         final PlantOperationTO operation = new PlantOperationTO();
         operation.setName("Produce Yogurt");
         operation.setPlant(plant);
-        operation.setOutputEntryPoint(Collections.singletonList(e));
         operation.setMarkup(new MarkupInfo(
                 Arrays.asList(
                         xppu.getOperation(XPPU.Crane_ACT_Init),
@@ -202,10 +197,16 @@ public class PlantManagerIT {
                 )));
         operation.setId(em.createPlantOperation(operation));
 
-        final BooleanPlantOperationParameterTO param = new BooleanPlantOperationParameterTO();
+        final EntryPointTO e = new EntryPointTO();
+        e.setName("ISO 12345 Cargo");
+        e.setOperation(operation);
+        e.setDirection(EntryPointTO.DirectionTO.OUTPUT);
+        e.setId(em.createEntryPoint(e));
+
+        final BooleanParameterTO param = new BooleanParameterTO();
         param.setCategory("Yoghurt Preparation");
         param.setName("Organic");
-        param.setId(em.createBooleanPlantOperationParameter(param, operation));
+        param.setId(em.createBooleanParameter(param));
 
         /* Order creation */
 
@@ -213,7 +214,7 @@ public class PlantManagerIT {
         operationOrder.setEnterprise(enterprise);
         operationOrder.setPlant(plant);
 
-        final PlantOperationParameterValueTO paramValue = new PlantOperationParameterValueTO();
+        final ParameterValueTO paramValue = new ParameterValueTO();
         paramValue.setParameter(param);
         paramValue.setValue(IBooleanParameter.FALSE_VALUE);
 

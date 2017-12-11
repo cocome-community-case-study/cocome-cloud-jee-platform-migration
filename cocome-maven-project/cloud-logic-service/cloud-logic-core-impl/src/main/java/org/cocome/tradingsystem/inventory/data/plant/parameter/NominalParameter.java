@@ -18,17 +18,46 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
-
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperation;
 
 import javax.enterprise.context.Dependent;
+import java.util.Objects;
+import java.util.Set;
 
 /**
- * Abstract class of {@link IBooleanPlantOperationParameter} for {@link IPlantOperation}
+ * Implementation of {@link org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalParameter} for {@link IPlantOperation}
  *
  * @author Rudolf Biczok
  */
 @Dependent
-public class BooleanPlantOperationParameter extends PlantOperationParameter implements IBooleanPlantOperationParameter {
+public class NominalParameter extends Parameter implements INominalParameter {
     private static final long serialVersionUID = -2577328715744776645L;
+
+    private Set<String> options;
+
+    /**
+     * @return The possible values this options a user can set for this option
+     */
+    @Override
+    public Set<String> getOptions() {
+        return options;
+    }
+
+    /**
+     * @param options The possible values this options a user can set for this option
+     */
+    @Override
+    public void setOptions(final Set<String> options) {
+        this.options = options;
+    }
+
+    @Override
+    public boolean isValidValue(String value) {
+        for (final String option : getOptions()) {
+            if (Objects.equals(option, value)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

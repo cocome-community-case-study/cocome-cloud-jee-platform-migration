@@ -21,12 +21,9 @@ package org.cocome.tradingsystem.inventory.data.persistence;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanPlantOperationParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.INorminalPlantOperationParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.INominalParameter;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitClass;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnitOperation;
@@ -241,35 +238,23 @@ public interface IPersistenceContext {
 
     void deleteEntity(IEntryPoint operation) throws UpdateException;
 
-    void createEntity(IBooleanCustomProductParameter param) throws CreateException;
-
-    void updateEntity(IBooleanCustomProductParameter param) throws UpdateException;
-
-    void deleteEntity(IBooleanCustomProductParameter param) throws UpdateException;
-
-    void createEntity(INorminalCustomProductParameter param) throws CreateException;
-
-    void updateEntity(INorminalCustomProductParameter param) throws UpdateException;
-
-    void deleteEntity(INorminalCustomProductParameter param) throws UpdateException;
-
     void createEntity(IPlantOperation operation) throws CreateException;
 
     void updateEntity(IPlantOperation operation) throws UpdateException;
 
     void deleteEntity(IPlantOperation operation) throws UpdateException;
 
-    void createEntity(IBooleanPlantOperationParameter param, IPlantOperation operation) throws CreateException;
+    void createEntity(IBooleanParameter param) throws CreateException;
 
-    void updateEntity(IBooleanPlantOperationParameter param, IPlantOperation operation) throws UpdateException;
+    void updateEntity(IBooleanParameter param) throws UpdateException;
 
-    void deleteEntity(IBooleanPlantOperationParameter param, IPlantOperation operation) throws UpdateException;
+    void deleteEntity(IBooleanParameter param) throws UpdateException;
 
-    void createEntity(INorminalPlantOperationParameter param, IPlantOperation operation) throws CreateException;
+    void createEntity(INominalParameter param) throws CreateException;
 
-    void updateEntity(INorminalPlantOperationParameter param, IPlantOperation operation) throws UpdateException;
+    void updateEntity(INominalParameter param) throws UpdateException;
 
-    void deleteEntity(INorminalPlantOperationParameter param, IPlantOperation operation) throws UpdateException;
+    void deleteEntity(INominalParameter param) throws UpdateException;
 
     void createEntity(IEntryPointInteraction interaction) throws CreateException;
 
@@ -295,26 +280,20 @@ public interface IPersistenceContext {
 
     void deleteEntity(IPlantOperationOrder order) throws UpdateException;
 
-    void createEntity(IPlantOperationOrderEntry orderEntry,
-                      IPlantOperationOrder order)
+    void createEntity(IPlantOperationOrderEntry orderEntry)
             throws CreateException;
 
-    void updateEntity(IPlantOperationOrderEntry orderEntry,
-                      IPlantOperationOrder order)
+    void updateEntity(IPlantOperationOrderEntry orderEntry)
             throws UpdateException;
 
-    void deleteEntity(IPlantOperationOrderEntry orderEntry,
-                      IPlantOperationOrder order)
+    void deleteEntity(IPlantOperationOrderEntry orderEntry)
             throws UpdateException;
 
-    void createEntity(IPlantOperationParameterValue recipe, IPlantOperationOrderEntry orderEntry)
-            throws CreateException;
+    void createEntity(IParameterValue paramValue) throws CreateException;
 
-    void updateEntity(IPlantOperationParameterValue recipe, IPlantOperationOrderEntry orderEntry)
-            throws UpdateException;
+    void updateEntity(IParameterValue paramValue) throws UpdateException;
 
-    void deleteEntity(IPlantOperationParameterValue recipe, IPlantOperationOrderEntry orderEntry)
-            throws UpdateException;
+    void deleteEntity(IParameterValue paramValue) throws UpdateException;
 
     void createEntity(IProductionOrder order) throws CreateException;
 
@@ -322,24 +301,18 @@ public interface IPersistenceContext {
 
     void deleteEntity(IProductionOrder order) throws UpdateException;
 
-    void createEntity(IProductionOrderEntry orderEntry,
-                      IProductionOrder order)
+    void createEntity(IRecipeNode recipeNode) throws CreateException;
+
+    void updateEntity(IRecipeNode recipeNode) throws UpdateException;
+
+    void deleteEntity(IRecipeNode recipeNode) throws UpdateException;
+
+    void createEntity(IProductionOrderEntry orderEntry2)
             throws CreateException;
 
-    void updateEntity(IProductionOrderEntry orderEntry,
-                      IProductionOrder order)
+    void updateEntity(IProductionOrderEntry orderEntry)
             throws UpdateException;
 
-    void deleteEntity(IProductionOrderEntry orderEntry,
-                      IProductionOrder order)
-            throws UpdateException;
-
-    void createEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry)
-            throws CreateException;
-
-    void updateEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry)
-            throws UpdateException;
-
-    void deleteEntity(ICustomProductParameterValue value, IProductionOrderEntry orderEntry)
+    void deleteEntity(IProductionOrderEntry orderEntry)
             throws UpdateException;
 }

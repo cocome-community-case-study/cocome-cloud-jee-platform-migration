@@ -1,21 +1,3 @@
-/*
- *************************************************************************
- * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *************************************************************************
- */
-
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
@@ -27,18 +9,15 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.Serializable;
 
-/**
- * Used to connection ports between {@link IPlantOperation}
- */
 @Dependent
-public class EntryPoint implements Serializable, IEntryPoint {
+public class RecipeNode implements IRecipeNode, Serializable {
     private static final long serialVersionUID = 1L;
 
     private long id;
-    private String name;
+    private IRecipe recipe;
     private IRecipeOperation operation;
-    private Direction direction;
 
+    private long recipeId;
     private long operationId;
 
     @Inject
@@ -49,6 +28,7 @@ public class EntryPoint implements Serializable, IEntryPoint {
     @PostConstruct
     public void initPlant() {
         enterpriseQuery = enterpriseQueryInstance.get();
+        recipe = null;
         operation = null;
     }
 
@@ -63,15 +43,19 @@ public class EntryPoint implements Serializable, IEntryPoint {
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public IRecipe getRecipe() throws NotInDatabaseException {
+        if (recipe == null) {
+            recipe = enterpriseQuery.queryRecipeByID(recipeId);
+        }
+        return recipe;
     }
 
     @Override
-    public void setName(final String name) {
-        this.name = name;
+    public void setRecipe(IRecipe parent) {
+        this.recipe = parent;
     }
 
+    @Override
     public IRecipeOperation getOperation() throws NotInDatabaseException {
         if (operation == null) {
             operation = enterpriseQuery.queryRecipeOperationById(operationId);
@@ -79,24 +63,28 @@ public class EntryPoint implements Serializable, IEntryPoint {
         return operation;
     }
 
+    @Override
     public void setOperation(IRecipeOperation operation) {
         this.operation = operation;
     }
 
-    public Direction getDirection() {
-        return direction;
+    @Override
+    public long getRecipeId() {
+        return recipeId;
     }
 
-    public void setDirection(Direction direction) {
-        this.direction = direction;
+    @Override
+    public void setRecipeId(long parentId) {
+        this.recipeId = parentId;
     }
 
+    @Override
     public long getOperationId() {
         return operationId;
     }
 
-    public void setOperationId(long operationId) {
-        this.operationId = operationId;
+    @Override
+    public void setOperationId(long childId) {
+        this.operationId = childId;
     }
-
 }

@@ -18,14 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import java.util.Collection;
 
 /**
  * Transfer object of an customizable product
@@ -35,30 +28,4 @@ import java.util.Collection;
 @Dependent
 public class CustomProduct extends Product implements ICustomProduct {
     private static final long serialVersionUID = 1L;
-
-    private Collection<ICustomProductParameter> parameters;
-
-    @Inject
-    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
-
-    private IEnterpriseQuery enterpriseQuery;
-
-    @PostConstruct
-    public void initPlant() {
-        enterpriseQuery = enterpriseQueryInstance.get();
-        parameters = null;
-    }
-
-    @Override
-    public Collection<ICustomProductParameter> getParameters() throws NotInDatabaseException {
-        if (parameters == null) {
-            parameters = enterpriseQuery.queryParametersByCustomProductID(this.getId());
-        }
-        return parameters;
-    }
-
-    @Override
-    public void setParameters(Collection<ICustomProductParameter> parameters) {
-        this.parameters = parameters;
-    }
 }

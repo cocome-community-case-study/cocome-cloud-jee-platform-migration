@@ -18,10 +18,12 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IPlantOperationParameter;
-import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -38,7 +40,21 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
     private long id;
     private long amount;
     private IPlantOperation plantOperation;
-    private Collection<IPlantOperationParameterValue> parameterValues;
+    private Collection<IParameterValue> parameterValues;
+
+    private IPlantOperationOrder order;
+    private long orderId;
+
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    @PostConstruct
+    public void init() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        order = null;
+    }
 
     @Override
     public long getId() {
@@ -61,28 +77,42 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
     }
 
     @Override
-    public Collection<IPlantOperationParameter> getParameters() throws NotInDatabaseException {
-        return this.getPlantOperation().getParameters();
-    }
-
-    @Override
-    public Collection<IPlantOperationParameterValue> getParameterValues() {
+    public Collection<IParameterValue> getParameterValues() {
         return parameterValues;
     }
 
     @Override
-    public void setParameterValues(Collection<IPlantOperationParameterValue> parameterValues) {
+    public void setParameterValues(Collection<IParameterValue> parameterValues) {
         this.parameterValues = parameterValues;
     }
 
     @Override
-    public IPlantOperation getPlantOperation() {
+    public IPlantOperation getOperation() {
         return plantOperation;
     }
 
     @Override
-    public void setPlantOperation(IPlantOperation operation) {
+    public void setOperation(IPlantOperation operation) {
         this.plantOperation = operation;
     }
 
+    @Override
+    public IPlantOperationOrder getOrder() {
+        return this.order;
+    }
+
+    @Override
+    public void setOrder(IPlantOperationOrder order) {
+        this.order = order;
+    }
+
+    @Override
+    public long getOrderId() {
+        return this.orderId;
+    }
+
+    @Override
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
+    }
 }

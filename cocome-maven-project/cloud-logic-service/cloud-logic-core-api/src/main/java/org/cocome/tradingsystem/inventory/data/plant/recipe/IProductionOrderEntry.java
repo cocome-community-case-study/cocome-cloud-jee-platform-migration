@@ -18,23 +18,18 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
-
 /**
  * Represents a single {@link IProductionOrder} entry in the database.
  *
  * @author Rudolf Biczok
  */
-public interface IProductionOrderEntry extends IRecipeOperationOrderEntry<ICustomProductParameter, ICustomProductParameterValue> {
+public interface IProductionOrderEntry extends IRecipeOperationOrderEntry<IRecipe> {
 
-    /**
-     * @return the target recipe
-     */
-    IRecipe getRecipe();
+    IProductionOrder getOrder();
 
-    /**
-     * @param recipe the target recipe
-     */
-    void setRecipe(final IRecipe recipe);
+    void setOrder(IProductionOrder order);
+
+    long getOrderId();
+
+    void setOrderId(long order);
 }

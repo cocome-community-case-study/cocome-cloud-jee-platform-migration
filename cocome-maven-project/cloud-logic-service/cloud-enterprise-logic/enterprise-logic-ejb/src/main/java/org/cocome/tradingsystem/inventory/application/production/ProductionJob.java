@@ -16,7 +16,7 @@ import java.util.*;
  *
  * @author Rudolf Biczok
  */
-public class ProductionJob {
+class ProductionJob {
 
     private final UUID uuid;
 
@@ -29,14 +29,14 @@ public class ProductionJob {
     private final Map<RecipeExecutionGraphNode, Long> perNodeDependencyCount = new HashMap<>();
     private long finishCount;
 
-    public ProductionJob(final IStoreManager storeManager,
-                         final IProductionOrder order,
-                         final IProductionOrderEntry orderEntry) throws NotInDatabaseException, RecipeException {
+    ProductionJob(final IStoreManager storeManager,
+                  final IProductionOrder order,
+                  final IProductionOrderEntry orderEntry) throws NotInDatabaseException, RecipeException {
         this.uuid = UUID.randomUUID();
         this.storeManager = storeManager;
         this.order = order;
         this.orderEntry = orderEntry;
-        this.executionGraph = new RecipeExecutionGraph(orderEntry.getRecipe());
+        this.executionGraph = new RecipeExecutionGraph(orderEntry.getOperation());
 
         for (final RecipeExecutionGraphNode node : this.executionGraph.getStartNodes()) {
             scanNodeDependancies(node);
@@ -57,7 +57,7 @@ public class ProductionJob {
         }
     }
 
-    public synchronized List<RecipeExecutionGraphNode> getNextNodes(final List<RecipeExecutionGraphNode> finishedNodes) {
+    synchronized List<RecipeExecutionGraphNode> getNextNodes(final List<RecipeExecutionGraphNode> finishedNodes) {
         final List<RecipeExecutionGraphNode> nextNodes = new LinkedList<>();
         for (final RecipeExecutionGraphNode finishedNode : finishedNodes) {
             if (finishedNode.getEdges().isEmpty()) {
@@ -73,27 +73,27 @@ public class ProductionJob {
         return nextNodes;
     }
 
-    public UUID getUUID() {
+    UUID getUUID() {
         return uuid;
     }
 
-    public RecipeExecutionGraph getExecutionGraph() {
+    RecipeExecutionGraph getExecutionGraph() {
         return executionGraph;
     }
 
-    public IStoreManager getStoreManager() {
+    IStoreManager getStoreManager() {
         return storeManager;
     }
 
-    public IProductionOrder getOrder() {
+    IProductionOrder getOrder() {
         return order;
     }
 
-    public IProductionOrderEntry getOrderEntry() {
+    IProductionOrderEntry getOrderEntry() {
         return orderEntry;
     }
 
-    public synchronized boolean hasFinished() {
+    synchronized boolean hasFinished() {
         return finishCount <= 0;
     }
 }

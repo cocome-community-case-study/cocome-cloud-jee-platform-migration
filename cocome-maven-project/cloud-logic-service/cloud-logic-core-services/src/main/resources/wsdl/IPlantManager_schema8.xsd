@@ -1,6 +1,6 @@
 <xs:schema xmlns:ns1="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://enterprise.application.inventory.tradingsystem.cocome.org" version="1.0">
 
-  <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IEnterpriseManager_schema1.xsd"/>
+  <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IPlantManager_schema1.xsd"/>
 
   <xs:complexType name="CustomProductTO">
     <xs:complexContent>

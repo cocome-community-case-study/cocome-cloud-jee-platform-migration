@@ -19,8 +19,7 @@
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -39,8 +38,6 @@ import javax.xml.bind.annotation.XmlType;
         namespace = "http://recipe.plant.application.inventory.tradingsystem.cocome.org")
 @XmlRootElement(name = "ParameterInteractionTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ParameterInteractionTO extends InteractionEntityTO<
-        CustomProductParameterTO,
-        PlantOperationParameterTO> {
+public class ParameterInteractionTO extends InteractionEntityTO<ParameterTO> {
     private static final long serialVersionUID = 1L;
 }

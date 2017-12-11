@@ -16,16 +16,24 @@
  *************************************************************************
  */
 
-package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
+package org.cocome.tradingsystem.inventory.data.plant.parameter;
 
-import javax.xml.bind.annotation.*;
 import java.util.Set;
 
 /**
- * Gives the user a finite number of options to customize a product
+ * Represents a parameter multiple selectable values (one only per option)
  *
  * @author Rudolf Biczok
  */
-public interface INorminalCustomProductParameter extends ICustomProductParameter,
-        INorminalParameter {
+public interface INominalParameter extends IParameter {
+
+    /**
+     * @return The possible values this options a user can set for this option
+     */
+    Set<String> getOptions();
+
+    /**
+     * @param options The possible values this options a user can set for this option
+     */
+    void setOptions(final Set<String> options);
 }

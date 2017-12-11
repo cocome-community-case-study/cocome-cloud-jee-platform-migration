@@ -19,6 +19,7 @@
 package org.cocome.tradingsystem.inventory.application.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
+import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 
 import javax.xml.bind.annotation.*;
@@ -46,6 +47,8 @@ public class ProductionOrderTO implements Serializable, IIdentifiableTO {
     private Date deliveryDate;
     @XmlElement(name = "orderingDate", required = true)
     private Date orderingDate;
+    @XmlElement(name = "enterprise", required = true)
+    private EnterpriseTO enterprise;
     @XmlElement(name = "store", required = true)
     private StoreWithEnterpriseTO store;
     @XmlElement(name = "orderEntries", required = true)
@@ -119,5 +122,13 @@ public class ProductionOrderTO implements Serializable, IIdentifiableTO {
      */
     public void setOrderEntries(Collection<ProductionOrderEntryTO> orderEntries) {
         this.orderEntries = orderEntries;
+    }
+
+    public EnterpriseTO getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(EnterpriseTO enterprise) {
+        this.enterprise = enterprise;
     }
 }

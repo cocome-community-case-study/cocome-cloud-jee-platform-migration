@@ -23,16 +23,17 @@ import org.cocome.test.EnterpriseInfo;
 import org.cocome.test.TestConfig;
 import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.ProductionOrderEntryTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.ProductionOrderTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -134,28 +135,26 @@ public class EnterpriseManagerIT {
     }
 
     @Test
-    public void testCRUDForBooleanCustomProductParameter()
+    public void testCRUDForBooleanParameter()
             throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
-        final CustomProductTO customProductTO = new CustomProductTO();
-        customProductTO.setName("Awsome Product");
-        customProductTO.setBarcode(new Date().getTime());
-        customProductTO.setPurchasePrice(10);
-        customProductTO.setId(em.createProduct(customProductTO));
+        final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
+        final CustomProductTO customProduct = WSTestUtils.createCustomProduct(em);
+        final RecipeTO recipe = WSTestUtils.createRecipe(enterprise, customProduct, em);
 
-        final BooleanCustomProductParameterTO paramTO = new BooleanCustomProductParameterTO();
+        final BooleanParameterTO paramTO = new BooleanParameterTO();
         paramTO.setName("A Parameter");
         paramTO.setCategory("Amazing Stuff");
-        paramTO.setCustomProduct(customProductTO);
-        paramTO.setId(em.createBooleanCustomProductParameter(paramTO));
-        final BooleanCustomProductParameterTO singleInstance
-                = em.queryBooleanCustomProductParameterById(paramTO.getId());
+        paramTO.setOperation(recipe);
+        paramTO.setId(em.createBooleanParameter(paramTO));
+        final BooleanParameterTO singleInstance
+                = em.queryBooleanParameterById(paramTO.getId());
         Assert.assertEquals(paramTO.getName(), singleInstance.getName());
         Assert.assertEquals(paramTO.getCategory(), singleInstance.getCategory());
-        Assert.assertEquals(paramTO.getCustomProduct().getBarcode(),
-                singleInstance.getCustomProduct().getBarcode());
-        em.deleteBooleanCustomProductParameter(paramTO);
+        Assert.assertEquals(paramTO.getOperation().getName(),
+                singleInstance.getOperation().getName());
+        em.deleteBooleanParameter(paramTO);
         try {
-            em.queryBooleanCustomProductParameterById(paramTO.getId());
+            em.queryBooleanParameterById(paramTO.getId());
             Assert.fail("Entity is supposed to be deleted");
         } catch (final NotInDatabaseException_Exception ex) {
             //no-op
@@ -165,29 +164,27 @@ public class EnterpriseManagerIT {
     @Test
     public void testCRUDForNorminalCustomProductParameter()
             throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
-        final CustomProductTO customProductTO = new CustomProductTO();
-        customProductTO.setName("Awsome Product");
-        customProductTO.setBarcode(new Date().getTime());
-        customProductTO.setPurchasePrice(10);
-        customProductTO.setId(em.createProduct(customProductTO));
+        final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
+        final CustomProductTO customProduct = WSTestUtils.createCustomProduct(em);
+        final RecipeTO recipe = WSTestUtils.createRecipe(enterprise, customProduct, em);
 
-        final NorminalCustomProductParameterTO paramTO = new NorminalCustomProductParameterTO();
+        final NominalParameterTO paramTO = new NominalParameterTO();
         paramTO.setName("A Parameter");
         paramTO.setCategory("Amazing Stuff");
-        paramTO.setCustomProduct(customProductTO);
+        paramTO.setOperation(recipe);
         paramTO.setOptions(new HashSet<>(Arrays.asList("Apple", "Nuts")));
-        paramTO.setId(em.createNorminalCustomProductParameter(paramTO));
-        final NorminalCustomProductParameterTO singleInstance
-                = em.queryNorminalCustomProductParameterById(paramTO.getId());
+        paramTO.setId(em.createNominalParameter(paramTO));
+        final NominalParameterTO singleInstance
+                = em.queryNominalParameterById(paramTO.getId());
         Assert.assertEquals(paramTO.getId(), singleInstance.getId());
         Assert.assertEquals(paramTO.getName(), singleInstance.getName());
         Assert.assertEquals(paramTO.getCategory(), singleInstance.getCategory());
         Assert.assertEquals(paramTO.getOptions(), singleInstance.getOptions());
-        Assert.assertEquals(paramTO.getCustomProduct().getBarcode(),
-                singleInstance.getCustomProduct().getBarcode());
-        em.deleteNorminalCustomProductParameter(paramTO);
+        Assert.assertEquals(paramTO.getOperation().getName(),
+                singleInstance.getOperation().getName());
+        em.deleteNominalParameter(paramTO);
         try {
-            em.queryNorminalCustomProductParameterById(paramTO.getId());
+            em.queryNominalParameterById(paramTO.getId());
             Assert.fail("Entity is supposed to be deleted");
         } catch (final NotInDatabaseException_Exception ex) {
             //no-op
@@ -203,11 +200,11 @@ public class EnterpriseManagerIT {
         final ProductionOrderTO operationOrder = new ProductionOrderTO();
         operationOrder.setStore(enterpriseInfo.getStores().get(0));
 
-        final CustomProductParameterValueTO cparam1Value = new CustomProductParameterValueTO();
+        final ParameterValueTO cparam1Value = new ParameterValueTO();
         cparam1Value.setParameter(enterpriseInfo.getCustomProducts().get(0).getParameters().get(0));
         cparam1Value.setValue(IBooleanParameter.FALSE_VALUE);
 
-        final CustomProductParameterValueTO cparam2Value = new CustomProductParameterValueTO();
+        final ParameterValueTO cparam2Value = new ParameterValueTO();
         cparam2Value.setParameter(enterpriseInfo.getCustomProducts().get(0).getParameters().get(1));
         cparam2Value.setValue("Glass");
 

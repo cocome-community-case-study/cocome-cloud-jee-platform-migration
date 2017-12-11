@@ -1,34 +1,16 @@
-<xs:schema xmlns:ns1="http://store.webservice.logic.cocome.org/" xmlns:ns2="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://parameter.enterprise.application.inventory.tradingsystem.cocome.org" version="1.0">
+<xs:schema xmlns:ns1="http://store.webservice.logic.cocome.org/" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://plant.application.inventory.tradingsystem.cocome.org/" version="1.0">
 
   <xs:import namespace="http://store.webservice.logic.cocome.org/" schemaLocation="IStoreManager_schema1.xsd"/>
 
-  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IStoreManager_schema5.xsd"/>
+  <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IStoreManager_schema2.xsd"/>
 
-  <xs:complexType abstract="true" name="CustomProductParameterTO">
+  <xs:complexType name="PlantTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>
-      <xs:element name="category" type="xs:string"/>
-      <xs:element name="customProduct" type="ns2:CustomProductTO"/>
+      <xs:element name="location" type="xs:string"/>
+      <xs:element name="enterpriseTO" type="ns2:EnterpriseTO"/>
     </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="BooleanCustomProductParameterTO">
-    <xs:complexContent>
-      <xs:extension base="tns:CustomProductParameterTO">
-        <xs:sequence/>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="NorminalCustomProductParameterTO">
-    <xs:complexContent>
-      <xs:extension base="tns:CustomProductParameterTO">
-        <xs:sequence>
-          <xs:element maxOccurs="unbounded" name="options" type="xs:string"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
   </xs:complexType>
 
 </xs:schema>

@@ -19,13 +19,10 @@
 package org.cocome.logic.webservice.enterpriseservice;
 
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.PlantOperationParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
@@ -38,7 +35,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlElement;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Tobias Pöppke
@@ -323,13 +319,6 @@ public interface IEnterpriseManager {
 
     /* CRUD for {@link CustomProductTO} **************/
 
-    @WebMethod
-    CustomProductParameterTO queryCustomProductParameterByID(
-            @XmlElement(required = true)
-            @WebParam(name = "customProductParameterID")
-                    long customProductParameterId)
-            throws NotInDatabaseException;
-
     /**
      * Retrieves all products that are registered in the database.
      * Note that there is no information included about the stores in which
@@ -365,21 +354,22 @@ public interface IEnterpriseManager {
     /* CRUD for {@link EntryPointTO} **************/
 
     @WebMethod
-    Collection<EntryPointTO> queryEntryPoints(
-            @XmlElement(required = true)
-            @WebParam(name = "entryPointIDs")
-                    List<Long> entryPointIds)
-            throws NotInDatabaseException;
-
-    @WebMethod
     EntryPointTO queryEntryPointById(
             @XmlElement(required = true) @WebParam(name = "entryPointID") long entryPointId)
             throws NotInDatabaseException;
 
     @WebMethod
+    Collection<EntryPointTO> queryInputEntryPointsByRecipeId(
+            @XmlElement(required = true) @WebParam(name = "operationId") long recipeId) throws NotInDatabaseException;
+
+    @WebMethod
+    Collection<EntryPointTO> queryOutputEntryPointsByRecipeId(
+            @XmlElement(required = true) @WebParam(name = "operationId") long recipeId) throws NotInDatabaseException;
+
+    @WebMethod
     long createEntryPoint(
             @XmlElement(required = true) @WebParam(name = "entryPointTO") EntryPointTO entryPointTO)
-            throws CreateException;
+            throws CreateException, NotInDatabaseException;
 
     @WebMethod
     void updateEntryPoint(
@@ -391,78 +381,7 @@ public interface IEnterpriseManager {
             @XmlElement(required = true) @WebParam(name = "entryPointTO") EntryPointTO entryPointTO)
             throws UpdateException, NotInDatabaseException;
 
-    /* Query for {@link CustomProductParameterTO} **************/
-
-    @WebMethod
-    Collection<CustomProductParameterTO> queryParametersByCustomProductID(
-            @XmlElement(required = true) @WebParam(name = "customProductID") long customProductId) throws NotInDatabaseException;
-
-    /* CRUD for {@link BooleanCustomProductParameterTO} **************/
-
-    @WebMethod
-    BooleanCustomProductParameterTO queryBooleanCustomProductParameterById(
-            @XmlElement(required = true)
-            @WebParam(name = "booleanCustomProductParameterID")
-                    long booleanCustomProductParameterId) throws NotInDatabaseException;
-
-    @WebMethod
-    long createBooleanCustomProductParameter(
-            @XmlElement(required = true)
-            @WebParam(name = "booleanCustomProductParameterID")
-                    BooleanCustomProductParameterTO booleanCustomProductParameterTO)
-            throws CreateException;
-
-    @WebMethod
-    void updateBooleanCustomProductParameter(
-            @XmlElement(required = true)
-            @WebParam(name = "booleanCustomProductParameterID")
-                    BooleanCustomProductParameterTO booleanCustomProductParameterTO)
-            throws UpdateException, NotInDatabaseException;
-
-    @WebMethod
-    void deleteBooleanCustomProductParameter(
-            @XmlElement(required = true)
-            @WebParam(name = "booleanCustomProductParameterID")
-                    BooleanCustomProductParameterTO booleanCustomProductParameterTO)
-            throws UpdateException, NotInDatabaseException;
-
-    /* CRUD for {@link NorminalCustomProductParameterTO} **************/
-
-    @WebMethod
-    NorminalCustomProductParameterTO queryNorminalCustomProductParameterById(
-            @XmlElement(required = true)
-            @WebParam(name = "norminalCustomProductParameterID")
-                    long norminalCustomProductParameterId) throws NotInDatabaseException;
-
-    @WebMethod
-    long createNorminalCustomProductParameter(
-            @XmlElement(required = true)
-            @WebParam(name = "norminalCustomProductParameterID")
-                    NorminalCustomProductParameterTO norminalCustomProductParameterTO)
-            throws CreateException;
-
-    @WebMethod
-    void updateNorminalCustomProductParameter(
-            @XmlElement(required = true)
-            @WebParam(name = "norminalCustomProductParameterID")
-                    NorminalCustomProductParameterTO norminalCustomProductParameterTO)
-            throws UpdateException, NotInDatabaseException;
-
-    @WebMethod
-    void deleteNorminalCustomProductParameter(
-            @XmlElement(required = true)
-            @WebParam(name = "norminalCustomProductParameterID")
-                    NorminalCustomProductParameterTO norminalCustomProductParameterTO)
-            throws UpdateException, NotInDatabaseException;
-
     /* CRUD for {@link PlantOperationTO} **************/
-
-    @WebMethod
-    Collection<PlantOperationTO> queryPlantOperations(
-            @XmlElement(required = true)
-            @WebParam(name = "operationIDs")
-                    List<Long> operationIDs)
-            throws NotInDatabaseException;
 
     @WebMethod
     PlantOperationTO queryPlantOperationById(
@@ -491,103 +410,114 @@ public interface IEnterpriseManager {
                     PlantOperationTO plantOperationTO)
             throws UpdateException, NotInDatabaseException;
 
-    /* Query for {@link PlantOperationParameterTO} **************/
+    /* Query for {@link ParameterTO} **************/
 
     @WebMethod
-    PlantOperationParameterTO queryPlantOperationParameterById(
+    ParameterTO queryParameterById(
             @XmlElement(required = true)
-            @WebParam(name = "customProductParameterID")
-                    long plantOperationParameterId)
+            @WebParam(name = "parameterID")
+                    long parameterId)
             throws NotInDatabaseException;
 
     @WebMethod
-    Collection<PlantOperationParameterTO> queryParametersByPlantOperationID(
-            @XmlElement(required = true) @WebParam(name = "plantOperationID") long plantOperationId)
+    Collection<ParameterTO> queryParametersByRecipeOperationID(
+            @XmlElement(required = true) @WebParam(name = "operationID") long parameterId)
             throws NotInDatabaseException;
 
-    /* CRUD for {@link BooleanCustomProductParameterTO} **************/
+    /* CRUD for {@link BooleanParameterTO} **************/
 
     @WebMethod
-    BooleanPlantOperationParameterTO queryBooleanPlantOperationParameterById(
+    BooleanParameterTO queryBooleanParameterById(
             @XmlElement(required = true)
-            @WebParam(name = "booleanPlantOperationParameterID")
-                    long booleanPlantOperationParameterId) throws NotInDatabaseException;
+            @WebParam(name = "booleanParameterID")
+                    long booleanParameterId) throws NotInDatabaseException;
 
     @WebMethod
-    long createBooleanPlantOperationParameter(
+    long createBooleanParameter(
             @XmlElement(required = true)
-            @WebParam(name = "booleanPlantOperationParameterID")
-                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
-            @XmlElement(required = true)
-            @WebParam(name = "operationTO")
-                    PlantOperationTO operationTO)
+            @WebParam(name = "booleanParameterID")
+                    BooleanParameterTO booleanParameterTO)
             throws CreateException;
 
     @WebMethod
-    void updateBooleanPlantOperationParameter(
+    void updateBooleanParameter(
             @XmlElement(required = true)
-            @WebParam(name = "booleanPlantOperationParameterID")
-                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
-            @XmlElement(required = true)
-            @WebParam(name = "operationTO")
-                    PlantOperationTO operationTO)
+            @WebParam(name = "booleanParameterID")
+                    BooleanParameterTO booleanParameterTO)
             throws UpdateException, NotInDatabaseException;
 
     @WebMethod
-    void deleteBooleanPlantOperationParameter(
+    void deleteBooleanParameter(
             @XmlElement(required = true)
-            @WebParam(name = "booleanPlantOperationParameterID")
-                    BooleanPlantOperationParameterTO booleanPlantOperationParameterTO,
-            @XmlElement(required = true)
-            @WebParam(name = "operationTO")
-                    PlantOperationTO operationTO)
+            @WebParam(name = "booleanParameterID")
+                    BooleanParameterTO booleanParameterTO)
             throws UpdateException, NotInDatabaseException;
 
-    /* CRUD for {@link NorminalPlantOperationParameterTO} **************/
+    /* CRUD for {@link RecipeNodeTO} **************/
 
     @WebMethod
-    NorminalPlantOperationParameterTO queryNorminalPlantOperationParameterById(
+    Collection<RecipeNodeTO> queryRecipeNodesByRecipeId(
             @XmlElement(required = true)
-            @WebParam(name = "norminalPlantOperationParameterID")
-                    long norminalPlantOperationParameterId) throws NotInDatabaseException;
+            @WebParam(name = "recipeNodeTO")
+                    long recipeId) throws NotInDatabaseException;
 
     @WebMethod
-    long createNorminalPlantOperationParameter(
+    long createRecipeNode(
             @XmlElement(required = true)
-            @WebParam(name = "norminalPlantOperationParameterID")
-                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
+            @WebParam(name = "recipeNodeTO")
+                    RecipeNodeTO recipeNodeTO)
+            throws CreateException, NotInDatabaseException;
+
+    @WebMethod
+    void updateRecipeNode(
             @XmlElement(required = true)
-            @WebParam(name = "operationTO")
-                    PlantOperationTO operationTO)
+            @WebParam(name = "recipeNodeTO")
+                    RecipeNodeTO recipeNodeTO)
+            throws UpdateException, NotInDatabaseException;
+
+    @WebMethod
+    void deleteRecipeNode(
+            @XmlElement(required = true)
+            @WebParam(name = "recipeNodeTO")
+                    RecipeNodeTO recipeNodeTO)
+            throws UpdateException, NotInDatabaseException;
+
+    /* CRUD for {@link NominalParameterTO} **************/
+
+    @WebMethod
+    NominalParameterTO queryNominalParameterById(
+            @XmlElement(required = true)
+            @WebParam(name = "nominalParameterID")
+                    long nominalParameterId) throws NotInDatabaseException;
+
+    @WebMethod
+    long createNominalParameter(
+            @XmlElement(required = true)
+            @WebParam(name = "nominalParameterID")
+                    NominalParameterTO nominalParameterTO)
             throws CreateException;
 
     @WebMethod
-    void updateNorminalPlantOperationParameter(
+    void updateNominalParameter(
             @XmlElement(required = true)
-            @WebParam(name = "norminalPlantOperationParameterID")
-                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
-            @XmlElement(required = true)
-            @WebParam(name = "operationTO")
-                    PlantOperationTO operationTO)
+            @WebParam(name = "nominalParameterID")
+                    NominalParameterTO nominalParameterTO)
             throws UpdateException, NotInDatabaseException;
 
     @WebMethod
-    void deleteNorminalPlantOperationParameter(
+    void deleteNominalParameter(
             @XmlElement(required = true)
-            @WebParam(name = "norminalPlantOperationParameterID")
-                    NorminalPlantOperationParameterTO norminalPlantOperationParameterTO,
-            @XmlElement(required = true)
-            @WebParam(name = "operationTO")
-                    PlantOperationTO operationTO)
+            @WebParam(name = "nominalParameterID")
+                    NominalParameterTO norminalParameterTO)
             throws UpdateException, NotInDatabaseException;
 
     /* CRUD for {@link EntryPointInteractionTO} **************/
 
     @WebMethod
-    Collection<EntryPointInteractionTO> queryEntryPointInteractions(
+    Collection<EntryPointInteractionTO> queryEntryPointInteractionsByRecipeId(
             @XmlElement(required = true)
-            @WebParam(name = "entryPointInteractionIDs")
-                    List<Long> entryPointInteractionIds)
+            @WebParam(name = "recipeID")
+                    long recipeIds)
             throws NotInDatabaseException;
 
     @WebMethod
@@ -620,10 +550,8 @@ public interface IEnterpriseManager {
     /* CRUD for {@link ParameterPointInteractionTO} **************/
 
     @WebMethod
-    Collection<ParameterInteractionTO> queryParameterInteractions(
-            @XmlElement(required = true)
-            @WebParam(name = "parameterInteractionIDs")
-                    List<Long> parameterInteractionIds)
+    Collection<ParameterInteractionTO> queryParameterInteractionsByRecipeId(
+            @XmlElement(required = true) @WebParam(name = "recipeID") long recipeId)
             throws NotInDatabaseException;
 
     @WebMethod
@@ -652,6 +580,15 @@ public interface IEnterpriseManager {
             @WebParam(name = "parameterInteractionID")
                     ParameterInteractionTO parameterInteractionTO)
             throws UpdateException, NotInDatabaseException;
+
+    /* CRUD for {@link RecipeOperationTO} **************/
+
+    @WebMethod
+    RecipeOperationTO queryRecipeOperationById(
+            @XmlElement(required = true)
+            @WebParam(name = "recipeOperationID")
+                    long recipeOperationId) throws NotInDatabaseException;
+
 
     /* CRUD for {@link RecipeTO} **************/
 

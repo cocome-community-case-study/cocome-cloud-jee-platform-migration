@@ -1,6 +1,7 @@
-package org.cocome.tradingsystem.inventory.data.enterprise.parameter;
+package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.IIdentifiable;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import java.io.Serializable;
@@ -10,17 +11,17 @@ import java.io.Serializable;
  *
  * @author Rudolf Biczok
  */
-public interface IParameterValue<T extends IParameter> extends Serializable, IIdentifiable {
+public interface IParameterValue extends Serializable, IIdentifiable {
 
     /**
      * @return the parameter for which the value is set for
      */
-    T getParameter() throws NotInDatabaseException;
+    IParameter getParameter() throws NotInDatabaseException;
 
     /**
      * @param parameter the parameter for which the value is set for
      */
-    void setParameter(T parameter);
+    void setParameter(IParameter parameter);
 
     /**
      * @return the plant operation parameter id
@@ -41,6 +42,20 @@ public interface IParameterValue<T extends IParameter> extends Serializable, IId
      * @param value the parameter value
      */
     void setValue(String value);
+
+    /**
+     * @return the order entry this parameter setting belongs to
+     */
+     IRecipeOperationOrderEntry getOrderEntry() throws NotInDatabaseException;
+
+    /**
+     * @param orderEntry the order entry this parameter setting belongs to
+     */
+    void setOrderEntry(IRecipeOperationOrderEntry orderEntry);
+
+    long getOrderEntryId();
+
+    void setOrderEntryId(long orderEntryId);
 
     /**
      * @return {@code true} if this parameter is valid
