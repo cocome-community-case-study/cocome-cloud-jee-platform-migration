@@ -63,8 +63,8 @@ public final class ServiceAdapterHeaders {
             = "ProductionUnitOperationId;ProductionUnitOperationName;ProductionUnitOperationOID;"
             + "ProductionUnitOperationExpectedTime;ProductionUnitClassId";
 
-    static final String ENTRYPOINT_CREATE_HEADER = "EntryPointName";
-    static final String ENTRYPOINT_UPDATE_HEADER = "EntryPointId;EntryPointName";
+    static final String ENTRYPOINT_CREATE_HEADER = "EntryPointName;RecipeOperationId;EntryPointDirection";
+    static final String ENTRYPOINT_UPDATE_HEADER = "EntryPointId;EntryPointName;RecipeOperationId;EntryPointDirection";
 
     static final String BOOLEAN_CUSTOM_PRODUCT_PARAM_CREATE_HEADER
             = "CustomProductId;BooleanCustomProductParameterName;BooleanCustomProductParameterCategory\n";
@@ -79,10 +79,8 @@ public final class ServiceAdapterHeaders {
             = " CustomProductId;NorminalCustomProductParameterId;NorminalCustomProductParameterName;"
             + "NorminalCustomProductParameterCategory;NorminalCustomProductParameterOptions";
 
-    static final String PLANTOPERATION_CREATE_HEADER = "PlantId;PlantOperationMarkup;PlantOperationName;"
-            + "EntryPointInputId;EntryPointOutputId";
-    static final String PLANTOPERATION_UPDATE_HEADER = "PlantOperationId;PlantId;PlantOperationMarkup;PlantOperationName;"
-            + "EntryPointInputId;EntryPointOutputId";
+    static final String PLANTOPERATION_CREATE_HEADER = "PlantId;PlantOperationMarkup;PlantOperationName";
+    static final String PLANTOPERATION_UPDATE_HEADER = "PlantOperationId;PlantId;PlantOperationMarkup;PlantOperationName";
 
     static final String BOOLEAN_PLANT_OPERATION_PARAM_CREATE_HEADER
             = "PlantOperationId;BooleanPlantOperationParameterName;BooleanPlantOperationParameterCategory";
@@ -108,11 +106,9 @@ public final class ServiceAdapterHeaders {
             = "ParameterInteractionId;ParameterInteractionToId;ParameterInteractionFromId";
 
     static final String RECIPE_CREATE_HEADER
-            = "CustomProductId;PlantOperationId;EntryPointInteractionId;ParameterInteractionId;RecipeName;"
-            + "EntryPointInputId;EntryPointOutputId";
+            = "CustomProductId;PlantOperationId;EntryPointInteractionId;ParameterInteractionId;RecipeName";
     static final String RECIPE_UPDATE_HEADER
-            = "RecipeId;CustomProductId;PlantOperationId;EntryPointInteractionId;ParameterInteractionId;RecipeName;"
-            + "EntryPointInputId;EntryPointOutputId";
+            = "RecipeId;CustomProductId;PlantOperationId;EntryPointInteractionId;ParameterInteractionId;RecipeName";
 
     static final String PLANTOPERATIONORDER_CREATE_HEADER
             = "PlantOperationOrderDeliveryDate;PlantOperationOrderOrderingDate;TradingEnterpriseId;PlantId";

@@ -19,9 +19,23 @@
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
 import org.cocome.tradingsystem.inventory.data.INameable;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 /**
- * Used to connection ports between {@link IPlantOperation}
+ * Used to connection ports between {@link IRecipeOperation}
  */
 public interface IEntryPoint extends INameable {
+    enum Direction {INPUT, OUTPUT}
+
+    IRecipeOperation getOperation() throws NotInDatabaseException;
+
+    void setOperation(IRecipeOperation operation);
+
+    Direction getDirection();
+
+    void setDirection(Direction direction);
+
+    long getOperationId();
+
+    void setOperationId(long operationId);
 }

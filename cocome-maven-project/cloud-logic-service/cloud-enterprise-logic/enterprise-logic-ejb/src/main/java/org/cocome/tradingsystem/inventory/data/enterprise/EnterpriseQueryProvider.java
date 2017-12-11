@@ -1,6 +1,7 @@
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
 import org.apache.log4j.Logger;
+import org.cocome.cloud.logic.webservice.StreamUtil;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
@@ -196,11 +197,6 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IEntryPoint> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException {
-        return queryEntitiesByIdList(entryPointIds, this::queryEntryPointByID);
-    }
-
-    @Override
     public IBooleanCustomProductParameter queryBooleanCustomProductParameterByID(long booleanCustomProductParameterId)
             throws NotInDatabaseException {
         return getSingleEntity(csvHelper::getBooleanCustomProductParameter, "BooleanCustomProductParameter", booleanCustomProductParameterId);
@@ -278,6 +274,30 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     @Override
     public ICustomProductParameter queryCustomProductParameterByID(long customProductParameterId) throws NotInDatabaseException {
         return getSingleEntity(csvHelper::getCustomProductParameter, "CustomProductParameter", customProductParameterId);
+    }
+
+    @Override
+    public IRecipeOperation queryRecipeOperationById(long operationId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getRecipeOperation, "RecipeOperation", operationId);
+    }
+
+    @Override
+    public Collection<IEntryPoint> queryInputEntryPoints(long operationId) {
+        return StreamUtil.ofNullable(queryEntryPointsByRecipeOperationId(operationId))
+                .filter(e -> e.getDirection() == IEntryPoint.Direction.INPUT).collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<IEntryPoint> queryOutputEntryPoints(long operationId) {
+        return StreamUtil.ofNullable(queryEntryPointsByRecipeOperationId(operationId))
+                .filter(e -> e.getDirection() == IEntryPoint.Direction.OUTPUT).collect(Collectors.toList());
+    }
+
+    private Collection<IEntryPoint> queryEntryPointsByRecipeOperationId(long operationId) {
+        return csvHelper
+                .getEntryPoints(backendConnection.getEntity(
+                        "EntryPoint",
+                        "operation.id==" + operationId));
     }
 
     @Override

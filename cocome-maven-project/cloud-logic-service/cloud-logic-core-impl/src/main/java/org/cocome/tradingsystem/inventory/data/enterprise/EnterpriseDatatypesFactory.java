@@ -7,6 +7,7 @@ import org.cocome.tradingsystem.inventory.application.enterprise.parameter.Custo
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeOperationTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
@@ -18,6 +19,7 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.Plant;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.EntryPoint;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IEntryPoint;
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipeOperation;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 import javax.enterprise.context.Dependent;
@@ -38,8 +40,7 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     @Inject
     private Provider<ProductSupplier> productSupplierProvider;
 
-    @Inject
-    private Provider<EntryPoint> entryPointProvider;
+
 
     @Inject
     private Provider<TradingEnterprise> enterpriseProvider;
@@ -66,11 +67,6 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
     @Override
     public ITradingEnterprise getNewTradingEnterprise() {
         return enterpriseProvider.get();
-    }
-
-    @Override
-    public IEntryPoint getNewEntryPoint() {
-        return entryPointProvider.get();
     }
 
     @Override
@@ -197,24 +193,6 @@ public class EnterpriseDatatypesFactory implements IEnterpriseDataFactory {
                 result.getEnterpriseTO().getName()));
 
         return result;
-    }
-
-    @Override
-    public EntryPointTO fillEntryPointTO(IEntryPoint entryPoint) {
-        final EntryPointTO entryPointTO = new EntryPointTO();
-        entryPointTO.setId(entryPoint.getId());
-        entryPointTO.setName(entryPoint.getName());
-
-        return entryPointTO;
-    }
-
-    @Override
-    public IEntryPoint convertToEntryPoint(EntryPointTO entryPointTO) {
-        final IEntryPoint entryPoint = getNewEntryPoint();
-        entryPoint.setId(entryPointTO.getId());
-        entryPoint.setName(entryPointTO.getName());
-
-        return entryPoint;
     }
 
     @Override

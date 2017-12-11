@@ -32,9 +32,11 @@ import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.NorminalPlantOperationParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointInteractionTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.ParameterInteractionTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
@@ -95,14 +97,9 @@ public class WSTestUtils {
 
         /* Plant Operations */
 
-        final EntryPointTO op1out1 = new EntryPointTO();
-        op1out1.setName("ISO 12345 Cargo");
-        op1out1.setId(em.createEntryPoint(op1out1));
-
         final PlantOperationTO operation1 = new PlantOperationTO();
         operation1.setName("Produce Yogurt");
         operation1.setPlant(plant);
-        operation1.setOutputEntryPoint(Collections.singletonList(op1out1));
         operation1.setMarkup(new MarkupInfo(
                 Arrays.asList(
                         xppu.getOperation(XPPU.Crane_ACT_Init),
@@ -124,19 +121,20 @@ public class WSTestUtils {
                 )));
         operation1.setId(em.createPlantOperation(operation1));
 
+        final EntryPointTO op1out1 = new EntryPointTO();
+        op1out1.setName("ISO 12345 Cargo");
+        op1out1.setOperation(operation1);
+        op1out1.setDirection(EntryPointTO.DirectionTO.OUTPUT);
+        op1out1.setId(em.createEntryPoint(op1out1));
+
         final BooleanPlantOperationParameterTO param = new BooleanPlantOperationParameterTO();
         param.setCategory("Ingredients");
         param.setName("Organic");
         param.setId(em.createBooleanPlantOperationParameter(param, operation1));
 
-        final EntryPointTO op2out1 = new EntryPointTO();
-        op2out1.setName("ISO 33333 Bottle");
-        op2out1.setId(em.createEntryPoint(op2out1));
-
         final PlantOperationTO operation2 = new PlantOperationTO();
         operation2.setName("Create Package");
         operation2.setPlant(plant);
-        operation2.setOutputEntryPoint(Collections.singletonList(op2out1));
         operation2.setMarkup(new MarkupInfo(Arrays.asList(
                 xppu.getOperation(XPPU.Crane_ACT_Init),
                 fmu.getOperation(FMU.Silo0_ACT_Init),
@@ -144,35 +142,45 @@ public class WSTestUtils {
         )));
         operation2.setId(em.createPlantOperation(operation2));
 
+        final EntryPointTO op2out1 = new EntryPointTO();
+        op2out1.setName("ISO 33333 Bottle");
+        op2out1.setOperation(operation2);
+        op2out1.setDirection(EntryPointTO.DirectionTO.OUTPUT);
+        op2out1.setId(em.createEntryPoint(op2out1));
+
         final NorminalPlantOperationParameterTO opr2param = new NorminalPlantOperationParameterTO();
         opr2param.setCategory("Bottle");
         opr2param.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
         opr2param.setName("Bottle");
         opr2param.setId(em.createNorminalPlantOperationParameter(opr2param, operation2));
 
-        final EntryPointTO op3in1 = new EntryPointTO();
-        op3in1.setName("ISO 12345 Cargo");
-        op3in1.setId(em.createEntryPoint(op3in1));
-
-        final EntryPointTO op3in2 = new EntryPointTO();
-        op3in2.setName("ISO 33333 Bottle");
-        op3in2.setId(em.createEntryPoint(op3in2));
-
-        final EntryPointTO op3out1 = new EntryPointTO();
-        op3out1.setName("ISO 321 Package");
-        op3out1.setId(em.createEntryPoint(op3out1));
-
         final PlantOperationTO operation3 = new PlantOperationTO();
         operation3.setName("Package Yogurt");
         operation3.setPlant(plant);
-        operation3.setInputEntryPoint(Arrays.asList(op3in1, op3in2));
-        operation3.setOutputEntryPoint(Collections.singletonList(op3out1));
         operation3.setMarkup(new MarkupInfo(Arrays.asList(
                 xppu.getOperation(XPPU.Crane_ACT_Init),
                 fmu.getOperation(FMU.Silo0_ACT_Init),
                 fmu.getOperation(FMU.Silo2_ACT_Init)
         )));
         operation3.setId(em.createPlantOperation(operation3));
+
+        final EntryPointTO op3in1 = new EntryPointTO();
+        op3in1.setName("ISO 12345 Cargo");
+        op3in1.setOperation(operation3);
+        op3in1.setDirection(EntryPointTO.DirectionTO.INPUT);
+        op3in1.setId(em.createEntryPoint(op3in1));
+
+        final EntryPointTO op3in2 = new EntryPointTO();
+        op3in2.setName("ISO 33333 Bottle");
+        op3in2.setOperation(operation3);
+        op3in2.setDirection(EntryPointTO.DirectionTO.INPUT);
+        op3in2.setId(em.createEntryPoint(op3in2));
+
+        final EntryPointTO op3out1 = new EntryPointTO();
+        op3out1.setName("ISO 321 Package");
+        op3out1.setOperation(operation3);
+        op3out1.setDirection(EntryPointTO.DirectionTO.OUTPUT);
+        op3out1.setId(em.createEntryPoint(op3out1));
 
         /* Custom Product creation */
 
@@ -197,8 +205,16 @@ public class WSTestUtils {
 
         /* Recipe creation */
 
+        final RecipeTO recipe = new RecipeTO();
+        recipe.setName("Yogurt Recipe");
+        recipe.setCustomProduct(customProduct);
+        recipe.setOperations(Arrays.asList(operation1, operation2, operation3));
+        recipe.setId(em.createRecipe(recipe));
+
         final EntryPointTO recipeOut1 = new EntryPointTO();
         recipeOut1.setName("ISO 321 Package");
+        recipeOut1.setOperation(recipe);
+        recipeOut1.setDirection(EntryPointTO.DirectionTO.OUTPUT);
         recipeOut1.setId(em.createEntryPoint(recipeOut1));
 
         final ParameterInteractionTO interaction1 = new ParameterInteractionTO();
@@ -226,14 +242,9 @@ public class WSTestUtils {
         epInteraction3.setTo(recipeOut1);
         epInteraction3.setId(em.createEntryPointInteraction(epInteraction3));
 
-        final RecipeTO recipe = new RecipeTO();
-        recipe.setName("Yogurt Recipe");
-        recipe.setCustomProduct(customProduct);
-        recipe.setOutputEntryPoint(Collections.singletonList(recipeOut1));
         recipe.setEntryPointInteractions(Arrays.asList(epInteraction1, epInteraction2, epInteraction3));
         recipe.setParameterInteractions(Arrays.asList(interaction1, interaction2));
-        recipe.setOperations(Arrays.asList(operation1, operation2, operation3));
-        recipe.setId(em.createRecipe(recipe));
+        em.updateRecipe(recipe);
 
         em.validateRecipe(recipe);
 

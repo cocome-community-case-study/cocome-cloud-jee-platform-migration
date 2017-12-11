@@ -264,8 +264,6 @@ public interface IEnterpriseQuery {
      */
     IEntryPoint queryEntryPointByID(long entryPointId) throws NotInDatabaseException;
 
-    Collection<IEntryPoint> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException;
-
     IBooleanCustomProductParameter queryBooleanCustomProductParameterByID(long booleanCustomProductParameterId)
             throws NotInDatabaseException;
 
@@ -305,4 +303,10 @@ public interface IEnterpriseQuery {
     Collection<IPlantOperation> queryPlantOperations(List<Long> operationIds) throws NotInDatabaseException;
 
     ICustomProductParameter queryCustomProductParameterByID(long fromId) throws NotInDatabaseException;
+
+    IRecipeOperation queryRecipeOperationById(long operationId) throws NotInDatabaseException;
+
+    Collection<IEntryPoint> queryInputEntryPoints(long id) throws NotInDatabaseException;
+
+    Collection<IEntryPoint> queryOutputEntryPoints(long id) throws NotInDatabaseException;
 }

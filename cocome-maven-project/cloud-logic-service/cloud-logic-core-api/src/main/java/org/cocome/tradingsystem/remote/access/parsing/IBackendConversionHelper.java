@@ -73,7 +73,9 @@ public interface IBackendConversionHelper {
 
     Collection<IPlantOperationParameterValue> getPlantOperationParameterValue(String parameterValue);
 
-    Collection<IItem> getItem(String itemId);
+    Collection<IItem> getItem(String item);
 
-    Collection<IOnDemandItem> getOnDemandItem(String onDemandItemId);
+    Collection<IOnDemandItem> getOnDemandItem(String onDemandItem);
+
+    Collection<IRecipeOperation> getRecipeOperation(String recipeOperation);
 }

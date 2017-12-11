@@ -58,8 +58,6 @@ public class Recipe implements Serializable, IRecipe {
     // Input / Output ports
     private Collection<IEntryPoint> inputEntryPoint;
     private Collection<IEntryPoint> outputEntryPoint;
-    private List<Long> inputEntryPointIds;
-    private List<Long> outputEntryPointIds;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
@@ -192,7 +190,7 @@ public class Recipe implements Serializable, IRecipe {
     @Override
     public Collection<IEntryPoint> getInputEntryPoint() throws NotInDatabaseException {
         if (inputEntryPoint == null) {
-            inputEntryPoint = enterpriseQuery.queryEntryPoints(inputEntryPointIds);
+            inputEntryPoint = enterpriseQuery.queryInputEntryPoints(id);
         }
         return inputEntryPoint;
     }
@@ -203,19 +201,9 @@ public class Recipe implements Serializable, IRecipe {
     }
 
     @Override
-    public List<Long> getInputEntryPointIds() {
-        return inputEntryPointIds;
-    }
-
-    @Override
-    public void setInputEntryPointIds(List<Long> inputEntryPointIds) {
-        this.inputEntryPointIds = inputEntryPointIds;
-    }
-
-    @Override
     public Collection<IEntryPoint> getOutputEntryPoint() throws NotInDatabaseException {
         if (outputEntryPoint == null) {
-            outputEntryPoint = enterpriseQuery.queryEntryPoints(outputEntryPointIds);
+            outputEntryPoint = enterpriseQuery.queryOutputEntryPoints(id);
         }
         return outputEntryPoint;
     }
@@ -223,15 +211,5 @@ public class Recipe implements Serializable, IRecipe {
     @Override
     public void setOutputEntryPoint(Collection<IEntryPoint> outputEntryPoint) {
         this.outputEntryPoint = outputEntryPoint;
-    }
-
-    @Override
-    public List<Long> getOutputEntryPointIds() {
-        return outputEntryPointIds;
-    }
-
-    @Override
-    public void setOutputEntryPointIds(List<Long> outputEntryPointIds) {
-        this.outputEntryPointIds = outputEntryPointIds;
     }
 }

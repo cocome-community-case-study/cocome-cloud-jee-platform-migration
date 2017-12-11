@@ -24,6 +24,9 @@
         </bindings>
     </bindings>
     <bindings if-exists="true" schemaLocation="IEnterpriseManager_schema2.xsd">
+        <bindings node="//xsd:complexType[@name='RecipeOperationTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeOperationTO"/>
+        </bindings>
         <bindings node="//xsd:complexType[@name='PlantOperationTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO"/>
         </bindings>

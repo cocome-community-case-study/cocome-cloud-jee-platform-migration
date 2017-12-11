@@ -525,26 +525,44 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public Collection<EntryPointTO> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException {
-        return queryCollection(enterpriseQuery.queryEntryPoints(entryPointIds),
-                enterpriseFactory::fillEntryPointTO);
-    }
-
-    @Override
     public EntryPointTO queryEntryPointById(long entryPointId) throws NotInDatabaseException {
-        return enterpriseFactory.fillEntryPointTO(enterpriseQuery.queryEntryPointByID(entryPointId));
+        return plantFactory.fillEntryPointTO(enterpriseQuery.queryEntryPointByID(entryPointId));
     }
 
     @Override
-    public long createEntryPoint(EntryPointTO entryPointTO) throws CreateException {
-        final IEntryPoint entryPoint = enterpriseFactory.convertToEntryPoint(entryPointTO);
+    public Collection<EntryPointTO> queryInputEntryPoints(long operationId) throws NotInDatabaseException {
+        Collection<IEntryPoint> entryPoints = enterpriseQuery.queryInputEntryPoints(operationId);
+        Collection<EntryPointTO> entryPointTOs = new ArrayList<>(entryPoints.size());
+
+        for (IEntryPoint store : entryPoints) {
+            entryPointTOs.add(plantFactory.fillEntryPointTO(store));
+        }
+
+        return entryPointTOs;
+    }
+
+    @Override
+    public Collection<EntryPointTO> queryOutputEntryPoints(long operationId) throws NotInDatabaseException {
+        Collection<IEntryPoint> entryPoints = enterpriseQuery.queryOutputEntryPoints(operationId);
+        Collection<EntryPointTO> entryPointTOs = new ArrayList<>(entryPoints.size());
+
+        for (IEntryPoint store : entryPoints) {
+            entryPointTOs.add(plantFactory.fillEntryPointTO(store));
+        }
+
+        return entryPointTOs;
+    }
+
+    @Override
+    public long createEntryPoint(EntryPointTO entryPointTO) throws CreateException, NotInDatabaseException {
+        final IEntryPoint entryPoint = plantFactory.convertToEntryPoint(entryPointTO);
         saveDBCreateAction(() -> persistenceContext.createEntity(entryPoint));
         return entryPoint.getId();
     }
 
     @Override
     public void updateEntryPoint(EntryPointTO entryPointTO) throws UpdateException, NotInDatabaseException {
-        final IEntryPoint entryPoint = enterpriseFactory.convertToEntryPoint(entryPointTO);
+        final IEntryPoint entryPoint = plantFactory.convertToEntryPoint(entryPointTO);
         saveDBUpdateAction(() -> persistenceContext.updateEntity(entryPoint));
     }
 
@@ -853,6 +871,12 @@ public class EnterpriseManager implements IEnterpriseManager {
         final IParameterInteraction param = saveFetchFromDB(() ->
                 enterpriseQuery.queryParameterInteractionByID(parameterInteractionTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+    }
+
+    @Override
+    public RecipeOperationTO queryRecipeOperationById(long recipeOperationId) throws NotInDatabaseException {
+        return plantFactory.fillRecipeOperationTO(
+                enterpriseQuery.queryRecipeOperationById(recipeOperationId));
     }
 
     @Override

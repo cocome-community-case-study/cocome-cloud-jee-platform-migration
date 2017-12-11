@@ -18,7 +18,13 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.io.Serializable;
 
 /**
@@ -30,39 +36,67 @@ public class EntryPoint implements Serializable, IEntryPoint {
 
     private long id;
     private String name;
+    private IRecipeOperation operation;
+    private Direction direction;
 
-    /**
-     * @return the database id
-     */
+    private long operationId;
+
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    @PostConstruct
+    public void initPlant() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        operation = null;
+    }
+
     @Override
     public long getId() {
         return this.id;
     }
 
-    /**
-     * @param id the database id
-     */
     @Override
     public void setId(final long id) {
         this.id = id;
     }
 
-    /**
-     * Returns the name of the Plant.
-     *
-     * @return Plant name.
-     */
     @Override
     public String getName() {
         return this.name;
     }
 
-    /**
-     * @param name the name of the Plant
-     */
     @Override
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public IRecipeOperation getOperation() throws NotInDatabaseException {
+        if (operation == null) {
+            operation = enterpriseQuery.queryRecipeOperationById(operationId);
+        }
+        return operation;
+    }
+
+    public void setOperation(IRecipeOperation operation) {
+        this.operation = operation;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public long getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(long operationId) {
+        this.operationId = operationId;
     }
 
 }

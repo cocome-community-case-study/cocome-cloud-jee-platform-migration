@@ -68,6 +68,20 @@ public interface IPlantDataFactory {
     ProductionUnitTO fillProductionUnitTO(IProductionUnit operation)
             throws NotInDatabaseException;
 
+    /* Entry Point *****/
+
+    IEntryPoint getNewEntryPoint();
+
+    EntryPointTO fillEntryPointTO(IEntryPoint iEntryPoint) throws NotInDatabaseException;
+
+    IEntryPoint convertToEntryPoint(EntryPointTO entryPointTO);
+
+    /* Recipe Operation *****/
+
+    IRecipeOperation convertToRecipeOperation(RecipeOperationTO operation);
+
+    RecipeOperationTO fillRecipeOperationTO(IRecipeOperation operation) throws NotInDatabaseException;
+
     /* Plant Operation */
 
     IPlantOperation getNewPlantOperation();

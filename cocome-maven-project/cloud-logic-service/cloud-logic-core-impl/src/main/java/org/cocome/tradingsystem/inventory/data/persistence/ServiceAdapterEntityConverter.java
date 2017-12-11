@@ -407,13 +407,21 @@ class ServiceAdapterEntityConverter {
     }
 
     static String getCreateEntryPointContent(IEntryPoint entryPoint) {
-        return entryPoint.getName();
+        return entryPoint.getName() +
+                ServiceAdapterHeaders.SEPARATOR +
+                entryPoint.getOperationId() +
+                ServiceAdapterHeaders.SEPARATOR +
+                entryPoint.getDirection();
     }
 
     static String getUpdateEntryPointContent(IEntryPoint entryPoint) {
         return String.valueOf(entryPoint.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                entryPoint.getName();
+                entryPoint.getName() +
+                ServiceAdapterHeaders.SEPARATOR +
+                entryPoint.getOperationId() +
+                ServiceAdapterHeaders.SEPARATOR +
+                entryPoint.getDirection();
     }
 
     static String getCreateBooleanPlantOperationParameterContent(IBooleanPlantOperationParameter param,
@@ -505,11 +513,7 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 toBase64String(operation.getMarkup()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                operation.getName() +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(operation.getInputEntryPointIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(operation.getOutputEntryPointIds());
+                operation.getName();
     }
 
     private static String toBase64String(MarkupInfo markup) {
@@ -529,11 +533,7 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 toBase64String(operation.getMarkup()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                operation.getName() +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(operation.getInputEntryPointIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(operation.getOutputEntryPointIds());
+                operation.getName();
     }
 
     static <T1 extends INameable, T2 extends INameable>
@@ -561,11 +561,7 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 joinValues(recipe.getParameterInteractionIds()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                recipe.getName() +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getInputEntryPointIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getOutputEntryPointIds());
+                recipe.getName();
     }
 
     static String getUpdateRecipeContent(IRecipe recipe) {
@@ -579,11 +575,7 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 joinValues(recipe.getParameterInteractionIds()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                recipe.getName() +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getInputEntryPointIds()) +
-                ServiceAdapterHeaders.SEPARATOR +
-                joinValues(recipe.getOutputEntryPointIds());
+                recipe.getName();
     }
 
     static String getCreatePlantOperationOrderContent(IPlantOperationOrder order) {

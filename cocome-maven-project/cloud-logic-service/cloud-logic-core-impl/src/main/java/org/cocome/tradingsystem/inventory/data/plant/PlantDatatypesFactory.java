@@ -57,6 +57,9 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     private Provider<IParameterInteraction> parameterInteractionProvider;
 
     @Inject
+    private Provider<IEntryPoint> entryPointProvider;
+
+    @Inject
     private Provider<IRecipe> recipeProvider;
 
     @Inject
@@ -170,6 +173,57 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
+    public IEntryPoint getNewEntryPoint() {
+        return entryPointProvider.get();
+    }
+
+    @Override
+    public EntryPointTO fillEntryPointTO(IEntryPoint entryPoint) throws NotInDatabaseException {
+        final EntryPointTO entryPointTO = new EntryPointTO();
+        entryPointTO.setId(entryPoint.getId());
+        entryPointTO.setName(entryPoint.getName());
+        entryPointTO.setOperation(fillRecipeOperationTO(entryPoint.getOperation()));
+        entryPointTO.setDirection(EntryPointTO.DirectionTO.valueOf(entryPoint.getDirection().name()));
+
+        return entryPointTO;
+    }
+
+    @Override
+    public IEntryPoint convertToEntryPoint(EntryPointTO entryPointTO) {
+        final IEntryPoint entryPoint = getNewEntryPoint();
+        entryPoint.setId(entryPointTO.getId());
+        entryPoint.setName(entryPointTO.getName());
+        entryPoint.setOperation(convertToRecipeOperation(entryPointTO.getOperation()));
+        entryPoint.setOperationId(entryPointTO.getOperation().getId());
+        entryPoint.setDirection(IEntryPoint.Direction.valueOf(entryPointTO.getDirection().name()));
+
+        return entryPoint;
+    }
+
+    @Override
+    public RecipeOperationTO fillRecipeOperationTO(IRecipeOperation operation) throws NotInDatabaseException {
+        if (IPlantOperation.class.isAssignableFrom(operation.getClass())) {
+            return this.fillPlantOperationTO(
+                    (IPlantOperation) operation);
+        } else if (IRecipe.class.isAssignableFrom(operation.getClass())) {
+            return this.fillRecipeTO(
+                    (IRecipe) operation);
+        }
+        throw new IllegalArgumentException("Unknown class to handle: " + operation.getClass());
+    }
+
+    @Override
+    public IRecipeOperation convertToRecipeOperation(RecipeOperationTO operationTO) {
+        if (PlantOperationTO.class.isAssignableFrom(operationTO.getClass())) {
+            return this.convertToPlantOperation((PlantOperationTO) operationTO);
+        } else if (RecipeTO.class.isAssignableFrom(operationTO.getClass())) {
+            return this.convertToRecipe(
+                    (RecipeTO) operationTO);
+        }
+        throw new IllegalArgumentException("Unknown class to handle: " + operationTO.getClass());
+    }
+
+    @Override
     public PlantOperationParameterTO fillPlantOperationParameterTO(IPlantOperationParameter parameter)
             throws NotInDatabaseException {
         if (IBooleanPlantOperationParameter.class.isAssignableFrom(parameter.getClass())) {
@@ -206,9 +260,6 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setName(operation.getName());
         result.setPlant(enterpriseDatatypes.fillPlantTO(operation.getPlant()));
         result.setMarkup(operation.getMarkup());
-        result.setInputEntryPoint(convertList(operation.getInputEntryPoint(), enterpriseDatatypes::fillEntryPointTO));
-        result.setOutputEntryPoint(convertList(operation.getOutputEntryPoint(),
-                enterpriseDatatypes::fillEntryPointTO));
         return result;
     }
 
@@ -219,8 +270,6 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setName(plantOperationTO.getName());
         result.setPlantId(plantOperationTO.getPlant().getId());
         result.setMarkup(plantOperationTO.getMarkup());
-        result.setInputEntryPointIds(extractIdsOfCollection(plantOperationTO.getInputEntryPoint()));
-        result.setOutputEntryPointIds(extractIdsOfCollection(plantOperationTO.getOutputEntryPoint()));
 
         return result;
     }
@@ -273,11 +322,11 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     @Override
     public INorminalPlantOperationParameter convertToNorminalPlantOperationParameter(NorminalPlantOperationParameterTO norminalPlantOperationParameterTO) {
         final INorminalPlantOperationParameter result = getNewNorminalPlantOperationParameter();
-        result.setId(norminalPlantOperationParameterTO.getId());
         result.setName(norminalPlantOperationParameterTO.getName());
         result.setCategory(norminalPlantOperationParameterTO.getCategory());
         result.setOptions(norminalPlantOperationParameterTO.getOptions());
 
+        result.setId(norminalPlantOperationParameterTO.getId());
         return result;
     }
 
@@ -292,8 +341,8 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
             throws NotInDatabaseException {
         final EntryPointInteractionTO result = new EntryPointInteractionTO();
         result.setId(entryPointInteraction.getId());
-        result.setFrom(enterpriseDatatypes.fillEntryPointTO(entryPointInteraction.getFrom()));
-        result.setTo(enterpriseDatatypes.fillEntryPointTO(entryPointInteraction.getTo()));
+        result.setFrom(fillEntryPointTO(entryPointInteraction.getFrom()));
+        result.setTo(fillEntryPointTO(entryPointInteraction.getTo()));
         return result;
     }
 
@@ -345,8 +394,6 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setName(recipe.getName());
         result.setCustomProduct(enterpriseDatatypes.fillCustomProductTO(recipe.getCustomProduct()));
         result.setOperations(new ArrayList<>());
-        result.setInputEntryPoint(convertList(recipe.getInputEntryPoint(), enterpriseDatatypes::fillEntryPointTO));
-        result.setOutputEntryPoint(convertList(recipe.getOutputEntryPoint(), enterpriseDatatypes::fillEntryPointTO));
         result.setOperations(convertList(recipe.getOperations(), this::fillPlantOperationTO));
         result.setParameterInteractions(convertList(recipe.getParameterInteractions(), this::fillParameterInteractionTO));
         result.setEntryPointInteractions(convertList(recipe.getEntryPointInteractions(), this::fillEntryPointInteractionTO));
@@ -361,8 +408,6 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setName(recipeTO.getName());
         result.setCustomProductId(recipeTO.getCustomProduct().getId());
         result.setOperationIds(extractIdsOfCollection(recipeTO.getOperations()));
-        result.setInputEntryPointIds(extractIdsOfCollection(recipeTO.getInputEntryPoint()));
-        result.setOutputEntryPointIds(extractIdsOfCollection(recipeTO.getOutputEntryPoint()));
         result.setEntryPointInteractionIds(extractIdsOfCollection(recipeTO.getEntryPointInteractions()));
         result.setParameterInteractionIds(extractIdsOfCollection(recipeTO.getParameterInteractions()));
         return result;

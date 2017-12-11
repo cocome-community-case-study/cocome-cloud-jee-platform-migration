@@ -3,20 +3,16 @@ package org.cocome.tradingsystem.inventory.data.enterprise;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.BooleanCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterTO;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.parameter.NorminalCustomProductParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierTO;
 import org.cocome.tradingsystem.inventory.application.store.SupplierTO;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameter;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.ICustomProductParameterValue;
 import org.cocome.tradingsystem.inventory.data.enterprise.parameter.INorminalCustomProductParameter;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
-import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 
 public interface IEnterpriseDataFactory {
@@ -63,14 +59,6 @@ public interface IEnterpriseDataFactory {
     IPlant convertToPlant(PlantTO plantTO);
 
     PlantTO fillPlantTO(IPlant plant) throws NotInDatabaseException;
-
-    /* Entry Point *****/
-
-    IEntryPoint getNewEntryPoint();
-
-    EntryPointTO fillEntryPointTO(IEntryPoint iEntryPoint);
-
-    IEntryPoint convertToEntryPoint(EntryPointTO entryPointTO);
 
     /* Custom Product Parameter */
 

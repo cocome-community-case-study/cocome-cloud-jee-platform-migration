@@ -1,4 +1,4 @@
-<xs:schema xmlns:ns1="http://plant.webservice.logic.cocome.org/" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns4="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns5="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
+<xs:schema xmlns:ns1="http://plant.webservice.logic.cocome.org/" xmlns:ns2="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns3="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns4="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns5="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns6="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
 
   <xs:import namespace="http://plant.webservice.logic.cocome.org/" schemaLocation="IPlantManager_schema4.xsd"/>
 
@@ -9,6 +9,8 @@
   <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema7.xsd"/>
 
   <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema6.xsd"/>
+
+  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IPlantManager_schema8.xsd"/>
 
   <xs:complexType name="PlantOperationOrderTO">
     <xs:sequence>
@@ -41,20 +43,48 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="RecipeOperationTO">
+  <xs:complexType abstract="true" name="RecipeOperationTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>
-      <xs:element maxOccurs="unbounded" name="inputEntryPoint" type="tns:EntryPointTO"/>
-      <xs:element maxOccurs="unbounded" name="outputEntryPoint" type="tns:EntryPointTO"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="EntryPointTO">
+  <xs:complexType name="RecipeTO">
+    <xs:complexContent>
+      <xs:extension base="tns:RecipeOperationTO">
+        <xs:sequence>
+          <xs:element name="customProduct" type="ns6:CustomProductTO"/>
+          <xs:element maxOccurs="unbounded" name="operations" type="tns:PlantOperationTO"/>
+          <xs:element maxOccurs="unbounded" name="parameterInteractions" type="tns:ParameterInteractionTO"/>
+          <xs:element maxOccurs="unbounded" name="entryPointInteractions" type="tns:EntryPointInteractionTO"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ParameterInteractionTO">
+    <xs:complexContent>
+      <xs:extension base="tns:IIdentifiableTO">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="IIdentifiableTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
-      <xs:element name="name" type="xs:string"/>
+      <xs:element name="from" type="xs:anyType"/>
+      <xs:element name="to" type="xs:anyType"/>
     </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EntryPointInteractionTO">
+    <xs:complexContent>
+      <xs:extension base="tns:IIdentifiableTO">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="PlantOperationParameterValueTO">

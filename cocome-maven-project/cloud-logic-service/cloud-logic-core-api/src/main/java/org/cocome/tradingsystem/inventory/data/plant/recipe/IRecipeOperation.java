@@ -42,16 +42,6 @@ public interface IRecipeOperation extends INameable {
     void setInputEntryPoint(Collection<IEntryPoint> inputMaterial);
 
     /**
-     * @return the ids of input entry pints
-     */
-    List<Long> getInputEntryPointIds();
-
-    /**
-     * @param entryPointId the ids of input entry pints
-     */
-    void setInputEntryPointIds(List<Long> entryPointId);
-
-    /**
      * @return all material classes that results after the operation execution
      */
     Collection<IEntryPoint> getOutputEntryPoint() throws NotInDatabaseException;
@@ -60,15 +50,4 @@ public interface IRecipeOperation extends INameable {
      * @param outputMaterial all material classes that results after the operation execution
      */
     void setOutputEntryPoint(Collection<IEntryPoint> outputMaterial);
-
-    /**
-     * @return the ids of output entry pints
-     */
-    List<Long> getOutputEntryPointIds();
-
-    /**
-     * @param entryPointId the ids of input entry pints
-     */
-    void setOutputEntryPointIds(List<Long> entryPointId);
-
 }

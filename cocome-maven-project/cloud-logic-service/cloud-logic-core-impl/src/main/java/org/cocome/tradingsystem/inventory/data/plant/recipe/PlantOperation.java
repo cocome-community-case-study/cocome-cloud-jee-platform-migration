@@ -30,7 +30,6 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Represents an operation provided by an plant
@@ -49,8 +48,6 @@ public class PlantOperation implements Serializable, IPlantOperation {
     private Collection<IEntryPoint> outputEntryPoint;
 
     private long plantId;
-    private List<Long> inputEntryPointIds;
-    private List<Long> outputEntryPointIds;
 
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
@@ -91,7 +88,7 @@ public class PlantOperation implements Serializable, IPlantOperation {
     @Override
     public Collection<IEntryPoint> getInputEntryPoint() throws NotInDatabaseException {
         if (inputEntryPoint == null) {
-            inputEntryPoint = enterpriseQuery.queryEntryPoints(inputEntryPointIds);
+            inputEntryPoint = enterpriseQuery.queryInputEntryPoints(this.id);
         }
         return inputEntryPoint;
     }
@@ -102,19 +99,9 @@ public class PlantOperation implements Serializable, IPlantOperation {
     }
 
     @Override
-    public List<Long> getInputEntryPointIds() {
-        return inputEntryPointIds;
-    }
-
-    @Override
-    public void setInputEntryPointIds(List<Long> inputEntryPointIds) {
-        this.inputEntryPointIds = inputEntryPointIds;
-    }
-
-    @Override
     public Collection<IEntryPoint> getOutputEntryPoint() throws NotInDatabaseException {
         if (outputEntryPoint == null) {
-            outputEntryPoint = enterpriseQuery.queryEntryPoints(outputEntryPointIds);
+            outputEntryPoint = enterpriseQuery.queryOutputEntryPoints(this.id);
         }
         return outputEntryPoint;
     }
@@ -122,16 +109,6 @@ public class PlantOperation implements Serializable, IPlantOperation {
     @Override
     public void setOutputEntryPoint(Collection<IEntryPoint> outputEntryPoint) {
         this.outputEntryPoint = outputEntryPoint;
-    }
-
-    @Override
-    public List<Long> getOutputEntryPointIds() {
-        return outputEntryPointIds;
-    }
-
-    @Override
-    public void setOutputEntryPointIds(List<Long> outputEntryPointIds) {
-        this.outputEntryPointIds = outputEntryPointIds;
     }
 
     @Override

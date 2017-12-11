@@ -365,21 +365,22 @@ public interface IEnterpriseManager {
     /* CRUD for {@link EntryPointTO} **************/
 
     @WebMethod
-    Collection<EntryPointTO> queryEntryPoints(
-            @XmlElement(required = true)
-            @WebParam(name = "entryPointIDs")
-                    List<Long> entryPointIds)
-            throws NotInDatabaseException;
-
-    @WebMethod
     EntryPointTO queryEntryPointById(
             @XmlElement(required = true) @WebParam(name = "entryPointID") long entryPointId)
             throws NotInDatabaseException;
 
     @WebMethod
+    Collection<EntryPointTO> queryInputEntryPoints(
+            @XmlElement(required = true) @WebParam(name = "operationId") long operationId) throws NotInDatabaseException;
+
+    @WebMethod
+    Collection<EntryPointTO> queryOutputEntryPoints(
+            @XmlElement(required = true) @WebParam(name = "operationId") long operationId) throws NotInDatabaseException;
+
+    @WebMethod
     long createEntryPoint(
             @XmlElement(required = true) @WebParam(name = "entryPointTO") EntryPointTO entryPointTO)
-            throws CreateException;
+            throws CreateException, NotInDatabaseException;
 
     @WebMethod
     void updateEntryPoint(
@@ -652,6 +653,15 @@ public interface IEnterpriseManager {
             @WebParam(name = "parameterInteractionID")
                     ParameterInteractionTO parameterInteractionTO)
             throws UpdateException, NotInDatabaseException;
+
+    /* CRUD for {@link RecipeOperationTO} **************/
+
+    @WebMethod
+    RecipeOperationTO queryRecipeOperationById(
+            @XmlElement(required = true)
+            @WebParam(name = "recipeOperationID")
+                    long recipeOperationId) throws NotInDatabaseException;
+
 
     /* CRUD for {@link RecipeTO} **************/
 

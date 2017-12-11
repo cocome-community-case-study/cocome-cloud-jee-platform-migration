@@ -546,13 +546,23 @@ public class CSVHelper implements IBackendConversionHelper {
     @Override
     public Collection<IEntryPoint> getEntryPoints(String entryPoint) {
         return rowToCollection(entryPoint, row -> {
-            final IEntryPoint result = enterpriseFactory.getNewEntryPoint();
+            final IEntryPoint result = plantFactory.getNewEntryPoint();
 
             result.setId(fetchLong(row.getColumns().get(0)));
             result.setName(fetchString(row.getColumns().get(1)));
+            result.setOperationId(fetchLong(row.getColumns().get(2)));
+            result.setDirection(fetchEnumValue(IEntryPoint.Direction.class, row.getColumns().get(3)));
 
             return result;
         });
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends Enum<T>> T fetchEnumValue(Class<T> directionClass, Column<String> stringColumn) {
+        if (stringColumn == null) {
+            return null;
+        }
+        return Enum.valueOf(directionClass, stringColumn.getValue());
     }
 
     @Override
@@ -631,20 +641,20 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Override
     public Collection<IRecipe> getRecipe(String recipe) {
-        return rowToCollection(recipe, row -> {
-            final IRecipe result = plantFactory.getNewRecipe();
+        return rowToCollection(recipe, row -> processRecipeRow(row, 0));
+    }
 
-            result.setId(fetchLong(row.getColumns().get(0)));
-            result.setCustomProductId(fetchLong(row.getColumns().get(1)));
-            result.setOperationIds(fetchIds(row.getColumns().get(2)));
-            result.setEntryPointInteractionIds(fetchIds(row.getColumns().get(3)));
-            result.setParameterInteractionIds(fetchIds(row.getColumns().get(4)));
-            result.setName(fetchString(row.getColumns().get(5)));
-            result.setInputEntryPointIds(fetchIds(row.getColumns().get(6)));
-            result.setOutputEntryPointIds(fetchIds(row.getColumns().get(7)));
+    private IRecipe processRecipeRow(Row<String> row, int offset) {
+        final IRecipe result = plantFactory.getNewRecipe();
 
-            return result;
-        });
+        result.setId(fetchLong(row.getColumns().get(offset)));
+        result.setCustomProductId(fetchLong(row.getColumns().get(1 + offset)));
+        result.setOperationIds(fetchIds(row.getColumns().get(2 + offset)));
+        result.setEntryPointInteractionIds(fetchIds(row.getColumns().get(3 + offset)));
+        result.setParameterInteractionIds(fetchIds(row.getColumns().get(4 + offset)));
+        result.setName(fetchString(row.getColumns().get(5 + offset)));
+
+        return result;
     }
 
     @Override
@@ -706,6 +716,20 @@ public class CSVHelper implements IBackendConversionHelper {
         return rowToCollection(onDemandItemId, row -> processOnDemandItemRow(row, 0));
     }
 
+    @Override
+    public Collection<IRecipeOperation> getRecipeOperation(String recipeOperation) {
+        return rowToCollection(recipeOperation, row -> {
+            final String typeName = row.getColumns().get(0).getValue();
+            final int offset = Integer.parseInt(row.getColumns().get(1).getValue());
+            if (typeName.contains("PlantOperation")) {
+                return processPlantOperationRow(row, offset);
+            } else if (typeName.contains("Recipe")) {
+                return processRecipeRow(row, offset);
+            }
+            throw new IllegalArgumentException("Unsupported type: " + typeName);
+        });
+    }
+
     private IOnDemandItem processOnDemandItemRow(Row<String> row, int offset) {
         final IOnDemandItem result = storeFactory.getNewOnDemandItem();
 
@@ -719,19 +743,20 @@ public class CSVHelper implements IBackendConversionHelper {
 
     @Override
     public Collection<IPlantOperation> getPlantOperation(String plantOperation) {
-        return rowToCollection(plantOperation, row -> {
-            final IPlantOperation result = plantFactory.getNewPlantOperation();
-
-            result.setId(fetchLong(row.getColumns().get(0)));
-            result.setPlantId(fetchLong(row.getColumns().get(1)));
-            result.setMarkup(parseMarkup(row.getColumns().get(2)));
-            result.setName(fetchString(row.getColumns().get(3)));
-            result.setInputEntryPointIds(fetchIds(row.getColumns().get(4)));
-            result.setOutputEntryPointIds(fetchIds(row.getColumns().get(5)));
-
-            return result;
-        });
+        return rowToCollection(plantOperation, row -> processPlantOperationRow(row, 0));
     }
+
+    private IPlantOperation processPlantOperationRow(Row<String> row, int offset) {
+        final IPlantOperation result = plantFactory.getNewPlantOperation();
+
+        result.setId(fetchLong(row.getColumns().get(offset)));
+        result.setPlantId(fetchLong(row.getColumns().get(1 + offset)));
+        result.setMarkup(parseMarkup(row.getColumns().get(2 + offset)));
+        result.setName(fetchString(row.getColumns().get(3 + offset)));
+
+        return result;
+    }
+
 
     private MarkupInfo parseMarkup(Column<String> base64String) {
         if (base64String == null) {

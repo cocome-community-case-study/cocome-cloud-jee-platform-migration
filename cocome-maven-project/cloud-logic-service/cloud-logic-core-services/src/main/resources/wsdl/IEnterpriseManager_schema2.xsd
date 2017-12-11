@@ -23,16 +23,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="RecipeOperationTO">
-    <xs:sequence>
-      <xs:element name="id" type="xs:long"/>
-      <xs:element name="name" type="xs:string"/>
-      <xs:element maxOccurs="unbounded" name="inputEntryPoint" type="tns:EntryPointTO"/>
-      <xs:element maxOccurs="unbounded" name="outputEntryPoint" type="tns:EntryPointTO"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="EntryPointTO">
+  <xs:complexType abstract="true" name="RecipeOperationTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
       <xs:element name="name" type="xs:string"/>
@@ -76,6 +67,19 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="EntryPointTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:choice>
+        <xs:element ref="ns1:RecipeOperationTO"/>
+        <xs:element ref="ns1:PlantOperationTO"/>
+        <xs:element ref="ns1:RecipeTO"/>
+      </xs:choice>
+      <xs:element name="direction" type="tns:DirectionTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ProductionOrderTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
@@ -106,5 +110,12 @@
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
+
+  <xs:simpleType name="DirectionTO">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="INPUT"/>
+      <xs:enumeration value="OUTPUT"/>
+    </xs:restriction>
+  </xs:simpleType>
 
 </xs:schema>

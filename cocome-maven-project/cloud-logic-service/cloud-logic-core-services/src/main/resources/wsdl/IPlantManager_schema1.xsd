@@ -7,4 +7,13 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="ProductTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:long"/>
+      <xs:element name="barcode" type="xs:long"/>
+      <xs:element name="purchasePrice" type="xs:double"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
 </xs:schema>

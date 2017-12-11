@@ -22,9 +22,6 @@ import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO
 
 import javax.xml.bind.annotation.*;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Represents the top-level recipe for producing a custom product.

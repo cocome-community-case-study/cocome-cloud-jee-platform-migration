@@ -337,14 +337,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     @Override
     public IEntryPoint queryEntryPointByID(long entryPointId) throws NotInDatabaseException {
         return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
-                enterpriseFactory.convertToEntryPoint(enterpriseManager.queryEntryPointById(entryPointId)));
-    }
-
-    @Override
-    public Collection<IEntryPoint> queryEntryPoints(List<Long> entryPointIds) throws NotInDatabaseException {
-        return queryCollection(defaultEnterpriseIndex,
-                enterpriseManager -> enterpriseManager.queryEntryPoints(entryPointIds),
-                enterpriseFactory::convertToEntryPoint);
+                plantFactory.convertToEntryPoint(enterpriseManager.queryEntryPointById(entryPointId)));
     }
 
     @Override
@@ -504,6 +497,27 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
                 enterpriseFactory.convertToCustomProductParameter(
                         enterpriseManager.queryCustomProductParameterByID(customProductParameterId)));
+    }
+
+    @Override
+    public IRecipeOperation queryRecipeOperationById(long operationId) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                plantFactory.convertToRecipeOperation(
+                        enterpriseManager.queryRecipeOperationById(operationId)));
+    }
+
+    @Override
+    public Collection<IEntryPoint> queryInputEntryPoints(long operationId) throws NotInDatabaseException {
+        return queryCollection(defaultEnterpriseIndex,
+                enterpriseManager -> enterpriseManager.queryInputEntryPoints(operationId),
+                plantFactory::convertToEntryPoint);
+    }
+
+    @Override
+    public Collection<IEntryPoint> queryOutputEntryPoints(long operationId) throws NotInDatabaseException {
+        return queryCollection(defaultEnterpriseIndex,
+                enterpriseManager -> enterpriseManager.queryOutputEntryPoints(operationId),
+                plantFactory::convertToEntryPoint);
     }
 
     @Override

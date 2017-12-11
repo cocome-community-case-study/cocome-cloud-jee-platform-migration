@@ -12,6 +12,7 @@
   <xs:element name="CustomProductParameterTO" type="ns7:CustomProductParameterTO"/>
   <xs:element name="CustomProductParameterValueTO" type="ns4:CustomProductParameterValueTO"/>
   <xs:element name="CustomProductTO" type="ns6:CustomProductTO"/>
+  <xs:element name="DirectionTO" type="ns4:DirectionTO"/>
   <xs:element name="EnterpriseTO" type="ns5:EnterpriseTO"/>
   <xs:element name="EntryPointInteractionTO" type="ns4:EntryPointInteractionTO"/>
   <xs:element name="EntryPointTO" type="ns4:EntryPointTO"/>
@@ -127,12 +128,14 @@
   <xs:element name="queryEntryPointInteractionByIdResponse" type="tns:queryEntryPointInteractionByIdResponse"/>
   <xs:element name="queryEntryPointInteractions" type="tns:queryEntryPointInteractions"/>
   <xs:element name="queryEntryPointInteractionsResponse" type="tns:queryEntryPointInteractionsResponse"/>
-  <xs:element name="queryEntryPoints" type="tns:queryEntryPoints"/>
-  <xs:element name="queryEntryPointsResponse" type="tns:queryEntryPointsResponse"/>
+  <xs:element name="queryInputEntryPoints" type="tns:queryInputEntryPoints"/>
+  <xs:element name="queryInputEntryPointsResponse" type="tns:queryInputEntryPointsResponse"/>
   <xs:element name="queryNorminalCustomProductParameterById" type="tns:queryNorminalCustomProductParameterById"/>
   <xs:element name="queryNorminalCustomProductParameterByIdResponse" type="tns:queryNorminalCustomProductParameterByIdResponse"/>
   <xs:element name="queryNorminalPlantOperationParameterById" type="tns:queryNorminalPlantOperationParameterById"/>
   <xs:element name="queryNorminalPlantOperationParameterByIdResponse" type="tns:queryNorminalPlantOperationParameterByIdResponse"/>
+  <xs:element name="queryOutputEntryPoints" type="tns:queryOutputEntryPoints"/>
+  <xs:element name="queryOutputEntryPointsResponse" type="tns:queryOutputEntryPointsResponse"/>
   <xs:element name="queryParameterInteractionById" type="tns:queryParameterInteractionById"/>
   <xs:element name="queryParameterInteractionByIdResponse" type="tns:queryParameterInteractionByIdResponse"/>
   <xs:element name="queryParameterInteractions" type="tns:queryParameterInteractions"/>
@@ -157,6 +160,8 @@
   <xs:element name="queryRecipeByCustomProductIdResponse" type="tns:queryRecipeByCustomProductIdResponse"/>
   <xs:element name="queryRecipeById" type="tns:queryRecipeById"/>
   <xs:element name="queryRecipeByIdResponse" type="tns:queryRecipeByIdResponse"/>
+  <xs:element name="queryRecipeOperationById" type="tns:queryRecipeOperationById"/>
+  <xs:element name="queryRecipeOperationByIdResponse" type="tns:queryRecipeOperationByIdResponse"/>
   <xs:element name="queryStoreByEnterpriseID" type="tns:queryStoreByEnterpriseID"/>
   <xs:element name="queryStoreByEnterpriseIDResponse" type="tns:queryStoreByEnterpriseIDResponse"/>
   <xs:element name="queryStoreByID" type="tns:queryStoreByID"/>
@@ -418,6 +423,16 @@
       <xs:element name="return" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="queryRecipeOperationById">
+    <xs:sequence>
+      <xs:element name="recipeOperationID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeOperationByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns4:RecipeOperationTO"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="onPlantOperationFinish">
     <xs:sequence>
       <xs:element name="plantOperationOrderEntryID" type="xs:long"/>
@@ -518,6 +533,16 @@
   <xs:complexType name="deletePlantOperationResponse">
     <xs:sequence/>
   </xs:complexType>
+  <xs:complexType name="queryInputEntryPoints">
+    <xs:sequence>
+      <xs:element name="operationId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryInputEntryPointsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:EntryPointTO"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="createBooleanCustomProductParameter">
     <xs:sequence>
       <xs:element name="booleanCustomProductParameterID" type="ns7:BooleanCustomProductParameterTO"/>
@@ -544,6 +569,16 @@
   <xs:complexType name="queryRecipeByCustomProductIdResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="ns4:RecipeTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryOutputEntryPoints">
+    <xs:sequence>
+      <xs:element name="operationId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryOutputEntryPointsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:EntryPointTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="deleteNorminalPlantOperationParameter">
@@ -584,16 +619,6 @@
   <xs:complexType name="queryEntryPointInteractionsResponse">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:EntryPointInteractionTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryEntryPoints">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" name="entryPointIDs" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryEntryPointsResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:EntryPointTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryPlantByID">

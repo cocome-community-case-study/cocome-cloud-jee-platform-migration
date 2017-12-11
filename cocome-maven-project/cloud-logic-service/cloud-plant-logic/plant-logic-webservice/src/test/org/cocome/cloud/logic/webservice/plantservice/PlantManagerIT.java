@@ -25,7 +25,6 @@ import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo;
 import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
-import org.cocome.tradingsystem.inventory.application.plant.expression.PUOperationInfo;
 import org.cocome.tradingsystem.inventory.application.plant.iface.PUCImporter;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.FMU;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
@@ -173,14 +172,9 @@ public class PlantManagerIT {
 
         /* Plant Operations */
 
-        final EntryPointTO e = new EntryPointTO();
-        e.setName("ISO 12345 Cargo");
-        e.setId(em.createEntryPoint(e));
-
         final PlantOperationTO operation = new PlantOperationTO();
         operation.setName("Produce Yogurt");
         operation.setPlant(plant);
-        operation.setOutputEntryPoint(Collections.singletonList(e));
         operation.setMarkup(new MarkupInfo(
                 Arrays.asList(
                         xppu.getOperation(XPPU.Crane_ACT_Init),
@@ -201,6 +195,12 @@ public class PlantManagerIT {
                         fmu.getOperation(FMU.Silo2_ACT_Init)
                 )));
         operation.setId(em.createPlantOperation(operation));
+
+        final EntryPointTO e = new EntryPointTO();
+        e.setName("ISO 12345 Cargo");
+        e.setOperation(operation);
+        e.setDirection(EntryPointTO.DirectionTO.OUTPUT);
+        e.setId(em.createEntryPoint(e));
 
         final BooleanPlantOperationParameterTO param = new BooleanPlantOperationParameterTO();
         param.setCategory("Yoghurt Preparation");
