@@ -65,7 +65,7 @@ public class PlantOperationView extends AbstractView<PlantOperationTO> {
         }
         final PlantOperationTO operation;
         try {
-            operation = this.dao.find(plantInformation.getActivePlant().getData().getId(), operationId);
+            operation = this.dao.find(operationId);
         } catch (NotInDatabaseException_Exception e) {
             LOG.error("Unable to fetch Plant Operation", e);
             throw new IllegalArgumentException(e);

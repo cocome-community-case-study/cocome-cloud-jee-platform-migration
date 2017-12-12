@@ -33,9 +33,6 @@ public class ProductionUnitOperationView extends AbstractView<ProductionUnitOper
     @Inject
     private ProductionUnitOperationDAO productionUnitOperationDAO;
 
-    @Inject
-    private PlantInformation plantInformation;
-
     private ProductionUnitOperationViewData selected;
 
     @Override
@@ -67,7 +64,7 @@ public class ProductionUnitOperationView extends AbstractView<ProductionUnitOper
         }
         final ProductionUnitClassTO puc;
         try {
-            puc = this.productionUnitClassDAO.find(plantInformation.getActivePlant().getData().getId(), pucId);
+            puc = this.productionUnitClassDAO.find(pucId);
         } catch (NotInDatabaseException_Exception e) {
             LOG.error("Unable to fetch PUC", e);
             throw new IllegalArgumentException(e);
