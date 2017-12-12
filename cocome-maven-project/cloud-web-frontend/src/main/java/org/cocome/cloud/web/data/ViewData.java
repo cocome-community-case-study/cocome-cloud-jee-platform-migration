@@ -19,6 +19,10 @@ public abstract class ViewData<T extends IIdentifiableTO> {
         return data;
     }
 
+    public boolean isNewInstance() {
+        return this.data.getId() == 0;
+    }
+
     private boolean editingEnabled = false;
 
     public boolean isEditingEnabled() {
@@ -28,8 +32,6 @@ public abstract class ViewData<T extends IIdentifiableTO> {
     public void setEditingEnabled(boolean editingEnabled) {
         this.editingEnabled = editingEnabled;
     }
-
-    public abstract long getServiceId();
 
     public abstract long getParentId();
 }

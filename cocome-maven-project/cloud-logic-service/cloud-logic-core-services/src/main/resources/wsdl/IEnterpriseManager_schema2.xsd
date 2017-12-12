@@ -24,6 +24,7 @@
       <xs:extension base="tns:RecipeOperationTO">
         <xs:sequence>
           <xs:element name="customProduct" type="ns2:CustomProductTO"/>
+          <xs:element name="enterprise" type="ns3:EnterpriseTO"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -72,7 +73,7 @@
   <xs:complexType name="RecipeNodeTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
-      <xs:element name="recipe" type="tns:RecipeTO"/>
+      <xs:element name="parent" type="tns:RecipeTO"/>
       <xs:choice>
         <xs:element ref="ns1:RecipeOperationTO"/>
         <xs:element ref="ns1:RecipeTO"/>

@@ -18,15 +18,10 @@ import java.util.Collection;
 
 @Named
 @SessionScoped
-public class ProductionUnitClassDAO extends AbstractPlantDAO<ProductionUnitClassTO, PlantTO> {
+public class ProductionUnitClassDAO extends AbstractPlantDAO<ProductionUnitClassTO> {
 
     @Inject
     private PlantQuery plantQuery;
-
-    public ProductionUnitClassTO get(final PlantViewData plant, final long pucId) throws NotInDatabaseException_Exception {
-        final IPlantManager manager = plantQuery.lookupPlantManager(plant.getID());
-        return manager.queryProductionUnitClassByID(pucId);
-    }
 
     @Override
     protected Collection<ProductionUnitClassTO> queryAllByParentObj(IPlantManager iPlantManager, long id) throws NotInDatabaseException_Exception {
@@ -40,7 +35,7 @@ public class ProductionUnitClassDAO extends AbstractPlantDAO<ProductionUnitClass
         final ProductionUnitClassViewData importedPUC = new ProductionUnitClassViewData(new ProductionUnitClassTO());
         importedPUC.getData().setPlant(plant.getData());
         importedPUC.getData().setName(name);
-        importedPUC.getData().setId(plantManager.importProductionUnitClass(name, interfaceUrl, plant.getPlantTO()));
+        importedPUC.getData().setId(plantManager.importProductionUnitClass(name, interfaceUrl, plant.getData()));
         this.cache.putIfAbsent(plant.getData().getId(), new DBObjectCache<>());
         this.cache.get(plant.getData().getId()).add(importedPUC);
     }
@@ -51,17 +46,26 @@ public class ProductionUnitClassDAO extends AbstractPlantDAO<ProductionUnitClass
     }
 
     @Override
-    protected long createImpl(IPlantManager iPlantManager, ProductionUnitClassTO viewData) throws CreateException_Exception {
+    protected long createImpl(IPlantManager iPlantManager, ProductionUnitClassTO viewData)
+            throws CreateException_Exception {
         return iPlantManager.createProductionUnitClass(viewData);
     }
 
     @Override
-    protected void updateImpl(IPlantManager iPlantManager, ProductionUnitClassTO viewData) throws UpdateException_Exception, NotInDatabaseException_Exception {
+    protected void updateImpl(IPlantManager iPlantManager, ProductionUnitClassTO viewData)
+            throws UpdateException_Exception, NotInDatabaseException_Exception {
         iPlantManager.updateProductionUnitClass(viewData);
     }
 
     @Override
-    protected void deleteImpl(IPlantManager iPlantManager, ProductionUnitClassTO viewData) throws UpdateException_Exception, NotInDatabaseException_Exception {
+    protected void deleteImpl(IPlantManager iPlantManager, ProductionUnitClassTO viewData)
+            throws UpdateException_Exception, NotInDatabaseException_Exception {
         iPlantManager.deleteProductionUnitClass(viewData);
+    }
+
+    @Override
+    protected ProductionUnitClassTO queryById(IPlantManager serviceClient, long dbId)
+            throws NotInDatabaseException_Exception {
+        return serviceClient.queryProductionUnitClassByID(dbId);
     }
 }

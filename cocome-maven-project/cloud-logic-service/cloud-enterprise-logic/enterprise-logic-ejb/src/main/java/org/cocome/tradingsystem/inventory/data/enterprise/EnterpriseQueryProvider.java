@@ -270,6 +270,14 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
                 .filter(e -> e.getDirection() == IEntryPoint.Direction.OUTPUT).collect(Collectors.toList());
     }
 
+    @Override
+    public Collection<IPlantOperation> queryPlantOperationsByPlantId(long plantId) throws NotInDatabaseException {
+        return csvHelper
+                .getPlantOperation(backendConnection.getEntity(
+                        "PlantOperation",
+                        "plant.id==" + plantId));
+    }
+
     private Collection<IEntryPoint> queryEntryPointsByRecipeOperationId(long operationId) {
         return csvHelper
                 .getEntryPoints(backendConnection.getEntity(

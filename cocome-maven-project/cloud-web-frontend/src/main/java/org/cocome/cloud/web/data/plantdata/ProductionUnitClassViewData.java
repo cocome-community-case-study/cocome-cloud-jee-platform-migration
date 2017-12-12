@@ -18,12 +18,7 @@ public class ProductionUnitClassViewData extends ViewData<ProductionUnitClassTO>
     }
 
     @Override
-    public long getServiceId() {
-        return this.data.getPlant().getId();
-    }
-
-    @Override
     public long getParentId() {
-        return this.getServiceId();
+        return this.data.getPlant().getId();
     }
 }

@@ -62,11 +62,6 @@ public class PlantViewData extends ViewData<PlantTO> {
     }
 
     @Override
-    public long getServiceId() {
-        return this.data.getEnterpriseTO().getId();
-    }
-
-    @Override
     public long getParentId() {
         return this.data.getEnterpriseTO().getId();
     }
@@ -93,10 +88,6 @@ public class PlantViewData extends ViewData<PlantTO> {
 
     public void setNewLocation(String newLocation) {
         this.newLocation = newLocation;
-    }
-
-    public PlantTO getPlantTO() {
-        return data;
     }
 
     void updatePlantInformation() {

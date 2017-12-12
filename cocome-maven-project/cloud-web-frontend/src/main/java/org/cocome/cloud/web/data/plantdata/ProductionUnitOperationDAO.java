@@ -15,7 +15,7 @@ import java.util.Collection;
 
 @Named
 @SessionScoped
-public class ProductionUnitOperationDAO extends AbstractPlantDAO<ProductionUnitOperationTO, ProductionUnitClassTO> {
+public class ProductionUnitOperationDAO extends AbstractPlantDAO<ProductionUnitOperationTO> {
 
     @Override
     protected Collection<ProductionUnitOperationTO> queryAllByParentObj(IPlantManager iPlantManager, long id)
@@ -44,5 +44,10 @@ public class ProductionUnitOperationDAO extends AbstractPlantDAO<ProductionUnitO
     protected void deleteImpl(IPlantManager iPlantManager, ProductionUnitOperationTO operation)
             throws UpdateException_Exception, NotInDatabaseException_Exception {
         iPlantManager.deleteProductionUnitOperation(operation);
+    }
+
+    @Override
+    protected ProductionUnitOperationTO queryById(IPlantManager serviceClient, long dbId) throws NotInDatabaseException_Exception {
+        return serviceClient.queryProductionUnitOperationByID(dbId);
     }
 }

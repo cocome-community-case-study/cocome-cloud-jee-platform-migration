@@ -2,7 +2,6 @@ package org.cocome.cloud.web.frontend.plant;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.AbstractDAO;
 import org.cocome.cloud.web.data.plantdata.ProductionUnitClassDAO;
 import org.cocome.cloud.web.data.plantdata.ProductionUnitOperationDAO;
 import org.cocome.cloud.web.data.plantdata.ProductionUnitOperationViewData;
@@ -15,7 +14,6 @@ import org.cocome.tradingsystem.inventory.application.plant.productionunit.Produ
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.constraints.NotNull;
 
 /**
  * Holds information about the currently active plant.
@@ -38,24 +36,7 @@ public class ProductionUnitOperationView extends AbstractView<ProductionUnitOper
     @Inject
     private PlantInformation plantInformation;
 
-    private ProductionUnitOperationViewData newInstance;
-
-    private long pucId;
-
-    public void createNewInstance() {
-        if (this.newInstance != null && this.newInstance.getData().getProductionUnitClass().getId() == pucId) {
-            return;
-        }
-        final ProductionUnitClassTO puc;
-        try {
-            puc = this.productionUnitClassDAO.get(plantInformation.getActivePlant(), pucId);
-        } catch (NotInDatabaseException_Exception e) {
-            LOG.error("Unable to fetch PUC", e);
-            throw new IllegalArgumentException(e);
-        }
-        this.newInstance = new ProductionUnitOperationViewData(new ProductionUnitOperationTO());
-        this.newInstance.getData().setProductionUnitClass(puc);
-    }
+    private ProductionUnitOperationViewData selected;
 
     @Override
     protected ProductionUnitOperationDAO getDAO() {
@@ -72,15 +53,26 @@ public class ProductionUnitOperationView extends AbstractView<ProductionUnitOper
         return Messages.get("puc_opr.short.text");
     }
 
-    public ProductionUnitOperationViewData getNewInstance() {
-        return newInstance;
+    public ProductionUnitOperationViewData getSelected() {
+        return selected;
     }
 
     public long getPucId() {
-        return pucId;
+        return this.selected.getData().getProductionUnitClass().getId();
     }
 
     public void setPucId(long pucId) {
-        this.pucId = pucId;
+        if (this.selected != null && this.selected.getData().getProductionUnitClass().getId() == pucId) {
+            return;
+        }
+        final ProductionUnitClassTO puc;
+        try {
+            puc = this.productionUnitClassDAO.find(plantInformation.getActivePlant().getData().getId(), pucId);
+        } catch (NotInDatabaseException_Exception e) {
+            LOG.error("Unable to fetch PUC", e);
+            throw new IllegalArgumentException(e);
+        }
+        this.selected = new ProductionUnitOperationViewData(new ProductionUnitOperationTO());
+        this.selected.getData().setProductionUnitClass(puc);
     }
 }

@@ -49,7 +49,7 @@ public class EnterpriseQuery implements IEnterpriseQuery {
     @Inject
     private IApplicationHelper applicationHelper;
 
-    private IEnterpriseManager lookupEnterpriseManager(long enterpriseID) throws NotInDatabaseException_Exception {
+    public IEnterpriseManager lookupEnterpriseManager(long enterpriseID) throws NotInDatabaseException_Exception {
         try {
             return applicationHelper.getComponent(
                     Names.getEnterpriseManagerRegistryName(enterpriseID),

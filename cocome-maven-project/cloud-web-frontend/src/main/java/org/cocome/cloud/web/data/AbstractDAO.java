@@ -22,15 +22,27 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractDAO<
         TService,
-        TTargetContent extends IIdentifiableTO,
-        TParentContent extends IIdentifiableTO> implements Serializable {
+        TTargetContent extends IIdentifiableTO> implements Serializable {
 
     private static final Logger LOG = Logger.getLogger(ProductionUnitOperationDAO.class);
 
     private final Map<Long, Boolean> queried = new HashMap<>();
     protected final Map<Long, DBObjectCache<ViewData<TTargetContent>>> cache = new HashMap<>();
 
-    public Collection<ViewData<TTargetContent>> getAllByParentObj(@NotNull ViewData<TParentContent> parent)
+    public TTargetContent find(final long dbId) throws NotInDatabaseException_Exception {
+        for (final DBObjectCache<ViewData<TTargetContent>> entry : cache.values()) {
+            if (entry.get(dbId) != null) {
+                return entry.get(dbId).getData();
+            }
+        }
+        final TTargetContent instance = this.queryById(createServiceClient(), dbId);
+        final ViewData<TTargetContent> viewData = createViewDataInstance(instance);
+        this.cache.putIfAbsent(viewData.getParentId(), new DBObjectCache<>());
+        this.cache.get(viewData.getParentId()).add(viewData);
+        return instance;
+    }
+
+    public Collection<ViewData<TTargetContent>> getAllByParentObj(@NotNull ViewData<?> parent)
             throws NotInDatabaseException_Exception {
         if (!queried.containsKey(parent.getData().getId())) {
             queried.put(parent.getData().getId(), true);
@@ -40,43 +52,54 @@ public abstract class AbstractDAO<
         return this.cache.get(parent.getData().getId()).getAll();
     }
 
-    public void create(final ViewData<TTargetContent> puOperation) throws NotInDatabaseException_Exception, CreateException_Exception {
-        final long dbId = createImpl(createServiceClient(puOperation.getServiceId()), puOperation.getData());
-        puOperation.getData().setId(dbId);
-        this.cache.putIfAbsent(puOperation.getParentId(), new DBObjectCache<>());
-        this.cache.get(puOperation.getParentId()).add(puOperation);
+    public void create(final ViewData<TTargetContent> viewData)
+            throws NotInDatabaseException_Exception, CreateException_Exception {
+        final long dbId = createImpl(createServiceClient(), viewData.getData());
+        viewData.getData().setId(dbId);
+        this.cache.putIfAbsent(viewData.getParentId(), new DBObjectCache<>());
+        this.cache.get(viewData.getParentId()).add(viewData);
     }
 
-    public void update(final ViewData<TTargetContent> puOperation) throws NotInDatabaseException_Exception, UpdateException_Exception {
-        updateImpl(createServiceClient(puOperation.getServiceId()), puOperation.getData());
-        puOperation.setEditingEnabled(false);
+    public void update(final ViewData<TTargetContent> viewData)
+            throws NotInDatabaseException_Exception, UpdateException_Exception {
+        updateImpl(createServiceClient(), viewData.getData());
+        viewData.setEditingEnabled(false);
     }
 
-    public void delete(final ViewData<TTargetContent> puOperation) throws NotInDatabaseException_Exception, UpdateException_Exception {
-        deleteImpl(createServiceClient(puOperation.getServiceId()), puOperation.getData());
-        cache.get(puOperation.getParentId()).remove(puOperation);
+    public void delete(final ViewData<TTargetContent> viewData)
+            throws NotInDatabaseException_Exception, UpdateException_Exception {
+        deleteImpl(createServiceClient(), viewData.getData());
+        cache.get(viewData.getParentId()).remove(viewData);
     }
 
-    private Collection<ViewData<TTargetContent>> queryAllByParentObj(@NotNull ViewData<TParentContent> puc)
+    private Collection<ViewData<TTargetContent>> queryAllByParentObj(
+            @NotNull ViewData<?> parantViewData)
             throws NotInDatabaseException_Exception {
         LOG.debug("Querying production unit classes");
 
-        final TService plantManager = createServiceClient(puc.getServiceId());
+        final TService plantManager = createServiceClient();
         return StreamUtil.ofNullable(
-                queryAllByParentObj(plantManager, puc.getData().getId()))
+                queryAllByParentObj(plantManager, parantViewData.getData().getId()))
                 .map(this::createViewDataInstance).collect(Collectors.toList());
     }
 
-    public abstract TService createServiceClient(final long target) throws NotInDatabaseException_Exception;
+    protected abstract TService createServiceClient() throws NotInDatabaseException_Exception;
 
-    protected abstract Collection<TTargetContent> queryAllByParentObj(TService service, final long id) throws NotInDatabaseException_Exception;
+    protected abstract Collection<TTargetContent> queryAllByParentObj(TService service, final long id)
+            throws NotInDatabaseException_Exception;
 
     public abstract ViewData<TTargetContent> createViewDataInstance(final TTargetContent target);
 
-    protected abstract long createImpl(TService service, TTargetContent viewData) throws CreateException_Exception;
+    protected abstract long createImpl(TService service, TTargetContent obj)
+            throws CreateException_Exception;
 
-    protected abstract void updateImpl(TService service, TTargetContent viewData) throws UpdateException_Exception, NotInDatabaseException_Exception;
+    protected abstract void updateImpl(TService service, TTargetContent obj)
+            throws UpdateException_Exception, NotInDatabaseException_Exception;
 
-    protected abstract void deleteImpl(TService service, TTargetContent viewData) throws UpdateException_Exception, NotInDatabaseException_Exception;
+    protected abstract void deleteImpl(TService service, TTargetContent obj)
+            throws UpdateException_Exception, NotInDatabaseException_Exception;
+
+    protected abstract TTargetContent queryById(TService serviceClient, long dbId)
+            throws NotInDatabaseException_Exception;
 
 }

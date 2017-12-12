@@ -36,6 +36,7 @@
       <xs:extension base="tns:RecipeOperationTO">
         <xs:sequence>
           <xs:element name="customProduct" type="ns3:CustomProductTO"/>
+          <xs:element name="enterprise" type="ns4:EnterpriseTO"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

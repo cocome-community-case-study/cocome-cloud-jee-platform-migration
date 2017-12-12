@@ -463,6 +463,13 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public Collection<IPlantOperation> queryPlantOperationsByPlantId(long plantId) throws NotInDatabaseException {
+        return queryCollection(defaultEnterpriseIndex,
+                enterpriseManager -> enterpriseManager.queryPlantOperationsByPlantId(plantId),
+                plantFactory::convertToPlantOperation);
+    }
+
+    @Override
     public Collection<IStore> queryStoreByName(long enterpriseID, String storeName) {
         IEnterpriseManager enterpriseManager;
         List<StoreWithEnterpriseTO> storeTOList;

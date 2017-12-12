@@ -27,17 +27,17 @@ public class ProductionUnitClassView extends AbstractView<ProductionUnitClassTO>
     private static final long serialVersionUID = 1L;
 
     @Inject
-    private ProductionUnitClassDAO productionUnitClassDAO;
+    private ProductionUnitClassDAO dao;
 
     @Inject
     private PlantInformation plantInformation;
 
-    private ProductionUnitClassViewData newInstance;
+    private ProductionUnitClassViewData selected;
 
     @PostConstruct
     public void createNewInstance() {
-        this.newInstance = new ProductionUnitClassViewData(new ProductionUnitClassTO());
-        this.newInstance.getData().setPlant(plantInformation.getActivePlant().getData());
+        this.selected = new ProductionUnitClassViewData(new ProductionUnitClassTO());
+        this.selected.getData().setPlant(plantInformation.getActivePlant().getData());
     }
 
     public String importPUC(
@@ -45,19 +45,19 @@ public class ProductionUnitClassView extends AbstractView<ProductionUnitClassTO>
             @NotNull String interfaceUrl,
             @NotNull PlantViewData plant) throws NotInDatabaseException_Exception {
 
-        return processFacesAction(() -> productionUnitClassDAO.importPUC(name, interfaceUrl, plant),
+        return processFacesAction(() -> dao.importPUC(name, interfaceUrl, plant),
                 Messages.get("message.import.success", Messages.get("puc.short.text")),
                 Messages.get("message.import.failed", Messages.get("puc.short.text")),
                 NavigationElements.PLANT_PUC);
     }
 
-    public ProductionUnitClassViewData getNewInstance() {
-        return newInstance;
+    public ProductionUnitClassViewData getSelected() {
+        return selected;
     }
 
     @Override
     protected ProductionUnitClassDAO getDAO() {
-        return this.productionUnitClassDAO;
+        return this.dao;
     }
 
     @Override

@@ -359,6 +359,10 @@ public interface IEnterpriseManager {
             throws NotInDatabaseException;
 
     @WebMethod
+    Collection<EntryPointTO> queryEntryPointsByRecipeId(
+            @XmlElement(required = true) @WebParam(name = "operationId") long recipeId) throws NotInDatabaseException;
+
+    @WebMethod
     Collection<EntryPointTO> queryInputEntryPointsByRecipeId(
             @XmlElement(required = true) @WebParam(name = "operationId") long recipeId) throws NotInDatabaseException;
 
@@ -382,6 +386,12 @@ public interface IEnterpriseManager {
             throws UpdateException, NotInDatabaseException;
 
     /* CRUD for {@link PlantOperationTO} **************/
+
+    @WebMethod
+    Collection<PlantOperationTO> queryPlantOperationsByPlantId(
+            @XmlElement(required = true)
+            @WebParam(name = "plantID")
+                    long plantId) throws NotInDatabaseException;
 
     @WebMethod
     PlantOperationTO queryPlantOperationById(

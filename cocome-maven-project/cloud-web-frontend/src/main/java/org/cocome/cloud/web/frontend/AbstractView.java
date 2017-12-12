@@ -22,6 +22,14 @@ import java.io.Serializable;
 public abstract class AbstractView<TTargetContent extends IIdentifiableTO> implements Serializable {
     private static final Logger LOG = Logger.getLogger(AbstractView.class);
 
+    public String save(@NotNull ViewData<TTargetContent> viewData)
+            throws NotInDatabaseException_Exception {
+        if (viewData.isNewInstance()) {
+            return this.create(viewData);
+        }
+        return this.update(viewData);
+    }
+
     public String create(@NotNull ViewData<TTargetContent> viewData) throws NotInDatabaseException_Exception {
         return processFacesAction(
                 () -> getDAO().create(viewData),
@@ -70,7 +78,7 @@ public abstract class AbstractView<TTargetContent extends IIdentifiableTO> imple
         return null;
     }
 
-    protected abstract AbstractDAO<?, TTargetContent, ?> getDAO();
+    protected abstract AbstractDAO<?, TTargetContent> getDAO();
 
     protected abstract NavigationElements getNextNavigationElement();
 

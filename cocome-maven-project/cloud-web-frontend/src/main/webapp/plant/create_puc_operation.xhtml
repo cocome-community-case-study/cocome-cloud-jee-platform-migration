@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:of="http://omnifaces.org/functions">
 
 <h:body>
@@ -10,7 +10,6 @@
 
         <f:metadata>
             <f:viewParam name="pucId" value="#{productionUnitOperationView.pucId}" required="true"/>
-            <f:viewAction action="#{productionUnitOperationView.createNewInstance}"/>
         </f:metadata>
 
         <ui:define name="body">
@@ -22,7 +21,7 @@
                                     value="#{strings['puc_opr.create.name.text']}"/>
                         </td>
                         <td>
-                            <h:inputText value="#{productionUnitOperationView.newInstance.data.name}"
+                            <h:inputText value="#{productionUnitOperationView.selected.data.name}"
                                          required="true"
                                          validatorMessage="#{of:format1(strings['validation.name.failed'],
                                          ['puc_opr.table.header_name'])}">
@@ -37,7 +36,7 @@
                                     value="#{strings['puc_opr.create.operationid.text']}"/>
                         </td>
                         <td>
-                            <h:inputText value="#{productionUnitOperationView.newInstance.data.operationId}"
+                            <h:inputText value="#{productionUnitOperationView.selected.data.operationId}"
                                          required="true"
                                          validatorMessage="#{of:format1(strings['validation.name.failed'],
                                          strings['puc_opr.table.header_operationid'])}">
@@ -53,7 +52,7 @@
                         </td>
                         <td>
                             <h:inputText
-                                    value="#{productionUnitOperationView.newInstance.data.executionDurationInMillis}"
+                                    value="#{productionUnitOperationView.selected.data.executionDurationInMillis}"
                                     required="true"
                                     converterMessage="#{of:format1(strings['validation.name.failed'],
                                          strings['puc_opr.table.header_operationid'])}">
@@ -62,7 +61,7 @@
                         </td>
                         <td>
                             <h:commandButton
-                                    action="#{productionUnitOperationView.create(productionUnitOperationView.newInstance)}"
+                                    action="#{productionUnitOperationView.create(productionUnitOperationView.selected)}"
                                     value="#{of:format1(strings['button.create.label'],strings['puc_opr.short.text'])}"/>
                         </td>
                     </tr>

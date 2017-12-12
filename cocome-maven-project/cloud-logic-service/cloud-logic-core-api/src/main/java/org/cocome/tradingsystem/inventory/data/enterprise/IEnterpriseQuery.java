@@ -294,4 +294,6 @@ public interface IEnterpriseQuery {
     Collection<IEntryPoint> queryInputEntryPointsByRecipeOperationId(long operationId) throws NotInDatabaseException;
 
     Collection<IEntryPoint> queryOutputEntryPointsByRecipeOperationId(long operationId) throws NotInDatabaseException;
+
+    Collection<IPlantOperation> queryPlantOperationsByPlantId(long plantId) throws NotInDatabaseException;
 }

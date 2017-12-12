@@ -137,6 +137,8 @@
   <xs:element name="queryPlantByNameResponse" type="tns:queryPlantByNameResponse"/>
   <xs:element name="queryPlantOperationById" type="tns:queryPlantOperationById"/>
   <xs:element name="queryPlantOperationByIdResponse" type="tns:queryPlantOperationByIdResponse"/>
+  <xs:element name="queryPlantOperationsByPlantId" type="tns:queryPlantOperationsByPlantId"/>
+  <xs:element name="queryPlantOperationsByPlantIdResponse" type="tns:queryPlantOperationsByPlantIdResponse"/>
   <xs:element name="queryPlantsByEnterpriseID" type="tns:queryPlantsByEnterpriseID"/>
   <xs:element name="queryPlantsByEnterpriseIDResponse" type="tns:queryPlantsByEnterpriseIDResponse"/>
   <xs:element name="queryRecipeByCustomProductId" type="tns:queryRecipeByCustomProductId"/>
@@ -525,6 +527,16 @@
   </xs:complexType>
   <xs:complexType name="deleteEnterpriseResponse">
     <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="queryPlantOperationsByPlantId">
+    <xs:sequence>
+      <xs:element name="plantID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryPlantOperationsByPlantIdResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:PlantOperationTO"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getProductByID">
     <xs:sequence>

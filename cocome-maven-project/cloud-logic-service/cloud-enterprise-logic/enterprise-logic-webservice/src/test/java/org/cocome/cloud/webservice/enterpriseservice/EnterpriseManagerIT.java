@@ -222,4 +222,9 @@ public class EnterpriseManagerIT {
         operationOrder.setOrderEntries(Collections.singletonList(entry));
         em.submitProductionOrder(operationOrder);
     }
+
+    @Test
+    public void createDummyCodeForWebDevelopment() {
+
+    }
 }
