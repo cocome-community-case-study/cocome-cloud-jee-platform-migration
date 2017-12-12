@@ -757,6 +757,7 @@ public class CSVHelper implements IBackendConversionHelper {
 
     private INominalParameter processNominalParameterRow(Row<String> row, int offset) {
         final INominalParameter result = plantFactory.getNewNominalParameter();
+        result.setOperationId(fetchLong(row.getColumns().get(offset)));
         result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
         result.setName(row.getColumns().get(2 + offset).getValue());
         result.setCategory(row.getColumns().get(3 + offset).getValue());
@@ -767,6 +768,7 @@ public class CSVHelper implements IBackendConversionHelper {
 
     private IBooleanParameter processBooleanParameterRow(Row<String> row, int offset) {
         final IBooleanParameter result = plantFactory.getNewBooleanParameter();
+        result.setOperationId(fetchLong(row.getColumns().get(offset)));
         result.setId(Long.parseLong(row.getColumns().get(1 + offset).getValue()));
         result.setName(row.getColumns().get(2 + offset).getValue());
         result.setCategory(row.getColumns().get(3 + offset).getValue());

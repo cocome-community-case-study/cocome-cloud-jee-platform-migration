@@ -120,8 +120,14 @@ public class EnterpriseManagerIT {
     @Test
     public void testCRUDForEntryPoint()
             throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception {
+        final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
+        final CustomProductTO customProduct = WSTestUtils.createCustomProduct(em);
+        final RecipeTO recipe = WSTestUtils.createRecipe(enterprise, customProduct, em);
+
         final EntryPointTO entryPointTO = new EntryPointTO();
         entryPointTO.setName("ISO 12345 Slot");
+        entryPointTO.setOperation(recipe);
+        entryPointTO.setDirection(EntryPointTO.DirectionTO.INPUT);
         entryPointTO.setId(em.createEntryPoint(entryPointTO));
         final EntryPointTO singleInstance = em.queryEntryPointById(entryPointTO.getId());
         Assert.assertEquals(entryPointTO.getName(), singleInstance.getName());

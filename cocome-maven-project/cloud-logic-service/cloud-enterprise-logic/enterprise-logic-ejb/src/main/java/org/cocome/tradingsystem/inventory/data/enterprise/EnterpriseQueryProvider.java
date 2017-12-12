@@ -372,6 +372,8 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
         try {
             return converter.apply(backendConnection.getEntity(entity, cond)).iterator().next();
         } catch (NoSuchElementException e) {
+            LOG.error(e);
+            e.printStackTrace();
             throw new NotInDatabaseException(String.format(
                     "No matching entity of type '%s' found in database! Used condition: %s",
                     entity, cond), e);

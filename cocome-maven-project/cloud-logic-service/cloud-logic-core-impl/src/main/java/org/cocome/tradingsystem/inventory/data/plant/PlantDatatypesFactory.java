@@ -283,6 +283,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(booleanParameter.getId());
         result.setName(booleanParameter.getName());
         result.setCategory(booleanParameter.getCategory());
+        result.setOperation(fillRecipeOperationTO(booleanParameter.getOperation()));
 
         return result;
     }
@@ -293,6 +294,8 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(booleanParameterTO.getId());
         result.setName(booleanParameterTO.getName());
         result.setCategory(booleanParameterTO.getCategory());
+        result.setOperation(convertToRecipeOperation(booleanParameterTO.getOperation()));
+        result.setOperationId(booleanParameterTO.getOperation().getId());
 
         return result;
     }
@@ -311,6 +314,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setName(nominalParameter.getName());
         result.setCategory(nominalParameter.getCategory());
         result.setOptions(nominalParameter.getOptions());
+        result.setOperation(fillRecipeOperationTO(nominalParameter.getOperation()));
 
         return result;
     }
@@ -318,11 +322,13 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     @Override
     public INominalParameter convertToNominalParameter(NominalParameterTO nominalParameterTO) {
         final INominalParameter result = getNewNominalParameter();
+        result.setId(nominalParameterTO.getId());
         result.setName(nominalParameterTO.getName());
         result.setCategory(nominalParameterTO.getCategory());
         result.setOptions(nominalParameterTO.getOptions());
+        result.setOperation(convertToRecipeOperation(nominalParameterTO.getOperation()));
+        result.setOperationId(nominalParameterTO.getOperation().getId());
 
-        result.setId(nominalParameterTO.getId());
         return result;
     }
 

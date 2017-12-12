@@ -33,7 +33,10 @@ import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterV
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderEntryTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
 import org.junit.Assert;
@@ -205,6 +208,7 @@ public class PlantManagerIT {
 
         final BooleanParameterTO param = new BooleanParameterTO();
         param.setCategory("Yoghurt Preparation");
+        param.setOperation(operation);
         param.setName("Organic");
         param.setId(em.createBooleanParameter(param));
 
