@@ -13,13 +13,11 @@
                 <table>
                     <tr>
                         <td>
-                            <h:outputText value="#{strings['puc_opr.create.name.text']}"/>
+                            <h:outputText value="Name"/>
                         </td>
                         <td>
                             <h:inputText value="#{productionUnitView.newInstance.data.location}"
-                                         required="true"
-                                         validatorMessage="#{of:format1(strings['validation.name.failed'],
-                                         ['puc_opr.table.header_name'])}">
+                                         required="true">
                                 <f:validateLength minimum="3" maximum="30"/>
                                 <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                             </h:inputText>
