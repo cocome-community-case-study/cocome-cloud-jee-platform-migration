@@ -19,7 +19,7 @@
                                          value="#{name}"
                                          required="true"
                                          validatorMessage="#{of:format3(strings['validation.name.failed'],
-                                                                        strings['product.table.header_name'], 3 ,30)}">
+                                                                        'Custom Product Name', 3 ,30)}">
                                 <f:validateLength minimum="3" maximum="30"/>
                                 <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                             </h:inputText>
@@ -46,8 +46,9 @@
                         </td>
                         <td>
                             <h:commandButton
-                                    action="#{enterprisePersistence.createProduct(name, barcode, purchasePrice)}"
-                                    value="#{strings['product.create.button.label']}"/>
+                                    action="#{enterprisePersistence.createCustomProduct(name, barcode, purchasePrice)}"
+                                    value="#{of:format1(strings['button.add.label'],
+                                                        strings['custom.product.short.text'])}"/>
                         </td>
                     </tr>
                 </table>

@@ -8,6 +8,7 @@ import org.cocome.cloud.web.data.enterprisedata.EnterpriseViewData;
 import org.cocome.cloud.web.data.plantdata.PlantViewData;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
@@ -310,6 +311,24 @@ public class EnterpriseQuery implements IEnterpriseQuery {
             enterpriseManager.createProduct(product);
         } catch (CreateException_Exception e) {
             LOG.error(String.format("Exception while creating product: %s\n%s", e.getMessage(),
+                    stackTraceToString(e)));
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean createCustomProduct(@NotNull String name, long barcode, double purchasePrice) throws NotInDatabaseException_Exception {
+        CustomProductTO product = new CustomProductTO();
+        product.setBarcode(barcode);
+        product.setName(name);
+        product.setPurchasePrice(purchasePrice);
+        enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
+        try {
+            enterpriseManager.createProduct(product);
+        } catch (CreateException_Exception e) {
+            LOG.error(String.format("Exception while creating custom product: %s\n%s", e.getMessage(),
                     stackTraceToString(e)));
             return false;
         }

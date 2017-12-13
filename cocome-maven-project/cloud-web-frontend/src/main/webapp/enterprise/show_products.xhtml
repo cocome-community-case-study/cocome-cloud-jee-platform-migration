@@ -13,8 +13,10 @@
             <h:dataTable value="#{enterpriseDAO.allProducts}" var="product"
                          styleClass="product-table" headerClass="product-table-header"
                          rowClasses="product-table-odd-row,product-table-even-row"
-                         columnClasses="product-table-text-col, product-table-text-col,
-    				product-table-text-col">
+                         columnClasses="product-table-text-col,
+                                        product-table-text-col,
+    				                    product-table-text-col,
+                                        product-table-text-col">
                 <h:column>
                     <f:facet name="header">#{strings['product.table.header_barcode']}</f:facet>
                     #{product.barcode}
@@ -29,13 +31,26 @@
                         <f:convertNumber type="currency" currencySymbol="€"/>
                     </h:outputText>
                 </h:column>
+                <h:column>
+                    <f:facet name="header">#{'Protuct Type'}</f:facet>
+                    <h:outputText rendered="#{product.productTO.class.simpleName eq 'ProductTO'}"
+                                  value="Regular"/>
+                    <h:outputText rendered="#{product.productTO.class.simpleName eq 'CustomProductTO'}"
+                                  value="Custom"/>
+                </h:column>
             </h:dataTable>
             <h:form>
                 <table width="100%">
                     <tr>
                         <td align="center">
                             <h:button outcome="/enterprise/create_product"
-                                      value="#{of:format1(strings['button.add.label'], 'Product')}"/>
+                                      value="#{of:format1(strings['button.add.label'],
+                                                          strings['product.short.text'])}"/>
+                        </td>
+                        <td align="center">
+                            <h:button outcome="/enterprise/create_custom_product"
+                                      value="#{of:format1(strings['button.add.label'],
+                                                          strings['custom.product.short.text'])}"/>
                         </td>
                     </tr>
                 </table>

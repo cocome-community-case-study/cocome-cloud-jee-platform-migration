@@ -30,9 +30,11 @@
                             <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                         </h:inputText>
                         </td>
-                        <td><h:commandButton
-                                action="#{plantPersistence.createPlant(enterpriseInformation.activeEnterprise.id, name, location)}"
-                                value="#{strings['plant.create.button.label']}"/></td>
+                        <td>
+                            <h:commandButton
+                                    action="#{plantPersistence.createPlant(enterpriseInformation.activeEnterprise.id, name, location)}"
+                                    value="#{strings['plant.create.button.label']}"/>
+                        </td>
                     </tr>
                 </table>
             </h:form>

@@ -50,7 +50,10 @@ public interface IEnterpriseQuery {
 
     boolean createProduct(@NotNull String name, long barcode, double purchasePrice) throws NotInDatabaseException_Exception;
 
+    boolean createCustomProduct(@NotNull String name, long barcode, double purchasePrice) throws NotInDatabaseException_Exception;
+
     boolean createStore(long enterpriseID, @NotNull String name, @NotNull String location) throws NotInDatabaseException_Exception;
 
     boolean createPlant(long enterpriseID, @NotNull String name, @NotNull String location) throws NotInDatabaseException_Exception;
+
 }

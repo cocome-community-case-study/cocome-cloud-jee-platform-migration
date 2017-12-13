@@ -649,10 +649,10 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public NominalParameterTO queryParameterById(long nominalParameterId)
+    public ParameterTO queryParameterById(long nominalParameterId)
             throws NotInDatabaseException {
-        return plantFactory.fillNominalParameterTO(
-                enterpriseQuery.queryNominalParameterByID(nominalParameterId));
+        return plantFactory.fillParameterTO(
+                enterpriseQuery.queryParameterById(nominalParameterId));
     }
 
     @Override
