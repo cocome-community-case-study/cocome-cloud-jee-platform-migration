@@ -13,10 +13,10 @@
                     <tr>
                         <td>
                             <h:outputText
-                                    value="Output Entry Point Name"/>
+                                    value="Parameter Name"/>
                         </td>
                         <td>
-                            <h:inputText value="#{outputEntryPointView.selected.data.name}"
+                            <h:inputText value="#{booleanParameterView.selected.data.name}"
                                          required="true"
                                          validatorMessage="#{of:format3(strings['validation.name.failed'],
                                                                         'Name',
@@ -25,10 +25,25 @@
                                 <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                             </h:inputText>
                         </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputText value="Parameter Category"/>
+                        </td>
+                        <td>
+                            <h:inputText value="#{booleanParameterView.selected.data.category}"
+                                         required="true"
+                                         validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                                        'Category',
+                                                                        3, 30)}">
+                                <f:validateLength minimum="3" maximum="30"/>
+                                <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                            </h:inputText>
+                        </td>
                         <td>
                             <h:commandButton
-                                    action="#{outputEntryPointView.create(outputEntryPointView.selected)}"
-                                    value=" #{of:format1(strings['button.create.label'], 'Output Entry Point')}"/>
+                                    action="#{booleanParameterView.create(booleanParameterView.selected)}"
+                                    value=" #{of:format1(strings['button.create.label'], 'Boolean Parameter')}"/>
                         </td>
                     </tr>
                 </table>

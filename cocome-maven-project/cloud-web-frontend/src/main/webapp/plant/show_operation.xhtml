@@ -18,6 +18,7 @@
                              rowClasses="product-table-odd-row, product-table-even-row"
                              columnClasses="product-table-text-col,
                                             product-table-text-col,
+                                            product-table-text-col,
                                             product-table-number-col">
                     <h:column>
                         <f:facet name="header">Plant Operation Name</f:facet>
@@ -44,7 +45,7 @@
                                     </td>
                                     <td>
                                         <cocome:defaultActionGroup item="#{inputEntryPoint}"
-                                                                   view="#{inputEntryPointView}" />
+                                                                   view="#{inputEntryPointView}"/>
                                     </td>
                                 </tr>
                             </ui:repeat>
@@ -56,7 +57,7 @@
                             <f:param name="operationId" value="#{item.data.id}"/>
                         </h:link>
 
-                        <hr />
+                        <hr/>
 
                         <p><h:outputText styleClass="underlined-text" value="Output Entry Points"/></p>
 
@@ -77,12 +78,123 @@
                                     </td>
                                     <td>
                                         <cocome:defaultActionGroup item="#{outputEntryPoint}"
-                                                                   view="#{outputEntryPointView}" />
+                                                                   view="#{outputEntryPointView}"/>
                                     </td>
                                 </tr>
                             </ui:repeat>
                         </table>
                         <h:link outcome="/plant/create_output_entry_point">
+                            <h:graphicImage
+                                    value="#{resource['icon:icon_add.png']}"
+                                    styleClass="button"/>
+                            <f:param name="operationId" value="#{item.data.id}"/>
+                        </h:link>
+
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Parameters</f:facet>
+
+                        <p><h:outputText styleClass="underlined-text" value="Boolean Parameters"/></p>
+                        <table>
+                            <ui:repeat value="#{booleanParameterDAO.getAllByParentObj(item)}"
+                                       var="booleanParameter">
+                                <tr>
+                                    <td>
+                                        <ul>
+                                            <li>
+                                                <h:outputText style="font-weight: bold;" value="Name: "/>
+                                                <h:outputText value="#{booleanParameter.data.name}"
+                                                              rendered="#{not param.editingEnabled}"/>
+                                                <h:inputText value="#{booleanParameter.data.name}"
+                                                             rendered="#{booleanParameter.editingEnabled}"
+                                                             validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     'Parameter Name',3,30)}">
+                                                    <f:validateLength minimum="3" maximum="30"/>
+                                                    <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                                                </h:inputText>
+                                            </li>
+                                            <li>
+                                                <h:outputText style="font-weight: bold;" value="Category: "/>
+                                                <h:outputText value="#{booleanParameter.data.category}"
+                                                              rendered="#{not booleanParameter.editingEnabled}"/>
+                                                <h:inputText value="#{booleanParameter.data.category}"
+                                                             rendered="#{booleanParameter.editingEnabled}"
+                                                             validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     'Parameter Category',3,30)}">
+                                                    <f:validateLength minimum="3" maximum="30"/>
+                                                    <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                                                </h:inputText>
+
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <cocome:defaultActionGroup item="#{booleanParameter}"
+                                                                   view="#{booleanParameterView}"/>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </table>
+                        <h:link outcome="/plant/create_boolean_parameter">
+                            <h:graphicImage
+                                    value="#{resource['icon:icon_add.png']}"
+                                    styleClass="button"/>
+                            <f:param name="operationId" value="#{item.data.id}"/>
+                        </h:link>
+
+                        <hr/>
+
+                        <p><h:outputText styleClass="underlined-text" value="Nominal Parameters"/></p>
+
+                        <table>
+                            <ui:repeat value="#{nominalParameterDAO.getAllByParentObj(item)}"
+                                       var="nominalParameter">
+                                <tr>
+                                    <td>
+                                        <ul>
+                                            <li>
+                                                <h:outputText style="font-weight: bold;" value="Name: "/>
+                                                <h:outputText value="#{nominalParameter.data.name}"
+                                                              rendered="#{not nominalParameter.editingEnabled}"/>
+                                                <h:inputText value="#{nominalParameter.data.name}"
+                                                             rendered="#{nominalParameter.editingEnabled}"
+                                                             validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     'Options',3,30)}">
+                                                    <f:validateLength minimum="3" maximum="30"/>
+                                                    <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                                                </h:inputText>
+                                            </li>
+                                            <li>
+                                                <h:outputText style="font-weight: bold;" value="Category: "/>
+                                                <h:outputText value="#{nominalParameter.data.category}"
+                                                              rendered="#{not nominalParameter.editingEnabled}"/>
+                                                <h:inputText value="#{nominalParameter.data.category}"
+                                                             rendered="#{nominalParameter.editingEnabled}"
+                                                             validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     'Options',3,30)}">
+                                                    <f:validateLength minimum="3" maximum="30"/>
+                                                    <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                                                </h:inputText>
+                                            </li>
+                                            <li>
+                                                <h:outputText style="font-weight: bold;" value="Options: "/>
+                                                <h:outputText value="#{nominalParameter.data.options}"
+                                                              rendered="#{not nominalParameter.editingEnabled}"/>
+                                                <h:inputText value="#{nominalParameter.data.options}"
+                                                             converter="omnifaces.ToCollectionConverter"
+                                                             rendered="#{nominalParameter.editingEnabled}">
+                                                </h:inputText>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <cocome:defaultActionGroup item="#{nominalParameter}"
+                                                                   view="#{nominalParameterView}"/>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </table>
+                        <h:link outcome="/plant/create_nominal_parameter">
                             <h:graphicImage
                                     value="#{resource['icon:icon_add.png']}"
                                     styleClass="button"/>

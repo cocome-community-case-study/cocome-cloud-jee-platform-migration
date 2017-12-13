@@ -2,11 +2,12 @@ package org.cocome.cloud.web.frontend.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.enterprisedata.EntryPointViewData;
-import org.cocome.cloud.web.data.enterprisedata.OutputEntryPointDAO;
+import org.cocome.cloud.web.data.enterprisedata.NominalParameterDAO;
+import org.cocome.cloud.web.data.enterprisedata.NominalParameterViewData;
 import org.cocome.cloud.web.data.plantdata.PlantOperationDAO;
 import org.cocome.cloud.web.frontend.AbstractView;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
 import org.omnifaces.cdi.Param;
 
@@ -22,9 +23,9 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class OutputEntryPointView extends AbstractView<EntryPointTO> {
+public class NominalParameterView extends AbstractView<NominalParameterTO> {
 
-    private static final Logger LOG = Logger.getLogger(OutputEntryPointView.class);
+    private static final Logger LOG = Logger.getLogger(NominalParameterView.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -36,16 +37,15 @@ public class OutputEntryPointView extends AbstractView<EntryPointTO> {
     private PlantOperationDAO plantOperationDAO;
 
     @Inject
-    private OutputEntryPointDAO dao;
+    private NominalParameterDAO dao;
 
-    private EntryPointViewData selected;
+    private NominalParameterViewData selected;
 
     @PostConstruct
     public void createNewInstance() {
-        this.selected = new EntryPointViewData(new EntryPointTO());
+        this.selected = new NominalParameterViewData(new NominalParameterTO());
         if (operationId != null) {
             try {
-                this.selected.getData().setDirection(EntryPointTO.DirectionTO.OUTPUT);
                 this.selected.getData().setOperation(plantOperationDAO.find(operationId));
             } catch (NotInDatabaseException_Exception e) {
                 LOG.error("Unable to load instance", e);
@@ -54,12 +54,12 @@ public class OutputEntryPointView extends AbstractView<EntryPointTO> {
         }
     }
 
-    public EntryPointViewData getSelected() {
+    public NominalParameterViewData getSelected() {
         return selected;
     }
 
     @Override
-    protected OutputEntryPointDAO getDAO() {
+    protected NominalParameterDAO getDAO() {
         return this.dao;
     }
 
@@ -70,7 +70,7 @@ public class OutputEntryPointView extends AbstractView<EntryPointTO> {
 
     @Override
     protected String getObjectName() {
-        return "Output Entry Point";
+        return "Nominal Parameter";
     }
 
 }

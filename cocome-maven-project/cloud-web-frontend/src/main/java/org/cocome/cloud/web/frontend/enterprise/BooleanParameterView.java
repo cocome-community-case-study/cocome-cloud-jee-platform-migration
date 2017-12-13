@@ -2,12 +2,12 @@ package org.cocome.cloud.web.frontend.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.enterprisedata.EntryPointViewData;
-import org.cocome.cloud.web.data.enterprisedata.OutputEntryPointDAO;
+import org.cocome.cloud.web.data.enterprisedata.BooleanParameterDAO;
+import org.cocome.cloud.web.data.enterprisedata.BooleanParameterViewData;
 import org.cocome.cloud.web.data.plantdata.PlantOperationDAO;
 import org.cocome.cloud.web.frontend.AbstractView;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO;
 import org.omnifaces.cdi.Param;
 
 import javax.annotation.PostConstruct;
@@ -22,9 +22,9 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class OutputEntryPointView extends AbstractView<EntryPointTO> {
+public class BooleanParameterView extends AbstractView<BooleanParameterTO> {
 
-    private static final Logger LOG = Logger.getLogger(OutputEntryPointView.class);
+    private static final Logger LOG = Logger.getLogger(BooleanParameterView.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -36,16 +36,15 @@ public class OutputEntryPointView extends AbstractView<EntryPointTO> {
     private PlantOperationDAO plantOperationDAO;
 
     @Inject
-    private OutputEntryPointDAO dao;
+    private BooleanParameterDAO dao;
 
-    private EntryPointViewData selected;
+    private BooleanParameterViewData selected;
 
     @PostConstruct
     public void createNewInstance() {
-        this.selected = new EntryPointViewData(new EntryPointTO());
+        this.selected = new BooleanParameterViewData(new BooleanParameterTO());
         if (operationId != null) {
             try {
-                this.selected.getData().setDirection(EntryPointTO.DirectionTO.OUTPUT);
                 this.selected.getData().setOperation(plantOperationDAO.find(operationId));
             } catch (NotInDatabaseException_Exception e) {
                 LOG.error("Unable to load instance", e);
@@ -54,12 +53,12 @@ public class OutputEntryPointView extends AbstractView<EntryPointTO> {
         }
     }
 
-    public EntryPointViewData getSelected() {
+    public BooleanParameterViewData getSelected() {
         return selected;
     }
 
     @Override
-    protected OutputEntryPointDAO getDAO() {
+    protected BooleanParameterDAO getDAO() {
         return this.dao;
     }
 
@@ -70,7 +69,7 @@ public class OutputEntryPointView extends AbstractView<EntryPointTO> {
 
     @Override
     protected String getObjectName() {
-        return "Output Entry Point";
+        return "Boolean Parameter";
     }
 
 }
