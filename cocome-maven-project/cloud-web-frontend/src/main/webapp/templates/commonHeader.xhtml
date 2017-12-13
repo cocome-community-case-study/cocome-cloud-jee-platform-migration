@@ -24,7 +24,7 @@
                         </td>
                         <td align="left" width="20%">
                             <table id="storeEnterpriseInfo">
-                                <h:panelGroup rendered="#{not empty enterpriseInformation.activeEnterprise}">
+                                <h:panelGroup rendered="#{enterpriseInformation.hasActiveEnterprise}">
                                     <tr>
                                         <td><h:outputText value="#{strings['header.enterprise.text']}"
                                         /></td>

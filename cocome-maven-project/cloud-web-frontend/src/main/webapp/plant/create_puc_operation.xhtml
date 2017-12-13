@@ -33,8 +33,8 @@
                         <td>
                             <h:inputText value="#{productionUnitOperationView.selected.data.operationId}"
                                          required="true"
-                                         validatorMessage="#{of:format1(strings['validation.name.failed'],
-                                         strings['puc_opr.table.header_operationid']), 3, 30}">
+                                         validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                         strings['puc_opr.table.header_operationid'], 3, 30)}">
                                 <f:validateLength minimum="3" maximum="30"/>
                                 <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                             </h:inputText>
@@ -52,6 +52,7 @@
                                     converterMessage="#{of:format3(strings['validation.name.failed'],
                                          strings['puc_opr.table.header_operationid'], 3, 30)}">
                                 <f:converter converterId="javax.faces.Long"/>
+                                <f:validateLongRange minimum="1"/>
                             </h:inputText>
                         </td>
                         <td>

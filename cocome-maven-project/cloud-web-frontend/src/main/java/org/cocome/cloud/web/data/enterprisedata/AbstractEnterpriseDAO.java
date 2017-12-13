@@ -25,6 +25,6 @@ public abstract class AbstractEnterpriseDAO<TTargetContent extends IIdentifiable
 
     @Override
     public IEnterpriseManager createServiceClient() throws NotInDatabaseException_Exception {
-        return this.enterpriseQuery.lookupEnterpriseManager(enterpriseInformation.getActiveEnterpriseID());
+        return this.enterpriseQuery.lookupEnterpriseManager(enterpriseInformation.getActiveEnterprise().getId());
     }
 }

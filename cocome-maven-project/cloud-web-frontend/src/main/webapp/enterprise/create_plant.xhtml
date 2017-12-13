@@ -8,13 +8,6 @@
 <h:body>
 
     <ui:composition template="/templates/commonTemplate.xhtml">
-        <f:metadata>
-            <f:viewParam name="enterprise_id"
-                         value="#{enterpriseInformation.activeEnterprise}" required="true"
-                         converter="#{enterpriseConverter}"
-                         converterMessage="#{strings['enterprise.conversion.error.text']}"
-                         requiredMessage="#{strings['enterprise.required.text']}"/>
-        </f:metadata>
         <ui:define name="body">
             <h:form>
                 <table>
@@ -38,7 +31,7 @@
                         </h:inputText>
                         </td>
                         <td><h:commandButton
-                                action="#{plantPersistence.createPlant(enterpriseInformation.activeEnterpriseID, name, location)}"
+                                action="#{plantPersistence.createPlant(enterpriseInformation.activeEnterprise.id, name, location)}"
                                 value="#{strings['plant.create.button.label']}"/></td>
                     </tr>
                 </table>

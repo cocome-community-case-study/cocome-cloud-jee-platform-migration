@@ -43,15 +43,17 @@ public class ProductionUnitOperationView extends AbstractView<ProductionUnitOper
 
     @PostConstruct
     public void createNewInstance() {
-        final ProductionUnitClassTO puc;
-        try {
-            puc = this.productionUnitClassDAO.find(pucId);
-        } catch (NotInDatabaseException_Exception e) {
-            LOG.error("Unable to fetch PUC", e);
-            throw new IllegalArgumentException(e);
+        if(pucId != null) {
+            final ProductionUnitClassTO puc;
+            try {
+                puc = this.productionUnitClassDAO.find(pucId);
+            } catch (NotInDatabaseException_Exception e) {
+                LOG.error("Unable to fetch PUC", e);
+                throw new IllegalArgumentException(e);
+            }
+            this.selected = new ProductionUnitOperationViewData(new ProductionUnitOperationTO());
+            this.selected.getData().setProductionUnitClass(puc);
         }
-        this.selected = new ProductionUnitOperationViewData(new ProductionUnitOperationTO());
-        this.selected.getData().setProductionUnitClass(puc);
     }
 
     @Override
