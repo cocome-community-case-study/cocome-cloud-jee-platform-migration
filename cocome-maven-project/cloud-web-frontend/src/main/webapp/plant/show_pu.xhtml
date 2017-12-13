@@ -27,8 +27,8 @@
                         <h:outputText value="#{item.data.location}"
                                       rendered="#{not item.editingEnabled}"/>
                         <h:inputText value="#{item.data.location}" rendered="#{item.editingEnabled}"
-                                     validatorMessage="#{of:format1(strings['validation.name.failed'],
-                                                                    'Location')}">
+                                     validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                                    'Location',3, 30)}">
                             <f:validateLength minimum="3" maximum="30"/>
                             <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                         </h:inputText>
@@ -38,9 +38,9 @@
                         <h:outputText value="#{item.data.interfaceUrl}"
                                       rendered="#{not item.editingEnabled}"/>
                         <h:inputText value="#{item.data.interfaceUrl}" rendered="#{item.editingEnabled}"
-                                     validatorMessage="#{of:format1(strings['validation.name.failed'],
-                                                                    strings['pu.table.header.interfacurl'])}">
-                            <f:validateLength minimum="3" maximum="150"/>
+                                     validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                                    strings['pu.table.header.interfacurl'],3,100)}">
+                            <f:validateLength minimum="3" maximum="100"/>
                             <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                         </h:inputText>
                     </h:column>

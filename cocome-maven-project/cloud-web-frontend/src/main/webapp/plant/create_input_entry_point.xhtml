@@ -13,21 +13,22 @@
                     <tr>
                         <td>
                             <h:outputText
-                                    value="#{strings['puc.create.name.text']}"/>
+                                    value="Input Entry Point Name"/>
                         </td>
                         <td>
-                            <h:inputText value="#{productionUnitClassView.selected.data.name}"
+                            <h:inputText value="#{inputEntryPointView.selected.data.name}"
                                          required="true"
                                          validatorMessage="#{of:format3(strings['validation.name.failed'],
-                                         strings['puc.table.header_name'],3 ,30)}">
+                                                                        'Name',
+                                                                        3, 30)}">
                                 <f:validateLength minimum="3" maximum="30"/>
                                 <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                             </h:inputText>
                         </td>
                         <td>
                             <h:commandButton
-                                    action="#{productionUnitClassView.create(productionUnitClassView.selected)}"
-                                    value=" #{of:format1(strings['button.create.label'],strings['puc.short.text'])}"/>
+                                    action="#{inputEntryPointView.create(inputEntryPointView.selected)}"
+                                    value=" #{of:format1(strings['button.create.label'], 'Input Entry Point')}"/>
                         </td>
                     </tr>
                 </table>

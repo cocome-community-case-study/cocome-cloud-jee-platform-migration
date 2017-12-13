@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.data.enterprisedata.EntryPointViewData;
 import org.cocome.cloud.web.data.enterprisedata.InputEntryPointDAO;
+import org.cocome.cloud.web.data.enterprisedata.OutputEntryPointDAO;
 import org.cocome.cloud.web.data.plantdata.PlantOperationDAO;
 import org.cocome.cloud.web.frontend.AbstractView;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
@@ -22,9 +23,9 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class InputEntryPointView extends AbstractView<EntryPointTO> {
+public class OutputEntryPointView extends AbstractView<EntryPointTO> {
 
-    private static final Logger LOG = Logger.getLogger(InputEntryPointView.class);
+    private static final Logger LOG = Logger.getLogger(OutputEntryPointView.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -36,7 +37,7 @@ public class InputEntryPointView extends AbstractView<EntryPointTO> {
     private PlantOperationDAO plantOperationDAO;
 
     @Inject
-    private InputEntryPointDAO dao;
+    private OutputEntryPointDAO dao;
 
     private EntryPointViewData selected;
 
@@ -59,7 +60,7 @@ public class InputEntryPointView extends AbstractView<EntryPointTO> {
     }
 
     @Override
-    protected InputEntryPointDAO getDAO() {
+    protected OutputEntryPointDAO getDAO() {
         return this.dao;
     }
 
@@ -70,7 +71,7 @@ public class InputEntryPointView extends AbstractView<EntryPointTO> {
 
     @Override
     protected String getObjectName() {
-        return "Input Entry Point";
+        return "Output Entry Point";
     }
 
 }

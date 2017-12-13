@@ -19,8 +19,8 @@
                                 <h:outputText value="#{strings['puc.create.name.text']} "/>
                                 <h:outputText value="#{puc.data.name}" rendered="#{not puc.editingEnabled}"/>
                                 <h:inputText value="#{puc.data.name}" rendered="#{puc.editingEnabled}"
-                                             validatorMessage="#{of:format1(strings['validation.name.failed'],
-                                                                 ['puc.table.header_name'])}">
+                                             validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                                 ['puc.table.header_name'],3,30)}">
                                     <f:validateLength minimum="3" maximum="30"/>
                                     <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                                 </h:inputText>
@@ -74,8 +74,8 @@
                                         <h:outputText value="#{opr.data.name}"
                                                       rendered="#{not opr.editingEnabled}"/>
                                         <h:inputText value="#{opr.data.name}" rendered="#{opr.editingEnabled}"
-                                                     validatorMessage="#{of:format1(strings['validation.name.failed'],
-                                                     ['puc_opr.table.header_name'])}">
+                                                     validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     ['puc_opr.table.header_name'],3,30)}">
                                             <f:validateLength minimum="3" maximum="30"/>
                                             <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                                         </h:inputText>
@@ -86,8 +86,8 @@
                                                       rendered="#{not opr.editingEnabled}"/>
                                         <h:inputText value="#{opr.data.operationId}"
                                                      rendered="#{opr.editingEnabled}"
-                                                     validatorMessage="#{of:format1(strings['validation.name.failed'],
-                                                     ['puc_opr.table.header_operationid'])}">
+                                                     validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     ['puc_opr.table.header_operationid'],3,30)}">
                                             <f:validateLength minimum="3" maximum="30"/>
                                             <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                                         </h:inputText>
@@ -100,7 +100,7 @@
                                                      rendered="#{opr.editingEnabled}"
                                                      styleClass="product-table-number-col"
                                                      converterMessage="#{of:format1(strings['validation.number.text'],
-                                                     ['puc_opr.table.header_exectime'])}">
+                                                     strings['puc_opr.table.header_exectime'])}">
                                             <f:converter converterId="javax.faces.Long"/>
                                         </h:inputText>
                                     </h:column>

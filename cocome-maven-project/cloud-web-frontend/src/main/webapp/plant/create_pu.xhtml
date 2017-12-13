@@ -30,8 +30,9 @@
                         <td>
                             <h:inputText value="#{productionUnitView.newInstance.data.interfaceUrl}"
                                          required="true"
-                                         validatorMessage="#{of:format1(strings['validation.name.failed'],
-                                         strings['pu.table.header.interfacurl'])}">
+                                         validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                         strings['pu.table.header.interfacurl'], 3, 100)}">
+                                <f:validateLength minimum="3" maximum="100"/>
                             </h:inputText>
                         </td>
                     </tr>

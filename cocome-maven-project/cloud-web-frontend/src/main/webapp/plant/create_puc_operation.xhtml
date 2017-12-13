@@ -18,8 +18,8 @@
                         <td>
                             <h:inputText value="#{productionUnitOperationView.selected.data.name}"
                                          required="true"
-                                         validatorMessage="#{of:format1(strings['validation.name.failed'],
-                                         ['puc_opr.table.header_name'])}">
+                                         validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                         strings['puc_opr.table.header_name'],3,30)}">
                                 <f:validateLength minimum="3" maximum="30"/>
                                 <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                             </h:inputText>
@@ -34,7 +34,7 @@
                             <h:inputText value="#{productionUnitOperationView.selected.data.operationId}"
                                          required="true"
                                          validatorMessage="#{of:format1(strings['validation.name.failed'],
-                                         strings['puc_opr.table.header_operationid'])}">
+                                         strings['puc_opr.table.header_operationid']), 3, 30}">
                                 <f:validateLength minimum="3" maximum="30"/>
                                 <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                             </h:inputText>
@@ -49,8 +49,8 @@
                             <h:inputText
                                     value="#{productionUnitOperationView.selected.data.executionDurationInMillis}"
                                     required="true"
-                                    converterMessage="#{of:format1(strings['validation.name.failed'],
-                                         strings['puc_opr.table.header_operationid'])}">
+                                    converterMessage="#{of:format3(strings['validation.name.failed'],
+                                         strings['puc_opr.table.header_operationid'], 3, 30)}">
                                 <f:converter converterId="javax.faces.Long"/>
                             </h:inputText>
                         </td>

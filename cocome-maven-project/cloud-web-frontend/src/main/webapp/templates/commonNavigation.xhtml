@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 <body>
 <ui:composition>
@@ -9,8 +9,7 @@
         <tbody>
         <tr>
             <td>
-                <ui:repeat value="#{navigationMenu.elements}"
-                           var="navElement">
+                <ui:repeat value="#{navigationMenu.elements}" var="navElement">
                     <h:link outcome="#{navElement.navOutcome}"
                             value="#{navElement.displayText}"
                             styleClass="#{view.viewId eq (navElement.navOutcome += '.xhtml')? 'active-nav-element nav-element' : 'nav-element'}"/>

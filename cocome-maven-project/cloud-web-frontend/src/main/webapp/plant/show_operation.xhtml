@@ -2,7 +2,9 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html" xmlns:of="http://omnifaces.org/functions">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:of="http://omnifaces.org/functions"
+      xmlns:cocome="http://java.sun.com/jsf/composite/cocome">
 
 <h:body>
 
@@ -14,10 +16,79 @@
                              var="item"
                              styleClass="product-table" headerClass="product-table-header"
                              rowClasses="product-table-odd-row, product-table-even-row"
-                             columnClasses="product-table-text-col, product-table-number-col">
+                             columnClasses="product-table-text-col,
+                                            product-table-text-col,
+                                            product-table-number-col">
                     <h:column>
                         <f:facet name="header">Plant Operation Name</f:facet>
                         <h:outputText value="#{item.data.name}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Entry Points</f:facet>
+
+                        <p><h:outputText styleClass="underlined-text" value="Input Entry Points"/></p>
+                        <table>
+                            <ui:repeat value="#{inputEntryPointDAO.getAllByParentObj(item)}"
+                                       var="inputEntryPoint">
+                                <tr>
+                                    <td>
+                                        <h:outputText value="#{inputEntryPoint.data.name}"
+                                                      rendered="#{not inputEntryPoint.editingEnabled}"/>
+                                        <h:inputText value="#{inputEntryPoint.data.name}"
+                                                     rendered="#{inputEntryPoint.editingEnabled}"
+                                                     validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     'Input Entry Point Name',3,30)}">
+                                            <f:validateLength minimum="3" maximum="30"/>
+                                            <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                                        </h:inputText>
+                                    </td>
+                                    <td>
+                                        <cocome:defaultActionGroup item="#{inputEntryPoint}"
+                                                                   view="#{inputEntryPointView}" />
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </table>
+                        <h:link outcome="/plant/create_input_entry_point">
+                            <h:graphicImage
+                                    value="#{resource['icon:icon_add.png']}"
+                                    styleClass="button"/>
+                            <f:param name="operationId" value="#{item.data.id}"/>
+                        </h:link>
+
+                        <hr />
+
+                        <p><h:outputText styleClass="underlined-text" value="Output Entry Points"/></p>
+
+                        <table>
+                            <ui:repeat value="#{outputEntryPointDAO.getAllByParentObj(item)}"
+                                       var="outputEntryPoint">
+                                <tr>
+                                    <td>
+                                        <h:outputText value="#{outputEntryPoint.data.name}"
+                                                      rendered="#{not outputEntryPoint.editingEnabled}"/>
+                                        <h:inputText value="#{outputEntryPoint.data.name}"
+                                                     rendered="#{outputEntryPoint.editingEnabled}"
+                                                     validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     'Output Entry Point Name',3,30)}">
+                                            <f:validateLength minimum="3" maximum="30"/>
+                                            <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                                        </h:inputText>
+                                    </td>
+                                    <td>
+                                        <cocome:defaultActionGroup item="#{outputEntryPoint}"
+                                                                   view="#{outputEntryPointView}" />
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </table>
+                        <h:link outcome="/plant/create_output_entry_point">
+                            <h:graphicImage
+                                    value="#{resource['icon:icon_add.png']}"
+                                    styleClass="button"/>
+                            <f:param name="operationId" value="#{item.data.id}"/>
+                        </h:link>
+
                     </h:column>
                     <h:column>
                         <f:facet name="header">#{strings['enterprise.table.header_action']}</f:facet>

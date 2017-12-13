@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite">
+
+<composite:interface>
+    <composite:attribute name="item"
+                         type="org.cocome.cloud.web.data.ViewData"/>
+    <composite:attribute name="view"
+                         type="org.cocome.cloud.web.frontend.AbstractView"/>
+</composite:interface>
+
+<composite:implementation>
+
+    <h:commandLink action="#{cc.attrs.item.setEditingEnabled(true)}"
+                   styleClass="button"
+                   title="#{strings['action.edit']}"
+                   rendered="#{not cc.attrs.item.editingEnabled}">
+        <h:graphicImage
+                value="#{resource['icon:icon_edit.png']}"
+                styleClass="button"/>
+    </h:commandLink>
+    <h:commandLink action="#{cc.attrs.view.delete(cc.attrs.item)}"
+                   styleClass="button"
+                   title="#{strings['action.remove']}"
+                   rendered="#{not cc.attrs.item.editingEnabled}">
+        <h:graphicImage
+                value="#{resource['icon:icon_remove.png']}"
+                styleClass="button"/>
+    </h:commandLink>
+    <h:commandLink action="#{cc.attrs.view.update(cc.attrs.item)}"
+                   styleClass="button"
+                   title="#{strings['action.save']}"
+                   rendered="#{cc.attrs.item.editingEnabled}">
+        <h:graphicImage value="#{resource['icon:icon_save.png']}"
+                        styleClass="button"/>
+    </h:commandLink>
+    <h:commandLink action="#{cc.attrs.item.setEditingEnabled(false)}"
+                   immediate="true"
+                   styleClass="button"
+                   title="#{strings['action.cancel']}"
+                   rendered="#{cc.attrs.item.editingEnabled}">
+        <h:graphicImage value="#{resource['icon:icon_reset.png']}"
+                        styleClass="button"/>
+    </h:commandLink>
+
+</composite:implementation>
+
+</html>
