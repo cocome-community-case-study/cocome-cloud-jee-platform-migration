@@ -351,6 +351,7 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
         final ProductionOrderTO productionOrder = new ProductionOrderTO();
         productionOrder.setOrderEntries(new LinkedHashSet<>());
         productionOrder.setStore(store);
+        productionOrder.setEnterprise(store.getEnterpriseTO());
 
         for (final SaleEntryTO entry : saleTO.getEntries()) {
             if (entry.getItemInfo().getItem() instanceof StockItemTO) {

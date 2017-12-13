@@ -32,7 +32,6 @@ import org.cocome.tradingsystem.inventory.application.plant.parameter.NominalPar
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeNodeTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
@@ -101,17 +100,18 @@ public class WSTestUtils {
                 Arrays.asList(
                         xppu.getOperation(XPPU.Crane_ACT_Init),
                         xppu.getOperation(XPPU.Stack_ACT_Init),
+                        xppu.getOperation(XPPU.Stamp_ACT_Init),
+                        xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
+                        xppu.getOperation(XPPU.Crane_ACT_PickUpWP),
                         new ConditionalExpressionInfo(
                                 "Organic",
                                 IBooleanParameter.TRUE_VALUE,
-                                Arrays.asList(
-                                        xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
-                                        xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
-                                        xppu.getOperation(XPPU.Crane_ACT_PickUpWP)),
-                                Arrays.asList(
-                                        xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
-                                        xppu.getOperation(XPPU.Stamp_ACT_Stamp),
-                                        xppu.getOperation(XPPU.Stamp_ACT_Stamp))),
+                                Collections.singletonList(
+                                        xppu.getOperation(XPPU.Crane_ACT_TurnToStamp)),
+                                Collections.singletonList(
+                                        xppu.getOperation(XPPU.Crane_ACT_TurnToConveyor)
+                                )),
+                        xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
                         fmu.getOperation(FMU.Silo0_ACT_Init),
                         fmu.getOperation(FMU.Silo1_ACT_Init),
                         fmu.getOperation(FMU.Silo2_ACT_Init)
