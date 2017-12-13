@@ -1,11 +1,11 @@
-package org.cocome.cloud.web.data.enterprisedata;
+package org.cocome.cloud.web.data.plantdata;
 
 import org.cocome.cloud.logic.stub.CreateException_Exception;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.stub.UpdateException_Exception;
 import org.cocome.cloud.web.data.ViewData;
-import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.cloud.web.data.enterprisedata.AbstractEnterpriseDAO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 
 import javax.enterprise.context.SessionScoped;

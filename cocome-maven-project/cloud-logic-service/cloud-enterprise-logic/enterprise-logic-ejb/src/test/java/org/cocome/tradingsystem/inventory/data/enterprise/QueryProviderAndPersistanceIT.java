@@ -185,7 +185,7 @@ public class QueryProviderAndPersistanceIT {
         persistenceContext.createEntity(param2);
 
         final List<IParameter> params =
-                new ArrayList<>(enterpriseQuery.queryParametersByRecipeOperationID(recipe.getId()));
+                new ArrayList<>(enterpriseQuery.queryParametersByRecipeOperationId(recipe.getId()));
         Assert.assertEquals(2, params.size());
         final List<Class<?>> paramClasses = params
                 .stream()

@@ -495,13 +495,13 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public Collection<EntryPointTO> queryEntryPointsByRecipeId(long recipeId) throws NotInDatabaseException {
+    public Collection<EntryPointTO> queryEntryPointsByRecipeOperationId(long recipeId) throws NotInDatabaseException {
         return queryCollection(enterpriseQuery.queryEntryPointsByRecipeOperationId(recipeId),
                 plantFactory::fillEntryPointTO);
     }
 
     @Override
-    public Collection<EntryPointTO> queryInputEntryPointsByRecipeId(long operationId) throws NotInDatabaseException {
+    public Collection<EntryPointTO> queryInputEntryPointsByRecipeOperationId(long operationId) throws NotInDatabaseException {
         Collection<IEntryPoint> entryPoints = enterpriseQuery.queryInputEntryPointsByRecipeOperationId(operationId);
         Collection<EntryPointTO> entryPointTOs = new ArrayList<>(entryPoints.size());
 
@@ -513,7 +513,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public Collection<EntryPointTO> queryOutputEntryPointsByRecipeId(long operationId) throws NotInDatabaseException {
+    public Collection<EntryPointTO> queryOutputEntryPointsByRecipeOperationId(long operationId) throws NotInDatabaseException {
         Collection<IEntryPoint> entryPoints = enterpriseQuery.queryOutputEntryPointsByRecipeOperationId(operationId);
         Collection<EntryPointTO> entryPointTOs = new ArrayList<>(entryPoints.size());
 
@@ -611,20 +611,10 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public ParameterTO queryParameterById(long operationId) throws NotInDatabaseException {
-        return plantFactory.fillParameterTO(
-                enterpriseQuery.queryParameterById(operationId));
-    }
-
-    @Override
-    public Collection<ParameterTO> queryParametersByRecipeOperationID(long parameterId)
+    public Collection<BooleanParameterTO> queryBooleanParametersByRecipeOperationId(long operationId)
             throws NotInDatabaseException {
-        Collection<IParameter> instances = enterpriseQuery.queryParametersByRecipeOperationID(parameterId);
-        Collection<ParameterTO> toInstances = new ArrayList<>(instances.size());
-        for (IParameter instance : instances) {
-            toInstances.add(plantFactory.fillParameterTO(instance));
-        }
-        return toInstances;
+        return queryCollection(enterpriseQuery.queryBooleanParametersByRecipeOperationId(operationId),
+                plantFactory::fillBooleanParameterTO);
     }
 
     @Override
@@ -659,10 +649,31 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
+    public NominalParameterTO queryParameterById(long nominalParameterId)
+            throws NotInDatabaseException {
+        return plantFactory.fillNominalParameterTO(
+                enterpriseQuery.queryNominalParameterByID(nominalParameterId));
+    }
+
+    @Override
     public NominalParameterTO queryNominalParameterById(long nominalParameterId)
             throws NotInDatabaseException {
         return plantFactory.fillNominalParameterTO(
                 enterpriseQuery.queryNominalParameterByID(nominalParameterId));
+    }
+
+    @Override
+    public Collection<ParameterTO> queryParametersByRecipeOperationId(long operationId)
+            throws NotInDatabaseException {
+        return queryCollection(enterpriseQuery.queryParametersByRecipeOperationId(operationId),
+                plantFactory::fillParameterTO);
+    }
+
+    @Override
+    public Collection<NominalParameterTO> queryNominalParametersByRecipeOperationId(long operationId)
+            throws NotInDatabaseException {
+        return queryCollection(enterpriseQuery.queryNominalParametersByRecipeOperationId(operationId),
+                plantFactory::fillNominalParameterTO);
     }
 
     @Override

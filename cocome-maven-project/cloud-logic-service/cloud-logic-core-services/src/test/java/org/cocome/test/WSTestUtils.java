@@ -265,6 +265,7 @@ public class WSTestUtils {
                 Collections.singletonList(store),
                 Collections.singletonList(plant),
                 Collections.singletonList(recipe),
+                Arrays.asList(cparam1, cparam2),
                 Collections.singletonList(new CustomProductInfo(customProduct,
                         Arrays.asList(cparam1, cparam2))));
     }

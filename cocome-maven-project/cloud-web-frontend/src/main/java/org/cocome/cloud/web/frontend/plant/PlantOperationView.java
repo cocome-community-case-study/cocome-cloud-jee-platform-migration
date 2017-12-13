@@ -2,11 +2,12 @@ package org.cocome.cloud.web.frontend.plant;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.enterprisedata.PlantOperationDAO;
-import org.cocome.cloud.web.data.enterprisedata.PlantOperationViewData;
+import org.cocome.cloud.web.data.plantdata.PlantOperationDAO;
+import org.cocome.cloud.web.data.plantdata.PlantOperationViewData;
 import org.cocome.cloud.web.frontend.AbstractView;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.omnifaces.cdi.Param;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -27,6 +28,10 @@ public class PlantOperationView extends AbstractView<PlantOperationTO> {
     private static final long serialVersionUID = 1L;
 
     @Inject
+    @Param
+    private Long operationId;
+
+    @Inject
     private PlantOperationDAO dao;
 
     @Inject
@@ -36,8 +41,17 @@ public class PlantOperationView extends AbstractView<PlantOperationTO> {
 
     @PostConstruct
     public void createNewInstance() {
-        this.selected = new PlantOperationViewData(new PlantOperationTO());
-        this.selected.getData().setPlant(plantInformation.getActivePlant().getData());
+        if (operationId != null) {
+            try {
+                this.selected = new PlantOperationViewData(dao.find(operationId));
+            } catch (NotInDatabaseException_Exception e) {
+                LOG.error("Unable to load instance", e);
+                e.printStackTrace();
+            }
+        } else {
+            this.selected = new PlantOperationViewData(new PlantOperationTO());
+            this.selected.getData().setPlant(plantInformation.getActivePlant().getData());
+        }
     }
 
     public PlantOperationViewData getSelected() {
@@ -57,23 +71,5 @@ public class PlantOperationView extends AbstractView<PlantOperationTO> {
     @Override
     protected String getObjectName() {
         return "Plant Operation";
-    }
-
-    public void setOperationId(long operationId) {
-        if (this.selected != null && this.getOperationId() == operationId) {
-            return;
-        }
-        final PlantOperationTO operation;
-        try {
-            operation = this.dao.find(operationId);
-        } catch (NotInDatabaseException_Exception e) {
-            LOG.error("Unable to fetch Plant Operation", e);
-            throw new IllegalArgumentException(e);
-        }
-        this.selected = new PlantOperationViewData(operation);
-    }
-
-    public long getOperationId() {
-        return this.selected.getData().getId();
     }
 }

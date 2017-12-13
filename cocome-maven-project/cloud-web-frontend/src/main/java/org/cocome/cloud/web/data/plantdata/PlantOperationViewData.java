@@ -1,4 +1,4 @@
-package org.cocome.cloud.web.data.enterprisedata;
+package org.cocome.cloud.web.data.plantdata;
 
 import org.cocome.cloud.web.data.ViewData;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;

@@ -37,10 +37,6 @@
     <wsdl:part name="parameters" element="tns:updatePlant">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="queryOutputEntryPointsByRecipeId">
-    <wsdl:part name="parameters" element="tns:queryOutputEntryPointsByRecipeId">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="UpdateException">
     <wsdl:part name="UpdateException" element="tns:UpdateException">
     </wsdl:part>
@@ -165,6 +161,10 @@
     <wsdl:part name="parameters" element="tns:getProductByID">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryParametersByRecipeOperationIdResponse">
+    <wsdl:part name="parameters" element="tns:queryParametersByRecipeOperationIdResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="onPlantOperationOrderFinishResponse">
     <wsdl:part name="parameters" element="tns:onPlantOperationOrderFinishResponse">
     </wsdl:part>
@@ -179,6 +179,10 @@
   </wsdl:message>
   <wsdl:message name="queryPlantByID">
     <wsdl:part name="parameters" element="tns:queryPlantByID">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryEntryPointsByRecipeOperationId">
+    <wsdl:part name="parameters" element="tns:queryEntryPointsByRecipeOperationId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getSupplierByID">
@@ -265,10 +269,6 @@
     <wsdl:part name="parameters" element="tns:createBooleanParameter">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="queryInputEntryPointsByRecipeIdResponse">
-    <wsdl:part name="parameters" element="tns:queryInputEntryPointsByRecipeIdResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getProductsBySupplier">
     <wsdl:part name="parameters" element="tns:getProductsBySupplier">
     </wsdl:part>
@@ -301,12 +301,12 @@
     <wsdl:part name="parameters" element="tns:querySuppliers">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="queryParametersByRecipeOperationIDResponse">
-    <wsdl:part name="parameters" element="tns:queryParametersByRecipeOperationIDResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="queryPlantByName">
     <wsdl:part name="parameters" element="tns:queryPlantByName">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryNominalParametersByRecipeOperationIdResponse">
+    <wsdl:part name="parameters" element="tns:queryNominalParametersByRecipeOperationIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="deleteEntryPointInteraction">
@@ -345,6 +345,10 @@
     <wsdl:part name="parameters" element="tns:createNominalParameterResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryParametersByRecipeOperationId">
+    <wsdl:part name="parameters" element="tns:queryParametersByRecipeOperationId">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createPlantOperation">
     <wsdl:part name="parameters" element="tns:createPlantOperation">
     </wsdl:part>
@@ -359,6 +363,10 @@
   </wsdl:message>
   <wsdl:message name="createEntryPointInteraction">
     <wsdl:part name="parameters" element="tns:createEntryPointInteraction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryBooleanParametersByRecipeOperationId">
+    <wsdl:part name="parameters" element="tns:queryBooleanParametersByRecipeOperationId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateProductResponse">
@@ -389,16 +397,16 @@
     <wsdl:part name="parameters" element="tns:queryEntryPointInteractionByIdResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryInputEntryPointsByRecipeOperationId">
+    <wsdl:part name="parameters" element="tns:queryInputEntryPointsByRecipeOperationId">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="RecipeException">
     <wsdl:part name="RecipeException" element="tns:RecipeException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryEntryPointById">
     <wsdl:part name="parameters" element="tns:queryEntryPointById">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="queryOutputEntryPointsByRecipeIdResponse">
-    <wsdl:part name="parameters" element="tns:queryOutputEntryPointsByRecipeIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryNominalParameterById">
@@ -457,8 +465,8 @@
     <wsdl:part name="parameters" element="tns:getMeanTimeToDelivery">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="queryParametersByRecipeOperationID">
-    <wsdl:part name="parameters" element="tns:queryParametersByRecipeOperationID">
+  <wsdl:message name="queryOutputEntryPointsByRecipeOperationIdResponse">
+    <wsdl:part name="parameters" element="tns:queryOutputEntryPointsByRecipeOperationIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateEntryPointInteraction">
@@ -483,6 +491,14 @@
   </wsdl:message>
   <wsdl:message name="getProductByBarcode">
     <wsdl:part name="parameters" element="tns:getProductByBarcode">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryBooleanParametersByRecipeOperationIdResponse">
+    <wsdl:part name="parameters" element="tns:queryBooleanParametersByRecipeOperationIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryEntryPointsByRecipeOperationIdResponse">
+    <wsdl:part name="parameters" element="tns:queryEntryPointsByRecipeOperationIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateEntryPoint">
@@ -557,12 +573,20 @@
     <wsdl:part name="CreateException" element="tns:CreateException">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryInputEntryPointsByRecipeOperationIdResponse">
+    <wsdl:part name="parameters" element="tns:queryInputEntryPointsByRecipeOperationIdResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryEnterpriseById">
     <wsdl:part name="parameters" element="tns:queryEnterpriseById">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryRecipeNodesByRecipeIdResponse">
     <wsdl:part name="parameters" element="tns:queryRecipeNodesByRecipeIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryOutputEntryPointsByRecipeOperationId">
+    <wsdl:part name="parameters" element="tns:queryOutputEntryPointsByRecipeOperationId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getAllCustomProductsResponse">
@@ -589,8 +613,8 @@
     <wsdl:part name="parameters" element="tns:getSupplierByIDResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="queryInputEntryPointsByRecipeId">
-    <wsdl:part name="parameters" element="tns:queryInputEntryPointsByRecipeId">
+  <wsdl:message name="queryNominalParametersByRecipeOperationId">
+    <wsdl:part name="parameters" element="tns:queryNominalParametersByRecipeOperationId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryParameterInteractionsByRecipeIdResponse">
@@ -662,6 +686,14 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="queryParametersByRecipeOperationId">
+      <wsdl:input name="queryParametersByRecipeOperationId" message="tns:queryParametersByRecipeOperationId">
+    </wsdl:input>
+      <wsdl:output name="queryParametersByRecipeOperationIdResponse" message="tns:queryParametersByRecipeOperationIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="createPlantOperation">
       <wsdl:input name="createPlantOperation" message="tns:createPlantOperation">
     </wsdl:input>
@@ -694,6 +726,14 @@
       <wsdl:output name="createEntryPointInteractionResponse" message="tns:createEntryPointInteractionResponse">
     </wsdl:output>
       <wsdl:fault name="CreateException" message="tns:CreateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryBooleanParametersByRecipeOperationId">
+      <wsdl:input name="queryBooleanParametersByRecipeOperationId" message="tns:queryBooleanParametersByRecipeOperationId">
+    </wsdl:input>
+      <wsdl:output name="queryBooleanParametersByRecipeOperationIdResponse" message="tns:queryBooleanParametersByRecipeOperationIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryParameterInteractionsByRecipeId">
@@ -750,10 +790,10 @@
       <wsdl:fault name="UpdateException" message="tns:UpdateException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="queryOutputEntryPointsByRecipeId">
-      <wsdl:input name="queryOutputEntryPointsByRecipeId" message="tns:queryOutputEntryPointsByRecipeId">
+    <wsdl:operation name="queryInputEntryPointsByRecipeOperationId">
+      <wsdl:input name="queryInputEntryPointsByRecipeOperationId" message="tns:queryInputEntryPointsByRecipeOperationId">
     </wsdl:input>
-      <wsdl:output name="queryOutputEntryPointsByRecipeIdResponse" message="tns:queryOutputEntryPointsByRecipeIdResponse">
+      <wsdl:output name="queryInputEntryPointsByRecipeOperationIdResponse" message="tns:queryInputEntryPointsByRecipeOperationIdResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
@@ -842,14 +882,6 @@
       <wsdl:input name="getMeanTimeToDelivery" message="tns:getMeanTimeToDelivery">
     </wsdl:input>
       <wsdl:output name="getMeanTimeToDeliveryResponse" message="tns:getMeanTimeToDeliveryResponse">
-    </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="queryParametersByRecipeOperationID">
-      <wsdl:input name="queryParametersByRecipeOperationID" message="tns:queryParametersByRecipeOperationID">
-    </wsdl:input>
-      <wsdl:output name="queryParametersByRecipeOperationIDResponse" message="tns:queryParametersByRecipeOperationIDResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
@@ -1044,6 +1076,14 @@
       <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="queryEntryPointsByRecipeOperationId">
+      <wsdl:input name="queryEntryPointsByRecipeOperationId" message="tns:queryEntryPointsByRecipeOperationId">
+    </wsdl:input>
+      <wsdl:output name="queryEntryPointsByRecipeOperationIdResponse" message="tns:queryEntryPointsByRecipeOperationIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="deleteEntryPoint">
       <wsdl:input name="deleteEntryPoint" message="tns:deleteEntryPoint">
     </wsdl:input>
@@ -1102,6 +1142,14 @@
       <wsdl:input name="queryRecipeById" message="tns:queryRecipeById">
     </wsdl:input>
       <wsdl:output name="queryRecipeByIdResponse" message="tns:queryRecipeByIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryOutputEntryPointsByRecipeOperationId">
+      <wsdl:input name="queryOutputEntryPointsByRecipeOperationId" message="tns:queryOutputEntryPointsByRecipeOperationId">
+    </wsdl:input>
+      <wsdl:output name="queryOutputEntryPointsByRecipeOperationIdResponse" message="tns:queryOutputEntryPointsByRecipeOperationIdResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
@@ -1174,10 +1222,10 @@
       <wsdl:fault name="CreateException" message="tns:CreateException">
     </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="queryInputEntryPointsByRecipeId">
-      <wsdl:input name="queryInputEntryPointsByRecipeId" message="tns:queryInputEntryPointsByRecipeId">
+    <wsdl:operation name="queryNominalParametersByRecipeOperationId">
+      <wsdl:input name="queryNominalParametersByRecipeOperationId" message="tns:queryNominalParametersByRecipeOperationId">
     </wsdl:input>
-      <wsdl:output name="queryInputEntryPointsByRecipeIdResponse" message="tns:queryInputEntryPointsByRecipeIdResponse">
+      <wsdl:output name="queryNominalParametersByRecipeOperationIdResponse" message="tns:queryNominalParametersByRecipeOperationIdResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
@@ -1339,6 +1387,18 @@
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="queryParametersByRecipeOperationId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryParametersByRecipeOperationId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryParametersByRecipeOperationIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="createPlantOperation">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="createPlantOperation">
@@ -1388,6 +1448,18 @@
       </wsdl:output>
       <wsdl:fault name="CreateException">
         <soap:fault name="CreateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryBooleanParametersByRecipeOperationId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryBooleanParametersByRecipeOperationId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryBooleanParametersByRecipeOperationIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="queryParameterInteractionsByRecipeId">
@@ -1471,12 +1543,12 @@
         <soap:fault name="UpdateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="queryOutputEntryPointsByRecipeId">
+    <wsdl:operation name="queryInputEntryPointsByRecipeOperationId">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="queryOutputEntryPointsByRecipeId">
+      <wsdl:input name="queryInputEntryPointsByRecipeOperationId">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="queryOutputEntryPointsByRecipeIdResponse">
+      <wsdl:output name="queryInputEntryPointsByRecipeOperationIdResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
@@ -1609,18 +1681,6 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getMeanTimeToDeliveryResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-      <wsdl:fault name="NotInDatabaseException">
-        <soap:fault name="NotInDatabaseException" use="literal"/>
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="queryParametersByRecipeOperationID">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="queryParametersByRecipeOperationID">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="queryParametersByRecipeOperationIDResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
@@ -1912,6 +1972,18 @@
         <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="queryEntryPointsByRecipeOperationId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryEntryPointsByRecipeOperationId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryEntryPointsByRecipeOperationIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="deleteEntryPoint">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="deleteEntryPoint">
@@ -1999,6 +2071,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="queryRecipeByIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryOutputEntryPointsByRecipeOperationId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryOutputEntryPointsByRecipeOperationId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryOutputEntryPointsByRecipeOperationIdResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">
@@ -2107,12 +2191,12 @@
         <soap:fault name="CreateException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="queryInputEntryPointsByRecipeId">
+    <wsdl:operation name="queryNominalParametersByRecipeOperationId">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="queryInputEntryPointsByRecipeId">
+      <wsdl:input name="queryNominalParametersByRecipeOperationId">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="queryInputEntryPointsByRecipeIdResponse">
+      <wsdl:output name="queryNominalParametersByRecipeOperationIdResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">

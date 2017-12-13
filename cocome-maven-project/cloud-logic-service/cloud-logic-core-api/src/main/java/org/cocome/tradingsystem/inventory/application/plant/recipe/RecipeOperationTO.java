@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 
 /**
- * Common interface for nestable recipes or atomic plant operations
+ * Common base type for nestable recipes or atomic plant operations
  *
  * @author Rudolf Biczok
  */

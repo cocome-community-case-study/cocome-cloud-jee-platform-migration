@@ -19,6 +19,7 @@
 package org.cocome.test;
 
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
@@ -36,6 +37,7 @@ public class EnterpriseInfo {
     private final List<StoreWithEnterpriseTO> stores;
     private final List<PlantTO> plants;
     private final List<RecipeTO> recipes;
+    private final List<ParameterTO> recipeParameters;
     private final List<CustomProductInfo> customProducts;
 
     /**
@@ -51,11 +53,13 @@ public class EnterpriseInfo {
                           final List<StoreWithEnterpriseTO> stores,
                           final List<PlantTO> plants,
                           final List<RecipeTO> recipes,
+                          final List<ParameterTO> recipeParameters,
                           final List<CustomProductInfo> customProducts) {
         this.enterprise = enterprise;
         this.stores = stores;
         this.plants = plants;
         this.recipes = recipes;
+        this.recipeParameters = recipeParameters;
         this.customProducts = customProducts;
     }
 
@@ -73,6 +77,10 @@ public class EnterpriseInfo {
 
     public List<RecipeTO> getRecipes() {
         return recipes;
+    }
+
+    public List<ParameterTO> getRecipeParameters() {
+        return recipeParameters;
     }
 
     public List<CustomProductInfo> getCustomProducts() {

@@ -23,9 +23,6 @@ import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
@@ -341,32 +338,17 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IParameter> queryParametersByRecipeOperationID(long plantOperationId) throws NotInDatabaseException {
-        IEnterpriseManager enterpriseManager;
-        final List<ParameterTO> toList;
-        try {
-            enterpriseManager = enterpriseClientFactory.createClient(defaultEnterpriseIndex);
-            toList = enterpriseManager.queryParametersByRecipeOperationID(plantOperationId);
-        } catch (NotInDatabaseException | NotInDatabaseException_Exception e) {
-            LOG.error("Got error while looking up plants by enterprise: " + e.getMessage(), e);
-            return Collections.emptyList();
-        }
+    public Collection<IBooleanParameter> queryBooleanParametersByRecipeOperationId(long operationId) throws NotInDatabaseException {
+        return queryCollection(operationId,
+                enterpriseManager -> enterpriseManager.queryBooleanParametersByRecipeOperationId(operationId),
+                plantFactory::convertToBooleanParameter);
+    }
 
-        final List<IParameter> instanceList = new ArrayList<>(toList.size());
-
-        for (final ParameterTO toInstance : toList) {
-            if (BooleanParameterTO.class.isAssignableFrom(toInstance.getClass())) {
-                instanceList.add(plantFactory.convertToBooleanParameter(
-                        (BooleanParameterTO) toInstance));
-                continue;
-            } else if (NominalParameterTO.class.isAssignableFrom(toInstance.getClass())) {
-                instanceList.add(plantFactory.convertToNominalParameter(
-                        (NominalParameterTO) toInstance));
-                continue;
-            }
-            throw new IllegalArgumentException("Unknown class to handle: " + toInstance.getClass());
-        }
-        return instanceList;
+    @Override
+    public Collection<INominalParameter> queryNominalParametersByRecipeOperationId(long operationId) throws NotInDatabaseException {
+        return queryCollection(operationId,
+                enterpriseManager -> enterpriseManager.queryNominalParametersByRecipeOperationId(operationId),
+                plantFactory::convertToNominalParameter);
     }
 
     @Override
@@ -447,10 +429,17 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public Collection<IEntryPoint> queryEntryPointsByRecipeOperationId(long operationId) throws NotInDatabaseException {
+        return queryCollection(defaultEnterpriseIndex,
+                enterpriseManager -> enterpriseManager.queryEntryPointsByRecipeOperationId(operationId),
+                plantFactory::convertToEntryPoint);
+    }
+
+    @Override
     public Collection<IEntryPoint> queryInputEntryPointsByRecipeOperationId(long operationId)
             throws NotInDatabaseException {
         return queryCollection(defaultEnterpriseIndex,
-                enterpriseManager -> enterpriseManager.queryInputEntryPointsByRecipeId(operationId),
+                enterpriseManager -> enterpriseManager.queryInputEntryPointsByRecipeOperationId(operationId),
                 plantFactory::convertToEntryPoint);
     }
 
@@ -458,7 +447,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     public Collection<IEntryPoint> queryOutputEntryPointsByRecipeOperationId(long operationId)
             throws NotInDatabaseException {
         return queryCollection(defaultEnterpriseIndex,
-                enterpriseManager -> enterpriseManager.queryOutputEntryPointsByRecipeId(operationId),
+                enterpriseManager -> enterpriseManager.queryOutputEntryPointsByRecipeOperationId(operationId),
                 plantFactory::convertToEntryPoint);
     }
 
@@ -467,6 +456,13 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
         return queryCollection(defaultEnterpriseIndex,
                 enterpriseManager -> enterpriseManager.queryPlantOperationsByPlantId(plantId),
                 plantFactory::convertToPlantOperation);
+    }
+
+    @Override
+    public Collection<IParameter> queryParametersByRecipeOperationId(long operationId) {
+        return queryCollection(defaultEnterpriseIndex,
+                enterpriseManager -> enterpriseManager.queryParametersByRecipeOperationId(operationId),
+                plantFactory::convertToParameter);
     }
 
     @Override

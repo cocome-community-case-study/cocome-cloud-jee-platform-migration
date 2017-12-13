@@ -262,7 +262,10 @@ public interface IEnterpriseQuery {
 
     IPlantOperation queryPlantOperationByID(long plantOperationId) throws NotInDatabaseException;
 
-    Collection<IParameter> queryParametersByRecipeOperationID(long plantOperationId)
+    Collection<IBooleanParameter> queryBooleanParametersByRecipeOperationId(long operationId)
+            throws NotInDatabaseException;
+
+    Collection<INominalParameter> queryNominalParametersByRecipeOperationId(long operationId)
             throws NotInDatabaseException;
 
     IBooleanParameter queryBooleanParameterByID(long booleanParameterId)
@@ -291,9 +294,13 @@ public interface IEnterpriseQuery {
 
     IRecipeOperation queryRecipeOperationById(long operationId) throws NotInDatabaseException;
 
+    Collection<IEntryPoint> queryEntryPointsByRecipeOperationId(long operationId) throws NotInDatabaseException;
+
     Collection<IEntryPoint> queryInputEntryPointsByRecipeOperationId(long operationId) throws NotInDatabaseException;
 
     Collection<IEntryPoint> queryOutputEntryPointsByRecipeOperationId(long operationId) throws NotInDatabaseException;
 
     Collection<IPlantOperation> queryPlantOperationsByPlantId(long plantId) throws NotInDatabaseException;
+
+    Collection<IParameter> queryParametersByRecipeOperationId(long operationId);
 }

@@ -18,16 +18,17 @@
 
 package org.cocome.cloud.logic.webservice.storeservice;
 
+
 import org.cocome.cloud.logic.stub.*;
 import org.cocome.test.EnterpriseInfo;
 import org.cocome.test.TestConfig;
 import org.cocome.test.WSTestUtils;
-import org.cocome.tradingsystem.inventory.application.enterprise.parameter.CustomProductParameterValueTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.application.store.OnDemandItemTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.SaleEntryTO;
-import org.cocome.tradingsystem.inventory.data.enterprise.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -95,12 +96,12 @@ public class StoreManagerIT {
         final SaleTO sale = new SaleTO();
         sale.setEntries(Collections.singletonList(new SaleEntryTO(item,
                 Arrays.asList(
-                        new CustomProductParameterValueTO(
-                                enterpriseInfo.getCustomProducts().get(0).getParameters().get(0),
-                                IBooleanParameter.FALSE_VALUE),
-                        new CustomProductParameterValueTO(
-                                enterpriseInfo.getCustomProducts().get(0).getParameters().get(1),
-                                "Glass")))));
+                        new ParameterValueTO(
+                                IBooleanParameter.FALSE_VALUE,
+                                enterpriseInfo.getRecipeParameters().get(0)),
+                        new ParameterValueTO(
+                                "Glass",
+                                enterpriseInfo.getCustomProducts().get(0).getParameters().get(1))))));
 
         sm.accountSale(enterpriseInfo.getStores().get(0).getId(), sale);
     }

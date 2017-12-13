@@ -1,4 +1,4 @@
-package org.cocome.cloud.web.frontend.plant;
+package org.cocome.cloud.web.frontend.enterprise;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;

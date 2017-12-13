@@ -359,15 +359,15 @@ public interface IEnterpriseManager {
             throws NotInDatabaseException;
 
     @WebMethod
-    Collection<EntryPointTO> queryEntryPointsByRecipeId(
+    Collection<EntryPointTO> queryEntryPointsByRecipeOperationId(
             @XmlElement(required = true) @WebParam(name = "operationId") long recipeId) throws NotInDatabaseException;
 
     @WebMethod
-    Collection<EntryPointTO> queryInputEntryPointsByRecipeId(
+    Collection<EntryPointTO> queryInputEntryPointsByRecipeOperationId(
             @XmlElement(required = true) @WebParam(name = "operationId") long recipeId) throws NotInDatabaseException;
 
     @WebMethod
-    Collection<EntryPointTO> queryOutputEntryPointsByRecipeId(
+    Collection<EntryPointTO> queryOutputEntryPointsByRecipeOperationId(
             @XmlElement(required = true) @WebParam(name = "operationId") long recipeId) throws NotInDatabaseException;
 
     @WebMethod
@@ -429,11 +429,6 @@ public interface IEnterpriseManager {
                     long parameterId)
             throws NotInDatabaseException;
 
-    @WebMethod
-    Collection<ParameterTO> queryParametersByRecipeOperationID(
-            @XmlElement(required = true) @WebParam(name = "operationID") long parameterId)
-            throws NotInDatabaseException;
-
     /* CRUD for {@link BooleanParameterTO} **************/
 
     @WebMethod
@@ -441,6 +436,12 @@ public interface IEnterpriseManager {
             @XmlElement(required = true)
             @WebParam(name = "booleanParameterID")
                     long booleanParameterId) throws NotInDatabaseException;
+
+    @WebMethod
+    Collection<BooleanParameterTO> queryBooleanParametersByRecipeOperationId(
+            @XmlElement(required = true)
+            @WebParam(name = "operationId")
+                    long operationId) throws NotInDatabaseException;
 
     @WebMethod
     long createBooleanParameter(
@@ -499,6 +500,18 @@ public interface IEnterpriseManager {
             @XmlElement(required = true)
             @WebParam(name = "nominalParameterID")
                     long nominalParameterId) throws NotInDatabaseException;
+
+    @WebMethod
+    Collection<NominalParameterTO> queryNominalParametersByRecipeOperationId(
+            @XmlElement(required = true)
+            @WebParam(name = "operationId")
+                    long operationId) throws NotInDatabaseException;
+
+    @WebMethod
+    Collection<ParameterTO> queryParametersByRecipeOperationId(
+            @XmlElement(required = true)
+            @WebParam(name = "operationId")
+                    long operationId) throws NotInDatabaseException;
 
     @WebMethod
     long createNominalParameter(

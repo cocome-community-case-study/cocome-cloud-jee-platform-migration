@@ -10,7 +10,9 @@ import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.util.Messages;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitClassTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitOperationTO;
+import org.omnifaces.cdi.Param;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,12 +30,29 @@ public class ProductionUnitOperationView extends AbstractView<ProductionUnitOper
     private static final Logger LOG = Logger.getLogger(ProductionUnitOperationDAO.class);
 
     @Inject
+    @Param
+    private Long pucId;
+
+    @Inject
     private ProductionUnitClassDAO productionUnitClassDAO;
 
     @Inject
     private ProductionUnitOperationDAO productionUnitOperationDAO;
 
     private ProductionUnitOperationViewData selected;
+
+    @PostConstruct
+    public void createNewInstance() {
+        final ProductionUnitClassTO puc;
+        try {
+            puc = this.productionUnitClassDAO.find(pucId);
+        } catch (NotInDatabaseException_Exception e) {
+            LOG.error("Unable to fetch PUC", e);
+            throw new IllegalArgumentException(e);
+        }
+        this.selected = new ProductionUnitOperationViewData(new ProductionUnitOperationTO());
+        this.selected.getData().setProductionUnitClass(puc);
+    }
 
     @Override
     protected ProductionUnitOperationDAO getDAO() {
@@ -52,24 +71,5 @@ public class ProductionUnitOperationView extends AbstractView<ProductionUnitOper
 
     public ProductionUnitOperationViewData getSelected() {
         return selected;
-    }
-
-    public long getPucId() {
-        return this.selected.getData().getProductionUnitClass().getId();
-    }
-
-    public void setPucId(long pucId) {
-        if (this.selected != null && this.selected.getData().getProductionUnitClass().getId() == pucId) {
-            return;
-        }
-        final ProductionUnitClassTO puc;
-        try {
-            puc = this.productionUnitClassDAO.find(pucId);
-        } catch (NotInDatabaseException_Exception e) {
-            LOG.error("Unable to fetch PUC", e);
-            throw new IllegalArgumentException(e);
-        }
-        this.selected = new ProductionUnitOperationViewData(new ProductionUnitOperationTO());
-        this.selected.getData().setProductionUnitClass(puc);
     }
 }

@@ -278,7 +278,8 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
                         "plant.id==" + plantId));
     }
 
-    private Collection<IEntryPoint> queryEntryPointsByRecipeOperationId(long operationId) {
+    @Override
+    public Collection<IEntryPoint> queryEntryPointsByRecipeOperationId(long operationId) {
         return csvHelper
                 .getEntryPoints(backendConnection.getEntity(
                         "EntryPoint",
@@ -286,11 +287,27 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IParameter> queryParametersByRecipeOperationID(long PlantOperationId) {
+    public Collection<IParameter> queryParametersByRecipeOperationId(long operationId) {
         return csvHelper
                 .getParameters(backendConnection.getEntity(
                         "Parameter",
-                        "operation.id==" + PlantOperationId));
+                        "operation.id==" + operationId));
+    }
+
+    @Override
+    public Collection<IBooleanParameter> queryBooleanParametersByRecipeOperationId(long operationId) {
+        return csvHelper
+                .getBooleanParameter(backendConnection.getEntity(
+                        "BooleanParameter",
+                        "operation.id==" + operationId));
+    }
+
+    @Override
+    public Collection<INominalParameter> queryNominalParametersByRecipeOperationId(long operationId) {
+        return csvHelper
+                .getNominalParameter(backendConnection.getEntity(
+                        "NominalParameter",
+                        "operation.id==" + operationId));
     }
 
     @Override

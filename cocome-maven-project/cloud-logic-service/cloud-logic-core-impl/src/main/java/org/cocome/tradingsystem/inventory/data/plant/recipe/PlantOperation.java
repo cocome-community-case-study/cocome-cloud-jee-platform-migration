@@ -147,7 +147,7 @@ public class PlantOperation implements Serializable, IPlantOperation {
     @Override
     public Collection<IParameter> getParameters() throws NotInDatabaseException {
         if (parameters == null) {
-            parameters = enterpriseQuery.queryParametersByRecipeOperationID(this.id);
+            parameters = enterpriseQuery.queryParametersByRecipeOperationId(this.id);
         }
         return parameters;
     }

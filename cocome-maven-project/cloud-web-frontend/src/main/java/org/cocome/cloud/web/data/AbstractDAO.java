@@ -91,7 +91,7 @@ public abstract class AbstractDAO<
     public abstract ViewData<TTargetContent> createViewDataInstance(final TTargetContent target);
 
     protected abstract long createImpl(TService service, TTargetContent obj)
-            throws CreateException_Exception;
+            throws CreateException_Exception, NotInDatabaseException_Exception;
 
     protected abstract void updateImpl(TService service, TTargetContent obj)
             throws UpdateException_Exception, NotInDatabaseException_Exception;
