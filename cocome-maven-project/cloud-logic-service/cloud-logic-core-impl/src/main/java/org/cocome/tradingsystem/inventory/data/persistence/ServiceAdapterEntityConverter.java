@@ -526,7 +526,7 @@ class ServiceAdapterEntityConverter {
     static String getCreateRecipeContent(IRecipe recipe) {
         return String.valueOf(recipe.getCustomProductId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                recipe.getName()+
+                recipe.getName() +
                 ServiceAdapterHeaders.SEPARATOR +
                 recipe.getEnterpriseId();
     }
@@ -568,6 +568,8 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.getEnterpriseId()) +
+                ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(order.getStoreId());
     }
 
@@ -577,6 +579,8 @@ class ServiceAdapterEntityConverter {
                 TimeUtils.convertNullableToStringDate(order.getDeliveryDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.getEnterpriseId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(order.getStoreId());
     }

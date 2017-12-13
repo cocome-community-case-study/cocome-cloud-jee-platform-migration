@@ -58,6 +58,8 @@ public class Recipe implements Serializable, IRecipe {
     private Collection<IEntryPoint> inputEntryPoint;
     private Collection<IEntryPoint> outputEntryPoint;
 
+    private Collection<IParameter> parameters;
+
     @Inject
     private Instance<IEnterpriseQuery> enterpriseQueryInstance;
 
@@ -207,6 +209,9 @@ public class Recipe implements Serializable, IRecipe {
 
     @Override
     public Collection<IParameter> getParameters() {
-        return null;
+        if (parameters == null) {
+            parameters = enterpriseQuery.queryParametersByRecipeOperationId(id);
+        }
+        return this.parameters;
     }
 }

@@ -28,8 +28,4 @@ public interface IProductionOrderEntry extends IRecipeOperationOrderEntry<IRecip
     IProductionOrder getOrder();
 
     void setOrder(IProductionOrder order);
-
-    long getOrderId();
-
-    void setOrderId(long order);
 }

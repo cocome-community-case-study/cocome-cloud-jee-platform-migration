@@ -99,5 +99,4 @@ public class PlantOperationOrderEntryTO implements Serializable, IIdentifiableTO
     public void setParameterValues(final Collection<ParameterValueTO> parameterValues) {
         this.parameterValues = parameterValues;
     }
-
 }

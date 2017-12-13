@@ -180,6 +180,7 @@ public class EnterpriseManagerIT {
         paramTO.setOperation(recipe);
         paramTO.setOptions(new HashSet<>(Arrays.asList("Apple", "Nuts")));
         paramTO.setId(em.createNominalParameter(paramTO));
+
         final NominalParameterTO singleInstance
                 = em.queryNominalParameterById(paramTO.getId());
         Assert.assertEquals(paramTO.getId(), singleInstance.getId());
@@ -205,6 +206,7 @@ public class EnterpriseManagerIT {
 
         final ProductionOrderTO operationOrder = new ProductionOrderTO();
         operationOrder.setStore(enterpriseInfo.getStores().get(0));
+        operationOrder.setEnterprise(enterpriseInfo.getEnterprise());
 
         final ParameterValueTO cparam1Value = new ParameterValueTO();
         cparam1Value.setParameter(enterpriseInfo.getCustomProducts().get(0).getParameters().get(0));

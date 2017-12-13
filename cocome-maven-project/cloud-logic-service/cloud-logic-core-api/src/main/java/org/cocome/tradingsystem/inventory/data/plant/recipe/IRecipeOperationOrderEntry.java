@@ -42,4 +42,13 @@ public interface IRecipeOperationOrderEntry<T extends IRecipeOperation>
     Collection<IParameterValue> getParameterValues();
 
     void setParameterValues(Collection<IParameterValue> parameterValues);
+
+    long getOperationId();
+
+    void setOperationId(long operationId);
+
+    long getOrderId();
+
+    void setOrderId(final long orderId);
+
 }

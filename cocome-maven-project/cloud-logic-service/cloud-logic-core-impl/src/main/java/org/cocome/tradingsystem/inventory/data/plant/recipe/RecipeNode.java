@@ -51,9 +51,19 @@ public class RecipeNode implements IRecipeNode, Serializable {
     }
 
     @Override
-    public void setRecipe(IRecipe parent) {
-        this.recipe = parent;
+    public void setRecipe(IRecipe recipe) {
+        this.recipe = recipe;
     }
+    @Override
+    public long getRecipeId() {
+        return recipeId;
+    }
+
+    @Override
+    public void setRecipeId(long recipeId) {
+        this.recipeId = recipeId;
+    }
+
 
     @Override
     public IRecipeOperation getOperation() throws NotInDatabaseException {
@@ -69,22 +79,12 @@ public class RecipeNode implements IRecipeNode, Serializable {
     }
 
     @Override
-    public long getRecipeId() {
-        return recipeId;
-    }
-
-    @Override
-    public void setRecipeId(long parentId) {
-        this.recipeId = parentId;
-    }
-
-    @Override
     public long getOperationId() {
         return operationId;
     }
 
     @Override
-    public void setOperationId(long childId) {
-        this.operationId = childId;
+    public void setOperationId(long operationId) {
+        this.operationId = operationId;
     }
 }

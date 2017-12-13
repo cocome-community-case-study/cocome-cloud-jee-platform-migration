@@ -44,8 +44,8 @@ public abstract class InteractionEntityTO<T extends INameableTO>
     private T from;
     @XmlElement(name = "to", required = true)
     private T to;
-    @XmlElementRef(name = "operation")
-    private RecipeOperationTO operation;
+    @XmlElementRef(name = "recipe")
+    private RecipeOperationTO recipe;
 
     /**
      * @return the database id
@@ -90,11 +90,11 @@ public abstract class InteractionEntityTO<T extends INameableTO>
         this.to = to;
     }
 
-    public RecipeOperationTO getOperation() {
-        return operation;
+    public RecipeOperationTO getRecipe() {
+        return recipe;
     }
 
-    public void setOperation(RecipeOperationTO operation) {
-        this.operation = operation;
+    public void setRecipe(RecipeOperationTO recipe) {
+        this.recipe = recipe;
     }
 }

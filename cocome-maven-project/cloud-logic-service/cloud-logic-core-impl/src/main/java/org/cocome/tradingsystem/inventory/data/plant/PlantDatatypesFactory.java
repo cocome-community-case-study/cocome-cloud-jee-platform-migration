@@ -345,6 +345,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(entryPointInteraction.getId());
         result.setFrom(fillEntryPointTO(entryPointInteraction.getFrom()));
         result.setTo(fillEntryPointTO(entryPointInteraction.getTo()));
+        result.setRecipe(fillRecipeTO(entryPointInteraction.getRecipe()));
         return result;
     }
 
@@ -354,6 +355,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(entryPointInteractionTO.getId());
         result.setFromId(entryPointInteractionTO.getFrom().getId());
         result.setToId(entryPointInteractionTO.getTo().getId());
+        result.setRecipeId(entryPointInteractionTO.getRecipe().getId());
         return result;
     }
 
@@ -370,6 +372,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(parameterInteraction.getId());
         result.setFrom(fillParameterTO(parameterInteraction.getFrom()));
         result.setTo(fillParameterTO(parameterInteraction.getTo()));
+        result.setRecipe(fillRecipeTO(parameterInteraction.getRecipe()));
         return result;
     }
 
@@ -379,6 +382,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(parameterInteractionTO.getId());
         result.setFromId(parameterInteractionTO.getFrom().getId());
         result.setToId(parameterInteractionTO.getTo().getId());
+        result.setRecipeId(parameterInteractionTO.getRecipe().getId());
         return result;
     }
 
@@ -436,7 +440,9 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(plantOperationOrderTO.getId());
         result.setOrderingDate(plantOperationOrderTO.getOrderingDate());
         result.setDeliveryDate(plantOperationOrderTO.getDeliveryDate());
+        result.setEnterprise(enterpriseDatatypes.convertToEnterprise(plantOperationOrderTO.getEnterprise()));
         result.setEnterpriseId(plantOperationOrderTO.getEnterprise().getId());
+        result.setPlant(enterpriseDatatypes.convertToPlant(plantOperationOrderTO.getPlant()));
         result.setPlantId(plantOperationOrderTO.getPlant().getId());
         result.setOrderEntries(convertList(plantOperationOrderTO.getOrderEntries(),
                 this::convertToPlantOperationOrderEntry));
@@ -468,6 +474,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(plantOperationOrderEntryTO.getId());
         result.setAmount(plantOperationOrderEntryTO.getAmount());
         result.setOperation(convertToPlantOperation(plantOperationOrderEntryTO.getPlantOperation()));
+        result.setOperationId(plantOperationOrderEntryTO.getPlantOperation().getId());
         result.setParameterValues(convertList(plantOperationOrderEntryTO.getParameterValues(),
                 this::convertToParameterValue));
         return result;
@@ -490,11 +497,11 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public IParameterValue convertToParameterValue(
-            ParameterValueTO parameterValueTO) {
+    public IParameterValue convertToParameterValue(ParameterValueTO parameterValueTO) {
         final IParameterValue result = getNewParameterValue();
         result.setId(parameterValueTO.getId());
         result.setValue(parameterValueTO.getValue());
+        result.setParameter(convertToParameter(parameterValueTO.getParameter()));
         result.setParameterId(parameterValueTO.getParameter().getId());
         return result;
     }
@@ -524,6 +531,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(productionOrderTO.getId());
         result.setOrderingDate(productionOrderTO.getOrderingDate());
         result.setDeliveryDate(productionOrderTO.getDeliveryDate());
+        result.setEnterpriseId(productionOrderTO.getEnterprise().getId());
         result.setStoreId(productionOrderTO.getStore().getId());
         result.setOrderEntries(convertList(productionOrderTO.getOrderEntries(),
                 this::convertToProductionOrderEntry));
@@ -548,13 +556,13 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public IProductionOrderEntry convertToProductionOrderEntry(ProductionOrderEntryTO productionnOrderEntryTO)
+    public IProductionOrderEntry convertToProductionOrderEntry(ProductionOrderEntryTO productionOrderEntryTO)
             throws NotInDatabaseException {
         final IProductionOrderEntry result = getNewProductionOrderEntry();
-        result.setId(productionnOrderEntryTO.getId());
-        result.setAmount(productionnOrderEntryTO.getAmount());
-        result.setOperation(convertToRecipe(productionnOrderEntryTO.getRecipe()));
-        result.setParameterValues(convertList(productionnOrderEntryTO.getParameterValues(),
+        result.setId(productionOrderEntryTO.getId());
+        result.setAmount(productionOrderEntryTO.getAmount());
+        result.setOperation(convertToRecipe(productionOrderEntryTO.getRecipe()));
+        result.setParameterValues(convertList(productionOrderEntryTO.getParameterValues(),
                 this::convertToParameterValue));
         return result;
     }
@@ -578,7 +586,9 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         final IRecipeNode result = getNewRecipeNode();
         result.setId(recipeNode.getId());
         result.setOperation(convertToRecipeOperation(recipeNode.getOperation()));
+        result.setOperationId(recipeNode.getOperation().getId());
         result.setRecipe(convertToRecipe(recipeNode.getRecipe()));
+        result.setRecipeId(recipeNode.getRecipe().getId());
         return result;
     }
 

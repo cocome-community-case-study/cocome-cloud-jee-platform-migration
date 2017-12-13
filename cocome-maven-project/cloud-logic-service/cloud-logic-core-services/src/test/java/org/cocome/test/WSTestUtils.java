@@ -194,6 +194,7 @@ public class WSTestUtils {
         final RecipeTO recipe = new RecipeTO();
         recipe.setName("Yogurt Recipe");
         recipe.setCustomProduct(customProduct);
+        recipe.setEnterprise(enterprise);
         recipe.setId(em.createRecipe(recipe));
 
         final RecipeNodeTO node1 = new RecipeNodeTO();
@@ -221,7 +222,7 @@ public class WSTestUtils {
         cparam2.setCategory("Packaging");
         cparam2.setName("Bottle");
         cparam2.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
-        cparam1.setOperation(recipe);
+        cparam2.setOperation(recipe);
         cparam2.setId(em.createNominalParameter(cparam2));
 
         final EntryPointTO recipeOut1 = new EntryPointTO();
@@ -233,30 +234,31 @@ public class WSTestUtils {
         final ParameterInteractionTO interaction1 = new ParameterInteractionTO();
         interaction1.setFrom(cparam1);
         interaction1.setTo(param);
+        interaction1.setRecipe(recipe);
         interaction1.setId(em.createParameterInteraction(interaction1));
 
         final ParameterInteractionTO interaction2 = new ParameterInteractionTO();
         interaction2.setFrom(cparam2);
         interaction2.setTo(opr2param);
-        interaction2.setOperation(recipe);
+        interaction2.setRecipe(recipe);
         interaction2.setId(em.createParameterInteraction(interaction2));
 
         final EntryPointInteractionTO epInteraction1 = new EntryPointInteractionTO();
         epInteraction1.setFrom(op1out1);
         epInteraction1.setTo(op3in1);
-        epInteraction1.setOperation(recipe);
+        epInteraction1.setRecipe(recipe);
         epInteraction1.setId(em.createEntryPointInteraction(epInteraction1));
 
         final EntryPointInteractionTO epInteraction2 = new EntryPointInteractionTO();
         epInteraction2.setFrom(op2out1);
         epInteraction2.setTo(op3in2);
-        epInteraction2.setOperation(recipe);
+        epInteraction2.setRecipe(recipe);
         epInteraction2.setId(em.createEntryPointInteraction(epInteraction2));
 
         final EntryPointInteractionTO epInteraction3 = new EntryPointInteractionTO();
         epInteraction3.setFrom(op3out1);
         epInteraction3.setTo(recipeOut1);
-        epInteraction3.setOperation(recipe);
+        epInteraction3.setRecipe(recipe);
         epInteraction3.setId(em.createEntryPointInteraction(epInteraction3));
 
         em.validateRecipe(recipe);

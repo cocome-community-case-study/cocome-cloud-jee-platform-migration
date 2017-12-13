@@ -13,44 +13,20 @@ import java.io.Serializable;
  */
 public interface IParameterValue extends Serializable, IIdentifiable {
 
-    /**
-     * @return the parameter for which the value is set for
-     */
     IParameter getParameter() throws NotInDatabaseException;
 
-    /**
-     * @param parameter the parameter for which the value is set for
-     */
     void setParameter(IParameter parameter);
 
-    /**
-     * @return the plant operation parameter id
-     */
     long getParameterId();
 
-    /**
-     * @param parameterId the plant operation parameter id
-     */
     void setParameterId(long parameterId);
 
-    /**
-     * @return the parameter value
-     */
     String getValue();
 
-    /**
-     * @param value the parameter value
-     */
     void setValue(String value);
 
-    /**
-     * @return the order entry this parameter setting belongs to
-     */
-     IRecipeOperationOrderEntry getOrderEntry() throws NotInDatabaseException;
+    IRecipeOperationOrderEntry getOrderEntry() throws NotInDatabaseException;
 
-    /**
-     * @param orderEntry the order entry this parameter setting belongs to
-     */
     void setOrderEntry(IRecipeOperationOrderEntry orderEntry);
 
     long getOrderEntryId();

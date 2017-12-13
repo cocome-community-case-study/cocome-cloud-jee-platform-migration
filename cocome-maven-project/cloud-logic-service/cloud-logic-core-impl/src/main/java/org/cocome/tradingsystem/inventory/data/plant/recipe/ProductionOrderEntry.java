@@ -18,12 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
-
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -40,21 +35,10 @@ public class ProductionOrderEntry implements Serializable, IProductionOrderEntry
     private long id;
     private long amount;
     private IRecipe recipe;
+    private long recipeId;
     private Collection<IParameterValue> parameterValues;
-
     private IProductionOrder order;
     private long orderId;
-
-    @Inject
-    private Instance<IPlantQuery> plantQueryInstance;
-
-    private IPlantQuery plantQuery;
-
-    @PostConstruct
-    public void init() {
-        plantQuery = plantQueryInstance.get();
-        order = null;
-    }
 
     @Override
     public long getId() {
@@ -87,6 +71,26 @@ public class ProductionOrderEntry implements Serializable, IProductionOrderEntry
     }
 
     @Override
+    public long getOperationId() {
+        return recipeId;
+    }
+
+    @Override
+    public void setOperationId(long operationId) {
+        this.recipeId = operationId;
+    }
+
+    @Override
+    public long getOrderId() {
+        return orderId;
+    }
+
+    @Override
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
+    }
+
+    @Override
     public IRecipe getOperation() {
         return recipe;
     }
@@ -104,15 +108,5 @@ public class ProductionOrderEntry implements Serializable, IProductionOrderEntry
     @Override
     public void setOrder(IProductionOrder order) {
         this.order = order;
-    }
-
-    @Override
-    public long getOrderId() {
-        return orderId;
-    }
-
-    @Override
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
     }
 }

@@ -567,9 +567,9 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public long createRecipeNode(RecipeNodeTO recipeNodeTO) throws CreateException, NotInDatabaseException {
-        final IRecipeNode param = plantFactory.convertToRecipeNode(recipeNodeTO);
-        saveDBCreateAction(() -> persistenceContext.createEntity(param));
-        return param.getId();
+        final IRecipeNode recipeNopde = plantFactory.convertToRecipeNode(recipeNodeTO);
+        saveDBCreateAction(() -> persistenceContext.createEntity(recipeNopde));
+        return recipeNopde.getId();
     }
 
     @Override
@@ -898,9 +898,13 @@ public class EnterpriseManager implements IEnterpriseManager {
     private void persistOrder(IProductionOrder order) throws CreateException {
         persistenceContext.createEntity(order);
         for (final IProductionOrderEntry entry : order.getOrderEntries()) {
+            entry.setOrder(order);
+            entry.setOrderId(order.getId());
             persistenceContext.createEntity(entry);
-            for (final IParameterValue values : entry.getParameterValues()) {
-                persistenceContext.createEntity(values);
+            for (final IParameterValue value : entry.getParameterValues()) {
+                value.setOrderEntry(entry);
+                value.setOrderEntryId(entry.getId());
+                persistenceContext.createEntity(value);
             }
         }
     }

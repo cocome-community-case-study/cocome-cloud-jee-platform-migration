@@ -28,9 +28,4 @@ public interface IPlantOperationOrderEntry extends IRecipeOperationOrderEntry<IP
     IPlantOperationOrder getOrder();
 
     void setOrder(IPlantOperationOrder order);
-
-    long getOrderId();
-
-    void setOrderId(long order);
-
 }

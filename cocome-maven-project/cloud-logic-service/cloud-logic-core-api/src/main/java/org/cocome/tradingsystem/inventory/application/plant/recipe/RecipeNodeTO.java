@@ -38,9 +38,9 @@ public class RecipeNodeTO implements IIdentifiableTO, Serializable {
 
     @XmlElement(name = "id", required = true)
     private long id;
-    @XmlElement(name = "parent", required = true)
+    @XmlElement(name = "recipe", required = true)
     private RecipeTO recipe;
-    @XmlElementRef(name = "child")
+    @XmlElementRef(name = "operation")
     private RecipeOperationTO operation;
 
     @Override

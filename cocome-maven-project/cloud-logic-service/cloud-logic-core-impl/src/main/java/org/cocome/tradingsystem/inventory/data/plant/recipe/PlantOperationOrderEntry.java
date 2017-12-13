@@ -18,12 +18,7 @@
 
 package org.cocome.tradingsystem.inventory.data.plant.recipe;
 
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
-
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -40,21 +35,11 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
     private long id;
     private long amount;
     private IPlantOperation plantOperation;
+    private long operationId;
     private Collection<IParameterValue> parameterValues;
 
     private IPlantOperationOrder order;
     private long orderId;
-
-    @Inject
-    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
-
-    private IEnterpriseQuery enterpriseQuery;
-
-    @PostConstruct
-    public void init() {
-        enterpriseQuery = enterpriseQueryInstance.get();
-        order = null;
-    }
 
     @Override
     public long getId() {
@@ -87,6 +72,26 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
     }
 
     @Override
+    public long getOperationId() {
+        return operationId;
+    }
+
+    @Override
+    public void setOperationId(long operationId) {
+        this.operationId = operationId;
+    }
+
+    @Override
+    public long getOrderId() {
+        return orderId;
+    }
+
+    @Override
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
+    }
+
+    @Override
     public IPlantOperation getOperation() {
         return plantOperation;
     }
@@ -104,15 +109,5 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
     @Override
     public void setOrder(IPlantOperationOrder order) {
         this.order = order;
-    }
-
-    @Override
-    public long getOrderId() {
-        return this.orderId;
-    }
-
-    @Override
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
     }
 }
