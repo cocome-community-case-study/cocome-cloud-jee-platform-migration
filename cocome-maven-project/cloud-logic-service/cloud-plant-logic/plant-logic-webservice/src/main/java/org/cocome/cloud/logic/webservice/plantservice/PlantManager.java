@@ -5,7 +5,6 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.IApplicationHelper;
 import org.cocome.cloud.logic.webservice.ThrowingFunction;
-import org.cocome.cloud.registry.service.Names;
 import org.cocome.logic.webservice.plantservice.IPlantManager;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.iface.IPUInterface;
@@ -18,7 +17,6 @@ import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperatio
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseQuery;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
-import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantQuery;
 import org.cocome.tradingsystem.inventory.data.plant.productionunit.IProductionUnit;
@@ -28,15 +26,11 @@ import org.cocome.tradingsystem.inventory.data.plant.recipe.IParameterValue;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrder;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IPlantOperationOrderEntry;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-import org.cocome.tradingsystem.util.scope.CashDeskRegistry;
-import org.cocome.tradingsystem.util.scope.IContextRegistry;
-import org.cocome.tradingsystem.util.scope.RegistryKeys;
 
 import javax.ejb.CreateException;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebService;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -76,34 +70,10 @@ public class PlantManager implements IPlantManager {
 
     private static final Logger LOG = Logger.getLogger(PlantManager.class);
 
-    private void setContextRegistry(long plantID) throws NotInDatabaseException {
-        LOG.debug("Setting plant to store with id " + plantID);
-        IPlant store = enterpriseQuery.queryPlant(plantID);
-        long enterpriseID = store.getEnterprise().getId();
-
-        IContextRegistry registry = new CashDeskRegistry("plant#" + plantID);
-        registry.putLong(RegistryKeys.PLANT_ID, plantID);
-        registry.putLong(RegistryKeys.ENTERPRISE_ID, enterpriseID);
-
-        try {
-            applicationHelper.registerComponent(
-                    Names.getPlantManagerRegistryName(defaultPlantIndex),
-                    plantManagerWSDL,
-                    false);
-            applicationHelper.registerComponent(
-                    Names.getStoreManagerRegistryName(plantID),
-                    plantManagerWSDL,
-                    false);
-        } catch (URISyntaxException e) {
-            LOG.error("Error registering component: " + e.getMessage());
-        }
-    }
-
     private <T1, T2> Collection<T2> queryCollectionByParentID(final long parentId,
                                                               final ThrowingFunction<Long, Collection<T1>, NotInDatabaseException> queryCommand,
                                                               final ThrowingFunction<T1, T2, NotInDatabaseException> conversionCommand)
             throws NotInDatabaseException {
-        //setContextRegistry(parentId);
         Collection<T1> instances = queryCommand.apply(parentId);
         Collection<T2> toInstances = new ArrayList<>(instances.size());
         for (T1 instance : instances) {
@@ -234,7 +204,7 @@ public class PlantManager implements IPlantManager {
     public long createProductionUnit(final ProductionUnitTO productionUnitTO) throws CreateException {
         final IProductionUnit operation = plantFactory.convertToProductionUnit(productionUnitTO);
         persistenceContext.createEntity(operation);
-        //TODO throw NotInDatabaseExceution
+        //TODO throw NotInDatabaseException
         try {
             puManager.addPUToWorkerPool(operation);
         } catch (NotInDatabaseException e) {
@@ -278,9 +248,13 @@ public class PlantManager implements IPlantManager {
     private void persistOrder(IPlantOperationOrder order) throws CreateException {
         persistenceContext.createEntity(order);
         for (final IPlantOperationOrderEntry entry : order.getOrderEntries()) {
+            entry.setOrder(order);
+            entry.setOrderId(order.getId());
             persistenceContext.createEntity(entry);
-            for (final IParameterValue values : entry.getParameterValues()) {
-                persistenceContext.createEntity(values);
+            for (final IParameterValue value : entry.getParameterValues()) {
+                value.setOrderEntry(entry);
+                value.setOrderEntryId(entry.getId());
+                persistenceContext.createEntity(value);
             }
         }
     }
