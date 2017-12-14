@@ -566,6 +566,11 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
+    public RecipeNodeTO queryRecipeNodeById(long recipeNodeId) throws NotInDatabaseException {
+        return plantFactory.fillRecipeNodeTO(enterpriseQuery.queryRecipeNodeById(recipeNodeId));
+    }
+
+    @Override
     public long createRecipeNode(RecipeNodeTO recipeNodeTO) throws CreateException, NotInDatabaseException {
         final IRecipeNode recipeNopde = plantFactory.convertToRecipeNode(recipeNodeTO);
         saveDBCreateAction(() -> persistenceContext.createEntity(recipeNopde));
@@ -780,6 +785,12 @@ public class EnterpriseManager implements IEnterpriseManager {
     public void validateRecipe(RecipeTO recipeTO) throws RecipeException, NotInDatabaseException {
         final IRecipe recipe = plantFactory.convertToRecipe(recipeTO);
         new RecipeExecutionGraph(recipe);
+    }
+
+    @Override
+    public Collection<RecipeTO> queryRecipesByEnterpriseId(long enterpriseId) throws NotInDatabaseException {
+        return queryCollection(enterpriseQuery.queryRecipesByEnterpriseId(enterpriseId),
+                plantFactory::fillRecipeTO);
     }
 
     @Override

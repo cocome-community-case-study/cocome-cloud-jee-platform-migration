@@ -151,10 +151,14 @@
   <xs:element name="queryRecipeByCustomProductIdResponse" type="tns:queryRecipeByCustomProductIdResponse"/>
   <xs:element name="queryRecipeById" type="tns:queryRecipeById"/>
   <xs:element name="queryRecipeByIdResponse" type="tns:queryRecipeByIdResponse"/>
+  <xs:element name="queryRecipeNodeById" type="tns:queryRecipeNodeById"/>
+  <xs:element name="queryRecipeNodeByIdResponse" type="tns:queryRecipeNodeByIdResponse"/>
   <xs:element name="queryRecipeNodesByRecipeId" type="tns:queryRecipeNodesByRecipeId"/>
   <xs:element name="queryRecipeNodesByRecipeIdResponse" type="tns:queryRecipeNodesByRecipeIdResponse"/>
   <xs:element name="queryRecipeOperationById" type="tns:queryRecipeOperationById"/>
   <xs:element name="queryRecipeOperationByIdResponse" type="tns:queryRecipeOperationByIdResponse"/>
+  <xs:element name="queryRecipesByEnterpriseId" type="tns:queryRecipesByEnterpriseId"/>
+  <xs:element name="queryRecipesByEnterpriseIdResponse" type="tns:queryRecipesByEnterpriseIdResponse"/>
   <xs:element name="queryStoreByEnterpriseID" type="tns:queryStoreByEnterpriseID"/>
   <xs:element name="queryStoreByEnterpriseIDResponse" type="tns:queryStoreByEnterpriseIDResponse"/>
   <xs:element name="queryStoreByID" type="tns:queryStoreByID"/>
@@ -474,7 +478,7 @@
   </xs:complexType>
   <xs:complexType name="queryRecipeNodesByRecipeId">
     <xs:sequence>
-      <xs:element name="recipeNodeTO" type="xs:long"/>
+      <xs:element name="recipeId" type="xs:long"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryRecipeNodesByRecipeIdResponse">
@@ -803,6 +807,16 @@
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns3:NominalParameterTO"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="queryRecipesByEnterpriseId">
+    <xs:sequence>
+      <xs:element name="enterpriseID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipesByEnterpriseIdResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:RecipeTO"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="createEnterprise">
     <xs:sequence>
       <xs:element name="enterpriseName" type="xs:string"/>
@@ -885,6 +899,16 @@
   </xs:complexType>
   <xs:complexType name="deleteRecipeResponse">
     <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeNodeById">
+    <xs:sequence>
+      <xs:element name="recipeNodeId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeNodeByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns4:RecipeNodeTO"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryPlantByName">
     <xs:sequence>

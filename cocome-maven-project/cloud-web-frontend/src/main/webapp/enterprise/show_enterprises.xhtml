@@ -24,13 +24,17 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">#{strings['enterprise.table.header_action']}</f:facet>
-                        <h:commandLink action="#{enterpriseInformation.showStoresOf(enterprise)}"
+                        <h:commandLink action="#{enterpriseInformation.switchToEnterprise(enterprise, 'show_stores?faces-redirect=true')}"
                                        title="#{strings['enterprise.table.action.show_stores']}">
                             <h:graphicImage value="#{resource['icon:icon_shop.png']}" styleClass="button"/>
                         </h:commandLink>
-                        <h:commandLink action="#{enterpriseInformation.showPlantsOf(enterprise)}"
+                        <h:commandLink action="#{enterpriseInformation.switchToEnterprise(enterprise, 'show_plants?faces-redirect=true')}"
                                        title="#{strings['enterprise.table.action.show_plants']}">
                             <h:graphicImage value="#{resource['icon:icon_plant.png']}" styleClass="button"/>
+                        </h:commandLink>
+                        <h:commandLink action="#{enterpriseInformation.switchToEnterprise(enterprise, 'show_recipes?faces-redirect=true')}"
+                                       title="#{strings['enterprise.table.action.show_recipes']}">
+                            <h:graphicImage value="#{resource['icon:recipe.png']}" styleClass="button"/>
                         </h:commandLink>
                     </h:column>
                 </h:dataTable>

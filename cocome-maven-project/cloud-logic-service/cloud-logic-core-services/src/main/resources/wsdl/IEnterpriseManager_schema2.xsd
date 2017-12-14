@@ -73,7 +73,7 @@
   <xs:complexType name="RecipeNodeTO">
     <xs:sequence>
       <xs:element name="id" type="xs:long"/>
-      <xs:element name="parent" type="tns:RecipeTO"/>
+      <xs:element name="recipe" type="tns:RecipeTO"/>
       <xs:choice>
         <xs:element ref="ns1:RecipeOperationTO"/>
         <xs:element ref="ns1:RecipeTO"/>

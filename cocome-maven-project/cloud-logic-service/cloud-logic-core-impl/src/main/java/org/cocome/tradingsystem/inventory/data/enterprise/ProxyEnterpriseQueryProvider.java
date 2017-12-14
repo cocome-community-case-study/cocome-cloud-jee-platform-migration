@@ -466,6 +466,20 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public IRecipeNode queryRecipeNodeById(long recipeNodeId) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                plantFactory.convertToRecipeNode(
+                        enterpriseManager.queryRecipeNodeById(recipeNodeId)));
+    }
+
+    @Override
+    public Collection<IRecipe> queryRecipesByEnterpriseId(long enterpriseId) {
+        return queryCollection(defaultEnterpriseIndex,
+                enterpriseManager -> enterpriseManager.queryRecipesByEnterpriseId(enterpriseId),
+                plantFactory::convertToRecipe);
+    }
+
+    @Override
     public Collection<IStore> queryStoreByName(long enterpriseID, String storeName) {
         IEnterpriseManager enterpriseManager;
         List<StoreWithEnterpriseTO> storeTOList;

@@ -303,4 +303,8 @@ public interface IEnterpriseQuery {
     Collection<IPlantOperation> queryPlantOperationsByPlantId(long plantId) throws NotInDatabaseException;
 
     Collection<IParameter> queryParametersByRecipeOperationId(long operationId);
+
+    IRecipeNode queryRecipeNodeById(long recipeNodeId) throws NotInDatabaseException;
+
+    Collection<IRecipe> queryRecipesByEnterpriseId(long enterpriseId);
 }

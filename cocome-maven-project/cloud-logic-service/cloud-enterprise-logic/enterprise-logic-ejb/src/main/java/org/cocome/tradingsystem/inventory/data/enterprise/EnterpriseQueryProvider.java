@@ -295,6 +295,19 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
+    public IRecipeNode queryRecipeNodeById(long recipeNodeId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getRecipeNode, "RecipeNode", recipeNodeId);
+    }
+
+    @Override
+    public Collection<IRecipe> queryRecipesByEnterpriseId(long enterpriseId) {
+        return csvHelper
+                .getRecipe(backendConnection.getEntity(
+                        "Recipe",
+                        "enterprise.id==" + enterpriseId));
+    }
+
+    @Override
     public Collection<IBooleanParameter> queryBooleanParametersByRecipeOperationId(long operationId) {
         return csvHelper
                 .getBooleanParameter(backendConnection.getEntity(

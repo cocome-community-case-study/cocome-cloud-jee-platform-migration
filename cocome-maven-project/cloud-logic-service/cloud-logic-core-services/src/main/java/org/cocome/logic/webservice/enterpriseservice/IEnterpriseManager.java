@@ -469,8 +469,14 @@ public interface IEnterpriseManager {
     @WebMethod
     Collection<RecipeNodeTO> queryRecipeNodesByRecipeId(
             @XmlElement(required = true)
-            @WebParam(name = "recipeNodeTO")
+            @WebParam(name = "recipeId")
                     long recipeId) throws NotInDatabaseException;
+
+    @WebMethod
+    RecipeNodeTO queryRecipeNodeById(
+            @XmlElement(required = true)
+            @WebParam(name = "recipeNodeId")
+                    long recipeNodeId) throws NotInDatabaseException;
 
     @WebMethod
     long createRecipeNode(
@@ -622,6 +628,12 @@ public interface IEnterpriseManager {
                     RecipeTO recipeTO) throws RecipeException, NotInDatabaseException;
 
     @WebMethod
+    Collection<RecipeTO> queryRecipesByEnterpriseId(
+            @XmlElement(required = true)
+            @WebParam(name = "enterpriseID")
+                    long enterpriseId) throws NotInDatabaseException;
+
+    @WebMethod
     RecipeTO queryRecipeById(
             @XmlElement(required = true)
             @WebParam(name = "recipeID")
@@ -665,7 +677,6 @@ public interface IEnterpriseManager {
     void onPlantOperationFinish(
             @XmlElement(required = true)
             @WebParam(name = "plantOperationOrderEntryID") final long plantOperationOrderEntryId);
-
 
     /**
      * Informs the enterprise manager that a plant operation order has finished

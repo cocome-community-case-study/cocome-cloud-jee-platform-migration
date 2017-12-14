@@ -8,6 +8,9 @@ import org.cocome.cloud.web.data.plantdata.PlantDAO;
 import org.cocome.cloud.web.data.plantdata.PlantViewData;
 import org.cocome.cloud.web.data.storedata.IStoreDAO;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
+import org.cocome.cloud.web.events.ChangeViewEvent;
+import org.cocome.cloud.web.frontend.navigation.NavigationElements;
+import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -70,14 +73,9 @@ public class EnterpriseInformation implements Serializable {
         return activeEnterprise;
     }
 
-    public String showStoresOf(@NotNull EnterpriseViewData enterprise) {
+    public String switchToEnterprise(@NotNull EnterpriseViewData enterprise, String destination) {
         this.setActiveEnterprise(enterprise);
-        return "show_stores?faces-redirect=true";
-    }
-
-    public String showPlantsOf(@NotNull EnterpriseViewData enterprise) {
-        this.setActiveEnterprise(enterprise);
-        return "show_plants?faces-redirect=true";
+        return destination != null ? destination : NavigationElements.ENTERPRISE_MAIN.getNavigationOutcome();
     }
 
     public void setActiveEnterprise(@NotNull EnterpriseViewData enterprise) {
