@@ -50,10 +50,11 @@
                             <h:outputText value="Production Unit Class"/>
                         </td>
                         <td>
-                            <h:selectOneMenu value="#{productionUnitView.newInstance.data.productionUnitClass}"
+                            <h:selectOneMenu value="#{productionUnitView.newInstance.data.productionUnitClass.id}"
                                              converter="omnifaces.SelectItemsConverter">
                                 <f:selectItems value="#{productionUnitView.PUCs}"
                                                var="c"
+                                               itemValue="#{c.id}"
                                                itemLabel="#{c.name}"/>
                             </h:selectOneMenu>
                         </td>

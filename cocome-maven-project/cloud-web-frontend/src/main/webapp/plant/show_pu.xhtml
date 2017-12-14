@@ -53,10 +53,11 @@
                     <h:column>
                         <f:facet name="header">Production Unit Class</f:facet>
                         <h:selectOneMenu disabled='#{not item.editingEnabled}'
-                                         value="#{item.data.productionUnitClass}"
+                                         value="#{item.data.productionUnitClass.id}"
                                          converter="omnifaces.SelectItemsConverter">
                             <f:selectItems value="#{productionUnitView.PUCs}"
                                            var="c"
+                                           itemValue="#{c.id}"
                                            itemLabel="#{c.name}"/>
                         </h:selectOneMenu>
                     </h:column>
