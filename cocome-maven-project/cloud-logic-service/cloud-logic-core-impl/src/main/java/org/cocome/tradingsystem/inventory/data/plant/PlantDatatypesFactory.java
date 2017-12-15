@@ -409,7 +409,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         final IRecipe result = getNewRecipe();
         result.setId(recipeTO.getId());
         result.setName(recipeTO.getName());
-        result.setCustomProductId(recipeTO.getCustomProduct().getId());
+        result.setCustomProductBarcode(recipeTO.getCustomProduct().getBarcode());
         result.setEnterpriseId(recipeTO.getEnterprise().getId());
         return result;
     }

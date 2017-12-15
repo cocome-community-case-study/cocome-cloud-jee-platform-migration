@@ -23,6 +23,7 @@ import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeOperati
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Represents a specified value for a parameter
@@ -82,5 +83,19 @@ public abstract class ParameterTO implements Serializable, INameableTO {
 
     public void setOperation(RecipeOperationTO operation) {
         this.operation = operation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ParameterTO that = (ParameterTO) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(operation, that.operation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, operation);
     }
 }

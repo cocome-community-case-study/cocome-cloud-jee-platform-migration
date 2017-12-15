@@ -320,6 +320,7 @@ public class WSTestUtils {
             NotInDatabaseException_Exception {
         final PlantTO plant = new PlantTO();
         plant.setName("Plant1");
+        plant.setLocation("Test Location");
         plant.setEnterpriseTO(enterprise);
         plant.setId(em.createPlant(plant));
         return plant;

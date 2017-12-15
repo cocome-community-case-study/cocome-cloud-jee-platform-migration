@@ -42,9 +42,7 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.jws.WebService;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -773,6 +771,17 @@ public class EnterpriseManager implements IEnterpriseManager {
         final IParameterInteraction param = saveFetchFromDB(() ->
                 enterpriseQuery.queryParameterInteractionByID(parameterInteractionTO.getId()));
         saveDBUpdateAction(() -> persistenceContext.deleteEntity(param));
+    }
+
+    @Override
+    public Collection<RecipeOperationTO> queryRecipeOperationsByEnterpriseId(long enterpriseId)
+            throws NotInDatabaseException {
+        final List<RecipeOperationTO> result = new LinkedList<>();
+        result.addAll(this.queryRecipesByEnterpriseId(enterpriseId));
+        for(final IPlant plant : enterpriseQuery.queryPlantsByEnterpriseId(enterpriseId)) {
+            result.addAll(this.queryPlantOperationsByPlantId(plant.getId()));
+        }
+        return result;
     }
 
     @Override

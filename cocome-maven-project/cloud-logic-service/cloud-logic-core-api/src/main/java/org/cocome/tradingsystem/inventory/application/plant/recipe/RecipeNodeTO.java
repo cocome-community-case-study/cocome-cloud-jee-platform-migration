@@ -22,6 +22,7 @@ import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Represents the top-level recipe for producing a custom product.
@@ -67,5 +68,19 @@ public class RecipeNodeTO implements IIdentifiableTO, Serializable {
 
     public void setOperation(RecipeOperationTO operation) {
         this.operation = operation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecipeNodeTO that = (RecipeNodeTO) o;
+        return Objects.equals(recipe, that.recipe) &&
+                Objects.equals(operation, that.operation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(recipe, operation);
     }
 }

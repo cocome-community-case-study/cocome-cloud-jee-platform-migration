@@ -2,15 +2,14 @@ package org.cocome.cloud.web.frontend.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.cloud.web.data.enterprisedata.EnterpriseDAO;
 import org.cocome.cloud.web.data.enterprisedata.EnterpriseViewData;
-import org.cocome.cloud.web.data.enterprisedata.IEnterpriseDAO;
 import org.cocome.cloud.web.data.plantdata.PlantDAO;
 import org.cocome.cloud.web.data.plantdata.PlantViewData;
 import org.cocome.cloud.web.data.storedata.IStoreDAO;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
-import org.cocome.cloud.web.events.ChangeViewEvent;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
-import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
+import org.omnifaces.util.Faces;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -38,14 +37,13 @@ public class EnterpriseInformation implements Serializable {
     private static final Logger LOG = Logger.getLogger(EnterpriseInformation.class);
 
     @Inject
-    private IEnterpriseDAO enterpriseDAO;
+    private EnterpriseDAO enterpriseDAO;
 
     @Inject
     private IStoreDAO storeDAO;
 
     @Inject
     private PlantDAO plantDAO;
-    private boolean hasActiveEnterprise;
 
     public Collection<EnterpriseViewData> getEnterprises() throws NotInDatabaseException_Exception {
         return enterpriseDAO.getAllEnterprises();
@@ -59,12 +57,11 @@ public class EnterpriseInformation implements Serializable {
         return plantDAO.getPlantsInEnterprise(getActiveEnterprise().getId());
     }
 
-    public EnterpriseViewData getActiveEnterprise() throws NotInDatabaseException_Exception {
+    public EnterpriseViewData getActiveEnterprise() {
         if (activeEnterprise == null) {
             LOG.info("No enterprise selected, redirecting to enterprises view");
             try {
-                throw new IOException("AAAAA");
-                //Faces.redirect("show_enterprises.xhtml");
+                Faces.redirect("show_enterprises.xhtml");
             } catch (IOException e) {
                 LOG.error(e);
                 e.printStackTrace();

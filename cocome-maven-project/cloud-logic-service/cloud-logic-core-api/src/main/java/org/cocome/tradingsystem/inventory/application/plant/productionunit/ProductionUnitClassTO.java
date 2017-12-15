@@ -23,6 +23,7 @@ import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Represents a class of production unity utilizing a specific set of {@link ProductionUnitOperationTO}
@@ -89,9 +90,16 @@ public class ProductionUnitClassTO implements Serializable, INameableTO {
     }
 
     @Override
-    public String toString() {
-        return "ProductionUnitClassTO{" +
-                "id=" + id +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductionUnitClassTO that = (ProductionUnitClassTO) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(plant, that.plant);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, plant);
     }
 }

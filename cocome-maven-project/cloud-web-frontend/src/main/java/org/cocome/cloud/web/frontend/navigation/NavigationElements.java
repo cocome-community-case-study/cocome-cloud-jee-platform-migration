@@ -9,6 +9,7 @@ public enum NavigationElements {
     PLANT_MAIN("/plant/main", null),
     PLANT_PU("/plant/show_pu", "plant manager"),
     PLANT_PUC("/plant/show_puc", "plant manager"),
+    RECIPE("/enterprise/show_recipes", "enterprise manager"),
     PLANT_OPERATION("/plant/show_operation", "plant manager"),
     START_SALE("/store/start_sale", "cashier"),
     ORDER_PRODUCTS("/store/order_products", "stock manager"),

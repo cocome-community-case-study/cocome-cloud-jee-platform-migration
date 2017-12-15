@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:of="http://omnifaces.org/functions"
+      xmlns:o="http://omnifaces.org/ui">
+
+<h:body>
+    <ui:composition template="/templates/commonTemplate.xhtml">
+        <ui:define name="body">
+            <h:form>
+                <table>
+                    <tr>
+                        <td>
+                            <h:outputText
+                                    value="From Entry Point:"/>
+                        </td>
+                        <td>
+                            <h:selectOneMenu
+                                    value="#{entryPointInteractionView.selected.data.from}"
+                                    converter="omnifaces.SelectItemsIndexConverter">
+                                <f:selectItems
+                                        value="#{recipeView.getUsableEntryPoints(recipeView.selected)}"
+                                        var="c"
+                                        itemLabel="#{c.operation.name} | #{c.name}"/>
+                            </h:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputText value="To Entry Point:"/>
+                        </td>
+                        <td>
+                            <h:selectOneMenu
+                                    value="#{entryPointInteractionView.selected.data.to}"
+                                    converter="omnifaces.SelectItemsIndexConverter">
+                                <f:selectItems
+                                        value="#{recipeView.getUsableEntryPoints(recipeView.selected)}"
+                                        var="c"
+                                        itemLabel="#{c.operation.name} | #{c.name}"/>
+                            </h:selectOneMenu>
+                        </td>
+                        <td>
+                            <h:commandButton
+                                    action="#{entryPointInteractionView.create(entryPointInteractionView.selected)}"
+                                    value=" #{of:format1(strings['button.create.label'], 'Entry Point Interaction')}"/>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

@@ -2,13 +2,12 @@ package org.cocome.cloud.web.frontend.enterprise;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.enterprisedata.EntryPointViewData;
-import org.cocome.cloud.web.data.enterprisedata.InputEntryPointDAO;
-import org.cocome.cloud.web.data.enterprisedata.RecipeOperationQuery;
+import org.cocome.cloud.web.data.enterprisedata.*;
 import org.cocome.cloud.web.frontend.AbstractView;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointInteractionTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.ParameterInteractionTO;
 import org.omnifaces.cdi.Param;
 
 import javax.annotation.PostConstruct;
@@ -23,9 +22,9 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class InputEntryPointView extends AbstractView<EntryPointTO> {
+public class EntryPointInteractionView extends AbstractView<EntryPointInteractionTO> {
 
-    private static final Logger LOG = Logger.getLogger(InputEntryPointView.class);
+    private static final Logger LOG = Logger.getLogger(EntryPointInteractionView.class);
 
     private static final long serialVersionUID = 1L;
 
@@ -34,20 +33,19 @@ public class InputEntryPointView extends AbstractView<EntryPointTO> {
     private Long operationId;
 
     @Inject
-    private RecipeOperationQuery recipeOperationQuery;
+    private RecipeDAO recipeDAO;
 
     @Inject
-    private InputEntryPointDAO dao;
+    private EntryPointInteractionDAO dao;
 
-    private EntryPointViewData selected;
+    private EntryPointInteractionViewData selected;
 
     @PostConstruct
     public void createNewInstance() {
-        this.selected = new EntryPointViewData(new EntryPointTO());
+        this.selected = new EntryPointInteractionViewData(new EntryPointInteractionTO());
         if (operationId != null) {
             try {
-                this.selected.getData().setDirection(EntryPointTO.DirectionTO.INPUT);
-                this.selected.getData().setOperation(recipeOperationQuery.find(operationId));
+                this.selected.getData().setRecipe(recipeDAO.find(operationId));
             } catch (NotInDatabaseException_Exception e) {
                 LOG.error("Unable to load instance", e);
                 e.printStackTrace();
@@ -55,26 +53,23 @@ public class InputEntryPointView extends AbstractView<EntryPointTO> {
         }
     }
 
-    public EntryPointViewData getSelected() {
+    public EntryPointInteractionViewData getSelected() {
         return selected;
     }
 
     @Override
-    protected InputEntryPointDAO getDAO() {
+    protected EntryPointInteractionDAO getDAO() {
         return this.dao;
     }
 
     @Override
     protected NavigationElements getNextNavigationElement() {
-        if(this.selected.getData().getOperation() instanceof PlantOperationTO) {
-            return NavigationElements.PLANT_OPERATION;
-        }
         return NavigationElements.RECIPE;
     }
 
     @Override
     protected String getObjectName() {
-        return "Input Entry Point";
+        return "Entry Point Interaction";
     }
 
 }

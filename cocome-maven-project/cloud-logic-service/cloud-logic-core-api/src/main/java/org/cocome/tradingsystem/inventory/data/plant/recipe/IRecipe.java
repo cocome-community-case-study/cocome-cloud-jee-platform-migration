@@ -35,9 +35,9 @@ public interface IRecipe extends IRecipeOperation {
 
     void setCustomProduct(ICustomProduct customProduct);
 
-    long getCustomProductId();
+    long getCustomProductBarcode();
 
-    void setCustomProductId(long customProductId);
+    void setCustomProductBarcode(long customProductId);
 
     ITradingEnterprise getEnterprise() throws NotInDatabaseException;
 

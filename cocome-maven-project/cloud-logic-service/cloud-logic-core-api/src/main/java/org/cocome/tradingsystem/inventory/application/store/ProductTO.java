@@ -22,6 +22,7 @@ import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 
 /**
@@ -126,7 +127,23 @@ public class ProductTO implements Serializable {
         __purchasePrice = purchasePrice;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductTO productTO = (ProductTO) o;
+        return __barcode == productTO.__barcode &&
+                Double.compare(productTO.__purchasePrice, __purchasePrice) == 0 &&
+                Objects.equals(__name, productTO.__name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(__barcode, __purchasePrice, __name);
+    }
+
     /**
+
      * Checks equality to a product entity.
      * <p>
      * Required for UC 8 (see {@link AmplCplexSolver}).

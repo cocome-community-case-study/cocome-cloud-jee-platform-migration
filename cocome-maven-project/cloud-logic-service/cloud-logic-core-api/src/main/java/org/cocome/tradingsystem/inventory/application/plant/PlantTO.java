@@ -22,6 +22,7 @@ import org.cocome.tradingsystem.inventory.application.INameableTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 
 import javax.xml.bind.annotation.*;
+import java.util.Objects;
 
 /**
  * Transfer object for plant and enterprise data.
@@ -121,4 +122,18 @@ public class PlantTO implements INameableTO {
         __enterpriseTO = enterpriseTO;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlantTO plantTO = (PlantTO) o;
+        return Objects.equals(__name, plantTO.__name) &&
+                Objects.equals(__location, plantTO.__location) &&
+                Objects.equals(__enterpriseTO, plantTO.__enterpriseTO);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(__name, __location, __enterpriseTO);
+    }
 }

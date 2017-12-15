@@ -5,6 +5,7 @@ import org.cocome.cloud.web.data.enterprisedata.EnterpriseViewData;
 import org.cocome.cloud.web.data.plantdata.PlantViewData;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -38,6 +39,8 @@ public interface IEnterpriseQuery {
 
     List<ProductWrapper> getAllProducts() throws NotInDatabaseException_Exception;
 
+    List<CustomProductTO> getAllCustomProducts() throws NotInDatabaseException_Exception;
+
     ProductWrapper getProductByID(long productID) throws NotInDatabaseException_Exception;
 
     ProductWrapper getProductByBarcode(long barcode) throws NotInDatabaseException_Exception;
@@ -55,5 +58,4 @@ public interface IEnterpriseQuery {
     boolean createStore(long enterpriseID, @NotNull String name, @NotNull String location) throws NotInDatabaseException_Exception;
 
     boolean createPlant(long enterpriseID, @NotNull String name, @NotNull String location) throws NotInDatabaseException_Exception;
-
 }

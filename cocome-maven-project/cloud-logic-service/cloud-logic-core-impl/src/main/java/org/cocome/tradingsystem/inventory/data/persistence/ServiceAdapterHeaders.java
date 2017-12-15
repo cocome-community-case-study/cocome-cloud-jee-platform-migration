@@ -97,9 +97,9 @@ public final class ServiceAdapterHeaders {
             = "ParameterInteractionId;ParameterInteractionToId;ParameterInteractionFromId;ParameterInteractionRecipe";
 
     static final String RECIPE_CREATE_HEADER
-            = "CustomProductId;RecipeName;TradingEnterpriseId";
+            = "CustomProductBarcode;RecipeName;TradingEnterpriseId";
     static final String RECIPE_UPDATE_HEADER
-            = "RecipeId;CustomProductId;RecipeName;TradingEnterpriseId";
+            = "RecipeId;CustomProductBarcode;RecipeName;TradingEnterpriseId";
 
     static final String PLANTOPERATIONORDER_CREATE_HEADER
             = "PlantOperationOrderDeliveryDate;PlantOperationOrderOrderingDate;TradingEnterpriseId;PlantId";

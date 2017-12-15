@@ -50,7 +50,7 @@
                                 </tr>
                             </ui:repeat>
                         </table>
-                        <h:link outcome="/plant/create_input_entry_point">
+                        <h:link outcome="/enterprise/create_input_entry_point">
                             <h:graphicImage
                                     value="#{resource['icon:icon_add.png']}"
                                     styleClass="button"/>
@@ -83,7 +83,7 @@
                                 </tr>
                             </ui:repeat>
                         </table>
-                        <h:link outcome="/plant/create_output_entry_point">
+                        <h:link outcome="/enterprise/create_output_entry_point">
                             <h:graphicImage
                                     value="#{resource['icon:icon_add.png']}"
                                     styleClass="button"/>
@@ -124,7 +124,6 @@
                                                     <f:validateLength minimum="3" maximum="30"/>
                                                     <f:validateRegex pattern="#{strings['input.string.regex']}"/>
                                                 </h:inputText>
-
                                             </li>
                                         </ul>
                                     </td>
@@ -135,7 +134,7 @@
                                 </tr>
                             </ui:repeat>
                         </table>
-                        <h:link outcome="/plant/create_boolean_parameter">
+                        <h:link outcome="/enterprise/create_boolean_parameter">
                             <h:graphicImage
                                     value="#{resource['icon:icon_add.png']}"
                                     styleClass="button"/>
@@ -194,7 +193,7 @@
                                 </tr>
                             </ui:repeat>
                         </table>
-                        <h:link outcome="/plant/create_nominal_parameter">
+                        <h:link outcome="/enterprise/create_nominal_parameter">
                             <h:graphicImage
                                     value="#{resource['icon:icon_add.png']}"
                                     styleClass="button"/>
@@ -233,7 +232,7 @@
                 <table width="100%">
                     <tr>
                         <td align="center">
-                            <h:button outcome="/plant/edit_operation"
+                            <h:button outcome="/plant/edit_recipe"
                                       value="#{of:format1(strings['button.create.label'],
                                                           'Plant Operation')}"/>
                         </td>

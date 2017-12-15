@@ -524,7 +524,7 @@ class ServiceAdapterEntityConverter {
     }
 
     static String getCreateRecipeContent(IRecipe recipe) {
-        return String.valueOf(recipe.getCustomProductId()) +
+        return String.valueOf(recipe.getCustomProductBarcode()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 recipe.getName() +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -534,7 +534,7 @@ class ServiceAdapterEntityConverter {
     static String getUpdateRecipeContent(IRecipe recipe) {
         return String.valueOf(recipe.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
-                String.valueOf(recipe.getCustomProductId()) +
+                String.valueOf(recipe.getCustomProductBarcode()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 recipe.getName() +
                 ServiceAdapterHeaders.SEPARATOR +

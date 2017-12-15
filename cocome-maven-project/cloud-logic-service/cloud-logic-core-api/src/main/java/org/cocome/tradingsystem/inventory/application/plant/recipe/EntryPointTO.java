@@ -21,6 +21,7 @@ package org.cocome.tradingsystem.inventory.application.plant.recipe;
 import org.cocome.tradingsystem.inventory.application.INameableTO;
 
 import javax.xml.bind.annotation.*;
+import java.util.Objects;
 
 /**
  * Used to connection ports between {@link PlantOperationTO}
@@ -101,4 +102,18 @@ public class EntryPointTO implements INameableTO {
         this.direction = direction;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EntryPointTO that = (EntryPointTO) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(operation, that.operation) &&
+                direction == that.direction;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, operation, direction);
+    }
 }

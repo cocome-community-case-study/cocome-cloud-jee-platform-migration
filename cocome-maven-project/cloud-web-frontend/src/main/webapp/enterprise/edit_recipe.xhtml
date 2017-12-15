@@ -16,22 +16,10 @@
                             <h:outputText value="Name"/>
                         </td>
                         <td>
-                            <h:inputText value="#{productionUnitView.newInstance.data.location}"
-                                         required="true">
-                                <f:validateLength minimum="3" maximum="30"/>
-                                <f:validateRegex pattern="#{strings['input.string.regex']}"/>
-                            </h:inputText>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h:outputText value="Interface URL"/>
-                        </td>
-                        <td>
-                            <h:inputText value="#{productionUnitView.newInstance.data.interfaceUrl}"
+                            <h:inputText value="#{recipeView.selected.data.name}"
                                          required="true"
                                          validatorMessage="#{of:format3(strings['validation.name.failed'],
-                                                                        strings['pu.table.header.interfacurl'],
+                                                                        'Custom Product',
                                                                         3, 100)}">
                                 <f:validateLength minimum="3" maximum="100"/>
                             </h:inputText>
@@ -39,29 +27,20 @@
                     </tr>
                     <tr>
                         <td>
-                            <h:outputText value="Double Flag"/>
+                            <h:outputText value="Custom Product"/>
                         </td>
                         <td>
-                            <h:selectBooleanCheckbox value="#{productionUnitView.newInstance.data.double}">
-                            </h:selectBooleanCheckbox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h:outputText value="Production Unit Class"/>
-                        </td>
-                        <td>
-                            <h:selectOneMenu value="#{productionUnitView.newInstance.data.productionUnitClass}"
+                            <h:selectOneMenu value="#{recipeView.selected.data.customProduct}"
                                              converter="omnifaces.SelectItemsIndexConverter">
-                                <f:selectItems value="#{productionUnitView.PUCs}"
+                                <f:selectItems value="#{enterpriseDAO.allCustomProducts}"
                                                var="c"
                                                itemLabel="#{c.name}"/>
                             </h:selectOneMenu>
                         </td>
                         <td>
                             <h:commandButton
-                                    action="#{productionUnitView.create(productionUnitView.newInstance)}"
-                                    value="#{of:format1(strings['button.create.label'],strings['pu.short.text'])}"/>
+                                    action="#{recipeView.create(recipeView.selected)}"
+                                    value="#{of:format1(strings['button.create.label'],'Recipe')}"/>
                         </td>
                     </tr>
                 </table>

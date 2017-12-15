@@ -22,6 +22,7 @@ import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 
 import javax.xml.bind.annotation.*;
+import java.util.Objects;
 
 /**
  * Represents the top-level recipe for producing a custom product.
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "RecipeTO")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RecipeTO extends RecipeOperationTO {
+
     private static final long serialVersionUID = 1L;
 
     @XmlElement(name = "customProduct", required = true)
@@ -62,6 +64,20 @@ public class RecipeTO extends RecipeOperationTO {
 
     public void setEnterprise(EnterpriseTO enterprise) {
         this.enterprise = enterprise;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecipeTO recipeTO = (RecipeTO) o;
+        return Objects.equals(enterprise, recipeTO.enterprise) &&
+                Objects.equals(getName(), recipeTO.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(enterprise, getName());
     }
 
 }

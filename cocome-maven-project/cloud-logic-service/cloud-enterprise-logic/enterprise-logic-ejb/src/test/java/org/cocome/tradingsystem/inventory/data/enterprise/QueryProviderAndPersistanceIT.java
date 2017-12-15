@@ -87,7 +87,7 @@ public class QueryProviderAndPersistanceIT {
         recipe.setEnterprise(enterprise);
         recipe.setEnterpriseId(enterprise.getId());
         recipe.setCustomProduct(prod);
-        recipe.setCustomProductId(prod.getId());
+        recipe.setCustomProductBarcode(prod.getBarcode());
         persistenceContext.createEntity(recipe);
 
         final INominalParameter param = new NominalParameter();
@@ -166,7 +166,7 @@ public class QueryProviderAndPersistanceIT {
         recipe.setEnterprise(enterprise);
         recipe.setEnterpriseId(enterprise.getId());
         recipe.setCustomProduct(prod);
-        recipe.setCustomProductId(prod.getId());
+        recipe.setCustomProductBarcode(prod.getBarcode());
         persistenceContext.createEntity(recipe);
 
         final IBooleanParameter param = new BooleanParameter();

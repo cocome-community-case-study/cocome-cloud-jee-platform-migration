@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Abstract
+ * Abstract class for for providing CRUD operations
  *
  * @author Rudolf Biczok
  */
@@ -44,12 +44,23 @@ public abstract class AbstractDAO<
 
     public Collection<ViewData<TTargetContent>> getAllByParentObj(@NotNull ViewData<?> parent)
             throws NotInDatabaseException_Exception {
-        if (!queried.containsKey(parent.getData().getId())) {
-            queried.put(parent.getData().getId(), true);
-            cache.put(parent.getData().getId(), new DBObjectCache<>());
-            cache.get(parent.getData().getId()).addAll(this.queryAllByParentObj(parent));
+        return this.getAllByParentId(parent.getData().getId());
+    }
+
+    public Collection<TTargetContent> getAllByParent(@NotNull IIdentifiableTO parent)
+            throws NotInDatabaseException_Exception {
+        return this.getAllByParentId(parent.getId())
+                .stream().map(ViewData::getData).collect(Collectors.toList());
+    }
+
+    public Collection<ViewData<TTargetContent>> getAllByParentId(@NotNull long parentId)
+            throws NotInDatabaseException_Exception {
+        if (!queried.containsKey(parentId)) {
+            queried.put(parentId, true);
+            cache.put(parentId, new DBObjectCache<>());
+            cache.get(parentId).addAll(this.queryAllByParentObj(parentId));
         }
-        return this.cache.get(parent.getData().getId()).getAll();
+        return this.cache.get(parentId).getAll();
     }
 
     public void create(final ViewData<TTargetContent> viewData)
@@ -73,13 +84,13 @@ public abstract class AbstractDAO<
     }
 
     private Collection<ViewData<TTargetContent>> queryAllByParentObj(
-            @NotNull ViewData<?> parantViewData)
+            @NotNull long parentId)
             throws NotInDatabaseException_Exception {
         LOG.debug("Querying production unit classes");
 
         final TService plantManager = createServiceClient();
         return StreamUtil.ofNullable(
-                queryAllByParentObj(plantManager, parantViewData.getData().getId()))
+                queryAllByParentObj(plantManager, parentId))
                 .map(this::createViewDataInstance).collect(Collectors.toList());
     }
 

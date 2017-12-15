@@ -43,7 +43,7 @@ public class Recipe implements Serializable, IRecipe {
     private long id;
     private String name;
     private ICustomProduct customProduct;
-    private long customProductId;
+    private long customProductBarcode;
     private ITradingEnterprise enterprise;
     private long enterpriseId;
 
@@ -99,7 +99,7 @@ public class Recipe implements Serializable, IRecipe {
     @Override
     public ICustomProduct getCustomProduct() throws NotInDatabaseException {
         if (customProduct == null) {
-            customProduct = enterpriseQuery.queryCustomProductByID(customProductId);
+            customProduct = enterpriseQuery.queryCustomProductByBarcode(customProductBarcode);
         }
         return customProduct;
     }
@@ -110,13 +110,13 @@ public class Recipe implements Serializable, IRecipe {
     }
 
     @Override
-    public long getCustomProductId() {
-        return this.customProductId;
+    public long getCustomProductBarcode() {
+        return this.customProductBarcode;
     }
 
     @Override
-    public void setCustomProductId(long customProductId) {
-        this.customProductId = customProductId;
+    public void setCustomProductBarcode(long customProductId) {
+        this.customProductBarcode = customProductId;
     }
 
     @Override

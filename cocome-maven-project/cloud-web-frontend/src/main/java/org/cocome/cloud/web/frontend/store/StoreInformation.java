@@ -2,7 +2,7 @@ package org.cocome.cloud.web.frontend.store;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.enterprisedata.IEnterpriseDAO;
+import org.cocome.cloud.web.data.enterprisedata.EnterpriseDAO;
 import org.cocome.cloud.web.data.storedata.IStoreDAO;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
@@ -45,7 +45,7 @@ public class StoreInformation implements Serializable {
     private IStoreDAO storeDAO;
 
     @Inject
-    private IEnterpriseDAO enterpriseDAO;
+    private EnterpriseDAO enterpriseDAO;
 
     @Inject
     private Event<ChangeViewEvent> changeViewEvent;

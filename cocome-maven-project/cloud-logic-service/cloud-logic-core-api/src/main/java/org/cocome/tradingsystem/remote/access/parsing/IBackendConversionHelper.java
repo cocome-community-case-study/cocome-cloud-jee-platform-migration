@@ -1,5 +1,6 @@
 package org.cocome.tradingsystem.remote.access.parsing;
 
+import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
 import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
@@ -31,6 +32,8 @@ public interface IBackendConversionHelper {
     Collection<IStockItem> getStockItems(String input);
 
     Collection<IProduct> getProducts(String input);
+
+    Collection<ICustomProduct> getCustomProducts(String input);
 
     Collection<IProductSupplier> getProductSuppliers(String input);
 

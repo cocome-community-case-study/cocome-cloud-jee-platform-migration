@@ -4,10 +4,11 @@ import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.data.enterprisedata.EntryPointViewData;
 import org.cocome.cloud.web.data.enterprisedata.OutputEntryPointDAO;
-import org.cocome.cloud.web.data.plantdata.PlantOperationDAO;
+import org.cocome.cloud.web.data.enterprisedata.RecipeOperationQuery;
 import org.cocome.cloud.web.frontend.AbstractView;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.EntryPointTO;
+import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 import org.omnifaces.cdi.Param;
 
 import javax.annotation.PostConstruct;
@@ -33,8 +34,7 @@ public class OutputEntryPointView extends AbstractView<EntryPointTO> {
     private Long operationId;
 
     @Inject
-    private PlantOperationDAO plantOperationDAO;
-
+    private RecipeOperationQuery recipeOperationQuery;
     @Inject
     private OutputEntryPointDAO dao;
 
@@ -46,7 +46,7 @@ public class OutputEntryPointView extends AbstractView<EntryPointTO> {
         if (operationId != null) {
             try {
                 this.selected.getData().setDirection(EntryPointTO.DirectionTO.OUTPUT);
-                this.selected.getData().setOperation(plantOperationDAO.find(operationId));
+                this.selected.getData().setOperation(recipeOperationQuery.find(operationId));
             } catch (NotInDatabaseException_Exception e) {
                 LOG.error("Unable to load instance", e);
                 e.printStackTrace();
@@ -65,7 +65,10 @@ public class OutputEntryPointView extends AbstractView<EntryPointTO> {
 
     @Override
     protected NavigationElements getNextNavigationElement() {
-        return NavigationElements.PLANT_OPERATION;
+        if(this.selected.getData().getOperation() instanceof PlantOperationTO) {
+            return NavigationElements.PLANT_OPERATION;
+        }
+        return NavigationElements.RECIPE;
     }
 
     @Override

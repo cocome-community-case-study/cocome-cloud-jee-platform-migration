@@ -6,6 +6,9 @@ import org.cocome.cloud.web.data.plantdata.PlantOperationDAO;
 import org.cocome.cloud.web.data.plantdata.PlantOperationViewData;
 import org.cocome.cloud.web.frontend.AbstractView;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
+import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo;
+import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
+import org.cocome.tradingsystem.inventory.application.plant.expression.PUOperationInfo;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 import org.omnifaces.cdi.Param;
 
@@ -13,6 +16,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Holds information about the currently active plant.
@@ -51,6 +56,21 @@ public class PlantOperationView extends AbstractView<PlantOperationTO> {
         } else {
             this.selected = new PlantOperationViewData(new PlantOperationTO());
             this.selected.getData().setPlant(plantInformation.getActivePlant().getData());
+            this.selected.getData().setMarkup(new MarkupInfo(
+                    Arrays.asList(new PUOperationInfo(
+                                    "PucNameHere",
+                                    "operationIdHere"),
+                            new ConditionalExpressionInfo(
+                                    "ParameterNameHere",
+                                    "ExpectedValueHere",
+                                    Collections.singletonList(new
+                                            PUOperationInfo(
+                                            "PucNameHere",
+                                            "operationIdHere")),
+                                    Collections.singletonList(new PUOperationInfo(
+                                            "PucNameHere",
+                                            "operationIdHere")))
+                    )));
         }
     }
 

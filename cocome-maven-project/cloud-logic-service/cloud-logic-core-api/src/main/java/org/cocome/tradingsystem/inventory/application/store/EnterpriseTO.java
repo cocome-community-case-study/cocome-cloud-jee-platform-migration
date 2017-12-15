@@ -18,27 +18,26 @@
 
 package org.cocome.tradingsystem.inventory.application.store;
 
+import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
+
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @XmlType(
         name = "EnterpriseTO",
         namespace = "http://store.application.inventory.tradingsystem.cocome.org/")
 @XmlRootElement(name = "EnterpriseTO")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EnterpriseTO implements Serializable {
+public class EnterpriseTO implements Serializable, IIdentifiableTO {
 
     private static final long serialVersionUID = -7516714574375972227L;
-
-    //
 
     @XmlElement(name = "id", required = true)
     private long __id;
 
     @XmlElement(name = "name", required = true)
     private String __name;
-
-    //
 
     public long getId() {
         return __id;
@@ -56,4 +55,16 @@ public class EnterpriseTO implements Serializable {
         __name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EnterpriseTO that = (EnterpriseTO) o;
+        return Objects.equals(__name, that.__name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(__name);
+    }
 }

@@ -3,7 +3,8 @@
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:of="http://omnifaces.org/functions">
+      xmlns:of="http://omnifaces.org/functions"
+      xmlns:cocome="http://java.sun.com/jsf/composite/cocome">
 
 <h:body>
 
@@ -13,69 +14,472 @@
 
         <ui:define name="body">
             <h:form>
-                <h:dataTable value="#{enterpriseInformation.plants}" var="plant"
-                             styleClass="product-table" headerClass="product-table-header"
-                             rowClasses="product-table-odd-row,product-table-even-row"
-                             columnClasses="product-table-text-col, product-table-text-col,
-					product-table-text-col, product-table-number-col">
-                    <h:column>
-                        <f:facet name="header">#{strings['plant.table.header_id']}</f:facet>
-                        <h:outputText value="#{plant.ID}" />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{strings['plant.table.header_name']}</f:facet>
-                        <h:outputText value="#{plant.name}" rendered="#{not plant.editingEnabled}"/>
-                        <h:inputText value="#{plant.newName}" rendered="#{plant.editingEnabled}"
-                                     validatorMessage="#{strings['plant.create.validation.name.failed']}">
-                            <f:validateLength minimum="3" maximum="30"/>
-                            <f:validateRegex pattern="#{strings['input.string.regex']}"/>
-                        </h:inputText>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{strings['plant.table.header_loc']}</f:facet>
-                        <h:outputText value="#{plant.location}" rendered="#{not plant.editingEnabled}"/>
-                        <h:inputText value="#{plant.newLocation}" rendered="#{plant.editingEnabled}"
-                                     validatorMessage="#{strings['plant.create.validation.location.failed']}">
-                            <f:validateLength minimum="3" maximum="30"/>
-                            <f:validateRegex pattern="#{strings['input.string.regex']}"/>
-                        </h:inputText>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{strings['enterprise.table.header_action']}</f:facet>
-                        <h:commandLink action="#{plant.setEditingEnabled(true)}"
-                                       styleClass="button"
-                                       title="#{strings['plant.table.action.edit_plant']}"
-                                       rendered="#{not plant.editingEnabled}">
-                            <h:graphicImage value="#{resource['icon:icon_shoppingcart_edit.png']}" styleClass="button"/>
-                        </h:commandLink>
-                        <h:commandLink action="#{plantPersistence.updatePlant(plant)}" styleClass="button"
-                                       title="#{strings['plant.table.action.save_plant']}"
-                                       rendered="#{plant.editingEnabled}">
-                            <h:graphicImage value="#{resource['icon:icon_save.png']}" styleClass="button"/>
-                        </h:commandLink>
-                        <h:commandLink action="#{plant.setEditingEnabled(false)}" styleClass="button"
-                                       title="#{strings['plant.table.action.edit_plant']}"
-                                       rendered="#{plant.editingEnabled}">
-                            <h:graphicImage value="#{resource['icon:icon_reset.png']}" styleClass="button"/>
-                        </h:commandLink>
-                        <h:commandLink
-                                action="#{plantInformation.switchToPlant(plant, '/plant/main?faces-redirect=true')}"
-                                styleClass="button"
-                                title="#{strings['plant.table.action.goto_plant']}"
-                                rendered="#{not plant.editingEnabled}">
-                            <h:graphicImage value="#{resource['icon:icon_plant.png']}" styleClass="button"/>
-                        </h:commandLink>
-                    </h:column>
-                </h:dataTable>
+                <ui:repeat value="#{recipeDAO.getAllByParentObj(enterpriseInformation.activeEnterprise)}"
+                           var="recipe">
+                    <table class="product-table">
+                        <tr>
+                            <th class="product-table-header product-table-text-col">
+                                <h:outputText style="text-decoration: underline" value="#{'Recipe Name'}"/>
+                                <h:outputText value=": "/>
+                                <h:outputText value="#{recipe.data.name}"
+                                              rendered="#{not recipe.editingEnabled}"/>
+                                <h:inputText value="#{recipe.data.name}" rendered="#{recipe.editingEnabled}"
+                                             validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                                 ['puc.table.header_name'], 3, 30)}">
+                                    <f:validateLength minimum="3" maximum="30"/>
+                                    <f:validateRegex pattern="#{strings['input.string.regex']}"/>
+                                </h:inputText>
+                            </th>
+                            <th class="product-table-header product-table-text-col">
+                                <h:outputText style="text-decoration: underline" value="#{'Custom Product'}"/>
+                                <h:outputText value=": "/>
+                                <h:outputText value="#{recipe.data.customProduct.name}"
+                                              rendered="#{not recipe.editingEnabled}"/>
+                                <h:selectOneMenu value="#{recipe.data.customProduct}"
+                                                 rendered="#{recipe.editingEnabled}"
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItems value="#{enterpriseDAO.allCustomProducts}"
+                                                   var="c"
+                                                   itemLabel="#{c.name}"/>
+                                </h:selectOneMenu>
+                            </th>
+                            <th class="product-table-header product-table-number-col">
+                                <cocome:defaultActionGroup item="#{recipe}"
+                                                           view="#{recipeView}"/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0 0 15px 0" colspan="3">
+                                <table class="product-table">
+                                    <tr>
+                                        <td style="padding: 0" valign="top">
+                                            <table class="product-table">
+                                                <tr>
+                                                    <th colspan="2"
+                                                        class="product-table-header product-table-text-col">
+                                                        <h:outputText value="#{'Input Entry Points'} "/>
+                                                    </th>
+                                                </tr>
+                                                <ui:repeat value="#{inputEntryPointDAO.getAllByParentObj(recipe)}"
+                                                           var="inputEntryPoint">
+                                                    <td>
+                                                        <h:outputText value="#{inputEntryPoint.data.name}"
+                                                                      rendered="#{not inputEntryPoint.editingEnabled}"/>
+                                                        <h:inputText value="#{inputEntryPoint.data.name}"
+                                                                     rendered="#{inputEntryPoint.editingEnabled}"
+                                                                     validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                                                                        'Input Entry Point', 3, 30)}">
+                                                            <f:validateLength minimum="3" maximum="30"/>
+                                                            <f:validateRegex
+                                                                    pattern="#{strings['input.string.regex']}"/>
+                                                        </h:inputText>
+                                                    </td>
+                                                    <td class="product-table-number-col">
+                                                        <cocome:defaultActionGroup item="#{inputEntryPoint}"
+                                                                                   view="#{inputEntryPointView}"/>
+                                                    </td>
+                                                </ui:repeat>
+                                            </table>
+                                            <table width="100%">
+                                                <tr>
+                                                    <td align="center">
+                                                        <h:button outcome="/enterprise/create_input_entry_point"
+                                                                  value="#{of:format1(strings['button.add.label'],
+                                                                                  'Input Entry Point')}">
+                                                            <f:param name="operationId" value="#{recipe.data.id}"/>
+                                                        </h:button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="padding: 0" valign="top">
+                                            <table class="product-table">
+                                                <tr>
+                                                    <th colspan="2"
+                                                        class="product-table-header product-table-text-col">
+                                                        <h:outputText value="#{'Output Entry Points'}"/>
+                                                    </th>
+                                                </tr>
+                                                <ui:repeat value="#{outputEntryPointDAO.getAllByParentObj(recipe)}"
+                                                           var="outputEntryPoint">
+                                                    <tr>
+                                                        <td>
+                                                            <h:outputText value="#{outputEntryPoint.data.name}"
+                                                                          rendered="#{not outputEntryPoint.editingEnabled}"/>
+                                                            <h:inputText value="#{outputEntryPoint.data.name}"
+                                                                         rendered="#{outputEntryPoint.editingEnabled}"
+                                                                         validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                                                        'Input Entry Point', 3, 30)}">
+                                                                <f:validateLength minimum="3" maximum="30"/>
+                                                                <f:validateRegex
+                                                                        pattern="#{strings['input.string.regex']}"/>
+                                                            </h:inputText>
+                                                        </td>
+                                                        <td class="product-table-number-col">
+                                                            <cocome:defaultActionGroup item="#{outputEntryPoint}"
+                                                                                       view="#{outputEntryPointView}"/>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+                                            <table width="100%">
+                                                <tr>
+                                                    <td align="center">
+                                                        <h:button outcome="/enterprise/create_output_entry_point"
+                                                                  value="#{of:format1(strings['button.add.label'],
+                                                                                  'Output Entry Point')}">
+                                                            <f:param name="operationId" value="#{recipe.data.id}"/>
+                                                        </h:button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0" valign="top">
+                                            <table class="product-table">
+                                                <tr>
+                                                    <th colspan="2"
+                                                        class="product-table-header product-table-text-col">
+                                                        <h:outputText value="#{'Boolean Parameters'} "/>
+                                                    </th>
+                                                </tr>
+                                                <ui:repeat value="#{booleanParameterDAO.getAllByParentObj(recipe)}"
+                                                           var="booleanParameter">
+                                                    <td>
+                                                        <ul>
+                                                            <li>
+                                                                <h:outputText style="font-weight: bold;"
+                                                                              value="Name: "/>
+                                                                <h:outputText value="#{booleanParameter.data.name}"
+                                                                              rendered="#{not param.editingEnabled}"/>
+                                                                <h:inputText value="#{booleanParameter.data.name}"
+                                                                             rendered="#{booleanParameter.editingEnabled}"
+                                                                             validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     'Parameter Name',3,30)}">
+                                                                    <f:validateLength minimum="3" maximum="30"/>
+                                                                    <f:validateRegex
+                                                                            pattern="#{strings['input.string.regex']}"/>
+                                                                </h:inputText>
+                                                            </li>
+                                                            <li>
+                                                                <h:outputText style="font-weight: bold;"
+                                                                              value="Category: "/>
+                                                                <h:outputText
+                                                                        value="#{booleanParameter.data.category}"
+                                                                        rendered="#{not booleanParameter.editingEnabled}"/>
+                                                                <h:inputText
+                                                                        value="#{booleanParameter.data.category}"
+                                                                        rendered="#{booleanParameter.editingEnabled}"
+                                                                        validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     'Parameter Category',3,30)}">
+                                                                    <f:validateLength minimum="3" maximum="30"/>
+                                                                    <f:validateRegex
+                                                                            pattern="#{strings['input.string.regex']}"/>
+                                                                </h:inputText>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                    <td class="product-table-number-col">
+                                                        <cocome:defaultActionGroup item="#{booleanParameter}"
+                                                                                   view="#{booleanParameterView}"/>
+                                                    </td>
+                                                </ui:repeat>
+                                            </table>
+                                            <table width="100%">
+                                                <tr>
+                                                    <td align="center">
+                                                        <h:button outcome="/enterprise/create_boolean_parameter"
+                                                                  value="#{of:format1(strings['button.add.label'],
+                                                                                  'Boolean Parameter')}">
+                                                            <f:param name="operationId" value="#{recipe.data.id}"/>
+                                                        </h:button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="padding: 0" valign="top">
+                                            <table class="product-table">
+                                                <tr>
+                                                    <th colspan="2"
+                                                        class="product-table-header product-table-text-col">
+                                                        <h:outputText value="#{'Nominal Parameters'}"/>
+                                                    </th>
+                                                </tr>
+                                                <ui:repeat value="#{nominalParameterDAO.getAllByParentObj(recipe)}"
+                                                           var="nominalParameter">
+                                                    <tr>
+                                                        <td>
+                                                            <ul>
+                                                                <li>
+                                                                    <h:outputText style="font-weight: bold;"
+                                                                                  value="Name: "/>
+                                                                    <h:outputText value="#{nominalParameter.data.name}"
+                                                                                  rendered="#{not nominalParameter.editingEnabled}"/>
+                                                                    <h:inputText value="#{nominalParameter.data.name}"
+                                                                                 rendered="#{nominalParameter.editingEnabled}"
+                                                                                 validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     'Options',3,30)}">
+                                                                        <f:validateLength minimum="3" maximum="30"/>
+                                                                        <f:validateRegex
+                                                                                pattern="#{strings['input.string.regex']}"/>
+                                                                    </h:inputText>
+                                                                </li>
+                                                                <li>
+                                                                    <h:outputText style="font-weight: bold;"
+                                                                                  value="Category: "/>
+                                                                    <h:outputText
+                                                                            value="#{nominalParameter.data.category}"
+                                                                            rendered="#{not nominalParameter.editingEnabled}"/>
+                                                                    <h:inputText
+                                                                            value="#{nominalParameter.data.category}"
+                                                                            rendered="#{nominalParameter.editingEnabled}"
+                                                                            validatorMessage="#{of:format3(strings['validation.name.failed'],
+                                                     'Options',3,30)}">
+                                                                        <f:validateLength minimum="3" maximum="30"/>
+                                                                        <f:validateRegex
+                                                                                pattern="#{strings['input.string.regex']}"/>
+                                                                    </h:inputText>
+                                                                </li>
+                                                                <li>
+                                                                    <h:outputText style="font-weight: bold;"
+                                                                                  value="Options: "/>
+                                                                    <h:outputText
+                                                                            value="#{nominalParameter.data.options}"
+                                                                            rendered="#{not nominalParameter.editingEnabled}"/>
+                                                                    <h:inputText
+                                                                            value="#{nominalParameter.data.options}"
+                                                                            converter="omnifaces.ToCollectionConverter"
+                                                                            rendered="#{nominalParameter.editingEnabled}">
+                                                                    </h:inputText>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                        <td class="product-table-number-col">
+                                                            <cocome:defaultActionGroup item="#{nominalParameter}"
+                                                                                       view="#{nominalParameterView}"/>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+                                            <table width="100%">
+                                                <tr>
+                                                    <td align="center">
+                                                        <h:button outcome="/enterprise/create_nominal_parameter"
+                                                                  value="#{of:format1(strings['button.add.label'],
+                                                                                  'Nominal Parameter')}">
+                                                            <f:param name="operationId" value="#{recipe.data.id}"/>
+                                                        </h:button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="padding: 0">
+                                            <table class="product-table">
+                                                <tr>
+                                                    <th colspan="2"
+                                                        class="product-table-header product-table-text-col">
+                                                        <h:outputText value="#{'Recipe Nodes'}"/>
+                                                    </th>
+                                                </tr>
+                                                <ui:repeat value="#{recipeNodeDAO.getAllByParentObj(recipe)}"
+                                                           var="recipeNode">
+                                                    <tr>
+                                                        <td>
+                                                            <h:outputText
+                                                                    rendered="#{not recipeNode.editingEnabled}"
+                                                                    value="#{recipeNode.data.operation.name}"/>
+                                                            <h:selectOneMenu
+                                                                    rendered="#{recipeNode.editingEnabled}"
+                                                                    value="#{recipeNode.data.operation}"
+                                                                    converter="omnifaces.SelectItemsIndexConverter">
+                                                                <f:selectItems
+                                                                        value="#{recipeView.usableOperations}"
+                                                                        var="c"
+                                                                        itemLabel="#{c.name}"/>
+                                                            </h:selectOneMenu>
+                                                        </td>
+                                                        <td class="product-table-number-col">
+                                                            <cocome:defaultActionGroup item="#{recipeNode}"
+                                                                                       view="#{recipeNodeView}"/>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+                                            <table width="100%">
+                                                <tr>
+                                                    <td align="center">
+                                                        <h:button outcome="/enterprise/create_recipe_node"
+                                                                  value="#{of:format1(strings['button.add.label'],
+                                                                                  'Recipe Node')}">
+                                                            <f:param name="operationId" value="#{recipe.data.id}"/>
+                                                        </h:button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0" valign="top">
+                                            <table class="product-table">
+                                                <tr>
+                                                    <th colspan="4"
+                                                        class="product-table-header product-table-text-col">
+                                                        <h:outputText value="#{'Parameter Interactions'} "/>
+                                                    </th>
+                                                </tr>
+                                                <ui:repeat
+                                                        value="#{parameterInteractionDAO.getAllByParentObj(recipe)}"
+                                                        var="parameterInteraction">
+                                                    <tr>
+                                                        <td align="center">
+                                                            <h:panelGroup
+                                                                    rendered="#{not parameterInteraction.editingEnabled}">
+                                                                <h:outputText
+                                                                        value="#{parameterInteraction.data.from.operation.name}"/>
+                                                                <h:outputText value="#{' | '}"/>
+                                                                <h:outputText
+                                                                        value="#{parameterInteraction.data.from.name}"/>
+                                                            </h:panelGroup>
+                                                            <h:selectOneMenu
+                                                                    rendered='#{parameterInteraction.editingEnabled}'
+                                                                    value="#{parameterInteraction.data.from}"
+                                                                    converter="omnifaces.SelectItemsIndexConverter">
+                                                                <f:selectItems
+                                                                        value="#{recipeView.getUsableParameters(recipe)}"
+                                                                        var="c"
+                                                                        itemLabel="#{c.operation.name} | #{c.name}"/>
+                                                            </h:selectOneMenu>
+                                                        </td>
+                                                        <td align="center">
+                                                            <h:outputText value="#{' &#8594; '}"/>
+                                                        </td>
+                                                        <td align="center">
+                                                            <h:panelGroup
+                                                                    rendered="#{not parameterInteraction.editingEnabled}">
+                                                                <h:outputText
+                                                                        value="#{parameterInteraction.data.to.operation.name}"/>
+                                                                <h:outputText value="#{' | '}"/>
+                                                                <h:outputText
+                                                                        value="#{parameterInteraction.data.to.name}"/>
+                                                            </h:panelGroup>
+                                                            <h:selectOneMenu
+                                                                    rendered='#{parameterInteraction.editingEnabled}'
+                                                                    value="#{parameterInteraction.data.to}"
+                                                                    converter="omnifaces.SelectItemsIndexConverter">
+                                                                <f:selectItems
+                                                                        value="#{recipeView.getUsableParameters(recipe)}"
+                                                                        var="c"
+                                                                        itemLabel="#{c.operation.name} | #{c.name}"/>
+                                                            </h:selectOneMenu>
+                                                        </td>
+                                                        <td class="product-table-number-col">
+                                                            <cocome:defaultActionGroup
+                                                                    item="#{parameterInteraction}"
+                                                                    view="#{parameterInteractionView}"/>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+                                            <table width="100%">
+                                                <tr>
+                                                    <td align="center">
+                                                        <h:button outcome="/enterprise/create_parameter_interaction"
+                                                                  value="#{of:format1(strings['button.add.label'],
+                                                                                  'Parameter Interaction')}">
+                                                            <f:param name="operationId" value="#{recipe.data.id}"/>
+                                                        </h:button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="padding: 0" valign="top">
+                                            <table class="product-table">
+                                                <tr>
+                                                    <th colspan="4"
+                                                        class="product-table-header product-table-text-col">
+                                                        <h:outputText value="#{'Nominal Parameters'}"/>
+                                                    </th>
+                                                </tr>
+                                                <ui:repeat value="#{entryPointInteractionDAO.getAllByParentObj(recipe)}"
+                                                           var="entryPointInteraction">
+                                                    <tr>
+                                                        <td align="center">
+                                                            <h:panelGroup
+                                                                    rendered="#{not entryPointInteraction.editingEnabled}">
+                                                                <h:outputText
+                                                                        value="#{entryPointInteraction.data.from.operation.name}"/>
+                                                                <h:outputText value="#{' | '}"/>
+                                                                <h:outputText
+                                                                        value="#{entryPointInteraction.data.from.name}"/>
+                                                            </h:panelGroup>
+                                                            <h:selectOneMenu
+                                                                    rendered='#{entryPointInteraction.editingEnabled}'
+                                                                    value="#{entryPointInteraction.data.from}"
+                                                                    converter="omnifaces.SelectItemsIndexConverter">
+                                                                <f:selectItems
+                                                                        value="#{recipeView.getUsableEntryPoints(recipe)}"
+                                                                        var="c"
+                                                                        itemLabel="#{c.operation.name} | #{c.name}"/>
+                                                            </h:selectOneMenu>
+                                                        </td>
+                                                        <td align="center">
+                                                            <h:outputText value="#{' &#8594; '}"/>
+                                                        </td>
+                                                        <td align="center">
+                                                            <h:panelGroup
+                                                                    rendered="#{not entryPointInteraction.editingEnabled}">
+                                                                <h:outputText
+                                                                        value="#{entryPointInteraction.data.to.operation.name}"/>
+                                                                <h:outputText value="#{' | '}"/>
+                                                                <h:outputText
+                                                                        value="#{entryPointInteraction.data.to.name}"/>
+                                                            </h:panelGroup>
+                                                            <h:selectOneMenu
+                                                                    rendered='#{entryPointInteraction.editingEnabled}'
+                                                                    value="#{entryPointInteraction.data.to}"
+                                                                    converter="omnifaces.SelectItemsIndexConverter">
+                                                                <f:selectItems
+                                                                        value="#{recipeView.getUsableEntryPoints(recipe)}"
+                                                                        var="c"
+                                                                        itemLabel="#{c.operation.name} | #{c.name}"/>
+                                                            </h:selectOneMenu>
+                                                        </td>
+                                                        <td class="product-table-number-col">
+                                                            <cocome:defaultActionGroup item="#{entryPointInteraction}"
+                                                                                       view="#{entryPointInteractionView}"/>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+                                            <table width="100%">
+                                                <tr>
+                                                    <td align="center">
+                                                        <h:button outcome="/enterprise/create_entry_point_interaction"
+                                                                  value="#{of:format1(strings['button.add.label'],
+                                                                                  'Entry Point Interaction')}">
+                                                            <f:param name="operationId" value="#{recipe.data.id}"/>
+                                                        </h:button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </ui:repeat>
             </h:form>
+
             <h:form>
                 <table width="100%">
                     <tr>
                         <td align="center">
-                            <h:button outcome="/enterprise/create_plant"
-                                      value="#{of:format1(strings['button.add.label'], strings['plant.short.text'])}">
-                                <f:param name="enterprise_id" value="#{enterpriseInformation.activeEnterprise.id}"/>
-                            </h:button>
+                            <h:button outcome="/enterprise/edit_recipe"
+                                      value="#{of:format1(strings['button.add.label'],strings['recipe.short.text'])}"/>
                         </td>
                     </tr>
                 </table>

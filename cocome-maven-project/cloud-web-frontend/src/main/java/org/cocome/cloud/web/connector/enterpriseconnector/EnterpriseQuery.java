@@ -221,6 +221,13 @@ public class EnterpriseQuery implements IEnterpriseQuery {
     }
 
     @Override
+    public List<CustomProductTO> getAllCustomProducts() throws NotInDatabaseException_Exception {
+        // TODO should definitely be cached somehow, especially when there are
+        // lots of products
+        return enterpriseManager.getAllCustomProducts();
+    }
+
+    @Override
     public ProductWrapper getProductByID(long productID) throws NotInDatabaseException_Exception {
         enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
         return new ProductWrapper(enterpriseManager.getProductByID(productID));

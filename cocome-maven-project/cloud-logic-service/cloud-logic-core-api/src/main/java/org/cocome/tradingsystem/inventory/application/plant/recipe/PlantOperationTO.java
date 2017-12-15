@@ -22,6 +22,7 @@ import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 
 import javax.xml.bind.annotation.*;
+import java.util.Objects;
 
 /**
  * Represents an operation provided by an plant
@@ -70,4 +71,17 @@ public class PlantOperationTO extends RecipeOperationTO {
         this.markup = markup;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlantOperationTO that = (PlantOperationTO) o;
+        return Objects.equals(plant, that.plant)
+                && Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(plant, getName());
+    }
 }

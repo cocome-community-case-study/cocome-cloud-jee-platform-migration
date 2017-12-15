@@ -613,6 +613,12 @@ public interface IEnterpriseManager {
     /* CRUD for {@link RecipeOperationTO} **************/
 
     @WebMethod
+    Collection<RecipeOperationTO> queryRecipeOperationsByEnterpriseId(
+            @XmlElement(required = true)
+            @WebParam(name = "enterpriseID")
+                    long enterpriseId) throws NotInDatabaseException;
+
+    @WebMethod
     RecipeOperationTO queryRecipeOperationById(
             @XmlElement(required = true)
             @WebParam(name = "recipeOperationID")

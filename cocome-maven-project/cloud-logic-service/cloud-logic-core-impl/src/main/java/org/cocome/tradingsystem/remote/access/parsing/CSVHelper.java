@@ -10,10 +10,7 @@ import org.cocome.tradingsystem.inventory.application.usermanager.CredentialType
 import org.cocome.tradingsystem.inventory.application.usermanager.Role;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredential;
 import org.cocome.tradingsystem.inventory.application.usermanager.credentials.ICredentialFactory;
-import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
-import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
-import org.cocome.tradingsystem.inventory.data.enterprise.IProductSupplier;
-import org.cocome.tradingsystem.inventory.data.enterprise.ITradingEnterprise;
+import org.cocome.tradingsystem.inventory.data.enterprise.*;
 import org.cocome.tradingsystem.inventory.data.persistence.ServiceAdapterHeaders;
 import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
@@ -456,6 +453,22 @@ public class CSVHelper implements IBackendConversionHelper {
     }
 
     @Override
+    public Collection<ICustomProduct> getCustomProducts(String input) {
+        CSVParser parser = new CSVParser();
+        parser.parse(input);
+
+        LinkedList<ICustomProduct> products = new LinkedList<>();
+
+        if (parser.getModel().getRows().size() > 0) {
+            for (Row<String> row : parser.getModel().getRows()) {
+                products.add((ICustomProduct) getProductFromRow(row));
+            }
+        }
+
+        return products;
+    }
+
+    @Override
     public Collection<IProductSupplier> getProductSuppliers(String input) {
         CSVParser parser = new CSVParser();
         parser.parse(input);
@@ -594,6 +607,7 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setId(fetchLong(row.getColumns().get(0)));
             result.setToId(fetchLong(row.getColumns().get(1)));
             result.setFromId(fetchLong(row.getColumns().get(2)));
+            result.setRecipeId(fetchLong(row.getColumns().get(3)));
 
             return result;
         });
@@ -607,6 +621,7 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setId(fetchLong(row.getColumns().get(0)));
             result.setToId(fetchLong(row.getColumns().get(1)));
             result.setFromId(fetchLong(row.getColumns().get(2)));
+            result.setRecipeId(fetchLong(row.getColumns().get(3)));
 
             return result;
         });
@@ -621,7 +636,7 @@ public class CSVHelper implements IBackendConversionHelper {
         final IRecipe result = plantFactory.getNewRecipe();
 
         result.setId(fetchLong(row.getColumns().get(offset)));
-        result.setCustomProductId(fetchLong(row.getColumns().get(1 + offset)));
+        result.setCustomProductBarcode(fetchLong(row.getColumns().get(1 + offset)));
         result.setName(fetchString(row.getColumns().get(2 + offset)));
         result.setEnterpriseId(fetchLong(row.getColumns().get(3 + offset)));
 

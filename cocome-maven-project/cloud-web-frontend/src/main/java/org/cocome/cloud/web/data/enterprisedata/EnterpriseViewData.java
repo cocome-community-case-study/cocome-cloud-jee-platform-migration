@@ -1,5 +1,6 @@
 package org.cocome.cloud.web.data.enterprisedata;
 
+import org.cocome.cloud.web.data.ViewData;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 
 import javax.validation.constraints.NotNull;
@@ -10,29 +11,41 @@ import javax.validation.constraints.NotNull;
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-public class EnterpriseViewData {
-    private long id;
-    private String name;
+public class EnterpriseViewData extends ViewData<EnterpriseTO> {
 
-    public EnterpriseViewData(long id, String name) {
-        this.id = id;
-        this.name = name;
+    public EnterpriseViewData(final long id, final String name) {
+        super(new EnterpriseTO());
+        this.data.setId(id);
+        this.data.setName(name);
+    }
+
+    public EnterpriseViewData(EnterpriseTO data) {
+        super(data);
+    }
+
+    @Override
+    public long getParentId() {
+        return 0;
+    }
+
+    public void setData(EnterpriseTO data) {
+        this.data = data;
     }
 
     public long getId() {
-        return id;
+        return this.data.getId();
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.data.setId(id);
     }
 
     public String getName() {
-        return name;
+        return this.data.getName();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.setName(name);
     }
 
     /**

@@ -69,6 +69,10 @@
     <wsdl:part name="parameters" element="tns:deleteNominalParameterResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryRecipeOperationsByEnterpriseId">
+    <wsdl:part name="parameters" element="tns:queryRecipeOperationsByEnterpriseId">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getEnterprisesResponse">
     <wsdl:part name="parameters" element="tns:getEnterprisesResponse">
     </wsdl:part>
@@ -351,6 +355,10 @@
   </wsdl:message>
   <wsdl:message name="queryParametersByRecipeOperationId">
     <wsdl:part name="parameters" element="tns:queryParametersByRecipeOperationId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryRecipeOperationsByEnterpriseIdResponse">
+    <wsdl:part name="parameters" element="tns:queryRecipeOperationsByEnterpriseIdResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="createPlantOperation">
@@ -868,6 +876,14 @@
       <wsdl:output name="createNominalParameterResponse" message="tns:createNominalParameterResponse">
     </wsdl:output>
       <wsdl:fault name="CreateException" message="tns:CreateException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryRecipeOperationsByEnterpriseId">
+      <wsdl:input name="queryRecipeOperationsByEnterpriseId" message="tns:queryRecipeOperationsByEnterpriseId">
+    </wsdl:input>
+      <wsdl:output name="queryRecipeOperationsByEnterpriseIdResponse" message="tns:queryRecipeOperationsByEnterpriseIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getAllCustomProducts">
@@ -1669,6 +1685,18 @@
       </wsdl:output>
       <wsdl:fault name="CreateException">
         <soap:fault name="CreateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryRecipeOperationsByEnterpriseId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryRecipeOperationsByEnterpriseId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryRecipeOperationsByEnterpriseIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="getAllCustomProducts">

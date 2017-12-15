@@ -37,7 +37,7 @@ public interface IStoreManager {
     long accountSale(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
             @XmlElement(required = true) @WebParam(name = "sale") SaleTO sale)
-            throws ProductOutOfStockException, NotInDatabaseException, UpdateException, RecipeException;
+            throws ProductOutOfStockException, NotInDatabaseException, UpdateException;
 
     @WebMethod
     StoreWithEnterpriseTO getStore(

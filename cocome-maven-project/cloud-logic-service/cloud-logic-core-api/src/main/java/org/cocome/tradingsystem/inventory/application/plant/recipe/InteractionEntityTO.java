@@ -22,6 +22,7 @@ import org.cocome.tradingsystem.inventory.application.IIdentifiableTO;
 import org.cocome.tradingsystem.inventory.application.INameableTO;
 
 import javax.xml.bind.annotation.*;
+import java.util.Objects;
 
 /**
  * Used as common interface for classes who connect two other entity types with each other

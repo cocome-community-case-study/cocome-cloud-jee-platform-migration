@@ -51,7 +51,7 @@ public class ParameterInteraction extends InteractionEntity<IParameter>
     private IEnterpriseQuery enterpriseQuery;
 
     @PostConstruct
-    public void initPlant() {
+    public void init() {
         enterpriseQuery = enterpriseQueryInstance.get();
         from = null;
         to = null;

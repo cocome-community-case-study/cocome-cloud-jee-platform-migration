@@ -381,7 +381,7 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
             return csvHelper.getProducts(backendConnection.getProducts("barcode==" + productBarcode))
                     .iterator().next();
         } catch (NoSuchElementException e) {
-            throw new NotInDatabaseException("No matching product found in database!");
+            throw new NotInDatabaseException("No matching product found with barcode '" + productBarcode + "'");
         }
     }
 

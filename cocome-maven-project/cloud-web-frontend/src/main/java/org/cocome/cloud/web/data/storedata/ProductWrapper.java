@@ -12,6 +12,7 @@ import org.cocome.tradingsystem.inventory.application.store.*;
  */
 public class ProductWrapper {
     private static final Logger LOG = Logger.getLogger(ProductWrapper.class);
+
     private ProductTO product;
     private StockItemTO stockItem;
 
@@ -171,6 +172,14 @@ public class ProductWrapper {
         stockItemTO.setMinStock(0);
         stockItemTO.setSalesPrice(0.0);
         return stockItemTO;
+    }
+
+    public ProductTO getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductTO product) {
+        this.product = product;
     }
 
     public long getNewAmount() {
