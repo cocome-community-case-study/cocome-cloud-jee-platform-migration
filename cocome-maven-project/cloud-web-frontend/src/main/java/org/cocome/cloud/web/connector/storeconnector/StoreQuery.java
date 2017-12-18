@@ -7,10 +7,11 @@ import org.cocome.cloud.registry.service.Names;
 import org.cocome.cloud.web.data.storedata.OrderItem;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
-import org.cocome.tradingsystem.inventory.application.store.ComplexOrderEntryTO;
-import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
-import org.cocome.tradingsystem.inventory.application.store.ProductWithItemTO;
-import org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndStockItemTO;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+import org.cocome.tradingsystem.inventory.application.store.*;
+import org.cocome.tradingsystem.inventory.application.store.ItemTO;
+import org.cocome.tradingsystem.inventory.application.store.OnDemandItemTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -56,41 +57,61 @@ public class StoreQuery implements IStoreQuery {
     }
 
     @Override
-    public List<ProductWrapper> queryStockItems(@NotNull StoreViewData store) throws NotInDatabaseException_Exception {
+    public List<ProductWrapper<StockItemTO>> queryStockItems(@NotNull StoreViewData store)
+            throws NotInDatabaseException_Exception {
         long storeID = store.getID();
         LOG.debug("Querying stock items: Looking up store server.");
         storeManager = lookupStoreManager(storeID);
-        List<ProductWrapper> stockItems = new LinkedList<>();
+        List<ProductWrapper<StockItemTO>> stockItems = new LinkedList<>();
         LOG.debug("Querying stock items: Querying stock items from store server.");
-        List<ProductWithSupplierAndStockItemTO> items = storeManager.getProductsWithStockItems(storeID);
+        List<ProductWithSupplierAndItemTO> items = storeManager.getProductsWithStockItems(storeID);
         LOG.debug("Querying stock items: Creating product wrappers.");
-        for (ProductWithSupplierAndStockItemTO item : items) {
-            ProductWrapper newItem = new ProductWrapper(item.getProductTO(), item.getStockItemTO(), store);
-            stockItems.add(newItem);
+        for (ProductWithSupplierAndItemTO item : items) {
+            stockItems.add(new ProductWrapper<>(item.getProductTO(), (StockItemTO) item.getItemTO(), store));
         }
         return stockItems;
     }
 
     @Override
-    public ProductWrapper getStockItemByProductID(@NotNull StoreViewData store, long productID) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<ProductWrapper<OnDemandItemTO>> queryOnDemandItems(@NotNull StoreViewData store)
+            throws NotInDatabaseException_Exception {
+        long storeID = store.getID();
+        LOG.debug("Querying stock items: Looking up store server.");
+        storeManager = lookupStoreManager(storeID);
+        List<ProductWrapper<OnDemandItemTO>> onDemamndItems = new LinkedList<>();
+        LOG.debug("Querying stock items: Querying stock items from store server.");
+        List<ProductWithSupplierAndItemTO> items = storeManager.getProductsWithOnDemandItems(storeID);
+        LOG.debug("Querying stock items: Creating product wrappers.");
+        for (ProductWithSupplierAndItemTO item : items) {
+            onDemamndItems.add(new ProductWrapper<>(item.getProductTO(), (OnDemandItemTO) item.getItemTO(), store));
+        }
+        return onDemamndItems;
     }
 
     @Override
-    public ProductWrapper getStockItemByBarcode(@NotNull StoreViewData store, long barcode) {
-        return null;
+    public boolean createItem(@NotNull StoreViewData store, @NotNull ProductWrapper product) {
+        long storeID = store.getID();
+
+        try {
+            storeManager = lookupStoreManager(storeID);
+            ProductWithItemTO stockItemTO = convertToProductWithItemTO(product);
+            storeManager.createItem(storeID, stockItemTO);
+        } catch (CreateException_Exception | NotInDatabaseException_Exception e) {
+            LOG.error(String.format("Error while creating item: %s\n", e.getMessage()), e);
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public boolean updateStockItem(@NotNull StoreViewData store, @NotNull ProductWrapper stockItem) {
+    public boolean updateItem(@NotNull StoreViewData store, @NotNull ProductWrapper item) {
         long storeID = store.getID();
         try {
             storeManager = lookupStoreManager(storeID);
-            storeManager.updateItem(storeID, new ProductWithItemTO(stockItem.getStockItemTO(), stockItem.getProductTO()));
+            storeManager.updateItem(storeID, new ProductWithItemTO(item.getItemTO(), item.getProduct()));
             return true;
         } catch (NotInDatabaseException_Exception | UpdateException_Exception e) {
-            LOG.error(String.format("Error while updating stock item: %s\n", e.getMessage()),e);
+            LOG.error(String.format("Error while updating item: %s\n", e.getMessage()), e);
         }
         return false;
     }
@@ -106,7 +127,7 @@ public class StoreQuery implements IStoreQuery {
             storeManager.orderProducts(storeID, orderTO);
             return true;
         } catch (NotInDatabaseException_Exception | CreateException_Exception | UpdateException_Exception e) {
-            LOG.error(String.format("Error while ordering products: %s\n", e.getMessage()),e);
+            LOG.error(String.format("Error while ordering products: %s\n", e.getMessage()), e);
         }
         return false;
     }
@@ -134,7 +155,7 @@ public class StoreQuery implements IStoreQuery {
             storeManager = lookupStoreManager(storeID);
             return storeManager.getOutstandingOrders(storeID);
         } catch (NotInDatabaseException_Exception e) {
-            LOG.error(String.format("Error while getting orders: %s\n", e.getMessage()),e);
+            LOG.error(String.format("Error while getting orders: %s\n", e.getMessage()), e);
         }
         return Collections.emptyList();
     }
@@ -147,7 +168,7 @@ public class StoreQuery implements IStoreQuery {
             storeManager = lookupStoreManager(storeID);
             return storeManager.getOrder(storeID, orderID);
         } catch (NotInDatabaseException_Exception e) {
-            LOG.error(String.format("Error while getting order with id %d: %s\n", orderID, e.getMessage()),e);
+            LOG.error(String.format("Error while getting order with id %d: %s\n", orderID, e.getMessage()), e);
         }
         return null;
     }
@@ -166,18 +187,32 @@ public class StoreQuery implements IStoreQuery {
         return false;
     }
 
-    @Override
-    public boolean createStockItem(@NotNull StoreViewData store, @NotNull ProductWrapper product) {
-        long storeID = store.getID();
+    private static ProductWithItemTO convertToProductWithItemTO(ProductWrapper product) {
+        final ProductWithItemTO productTO = new ProductWithItemTO();
+        productTO.setProduct(product.getProduct());
 
-        try {
-            storeManager = lookupStoreManager(storeID);
-            ProductWithItemTO stockItemTO = ProductWrapper.convertToProductWithStockItemTO(product);
-            storeManager.createItem(storeID, stockItemTO);
-        } catch (CreateException_Exception | NotInDatabaseException_Exception e) {
-            LOG.error(String.format("Error while creating stock item: %s\n", e.getMessage()), e);
-            return false;
+        ItemTO itemTO = product.getItemTO();
+
+        if (itemTO == null) {
+            itemTO = getNewItemTO(productTO.getProduct());
         }
-        return true;
+        productTO.setItem(itemTO);
+        return productTO;
     }
+
+    private static ItemTO getNewItemTO(final ProductTO productTO) {
+        if (productTO instanceof CustomProductTO) {
+            final OnDemandItemTO onDemandItemTO = new OnDemandItemTO();
+            onDemandItemTO.setSalesPrice(0.0);
+            return onDemandItemTO;
+        }
+        final StockItemTO stockItemTO = new StockItemTO();
+        stockItemTO.setAmount(0);
+        stockItemTO.setIncomingAmount(0);
+        stockItemTO.setMaxStock(0);
+        stockItemTO.setMinStock(0);
+        stockItemTO.setSalesPrice(0.0);
+        return stockItemTO;
+    }
+
 }

@@ -26,15 +26,15 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{strings['product.table.header_purchase_price']}</f:facet>
-                    <h:outputText value="#{product.productTO.purchasePrice}">
+                    <h:outputText value="#{product.product.purchasePrice}">
                         <f:convertNumber type="currency" currencySymbol="€"/>
                     </h:outputText>
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{'Protuct Type'}</f:facet>
-                    <h:outputText rendered="#{product.productTO.class.simpleName eq 'ProductTO'}"
+                    <h:outputText rendered="#{product.product.class.simpleName eq 'ProductTO'}"
                                   value="Regular"/>
-                    <h:outputText rendered="#{product.productTO.class.simpleName eq 'CustomProductTO'}"
+                    <h:outputText rendered="#{product.product.class.simpleName eq 'CustomProductTO'}"
                                   value="Custom"/>
                 </h:column>
             </h:dataTable>

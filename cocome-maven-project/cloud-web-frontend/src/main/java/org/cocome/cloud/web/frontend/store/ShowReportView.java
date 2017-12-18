@@ -6,12 +6,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
+import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
 
 @ManagedBean
 @ViewScoped
 public class ShowReportView {
 	private long storeId;
-	private List<ProductWrapper> stockItems;
+	private List<ProductWrapper<StockItemTO>> stockItems;
 	
 	@Inject
 	StoreInformation storeInformation;
@@ -28,7 +29,7 @@ public class ShowReportView {
 		stockItems = storeInformation.getStockReport(storeId);
 	}
 
-	public List<ProductWrapper> getStockItems() {
+	public List<ProductWrapper<StockItemTO>> getStockItems() {
 		return stockItems;
 	}
 }

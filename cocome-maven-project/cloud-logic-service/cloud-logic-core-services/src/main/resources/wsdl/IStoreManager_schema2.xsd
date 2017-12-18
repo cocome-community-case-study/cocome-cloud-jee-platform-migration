@@ -106,6 +106,16 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="ProductWithSupplierAndItemTO">
+    <xs:complexContent>
+      <xs:extension base="tns:ProductWithSupplierTO">
+        <xs:sequence>
+          <xs:element name="itemTO" type="tns:ItemTO"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:complexType name="ProductMovementTO">
     <xs:sequence>
       <xs:element name="originStore" type="tns:StoreTO"/>
@@ -164,16 +174,6 @@
       <xs:element name="item" type="tns:ProductWithItemTO"/>
       <xs:element maxOccurs="unbounded" name="parameterValues" type="ns3:ParameterValueTO"/>
     </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="ProductWithSupplierAndStockItemTO">
-    <xs:complexContent>
-      <xs:extension base="tns:ProductWithSupplierTO">
-        <xs:sequence>
-          <xs:element name="stockItemTO" type="tns:StockItemTO"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
   </xs:complexType>
 
 </xs:schema>

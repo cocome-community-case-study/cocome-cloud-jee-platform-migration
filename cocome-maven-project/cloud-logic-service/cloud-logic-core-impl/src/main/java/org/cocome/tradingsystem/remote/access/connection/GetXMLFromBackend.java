@@ -115,13 +115,6 @@ public class GetXMLFromBackend implements IBackendQuery {
     }
 
     @Override
-    public String getStockItems(String cond) {
-        MessageToCSV csv = new MessageToCSV(
-                getXMLFromBackend(getURLToBackend() + "?query.select=entity.type=StockItem;StockItem." + cond));
-        return csv.getCSV();
-    }
-
-    @Override
     public String getProductOrder(String cond) {
         MessageToCSV csv = new MessageToCSV(
                 getXMLFromBackend(getURLToBackend() + "?query.select=entity.type=ProductOrder;ProductOrder." + cond));

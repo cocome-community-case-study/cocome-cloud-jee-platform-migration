@@ -16,13 +16,8 @@
 
 package org.cocome.tradingsystem.inventory.application.store;
 
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  * A transfer object class for exchanging basic order entry information between
@@ -30,38 +25,36 @@ import javax.xml.bind.annotation.XmlType;
  * of persisted data which is transferred to the client, or data which is
  * transferred from the client to the application layer to be processed and
  * persisted.
- * 
+ *
  * @author Sebastian Herold
  * @author Lubomir Bulej
  */
-@XmlType(name="OrderEntryTO", namespace="http://store.application.inventory.tradingsystem.cocome.org/")
-@XmlRootElement(name="OrderEntryTO")
+@XmlType(name = "OrderEntryTO", namespace = "http://store.application.inventory.tradingsystem.cocome.org/")
+@XmlRootElement(name = "OrderEntryTO")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrderEntryTO implements Serializable {
 
-	private static final long serialVersionUID = 4131269057379126014L;
+    private static final long serialVersionUID = 4131269057379126014L;
 
-	// TODO Why this only contains amount? -- LB
+    // TODO Why this only contains amount? -- LB
 
-	@XmlElement(name="amount", required=true)
-	private long __amount;
+    @XmlElement(name = "amount", required = true)
+    private long __amount;
 
-	/**
-	 * Gets value of amount attribute of an order entry.
-	 * 
-	 * @return Amount.
-	 */
-	public long getAmount() {
-		return __amount;
-	}
+    /**
+     * Gets value of amount attribute of an order entry.
+     *
+     * @return Amount.
+     */
+    public long getAmount() {
+        return __amount;
+    }
 
-	/**
-	 * Sets value of amount attribute of an order entry.
-	 * 
-	 * @param amount
-	 */
-	public void setAmount(long amount) {
-		__amount = amount;
-	}
+    /**
+     * @param amount amount attribute of an order entry
+     */
+    public void setAmount(long amount) {
+        __amount = amount;
+    }
 
 }

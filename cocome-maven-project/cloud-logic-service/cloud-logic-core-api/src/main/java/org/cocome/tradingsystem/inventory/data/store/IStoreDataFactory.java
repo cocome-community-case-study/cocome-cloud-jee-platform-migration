@@ -66,8 +66,12 @@ public interface IStoreDataFactory {
 
     ProductWithItemTO fillProductWithItemTO(IItem stockItem);
 
-    ProductWithSupplierAndStockItemTO fillProductWithSupplierAndStockItemTO(
+    ProductWithSupplierAndItemTO fillProductWithSupplierAndStockItemTO(
             IStockItem stockItem) throws NotInDatabaseException;
+
+
+    ProductWithSupplierAndItemTO fillProductWithSupplierAndOnDemandItemTO(
+            IOnDemandItem onDemandItem) throws NotInDatabaseException;
 
     StoreWithEnterpriseTO fillStoreWithEnterpriseTO(
             IStore store) throws NotInDatabaseException;

@@ -153,7 +153,7 @@
 //		when(sessionContext.getName()).thenReturn(CASHDESK_NAME);
 //		when(registry.getLong(RegistryKeys.STORE_ID)).thenReturn(STORE_ID);
 //		
-//		when(inventory.getProductWithStockItem(STORE_ID, prod.getBarcode())).thenReturn(FillTransferObjects.fillProductWithItemTO(stock));
+//		when(inventory.getProductWithItem(STORE_ID, prod.getBarcode())).thenReturn(FillTransferObjects.fillProductWithItemTO(stock));
 //		
 //		when(remoteBank.validateCard(CARD_INFO, CARD_PIN)).thenReturn(transaction);
 //		when(remoteBank.debitCard(transaction)).thenReturn(DebitResult.OK);
@@ -201,7 +201,7 @@
 //		
 //		cashDeskModel.addItemToSale(prod.getBarcode());
 //		
-//		verify(inventory).getProductWithStockItem(STORE_ID, prod.getBarcode());
+//		verify(inventory).getProductWithItem(STORE_ID, prod.getBarcode());
 //		verify(runningTotalChangedEvents).fire(runningTotalChangedCaptor.capture());
 //		
 //		assertEquals(prod.getName(), runningTotalChangedCaptor.getValue().getProductName());

@@ -10,6 +10,10 @@ import org.cocome.cloud.web.events.ChangeViewEvent;
 import org.cocome.cloud.web.events.LoginEvent;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.navigation.NavigationViewStates;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+import org.cocome.tradingsystem.inventory.application.store.OnDemandItemTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductTO;
+import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
@@ -50,9 +54,11 @@ public class StoreInformation implements Serializable {
     @Inject
     private Event<ChangeViewEvent> changeViewEvent;
 
-    private List<ProductWrapper> stockItems = Collections.emptyList();
+    private List<ProductWrapper<StockItemTO>> stockItems = Collections.emptyList();
+    private List<ProductWrapper<OnDemandItemTO>> onDemandItems = Collections.emptyList();
 
-    private Map<Long, ProductWrapper> productsWithStockItems = new LinkedHashMap<>();
+    private Map<Long, ProductWrapper<StockItemTO>> productsWithStockItems = new LinkedHashMap<>();
+    private Map<Long, ProductWrapper<OnDemandItemTO>> productsWithOnDemandItems = new LinkedHashMap<>();
 
     public StoreViewData getActiveStore() {
         if ((activeStore == null || hasChanged) && activeStoreID != STORE_ID_NOT_SET) {
@@ -84,16 +90,6 @@ public class StoreInformation implements Serializable {
         return activeStoreID;
     }
 
-    public String submitStore() {
-        LOG.debug("Submit store was called");
-        if (isStoreSet()) {
-            hasChanged = true;
-            return NavigationElements.STORE_MAIN.getNavigationOutcome();
-        } else {
-            return "error";
-        }
-    }
-
     public boolean isStoreSet() {
         return activeStoreID != StoreInformation.STORE_ID_NOT_SET;
     }
@@ -110,15 +106,19 @@ public class StoreInformation implements Serializable {
         return destination != null ? destination : NavigationElements.STORE_MAIN.getNavigationOutcome();
     }
 
-    public List<ProductWrapper> getAllStockItems() {
+    public List<ProductWrapper<StockItemTO>> getAllStockItems() {
         return stockItems;
     }
 
-    public List<ProductWrapper> getStockReport(long storeID) {
+    public List<ProductWrapper<OnDemandItemTO>> getAllOnDemandItems() {
+        return onDemandItems;
+    }
+
+    public List<ProductWrapper<StockItemTO>> getStockReport(long storeID) {
         long currentStoreID = getActiveStoreID();
         setActiveStoreID(storeID);
         queryStockItems();
-        List<ProductWrapper> stockItems = getAllStockItems();
+        List<ProductWrapper<StockItemTO>> stockItems = getAllStockItems();
         setActiveStoreID(currentStoreID);
         return stockItems;
     }
@@ -133,6 +133,19 @@ public class StoreInformation implements Serializable {
 
         if (!updated) {
             stockItems = Collections.emptyList();
+        }
+    }
+
+    public void queryOnDemandItems() {
+        LOG.debug("Looking up update items");
+        boolean updated = false;
+
+        if (isStoreSet()) {
+            updated = updateOnDemandItems();
+        }
+
+        if (!updated) {
+            onDemandItems = Collections.emptyList();
         }
     }
 
@@ -153,22 +166,58 @@ public class StoreInformation implements Serializable {
         return true;
     }
 
+    private boolean updateOnDemandItems() {
+        StoreViewData activeStore = getActiveStore();
+        if (activeStore != null) {
+            try {
+                onDemandItems = storeDAO.queryOnDemandItems(activeStore);
+            } catch (NotInDatabaseException_Exception e) {
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve the on-demand items!", null));
+                return false;
+            }
+
+            mergeProductInformation();
+        }
+        return true;
+    }
+
     private void mergeProductInformation() {
         productsWithStockItems = new LinkedHashMap<>();
-        for (ProductWrapper stockItem : stockItems) {
+        for (ProductWrapper<StockItemTO> stockItem : stockItems) {
             productsWithStockItems.put(stockItem.getBarcode(), stockItem);
+        }
+        productsWithOnDemandItems = new LinkedHashMap<>();
+        for (ProductWrapper<OnDemandItemTO> onDemandItem : onDemandItems) {
+            productsWithOnDemandItems.put(onDemandItem.getBarcode(), onDemandItem);
         }
     }
 
-    public Collection<ProductWrapper> getAllProductsWithStockItems() {
+    public Collection<ProductWrapper<StockItemTO>> getAllProductsWithStockItems() {
         return productsWithStockItems.values();
     }
 
-    public void queryProductsWithStockItems() throws NotInDatabaseException_Exception {
+    public Collection<ProductWrapper<OnDemandItemTO>> getAllProductsWithOnDemandItems() {
+        return productsWithOnDemandItems.values();
+    }
+
+    public void queryRegularProducts() throws NotInDatabaseException_Exception {
         updateStockItems();
-        for (ProductWrapper product : enterpriseDAO.getAllProducts()) {
-            if (!productsWithStockItems.containsKey(product.getBarcode())) {
+        for (ProductWrapper<StockItemTO> product : enterpriseDAO.getAllProducts()) {
+            if (!productsWithStockItems.containsKey(product.getBarcode())
+                    && product.getProduct().getClass().equals(ProductTO.class)) {
                 productsWithStockItems.put(product.getBarcode(), product);
+            }
+        }
+    }
+
+    public void queryCustomProducts() throws NotInDatabaseException_Exception {
+        updateOnDemandItems();
+        for (ProductWrapper<OnDemandItemTO> product : enterpriseDAO.getAllProducts()) {
+            if (!productsWithOnDemandItems.containsKey(product.getBarcode())
+                    && product.getProduct().getClass().equals(CustomProductTO.class)) {
+                productsWithOnDemandItems.put(product.getBarcode(), product);
             }
         }
     }

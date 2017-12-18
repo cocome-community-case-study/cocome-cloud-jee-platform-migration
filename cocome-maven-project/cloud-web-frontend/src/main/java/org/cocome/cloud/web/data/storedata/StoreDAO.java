@@ -4,6 +4,8 @@ import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.web.connector.enterpriseconnector.EnterpriseQuery;
 import org.cocome.cloud.web.connector.storeconnector.StoreQuery;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
+import org.cocome.tradingsystem.inventory.application.store.OnDemandItemTO;
+import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -32,18 +34,13 @@ public class StoreDAO implements IStoreDAO {
     }
 
     @Override
-    public List<ProductWrapper> queryStockItems(StoreViewData store) throws NotInDatabaseException_Exception {
+    public List<ProductWrapper<StockItemTO>> queryStockItems(StoreViewData store) throws NotInDatabaseException_Exception {
         return storeQuery.queryStockItems(store);
     }
 
     @Override
-    public ProductWrapper getStockItemByProductID(StoreViewData store, long productID) {
-        return storeQuery.getStockItemByProductID(store, productID);
-    }
-
-    @Override
-    public ProductWrapper getStockItemByBarcode(StoreViewData store, long barcode) {
-        return storeQuery.getStockItemByBarcode(store, barcode);
+    public List<ProductWrapper<OnDemandItemTO>> queryOnDemandItems(StoreViewData store) throws NotInDatabaseException_Exception {
+        return storeQuery.queryOnDemandItems(store);
     }
 
     @Override

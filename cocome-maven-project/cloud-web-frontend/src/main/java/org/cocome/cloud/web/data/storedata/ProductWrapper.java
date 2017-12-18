@@ -10,24 +10,15 @@ import org.cocome.tradingsystem.inventory.application.store.*;
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
-public class ProductWrapper {
+public class ProductWrapper<T extends ItemTO> {
     private static final Logger LOG = Logger.getLogger(ProductWrapper.class);
 
     private ProductTO product;
-    private StockItemTO stockItem;
-
-    // TODO should be included in the database product
-    private String description;
+    private T item;
 
     private StoreViewData originStore;
 
     private boolean editingEnabled = false;
-
-    private double newSalesPrice;
-    private long newAmount;
-    private long newMinAmount;
-    private long newMaxAmount;
-
 
     private boolean inCurrentOrder = false;
 
@@ -35,60 +26,30 @@ public class ProductWrapper {
         this.product = product;
     }
 
-    public ProductWrapper(ProductTO product, StockItemTO stockItem, StoreViewData originStore) {
+    public ProductWrapper(ProductTO product, T item, StoreViewData originStore) {
         this(product);
-        this.stockItem = stockItem;
+        this.item = item;
         this.originStore = originStore;
-        this.newSalesPrice = stockItem.getSalesPrice();
-        this.newAmount = stockItem.getAmount();
-        this.newMaxAmount = stockItem.getMaxStock();
-        this.newMinAmount = stockItem.getMinStock();
     }
 
-    public void setStockItem(StockItemTO stockItem) {
-        this.stockItem = stockItem;
+    public void setItem(T item) {
+        this.item = item;
     }
 
     public String getName() {
         return product.getName();
     }
 
-    public double getSalesPrice() {
-        return stockItem != null ? stockItem.getSalesPrice() : -1;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public long getAmount() {
-        return stockItem != null ? stockItem.getAmount() : -1;
-    }
-
     public long getBarcode() {
         return product.getBarcode();
-    }
-
-    public long getID() {
-        return product.getId();
     }
 
     public StoreViewData getOriginStore() {
         return originStore;
     }
 
-    public void setOriginStore(StoreViewData store) {
-        if (store != null) {
-            this.originStore = store;
-        }
-    }
-
-    public ProductTO getProductTO() {
-        return product;
-    }
-
-    public StockItemTO getStockItemTO() {
-        return stockItem;
+    public T getItemTO() {
+        return item;
     }
 
     public boolean isEditingEnabled() {
@@ -100,32 +61,6 @@ public class ProductWrapper {
         this.editingEnabled = editingEnabled;
     }
 
-    public void resetEdit() {
-        newSalesPrice = stockItem.getSalesPrice();
-        newAmount = stockItem.getAmount();
-        newMaxAmount = stockItem.getMaxStock();
-        newMinAmount = stockItem.getMinStock();
-        setEditingEnabled(false);
-    }
-
-    public void setNewSalesPrice(double newPrice) {
-        LOG.debug(String.format("New sales price set to %f", newPrice));
-        newSalesPrice = newPrice;
-    }
-
-    public double getNewSalesPrice() {
-        return newSalesPrice;
-    }
-
-    public void submitEdit() {
-        LOG.debug(String.format("Setting sales price of %s to %f", product.getName(), newSalesPrice));
-        stockItem.setSalesPrice(newSalesPrice);
-        stockItem.setAmount(newAmount);
-        stockItem.setMaxStock(newMaxAmount);
-        stockItem.setMinStock(newMinAmount);
-        setEditingEnabled(false);
-    }
-
     public boolean isInCurrentOrder() {
         return inCurrentOrder;
     }
@@ -134,44 +69,11 @@ public class ProductWrapper {
         this.inCurrentOrder = inCurrentOrder;
     }
 
-    private static ProductTO fillProductTO(ProductWrapper product) {
-        final ProductTO productTO = new ProductTO();
-        productTO.setBarcode(product.getBarcode());
-        productTO.setId(product.getID());
-        productTO.setName(product.getName());
-        productTO.setPurchasePrice(product.getProductTO().getPurchasePrice());
-        return productTO;
-    }
-
     public static ProductWithSupplierTO convertToProductTO(ProductWrapper product) {
         ProductWithSupplierTO productTO = new ProductWithSupplierTO();
-        productTO.setProductTO(fillProductTO(product));
+        productTO.setProductTO(product.product);
         productTO.setSupplierTO(new SupplierTO());
         return productTO;
-    }
-
-    public static ProductWithItemTO convertToProductWithStockItemTO(ProductWrapper product) {
-        ProductWithItemTO productTO = new ProductWithItemTO();
-        productTO.setProduct(fillProductTO(product));
-
-        StockItemTO stockItemTO = product.getStockItemTO();
-
-        if (stockItemTO == null) {
-            stockItemTO = getNewStockItemTO();
-        }
-        productTO.setItem(stockItemTO);
-        return productTO;
-    }
-
-    private static StockItemTO getNewStockItemTO() {
-        StockItemTO stockItemTO;
-        stockItemTO = new StockItemTO();
-        stockItemTO.setAmount(0);
-        stockItemTO.setIncomingAmount(0);
-        stockItemTO.setMaxStock(0);
-        stockItemTO.setMinStock(0);
-        stockItemTO.setSalesPrice(0.0);
-        return stockItemTO;
     }
 
     public ProductTO getProduct() {
@@ -180,29 +82,5 @@ public class ProductWrapper {
 
     public void setProduct(ProductTO product) {
         this.product = product;
-    }
-
-    public long getNewAmount() {
-        return newAmount;
-    }
-
-    public void setNewAmount(long newAmount) {
-        this.newAmount = newAmount;
-    }
-
-    public long getNewMinAmount() {
-        return newMinAmount;
-    }
-
-    public void setNewMinAmount(long newMinAmount) {
-        this.newMinAmount = newMinAmount;
-    }
-
-    public long getNewMaxAmount() {
-        return newMaxAmount;
-    }
-
-    public void setNewMaxAmount(long newMaxAmount) {
-        this.newMaxAmount = newMaxAmount;
     }
 }

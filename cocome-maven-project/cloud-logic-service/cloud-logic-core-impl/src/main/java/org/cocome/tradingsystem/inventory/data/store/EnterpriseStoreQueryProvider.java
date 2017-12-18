@@ -83,7 +83,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
     public IStockItem queryStockItemById(long stockItemId) throws NotInDatabaseException {
         try {
             return csvHelper.getStockItems(
-                    backendConnection.getStockItems("id==" + stockItemId)).iterator().next();
+                    backendConnection.getEntity("StockItem", "id==" + stockItemId)).iterator().next();
         } catch (NoSuchElementException e) {
             throw new NotInDatabaseException("StockItem with ID "
                     + stockItemId + " could not be found!");
@@ -150,7 +150,13 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
     @Override
     public Collection<IStockItem> queryAllStockItems(long storeId) {
         return csvHelper.getStockItems(
-                backendConnection.getStockItems("store.id==" + storeId));
+                backendConnection.getEntity("StockItem", "store.id==" + storeId));
+    }
+
+    @Override
+    public Collection<IOnDemandItem> queryAllOnDemandItems(long storeId) {
+        return csvHelper.getOnDemandItem(
+                backendConnection.getEntity("OnDemandItem", "store.id==" + storeId));
     }
 
     @Override
@@ -158,7 +164,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
         // Hacky way to get the result. We have to use e.minStock as comparison because
         // using StockItem.minStock will not be parsed and the query will return an error
         return csvHelper.getStockItems(
-                backendConnection.getStockItems("store.id==" + storeId + ";StockItem.amount=<e.minStock"));
+                backendConnection.getEntity("StockItem", "store.id==" + storeId + ";StockItem.amount=<e.minStock"));
     }
 
     @Override
@@ -166,7 +172,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
         IStockItem item = null;
         try {
             item = csvHelper.getStockItems(
-                    backendConnection.getStockItems("product.barcode==" + productBarcode
+                    backendConnection.getEntity("StockItem", "product.barcode==" + productBarcode
                             + ";StockItem.store.id==" + storeId)).iterator().next();
         } catch (NoSuchElementException e) {
             // Do nothing, just return null and don't crash
@@ -180,7 +186,7 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
         List<IStockItem> items = new LinkedList<>();
         for (long productId : productIds) {
             Collection<IStockItem> stockItems = csvHelper.getStockItems(
-                    backendConnection.getStockItems("store.id==" + storeId + ";product.id==" + productId));
+                    backendConnection.getEntity("StockItem", "store.id==" + storeId + ";product.id==" + productId));
             items.addAll(stockItems);
         }
         return items;

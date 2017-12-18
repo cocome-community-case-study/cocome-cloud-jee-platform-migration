@@ -33,7 +33,6 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
 import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-import org.cocome.tradingsystem.util.exception.RecipeException;
 import org.cocome.tradingsystem.util.java.Lists;
 import org.cocome.tradingsystem.util.java.Maps;
 import org.cocome.tradingsystem.util.qualifier.StoreRequired;
@@ -128,14 +127,28 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
     }
 
     @Override
-    public List<ProductWithSupplierAndStockItemTO> getProductsWithStockItems(long storeID) throws NotInDatabaseException {
+    public List<ProductWithSupplierAndItemTO> getProductsWithStockItems(long storeID) throws NotInDatabaseException {
         final Collection<IStockItem> stockItems = storeQuery
                 .queryAllStockItems(storeID);
 
-        final List<ProductWithSupplierAndStockItemTO> result = Lists
+        final List<ProductWithSupplierAndItemTO> result = Lists
                 .newArrayList();
         for (final IStockItem stockItem : stockItems) {
             result.add(storeFactory.fillProductWithSupplierAndStockItemTO(stockItem));
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<ProductWithSupplierAndItemTO> getProductsWithOnDemandItems(long storeID) throws NotInDatabaseException {
+        final Collection<IOnDemandItem> onDemandItems = storeQuery
+                .queryAllOnDemandItems(storeID);
+
+        final List<ProductWithSupplierAndItemTO> result = Lists
+                .newArrayList();
+        for (final IOnDemandItem onDemandItem : onDemandItems) {
+            result.add(storeFactory.fillProductWithSupplierAndOnDemandItemTO(onDemandItem));
         }
 
         return result;
@@ -406,13 +419,6 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
             LOG.error("Unable to submit production order", e);
             throw new UpdateException(e.getMessage(), e);
         }
-    }
-
-    @Override
-    public ComplexOrderEntryTO[] getStockItems(long storeID,
-                                               final ProductTO[] requiredProductTOs) throws NotImplementedException {
-        // TODO Auto-generated method stub
-        throw new NotImplementedException("TODO: SDQ implement");
     }
 
     @Override

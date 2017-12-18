@@ -21,7 +21,6 @@ package org.cocome.logic.webservice.storeservice;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-import org.cocome.tradingsystem.util.exception.RecipeException;
 
 import javax.ejb.CreateException;
 import javax.jws.WebMethod;
@@ -55,7 +54,12 @@ public interface IStoreManager {
             throws NotInDatabaseException;
 
     @WebMethod
-    List<ProductWithSupplierAndStockItemTO> getProductsWithStockItems(
+    List<ProductWithSupplierAndItemTO> getProductsWithStockItems(
+            @XmlElement(required = true) @WebParam(name = "storeID") long storeID)
+            throws NotInDatabaseException;
+
+    @WebMethod
+    List<ProductWithSupplierAndItemTO> getProductsWithOnDemandItems(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID)
             throws NotInDatabaseException;
 
@@ -113,13 +117,7 @@ public interface IStoreManager {
             throws ProductOutOfStockException, NotInDatabaseException, UpdateException;
 
     @WebMethod
-    ComplexOrderEntryTO[] getStockItems(
-            @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
-            @XmlElement(required = true) @WebParam(name = "requiredProductTOs") ProductTO[] requiredProductTOs)
-            throws NotInDatabaseException, NotImplementedException;
-
-    @WebMethod
-    ProductWithItemTO getProductWithStockItem(
+    ProductWithItemTO getProductWithItem(
             @XmlElement(required = true) @WebParam(name = "storeID") long storeID,
             @XmlElement(required = true) @WebParam(name = "productBarcode") long productBarcode)
             throws NoSuchProductException, NotInDatabaseException;

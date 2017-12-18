@@ -39,8 +39,8 @@
             <class ref="org.cocome.tradingsystem.inventory.application.store.ProductAmountTO"/>
         </bindings>
         <bindings
-                node="//xsd:complexType[@name='ProductWithSupplierAndStockItemTO']">
-            <class ref="org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndStockItemTO"/>
+                node="//xsd:complexType[@name='ProductWithSupplierAndItemTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.store.ProductWithSupplierAndItemTO"/>
         </bindings>
         <bindings node="//xsd:complexType[@name='StoreWithEnterpriseTO']">
             <class ref="org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO"/>

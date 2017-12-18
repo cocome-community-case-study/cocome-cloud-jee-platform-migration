@@ -8,12 +8,12 @@
 
     <ui:composition template="/templates/commonTemplate.xhtml">
         <f:metadata>
-            <f:viewAction action="#{storeInformation.queryRegularProducts}"/>
+            <f:viewAction action="#{storeInformation.queryCustomProducts}"/>
         </f:metadata>
         <ui:define name="body">
             <h:form>
                 <h:outputText value="#{strings['stock.add.available_products.text']}"/>
-                <h:dataTable value="#{storeInformation.allProductsWithStockItems}" var="product"
+                <h:dataTable value="#{storeInformation.allProductsWithOnDemandItems}" var="product"
                              styleClass="product-table" headerClass="product-table-header"
                              rowClasses="product-table-odd-row,product-table-even-row"
                              columnClasses="product-table-text-col,
@@ -35,7 +35,7 @@
                         </h:outputText>
                     </h:column>
                     <h:column>
-                        <h:commandLink action="#{showStockView.createNewStockItem(product)}"
+                        <h:commandLink action="#{showStockView.createNewOnDemandItem(product)}"
                                        styleClass="button"
                                        title="#{strings['stock.table.action.edit_price']}"
                                        rendered="#{empty product.itemTO}">

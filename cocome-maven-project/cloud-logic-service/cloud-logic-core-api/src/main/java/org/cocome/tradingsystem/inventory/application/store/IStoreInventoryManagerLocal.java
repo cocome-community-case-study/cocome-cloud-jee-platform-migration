@@ -20,7 +20,6 @@ package org.cocome.tradingsystem.inventory.application.store;
 
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-import org.cocome.tradingsystem.util.exception.RecipeException;
 
 import javax.ejb.CreateException;
 import javax.ejb.Local;
@@ -89,13 +88,22 @@ public interface IStoreInventoryManagerLocal {
     List<ProductWithSupplierTO> getAllProducts(long storeID) throws NotInDatabaseException;
 
     /**
-     * Returns all products offered by this store (a stock item exists for a
+     * Returns all stock items offered by this store (a stock item exists for a
      * product) and the supplier and corresponding stock item for each of them.
      *
      * @return List of products, their suppliers and the corresponding stock item.
      * @throws NotInDatabaseException
      */
-    List<ProductWithSupplierAndStockItemTO> getProductsWithStockItems(long storeID) throws NotInDatabaseException;
+    List<ProductWithSupplierAndItemTO> getProductsWithStockItems(long storeID) throws NotInDatabaseException;
+
+    /**
+     * Returns all items offered by this store as on demand delivery (a on demand item exists for a
+     * product) and the supplier and corresponding stock item for each of them.
+     *
+     * @return List of products, their suppliers and the corresponding stock item.
+     * @throws NotInDatabaseException
+     */
+    List<ProductWithSupplierAndItemTO> getProductsWithOnDemandItems(long storeID) throws NotInDatabaseException;
 
     /**
      * Orders products for a store. A separate product order is created for
@@ -173,21 +181,6 @@ public interface IStoreInventoryManagerLocal {
     void markProductsUnavailableInStock(long storeID,
                                         ProductMovementTO movedProductAmounts
     ) throws ProductOutOfStockException, UpdateException;
-
-    /**
-     * Returns the stock for the given products.
-     * <p>
-     * Required for UC 8
-     * <p>
-     * <b>NOTE:</b> This method is currently unused (and unimplemented), because there is a single database for the entire enterprise. The product dispatcher
-     * therefore does not have to ask individual stores for products but can just look into the shared database.
-     *
-     * @param requiredProductTOs The products to look up in the stock
-     * @return The products including amounts from the stock
-     * @throws NotImplementedException
-     * @author SDQ
-     */
-    ComplexOrderEntryTO[] getStockItems(long storeID, ProductTO[] requiredProductTOs) throws NotImplementedException;
 
     /**
      * Updates a stock item.

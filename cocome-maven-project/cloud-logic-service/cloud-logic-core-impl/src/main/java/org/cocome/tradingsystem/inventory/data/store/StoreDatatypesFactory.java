@@ -243,14 +243,27 @@ public class StoreDatatypesFactory implements IStoreDataFactory {
     }
 
     @Override
-    public ProductWithSupplierAndStockItemTO fillProductWithSupplierAndStockItemTO(
+    public ProductWithSupplierAndItemTO fillProductWithSupplierAndStockItemTO(
             IStockItem stockItem) throws NotInDatabaseException {
-        final ProductWithSupplierAndStockItemTO result = new ProductWithSupplierAndStockItemTO();
+        final ProductWithSupplierAndItemTO result = new ProductWithSupplierAndItemTO();
         final IProduct product = stockItem.getProduct();
 
         result.setProductTO(enterpriseDatatypes.fillProductTO(stockItem.getProduct()));
         result.setSupplierTO(enterpriseDatatypes.fillSupplierTO(product.getSupplier()));
-        result.setStockItemTO(fillStockItemTO(stockItem));
+        result.setItemTO(fillStockItemTO(stockItem));
+
+        return result;
+    }
+
+    @Override
+    public ProductWithSupplierAndItemTO fillProductWithSupplierAndOnDemandItemTO(
+            IOnDemandItem onDemandItem) throws NotInDatabaseException {
+        final ProductWithSupplierAndItemTO result = new ProductWithSupplierAndItemTO();
+        final IProduct product = onDemandItem.getProduct();
+
+        result.setProductTO(enterpriseDatatypes.fillProductTO(onDemandItem.getProduct()));
+        result.setSupplierTO(enterpriseDatatypes.fillSupplierTO(product.getSupplier()));
+        result.setItemTO(fillOnDemandItemTO(onDemandItem));
 
         return result;
     }
@@ -263,7 +276,8 @@ public class StoreDatatypesFactory implements IStoreDataFactory {
         result.setLocation(store.getLocation());
         result.setEnterpriseTO(enterpriseDatatypes.fillEnterpriseTO(store.getEnterprise()));
 
-        LOG.debug(String.format("Got store with id %d, name %s and enterprise %s.", result.getId(), result.getName(), result.getEnterpriseTO().getName()));
+        LOG.debug(String.format("Got store with id %d, name %s and enterprise %s.",
+                result.getId(), result.getName(), result.getEnterpriseTO().getName()));
 
         return result;
     }

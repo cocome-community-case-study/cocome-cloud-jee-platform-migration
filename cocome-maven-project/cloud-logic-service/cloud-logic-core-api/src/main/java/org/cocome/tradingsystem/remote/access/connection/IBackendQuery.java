@@ -12,8 +12,6 @@ public interface IBackendQuery {
 
     String getStores(String cond);
 
-    String getStockItems(String cond);
-
     String getProductOrder(String cond);
 
     String getProductSupplier(String cond);

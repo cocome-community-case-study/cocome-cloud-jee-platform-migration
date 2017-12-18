@@ -30,7 +30,6 @@ import org.cocome.tradingsystem.inventory.data.store.IStore;
 import org.cocome.tradingsystem.inventory.data.store.IStoreDataFactory;
 import org.cocome.tradingsystem.inventory.data.store.IStoreQuery;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
-import org.cocome.tradingsystem.util.exception.RecipeException;
 import org.cocome.tradingsystem.util.scope.CashDeskRegistry;
 import org.cocome.tradingsystem.util.scope.ICashDeskRegistryFactory;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
@@ -63,16 +62,7 @@ public class StoreManager implements IStoreManager {
     private IStoreQuery storeQuery;
 
     @Inject
-    private IEnterpriseQuery enterpriseQuery;
-
-    @Inject
-    private IPersistenceContext persistenceContext;
-
-    @Inject
     private IApplicationHelper applicationHelper;
-
-    @Inject
-    private IStoreDataFactory storeFactory;
 
     @Inject
     private String storeManagerWSDL;
@@ -129,10 +119,17 @@ public class StoreManager implements IStoreManager {
     }
 
     @Override
-    public List<ProductWithSupplierAndStockItemTO> getProductsWithStockItems(long storeID)
+    public List<ProductWithSupplierAndItemTO> getProductsWithStockItems(long storeID)
             throws NotInDatabaseException {
         setContextRegistry(storeID);
         return storeManager.getProductsWithStockItems(storeID);
+    }
+
+    @Override
+    public List<ProductWithSupplierAndItemTO> getProductsWithOnDemandItems(long storeID)
+            throws NotInDatabaseException {
+        setContextRegistry(storeID);
+        return storeManager.getProductsWithOnDemandItems(storeID);
     }
 
     @Override
@@ -179,14 +176,7 @@ public class StoreManager implements IStoreManager {
     }
 
     @Override
-    public ComplexOrderEntryTO[] getStockItems(long storeID, ProductTO[] requiredProductTOs)
-            throws NotInDatabaseException, NotImplementedException {
-        setContextRegistry(storeID);
-        return storeManager.getStockItems(storeID, requiredProductTOs);
-    }
-
-    @Override
-    public ProductWithItemTO getProductWithStockItem(long storeID, long productBarcode)
+    public ProductWithItemTO getProductWithItem(long storeID, long productBarcode)
             throws NoSuchProductException, NotInDatabaseException {
         setContextRegistry(storeID);
         return storeInventory.getProductWithStockItem(storeID, productBarcode);

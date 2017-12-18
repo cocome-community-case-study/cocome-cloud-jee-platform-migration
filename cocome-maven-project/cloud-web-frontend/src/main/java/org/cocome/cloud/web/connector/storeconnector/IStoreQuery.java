@@ -6,6 +6,8 @@ import org.cocome.cloud.web.data.storedata.OrderItem;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
 import org.cocome.tradingsystem.inventory.application.store.ComplexOrderTO;
+import org.cocome.tradingsystem.inventory.application.store.OnDemandItemTO;
+import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -18,13 +20,13 @@ import java.util.List;
  * @author Robert Heinrich
  */
 public interface IStoreQuery {
-    List<ProductWrapper> queryStockItems(@NotNull StoreViewData store) throws NotInDatabaseException_Exception;
+    List<ProductWrapper<StockItemTO>> queryStockItems(@NotNull StoreViewData store) throws NotInDatabaseException_Exception;
 
-    ProductWrapper getStockItemByProductID(@NotNull StoreViewData store, long productID);
+    List<ProductWrapper<OnDemandItemTO>> queryOnDemandItems(@NotNull StoreViewData store) throws NotInDatabaseException_Exception;
 
-    ProductWrapper getStockItemByBarcode(@NotNull StoreViewData store, long barcode);
+    boolean createItem(@NotNull StoreViewData store, @NotNull ProductWrapper product);
 
-    boolean updateStockItem(@NotNull StoreViewData store, @NotNull ProductWrapper stockItem);
+    boolean updateItem(@NotNull StoreViewData store, @NotNull ProductWrapper stockItem);
 
     boolean orderProducts(@NotNull StoreViewData store, @NotNull Collection<OrderItem> items);
 
@@ -33,8 +35,6 @@ public interface IStoreQuery {
     ComplexOrderTO getOrderByID(@NotNull StoreViewData store, long orderID);
 
     boolean rollInOrder(@NotNull StoreViewData store, long orderID);
-
-    boolean createStockItem(@NotNull StoreViewData store, @NotNull ProductWrapper product);
 
     IStoreManager lookupStoreManager(long storeID) throws NotInDatabaseException_Exception;
 }

@@ -2,7 +2,6 @@ package org.cocome.cloud.web.frontend.plant;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.data.enterprisedata.IEnterpriseDAO;
 import org.cocome.cloud.web.data.plantdata.PlantDAO;
 import org.cocome.cloud.web.data.plantdata.PlantViewData;
 import org.cocome.cloud.web.events.ChangeViewEvent;

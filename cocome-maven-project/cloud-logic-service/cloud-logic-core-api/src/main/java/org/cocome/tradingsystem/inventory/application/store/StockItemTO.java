@@ -124,5 +124,4 @@ public class StockItemTO extends ItemTO {
     public void setIncomingAmount(long incomingAmount) {
         this.__incomingAmount = incomingAmount;
     }
-
 }

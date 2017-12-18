@@ -1,44 +1,44 @@
 package org.cocome.cloud.web.frontend.store;
 
-import java.io.Serializable;
-import java.util.Map;
+import org.cocome.cloud.web.data.storedata.OrderItem;
+import org.cocome.cloud.web.data.storedata.ProductWrapper;
+import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
-
-import org.cocome.cloud.web.data.storedata.OrderItem;
-import org.cocome.cloud.web.data.storedata.ProductWrapper;
+import java.io.Serializable;
+import java.util.Map;
 
 @Named
 @ConversationScoped
 public class StockOrderData implements Serializable {
-	private static final long serialVersionUID = -4500925840688109911L;
-	
-	private boolean orderInProgress = false;
-	private Map<Long, OrderItem> itemMap;
-	private ProductWrapper selectedItem;
-	
-	public boolean isOrderInProgress() {
-		return orderInProgress;
-	}
-	
-	public void setOrderInProgress(boolean orderInProgress) {
-		this.orderInProgress = orderInProgress;
-	}
-	
-	public Map<Long, OrderItem> getItemMap() {
-		return itemMap;
-	}
-	
-	public void setItemMap(Map<Long, OrderItem> itemMap) {
-		this.itemMap = itemMap;
-	}
-	
-	public ProductWrapper getSelectedItem() {
-		return selectedItem;
-	}
-	
-	public void setSelectedItem(ProductWrapper selectedItem) {
-		this.selectedItem = selectedItem;
-	}
+    private static final long serialVersionUID = -4500925840688109911L;
+
+    private boolean orderInProgress = false;
+    private Map<Long, OrderItem> itemMap;
+    private ProductWrapper<StockItemTO> selectedItem;
+
+    boolean isOrderInProgress() {
+        return orderInProgress;
+    }
+
+    void setOrderInProgress(boolean orderInProgress) {
+        this.orderInProgress = orderInProgress;
+    }
+
+    Map<Long, OrderItem> getItemMap() {
+        return itemMap;
+    }
+
+    void setItemMap(Map<Long, OrderItem> itemMap) {
+        this.itemMap = itemMap;
+    }
+
+    ProductWrapper<StockItemTO> getSelectedItem() {
+        return selectedItem;
+    }
+
+    void setSelectedItem(ProductWrapper<StockItemTO> selectedItem) {
+        this.selectedItem = selectedItem;
+    }
 }

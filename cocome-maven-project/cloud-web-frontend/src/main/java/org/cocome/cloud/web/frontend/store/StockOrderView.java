@@ -1,199 +1,161 @@
 package org.cocome.cloud.web.frontend.store;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.apache.log4j.Logger;
 import org.cocome.cloud.web.data.storedata.IStorePersistence;
 import org.cocome.cloud.web.data.storedata.OrderItem;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
-import org.cocome.cloud.web.frontend.util.Messages;
+import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
+
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
+import java.util.*;
 
 @Named
 @ConversationScoped
 // TODO resolve messages from localized strings
 public class StockOrderView implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(StockOrderView.class);
+    private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(StockOrderView.class);
 
-	@Inject
-	private StockOrderData orderData;
+    @Inject
+    private StockOrderData orderData;
 
-	@Inject
-	private StoreInformation storeInformation;
-	
-	@Inject
-	private IStorePersistence storePersistence;
+    @Inject
+    private StoreInformation storeInformation;
 
-	@Inject
-	private Conversation conversation;
+    @Inject
+    private IStorePersistence storePersistence;
 
-	public String selectOrderItem(ProductWrapper item) {
-		LOG.debug(String.format("Selecting item %s for ordering...", item.getName()));
-		if (!isOrderInProgress()) {
-			LOG.debug("Starting new order");
-			startNewOrder();
-		}
+    @Inject
+    private Conversation conversation;
 
-		orderData.setSelectedItem(item);
+    public String selectOrderItem(ProductWrapper<StockItemTO> item) {
+        LOG.debug(String.format("Selecting item %s for ordering...", item.getName()));
+        if (!isOrderInProgress()) {
+            LOG.debug("Starting new order");
+            startNewOrder();
+        }
 
-		return NavigationElements.ORDER_PRODUCTS.getNavigationOutcome();
-	}
+        orderData.setSelectedItem(item);
 
-	public String addOrderAmount(int amount) {
-		ProductWrapper selectedItem = orderData.getSelectedItem();
-		Map<Long, OrderItem> itemMap = orderData.getItemMap();
+        return NavigationElements.ORDER_PRODUCTS.getNavigationOutcome();
+    }
 
-		if (!isOrderInProgress() || selectedItem == null) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("You have to select a stock item first!"));
-			return NavigationElements.SHOW_STOCK.getNavigationOutcome();
-		}
+    public String addOrderAmount(int amount) {
+        ProductWrapper selectedItem = orderData.getSelectedItem();
+        Map<Long, OrderItem> itemMap = orderData.getItemMap();
 
-		LOG.debug(String.format("Adding amount %d of %s to order...", amount, selectedItem.getName()));
+        if (!isOrderInProgress() || selectedItem == null) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("You have to select a stock item first!"));
+            return NavigationElements.SHOW_STOCK.getNavigationOutcome();
+        }
 
-		itemMap.put(selectedItem.getBarcode(), new OrderItem(selectedItem, amount));
-		selectedItem.setInCurrentOrder(true);
-		deselectProduct();
-		return NavigationElements.ORDER_PRODUCTS.getNavigationOutcome();
-	}
+        LOG.debug(String.format("Adding amount %d of %s to order...", amount, selectedItem.getName()));
 
-	public String removeOrderItem(ProductWrapper item) {
-		Map<Long, OrderItem> itemMap = orderData.getItemMap();
-		OrderItem removedItem = itemMap.remove(item.getBarcode());
-		removedItem.getProduct().setInCurrentOrder(false);
-		return NavigationElements.SHOW_STOCK.getNavigationOutcome();
-	}
+        itemMap.put(selectedItem.getBarcode(), new OrderItem(selectedItem, amount));
+        selectedItem.setInCurrentOrder(true);
+        deselectProduct();
+        return NavigationElements.ORDER_PRODUCTS.getNavigationOutcome();
+    }
 
-	public String startNewOrder() {
-		if (conversation.isTransient()) {
-			conversation.begin();
-		}
+    public String removeOrderItem(ProductWrapper item) {
+        Map<Long, OrderItem> itemMap = orderData.getItemMap();
+        OrderItem removedItem = itemMap.remove(item.getBarcode());
+        removedItem.getProduct().setInCurrentOrder(false);
+        return NavigationElements.SHOW_STOCK.getNavigationOutcome();
+    }
 
-		if (isOrderInProgress()) {
-			resetOrder();
-		}
+    public String startNewOrder() {
+        if (conversation.isTransient()) {
+            conversation.begin();
+        }
 
-		orderData.setItemMap(new LinkedHashMap<Long, OrderItem>());
-		orderData.setOrderInProgress(true);
-		return NavigationElements.SHOW_STOCK.getNavigationOutcome();
-	}
+        if (isOrderInProgress()) {
+            resetOrder();
+        }
 
-	public String submitOrder() {
-		StoreViewData currentStore = storeInformation.getActiveStore();
-		Collection<OrderItem> items = orderData.getItemMap().values();
-		if (storePersistence.orderProducts(currentStore, items)) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Order was placed successfully!"));
-			resetOrder();
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error while placing the order!"));
-		}
+        orderData.setItemMap(new LinkedHashMap<>());
+        orderData.setOrderInProgress(true);
+        return NavigationElements.SHOW_STOCK.getNavigationOutcome();
+    }
 
-		return NavigationElements.SHOW_STOCK.getNavigationOutcome();
-	}
+    public String submitOrder() {
+        StoreViewData currentStore = storeInformation.getActiveStore();
+        Collection<OrderItem> items = orderData.getItemMap().values();
+        if (storePersistence.orderProducts(currentStore, items)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Order was placed successfully!"));
+            resetOrder();
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error while placing the order!"));
+        }
 
-	private void resetOrder() {
-		if (!conversation.isTransient()) {
-			conversation.end();
-		}
+        return NavigationElements.SHOW_STOCK.getNavigationOutcome();
+    }
 
-		orderData.setOrderInProgress(false);
-		orderData.setSelectedItem(null);
+    private void resetOrder() {
+        if (!conversation.isTransient()) {
+            conversation.end();
+        }
 
-		emptyItemMap();
+        orderData.setOrderInProgress(false);
+        orderData.setSelectedItem(null);
 
-		orderData.setItemMap(null);
-	}
+        emptyItemMap();
 
-	private void emptyItemMap() {
-		Map<Long, OrderItem> itemMap = orderData.getItemMap();
-		if (itemMap != null) {
-			for (OrderItem item : itemMap.values()) {
-				item.getProduct().setInCurrentOrder(false);
-			}
-			itemMap.clear();
-		}
-	}
+        orderData.setItemMap(null);
+    }
 
-	public String cancelOrder() {
-		resetOrder();
-		return NavigationElements.SHOW_STOCK.getNavigationOutcome();
-	}
+    private void emptyItemMap() {
+        Map<Long, OrderItem> itemMap = orderData.getItemMap();
+        if (itemMap != null) {
+            for (OrderItem item : itemMap.values()) {
+                item.getProduct().setInCurrentOrder(false);
+            }
+            itemMap.clear();
+        }
+    }
 
-	public String showOrder() {
-		return NavigationElements.ORDER_PRODUCTS.getNavigationOutcome();
-	}
+    public String cancelOrder() {
+        resetOrder();
+        return NavigationElements.SHOW_STOCK.getNavigationOutcome();
+    }
 
-	public List<OrderItem> getOrderItems() {
-		Map<Long, OrderItem> itemMap = orderData.getItemMap();
-		return new LinkedList<>(itemMap.values());
-	}
+    public String showOrder() {
+        return NavigationElements.ORDER_PRODUCTS.getNavigationOutcome();
+    }
 
-	public boolean hasOrderProducts() {
-		Map<Long, OrderItem> itemMap = orderData.getItemMap();
-		return itemMap != null ? (itemMap.size() > 0) : false;
-	}
+    public List<OrderItem> getOrderItems() {
+        Map<Long, OrderItem> itemMap = orderData.getItemMap();
+        return new LinkedList<>(itemMap.values());
+    }
 
-	public boolean isItemSelected() {
-		return orderData.getSelectedItem() != null;
-	}
+    public boolean hasOrderProducts() {
+        Map<Long, OrderItem> itemMap = orderData.getItemMap();
+        return itemMap != null && (itemMap.size() > 0);
+    }
 
-	public ProductWrapper getSelectedItem() {
-		return orderData.getSelectedItem();
-	}
+    public boolean isItemSelected() {
+        return orderData.getSelectedItem() != null;
+    }
 
-	public String deselectProduct() {
-		orderData.setSelectedItem(null);
-		return NavigationElements.SHOW_STOCK.getNavigationOutcome();
-	}
+    public ProductWrapper<StockItemTO> getSelectedItem() {
+        return orderData.getSelectedItem();
+    }
 
-	private boolean isOrderInProgress() {
-		return orderData.isOrderInProgress();
-	}
+    public String deselectProduct() {
+        orderData.setSelectedItem(null);
+        return NavigationElements.SHOW_STOCK.getNavigationOutcome();
+    }
 
-	public void validateOrderAmount(FacesContext context, UIComponent comp, Object value) {
-		String input = (String) value;
-		long orderAmount;
-
-		try {
-			orderAmount = Long.parseLong(input);
-		} catch (NumberFormatException e) {
-			handleFailedValidationMessage(context, comp, Messages.get("stock.order.validation.amount.failed"));
-			return;
-		}
-
-		if (orderAmount < 0) {
-			handleFailedValidationMessage(context, comp, Messages.get("stock.order.validation.amount.failed"));
-			return;
-		}
-		
-		ProductWrapper selectedItem = getSelectedItem();
-
-		// TODO Use some configurable percentage for flexibility when ordering
-		// more than the max stock instead of hard coded one
-		if ((selectedItem.getAmount() + orderAmount) > (selectedItem.getStockItemTO().getMaxStock() * 1.2)) {
-			handleFailedValidationMessage(context, comp, Messages.get("stock.order.validation.amount.exceed_max"));
-		}
-	}
-
-	private void handleFailedValidationMessage(FacesContext context, UIComponent comp, String message) {
-		((UIInput) comp).setValid(false);
-		FacesMessage wrongInputMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", message);
-		context.addMessage(comp.getClientId(), wrongInputMessage);
-	}
+    private boolean isOrderInProgress() {
+        return orderData.isOrderInProgress();
+    }
 }

@@ -10,7 +10,7 @@
 
         <ui:define name="body">
             <h:outputText value="Unfortunately there has been an error! Please try again later." />
-            <div style="width: 600px; height: 500px; overflow-y: scroll; overflow-x: scroll;">
+            <div style="width: 600px; height: 500px; overflow-y: scroll; overflow-x: scroll; text-align: center">
                 <pre>#{of:printStackTrace(requestScope['javax.servlet.error.exception'])}</pre>
             </div>
         </ui:define>

@@ -168,6 +168,14 @@ public interface IStoreQuery {
     Collection<IStockItem> queryAllStockItems(long storeId);
 
     /**
+     * Queries a store for all its onDemand items.
+     *
+     * @param storeId unique identifier of a {@link IStore} entity
+     * @return A collection of {@link IStockItem} entities.
+     */
+    Collection<IOnDemandItem> queryAllOnDemandItems(long storeId);
+
+    /**
      * Queries a given store for all stock items with low stock.
      *
      * @param storeId unique identifier of a {@link IStore} entity

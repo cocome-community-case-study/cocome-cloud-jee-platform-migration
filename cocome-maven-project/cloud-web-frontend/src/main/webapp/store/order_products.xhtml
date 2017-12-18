@@ -46,11 +46,11 @@
                                     <td class="product-table-text-col"><h:outputText
                                             value="#{stockOrderView.selectedItem.name}"/></td>
                                     <td class="product-table-number-col"><h:outputText
-                                            value="#{stockOrderView.selectedItem.stockItemTO.minStock}"/></td>
+                                            value="#{stockOrderView.selectedItem.itemTO.minStock}"/></td>
                                     <td class="product-table-number-col"><h:outputText
-                                            value="#{stockOrderView.selectedItem.stockItemTO.maxStock}"/></td>
+                                            value="#{stockOrderView.selectedItem.itemTO.maxStock}"/></td>
                                     <td class="product-table-number-col"><h:outputText
-                                            value="#{stockOrderView.selectedItem.stockItemTO.amount}"/></td>
+                                            value="#{stockOrderView.selectedItem.itemTO.amount}"/></td>
                                     <td class="product-table-text-col"><h:inputText
                                             value="#{orderAmount}" styleClass="input-number"
                                             validator="#{numberValidator.validatePositiveLong}"/> <h:commandButton
@@ -73,10 +73,14 @@
                             <h:dataTable value="#{stockOrderView.orderItems}" var="item"
                                          styleClass="product-table" headerClass="product-table-header"
                                          rowClasses="product-table-odd-row,product-table-even-row"
-                                         columnClasses="product-table-text-col, product-table-text-col,
-    				product-table-number-col, product-table-number-col, 
-    				product-table-number-col, product-table-number-col,
-    				product-table-number-col, product-table-text-col">
+                                         columnClasses="product-table-text-c6ol,
+                                                        product-table-text-col,
+    				                                    product-table-number-col,
+    				                                    product-table-number-col,
+    				                                    product-table-number-col,
+    				                                    product-table-number-col,
+    				                                    product-table-number-col,
+    				                                    product-table-text-col">
                                 <h:column>
                                     <f:facet name="header">#{strings['product.table.header_barcode']}</f:facet>
                                     #{item.product.barcode}
@@ -87,15 +91,15 @@
                                 </h:column>
                                 <h:column headerClass="product-table-header-right">
                                     <f:facet name="header">#{strings['stock.table.header_min_stock']}</f:facet>
-                                    #{item.product.stockItemTO.minStock}
+                                    #{item.product.itemTO.minStock}
                                 </h:column>
                                 <h:column headerClass="product-table-header-right">
                                     <f:facet name="header">#{strings['stock.table.header_max_stock']}</f:facet>
-                                    #{item.product.stockItemTO.maxStock}
+                                    #{item.product.itemTO.maxStock}
                                 </h:column>
                                 <h:column headerClass="product-table-header-right">
                                     <f:facet name="header">#{strings['stock.table.header_curr_stock']}</f:facet>
-                                    #{item.product.stockItemTO.amount}
+                                    #{item.product.itemTO.amount}
                                 </h:column>
                                 <h:column headerClass="product-table-header-right">
                                     <f:facet name="header">#{strings['stock.table.header_order_amount']}</f:facet>
