@@ -2,7 +2,7 @@ package org.cocome.cloud.web.data.enterprisedata;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
+import org.cocome.cloud.web.connector.enterpriseconnector.EnterpriseQuery;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
@@ -25,7 +25,7 @@ public class EnterpriseConverter implements Converter {
     private static final Logger LOG = Logger.getLogger(EnterpriseConverter.class);
 
     @Inject
-    private IEnterpriseQuery enterpriseQuery;
+    private EnterpriseQuery enterpriseQuery;
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

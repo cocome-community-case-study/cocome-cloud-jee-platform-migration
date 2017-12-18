@@ -13,8 +13,8 @@ import org.cocome.cloud.logic.stub.NoSuchProductException_Exception;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.stub.ProductOutOfStockException_Exception;
 import org.cocome.cloud.logic.stub.UnhandledException_Exception;
-import org.cocome.cloud.web.data.cashdeskdata.ICashDeskViewData;
-import org.cocome.cloud.web.data.cashdeskdata.ICashDeskDAO;
+import org.cocome.cloud.web.data.cashdeskdata.CashDeskViewData;
+import org.cocome.cloud.web.data.cashdeskdata.CashDeskDAO;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.store.StoreInformation;
 import org.cocome.cloud.web.frontend.util.InputValidator;
@@ -31,10 +31,10 @@ public class CashDeskView implements Serializable {
 	private StoreInformation storeInformation;
 
 	@Inject
-	private ICashDeskDAO cashDeskDAO;
+	private CashDeskDAO cashDeskDAO;
 
 	@Inject
-	private ICashDeskViewData cashDesk;
+	private CashDeskViewData cashDesk;
 
 	public String submitCashDeskName() {
 		cashDesk.setCashDeskNameNeeded(false);

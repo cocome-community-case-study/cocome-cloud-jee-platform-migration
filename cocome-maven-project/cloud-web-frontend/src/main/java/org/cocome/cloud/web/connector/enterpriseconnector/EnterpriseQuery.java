@@ -33,7 +33,7 @@ import java.util.*;
  */
 @Named
 @ApplicationScoped
-public class EnterpriseQuery implements IEnterpriseQuery {
+public class EnterpriseQuery {
     private static final Logger LOG = Logger.getLogger(EnterpriseQuery.class);
 
     private Map<Long, EnterpriseViewData> enterprises;
@@ -68,7 +68,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         }
     }
 
-    @Override
     public Collection<EnterpriseViewData> getEnterprises() throws NotInDatabaseException_Exception {
         if (enterprises != null) {
             return enterprises.values();
@@ -78,7 +77,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return enterprises.values();
     }
 
-    @Override
     public Collection<StoreViewData> getStores(long enterpriseID) throws NotInDatabaseException_Exception {
         if (storeCollections == null) {
             updateStoreInformation();
@@ -88,7 +86,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return storeCollection != null ? storeCollection : new LinkedList<>();
     }
 
-    @Override
     public Collection<PlantViewData> getPlants(long enterpriseID) throws NotInDatabaseException_Exception {
         if (plantCollections == null) {
             updatePlantInformation();
@@ -98,7 +95,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return plantCollection != null ? plantCollection : new LinkedList<>();
     }
 
-    @Override
     public void updateEnterpriseInformation() throws NotInDatabaseException_Exception {
         enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
         this.enterprises = new HashMap<>();
@@ -109,7 +105,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         }
     }
 
-    @Override
     public void updateStoreInformation() throws NotInDatabaseException_Exception {
         checkEnterprisesAvailable();
 
@@ -133,7 +128,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         }
     }
 
-    @Override
     public void updatePlantInformation() throws NotInDatabaseException_Exception {
         checkEnterprisesAvailable();
 
@@ -157,14 +151,12 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         }
     }
 
-    @Override
     public EnterpriseViewData getEnterpriseByID(long enterpriseID) throws NotInDatabaseException_Exception {
         checkEnterprisesAvailable();
 
         return enterprises.get(enterpriseID);
     }
 
-    @Override
     public StoreViewData getStoreByID(long storeID) throws NotInDatabaseException_Exception {
         LOG.debug("Retrieving store with id " + storeID);
 
@@ -186,7 +178,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return store;
     }
 
-    @Override
     public PlantViewData getPlantByID(long plantID) throws NotInDatabaseException_Exception {
         LOG.debug("Retrieving plant with id " + plantID);
 
@@ -220,26 +211,22 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return products;
     }
 
-    @Override
     public List<CustomProductTO> getAllCustomProducts() throws NotInDatabaseException_Exception {
         // TODO should definitely be cached somehow, especially when there are
         // lots of products
         return enterpriseManager.getAllCustomProducts();
     }
 
-    @Override
     public ProductWrapper getProductByID(long productID) throws NotInDatabaseException_Exception {
         enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
         return new ProductWrapper(enterpriseManager.getProductByID(productID));
     }
 
-    @Override
     public ProductWrapper getProductByBarcode(long barcode) throws NotInDatabaseException_Exception {
         enterpriseManager = lookupEnterpriseManager(defaultEnterpriseIndex);
         return new ProductWrapper(enterpriseManager.getProductByBarcode(barcode));
     }
 
-    @Override
     public boolean updateStore(@NotNull StoreViewData store) throws NotInDatabaseException_Exception {
         final StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
         storeTO.setId(store.getID());
@@ -263,7 +250,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return true;
     }
 
-    @Override
     public boolean updatePlant(PlantViewData plant) throws NotInDatabaseException_Exception {
         PlantTO storeTO = new PlantTO();
         storeTO.setId(plant.getID());
@@ -287,7 +273,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return true;
     }
 
-    @Override
     public boolean createEnterprise(@NotNull String name) throws NotInDatabaseException_Exception {
         checkEnterprisesAvailable();
 
@@ -307,7 +292,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return true;
     }
 
-    @Override
     public boolean createProduct(@NotNull String name, long barcode, double purchasePrice) throws NotInDatabaseException_Exception {
         ProductTO product = new ProductTO();
         product.setBarcode(barcode);
@@ -325,7 +309,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return true;
     }
 
-    @Override
     public boolean createCustomProduct(@NotNull String name, long barcode, double purchasePrice) throws NotInDatabaseException_Exception {
         CustomProductTO product = new CustomProductTO();
         product.setBarcode(barcode);
@@ -343,7 +326,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return true;
     }
 
-    @Override
     public boolean createStore(long enterpriseID, String name, String location) throws NotInDatabaseException_Exception {
         StoreWithEnterpriseTO storeTO = new StoreWithEnterpriseTO();
         storeTO.setEnterpriseTO(EnterpriseViewData.createEnterpriseTO(enterprises.get(enterpriseID)));
@@ -376,7 +358,6 @@ public class EnterpriseQuery implements IEnterpriseQuery {
         return true;
     }
 
-    @Override
     public boolean createPlant(long enterpriseID, String name, String location) throws NotInDatabaseException_Exception {
         PlantTO plantTO = new PlantTO();
         plantTO.setEnterpriseTO(EnterpriseViewData.createEnterpriseTO(enterprises.get(enterpriseID)));

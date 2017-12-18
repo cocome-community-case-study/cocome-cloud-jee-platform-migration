@@ -1,9 +1,8 @@
 package org.cocome.cloud.web.data.plantdata;
 
-import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
 import org.cocome.cloud.logic.webservice.ThrowingSupplier;
-import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
+import org.cocome.cloud.web.connector.enterpriseconnector.EnterpriseQuery;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.util.Messages;
 
@@ -17,10 +16,8 @@ import javax.validation.constraints.NotNull;
 @Named
 @ApplicationScoped
 public class PlantPersistence {
-    private static final Logger LOG = Logger.getLogger(PlantPersistence.class);
-
     @Inject
-    private IEnterpriseQuery enterpriseQuery;
+    private EnterpriseQuery enterpriseQuery;
 
     public String updatePlant(@NotNull PlantViewData plant) throws NotInDatabaseException_Exception {
         return processFacesAction(

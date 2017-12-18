@@ -1,7 +1,7 @@
 package org.cocome.cloud.web.data.enterprisedata;
 
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
+import org.cocome.cloud.web.connector.enterpriseconnector.EnterpriseQuery;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
@@ -11,12 +11,11 @@ import javax.inject.Named;
 
 @Named
 @ApplicationScoped
-public class EnterprisePersistence implements IEnterprisePersistence {
+public class EnterprisePersistence {
 
     @Inject
-    private IEnterpriseQuery enterpriseQuery;
+    private EnterpriseQuery enterpriseQuery;
 
-    @Override
     public String createEnterprise(String name) throws NotInDatabaseException_Exception {
         // TODO: Check if name is ok and doesn't include illegal characters
         if (enterpriseQuery.createEnterprise(name)) {
@@ -29,19 +28,6 @@ public class EnterprisePersistence implements IEnterprisePersistence {
         return null;
     }
 
-    @Override
-    public String updateEnterprise(EnterpriseViewData enterprise) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String updateProduct(String name, long barcode, double purchasePrice) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public String createProduct(String name, long barcode, double purchasePrice) throws NotInDatabaseException_Exception {
         // TODO: Check if name is ok and doesn't include illegal characters
         if (enterpriseQuery.createProduct(name, barcode, purchasePrice)) {

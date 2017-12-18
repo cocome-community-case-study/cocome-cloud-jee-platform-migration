@@ -1,7 +1,7 @@
 package org.cocome.cloud.web.data.enterprisedata;
 
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
+import org.cocome.cloud.web.connector.enterpriseconnector.EnterpriseQuery;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public class EnterpriseDAO {
 
     @Inject
-    private IEnterpriseQuery enterpriseQuery;
+    private EnterpriseQuery enterpriseQuery;
 
     public Collection<EnterpriseViewData> getAllEnterprises() throws NotInDatabaseException_Exception {
         return enterpriseQuery.getEnterprises();

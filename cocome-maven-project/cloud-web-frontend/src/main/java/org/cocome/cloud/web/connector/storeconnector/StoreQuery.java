@@ -28,7 +28,7 @@ import java.util.*;
  * @author Robert Heinrich
  */
 @RequestScoped
-public class StoreQuery implements IStoreQuery {
+public class StoreQuery {
     private static final Logger LOG = Logger.getLogger(StoreQuery.class);
 
     private IStoreManager storeManager;
@@ -56,7 +56,6 @@ public class StoreQuery implements IStoreQuery {
         }
     }
 
-    @Override
     public List<ProductWrapper<StockItemTO>> queryStockItems(@NotNull StoreViewData store)
             throws NotInDatabaseException_Exception {
         long storeID = store.getID();
@@ -72,7 +71,6 @@ public class StoreQuery implements IStoreQuery {
         return stockItems;
     }
 
-    @Override
     public List<ProductWrapper<OnDemandItemTO>> queryOnDemandItems(@NotNull StoreViewData store)
             throws NotInDatabaseException_Exception {
         long storeID = store.getID();
@@ -88,7 +86,6 @@ public class StoreQuery implements IStoreQuery {
         return onDemamndItems;
     }
 
-    @Override
     public boolean createItem(@NotNull StoreViewData store, @NotNull ProductWrapper product) {
         long storeID = store.getID();
 
@@ -103,7 +100,6 @@ public class StoreQuery implements IStoreQuery {
         return true;
     }
 
-    @Override
     public boolean updateItem(@NotNull StoreViewData store, @NotNull ProductWrapper item) {
         long storeID = store.getID();
         try {
@@ -116,7 +112,6 @@ public class StoreQuery implements IStoreQuery {
         return false;
     }
 
-    @Override
     public boolean orderProducts(@NotNull StoreViewData store, @NotNull Collection<OrderItem> items) {
         ComplexOrderTO orderTO = createComplexOrderTO(items);
 
@@ -147,7 +142,6 @@ public class StoreQuery implements IStoreQuery {
         return orderTO;
     }
 
-    @Override
     public List<ComplexOrderTO> getAllOrders(@NotNull StoreViewData store) {
         long storeID = store.getID();
 
@@ -160,7 +154,6 @@ public class StoreQuery implements IStoreQuery {
         return Collections.emptyList();
     }
 
-    @Override
     public ComplexOrderTO getOrderByID(@NotNull StoreViewData store, long orderID) {
         long storeID = store.getID();
 
@@ -173,7 +166,6 @@ public class StoreQuery implements IStoreQuery {
         return null;
     }
 
-    @Override
     public boolean rollInOrder(@NotNull StoreViewData store, long orderID) {
         long storeID = store.getID();
 

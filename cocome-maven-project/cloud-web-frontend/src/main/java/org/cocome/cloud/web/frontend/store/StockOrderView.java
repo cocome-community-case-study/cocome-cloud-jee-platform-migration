@@ -1,9 +1,9 @@
 package org.cocome.cloud.web.frontend.store;
 
 import org.apache.log4j.Logger;
-import org.cocome.cloud.web.data.storedata.IStorePersistence;
 import org.cocome.cloud.web.data.storedata.OrderItem;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
+import org.cocome.cloud.web.data.storedata.StorePersistence;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.tradingsystem.inventory.application.store.StockItemTO;
@@ -31,7 +31,7 @@ public class StockOrderView implements Serializable {
     private StoreInformation storeInformation;
 
     @Inject
-    private IStorePersistence storePersistence;
+    private StorePersistence storePersistence;
 
     @Inject
     private Conversation conversation;

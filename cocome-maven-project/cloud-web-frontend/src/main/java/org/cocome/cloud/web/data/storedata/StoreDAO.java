@@ -15,7 +15,7 @@ import java.util.List;
 
 @Named
 @RequestScoped
-public class StoreDAO implements IStoreDAO {
+public class StoreDAO {
 
     @Inject
     private EnterpriseQuery enterpriseQuery;
@@ -23,32 +23,26 @@ public class StoreDAO implements IStoreDAO {
     @Inject
     private StoreQuery storeQuery;
 
-    @Override
     public Collection<StoreViewData> getStoresInEnterprise(long enterpriseID) throws NotInDatabaseException_Exception {
         return enterpriseQuery.getStores(enterpriseID);
     }
 
-    @Override
     public StoreViewData getStoreByID(long storeID) throws NotInDatabaseException_Exception {
         return enterpriseQuery.getStoreByID(storeID);
     }
 
-    @Override
     public List<ProductWrapper<StockItemTO>> queryStockItems(StoreViewData store) throws NotInDatabaseException_Exception {
         return storeQuery.queryStockItems(store);
     }
 
-    @Override
     public List<ProductWrapper<OnDemandItemTO>> queryOnDemandItems(StoreViewData store) throws NotInDatabaseException_Exception {
         return storeQuery.queryOnDemandItems(store);
     }
 
-    @Override
     public List<ComplexOrderTO> getAllOrders(StoreViewData store) {
         return storeQuery.getAllOrders(store);
     }
 
-    @Override
     public ComplexOrderTO getOrderByID(StoreViewData store, long orderID) {
         return storeQuery.getOrderByID(store, orderID);
     }

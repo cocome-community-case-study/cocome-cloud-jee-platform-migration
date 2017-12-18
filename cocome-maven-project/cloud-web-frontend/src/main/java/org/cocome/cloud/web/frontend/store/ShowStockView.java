@@ -1,7 +1,7 @@
 package org.cocome.cloud.web.frontend.store;
 
-import org.cocome.cloud.web.data.storedata.IStorePersistence;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
+import org.cocome.cloud.web.data.storedata.StorePersistence;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.util.Messages;
 import org.cocome.tradingsystem.inventory.application.store.OnDemandItemTO;
@@ -18,7 +18,7 @@ import javax.inject.Inject;
 public class ShowStockView {
 
     @Inject
-    private IStorePersistence storePersistence;
+    private StorePersistence storePersistence;
 
     @Inject
     private StoreInformation storeInformation;
@@ -44,7 +44,7 @@ public class ShowStockView {
             return NavigationElements.SHOW_STOCK.getNavigationOutcome();
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    Messages.get("message.create.success","On Demand Item"), null));
+                    Messages.get("message.create.success", "On Demand Item"), null));
         }
         return null;
     }

@@ -6,7 +6,7 @@ import org.cocome.cloud.web.data.enterprisedata.EnterpriseDAO;
 import org.cocome.cloud.web.data.enterprisedata.EnterpriseViewData;
 import org.cocome.cloud.web.data.plantdata.PlantDAO;
 import org.cocome.cloud.web.data.plantdata.PlantViewData;
-import org.cocome.cloud.web.data.storedata.IStoreDAO;
+import org.cocome.cloud.web.data.storedata.StoreDAO;
 import org.cocome.cloud.web.data.storedata.StoreViewData;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.omnifaces.util.Faces;
@@ -40,7 +40,7 @@ public class EnterpriseInformation implements Serializable {
     private EnterpriseDAO enterpriseDAO;
 
     @Inject
-    private IStoreDAO storeDAO;
+    private StoreDAO storeDAO;
 
     @Inject
     private PlantDAO plantDAO;

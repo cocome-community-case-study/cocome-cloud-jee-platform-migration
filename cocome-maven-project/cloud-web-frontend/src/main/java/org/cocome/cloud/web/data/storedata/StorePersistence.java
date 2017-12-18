@@ -1,8 +1,8 @@
 package org.cocome.cloud.web.data.storedata;
 
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
-import org.cocome.cloud.web.connector.enterpriseconnector.IEnterpriseQuery;
-import org.cocome.cloud.web.connector.storeconnector.IStoreQuery;
+import org.cocome.cloud.web.connector.enterpriseconnector.EnterpriseQuery;
+import org.cocome.cloud.web.connector.storeconnector.StoreQuery;
 import org.cocome.cloud.web.frontend.navigation.NavigationElements;
 import org.cocome.cloud.web.frontend.util.Messages;
 
@@ -16,15 +16,14 @@ import java.util.Collection;
 
 @Named
 @ApplicationScoped
-public class StorePersistence implements IStorePersistence {
+public class StorePersistence {
 
     @Inject
-    private IEnterpriseQuery enterpriseQuery;
+    private EnterpriseQuery enterpriseQuery;
 
     @Inject
-    private IStoreQuery storeQuery;
+    private StoreQuery storeQuery;
 
-    @Override
     public String updateStore(@NotNull StoreViewData store) throws NotInDatabaseException_Exception {
         store.updateStoreInformation();
         if (enterpriseQuery.updateStore(store)) {
@@ -39,7 +38,6 @@ public class StorePersistence implements IStorePersistence {
         return "error";
     }
 
-    @Override
     public String createStore(long enterpriseID, @NotNull String name, @NotNull String location) throws NotInDatabaseException_Exception {
         if (enterpriseQuery.createStore(enterpriseID, name, location)) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -52,22 +50,18 @@ public class StorePersistence implements IStorePersistence {
         return NavigationElements.SHOW_STORES.getNavigationOutcome();
     }
 
-    @Override
     public boolean createItem(StoreViewData store, ProductWrapper product) {
         return storeQuery.createItem(store, product);
     }
 
-    @Override
     public boolean orderProducts(StoreViewData store, Collection<OrderItem> items) {
         return storeQuery.orderProducts(store, items);
     }
 
-    @Override
     public boolean rollInOrder(StoreViewData store, long orderID) {
         return storeQuery.rollInOrder(store, orderID);
     }
 
-    @Override
     public boolean updateItem(StoreViewData store, ProductWrapper item) {
         return storeQuery.updateItem(store, item);
     }

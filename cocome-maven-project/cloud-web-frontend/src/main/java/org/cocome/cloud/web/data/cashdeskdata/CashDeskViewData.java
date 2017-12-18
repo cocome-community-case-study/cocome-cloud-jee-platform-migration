@@ -1,146 +1,111 @@
 package org.cocome.cloud.web.data.cashdeskdata;
 
+import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
-
 @SessionScoped
-public class CashDeskViewData implements Serializable, ICashDeskViewData {
-	private static final long serialVersionUID = 2531025289417846417L;
-	
-	private String cashDeskName = "defaultCashDesk";
-	private boolean cashDeskNameNeeded = true;
-	
-	private boolean saleStarted = false;
-	private boolean cashPayment = false;
-	private boolean cardPayment = false;
-	private boolean allItemsRegistered = false;
-	
-	private String barcode;
-	
-	private boolean inExpressMode = false;
-	private String displayMessage = "";
-	private String[] printerOutput = {};
+public class CashDeskViewData implements Serializable {
+    private static final long serialVersionUID = 2531025289417846417L;
 
-	@Override
-	public boolean isSaleStarted() {
-		return saleStarted;
-	}
+    private String cashDeskName = "defaultCashDesk";
+    private boolean cashDeskNameNeeded = true;
 
-	@Override
-	public void setSaleStarted(boolean saleStarted) {
-		this.saleStarted = saleStarted;
-	}
+    private boolean saleStarted = false;
+    private boolean cashPayment = false;
+    private boolean cardPayment = false;
+    private boolean allItemsRegistered = false;
 
-	@Override
-	public boolean isCashPayment() {
-		return cashPayment;
-	}
+    private String barcode;
 
-	@Override
-	public void setCashPayment(boolean cashPayment) {
-		this.cashPayment = cashPayment;
-	}
+    private boolean inExpressMode = false;
+    private String displayMessage = "";
+    private String[] printerOutput = {};
 
-	@Override
-	public boolean isCardPayment() {
-		return cardPayment;
-	}
+    public boolean isSaleStarted() {
+        return saleStarted;
+    }
 
-	@Override
-	public void setCardPayment(boolean cardPayment) {
-		this.cardPayment = cardPayment;
-	}
+    public void setSaleStarted(boolean saleStarted) {
+        this.saleStarted = saleStarted;
+    }
 
-	@Override
-	public String getBarcode() {
-		return barcode;
-	}
+    public boolean isCashPayment() {
+        return cashPayment;
+    }
 
-	@Override
-	public void setBarcode(String barcode) {
-		this.barcode = barcode;
-	}
+    public void setCashPayment(boolean cashPayment) {
+        this.cashPayment = cashPayment;
+    }
 
-	@Override
-	public boolean isInExpressMode() {
-		return inExpressMode;
-	}
+    public boolean isCardPayment() {
+        return cardPayment;
+    }
 
-	@Override
-	public void setInExpressMode(boolean inExpressMode) {
-		this.inExpressMode = inExpressMode;
-	}
+    public void setCardPayment(boolean cardPayment) {
+        this.cardPayment = cardPayment;
+    }
 
-	@Override
-	public String getDisplayMessage() {
-		return displayMessage;
-	}
+    public String getBarcode() {
+        return barcode;
+    }
 
-	@Override
-	public void setDisplayMessage(String displayMessage) {
-		this.displayMessage = displayMessage;
-	}
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
 
-	@Override
-	public String[] getPrinterOutput() {
-		return printerOutput;
-	}
+    public boolean isInExpressMode() {
+        return inExpressMode;
+    }
 
-	@Override
-	public void setPrinterOutput(String[] printerOutput) {
-		this.printerOutput = printerOutput;
-	}
+    public void setInExpressMode(boolean inExpressMode) {
+        this.inExpressMode = inExpressMode;
+    }
 
-	@Override
-	public boolean isSaleSuccessful() {
-		return displayMessage.contains("Thank you for shopping!");
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.web.data.cashdesk.ICashDesk#getCashDeskName()
-	 */
-	@Override
-	public String getCashDeskName() {
-		return cashDeskName;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.web.data.cashdesk.ICashDesk#setCashDeskName(java.lang.String)
-	 */
-	@Override
-	public void setCashDeskName(String cashDeskName) {
-		this.cashDeskName = cashDeskName;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.web.data.cashdesk.ICashDesk#isCashDeskNameNeeded()
-	 */
-	@Override
-	public boolean isCashDeskNameNeeded() {
-		return cashDeskNameNeeded;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.cocome.cloud.web.data.cashdesk.ICashDesk#setCashDeskNameNeeded(boolean)
-	 */
-	@Override
-	public void setCashDeskNameNeeded(boolean cashDeskNameNeeded) {
-		this.cashDeskNameNeeded = cashDeskNameNeeded;
-	}
+    public String getDisplayMessage() {
+        return displayMessage;
+    }
 
-	@Override
-	public void requestNewCashDesk() {
-		cashDeskNameNeeded = true;
-	}
+    public void setDisplayMessage(String displayMessage) {
+        this.displayMessage = displayMessage;
+    }
 
-	@Override
-	public boolean isAllItemsRegistered() {
-		return allItemsRegistered;
-	}
+    public String[] getPrinterOutput() {
+        return printerOutput;
+    }
 
-	@Override
-	public void setAllItemsRegistered(boolean allItemsRegistered) {
-		this.allItemsRegistered = allItemsRegistered;
-	}
+    public void setPrinterOutput(String[] printerOutput) {
+        this.printerOutput = printerOutput;
+    }
+
+    public boolean isSaleSuccessful() {
+        return displayMessage.contains("Thank you for shopping!");
+    }
+
+    public String getCashDeskName() {
+        return cashDeskName;
+    }
+
+    public void setCashDeskName(String cashDeskName) {
+        this.cashDeskName = cashDeskName;
+    }
+
+    public boolean isCashDeskNameNeeded() {
+        return cashDeskNameNeeded;
+    }
+
+    public void setCashDeskNameNeeded(boolean cashDeskNameNeeded) {
+        this.cashDeskNameNeeded = cashDeskNameNeeded;
+    }
+
+    public void requestNewCashDesk() {
+        cashDeskNameNeeded = true;
+    }
+
+    public boolean isAllItemsRegistered() {
+        return allItemsRegistered;
+    }
+
+    public void setAllItemsRegistered(boolean allItemsRegistered) {
+        this.allItemsRegistered = allItemsRegistered;
+    }
 }
