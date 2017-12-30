@@ -209,33 +209,21 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
 
     private String cardInfo;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void setName(String cashDeskName) {
         this.name = cashDeskName;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getName() {
         return this.name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public CashDeskState getState() {
         return this.state;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isInExpressMode() {
         return this.expressModeEnabled;
@@ -245,9 +233,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
     // State mutator methods
     //
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void startSale() throws IllegalCashDeskStateException {
         this.ensureStateIsLegal(START_SALE_STATES);
@@ -275,9 +260,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
         saleStartedEvents.fire(new SaleStartedEvent());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void addItemToSale(final long barcode) throws IllegalCashDeskStateException, ProductOutOfStockException {
         this.ensureStateIsLegal(ADD_ITEM_TO_SALE_STATES);
@@ -334,7 +316,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
         //
         // Add the product item to the sale and update the running total.
         //
-        //TODO no parameter handling here, need to fix!!!!!
         final SaleEntryTO entry = new SaleEntryTO();
         entry.setItemData(product);
         this.saleProducts.add(entry);
@@ -376,9 +357,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
                 productName, salePrice, this.runningTotal));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void finishSale() throws IllegalCashDeskStateException {
         this.ensureStateIsLegal(FINISH_SALES_STATES);
@@ -397,9 +375,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
         saleFinishedEvents.fire(new SaleFinishedEvent());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void selectPaymentMode(final PaymentMode mode) throws IllegalCashDeskStateException {
         this.ensureStateIsLegal(SELECT_PAYMENT_MODE_STATES);
@@ -446,9 +421,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
         paymentModeRejectedEvents.fire(new PaymentModeRejectedEvent(mode, reason));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void startCashPayment(final double amount) throws IllegalCashDeskStateException {
         this.ensureStateIsLegal(START_CASH_PAYMENT_STATES);
@@ -486,9 +458,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
         changeAmountCalculatedEvents.fire(new ChangeAmountCalculatedEvent(amount));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void finishCashPayment() throws IllegalCashDeskStateException {
         this.ensureStateIsLegal(FINISH_CASH_PAYMENT_STATES);
@@ -499,9 +468,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
         this.makeSale(PaymentMode.CASH);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void startCreditCardPayment(final String cardInfo) throws IllegalCashDeskStateException { // NOCS
         this.ensureStateIsLegal(START_CREADIT_CARD_PAYMENT_STATES);
@@ -511,9 +477,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
     }
 
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void finishCreditCardPayment(int pin) throws IllegalCashDeskStateException {
         this.ensureStateIsLegal(FINISH_CREDIT_CARD_PAYMENT_STATES);
@@ -621,9 +584,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
     // Cash desk can be switched to express mode in all states.
     //
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void enableExpressMode() {
         if (!this.expressModeEnabled) {
@@ -641,9 +601,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
     // The express mode can be disabled in all states.
     //
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void disableExpressMode() {
         if (this.expressModeEnabled) {

@@ -67,6 +67,10 @@ public class CashDeskView implements Serializable {
 		return cashDesk.isSaleStarted();
 	}
 
+	public boolean isParameterInputMode() {
+		return cashDesk.isParameterInputMode();
+	}
+
 	public boolean isInExpressMode() {
 		return cashDesk.isInExpressMode();
 	}

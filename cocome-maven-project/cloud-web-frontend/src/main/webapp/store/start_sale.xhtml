@@ -1,16 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
 <h:body>
 
     <ui:composition template="/templates/commonTemplate.xhtml">
 
+        <f:metadata>
+            <f:viewAction action="#{storeInformation.queryStockItems}"/>
+            <f:viewAction action="#{storeInformation.queryOnDemandItems}"/>
+        </f:metadata>
+
         <ui:define name="body">
             <h:panelGroup rendered="#{cashDeskView.cashDeskNameNeeded}">
-                <h:form>
+                <h:form id="cashDeskStart">
                     <table align="center">
                         <tr>
                             <td align="center"><b>#{strings['cashdesk.name.enter.text']}</b>
@@ -25,9 +30,8 @@
                     </table>
                 </h:form>
             </h:panelGroup>
-            <h:form>
-                <h:panelGroup
-                        rendered="#{not cashDeskView.cashDeskNameNeeded and cashDeskView.saleStarted}">
+            <h:form id="cashDesk">
+                <h:panelGroup rendered="#{not cashDeskView.cashDeskNameNeeded and cashDeskView.saleStarted}">
                     <table width="100%">
                         <tr>
                             <td width="25%" style="vertical-align: top;">
@@ -104,17 +108,44 @@
                             <td width="50%">
                                 <table align="center">
                                     <tr>
-                                        <td align="center"><b>#{strings['cashdesk.sale.product.barcode.label']}</b>
-                                            <h:inputText id="barcodetext" style="width:145px"
-                                                         value="#{cashDeskView.barcode}"/></td>
+                                        <td align="left">
+                                            <h:outputText style="font-weight: bold" value="Store Product"/>
+                                        </td>
+                                        <td align="right">
+                                            <script type="text/javascript">
+                                                function selectItem() {
+                                                    document.getElementById("cashDesk:barcodetext").value
+                                                        = document.getElementById("item_selection").value;
+                                                }
+                                            </script>
+                                            <select id="item_selection" style="width: 100%" title="Choose Product"
+                                                    onchange="selectItem();">
+                                                <ui:repeat value="#{storeInformation.allStockItems}"
+                                                           var="item">
+                                                    <option value="#{item.barcode}">#{item.name} - #{item.barcode}</option>
+                                                </ui:repeat>
+                                                <ui:repeat value="#{storeInformation.allOnDemandItems}"
+                                                           var="item">
+                                                    <option value="#{item.barcode}">#{item.name} - #{item.barcode}</option>
+                                                </ui:repeat>
+                                            </select>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td><h:commandButton style="width: 350px"
+                                        <td align="left">
+                                            <h:outputText style="font-weight: bold" value="#{strings['cashdesk.sale.product.barcode.label']}"/>
+                                        </td>
+                                        <td align="right">
+                                            <h:inputText id="barcodetext" style="width: 100%" value="#{cashDeskView.barcode}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><h:commandButton style="width: 350px"
                                                              value="#{strings['cashdesk.sale.scan.button.label']}"
                                                              action="#{cashDeskView.scanBarcode}"/></td>
                                     </tr>
                                     <tr>
-                                        <td align="center">
+                                        <td colspan="2" align="center">
                                             <table border="1">
                                                 <tr>
                                                     <td bgcolor="#E0E0E0">

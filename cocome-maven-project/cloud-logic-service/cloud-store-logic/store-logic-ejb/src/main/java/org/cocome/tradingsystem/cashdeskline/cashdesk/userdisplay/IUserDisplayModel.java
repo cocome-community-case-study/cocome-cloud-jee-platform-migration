@@ -20,7 +20,7 @@ import javax.ejb.Local;
 
 /**
  * Defines user display model actions that can be triggered from outside.
- * 
+ *
  * @author Lubomir Bulej
  * @author Tobias Pöppke
  * @author Robert Heinrich
@@ -28,29 +28,22 @@ import javax.ejb.Local;
 @Local
 public interface IUserDisplayModel {
 
-	/**
-	 * Sets the content of the user display to the given message.
-	 * 
-	 * @param messageKind
-	 * 		the message kind of the message
-	 * 
-	 * @param message
-	 * 		the message to display
-	 */
-	public void setContent(MessageKind messageKind, String message);
+    /**
+     * Sets the content of the user display to the given message.
+     *
+     * @param messageKind the message kind of the message
+     * @param message     the message to display
+     */
+    void setContent(MessageKind messageKind, String message);
 
-	/**
-	 * 
-	 * @return
-	 * 		the currently displayed message on this display
-	 */
-	public String getMessage();
+    /**
+     * @return the currently displayed message on this display
+     */
+    String getMessage();
 
-	/**
-	 * 
-	 * @return
-	 * 		the message kind of the current message
-	 */
-	public MessageKind getMessageKind();
+    /**
+     * @return the message kind of the current message
+     */
+    MessageKind getMessageKind();
 
 }

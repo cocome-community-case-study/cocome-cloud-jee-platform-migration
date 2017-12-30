@@ -55,9 +55,6 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
 @Dependent
 class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -113764312663218734L;
 
 	private static final Logger LOG = Logger.getLogger(CashDeskEventHandler.class);
@@ -69,9 +66,6 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 	// Event handler methods
 	//
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void onEvent(@Observes SaleStartedEvent event) throws IllegalCashDeskStateException {
 		// These ifs are necessary to avoid reentrant errors when event is sent from the cash desk model
 		if (this.cashDesk.getState() == CashDeskState.EXPECTING_ITEMS) {
@@ -81,9 +75,6 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void onEvent(@Observes SaleFinishedEvent event) throws IllegalCashDeskStateException {
 		if (this.cashDesk.getState() == CashDeskState.EXPECTING_PAYMENT) {
 			LOG.debug("Already expecting payment, ignoring event...");
@@ -92,9 +83,6 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 		}
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	public void onEvent(@Observes PaymentModeSelectedEvent event) throws IllegalCashDeskStateException {
 		if (this.cashDesk.getState() == CashDeskState.PAYING_BY_CASH || 
 				this.cashDesk.getState() == CashDeskState.EXPECTING_CARD_INFO) {
@@ -104,9 +92,6 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void onEvent(@Observes ExpressModeDisabledEvent event) {
 		if (this.cashDesk.isInExpressMode()) {
 			this.cashDesk.disableExpressMode();
@@ -115,9 +100,6 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void onEvent(@Observes ProductBarcodeScannedEvent event) throws IllegalCashDeskStateException, ProductOutOfStockException {
 		final long barcode = event.getBarcode();
 		LOG.debug("\tbarcode: " + barcode);
@@ -127,9 +109,6 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 		this.cashDesk.addItemToSale(barcode);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void onEvent(@Observes CashAmountEnteredEvent event) throws IllegalCashDeskStateException {
 		if (this.cashDesk.getState() == CashDeskState.PAID_BY_CASH) {
 			LOG.debug("Already paid by cash, ignoring event...");
@@ -141,16 +120,10 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void onEvent(@Observes CashBoxClosedEvent event) throws IllegalCashDeskStateException {
 		this.cashDesk.finishCashPayment();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void onEvent(@Observes CreditCardScannedEvent event) throws IllegalCashDeskStateException {
 		final String cardInfo = event.getCreditCardInformation();
 		LOG.debug("\tcreditCardInformation: " + cardInfo);
@@ -158,9 +131,6 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 		this.cashDesk.startCreditCardPayment(cardInfo);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void onEvent(@Observes CreditCardPinEnteredEvent event) throws IllegalCashDeskStateException {
 		final int pin = event.getPIN();
 		LOG.debug("\tPIN: " + pin);
@@ -174,9 +144,6 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 	 * mode. If the cash desk state actually changed, republish the event on the
 	 * cash-desk local channel.
 	 */
-	/**
-	 * {@inheritDoc}
-	 */
 	public void onEvent(@Observes ExpressModeEnabledEvent event) {
 		if (this.cashDesk.isInExpressMode()) {
 			LOG.debug("Already in express mode, ignoring event...");
@@ -184,5 +151,4 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 			this.cashDesk.enableExpressMode();
 		}
 	}
-
 }

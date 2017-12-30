@@ -140,7 +140,8 @@ public class CashDeskQuery implements Serializable {
         }
     }
 
-    public void enterCashAmount(String cashDeskName, long storeID, double amount) throws UnhandledException_Exception, IllegalCashDeskStateException_Exception,
+    public void enterCashAmount(String cashDeskName, long storeID, double amount)
+            throws UnhandledException_Exception, IllegalCashDeskStateException_Exception,
             NotInDatabaseException_Exception {
         try {
             lookupCashDeskComponents(storeID);

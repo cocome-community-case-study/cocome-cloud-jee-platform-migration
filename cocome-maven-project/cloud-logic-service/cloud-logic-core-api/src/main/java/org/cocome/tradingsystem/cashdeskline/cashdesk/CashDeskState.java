@@ -18,35 +18,52 @@ package org.cocome.tradingsystem.cashdeskline.cashdesk;
 
 /**
  * Enumerates the states the {@link CashDeskEventHandler} can be in.
- * 
+ *
  * @author Yannick Welsch
  * @author Tobias Pöppke
  * @author Robert Heinrich
  */
 public enum CashDeskState {
 
-	/** Initial state. */
-	EXPECTING_SALE,
+    /**
+     * Initial state.
+     */
+    EXPECTING_SALE,
 
-	/** After a sale has started ("New Sale" button pushed). */
-	EXPECTING_ITEMS,
+    /**
+     * After a sale has started ("New Sale" button pushed).
+     */
+    EXPECTING_ITEMS,
 
-	/**
-	 * After a sale has finished (all products have been scanned) and
-	 * "Finish Sale" button pushed.
-	 */
-	EXPECTING_PAYMENT,
+    /**
+     * After a sale has finished (all products have been scanned) and
+     * "Finish Sale" button pushed.
+     */
+    EXPECTING_PAYMENT,
 
-	/** After the choice of cash payment was made. */
-	PAYING_BY_CASH,
+    /**
+     * After the choice of cash payment was made.
+     */
+    PAYING_BY_CASH,
 
-	/** After the cash payment. */
-	PAID_BY_CASH,
+    /**
+     * After the cash payment.
+     */
+    PAID_BY_CASH,
 
-	/** After the choice of credit card payment was made. */
-	EXPECTING_CARD_INFO,
+    /**
+     * After the barcode has entered and the product needs parameter input from the user.
+     */
+    EXPECTING_PARAM_INFO,
 
-	/** After the credit card was scanned. */
-	PAYING_BY_CREDIT_CARD;
+    /**
+     * After the choice of credit card payment was made.
+     */
+    EXPECTING_CARD_INFO,
+
+    /**
+     * After the credit card was scanned.
+     */
+    PAYING_BY_CREDIT_CARD;
 
 }
