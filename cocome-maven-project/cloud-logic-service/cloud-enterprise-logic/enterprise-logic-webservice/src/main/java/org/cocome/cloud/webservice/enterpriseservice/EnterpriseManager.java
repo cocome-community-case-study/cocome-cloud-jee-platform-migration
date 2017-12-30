@@ -15,7 +15,7 @@ import org.cocome.tradingsystem.inventory.application.plant.parameter.NominalPar
 import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.application.production.ProductionManager;
-import org.cocome.tradingsystem.inventory.application.production.events.PlantOperationOrderFinishedEvent;
+import org.cocome.tradingsystem.inventory.application.production.PlantOperationOrderFinishedEvent;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
@@ -24,7 +24,6 @@ import org.cocome.tradingsystem.inventory.data.plant.IPlant;
 import org.cocome.tradingsystem.inventory.data.plant.IPlantDataFactory;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.INominalParameter;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.*;
 import org.cocome.tradingsystem.inventory.data.plant.recipe.exec.RecipeExecutionGraph;
 import org.cocome.tradingsystem.inventory.data.store.IStore;

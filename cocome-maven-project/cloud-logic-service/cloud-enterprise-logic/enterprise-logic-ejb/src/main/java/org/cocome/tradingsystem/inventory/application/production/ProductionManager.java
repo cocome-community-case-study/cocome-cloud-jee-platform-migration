@@ -23,7 +23,6 @@ import org.cocome.cloud.logic.stub.*;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderEntryTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationOrderTO;
-import org.cocome.tradingsystem.inventory.application.production.events.PlantOperationOrderFinishedEvent;
 import org.cocome.tradingsystem.inventory.data.enterprise.EnterpriseDatatypesFactory;
 import org.cocome.tradingsystem.inventory.data.persistence.IPersistenceContext;
 import org.cocome.tradingsystem.inventory.data.persistence.UpdateException;
