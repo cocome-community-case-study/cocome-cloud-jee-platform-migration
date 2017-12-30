@@ -44,9 +44,9 @@ public class MarkupParserTest {
                 new PUOperationInfo("PUC1", "op2")
         )));
 
-        Assert.assertEquals(text, expectedJson);
+        Assert.assertEquals(expectedJson, text);
 
-        Assert.assertEquals(parser.toString(this.parser.parse(expectedJson)), expectedJson);
+        Assert.assertEquals(expectedJson, parser.toString(this.parser.parse(expectedJson)));
     }
 
     private String readResourceFile(final Class<?> clazz, final String resourceName) throws IOException {
@@ -56,12 +56,14 @@ public class MarkupParserTest {
             String line = reader.readLine();
             while (line != null) {
                 builder.append(line);
-                builder.append("\n");
+                builder.append(System.lineSeparator());
                 line = reader.readLine();
             }
             if (builder.length() > 0) {
                 //simulate EOF by removing last element
-                builder.deleteCharAt(builder.length() - 1);
+                for (int i = 0; i < System.lineSeparator().length(); i++) {
+                    builder.deleteCharAt(builder.length() - 1);
+                }
             }
             return builder.toString();
         }
