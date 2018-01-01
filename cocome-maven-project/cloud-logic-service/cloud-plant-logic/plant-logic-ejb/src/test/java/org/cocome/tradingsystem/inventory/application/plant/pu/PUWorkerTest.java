@@ -15,7 +15,6 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@Ignore
 public class PUWorkerTest {
 
     private static class DataCollectionCallback implements IPUCallback<UUID> {

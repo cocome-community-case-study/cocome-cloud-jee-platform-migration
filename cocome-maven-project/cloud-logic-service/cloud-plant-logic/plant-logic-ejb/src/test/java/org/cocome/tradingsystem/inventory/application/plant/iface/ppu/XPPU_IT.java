@@ -14,6 +14,7 @@ import java.util.Collections;
  *
  * @author Rudolf Biczok, rudolf.biczok@student.kit.edu
  */
+//Can only be executed with real xPPU instance running
 @Ignore
 public class XPPU_IT extends AbstractPUTestCase {
 
