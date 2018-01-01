@@ -138,7 +138,6 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 		this.cashDesk.finishCreditCardPayment(pin);
 	}
 
-
 	/*
 	 * If the event targets this cash desk, switch the cash desk to express
 	 * mode. If the cash desk state actually changed, republish the event on the

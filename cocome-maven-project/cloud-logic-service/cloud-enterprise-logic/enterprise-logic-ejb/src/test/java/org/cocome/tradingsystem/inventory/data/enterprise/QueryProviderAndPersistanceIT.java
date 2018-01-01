@@ -202,7 +202,7 @@ public class QueryProviderAndPersistanceIT {
         persistenceContext.deleteEntity(enterprise);
     }
 
-    private ITradingEnterprise getOrCreateEnterprise() throws NotInDatabaseException, CreateException {
+    private ITradingEnterprise getOrCreateEnterprise() throws CreateException {
         final String enterpriseName = String.format("Enterprise-%s", UUID.randomUUID().toString());
         final ITradingEnterprise enterprise;
         try {
@@ -217,7 +217,7 @@ public class QueryProviderAndPersistanceIT {
     }
 
     private IPlant getOrCreatePlant(final ITradingEnterprise enterprise)
-            throws CreateException, NotInDatabaseException {
+            throws CreateException {
         final IPlant plant = new Plant();
         plant.setName("Plant1");
         plant.setEnterpriseId(enterprise.getId());

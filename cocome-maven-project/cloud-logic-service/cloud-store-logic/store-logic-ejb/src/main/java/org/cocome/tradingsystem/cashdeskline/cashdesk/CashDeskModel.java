@@ -128,86 +128,86 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
     private static final Set<CashDeskState> FINISH_CREDIT_CARD_PAYMENT_STATES =
             CashDeskModel.setOfStates(CashDeskState.PAYING_BY_CREDIT_CARD);
 
-    private CashDeskState state = CashDeskState.EXPECTING_SALE;
+    CashDeskState state = CashDeskState.EXPECTING_SALE;
 
     private final ExpressModePolicy expressModePolicy = ExpressModePolicy.getInstance();
 
     private String name;
 
     @Inject
-    private BeanManager manager;
+    BeanManager manager;
 
     // Cash desk related information is required here
     @Inject
     @CashDeskRequired
-    private IContextRegistry registry;
+    IContextRegistry registry;
 
     @Inject
-    private IBankLocal remoteBank;
+    IBankLocal remoteBank;
 
     @Inject
-    private IStoreInventoryLocal inventory;
+    IStoreInventoryLocal inventory;
 
     @Inject
-    private Event<InvalidProductBarcodeEvent> invalidProductBarcodeEvents;
+    Event<InvalidProductBarcodeEvent> invalidProductBarcodeEvents;
 
     @Inject
-    private Event<RunningTotalChangedEvent> runningTotalChangedEvents;
+    Event<RunningTotalChangedEvent> runningTotalChangedEvents;
 
     @Inject
-    private Event<SaleStartedEvent> saleStartedEvents;
+    Event<SaleStartedEvent> saleStartedEvents;
 
     @Inject
-    private Event<SaleFinishedEvent> saleFinishedEvents;
+    Event<SaleFinishedEvent> saleFinishedEvents;
 
     @Inject
-    private Event<PaymentModeSelectedEvent> paymentMethodSelectedEvents;
+    Event<PaymentModeSelectedEvent> paymentMethodSelectedEvents;
 
     @Inject
-    private Event<PaymentModeRejectedEvent> paymentModeRejectedEvents;
+    Event<PaymentModeRejectedEvent> paymentModeRejectedEvents;
 
     @Inject
-    private Event<ChangeAmountCalculatedEvent> changeAmountCalculatedEvents;
+    Event<ChangeAmountCalculatedEvent> changeAmountCalculatedEvents;
 
     @Inject
-    private Event<InvalidCreditCardEvent> invalidCreditCardEvents;
+    Event<InvalidCreditCardEvent> invalidCreditCardEvents;
 
     @Inject
-    private Event<AccountSaleEvent> accountSaleEvents;
+    Event<AccountSaleEvent> accountSaleEvents;
 
     @Inject
-    private Event<SaleSuccessEvent> saleSuccessEvents;
+    Event<SaleSuccessEvent> saleSuccessEvents;
 
     @Inject
-    private Event<SaleRegisteredEvent> saleRegisteredEvents;
+    Event<SaleRegisteredEvent> saleRegisteredEvents;
 
     @Inject
-    private Event<ExpressModeEnabledEvent> expressModeEnabledEvents;
+    Event<ExpressModeEnabledEvent> expressModeEnabledEvents;
 
     @Inject
-    private Event<ExpressModeDisabledEvent> expressModeDisabledEvents;
+    Event<ExpressModeDisabledEvent> expressModeDisabledEvents;
 
     @Inject
-    private Event<InsufficientCashAmountEvent> insufficientCashAmountEvents;
+    Event<InsufficientCashAmountEvent> insufficientCashAmountEvents;
 
     @Inject
-    private Event<CashAmountEnteredEvent> cashAmountEnteredEvents;
+    Event<CashAmountEnteredEvent> cashAmountEnteredEvents;
 
     //
     // Cash desk state
     //
 
-    private boolean expressModeEnabled;
+    boolean expressModeEnabled;
 
     //
     // Sale state
     //
 
-    private List<SaleEntryTO> saleProducts;
+    List<SaleEntryTO> saleProducts;
 
     private double runningTotal;
 
-    private String cardInfo;
+    String cardInfo;
 
     @Override
     public void setName(String cashDeskName) {
@@ -633,5 +633,4 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
     private static <E extends Enum<E>> Set<E> setOfStates(final E... elements) {
         return Collections.unmodifiableSet(Sets.newEnumSet(elements));
     }
-
 }

@@ -36,7 +36,6 @@ import org.cocome.tradingsystem.cashdeskline.events.CreditCardScannedEvent;
 @Stateless
 public class CardReaderModel implements ICardReaderModel {
 
-	
 	@Inject
 	private Event<CreditCardScannedEvent> creditCardScannedEvent;
 	
