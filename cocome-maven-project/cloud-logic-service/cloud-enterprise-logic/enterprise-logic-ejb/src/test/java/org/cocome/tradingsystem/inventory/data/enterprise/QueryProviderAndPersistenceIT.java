@@ -59,7 +59,7 @@ import static org.hamcrest.CoreMatchers.hasItems;
         BooleanParameter.class,
         NominalParameter.class,
         UsermanagerDatatypesFactory.class})
-public class QueryProviderAndPersistanceIT {
+public class QueryProviderAndPersistenceIT {
 
     @Inject
     private IPersistenceContext persistenceContext;
