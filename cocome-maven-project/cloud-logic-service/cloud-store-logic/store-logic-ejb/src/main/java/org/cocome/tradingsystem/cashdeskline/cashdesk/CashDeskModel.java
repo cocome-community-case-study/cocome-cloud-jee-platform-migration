@@ -28,7 +28,6 @@ import org.cocome.tradingsystem.external.TransactionID;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
-import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
 import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.util.java.Lists;
 import org.cocome.tradingsystem.util.java.Sets;

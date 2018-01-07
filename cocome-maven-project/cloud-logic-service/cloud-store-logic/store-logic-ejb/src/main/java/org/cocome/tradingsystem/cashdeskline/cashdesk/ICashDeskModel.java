@@ -50,7 +50,7 @@ public interface ICashDeskModel {
      * limit.
      *
      * @param barcode the barcode of the item
-     * @throws ProductOutOfStockException
+     * @throws ProductOutOfStockException if stock has not the capacity to provide the product
      */
     void addItemToSale(long barcode) throws IllegalCashDeskStateException, ProductOutOfStockException;
 
