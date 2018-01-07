@@ -51,9 +51,8 @@ public class CashDeskRegistryFactory implements ICashDeskRegistryFactory, Serial
 	@Produces @CashDeskSessionScoped @CashDeskRequired
 	public IContextRegistry getCashDeskContextRegistry() throws ContextNotActiveException {
 		INamedSessionContext sessionContext = (INamedSessionContext) manager.getContext(CashDeskSessionScoped.class);
-		IContextRegistry context = sessionContext.getActiveContext();
-		
-		return context;
+
+		return sessionContext.getActiveContext();
 	}
 	
 	/**
