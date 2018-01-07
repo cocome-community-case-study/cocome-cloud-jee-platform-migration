@@ -54,7 +54,7 @@ public enum CashDeskState {
     /**
      * After the barcode has entered and the product needs parameter input from the user.
      */
-    EXPECTING_PARAM_INFO,
+    EXPECTING_PARAMETER_VALUES,
 
     /**
      * After the choice of credit card payment was made.

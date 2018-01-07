@@ -7,33 +7,14 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.spi.BeanManager;
 
 import org.cocome.tradingsystem.cashdeskline.datatypes.PaymentMode;
-import org.cocome.tradingsystem.cashdeskline.events.AccountSaleEvent;
-import org.cocome.tradingsystem.cashdeskline.events.CashAmountEnteredEvent;
-import org.cocome.tradingsystem.cashdeskline.events.ChangeAmountCalculatedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.ExpressModeDisabledEvent;
-import org.cocome.tradingsystem.cashdeskline.events.ExpressModeEnabledEvent;
-import org.cocome.tradingsystem.cashdeskline.events.InsufficientCashAmountEvent;
-import org.cocome.tradingsystem.cashdeskline.events.InvalidCreditCardEvent;
-import org.cocome.tradingsystem.cashdeskline.events.InvalidProductBarcodeEvent;
-import org.cocome.tradingsystem.cashdeskline.events.PaymentModeRejectedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.PaymentModeSelectedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.RunningTotalChangedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.SaleFinishedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.SaleRegisteredEvent;
-import org.cocome.tradingsystem.cashdeskline.events.SaleStartedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.SaleSuccessEvent;
+import org.cocome.tradingsystem.cashdeskline.events.*;
 import org.cocome.tradingsystem.external.DebitResult;
 import org.cocome.tradingsystem.external.IBankLocal;
 import org.cocome.tradingsystem.external.TransactionID;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
-import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
-import org.cocome.tradingsystem.inventory.data.enterprise.IProduct;
-import org.cocome.tradingsystem.inventory.data.enterprise.Product;
-import org.cocome.tradingsystem.inventory.data.store.IItem;
-import org.cocome.tradingsystem.inventory.data.store.IOnDemandItem;
-import org.cocome.tradingsystem.inventory.data.store.IStockItem;
-import org.cocome.tradingsystem.inventory.data.store.StockItem;
+import org.cocome.tradingsystem.inventory.data.enterprise.*;
+import org.cocome.tradingsystem.inventory.data.store.*;
 import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
 import org.cocome.tradingsystem.util.scope.RegistryKeys;
@@ -107,18 +88,15 @@ public class CashDeskModelTest {
     private Event<CashAmountEnteredEvent> cashAmountEnteredEvents;
 
     @Mock
-    private static INamedSessionContext sessionContext;
+    private Event<CustomProductEnteredEvent> customProductEnteredEvents;
 
-    private ArgumentCaptor<RunningTotalChangedEvent> runningTotalChangedCaptor;
-    private ArgumentCaptor<PaymentModeSelectedEvent> paymentModeSelectedCaptor;
-    private ArgumentCaptor<ChangeAmountCalculatedEvent> changeAmountCalculatedCaptor;
-    private ArgumentCaptor<CashAmountEnteredEvent> cashAmountEnteredCaptor;
-    private ArgumentCaptor<AccountSaleEvent> accountSaleEventCaptor;
-    private ArgumentCaptor<SaleRegisteredEvent> saleRegisteredEventCaptor;
+    @Mock
+    private static INamedSessionContext sessionContext;
 
     private static IProduct prod;
     private static ICustomProduct customProd;
     private static IStockItem stock;
+    private static IOnDemandItem onDemandItem;
     private static TransactionID transaction;
 
     private static final long STORE_ID = 1;
@@ -147,6 +125,17 @@ public class CashDeskModelTest {
         stock.setProduct(prod);
         stock.setSalesPrice(20.0);
 
+        customProd = new CustomProduct();
+        customProd.setBarcode(4567);
+        customProd.setId(1);
+        customProd.setName("Custom Banana");
+        customProd.setPurchasePrice(12.0);
+
+        onDemandItem = new OnDemandItem();
+        onDemandItem.setId(1);
+        onDemandItem.setProduct(customProd);
+        onDemandItem.setStoreId(22);
+
         transaction = new TransactionID(TRANSACTION_ID);
     }
 
@@ -158,7 +147,11 @@ public class CashDeskModelTest {
         when(sessionContext.getName()).thenReturn(CASHDESK_NAME);
         when(registry.getLong(RegistryKeys.STORE_ID)).thenReturn(STORE_ID);
 
-        when(inventory.getProductWithStockItem(STORE_ID, prod.getBarcode())).thenReturn(fillProductWithItemTO(stock));
+        when(inventory.getProductWithStockItem(STORE_ID, prod.getBarcode()))
+                .thenReturn(fillProductWithItemTO(stock));
+
+        when(inventory.getProductWithStockItem(STORE_ID, customProd.getBarcode()))
+                .thenReturn(fillProductWithItemTO(onDemandItem));
 
         when(remoteBank.validateCard(CARD_INFO, CARD_PIN)).thenReturn(transaction);
         when(remoteBank.debitCard(transaction)).thenReturn(DebitResult.OK);
@@ -176,6 +169,7 @@ public class CashDeskModelTest {
         cashDeskModel.insufficientCashAmountEvents = insufficientCashAmountEvents;
         cashDeskModel.invalidCreditCardEvents = invalidCreditCardEvents;
         cashDeskModel.invalidProductBarcodeEvents = invalidProductBarcodeEvents;
+        cashDeskModel.customProductEnteredEvents = customProductEnteredEvents;
         cashDeskModel.inventory = inventory;
         cashDeskModel.manager = manager;
         cashDeskModel.paymentMethodSelectedEvents = paymentMethodSelectedEvents;
@@ -187,6 +181,12 @@ public class CashDeskModelTest {
         cashDeskModel.saleRegisteredEvents = saleRegisteredEvents;
         cashDeskModel.saleStartedEvents = saleStartedEvents;
         cashDeskModel.saleSuccessEvents = saleSuccessEvents;
+        cashDeskModel.dataFactory = new EnterpriseDatatypesFactory() {
+            @Override
+            public ICustomProduct getNewCustomProduct() {
+                return new CustomProduct();
+            }
+        };
     }
 
     @Test
@@ -200,7 +200,7 @@ public class CashDeskModelTest {
 
     @Test
     public void testAddItemToSale() throws IllegalCashDeskStateException, ProductOutOfStockException, NoSuchProductException {
-        runningTotalChangedCaptor = ArgumentCaptor.forClass(RunningTotalChangedEvent.class);
+        ArgumentCaptor<RunningTotalChangedEvent> runningTotalChangedCaptor = ArgumentCaptor.forClass(RunningTotalChangedEvent.class);
 
         cashDeskModel.state = CashDeskState.EXPECTING_ITEMS;
 
@@ -211,8 +211,25 @@ public class CashDeskModelTest {
 
         assertEquals(prod.getName(), runningTotalChangedCaptor.getValue().getProductName());
         assertEquals(stock.getSalesPrice(), runningTotalChangedCaptor.getValue().getProductPrice(), 0.1);
-        assertEquals(stock.getSalesPrice(), runningTotalChangedCaptor.getValue().getRunningTotal(), 0.1);
         assertEquals(CashDeskState.EXPECTING_ITEMS, cashDeskModel.state);
+    }
+
+    @Test
+    public void testAddOnDemandItemToSale() throws IllegalCashDeskStateException, ProductOutOfStockException, NoSuchProductException {
+        ArgumentCaptor<RunningTotalChangedEvent> runningTotalChangedCaptor = ArgumentCaptor.forClass(RunningTotalChangedEvent.class);
+        ArgumentCaptor<CustomProductEnteredEvent> customProductEnteredEventArgumentCaptor = ArgumentCaptor.forClass(CustomProductEnteredEvent.class);
+
+        cashDeskModel.state = CashDeskState.EXPECTING_ITEMS;
+
+        cashDeskModel.addItemToSale(customProd.getBarcode());
+
+        verify(inventory).getProductWithStockItem(STORE_ID, customProd.getBarcode());
+        verify(runningTotalChangedEvents).fire(runningTotalChangedCaptor.capture());
+        verify(customProductEnteredEvents).fire(customProductEnteredEventArgumentCaptor.capture());
+
+        assertEquals(customProd.getName(), runningTotalChangedCaptor.getValue().getProductName());
+        assertEquals(onDemandItem.getSalesPrice(), runningTotalChangedCaptor.getValue().getProductPrice(), 0.1);
+        assertEquals(CashDeskState.EXPECTING_PARAMETER_VALUES, cashDeskModel.state);
     }
 
     @Test
@@ -229,7 +246,7 @@ public class CashDeskModelTest {
 
     @Test
     public void testSelectCashPaymentMode() throws IllegalCashDeskStateException {
-        paymentModeSelectedCaptor = ArgumentCaptor.forClass(PaymentModeSelectedEvent.class);
+        ArgumentCaptor<PaymentModeSelectedEvent> paymentModeSelectedCaptor = ArgumentCaptor.forClass(PaymentModeSelectedEvent.class);
         cashDeskModel.state = CashDeskState.EXPECTING_PAYMENT;
 
         cashDeskModel.selectPaymentMode(PaymentMode.CASH);
@@ -242,7 +259,7 @@ public class CashDeskModelTest {
 
     @Test
     public void testSelectCardPaymentMode() throws IllegalCashDeskStateException {
-        paymentModeSelectedCaptor = ArgumentCaptor.forClass(PaymentModeSelectedEvent.class);
+        ArgumentCaptor<PaymentModeSelectedEvent> paymentModeSelectedCaptor = ArgumentCaptor.forClass(PaymentModeSelectedEvent.class);
         cashDeskModel.state = CashDeskState.EXPECTING_PAYMENT;
 
         cashDeskModel.selectPaymentMode(PaymentMode.CREDIT_CARD);
@@ -255,8 +272,8 @@ public class CashDeskModelTest {
 
     @Test
     public void testStartCashPayment() throws IllegalCashDeskStateException {
-        changeAmountCalculatedCaptor = ArgumentCaptor.forClass(ChangeAmountCalculatedEvent.class);
-        cashAmountEnteredCaptor = ArgumentCaptor.forClass(CashAmountEnteredEvent.class);
+        ArgumentCaptor<ChangeAmountCalculatedEvent> changeAmountCalculatedCaptor = ArgumentCaptor.forClass(ChangeAmountCalculatedEvent.class);
+        ArgumentCaptor<CashAmountEnteredEvent> cashAmountEnteredCaptor = ArgumentCaptor.forClass(CashAmountEnteredEvent.class);
         cashDeskModel.state = CashDeskState.PAYING_BY_CASH;
 
         cashDeskModel.startCashPayment(CHANGE_AMOUNT);
@@ -271,8 +288,8 @@ public class CashDeskModelTest {
 
     @Test
     public void testFinishCashPayment() throws IllegalCashDeskStateException {
-        accountSaleEventCaptor = ArgumentCaptor.forClass(AccountSaleEvent.class);
-        saleRegisteredEventCaptor = ArgumentCaptor.forClass(SaleRegisteredEvent.class);
+        ArgumentCaptor<AccountSaleEvent> accountSaleEventCaptor = ArgumentCaptor.forClass(AccountSaleEvent.class);
+        ArgumentCaptor<SaleRegisteredEvent> saleRegisteredEventCaptor = ArgumentCaptor.forClass(SaleRegisteredEvent.class);
         cashDeskModel.state = CashDeskState.PAID_BY_CASH;
         cashDeskModel.saleProducts.add(new SaleEntryTO(fillProductWithItemTO(stock)));
 
@@ -304,8 +321,8 @@ public class CashDeskModelTest {
 
     @Test
     public void testFinishCreditCardPayment() throws IllegalCashDeskStateException {
-        accountSaleEventCaptor = ArgumentCaptor.forClass(AccountSaleEvent.class);
-        saleRegisteredEventCaptor = ArgumentCaptor.forClass(SaleRegisteredEvent.class);
+        ArgumentCaptor<AccountSaleEvent> accountSaleEventCaptor = ArgumentCaptor.forClass(AccountSaleEvent.class);
+        ArgumentCaptor<SaleRegisteredEvent> saleRegisteredEventCaptor = ArgumentCaptor.forClass(SaleRegisteredEvent.class);
         cashDeskModel.state = CashDeskState.PAYING_BY_CREDIT_CARD;
         cashDeskModel.saleProducts.add(new SaleEntryTO(fillProductWithItemTO(stock)));
         cashDeskModel.cardInfo = CARD_INFO;

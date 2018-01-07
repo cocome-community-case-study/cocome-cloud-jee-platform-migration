@@ -25,7 +25,11 @@ import org.cocome.tradingsystem.cashdeskline.events.*;
 import org.cocome.tradingsystem.external.DebitResult;
 import org.cocome.tradingsystem.external.IBankLocal;
 import org.cocome.tradingsystem.external.TransactionID;
+import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
+import org.cocome.tradingsystem.inventory.data.enterprise.ICustomProduct;
+import org.cocome.tradingsystem.inventory.data.enterprise.IEnterpriseDataFactory;
 import org.cocome.tradingsystem.util.java.Lists;
 import org.cocome.tradingsystem.util.java.Sets;
 import org.cocome.tradingsystem.util.qualifier.CashDeskRequired;
@@ -39,10 +43,7 @@ import javax.enterprise.event.Event;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Implements the cash desk model. The model provides methods to process a sale,
@@ -86,6 +87,12 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
      */
     private static final Set<CashDeskState> ADD_ITEM_TO_SALE_STATES =
             CashDeskModel.setOfStates(CashDeskState.EXPECTING_ITEMS);
+
+    /**
+     * Parameter values can only be specified after a custom parameter has been scanned before.
+     */
+    private static final Set<CashDeskState> ADD_PARAMETER_VALUES_TO_SALE_ENTRY =
+            CashDeskModel.setOfStates(CashDeskState.EXPECTING_PARAMETER_VALUES);
 
     /**
      * Sale can be only finished when scanning items.
@@ -137,6 +144,9 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
     @Inject
     BeanManager manager;
 
+    @Inject
+    IEnterpriseDataFactory dataFactory;
+
     // Cash desk related information is required here
     @Inject
     @CashDeskRequired
@@ -186,6 +196,9 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
 
     @Inject
     Event<ExpressModeDisabledEvent> expressModeDisabledEvents;
+
+    @Inject
+    Event<CustomProductEnteredEvent> customProductEnteredEvents;
 
     @Inject
     Event<InsufficientCashAmountEvent> insufficientCashAmountEvents;
@@ -269,7 +282,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
         // otherwise complain of exceeding the express mode item count limit.
         //
         if (this.canAcceptNextItem()) {
-
             //
             // Using the barcode, query the store inventory product stock item
             // and add it to the sale. If there is no product with the given
@@ -280,14 +292,16 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
             try {
                 final ProductWithItemTO productStockItem =
                         this.inventory.getProductWithStockItem(storeID, barcode);
+                if (productStockItem.getProduct() instanceof CustomProductTO) {
+                    this.state = CashDeskState.EXPECTING_PARAMETER_VALUES;
+                    this.customProductEnteredEvents.fire(new CustomProductEnteredEvent(
+                            dataFactory.convertToCustomProduct((CustomProductTO) productStockItem.getProduct())));
+                }
                 this.addItemToSale(productStockItem);
-
             } catch (NoSuchProductException nspe) {
                 LOG.info("No product/stock item for barcode " + barcode);
                 this.sendInvalidProductBarcodeEvent(barcode);
-
             }
-
         } else {
             // TODO Consider notifying other components. --LB
             LOG.error(String.format(
@@ -295,6 +309,13 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
                     this.expressModePolicy.getExpressItemLimit()
             ));
         }
+    }
+
+    @Override
+    public void addParameterValues(final Collection<ParameterValueTO> parameterValues) throws IllegalCashDeskStateException {
+        this.ensureStateIsLegal(ADD_PARAMETER_VALUES_TO_SALE_ENTRY);
+        this.saleProducts.get(this.saleProducts.size() -1).setParameterValues(parameterValues);
+        this.state = CashDeskState.EXPECTING_ITEMS;
     }
 
     private boolean canAcceptNextItem() {
@@ -395,7 +416,6 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
             if (!this.expressModeEnabled) {
                 this.state = CashDeskState.EXPECTING_CARD_INFO;
                 this.sendPaymentModeSelectedEvent(mode);
-
             } else {
                 final String message = "Credit cards not accepted in express mode";
                 this.sendPaymentModeRejectedEvent(mode, message);

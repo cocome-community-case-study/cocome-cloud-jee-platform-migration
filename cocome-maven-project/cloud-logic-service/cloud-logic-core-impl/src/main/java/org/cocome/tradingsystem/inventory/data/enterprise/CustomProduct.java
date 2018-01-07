@@ -18,7 +18,13 @@
 
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 
 /**
  * Transfer object of an customizable product
@@ -28,4 +34,26 @@ import javax.enterprise.context.Dependent;
 @Dependent
 public class CustomProduct extends Product implements ICustomProduct {
     private static final long serialVersionUID = 1L;
+
+    @Inject
+    private Instance<IEnterpriseQuery> enterpriseQueryInstance;
+
+    private IEnterpriseQuery enterpriseQuery;
+
+    private IRecipe recipe;
+
+    @PostConstruct
+    public void initPlant() {
+        enterpriseQuery = enterpriseQueryInstance.get();
+        recipe = null;
+    }
+
+    @Override
+    public IRecipe getRecipe() throws NotInDatabaseException {
+        if(this.recipe == null) {
+            this.recipe = enterpriseQuery.queryRecipeByCustomProductID(this.getId());
+        }
+        return recipe;
+    }
+
 }

@@ -1,9 +1,11 @@
 package org.cocome.tradingsystem.cashdeskline.cashdesk;
 
 import org.cocome.tradingsystem.cashdeskline.datatypes.PaymentMode;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 
 import javax.ejb.Local;
+import java.util.Collection;
 
 /**
  * Defines the actions available on the cash desk model that can
@@ -124,4 +126,8 @@ public interface ICashDeskModel {
      */
     CashDeskState getState();
 
+    /**
+     * @param parameterValues adds parameter values to the previously selected product
+     */
+    void addParameterValues(Collection<ParameterValueTO> parameterValues) throws IllegalCashDeskStateException;
 }

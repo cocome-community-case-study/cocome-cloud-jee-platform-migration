@@ -19,16 +19,7 @@ package org.cocome.tradingsystem.cashdeskline.cashdesk;
 import javax.ejb.Local;
 import javax.enterprise.event.Observes;
 
-import org.cocome.tradingsystem.cashdeskline.events.CashAmountEnteredEvent;
-import org.cocome.tradingsystem.cashdeskline.events.CashBoxClosedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.CreditCardPinEnteredEvent;
-import org.cocome.tradingsystem.cashdeskline.events.CreditCardScannedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.ExpressModeDisabledEvent;
-import org.cocome.tradingsystem.cashdeskline.events.ExpressModeEnabledEvent;
-import org.cocome.tradingsystem.cashdeskline.events.PaymentModeSelectedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.ProductBarcodeScannedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.SaleFinishedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.SaleStartedEvent;
+import org.cocome.tradingsystem.cashdeskline.events.*;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 
 /**
@@ -45,85 +36,25 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
 @Local
 public interface ICashDeskEventHandler {
 
-	/**
-	 * Handles the given event.
-	 * 
-	 * @param event
-	 * 		the event to be handled
-	 * @throws IllegalCashDeskStateException 
-	 */
 	void onEvent(@Observes SaleStartedEvent event) throws IllegalCashDeskStateException;
 
-	/**
-	 * Handles the given event.
-	 * 
-	 * @param event
-	 * 		the event to be handled
-	 */
 	void onEvent(@Observes SaleFinishedEvent event) throws IllegalCashDeskStateException;
 
-	/**
-	 * Handles the given event.
-	 * 
-	 * @param event
-	 * 		the event to be handled
-	 */
 	void onEvent(@Observes PaymentModeSelectedEvent event) throws IllegalCashDeskStateException;
 
-	/**
-	 * Handles the given event.
-	 * 
-	 * @param event
-	 * 		the event to be handled
-	 */
 	void onEvent(@Observes ExpressModeDisabledEvent event);
 
-	/**
-	 * Handles the given event.
-	 * 
-	 * @param event
-	 * 		the event to be handled
-	 * @throws ProductOutOfStockException 
-	 */
 	void onEvent(@Observes ProductBarcodeScannedEvent event) throws IllegalCashDeskStateException, ProductOutOfStockException;
 
-	/**
-	 * Handles the given event.
-	 * 
-	 * @param event
-	 * 		the event to be handled
-	 */
 	void onEvent(@Observes CashAmountEnteredEvent event) throws IllegalCashDeskStateException;
 
-	/**
-	 * Handles the given event.
-	 * 
-	 * @param event
-	 * 		the event to be handled
-	 */
 	void onEvent(@Observes CashBoxClosedEvent event) throws IllegalCashDeskStateException;
 
-	/**
-	 * Handles the given event.
-	 * 
-	 * @param event
-	 * 		the event to be handled
-	 */
 	void onEvent(@Observes CreditCardScannedEvent event) throws IllegalCashDeskStateException;
 
-	/**
-	 * Handles the given event.
-	 * 
-	 * @param event
-	 * 		the event to be handled
-	 */
 	void onEvent(@Observes CreditCardPinEnteredEvent event) throws IllegalCashDeskStateException;
 
-	/**
-	 * Handles the given event.
-	 * 
-	 * @param event
-	 * 		the event to be handled
-	 */
+	void onEvent(@Observes ParameterValuesEnteredEvent event) throws IllegalCashDeskStateException;
+
 	void onEvent(@Observes ExpressModeEnabledEvent event);
 }

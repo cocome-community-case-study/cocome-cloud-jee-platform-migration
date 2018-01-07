@@ -23,16 +23,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
-import org.cocome.tradingsystem.cashdeskline.events.CashAmountEnteredEvent;
-import org.cocome.tradingsystem.cashdeskline.events.CashBoxClosedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.CreditCardPinEnteredEvent;
-import org.cocome.tradingsystem.cashdeskline.events.CreditCardScannedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.ExpressModeDisabledEvent;
-import org.cocome.tradingsystem.cashdeskline.events.ExpressModeEnabledEvent;
-import org.cocome.tradingsystem.cashdeskline.events.PaymentModeSelectedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.ProductBarcodeScannedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.SaleFinishedEvent;
-import org.cocome.tradingsystem.cashdeskline.events.SaleStartedEvent;
+import org.cocome.tradingsystem.cashdeskline.events.*;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 
 
@@ -45,7 +36,7 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
  * <p>
  * The state is kept in the model to enforce sequencing, because the model will emit events in response to method invocations. This allows to control the model from
  * outside.
- * 
+ *
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
@@ -55,99 +46,113 @@ import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockExc
 @Dependent
 class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
 
-	private static final long serialVersionUID = -113764312663218734L;
+    private static final long serialVersionUID = -113764312663218734L;
 
-	private static final Logger LOG = Logger.getLogger(CashDeskEventHandler.class);
-	
-	@Inject
-	private ICashDeskModel cashDesk;
-	
-	//
-	// Event handler methods
-	//
+    private static final Logger LOG = Logger.getLogger(CashDeskEventHandler.class);
 
-	public void onEvent(@Observes SaleStartedEvent event) throws IllegalCashDeskStateException {
-		// These ifs are necessary to avoid reentrant errors when event is sent from the cash desk model
-		if (this.cashDesk.getState() == CashDeskState.EXPECTING_ITEMS) {
-			LOG.debug("Already expecting items, ignoring event...");
-		} else {
-			this.cashDesk.startSale();
-		}
-	}
+    @Inject
+    private ICashDeskModel cashDesk;
 
-	public void onEvent(@Observes SaleFinishedEvent event) throws IllegalCashDeskStateException {
-		if (this.cashDesk.getState() == CashDeskState.EXPECTING_PAYMENT) {
-			LOG.debug("Already expecting payment, ignoring event...");
-		} else {
-			this.cashDesk.finishSale();
-		}
-	}
-	
-	public void onEvent(@Observes PaymentModeSelectedEvent event) throws IllegalCashDeskStateException {
-		if (this.cashDesk.getState() == CashDeskState.PAYING_BY_CASH || 
-				this.cashDesk.getState() == CashDeskState.EXPECTING_CARD_INFO) {
-			LOG.debug("Payment mode already selected, ignoring event...");
-		} else {
-			this.cashDesk.selectPaymentMode(event.getMode());
-		}
-	}
+    //
+    // Event handler methods
+    //
 
-	public void onEvent(@Observes ExpressModeDisabledEvent event) {
-		if (this.cashDesk.isInExpressMode()) {
-			this.cashDesk.disableExpressMode();
-		} else {
-			LOG.debug("Express mode already active, ignoring event...");
-		}
-	}
+    @Override
+    public void onEvent(@Observes SaleStartedEvent event) throws IllegalCashDeskStateException {
+        // These ifs are necessary to avoid reentrant errors when event is sent from the cash desk model
+        if (this.cashDesk.getState() == CashDeskState.EXPECTING_ITEMS) {
+            LOG.debug("Already expecting items, ignoring event...");
+        } else {
+            this.cashDesk.startSale();
+        }
+    }
 
-	public void onEvent(@Observes ProductBarcodeScannedEvent event) throws IllegalCashDeskStateException, ProductOutOfStockException {
-		final long barcode = event.getBarcode();
-		LOG.debug("\tbarcode: " + barcode);
+    @Override
+    public void onEvent(@Observes SaleFinishedEvent event) throws IllegalCashDeskStateException {
+        if (this.cashDesk.getState() == CashDeskState.EXPECTING_PAYMENT) {
+            LOG.debug("Already expecting payment, ignoring event...");
+        } else {
+            this.cashDesk.finishSale();
+        }
+    }
 
-		//
+    @Override
+    public void onEvent(@Observes PaymentModeSelectedEvent event) throws IllegalCashDeskStateException {
+        if (this.cashDesk.getState() == CashDeskState.PAYING_BY_CASH ||
+                this.cashDesk.getState() == CashDeskState.EXPECTING_CARD_INFO) {
+            LOG.debug("Payment mode already selected, ignoring event...");
+        } else {
+            this.cashDesk.selectPaymentMode(event.getMode());
+        }
+    }
 
-		this.cashDesk.addItemToSale(barcode);
-	}
+    @Override
+    public void onEvent(@Observes ExpressModeDisabledEvent event) {
+        if (this.cashDesk.isInExpressMode()) {
+            this.cashDesk.disableExpressMode();
+        } else {
+            LOG.debug("Express mode already active, ignoring event...");
+        }
+    }
 
-	public void onEvent(@Observes CashAmountEnteredEvent event) throws IllegalCashDeskStateException {
-		if (this.cashDesk.getState() == CashDeskState.PAID_BY_CASH) {
-			LOG.debug("Already paid by cash, ignoring event...");
-		} else {
-			final double cashAmount = event.getCashAmount();
-			LOG.debug("\tcashAmount: " + cashAmount);
+    @Override
+    public void onEvent(@Observes ProductBarcodeScannedEvent event) throws IllegalCashDeskStateException, ProductOutOfStockException {
+        final long barcode = event.getBarcode();
+        LOG.debug("\tbarcode: " + barcode);
 
-			this.cashDesk.startCashPayment(cashAmount);
-		}
-	}
+        //
 
-	public void onEvent(@Observes CashBoxClosedEvent event) throws IllegalCashDeskStateException {
-		this.cashDesk.finishCashPayment();
-	}
+        this.cashDesk.addItemToSale(barcode);
+    }
 
-	public void onEvent(@Observes CreditCardScannedEvent event) throws IllegalCashDeskStateException {
-		final String cardInfo = event.getCreditCardInformation();
-		LOG.debug("\tcreditCardInformation: " + cardInfo);
+    @Override
+    public void onEvent(@Observes CashAmountEnteredEvent event) throws IllegalCashDeskStateException {
+        if (this.cashDesk.getState() == CashDeskState.PAID_BY_CASH) {
+            LOG.debug("Already paid by cash, ignoring event...");
+        } else {
+            final double cashAmount = event.getCashAmount();
+            LOG.debug("\tcashAmount: " + cashAmount);
 
-		this.cashDesk.startCreditCardPayment(cardInfo);
-	}
+            this.cashDesk.startCashPayment(cashAmount);
+        }
+    }
 
-	public void onEvent(@Observes CreditCardPinEnteredEvent event) throws IllegalCashDeskStateException {
-		final int pin = event.getPIN();
-		LOG.debug("\tPIN: " + pin);
+    @Override
+    public void onEvent(@Observes CashBoxClosedEvent event) throws IllegalCashDeskStateException {
+        this.cashDesk.finishCashPayment();
+    }
 
-		this.cashDesk.finishCreditCardPayment(pin);
-	}
+    @Override
+    public void onEvent(@Observes CreditCardScannedEvent event) throws IllegalCashDeskStateException {
+        final String cardInfo = event.getCreditCardInformation();
+        LOG.debug("\tcreditCardInformation: " + cardInfo);
 
-	/*
-	 * If the event targets this cash desk, switch the cash desk to express
-	 * mode. If the cash desk state actually changed, republish the event on the
-	 * cash-desk local channel.
-	 */
-	public void onEvent(@Observes ExpressModeEnabledEvent event) {
-		if (this.cashDesk.isInExpressMode()) {
-			LOG.debug("Already in express mode, ignoring event...");
-		} else {
-			this.cashDesk.enableExpressMode();
-		}
-	}
+        this.cashDesk.startCreditCardPayment(cardInfo);
+    }
+
+    @Override
+    public void onEvent(@Observes CreditCardPinEnteredEvent event) throws IllegalCashDeskStateException {
+        final int pin = event.getPIN();
+        LOG.debug("\tPIN: " + pin);
+
+        this.cashDesk.finishCreditCardPayment(pin);
+    }
+
+    @Override
+    public void onEvent(ParameterValuesEnteredEvent event) throws IllegalCashDeskStateException {
+        this.cashDesk.addParameterValues(event.getParameterValues());
+    }
+
+    /*
+     * If the event targets this cash desk, switch the cash desk to express
+     * mode. If the cash desk state actually changed, republish the event on the
+     * cash-desk local channel.
+     */
+    public void onEvent(@Observes ExpressModeEnabledEvent event) {
+        if (this.cashDesk.isInExpressMode()) {
+            LOG.debug("Already in express mode, ignoring event...");
+        } else {
+            this.cashDesk.enableExpressMode();
+        }
+    }
 }

@@ -103,7 +103,7 @@ public class CashDeskView implements Serializable {
 		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", errorString));
 	}
 
-	public void updateDisplayMessage() {
+	private void updateDisplayMessage() {
 		String cashDeskName = cashDesk.getCashDeskName();
 		long storeID = storeInformation.getActiveStoreID();
 

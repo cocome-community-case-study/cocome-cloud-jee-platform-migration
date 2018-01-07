@@ -18,11 +18,14 @@
 
 package org.cocome.tradingsystem.inventory.data.enterprise;
 
+import org.cocome.tradingsystem.inventory.data.plant.recipe.IRecipe;
+import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
+
 /**
  * Represents a customizable product
  *
  * @author Rudolf Biczok
  */
 public interface ICustomProduct extends IProduct {
-
+    IRecipe getRecipe() throws NotInDatabaseException;
 }
