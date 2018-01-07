@@ -4,14 +4,15 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.BeanManager;
+import javax.inject.Inject;
 
 import org.cocome.tradingsystem.cashdeskline.datatypes.PaymentMode;
 import org.cocome.tradingsystem.cashdeskline.events.*;
 import org.cocome.tradingsystem.external.DebitResult;
 import org.cocome.tradingsystem.external.IBankLocal;
 import org.cocome.tradingsystem.external.TransactionID;
-import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.data.enterprise.*;
 import org.cocome.tradingsystem.inventory.data.store.*;
@@ -19,79 +20,117 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
 import org.cocome.tradingsystem.util.scope.RegistryKeys;
 import org.cocome.tradingsystem.util.scope.context.INamedSessionContext;
+import org.jglue.cdiunit.AdditionalClasses;
+import org.jglue.cdiunit.CdiRunner;
+import org.jglue.cdiunit.ejb.SupportEjb;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(CdiRunner.class)
+@SupportEjb
+@AdditionalClasses({
+        CustomProduct.class,
+        EnterpriseDatatypesFactory.class,
+        StoreDatatypesFactory.class})
 public class CashDeskModelTest {
+
     @Mock
     private static BeanManager manager;
 
+    @Produces
+    @Mock
+    private static IEnterpriseQuery enterpriseQuery;
+
     // Cash desk related information is required here
+    @Produces
     @Mock
     private static IContextRegistry registry;
 
+    @Produces
     @Mock
     private static IBankLocal remoteBank;
 
+    @Produces
     @Mock
     private static IStoreInventoryLocal inventory;
 
+    @Produces
     @Mock
     private Event<InvalidProductBarcodeEvent> invalidProductBarcodeEvents;
 
+    @Produces
     @Mock
     private Event<RunningTotalChangedEvent> runningTotalChangedEvents;
 
+    @Produces
     @Mock
     private Event<SaleStartedEvent> saleStartedEvents;
 
+    @Produces
     @Mock
     private Event<SaleFinishedEvent> saleFinishedEvents;
 
+    @Produces
     @Mock
     private Event<PaymentModeSelectedEvent> paymentMethodSelectedEvents;
 
+    @Produces
     @Mock
     private Event<PaymentModeRejectedEvent> paymentModeRejectedEvents;
 
+    @Produces
     @Mock
     private Event<ChangeAmountCalculatedEvent> changeAmountCalculatedEvents;
 
+    @Produces
     @Mock
     private Event<InvalidCreditCardEvent> invalidCreditCardEvents;
 
+    @Produces
     @Mock
     private Event<AccountSaleEvent> accountSaleEvents;
 
+    @Produces
     @Mock
     private Event<SaleSuccessEvent> saleSuccessEvents;
 
+    @Produces
     @Mock
     private Event<SaleRegisteredEvent> saleRegisteredEvents;
 
+    @Produces
     @Mock
     private Event<ExpressModeEnabledEvent> expressModeEnabledEvents;
 
+    @Produces
     @Mock
     private Event<ExpressModeDisabledEvent> expressModeDisabledEvents;
 
+    @Produces
     @Mock
     private Event<InsufficientCashAmountEvent> insufficientCashAmountEvents;
 
+    @Produces
     @Mock
     private Event<CashAmountEnteredEvent> cashAmountEnteredEvents;
 
+    @Produces
     @Mock
     private Event<CustomProductEnteredEvent> customProductEnteredEvents;
 
+    @Produces
     @Mock
     private static INamedSessionContext sessionContext;
+
+    @Inject
+    private IEnterpriseDataFactory enterpriseDataFactory;
+
+    @Inject
+    private IStoreDataFactory storeDataFactory;
 
     private static IProduct prod;
     private static ICustomProduct customProd;
@@ -181,12 +220,7 @@ public class CashDeskModelTest {
         cashDeskModel.saleRegisteredEvents = saleRegisteredEvents;
         cashDeskModel.saleStartedEvents = saleStartedEvents;
         cashDeskModel.saleSuccessEvents = saleSuccessEvents;
-        cashDeskModel.dataFactory = new EnterpriseDatatypesFactory() {
-            @Override
-            public ICustomProduct getNewCustomProduct() {
-                return new CustomProduct();
-            }
-        };
+        cashDeskModel.dataFactory = enterpriseDataFactory;
     }
 
     @Test
@@ -319,6 +353,10 @@ public class CashDeskModelTest {
         assertEquals(CashDeskState.PAYING_BY_CREDIT_CARD, cashDeskModel.state);
     }
 
+    private ProductWithItemTO fillProductWithItemTO(IItem item) {
+        return storeDataFactory.fillProductWithItemTO(item);
+    }
+
     @Test
     public void testFinishCreditCardPayment() throws IllegalCashDeskStateException {
         ArgumentCaptor<AccountSaleEvent> accountSaleEventCaptor = ArgumentCaptor.forClass(AccountSaleEvent.class);
@@ -363,60 +401,4 @@ public class CashDeskModelTest {
         verify(expressModeDisabledEvents).fire(any(ExpressModeDisabledEvent.class));
         assertEquals(false, cashDeskModel.isInExpressMode());
     }
-
-    private ProductWithItemTO fillProductWithItemTO(IItem item) {
-        final ProductWithItemTO result = new ProductWithItemTO();
-        final IProduct product = item.getProduct();
-
-        result.setProduct(fillProductTO(product));
-        result.setItem(fillItemTO(item));
-
-        return result;
-    }
-
-    private ItemTO fillItemTO(IItem item) {
-        if (item instanceof IStockItem) {
-            return this.fillStockItemTO((IStockItem) item);
-        } else if (item instanceof IOnDemandItem) {
-            return this.fillOnDemandItemTO((IOnDemandItem) item);
-        } else {
-            throw new UnsupportedOperationException("Unknown item type: " + item.getClass().getName());
-        }
-    }
-
-    private ProductTO getProductTOInstance(IProduct product) {
-        if (product instanceof ICustomProduct) {
-            return new CustomProductTO();
-        }
-        return new ProductTO();
-    }
-
-    private ProductTO fillProductTO(IProduct product) {
-        ProductTO productTO = getProductTOInstance(product);
-        productTO.setBarcode(product.getBarcode());
-        productTO.setId(product.getId());
-        productTO.setName(product.getName());
-        productTO.setPurchasePrice(product.getPurchasePrice());
-        return productTO;
-    }
-
-    private StockItemTO fillStockItemTO(IStockItem stockItem) {
-        final StockItemTO result = new StockItemTO();
-        result.setId(stockItem.getId());
-        result.setAmount(stockItem.getAmount());
-        result.setMinStock(stockItem.getMinStock());
-        result.setMaxStock(stockItem.getMaxStock());
-        result.setSalesPrice(stockItem.getSalesPrice());
-        result.setIncomingAmount(stockItem.getIncomingAmount());
-
-        return result;
-    }
-
-    private OnDemandItemTO fillOnDemandItemTO(IOnDemandItem onDemandItem) {
-        final OnDemandItemTO result = new OnDemandItemTO();
-        result.setId(onDemandItem.getId());
-        result.setSalesPrice(onDemandItem.getSalesPrice());
-        return result;
-    }
-
 }

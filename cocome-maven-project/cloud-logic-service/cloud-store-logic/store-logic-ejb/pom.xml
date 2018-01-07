@@ -1,128 +1,132 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>store-logic-ejb</artifactId>
-	<packaging>ejb</packaging>
+    <artifactId>store-logic-ejb</artifactId>
+    <packaging>ejb</packaging>
 
-	<name>Store Logic - EJB</name>
+    <name>Store Logic - EJB</name>
 
-	<parent>
-		<groupId>org.cocome</groupId>
-		<artifactId>cloud-store-logic</artifactId>
-		<version>1.1</version>
-	</parent>
-	
-	<properties>
-		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-	</properties>
+    <parent>
+        <groupId>org.cocome</groupId>
+        <artifactId>cloud-store-logic</artifactId>
+        <version>1.1</version>
+    </parent>
 
-	<dependencies>
+    <properties>
+        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+    </properties>
+
+    <dependencies>
         <dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-logic-core-services</artifactId>
-        	<version>1.1</version>
-        	<scope>provided</scope>
+            <groupId>org.cocome</groupId>
+            <artifactId>cloud-logic-core-services</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-registry-client</artifactId>
-        	<version>1.1</version>
-        	<scope>provided</scope>
+            <groupId>org.cocome</groupId>
+            <artifactId>cloud-registry-client</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-        	<groupId>org.cocome</groupId>
-        	<artifactId>cloud-logic-core-impl</artifactId>
-        	<version>1.1</version>
-        	<scope>provided</scope>
+            <groupId>org.cocome</groupId>
+            <artifactId>cloud-logic-core-impl</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
         </dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-1.2-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
-			<!-- This dependency is necessary because the standard javaee library doesn't provide javadocs -->
-			<groupId>org.jboss.spec</groupId>
-			<artifactId>jboss-javaee-all-6.0</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jglue.cdi-unit</groupId>
+            <artifactId>cdi-unit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se</artifactId>
+        </dependency>
+        <dependency>
+            <!-- This dependency is necessary because the standard javaee library doesn't provide javadocs -->
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-all-6.0</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>org/cocome/tradingsystem/util/Configuration.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-ejb-plugin</artifactId>
-				<configuration>
-					<generateClient>true</generateClient>
-					<clientIncludes>
-						<clientInclude>**/I*.class</clientInclude>
-						<clientInclude>**/*Event.class</clientInclude>
-						<clientInclude>**/*Exception.class</clientInclude>
-						<clientInclude>**/scope/CashDeskSessionScoped.class</clientInclude>
-						<clientInclude>**/datatypes/*.class</clientInclude>
-					</clientIncludes>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>org/cocome/tradingsystem/util/Configuration.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <generateClient>true</generateClient>
+                    <clientIncludes>
+                        <clientInclude>**/I*.class</clientInclude>
+                        <clientInclude>**/*Event.class</clientInclude>
+                        <clientInclude>**/*Exception.class</clientInclude>
+                        <clientInclude>**/scope/CashDeskSessionScoped.class</clientInclude>
+                        <clientInclude>**/datatypes/*.class</clientInclude>
+                    </clientIncludes>
+                </configuration>
+            </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack-properties-file</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack-dependencies</goal>
-						</goals>
-						<configuration>
-							<includeArtifactIds>cloud-logic-core</includeArtifactIds>
-							<outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
-							<includes>**\/*.properties</includes>
-						</configuration>
-					</execution>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
- 						<configuration>
-							<outputDirectory>${endorsed.dir}</outputDirectory>
-							<silent>true</silent>
-							<artifactItems>
-								<artifactItem>
-									<groupId>javax</groupId>
-									<artifactId>javaee-endorsed-api</artifactId>
-									<version>6.0</version>
-									<type>jar</type>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
-				<executions> <execution> <id>attach-javadocs</id> <goals> <goal>jar</goal> 
-				</goals> </execution> </executions> </plugin> -->
-		</plugins>
-	</build>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-properties-file</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>cloud-logic-core</includeArtifactIds>
+                            <outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
+                            <includes>**\/*.properties</includes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${endorsed.dir}</outputDirectory>
+                            <silent>true</silent>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>javax</groupId>
+                                    <artifactId>javaee-endorsed-api</artifactId>
+                                    <version>6.0</version>
+                                    <type>jar</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
