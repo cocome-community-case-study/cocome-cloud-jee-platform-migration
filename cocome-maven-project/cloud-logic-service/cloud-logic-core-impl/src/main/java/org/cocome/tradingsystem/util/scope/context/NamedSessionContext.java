@@ -38,16 +38,11 @@ public class NamedSessionContext implements Serializable, INamedSessionContext {
 	
 	private ThreadLocal<NamedSessionContextHolder> contextHolder;
 	
-	/**
-	 * 
-	 * 
-	 * @param providedScope
-	 */
 	public NamedSessionContext(Class<? extends Annotation> providedScope) {
-		isActive = new ThreadLocal<Boolean>();
-		this.providedScope = new ThreadLocal<Class<? extends Annotation>>();
-		context = new ThreadLocal<IContextRegistry>();
-		contextHolder = new ThreadLocal<NamedSessionContextHolder>();
+		isActive = new ThreadLocal<>();
+		this.providedScope = new ThreadLocal<>();
+		context = new ThreadLocal<>();
+		contextHolder = new ThreadLocal<>();
 		
 		isActive.set(false);
 		context.set(null);
@@ -88,8 +83,8 @@ public class NamedSessionContext implements Serializable, INamedSessionContext {
         		return null;
         	}
         	
-            T t = (T) bean.create(creationalContext);
-            NamedSessionInstance<T> customInstance = new NamedSessionInstance<T>();
+            T t = bean.create(creationalContext);
+            NamedSessionInstance<T> customInstance = new NamedSessionInstance<>();
             customInstance.bean = bean;
             customInstance.ctx = creationalContext;
             customInstance.instance = t;
@@ -126,7 +121,7 @@ public class NamedSessionContext implements Serializable, INamedSessionContext {
 	 */
 	@Override
 	public boolean activate(IContextRegistry context) {
-		if (context != null && context.getContextName() != "") {
+		if (context != null && !context.getContextName().equals("")) {
 			this.context.set(context);
 			isActive.set(true);
 			NamedSessionContextHolder holder = NamedSessionContextHolder.getInstance(getName());
