@@ -646,10 +646,10 @@ public interface IEnterpriseManager {
                     long recipeId) throws NotInDatabaseException;
 
     @WebMethod
-    RecipeTO queryRecipeByCustomProductId(
+    RecipeTO queryRecipeByCustomProductBarcode(
             @XmlElement(required = true)
             @WebParam(name = "customProductID")
-                    long customProductId) throws NotInDatabaseException;
+                    long customProductBarcode) throws NotInDatabaseException;
 
     @WebMethod
     long createRecipe(

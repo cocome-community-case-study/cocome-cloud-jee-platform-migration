@@ -1,0 +1,9 @@
+<!DOCTYPE bindings>
+<bindings version="2.1" xmlns="http://java.sun.com/xml/ns/jaxb"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <bindings if-exists="true" schemaLocation="IConfigurator_schema2.xsd">
+        <bindings node="//xsd:complexType[@name='ParameterValueTO']">
+            <class ref="org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO"/>
+        </bindings>
+    </bindings>
+</bindings>

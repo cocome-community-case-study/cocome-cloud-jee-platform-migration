@@ -808,8 +808,8 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public RecipeTO queryRecipeByCustomProductId(long customProductId) throws NotInDatabaseException {
-        final IRecipe r = enterpriseQuery.queryRecipeByCustomProductID(customProductId);
+    public RecipeTO queryRecipeByCustomProductBarcode(long customProductBarcode) throws NotInDatabaseException {
+        final IRecipe r = enterpriseQuery.queryRecipeByCustomProductBarcode(customProductBarcode);
         return plantFactory.fillRecipeTO(r);
     }
 

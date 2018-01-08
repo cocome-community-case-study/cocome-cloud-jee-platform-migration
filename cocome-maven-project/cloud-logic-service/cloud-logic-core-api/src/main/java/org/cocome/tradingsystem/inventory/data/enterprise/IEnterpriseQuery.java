@@ -282,7 +282,7 @@ public interface IEnterpriseQuery {
 
     IRecipe queryRecipeByID(long recipeId) throws NotInDatabaseException;
 
-    IRecipe queryRecipeByCustomProductID(long id) throws NotInDatabaseException;
+    IRecipe queryRecipeByCustomProductBarcode(long barcode) throws NotInDatabaseException;
 
     Collection<IEntryPointInteraction> queryEntryPointInteractionsByRecipeId(long recipeId)
             throws NotInDatabaseException;

@@ -11,6 +11,7 @@ public class CashDeskViewData implements Serializable {
     private boolean cashDeskNameNeeded = true;
 
     private boolean saleStarted = false;
+
     private boolean parameterInputMode = false;
     private boolean cashPayment = false;
     private boolean cardPayment = false;
@@ -112,5 +113,9 @@ public class CashDeskViewData implements Serializable {
 
     public boolean isParameterInputMode() {
         return parameterInputMode;
+    }
+
+    public void setParameterInputMode(boolean parameterInputMode) {
+        this.parameterInputMode = parameterInputMode;
     }
 }

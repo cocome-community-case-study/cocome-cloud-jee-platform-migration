@@ -4,12 +4,15 @@ import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.registry.client.ApplicationHelper;
 import org.cocome.cloud.logic.stub.*;
 import org.cocome.cloud.registry.service.Names;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
 @SessionScoped
 public class CashDeskQuery implements Serializable {
@@ -26,6 +29,8 @@ public class CashDeskQuery implements Serializable {
     private IExpressLight expressLight;
 
     private ICardReader cardReader;
+
+    private IConfigurator configurator;
 
     private IPrinter printer;
 
@@ -224,6 +229,26 @@ public class CashDeskQuery implements Serializable {
         try {
             lookupCashDeskComponents(storeID);
             barcodeScanner.sendProductBarcode(cashDeskName, storeID, barcode);
+        } catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
+                | NotInDatabaseException_Exception | ProductOutOfStockException_Exception
+                | NoSuchProductException_Exception e) {
+            LOG.error(String.format("Exception while scanning barcode at cashdesk %s in store %d: %s\n", cashDeskName,
+                    storeID, e.getMessage()), e);
+            throw e;
+        } catch (SOAPFaultException e) {
+            LOG.error(String.format("Exception while retrieving express mode state at cashdesk %s in store %d: %s\n",
+                    cashDeskName, storeID, getSOAPFaultMessage(e)), e);
+            throw new UnhandledException_Exception(getSOAPFaultMessage(e));
+        }
+    }
+
+    public void enterParameterValues(String cashDeskName, long storeID, List<ParameterValueTO> parameterValues)
+            throws UnhandledException_Exception, IllegalCashDeskStateException_Exception,
+            NotInDatabaseException_Exception, NoSuchProductException_Exception, ProductOutOfStockException_Exception{
+        try {
+            lookupCashDeskComponents(storeID);
+            //TODO
+            configurator.sendParameterValues(cashDeskName, storeID, parameterValues);
         } catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
                 | NotInDatabaseException_Exception | ProductOutOfStockException_Exception
                 | NoSuchProductException_Exception e) {

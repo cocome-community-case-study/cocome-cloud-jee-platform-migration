@@ -19,7 +19,6 @@
 package org.cocome.tradingsystem.cashdeskline.cashdesk.configurator;
 
 import org.cocome.tradingsystem.cashdeskline.events.ParameterValuesEnteredEvent;
-import org.cocome.tradingsystem.cashdeskline.events.ProductBarcodeScannedEvent;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
@@ -30,7 +29,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 @CashDeskSessionScoped
-public class Configurator implements IConfigurator, Serializable {
+public class ConfiguratorModel implements IConfiguratorModel, Serializable {
     private static final long serialVersionUID = -1L;
 
     @Inject

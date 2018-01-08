@@ -109,6 +109,20 @@
                     </execution>
 
                     <execution>
+                        <id>ConfiguratorWS</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <className>
+                                org.cocome.logic.webservice.cashdeskline.cashdeskservice.configuratorservice.IConfigurator
+                            </className>
+                            <outputFile>${project.basedir}/src/main/resources/wsdl/IConfigurator.wsdl</outputFile>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
                         <id>BarcodeScannerWS</id>
                         <phase>process-classes</phase>
                         <configuration>
@@ -299,6 +313,17 @@
                                     <wsdlLocation>
                                         ${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}${logic.cashDeskService}/ICashDesk?wsdl
                                     </wsdlLocation>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>src/main/resources/wsdl/IConfigurator.wsdl</wsdl>
+                                    <wsdlLocation>
+                                        ${logic.store.protocol}://${logic.store.host}:${logic.store.httpPort}${logic.store.baseDir}${logic.cashDeskService}/IConfigurator?wsdl
+                                    </wsdlLocation>
+                                    <bindingFiles>
+                                        <bindingFile>
+                                            ${project.basedir}/src/main/resources/wsdl/configuratorBindings.xml
+                                        </bindingFile>
+                                    </bindingFiles>
                                 </wsdlOption>
                                 <wsdlOption>
                                     <wsdl>src/main/resources/wsdl/IBarcodeScanner.wsdl</wsdl>

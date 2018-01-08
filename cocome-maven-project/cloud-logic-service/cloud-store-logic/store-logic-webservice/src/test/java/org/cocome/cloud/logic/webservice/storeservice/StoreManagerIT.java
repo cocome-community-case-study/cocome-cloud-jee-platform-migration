@@ -25,6 +25,7 @@ import org.cocome.test.TestConfig;
 import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
+import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.application.store.OnDemandItemTO;
 import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.SaleEntryTO;

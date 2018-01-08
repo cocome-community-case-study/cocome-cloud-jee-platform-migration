@@ -51,7 +51,7 @@ public class CustomProduct extends Product implements ICustomProduct {
     @Override
     public IRecipe getRecipe() throws NotInDatabaseException {
         if(this.recipe == null) {
-            this.recipe = enterpriseQuery.queryRecipeByCustomProductID(this.getId());
+            this.recipe = enterpriseQuery.queryRecipeByCustomProductBarcode(this.getBarcode());
         }
         return recipe;
     }

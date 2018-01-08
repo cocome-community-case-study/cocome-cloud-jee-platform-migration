@@ -13,12 +13,12 @@ public class ConfiguratorEventHandler implements IConfiguratorEventHandler {
     private static final Logger LOG = Logger.getLogger(ConfiguratorEventHandler.class);
 
     @Inject
-    private IConfigurator configurator;
+    private IConfiguratorModel configuratorModel;
 
     @Override
     public void onEvent(final CustomProductEnteredEvent event) {
         try {
-            configurator.setParameters(event.getCustomProduct().getRecipe().getParameters());
+            configuratorModel.setParameters(event.getCustomProduct().getRecipe().getParameters());
         } catch (NotInDatabaseException e) {
             LOG.error("Error while loading recipe for product: " + event.getCustomProduct().getName(), e);
             e.printStackTrace();

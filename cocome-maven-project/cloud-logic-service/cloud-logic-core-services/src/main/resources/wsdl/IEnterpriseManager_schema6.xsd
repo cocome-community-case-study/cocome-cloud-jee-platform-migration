@@ -147,8 +147,8 @@
   <xs:element name="queryPlantOperationsByPlantIdResponse" type="tns:queryPlantOperationsByPlantIdResponse"/>
   <xs:element name="queryPlantsByEnterpriseID" type="tns:queryPlantsByEnterpriseID"/>
   <xs:element name="queryPlantsByEnterpriseIDResponse" type="tns:queryPlantsByEnterpriseIDResponse"/>
-  <xs:element name="queryRecipeByCustomProductId" type="tns:queryRecipeByCustomProductId"/>
-  <xs:element name="queryRecipeByCustomProductIdResponse" type="tns:queryRecipeByCustomProductIdResponse"/>
+  <xs:element name="queryRecipeByCustomProductBarcode" type="tns:queryRecipeByCustomProductBarcode"/>
+  <xs:element name="queryRecipeByCustomProductBarcodeResponse" type="tns:queryRecipeByCustomProductBarcodeResponse"/>
   <xs:element name="queryRecipeById" type="tns:queryRecipeById"/>
   <xs:element name="queryRecipeByIdResponse" type="tns:queryRecipeByIdResponse"/>
   <xs:element name="queryRecipeNodeById" type="tns:queryRecipeNodeById"/>
@@ -616,16 +616,6 @@
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns2:EnterpriseTO"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="queryRecipeByCustomProductId">
-    <xs:sequence>
-      <xs:element name="customProductID" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="queryRecipeByCustomProductIdResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="ns4:RecipeTO"/>
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="queryEntryPointInteractionById">
     <xs:sequence>
       <xs:element name="entryPointInteractionID" type="xs:long"/>
@@ -817,6 +807,16 @@
   <xs:complexType name="queryNominalParametersByRecipeOperationIdResponse">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns3:NominalParameterTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeByCustomProductBarcode">
+    <xs:sequence>
+      <xs:element name="customProductID" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryRecipeByCustomProductBarcodeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns4:RecipeTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryRecipesByEnterpriseId">

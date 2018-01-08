@@ -142,7 +142,8 @@
                                     <tr>
                                         <td colspan="2"><h:commandButton style="width: 350px"
                                                              value="#{strings['cashdesk.sale.scan.button.label']}"
-                                                             action="#{cashDeskView.scanBarcode}"/></td>
+                                                             action="#{cashDeskView.scanBarcode}"
+                                                             disabled="#{cashDeskView.parameterInputMode}" /></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" align="center">

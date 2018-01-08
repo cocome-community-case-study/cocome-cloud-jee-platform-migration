@@ -49,4 +49,8 @@ public class RecipeDAO extends AbstractEnterpriseDAO<RecipeTO> {
             throws NotInDatabaseException_Exception {
         return serviceClient.queryRecipeById(dbId);
     }
+
+    public RecipeTO queryRecipe(long barcode) throws NotInDatabaseException_Exception {
+        return this.createServiceClient().queryRecipeByCustomProductBarcode(barcode);
+    }
 }

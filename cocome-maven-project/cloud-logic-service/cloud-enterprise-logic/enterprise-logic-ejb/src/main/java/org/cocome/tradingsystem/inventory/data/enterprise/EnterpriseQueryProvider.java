@@ -231,8 +231,8 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public IRecipe queryRecipeByCustomProductID(long customProductId) throws NotInDatabaseException {
-        return getSingleEntity(csvHelper::getRecipe, "Recipe", "customProduct.id==" + customProductId);
+    public IRecipe queryRecipeByCustomProductBarcode(long customProductBarcode) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getRecipe, "Recipe", "customProduct.barcode==" + customProductBarcode);
     }
 
     @Override

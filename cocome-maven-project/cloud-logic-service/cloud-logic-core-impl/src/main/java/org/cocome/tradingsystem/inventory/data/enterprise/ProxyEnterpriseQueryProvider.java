@@ -395,9 +395,9 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public IRecipe queryRecipeByCustomProductID(long customProductId) throws NotInDatabaseException {
+    public IRecipe queryRecipeByCustomProductBarcode(long customProductBarcode) throws NotInDatabaseException {
         return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
-                plantFactory.convertToRecipe(enterpriseManager.queryRecipeByCustomProductId(customProductId)));
+                plantFactory.convertToRecipe(enterpriseManager.queryRecipeByCustomProductBarcode(customProductBarcode)));
     }
 
     @Override

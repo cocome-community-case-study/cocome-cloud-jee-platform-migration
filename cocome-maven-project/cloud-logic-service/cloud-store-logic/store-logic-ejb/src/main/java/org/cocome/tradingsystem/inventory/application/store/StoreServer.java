@@ -381,7 +381,7 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
                 si.setAmount(si.getAmount() - 1);
                 pctx.updateEntity(si);
             } else if (entry.getItemInfo().getItem() instanceof OnDemandItemTO) {
-                final IRecipe recipe = enterpriseQuery.queryRecipeByCustomProductID(entry.getItemInfo().getProduct().getId());
+                final IRecipe recipe = enterpriseQuery.queryRecipeByCustomProductBarcode(entry.getItemInfo().getProduct().getBarcode());
                 final RecipeTO recipeTO = plantFactory.fillRecipeTO(recipe);
                 final ProductionOrderEntryTO productionOrderEntry = new ProductionOrderEntryTO();
                 productionOrderEntry.setAmount(1);

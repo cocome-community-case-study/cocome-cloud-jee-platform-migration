@@ -16,32 +16,37 @@
  **************************************************************************
  */
 
-package org.cocome.tradingsystem.cashdeskline.cashdesk.configurator;
+package org.cocome.cloud.web.frontend.cashdesk;
 
+import org.cocome.cloud.logic.webservice.StreamUtil;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
-import org.cocome.tradingsystem.inventory.data.plant.parameter.IParameter;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Represents an configurator touch screen for configuring a custom product
+ * The used to group parameters based on their category
  *
  * @author Rudolf Biczok
  */
-public interface IConfigurator {
-    /**
-     * @return the parameters of the previously selected product
-     */
-    Collection<IParameter> getParameters();
+public class Category {
 
-    /**
-     * @param parameters the parameters of the previously selected product
-     */
-    void setParameters(final Collection<IParameter> parameters);
+    private final String name;
+    private final List<ParameterValueTO> parameters;
 
-    /**
-     *
-     * @param parameterValues
-     */
-    void sendParameterValues(final Collection<ParameterValueTO> parameterValues);
+    public Category(String name, List<ParameterTO> parameters) {
+        this.name = name;
+        this.parameters = StreamUtil.ofNullable(parameters)
+                .map(param -> new ParameterValueTO(null, param))
+                .collect(Collectors.toList());
+    }
+
+    public List<ParameterValueTO> getParameterValues() {
+        return parameters;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -1,0 +1,75 @@
+<xs:schema xmlns:ns1="http://parameter.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns2="http://recipe.plant.application.inventory.tradingsystem.cocome.org" xmlns:ns3="http://enterprise.application.inventory.tradingsystem.cocome.org" xmlns:ns4="http://store.application.inventory.tradingsystem.cocome.org/" xmlns:ns5="http://plant.application.inventory.tradingsystem.cocome.org/" xmlns:ns6="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:tns="http://configurator.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://configurator.cashdesk.cashdeskline.webservice.logic.cocome.org/">
+  <xs:import namespace="http://parameter.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IConfigurator_schema4.xsd"/>
+  <xs:import namespace="http://recipe.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IConfigurator_schema2.xsd"/>
+  <xs:import namespace="http://enterprise.application.inventory.tradingsystem.cocome.org" schemaLocation="IConfigurator_schema6.xsd"/>
+  <xs:import namespace="http://store.application.inventory.tradingsystem.cocome.org/" schemaLocation="IConfigurator_schema1.xsd"/>
+  <xs:import namespace="http://plant.application.inventory.tradingsystem.cocome.org/" schemaLocation="IConfigurator_schema3.xsd"/>
+  <xs:import namespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" schemaLocation="IConfigurator_schema5.xsd"/>
+  <xs:element name="BooleanParameterTO" type="ns1:BooleanParameterTO"/>
+  <xs:element name="ConditionalExpressionInfo" type="ns6:ConditionalExpressionInfo"/>
+  <xs:element name="CustomProductTO" type="ns3:CustomProductTO"/>
+  <xs:element name="EnterpriseTO" type="ns4:EnterpriseTO"/>
+  <xs:element name="ExpressionInfo" type="ns6:ExpressionInfo"/>
+  <xs:element name="MarkupInfo" type="ns6:MarkupInfo"/>
+  <xs:element name="NominalParameterTO" type="ns1:NominalParameterTO"/>
+  <xs:element name="PUOperationInfo" type="ns6:PUOperationInfo"/>
+  <xs:element name="ParameterTO" type="ns1:ParameterTO"/>
+  <xs:element name="ParameterValueTO" type="ns2:ParameterValueTO"/>
+  <xs:element name="PlantOperationTO" type="ns2:PlantOperationTO"/>
+  <xs:element name="PlantTO" type="ns5:PlantTO"/>
+  <xs:element name="ProductTO" type="ns4:ProductTO"/>
+  <xs:element name="RecipeOperationTO" type="ns2:RecipeOperationTO"/>
+  <xs:element name="RecipeTO" type="ns2:RecipeTO"/>
+  <xs:element name="sendParameterValues" type="tns:sendParameterValues"/>
+  <xs:element name="sendParameterValuesResponse" type="tns:sendParameterValuesResponse"/>
+  <xs:complexType name="sendParameterValues">
+    <xs:sequence>
+      <xs:element name="cashDeskName" type="xs:string"/>
+      <xs:element name="storeID" type="xs:long"/>
+      <xs:element maxOccurs="unbounded" name="parameterValues" type="ns2:ParameterValueTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sendParameterValuesResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="cashDeskState">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EXPECTING_SALE"/>
+      <xs:enumeration value="EXPECTING_ITEMS"/>
+      <xs:enumeration value="EXPECTING_PAYMENT"/>
+      <xs:enumeration value="PAYING_BY_CASH"/>
+      <xs:enumeration value="PAID_BY_CASH"/>
+      <xs:enumeration value="EXPECTING_PARAMETER_VALUES"/>
+      <xs:enumeration value="EXPECTING_CARD_INFO"/>
+      <xs:enumeration value="PAYING_BY_CREDIT_CARD"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="IllegalCashDeskStateException" type="tns:IllegalCashDeskStateException"/>
+  <xs:complexType name="IllegalCashDeskStateException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="state" type="tns:cashDeskState"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="legalStates" type="tns:cashDeskState"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UnhandledException" type="tns:UnhandledException"/>
+  <xs:complexType name="UnhandledException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProductOutOfStockException" type="tns:ProductOutOfStockException"/>
+  <xs:complexType name="ProductOutOfStockException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NoSuchProductException" type="tns:NoSuchProductException"/>
+  <xs:complexType name="NoSuchProductException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

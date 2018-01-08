@@ -2,6 +2,7 @@ package org.cocome.cloud.web.frontend.store;
 
 import org.apache.log4j.Logger;
 import org.cocome.cloud.logic.stub.NotInDatabaseException_Exception;
+import org.cocome.cloud.web.connector.enterpriseconnector.EnterpriseQuery;
 import org.cocome.cloud.web.data.enterprisedata.EnterpriseDAO;
 import org.cocome.cloud.web.data.storedata.ProductWrapper;
 import org.cocome.cloud.web.data.storedata.StoreDAO;

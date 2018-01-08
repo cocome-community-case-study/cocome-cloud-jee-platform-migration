@@ -2,10 +2,13 @@ package org.cocome.cloud.web.data.cashdeskdata;
 
 import org.cocome.cloud.logic.stub.*;
 import org.cocome.cloud.web.connector.cashdeskconnector.CashDeskQuery;
+import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Collection;
+import java.util.List;
 
 @Named
 @RequestScoped
@@ -61,6 +64,12 @@ public class CashDeskDAO {
             throws UnhandledException_Exception, IllegalCashDeskStateException_Exception,
             NotInDatabaseException_Exception, NoSuchProductException_Exception, ProductOutOfStockException_Exception {
         cashDeskQuery.enterBarcode(cashDeskName, storeID, barcode);
+    }
+
+    public void enterParameterValues(String cashDeskName, long storeID, List<ParameterValueTO> parameterValues)
+            throws UnhandledException_Exception, IllegalCashDeskStateException_Exception,
+            NotInDatabaseException_Exception, NoSuchProductException_Exception, ProductOutOfStockException_Exception {
+        cashDeskQuery.enterParameterValues(cashDeskName, storeID, parameterValues);
     }
 
 }

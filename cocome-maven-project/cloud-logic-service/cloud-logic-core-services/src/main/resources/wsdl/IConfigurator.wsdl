@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="IConfiguratorService" targetNamespace="http://configurator.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://configurator.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://configurator.cashdesk.cashdeskline.webservice.logic.cocome.org/" schemaLocation="IConfigurator_schema7.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="IllegalCashDeskStateException">
+    <wsdl:part name="IllegalCashDeskStateException" element="tns:IllegalCashDeskStateException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendParameterValuesResponse">
+    <wsdl:part name="parameters" element="tns:sendParameterValuesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NoSuchProductException">
+    <wsdl:part name="NoSuchProductException" element="tns:NoSuchProductException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendParameterValues">
+    <wsdl:part name="parameters" element="tns:sendParameterValues">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UnhandledException">
+    <wsdl:part name="UnhandledException" element="tns:UnhandledException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ProductOutOfStockException">
+    <wsdl:part name="ProductOutOfStockException" element="tns:ProductOutOfStockException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IConfigurator">
+    <wsdl:operation name="sendParameterValues">
+      <wsdl:input name="sendParameterValues" message="tns:sendParameterValues">
+    </wsdl:input>
+      <wsdl:output name="sendParameterValuesResponse" message="tns:sendParameterValuesResponse">
+    </wsdl:output>
+      <wsdl:fault name="UnhandledException" message="tns:UnhandledException">
+    </wsdl:fault>
+      <wsdl:fault name="ProductOutOfStockException" message="tns:ProductOutOfStockException">
+    </wsdl:fault>
+      <wsdl:fault name="NoSuchProductException" message="tns:NoSuchProductException">
+    </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException" message="tns:IllegalCashDeskStateException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IConfiguratorServiceSoapBinding" type="tns:IConfigurator">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sendParameterValues">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sendParameterValues">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendParameterValuesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="UnhandledException">
+        <soap:fault name="UnhandledException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ProductOutOfStockException">
+        <soap:fault name="ProductOutOfStockException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="NoSuchProductException">
+        <soap:fault name="NoSuchProductException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="IllegalCashDeskStateException">
+        <soap:fault name="IllegalCashDeskStateException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IConfiguratorService">
+    <wsdl:port name="IConfiguratorPort" binding="tns:IConfiguratorServiceSoapBinding">
+      <soap:address location="http://localhost:9090/IConfiguratorPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

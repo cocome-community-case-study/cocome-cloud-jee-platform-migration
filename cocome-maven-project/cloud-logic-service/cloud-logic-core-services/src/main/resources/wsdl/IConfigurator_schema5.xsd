@@ -1,0 +1,39 @@
+<xs:schema xmlns:ns1="http://configurator.cashdesk.cashdeskline.webservice.logic.cocome.org/" xmlns:tns="http://expression.plant.application.inventory.tradingsystem.cocome.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://expression.plant.application.inventory.tradingsystem.cocome.org" version="1.0">
+
+  <xs:import namespace="http://configurator.cashdesk.cashdeskline.webservice.logic.cocome.org/" schemaLocation="IConfigurator_schema7.xsd"/>
+
+  <xs:complexType name="MarkupInfo">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="expressions" type="tns:ExpressionInfo"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="ExpressionInfo">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="PUOperationInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:ExpressionInfo">
+        <xs:sequence>
+          <xs:element name="productionUnitClassName" type="xs:string"/>
+          <xs:element name="operationId" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ConditionalExpressionInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:ExpressionInfo">
+        <xs:sequence>
+          <xs:element name="parameterName" type="xs:string"/>
+          <xs:element name="testValue" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" name="onTrueExpressions" type="tns:ExpressionInfo"/>
+          <xs:element maxOccurs="unbounded" name="onFalseExpressions" type="tns:ExpressionInfo"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+</xs:schema>

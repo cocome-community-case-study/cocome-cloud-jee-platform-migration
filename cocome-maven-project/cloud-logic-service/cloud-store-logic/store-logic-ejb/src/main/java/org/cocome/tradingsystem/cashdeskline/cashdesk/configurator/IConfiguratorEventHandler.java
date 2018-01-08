@@ -3,7 +3,7 @@ package org.cocome.tradingsystem.cashdeskline.cashdesk.configurator;
 import org.cocome.tradingsystem.cashdeskline.events.CustomProductEnteredEvent;
 
 /**
- * Event handler for {@link IConfigurator}
+ * Event handler for {@link IConfiguratorModel}
  *
  * @author Rudolf Biczok
  */

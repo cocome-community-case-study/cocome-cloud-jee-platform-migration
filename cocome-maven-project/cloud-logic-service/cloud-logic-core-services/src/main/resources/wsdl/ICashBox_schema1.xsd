@@ -84,7 +84,7 @@
       <xs:enumeration value="EXPECTING_PAYMENT"/>
       <xs:enumeration value="PAYING_BY_CASH"/>
       <xs:enumeration value="PAID_BY_CASH"/>
-      <xs:enumeration value="EXPECTING_PARAM_INFO"/>
+      <xs:enumeration value="EXPECTING_PARAMETER_VALUES"/>
       <xs:enumeration value="EXPECTING_CARD_INFO"/>
       <xs:enumeration value="PAYING_BY_CREDIT_CARD"/>
     </xs:restriction>
