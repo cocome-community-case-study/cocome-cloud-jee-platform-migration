@@ -582,7 +582,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
     }
 
     @Override
-    public IRecipeNode convertToRecipeNode(RecipeNodeTO recipeNode) throws NotInDatabaseException {
+    public IRecipeNode convertToRecipeNode(RecipeNodeTO recipeNode) {
         final IRecipeNode result = getNewRecipeNode();
         result.setId(recipeNode.getId());
         result.setOperation(convertToRecipeOperation(recipeNode.getOperation()));
