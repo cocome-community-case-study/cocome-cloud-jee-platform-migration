@@ -46,6 +46,8 @@ import java.util.function.Function;
  */
 public class TestUtils {
 
+    public static final String REAL_XPPU_ENDPOINT = System.getProperty("test.xppu.url");
+
     private static final Configuration CONFIG = injectFakeCDIObject(Configuration.class, Collections.emptyMap());
 
     public static <T> T injectFakeCDIObject(Class<T> clazz, Map<Class<?>, Class<?>> mappings) {

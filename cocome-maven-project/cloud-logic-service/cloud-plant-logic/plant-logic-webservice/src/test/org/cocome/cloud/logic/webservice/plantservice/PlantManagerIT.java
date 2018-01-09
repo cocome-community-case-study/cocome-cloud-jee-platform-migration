@@ -21,6 +21,7 @@ package org.cocome.cloud.logic.webservice.plantservice;
 import org.cocome.cloud.logic.stub.IEnterpriseManager;
 import org.cocome.cloud.logic.stub.IPlantManager;
 import org.cocome.test.TestConfig;
+import org.cocome.test.TestUtils;
 import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo;
@@ -40,7 +41,6 @@ import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperatio
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -126,12 +126,15 @@ public class PlantManagerIT {
     /*
      * Can only be executed when xPPU device is running at the IP address below
      */
-    @Ignore
+    @Test
     public void testPUCImport() throws Exception {
+        if (TestUtils.REAL_XPPU_ENDPOINT.isEmpty()) {
+            return;
+        }
         final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
         final PlantTO plant = WSTestUtils.createPlant(enterprise, em);
 
-        final long pucId = pm.importProductionUnitClass("Test", "http://129.187.88.30:4567", plant);
+        final long pucId = pm.importProductionUnitClass("Test", TestUtils.REAL_XPPU_ENDPOINT, plant);
 
         Assert.assertTrue(pucId != 0);
     }
@@ -143,9 +146,12 @@ public class PlantManagerIT {
 
         /* Environmental setup */
 
-        final PUCImporter xppu = new PUCImporter("xPPU", XPPU.values(), plant, pm);
-        //final PUCImporter xppu = new PUCImporter("xPPU", plant, pm);
-
+        final PUCImporter xppu;
+        if(TestUtils.REAL_XPPU_ENDPOINT.isEmpty()) {
+            xppu = new PUCImporter("xPPU", XPPU.values(), plant, pm);
+        } else {
+            xppu = new PUCImporter("xPPU", plant, pm);
+        }
         final PUCImporter fmu = new PUCImporter("FMU", FMU.values(), plant, pm);
 
         /* Production Units */
@@ -154,7 +160,7 @@ public class PlantManagerIT {
         xppu1.setPlant(plant);
         xppu1.setProductionUnitClass(xppu.getProductionUnitClass());
         xppu1.setDouble(true);
-        xppu1.setInterfaceUrl("http://129.187.88.30:4567");
+        xppu1.setInterfaceUrl(TestUtils.REAL_XPPU_ENDPOINT);
         xppu1.setLocation("Some Place 1");
         xppu1.setId(pm.createProductionUnit(xppu1));
 

@@ -45,6 +45,7 @@ import java.util.*;
  * @author Rudolf biczok
  */
 public class WSTestUtils {
+
     @SuppressWarnings("unchecked")
     public static <T> T createJaxWsClient(final Class<T> clientClass, final String url) {
         final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
