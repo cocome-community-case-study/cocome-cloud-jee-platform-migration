@@ -75,6 +75,7 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
     private static final Set<CashDeskState> START_SALE_STATES = CashDeskModel.setOfStates(
             CashDeskState.EXPECTING_SALE,
             CashDeskState.EXPECTING_ITEMS,
+            CashDeskState.EXPECTING_PARAMETER_VALUES,
             CashDeskState.EXPECTING_PAYMENT,
             CashDeskState.PAYING_BY_CASH,
             CashDeskState.EXPECTING_CARD_INFO,
@@ -290,7 +291,7 @@ public class CashDeskModel implements Serializable, ICashDeskModel {
             long storeID = registry.getLong(RegistryKeys.STORE_ID);
             try {
                 final ProductWithItemTO productStockItem =
-                        this.inventory.getProductWithStockItem(storeID, barcode);
+                        this.inventory.getProductWithItem(storeID, barcode);
                 if (productStockItem.getProduct() instanceof CustomProductTO) {
                     this.state = CashDeskState.EXPECTING_PARAMETER_VALUES;
                     this.customProductEnteredEvents.fire(new CustomProductEnteredEvent(

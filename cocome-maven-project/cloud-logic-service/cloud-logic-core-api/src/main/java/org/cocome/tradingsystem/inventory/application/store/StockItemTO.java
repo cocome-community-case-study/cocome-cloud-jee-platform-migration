@@ -53,6 +53,16 @@ public class StockItemTO extends ItemTO {
     @XmlElement(name = "incomingAmount")
     private long __incomingAmount;
 
+    public StockItemTO() {
+    }
+
+    public StockItemTO(long amount, long minStock, long maxStock, long salesPrice) {
+        super(salesPrice);
+        this.__amount = amount;
+        this.__minStock = minStock;
+        this.__maxStock = maxStock;
+    }
+
     /**
      * Returns the stock amount.
      *

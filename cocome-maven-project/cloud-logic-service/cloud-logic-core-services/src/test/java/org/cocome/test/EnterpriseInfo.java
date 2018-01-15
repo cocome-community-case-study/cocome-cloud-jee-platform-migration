@@ -22,6 +22,7 @@ import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class EnterpriseInfo {
     private final List<RecipeTO> recipes;
     private final List<ParameterTO> recipeParameters;
     private final List<CustomProductInfo> customProducts;
+    private final List<ProductTO> products;
 
     /**
      * Minimal constructor
@@ -47,20 +49,23 @@ public class EnterpriseInfo {
      * @param stores         the store TOs
      * @param plants         the plant TOs
      * @param recipes        the recipe TOs
-     * @param customProducts the product data
+     * @param customProducts the custom products
+     * @param products       the regular products
      */
     public EnterpriseInfo(final EnterpriseTO enterprise,
                           final List<StoreWithEnterpriseTO> stores,
                           final List<PlantTO> plants,
                           final List<RecipeTO> recipes,
                           final List<ParameterTO> recipeParameters,
-                          final List<CustomProductInfo> customProducts) {
+                          final List<CustomProductInfo> customProducts,
+                          final List<ProductTO> products) {
         this.enterprise = enterprise;
         this.stores = stores;
         this.plants = plants;
         this.recipes = recipes;
         this.recipeParameters = recipeParameters;
         this.customProducts = customProducts;
+        this.products = products;
     }
 
     public EnterpriseTO getEnterprise() {
@@ -85,5 +90,9 @@ public class EnterpriseInfo {
 
     public List<CustomProductInfo> getCustomProducts() {
         return customProducts;
+    }
+
+    public List<ProductTO> getProducts() {
+        return products;
     }
 }

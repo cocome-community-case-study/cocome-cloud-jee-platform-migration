@@ -47,9 +47,71 @@
                                                 styleClass="cashdesk-express-light"/></td>
                                     </tr>
                                     <tr>
-                                        <td align="left"><b>#{strings['cashdesk.display.label']}</b>
-                                            <h:outputText id="result"
-                                                          value="#{cashDeskView.displayMessage}"/></td>
+                                        <td align="left">
+                                            <fieldset>
+                                                <legend>#{strings['cashdesk.display.label']}</legend>
+                                                <h:outputText id="result"
+                                                              value="#{cashDeskView.displayMessage}"/>
+                                            </fieldset>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left">
+                                            <fieldset>
+                                                <legend>Configurator:</legend>
+                                                <h:panelGroup rendered="#{cashDeskView.parameterInputMode}">
+                                                    <table width="100%">
+                                                        <ui:repeat
+                                                                value="#{cashDeskView.configuratorViewData.categories}"
+                                                                var="category">
+                                                            <tr>
+
+                                                                <td colspan="2">
+                                                                    <div class="heading-1"><span><h:outputText
+                                                                            value="#{category.name}"/></span></div>
+                                                                </td>
+                                                            </tr>
+
+                                                            <ui:repeat value="#{category.parameterValues}"
+                                                                       var="parameterValue">
+                                                                <tr>
+                                                                    <td>
+                                                                        <h:outputText
+                                                                                value="#{parameterValue.parameter.name}"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <h:panelGroup
+                                                                                rendered="#{parameterValue.parameter.class.simpleName eq 'BooleanParameterTO'}">
+                                                                            <h:selectBooleanCheckbox
+                                                                                    value="#{parameterValue.value}"/>
+                                                                        </h:panelGroup>
+                                                                        <h:panelGroup
+                                                                                rendered="#{parameterValue.parameter.class.simpleName eq 'NominalParameterTO'}">
+
+                                                                            <h:selectOneRadio
+                                                                                    value="#{parameterValue.value}"
+                                                                                    layout="pageDirection">
+                                                                                <f:selectItems
+                                                                                        value="#{parameterValue.parameter.options}"/>
+                                                                            </h:selectOneRadio>
+                                                                        </h:panelGroup>
+                                                                    </td>
+                                                                </tr>
+                                                            </ui:repeat>
+                                                        </ui:repeat>
+                                                        <tr>
+                                                            <td colspan="2" align="center">
+                                                                <h:commandButton id="submit-param"
+                                                                                 action="#{cashDeskView.enterParameterValues}"
+                                                                                 value="Submit Configuration"/>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </h:panelGroup>
+                                                <h:outputText rendered="#{not cashDeskView.parameterInputMode}"
+                                                              value="No custom product selected"/>
+                                            </fieldset>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td align="left"><h:panelGroup
@@ -65,7 +127,8 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><h:commandButton id="pay-sum"
+                                                    <td>
+                                                        <h:commandButton id="pay-sum"
                                                                          action="#{cashDeskView.enterCashAmount(cashAmount)}"
                                                                          value="#{strings['cashdesk.payment.button.cash.label']}"/>
                                                     </td>
@@ -133,17 +196,20 @@
                                     </tr>
                                     <tr>
                                         <td align="left">
-                                            <h:outputText style="font-weight: bold" value="#{strings['cashdesk.sale.product.barcode.label']}"/>
+                                            <h:outputText style="font-weight: bold"
+                                                          value="#{strings['cashdesk.sale.product.barcode.label']}"/>
                                         </td>
                                         <td align="right">
-                                            <h:inputText id="barcodetext" style="width: 100%" value="#{cashDeskView.barcode}"/>
+                                            <h:inputText id="barcodetext" style="width: 100%"
+                                                         value="#{cashDeskView.barcode}"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2"><h:commandButton style="width: 350px"
-                                                             value="#{strings['cashdesk.sale.scan.button.label']}"
-                                                             action="#{cashDeskView.scanBarcode}"
-                                                             disabled="#{cashDeskView.parameterInputMode}" /></td>
+                                                                         value="#{strings['cashdesk.sale.scan.button.label']}"
+                                                                         action="#{cashDeskView.scanBarcode}"
+                                                                         disabled="#{cashDeskView.parameterInputMode}"/>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" align="center">
@@ -236,7 +302,8 @@
                                         <td align="right"><h:commandButton id="pay-bar"
                                                                            style="width: 150px"
                                                                            value="#{strings['cashdesk.payment.cash.start.button.label']}"
-                                                                           action="#{cashDeskView.startCashPayment}"/>
+                                                                           action="#{cashDeskView.startCashPayment}"
+                                                                           disabled="#{cashDeskView.parameterInputMode}"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -244,7 +311,8 @@
                                                                            style="width: 150px"
                                                                            value="#{strings['cashdesk.payment.card.start.button.label']}"
                                                                            action="#{cashDeskView.startCardPayment}"
-                                                                           rendered="#{not cashDeskView.inExpressMode}"/>
+                                                                           rendered="#{not cashDeskView.inExpressMode}"
+                                                                           disabled="#{cashDeskView.parameterInputMode}"/>
                                         </td>
                                     </tr>
                                     <tr>

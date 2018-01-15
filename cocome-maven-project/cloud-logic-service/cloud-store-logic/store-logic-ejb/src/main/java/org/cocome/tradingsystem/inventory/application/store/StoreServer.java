@@ -350,6 +350,20 @@ public class StoreServer implements Serializable, IStoreInventoryManagerLocal, I
     }
 
     @Override
+    public ProductWithItemTO getProductWithItem(long storeID, final long productBarCode) throws NoSuchProductException {
+        final IItem item = storeQuery.queryItem(storeID,
+                productBarCode);
+
+        if (item == null) {
+            throw new NoSuchProductException(
+                    "There is no item for product with barcode "
+                            + productBarCode);
+        }
+
+        return storeFactory.fillProductWithItemTO(item);
+    }
+
+    @Override
     public long accountSale(long storeID, final SaleTO sale)
             throws ProductOutOfStockException, NotInDatabaseException, UpdateException {
         return __bookSale(storeID, sale);

@@ -20,6 +20,7 @@ package org.cocome.test;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.cocome.cloud.logic.stub.*;
+import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
 import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo;
@@ -56,7 +57,7 @@ public class WSTestUtils {
 
     public static EnterpriseInfo createEnvironmentWithSimpleRecipe(final IEnterpriseManager em,
                                                                    final IPlantManager pm)
-            throws CreateException_Exception, NotInDatabaseException_Exception, UpdateException_Exception, RecipeException_Exception {
+            throws CreateException_Exception, NotInDatabaseException_Exception, RecipeException_Exception {
         final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
         final PlantTO plant = WSTestUtils.createPlant(enterprise, em);
         final StoreWithEnterpriseTO store = WSTestUtils.createStore(enterprise, em);
@@ -190,6 +191,12 @@ public class WSTestUtils {
         customProduct.setPurchasePrice(10);
         customProduct.setId(em.createProduct(customProduct));
 
+        final ProductTO product = new ProductTO();
+        product.setBarcode(new Date().getTime());
+        product.setName("Cola");
+        product.setPurchasePrice(10);
+        product.setId(em.createProduct(product));
+
         /* Recipe creation */
 
         final RecipeTO recipe = new RecipeTO();
@@ -270,7 +277,8 @@ public class WSTestUtils {
                 Collections.singletonList(recipe),
                 Arrays.asList(cparam1, cparam2),
                 Collections.singletonList(new CustomProductInfo(customProduct,
-                        Arrays.asList(cparam1, cparam2))));
+                        Arrays.asList(cparam1, cparam2))),
+                Collections.singletonList(product));
     }
 
     public static EnterpriseTO createEnterprise(final IEnterpriseManager em)
@@ -317,8 +325,7 @@ public class WSTestUtils {
     }
 
     public static PlantTO createPlant(final EnterpriseTO enterprise,
-                                      final IEnterpriseManager em) throws CreateException_Exception,
-            NotInDatabaseException_Exception {
+                                      final IEnterpriseManager em) throws CreateException_Exception {
         final PlantTO plant = new PlantTO();
         plant.setName("Plant1");
         plant.setLocation("Test Location");

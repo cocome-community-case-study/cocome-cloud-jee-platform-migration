@@ -84,6 +84,10 @@ public class CashDeskQuery implements Serializable {
                 .getComponent(Names.getCashDeskComponentRegistryName(cashDeskName, "barcodeScanner"),
                         IBarcodeScannerService.SERVICE, IBarcodeScannerService.class)
                 .getIBarcodeScannerPort();
+        configurator = applicationHelper
+                .getComponent(Names.getCashDeskComponentRegistryName(cashDeskName, "configurator"),
+                        IConfiguratorService.SERVICE, IConfiguratorService.class)
+                .getIConfiguratorPort();
         expressLight = applicationHelper
                 .getComponent(Names.getCashDeskComponentRegistryName(cashDeskName, "expressLight"),
                         IExpressLightService.SERVICE, IExpressLightService.class)
@@ -247,7 +251,6 @@ public class CashDeskQuery implements Serializable {
             NotInDatabaseException_Exception, NoSuchProductException_Exception, ProductOutOfStockException_Exception{
         try {
             lookupCashDeskComponents(storeID);
-            //TODO
             configurator.sendParameterValues(cashDeskName, storeID, parameterValues);
         } catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
                 | NotInDatabaseException_Exception | ProductOutOfStockException_Exception

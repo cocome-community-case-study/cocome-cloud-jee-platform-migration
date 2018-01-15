@@ -198,6 +198,19 @@ public interface IStoreQuery {
     );
 
     /**
+     * Queries the specified store for a stock item associated with product
+     * identified by specified barcode.
+     *
+     * @param storeId        unique identifier of a {@link IStore} entity
+     * @param productBarcode product barcode for which to find the stock item
+     * @return The StockItem from the given store for a product with the given
+     * barcode, or {@code null} if the stock item could not be found.
+     */
+    IItem queryItem(
+            long storeId, long productBarcode
+    );
+
+    /**
      * Returns the stock for the given productIds.
      *
      * @param storeId    unique identifier of a {@link IStore} entity

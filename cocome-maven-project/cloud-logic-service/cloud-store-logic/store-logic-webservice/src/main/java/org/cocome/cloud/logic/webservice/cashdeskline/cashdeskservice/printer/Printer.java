@@ -46,7 +46,7 @@ public class Printer extends NamedCashDeskService implements IPrinter {
 		try {
 			return invokeInContext(context, action);
 		} catch (IllegalCashDeskStateException | ProductOutOfStockException
-				| NoSuchProductException | IllegalInputException e) {
+				| NoSuchProductException e) {
 			throw new UnhandledException(e);
 		}
 	}
@@ -67,7 +67,7 @@ public class Printer extends NamedCashDeskService implements IPrinter {
 		try {
 			return invokeInContext(context, action);
 		} catch (IllegalCashDeskStateException | ProductOutOfStockException
-				| NoSuchProductException | IllegalInputException e) {
+				| NoSuchProductException e) {
 			throw new UnhandledException(e);
 		}
 	}
@@ -86,7 +86,7 @@ public class Printer extends NamedCashDeskService implements IPrinter {
 		try {
 			return invokeInContext(context, action);
 		} catch (IllegalCashDeskStateException | ProductOutOfStockException
-				| NoSuchProductException | IllegalInputException e) {
+				| NoSuchProductException e) {
 			throw new UnhandledException(e);
 		}
 	}

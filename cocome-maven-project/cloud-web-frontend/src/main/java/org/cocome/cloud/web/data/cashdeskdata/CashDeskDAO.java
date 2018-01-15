@@ -7,7 +7,6 @@ import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterV
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Collection;
 import java.util.List;
 
 @Named

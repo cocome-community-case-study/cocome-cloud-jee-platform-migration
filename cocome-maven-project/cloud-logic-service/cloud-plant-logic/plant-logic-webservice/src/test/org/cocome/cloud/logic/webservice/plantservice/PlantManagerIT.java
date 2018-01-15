@@ -214,7 +214,7 @@ public class PlantManagerIT {
         e.setId(em.createEntryPoint(e));
 
         final BooleanParameterTO param = new BooleanParameterTO();
-        param.setCategory("Yoghurt Preparation");
+        param.setCategory("Yogurt Preparation");
         param.setOperation(operation);
         param.setName("Organic");
         param.setId(em.createBooleanParameter(param));

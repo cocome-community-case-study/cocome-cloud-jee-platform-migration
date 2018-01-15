@@ -1,5 +1,7 @@
 package org.cocome.cloud.web.data.cashdeskdata;
 
+import org.cocome.cloud.web.frontend.cashdesk.ConfiguratorViewData;
+
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 
@@ -22,6 +24,8 @@ public class CashDeskViewData implements Serializable {
     private boolean inExpressMode = false;
     private String displayMessage = "";
     private String[] printerOutput = {};
+
+    private ConfiguratorViewData configuratorViewData;
 
     public boolean isSaleStarted() {
         return saleStarted;
@@ -117,5 +121,13 @@ public class CashDeskViewData implements Serializable {
 
     public void setParameterInputMode(boolean parameterInputMode) {
         this.parameterInputMode = parameterInputMode;
+    }
+
+    public void setConfiguratorViewData(ConfiguratorViewData configuratorViewData) {
+        this.configuratorViewData = configuratorViewData;
+    }
+
+    public ConfiguratorViewData getConfiguratorViewData() {
+        return this.configuratorViewData;
     }
 }

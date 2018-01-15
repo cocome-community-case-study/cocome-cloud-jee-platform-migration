@@ -28,7 +28,6 @@ import javax.inject.Inject;
 
 import org.cocome.cloud.web.data.enterprisedata.ParameterQuery;
 import org.cocome.cloud.web.data.enterprisedata.RecipeDAO;
-import org.cocome.cloud.web.data.enterprisedata.RecipeOperationQuery;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.cloud.logic.stub.*;
 import org.cocome.cloud.web.connector.enterpriseconnector.EnterpriseQuery;
@@ -65,8 +64,6 @@ public class CashDeskView implements Serializable {
 
     @Inject
     private ParameterQuery parameterQuery;
-
-    private ConfiguratorViewData configuratorViewData;
 
     public String submitCashDeskName() {
         cashDesk.setCashDeskNameNeeded(false);
@@ -116,7 +113,7 @@ public class CashDeskView implements Serializable {
     }
 
     public ConfiguratorViewData getConfiguratorViewData() {
-        return configuratorViewData;
+        return cashDesk.getConfiguratorViewData();
     }
 
     private void updateExpressMode() {
@@ -242,7 +239,6 @@ public class CashDeskView implements Serializable {
             addFacesError(Messages.get("cashdesk.error.illegal_state.start_sale"));
         }
 
-
         updateDisplayAndPrinter();
 
         return getSalePageRedirectOutcome();
@@ -273,10 +269,11 @@ public class CashDeskView implements Serializable {
     }
 
     public String enterParameterValues() {
-        String cashDeskName = cashDesk.getCashDeskName();
-        long storeID = storeInformation.getActiveStoreID();
+        final String cashDeskName = cashDesk.getCashDeskName();
+        final long storeID = storeInformation.getActiveStoreID();
         try {
-            cashDeskDAO.enterParameterValues(cashDeskName, storeID, this.configuratorViewData.getParameterValues());
+            cashDeskDAO.enterParameterValues(cashDeskName, storeID, this.getConfiguratorViewData().getParameterValues());
+            this.cashDesk.setParameterInputMode(false);
         } catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception
                 | NotInDatabaseException_Exception | NoSuchProductException_Exception
                 | ProductOutOfStockException_Exception e) {
@@ -307,7 +304,7 @@ public class CashDeskView implements Serializable {
             storeInformation.queryCustomProducts();
             if(product.getProduct() instanceof CustomProductTO) {
                 final RecipeTO recipe = this.recipeDAO.queryRecipe(product.getProduct().getBarcode());
-                this.configuratorViewData = new ConfiguratorViewData(parameterQuery.getAllByParent(recipe));
+                this.cashDesk.setConfiguratorViewData(new ConfiguratorViewData(parameterQuery.getAllByParent(recipe)));
                 this.cashDesk.setParameterInputMode(true);
             }
         } catch (UnhandledException_Exception | IllegalCashDeskStateException_Exception

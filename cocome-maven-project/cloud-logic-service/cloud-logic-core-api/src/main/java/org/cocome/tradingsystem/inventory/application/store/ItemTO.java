@@ -44,6 +44,13 @@ public abstract class ItemTO implements Serializable {
     @XmlElement(name = "salesPrice")
     private double __salesPrice;
 
+    public ItemTO() {
+    }
+
+    public ItemTO(double __salesPrice) {
+        this.__salesPrice = __salesPrice;
+    }
+
     /**
      * Returns the unique identifier of the {@link IStockItem} entity.
      *

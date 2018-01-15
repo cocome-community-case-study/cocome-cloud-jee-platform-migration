@@ -1,72 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE glassfish-ejb-jar PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 EJB 3.1//EN" 
-		"http://glassfish.org/dtds/glassfish-ejb-jar_3_1-1.dtd">
+<!DOCTYPE glassfish-ejb-jar PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 EJB 3.1//EN"
+        "http://glassfish.org/dtds/glassfish-ejb-jar_3_1-1.dtd">
 
 <glassfish-ejb-jar>
- <enterprise-beans>
-  <ejb>
-     <ejb-name>CashDesk</ejb-name>
-	 <webservice-endpoint>
-	 	<port-component-name>ICashDesk</port-component-name>
-	 	<endpoint-address-uri>/CashDeskService/ICashDesk</endpoint-address-uri>
-	 </webservice-endpoint>
-   </ejb>
-   
-   <ejb>
-     <ejb-name>BarcodeScanner</ejb-name>
-	 <webservice-endpoint>
-	 	<port-component-name>IBarcodeScanner</port-component-name>
-	 	<endpoint-address-uri>/CashDeskService/IBarcodeScanner</endpoint-address-uri>
-	 </webservice-endpoint>
-   </ejb>
+    <enterprise-beans>
+        <ejb>
+            <ejb-name>CashDesk</ejb-name>
+            <webservice-endpoint>
+                <port-component-name>ICashDesk</port-component-name>
+                <endpoint-address-uri>/CashDeskService/ICashDesk</endpoint-address-uri>
+            </webservice-endpoint>
+        </ejb>
 
-   <ejb>
-     <ejb-name>CardReader</ejb-name>
-	 <webservice-endpoint>
-	 	<port-component-name>ICardReader</port-component-name>
-	 	<endpoint-address-uri>/CashDeskService/ICardReader</endpoint-address-uri>
-	 </webservice-endpoint>
-   </ejb>
+        <ejb>
+            <ejb-name>BarcodeScanner</ejb-name>
+            <webservice-endpoint>
+                <port-component-name>IBarcodeScanner</port-component-name>
+                <endpoint-address-uri>/CashDeskService/IBarcodeScanner</endpoint-address-uri>
+            </webservice-endpoint>
+        </ejb>
 
-   <ejb>
-     <ejb-name>CashBox</ejb-name>
-	 <webservice-endpoint>
-	 	<port-component-name>ICashBox</port-component-name>
-	 	<endpoint-address-uri>/CashDeskService/ICashBox</endpoint-address-uri>
-	 </webservice-endpoint>
-   </ejb>
+        <ejb>
+            <ejb-name>BarcodeScanner</ejb-name>
+            <webservice-endpoint>
+                <port-component-name>IConfigurator</port-component-name>
+                <endpoint-address-uri>/CashDeskService/IConfigurator</endpoint-address-uri>
+            </webservice-endpoint>
+        </ejb>
 
-   <ejb>
-     <ejb-name>ExpressLight</ejb-name>
-	 <webservice-endpoint>
-	 	<port-component-name>IExpressLight</port-component-name>
-	 	<endpoint-address-uri>/CashDeskService/IExpressLight</endpoint-address-uri>
-	 </webservice-endpoint>
-   </ejb>
+        <ejb>
+            <ejb-name>CardReader</ejb-name>
+            <webservice-endpoint>
+                <port-component-name>ICardReader</port-component-name>
+                <endpoint-address-uri>/CashDeskService/ICardReader</endpoint-address-uri>
+            </webservice-endpoint>
+        </ejb>
 
-   <ejb>
-     <ejb-name>Printer</ejb-name>
-	 <webservice-endpoint>
-	 	<port-component-name>IPrinter</port-component-name>
-	 	<endpoint-address-uri>/CashDeskService/IPrinter</endpoint-address-uri>
-	 </webservice-endpoint>
-   </ejb>
+        <ejb>
+            <ejb-name>CashBox</ejb-name>
+            <webservice-endpoint>
+                <port-component-name>ICashBox</port-component-name>
+                <endpoint-address-uri>/CashDeskService/ICashBox</endpoint-address-uri>
+            </webservice-endpoint>
+        </ejb>
 
-   <ejb>
-     <ejb-name>UserDisplay</ejb-name>
-	 <webservice-endpoint>
-	 	<port-component-name>IUserDisplay</port-component-name>
-	 	<endpoint-address-uri>/CashDeskService/IUserDisplay</endpoint-address-uri>
-	 </webservice-endpoint>
-   </ejb>
+        <ejb>
+            <ejb-name>ExpressLight</ejb-name>
+            <webservice-endpoint>
+                <port-component-name>IExpressLight</port-component-name>
+                <endpoint-address-uri>/CashDeskService/IExpressLight</endpoint-address-uri>
+            </webservice-endpoint>
+        </ejb>
 
-   <ejb>
-     <ejb-name>StoreManager</ejb-name>
-	 <webservice-endpoint>
-	 	<port-component-name>IStoreManager</port-component-name>
-	 	<endpoint-address-uri>/StoreService/IStoreManager</endpoint-address-uri>
-	 </webservice-endpoint>
-   </ejb>
+        <ejb>
+            <ejb-name>Printer</ejb-name>
+            <webservice-endpoint>
+                <port-component-name>IPrinter</port-component-name>
+                <endpoint-address-uri>/CashDeskService/IPrinter</endpoint-address-uri>
+            </webservice-endpoint>
+        </ejb>
 
- </enterprise-beans>
+        <ejb>
+            <ejb-name>UserDisplay</ejb-name>
+            <webservice-endpoint>
+                <port-component-name>IUserDisplay</port-component-name>
+                <endpoint-address-uri>/CashDeskService/IUserDisplay</endpoint-address-uri>
+            </webservice-endpoint>
+        </ejb>
+
+        <ejb>
+            <ejb-name>StoreManager</ejb-name>
+            <webservice-endpoint>
+                <port-component-name>IStoreManager</port-component-name>
+                <endpoint-address-uri>/StoreService/IStoreManager</endpoint-address-uri>
+            </webservice-endpoint>
+        </ejb>
+
+    </enterprise-beans>
 </glassfish-ejb-jar> 

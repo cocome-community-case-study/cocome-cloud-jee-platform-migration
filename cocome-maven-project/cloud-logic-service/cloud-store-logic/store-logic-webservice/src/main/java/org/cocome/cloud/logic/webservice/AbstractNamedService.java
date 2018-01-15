@@ -2,7 +2,6 @@ package org.cocome.cloud.logic.webservice;
 
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
-import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
 import org.cocome.tradingsystem.inventory.application.store.ProductOutOfStockException;
 import org.cocome.tradingsystem.util.scope.IContextRegistry;
@@ -20,7 +19,7 @@ public abstract class AbstractNamedService {
 	/**
 	 * Abstract class constructor. Doesn't actually instantiate anything.
 	 */
-	public AbstractNamedService() {
+	AbstractNamedService() {
 		super();
 	}
 
@@ -46,11 +45,10 @@ public abstract class AbstractNamedService {
 	 */
 	public abstract void activateNamedSession(IContextRegistry context);
 	
-	public <T> T invokeInContext(IContextRegistry context, IContextAction<T> action) throws UnhandledException, 
-			IllegalCashDeskStateException, ProductOutOfStockException, NoSuchProductException,
-			IllegalInputException {
+	protected <T> T invokeInContext(IContextRegistry context, IContextAction<T> action) throws UnhandledException,
+			IllegalCashDeskStateException, ProductOutOfStockException, NoSuchProductException {
 		activateNamedSession(context);
-		T result = null;
+		T result;
 		try {
 			result = action.execute();
 		} finally {
@@ -60,10 +58,9 @@ public abstract class AbstractNamedService {
 	}
 	
 	public <T> T invokeAndDeleteContext(IContextRegistry context, IContextAction<T> action) throws UnhandledException, 
-			IllegalCashDeskStateException, ProductOutOfStockException, NoSuchProductException, 
-			IllegalInputException {
+			IllegalCashDeskStateException, ProductOutOfStockException, NoSuchProductException {
 		activateNamedSession(context);
-		T result = null;
+		T result;
 		try {
 			result = action.execute();
 		} finally {

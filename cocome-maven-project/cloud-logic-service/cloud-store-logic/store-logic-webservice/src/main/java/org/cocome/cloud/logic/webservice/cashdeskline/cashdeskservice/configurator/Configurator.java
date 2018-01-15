@@ -5,7 +5,6 @@ import org.cocome.cloud.logic.webservice.NamedCashDeskService;
 import org.cocome.cloud.logic.webservice.exception.UnhandledException;
 import org.cocome.logic.webservice.cashdeskline.cashdeskservice.configuratorservice.IConfigurator;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.IllegalCashDeskStateException;
-import org.cocome.tradingsystem.cashdeskline.cashdesk.cashbox.IllegalInputException;
 import org.cocome.tradingsystem.cashdeskline.cashdesk.configurator.IConfiguratorModel;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.store.NoSuchProductException;
@@ -52,11 +51,7 @@ public class Configurator extends NamedCashDeskService implements IConfigurator 
             }
         };
 
-        try {
-            return this.invokeInContext(context, action);
-        } catch (IllegalInputException e) {
-            throw new UnhandledException(e);
-        }
+        return this.invokeInContext(context, action);
     }
 
 }

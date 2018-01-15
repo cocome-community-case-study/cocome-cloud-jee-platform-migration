@@ -186,10 +186,10 @@ public class CashDeskModelTest {
         when(sessionContext.getName()).thenReturn(CASHDESK_NAME);
         when(registry.getLong(RegistryKeys.STORE_ID)).thenReturn(STORE_ID);
 
-        when(inventory.getProductWithStockItem(STORE_ID, prod.getBarcode()))
+        when(inventory.getProductWithItem(STORE_ID, prod.getBarcode()))
                 .thenReturn(fillProductWithItemTO(stock));
 
-        when(inventory.getProductWithStockItem(STORE_ID, customProd.getBarcode()))
+        when(inventory.getProductWithItem(STORE_ID, customProd.getBarcode()))
                 .thenReturn(fillProductWithItemTO(onDemandItem));
 
         when(remoteBank.validateCard(CARD_INFO, CARD_PIN)).thenReturn(transaction);
@@ -240,7 +240,7 @@ public class CashDeskModelTest {
 
         cashDeskModel.addItemToSale(prod.getBarcode());
 
-        verify(inventory).getProductWithStockItem(STORE_ID, prod.getBarcode());
+        verify(inventory).getProductWithItem(STORE_ID, prod.getBarcode());
         verify(runningTotalChangedEvents).fire(runningTotalChangedCaptor.capture());
 
         assertEquals(prod.getName(), runningTotalChangedCaptor.getValue().getProductName());
@@ -257,7 +257,7 @@ public class CashDeskModelTest {
 
         cashDeskModel.addItemToSale(customProd.getBarcode());
 
-        verify(inventory).getProductWithStockItem(STORE_ID, customProd.getBarcode());
+        verify(inventory).getProductWithItem(STORE_ID, customProd.getBarcode());
         verify(runningTotalChangedEvents).fire(runningTotalChangedCaptor.capture());
         verify(customProductEnteredEvents).fire(customProductEnteredEventArgumentCaptor.capture());
 

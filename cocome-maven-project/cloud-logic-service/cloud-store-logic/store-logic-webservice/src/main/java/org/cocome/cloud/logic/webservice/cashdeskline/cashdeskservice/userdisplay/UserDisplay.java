@@ -39,7 +39,7 @@ public class UserDisplay extends NamedCashDeskService implements IUserDisplay {
 		try {
 			return invokeInContext(context, action);
 		} catch (IllegalCashDeskStateException | ProductOutOfStockException
-				| NoSuchProductException | IllegalInputException e) {
+				| NoSuchProductException e) {
 			throw new UnhandledException(e);
 		}
 	}
@@ -57,7 +57,7 @@ public class UserDisplay extends NamedCashDeskService implements IUserDisplay {
 		try {
 			return invokeInContext(context, action);
 		} catch (IllegalCashDeskStateException | ProductOutOfStockException
-				| NoSuchProductException | IllegalInputException e) {
+				| NoSuchProductException e) {
 			throw new UnhandledException(e);
 		}
 	}

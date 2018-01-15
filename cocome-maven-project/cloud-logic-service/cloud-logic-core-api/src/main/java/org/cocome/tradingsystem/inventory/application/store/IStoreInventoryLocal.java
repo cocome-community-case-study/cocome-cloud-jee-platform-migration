@@ -22,7 +22,7 @@ import javax.ejb.Local;
 /**
  * Provides remote access to the store inventory. This interface is used by a
  * cash desk to retrieve product descriptions for a given barcode.
- * 
+ *
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
@@ -31,23 +31,33 @@ import javax.ejb.Local;
 @Local
 public interface IStoreInventoryLocal {
 
-	/**
-	 * Determine product and a corresponding store stock item by product
-	 * barcode. Used for realization of UC 1 and UC 4
-	 * 
-	 * @param productBarcode
-	 *            the product barcode
-	 * @return
-	 *         An instance of {@link ProductWithItemTO} transfer object
-	 *         containing a product and stock item description corresponding
-	 *         to the given barcode.
-	 * 
-	 * @throws NoSuchProductException
-	 *             if there is no product (or a stock item for product) with the
-	 *             given barcode in the store
-	 */
-	public ProductWithItemTO getProductWithStockItem(long storeID,
-													 long productBarcode
-			) throws NoSuchProductException;
+    /**
+     * Determine product and a corresponding store item by product
+     * barcode.
+     *
+     * @param productBarcode the product barcode
+     * @return An instance of {@link ProductWithItemTO} transfer object
+     * containing a product and item description corresponding
+     * to the given barcode.
+     * @throws NoSuchProductException if there is no product (or a item for product) with the
+     *                                given barcode in the store
+     */
+    ProductWithItemTO getProductWithItem(long storeID, long productBarcode
+    ) throws NoSuchProductException;
+
+    /**
+     * Determine product and a corresponding store stock item by product
+     * barcode. Used for realization of UC 1 and UC 4
+     *
+     * @param productBarcode the product barcode
+     * @return An instance of {@link ProductWithItemTO} transfer object
+     * containing a product and stock item description corresponding
+     * to the given barcode.
+     * @throws NoSuchProductException if there is no product (or a stock item for product) with the
+     *                                given barcode in the store
+     */
+    ProductWithItemTO getProductWithStockItem(long storeID,
+                                              long productBarcode
+    ) throws NoSuchProductException;
 
 }

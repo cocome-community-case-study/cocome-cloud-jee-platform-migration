@@ -141,7 +141,7 @@ class CashDeskEventHandler implements ICashDeskEventHandler, Serializable {
     }
 
     @Override
-    public void onEvent(ParameterValuesEnteredEvent event) throws IllegalCashDeskStateException {
+    public void onEvent(@Observes ParameterValuesEnteredEvent event) throws IllegalCashDeskStateException {
         this.cashDesk.addParameterValues(event.getParameterValues());
     }
 

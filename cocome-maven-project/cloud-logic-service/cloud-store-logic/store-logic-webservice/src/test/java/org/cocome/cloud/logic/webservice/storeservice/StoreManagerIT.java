@@ -52,8 +52,7 @@ public class StoreManagerIT {
     public static void initEnvironment()
             throws CreateException_Exception,
             NotInDatabaseException_Exception,
-            RecipeException_Exception,
-            UpdateException_Exception {
+            RecipeException_Exception {
         enterpriseInfo = WSTestUtils.createEnvironmentWithSimpleRecipe(em, pm);
     }
 
@@ -68,34 +67,33 @@ public class StoreManagerIT {
         product.setPurchasePrice(10);
         product.setId(em.createProduct(product));
 
-        final ProductWithItemTO item = new ProductWithItemTO();
-        final StockItemTO stockItem = new StockItemTO();
-        stockItem.setAmount(10);
-        stockItem.setMinStock(5);
-        stockItem.setMaxStock(20);
-        stockItem.setSalesPrice(12);
-        item.setItem(stockItem);
-        item.setProduct(product);
-        item.getItem().setId(sm.createItem(store.getId(), item));
+        final ProductWithItemTO itemData = new ProductWithItemTO();
+        itemData.setItem(new StockItemTO(10,5,20,12));
+        itemData.setProduct(product);
+        itemData.getItem().setId(sm.createItem(store.getId(), itemData));
 
         final SaleTO sale = new SaleTO();
-        sale.setEntries(Collections.singletonList(new SaleEntryTO(item)));
+        sale.setEntries(Collections.singletonList(new SaleEntryTO(itemData)));
 
         sm.accountSale(store.getId(), sale);
-        sm.deleteItem(store.getId(), item);
     }
 
     @Test
     public void testAccountSaleWithCustomProductAsStockItem() throws Exception {
-        final ProductWithItemTO item = new ProductWithItemTO();
+        final ProductWithItemTO item1 = new ProductWithItemTO();
         final OnDemandItemTO onDemandItem = new OnDemandItemTO();
         onDemandItem.setSalesPrice(12);
-        item.setItem(onDemandItem);
-        item.setProduct(enterpriseInfo.getCustomProducts().get(0).getCustomProduct());
-        item.getItem().setId(sm.createItem(enterpriseInfo.getStores().get(0).getId(), item));
+        item1.setItem(onDemandItem);
+        item1.setProduct(enterpriseInfo.getCustomProducts().get(0).getCustomProduct());
+        item1.getItem().setId(sm.createItem(enterpriseInfo.getStores().get(0).getId(), item1));
+
+        final ProductWithItemTO item2 = new ProductWithItemTO();
+        item2.setItem(new StockItemTO(10,5,20,12));
+        item2.setProduct(enterpriseInfo.getProducts().get(0));
+        item2.getItem().setId(sm.createItem(enterpriseInfo.getStores().get(0).getId(), item2));
 
         final SaleTO sale = new SaleTO();
-        sale.setEntries(Collections.singletonList(new SaleEntryTO(item,
+        sale.setEntries(Collections.singletonList(new SaleEntryTO(item1,
                 Arrays.asList(
                         new ParameterValueTO(
                                 IBooleanParameter.FALSE_VALUE,

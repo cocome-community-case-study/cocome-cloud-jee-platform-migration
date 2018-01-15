@@ -47,7 +47,7 @@ public class CashBox extends NamedCashDeskService implements ICashBox {
 		};
 		try {
 			return invokeInContext(context, action);
-		} catch (ProductOutOfStockException | NoSuchProductException | IllegalInputException e) {
+		} catch (ProductOutOfStockException | NoSuchProductException e) {
 			throw new UnhandledException(e);
 		}
 	}
@@ -67,7 +67,7 @@ public class CashBox extends NamedCashDeskService implements ICashBox {
 
 		try {
 			return invokeInContext(context, action);
-		} catch (NoSuchProductException | IllegalInputException | ProductOutOfStockException e) {
+		} catch (NoSuchProductException | ProductOutOfStockException e) {
 			throw new UnhandledException(e);
 		}
 	}
@@ -86,14 +86,14 @@ public class CashBox extends NamedCashDeskService implements ICashBox {
 		try {
 			return invokeInContext(context, action);
 		} catch (IllegalCashDeskStateException | ProductOutOfStockException
-				| NoSuchProductException | IllegalInputException e) {
+				| NoSuchProductException e) {
 			throw new UnhandledException(e);
 		}
 	}
 
 	@Override
 	public Set<Class<?>> pressControlKey(String cashDeskName, long storeID,
-			String keystroke) throws IllegalCashDeskStateException, UnhandledException, IllegalInputException {
+			String keystroke) throws IllegalCashDeskStateException, UnhandledException {
 		IContextRegistry context = getContextRegistry(cashDeskName, storeID);
 		final ControlKeyStroke key = ControlKeyStroke.valueOf(keystroke);
 		
@@ -148,7 +148,7 @@ public class CashBox extends NamedCashDeskService implements ICashBox {
 		try {
 			invokeInContext(context, action);
 		} catch (IllegalCashDeskStateException | ProductOutOfStockException
-				| NoSuchProductException | IllegalInputException e) {
+				| NoSuchProductException e) {
 			throw new UnhandledException(e);
 		}
 	}

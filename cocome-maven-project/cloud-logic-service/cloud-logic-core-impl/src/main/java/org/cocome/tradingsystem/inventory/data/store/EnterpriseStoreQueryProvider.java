@@ -181,6 +181,19 @@ public class EnterpriseStoreQueryProvider implements IStoreQuery {
     }
 
     @Override
+    public IItem queryItem(long storeId, long productBarcode) {
+        IItem item = null;
+        try {
+            item = csvHelper.getItem(
+                    backendConnection.getEntity("Item", "product.barcode==" + productBarcode
+                            + ";Item.store.id==" + storeId)).iterator().next();
+        } catch (NoSuchElementException e) {
+            // Do nothing, just return null and don't crash
+        }
+        return item;
+    }
+
+    @Override
     public Collection<IStockItem> queryStockItemsByProductId(long storeId,
                                                              long[] productIds) {
         List<IStockItem> items = new LinkedList<>();

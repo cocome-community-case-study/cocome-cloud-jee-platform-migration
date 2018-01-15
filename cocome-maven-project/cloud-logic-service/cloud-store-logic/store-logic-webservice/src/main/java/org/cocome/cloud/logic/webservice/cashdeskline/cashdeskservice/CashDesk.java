@@ -61,7 +61,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 		try {
 			expressMode = invokeInContext(context, action);
 		} catch (IllegalCashDeskStateException | ProductOutOfStockException
-				| NoSuchProductException | IllegalInputException e) {
+				| NoSuchProductException e) {
 			// None of these should happen here
 			throw new UnhandledException(e);
 		}
@@ -82,7 +82,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 		};
 		try {
 			return invokeInContext(context, action);
-		} catch (ProductOutOfStockException | NoSuchProductException | IllegalInputException e) {
+		} catch (ProductOutOfStockException | NoSuchProductException e) {
 			// None of these should happen here
 			throw new UnhandledException(e);
 		}
@@ -104,7 +104,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 		};
 		try {
 			return invokeInContext(context, action);
-		} catch (UnhandledException | IllegalInputException e) {
+		} catch (UnhandledException e) {
 			// None of these should happen here
 			throw new UnhandledException(e);
 		}
@@ -125,7 +125,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 		};
 		try {
 			return invokeInContext(context, action);
-		} catch (NoSuchProductException | IllegalInputException e) {
+		} catch (NoSuchProductException e) {
 			// None of these should happen here
 			throw new UnhandledException(e);
 		}
@@ -168,7 +168,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 		};
 		try {
 			return invokeInContext(context, action);
-		} catch (ProductOutOfStockException | NoSuchProductException | IllegalInputException e) {
+		} catch (ProductOutOfStockException | NoSuchProductException e) {
 			// None of these should happen here
 			throw new UnhandledException(e);
 		}
@@ -190,7 +190,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 		
 		try {
 			return invokeInContext(context, action);
-		} catch (NoSuchProductException | IllegalInputException e) {
+		} catch (NoSuchProductException e) {
 			// None of these should happen here
 			throw new UnhandledException(e);
 		}
@@ -211,7 +211,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 		};
 		try {
 			return invokeInContext(context, action);
-		} catch (ProductOutOfStockException | NoSuchProductException | IllegalInputException e) {
+		} catch (ProductOutOfStockException | NoSuchProductException e) {
 			// None of these should happen here
 			throw new UnhandledException(e);
 		}
@@ -233,7 +233,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 
 		try {
 			return invokeInContext(context, action);
-		} catch (ProductOutOfStockException | NoSuchProductException | IllegalInputException e) {
+		} catch (ProductOutOfStockException | NoSuchProductException e) {
 			// None of these should happen here
 			throw new UnhandledException(e);
 		}
@@ -255,7 +255,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 		try {
 			return invokeInContext(context, action);
 		} catch (IllegalCashDeskStateException | ProductOutOfStockException
-				| NoSuchProductException | IllegalInputException e) {
+				| NoSuchProductException e) {
 			// None of these should happen here
 			throw new UnhandledException(e);
 		}
@@ -276,7 +276,7 @@ public class CashDesk extends NamedCashDeskService implements ICashDesk, Seriali
 		try {
 			return invokeInContext(context, action);
 		} catch (IllegalCashDeskStateException | ProductOutOfStockException
-				| NoSuchProductException | IllegalInputException e) {
+				| NoSuchProductException e) {
 			// None of these should happen here
 			throw new UnhandledException(e);
 		}
