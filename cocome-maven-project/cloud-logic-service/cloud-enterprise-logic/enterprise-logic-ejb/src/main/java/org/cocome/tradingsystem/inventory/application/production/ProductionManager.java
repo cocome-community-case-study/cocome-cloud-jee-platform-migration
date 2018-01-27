@@ -34,6 +34,7 @@ import org.cocome.tradingsystem.inventory.data.store.StoreClientFactory;
 import org.cocome.tradingsystem.util.exception.NotInDatabaseException;
 import org.cocome.tradingsystem.util.exception.RecipeException;
 
+import javax.ejb.Asynchronous;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.enterprise.event.Observes;
@@ -71,14 +72,20 @@ public class ProductionManager {
 
     private Map<Long, ProductionJobContext> plantOrderProductionJobMapping = new HashMap<>();
 
-    public void submitOrder(final IProductionOrder order) throws NotInDatabaseException, RecipeException {
+    @Asynchronous
+    public void submitOrder(final IProductionOrder order) {
         for (final IProductionOrderEntry orderEntry : order.getOrderEntries()) {
             for (int i = 0; i < orderEntry.getAmount(); i++) {
-                final IStoreManager storeManager = storeClientFactory.createClient(
-                        order.getStore().getId());
-                final ProductionJob job = new ProductionJob(storeManager, order, orderEntry);
-                jobPool.addJob(job);
-                startJob(job);
+                try {
+                    final IStoreManager storeManager = storeClientFactory.createClient(
+                            order.getStore().getId());
+                    final ProductionJob job = new ProductionJob(storeManager, order, orderEntry);
+                    jobPool.addJob(job);
+                    startJob(job);
+                } catch (final NotInDatabaseException | RecipeException e) {
+                    LOG.error("Error while processing order entry",e);
+                    e.printStackTrace();
+                }
             }
         }
     }

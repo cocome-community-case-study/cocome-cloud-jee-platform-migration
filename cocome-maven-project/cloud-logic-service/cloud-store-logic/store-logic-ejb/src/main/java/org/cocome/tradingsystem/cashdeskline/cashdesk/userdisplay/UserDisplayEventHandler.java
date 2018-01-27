@@ -47,7 +47,7 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
  * handler is similar to a controller in that it converts incoming cash desk
  * messages to actions on the user display model. However, there is no view
  * associated with the controller.
- * 
+ *
  * @author Yannick Welsch
  * @author Lubomir Bulej
  * @author Tobias Pöppke
@@ -56,244 +56,244 @@ import org.cocome.tradingsystem.util.scope.CashDeskSessionScoped;
 @CashDeskSessionScoped
 class UserDisplayEventHandler implements IUserDisplayEventHandler, Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 94000048623886936L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 94000048623886936L;
 
-	private static final Logger LOG =
-			Logger.getLogger(UserDisplayEventHandler.class);
+    private static final Logger LOG =
+            Logger.getLogger(UserDisplayEventHandler.class);
 
-	//
+    //
 
-	@Inject
-	private IUserDisplayModel display;
+    @Inject
+    private IUserDisplayModel display;
 
-	private final StringBuilder cashAmountInput = new StringBuilder();
+    private final StringBuilder cashAmountInput = new StringBuilder();
 
-	private boolean enteringCashAmount;
+    private boolean enteringCashAmount;
 
-	private double cashAmount = 1.0;
-	
-	private boolean paymentModeRejected = false;
+    private double cashAmount = 1.0;
 
-	//
-	// Event handler methods
-	//
+    private boolean paymentModeRejected = false;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes SaleStartedEvent event) {
-		LOG.debug("Sale started event received, updating display content");
-		this.display.setContent(MessageKind.SPECIAL, "New sale");
-	}
+    //
+    // Event handler methods
+    //
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes RunningTotalChangedEvent event) {
-		final double runningTotal = event.getRunningTotal();
-		LOG.debug("\trunningTotal: " + runningTotal);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes SaleStartedEvent event) {
+        LOG.debug("Sale started event received, updating display content");
+        this.display.setContent(MessageKind.SPECIAL, "New sale");
+    }
 
-		//
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes RunningTotalChangedEvent event) {
+        final double runningTotal = event.getRunningTotal();
+        LOG.debug("\trunningTotal: " + runningTotal);
 
-		// Use english locale to not get a comma as decimal point
-		this.display.setContent(
-				MessageKind.NORMAL, String.format(Locale.ENGLISH, 
-						"%s: %.2f\nRunning total: %.2f",
-						event.getProductName(), event.getProductPrice(), runningTotal
-						)
-				);
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes InvalidProductBarcodeEvent event) {
-		final long barcode = event.getBarcode();
-		LOG.debug("\tbarcode: " + barcode);
+        //
 
-		//
+        // Use english locale to not get a comma as decimal point
+        this.display.setContent(
+                MessageKind.NORMAL, String.format(Locale.ENGLISH,
+                        "%s: %.2f\nRunning total: %.2f",
+                        event.getProductName(), event.getProductPrice(), runningTotal
+                )
+        );
+    }
 
-		this.display.setContent(
-				MessageKind.WARNING, "No product for barcode " + barcode + "!"
-				);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes InvalidProductBarcodeEvent event) {
+        final long barcode = event.getBarcode();
+        LOG.debug("\tbarcode: " + barcode);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes PaymentModeSelectedEvent event) {
-		if (this.paymentModeRejected) {
-			// Prevent payment mode selected event to override a rejection.
-			// Necessary because it is possible for the selected event to
-			// fire, then to fire a rejected event in the cash desk and
-			// be executed at the user display after the rejected event.
-			this.paymentModeRejected = false;
-			return;
-		}
-		
-		final PaymentMode mode = event.getMode();
-		LOG.debug("\tpaymentMode: " + mode);
+        //
 
-		//
+        this.display.setContent(
+                MessageKind.WARNING, "No product for barcode " + barcode + "!"
+        );
+    }
 
-		if (mode == PaymentMode.CASH) {
-			this.clearAmountInput();
-			this.display.setContent(MessageKind.SPECIAL, "Paying by cash\n");
-			this.enteringCashAmount = true;
-		} else {
-			this.display.setContent(MessageKind.SPECIAL, "Paying by credit card\n");
-			this.enteringCashAmount = false;
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes PaymentModeSelectedEvent event) {
+        if (this.paymentModeRejected) {
+            // Prevent payment mode selected event to override a rejection.
+            // Necessary because it is possible for the selected event to
+            // fire, then to fire a rejected event in the cash desk and
+            // be executed at the user display after the rejected event.
+            this.paymentModeRejected = false;
+            return;
+        }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes PaymentModeRejectedEvent event) {
-		final PaymentMode mode = event.getMode();
-		LOG.debug("\tpaymentMode: " + mode);
+        final PaymentMode mode = event.getMode();
+        LOG.debug("\tpaymentMode: " + mode);
 
-		final String reason = event.getReason();
-		LOG.debug("\treason: " + reason);
+        //
 
-		this.display.setContent(MessageKind.WARNING, reason);
-		this.paymentModeRejected = true;
-	}
+        if (mode == PaymentMode.CASH) {
+            this.clearAmountInput();
+            this.display.setContent(MessageKind.SPECIAL, "Paying by cash\n");
+            this.enteringCashAmount = true;
+        } else {
+            this.display.setContent(MessageKind.SPECIAL, "Paying by credit card\n");
+            this.enteringCashAmount = false;
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes CashBoxNumPadKeypressEvent event) {
-		final NumPadKeyStroke keyStroke = event.getKeyStroke();
-		LOG.debug("\tkeyStroke: " + keyStroke);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes PaymentModeRejectedEvent event) {
+        final PaymentMode mode = event.getMode();
+        LOG.debug("\tpaymentMode: " + mode);
 
-		//
-		// When in cash payment mode, collect key strokes into a buffer and
-		// display the cash amount being entered.
-		//
-		if (this.enteringCashAmount && (keyStroke != NumPadKeyStroke.ENTER)) {
-			this.cashAmountInput.append(keyStroke.label());
-			this.display.setContent(
-					MessageKind.SPECIAL,
-					"Paying by cash\nAmount received: " + this.cashAmountInput.toString()
-					);
-		} else {
-			this.clearAmountInput();
-		}
-	}
+        final String reason = event.getReason();
+        LOG.debug("\treason: " + reason);
 
-	private void clearAmountInput() {
-		this.cashAmountInput.setLength(0);
-	}
+        this.display.setContent(MessageKind.WARNING, reason);
+        this.paymentModeRejected = true;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes CashAmountEnteredEvent event) {
-		final double cashAmount = event.getCashAmount(); // NOCS
-		LOG.debug("\tcashAmount: " + cashAmount);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes CashBoxNumPadKeypressEvent event) {
+        final NumPadKeyStroke keyStroke = event.getKeyStroke();
+        LOG.debug("\tkeyStroke: " + keyStroke);
 
-		//
+        //
+        // When in cash payment mode, collect key strokes into a buffer and
+        // display the cash amount being entered.
+        //
+        if (this.enteringCashAmount && (keyStroke != NumPadKeyStroke.ENTER)) {
+            this.cashAmountInput.append(keyStroke.label());
+            this.display.setContent(
+                    MessageKind.SPECIAL,
+                    "Paying by cash\nAmount received: " + this.cashAmountInput.toString()
+            );
+        } else {
+            this.clearAmountInput();
+        }
+    }
 
-		this.cashAmount = cashAmount;
-		this.enteringCashAmount = false;
-	}
+    private void clearAmountInput() {
+        this.cashAmountInput.setLength(0);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes ChangeAmountCalculatedEvent event) {
-		final double changeAmount = event.getChangeAmount();
-		LOG.debug("\tchangeAmount: " + changeAmount);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes CashAmountEnteredEvent event) {
+        final double cashAmount = event.getCashAmount(); // NOCS
+        LOG.debug("\tcashAmount: " + cashAmount);
 
-		//
+        //
 
-		this.display.setContent(
-				MessageKind.NORMAL,
-				"Cash received: " + this.cashAmount + "\n"
-						+ "Change amount: " + changeAmount
-				);
-	}
+        this.cashAmount = cashAmount;
+        this.enteringCashAmount = false;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes CreditCardScannedEvent event) {
-		this.display.setContent(
-				MessageKind.SPECIAL, "Credit card scanned.\nPlease enter your PIN..."
-				);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes ChangeAmountCalculatedEvent event) {
+        final double changeAmount = event.getChangeAmount();
+        LOG.debug("\tchangeAmount: " + changeAmount);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes CreditCardScanFailedEvent event) {
-		this.display.setContent(
-				MessageKind.WARNING, "Failed to scan card.\nPlease try again..."
-				);
-	}
+        //
 
-	/**
-	 * {@inheritDoc}
-	 */
-	
-	@Override
-	public void onEvent(@Observes InvalidCreditCardEvent event) {
-		this.display.setContent(
-				MessageKind.WARNING, "Invalid credit card information.\nPlease try again..."
-				);
-	}	
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes SaleSuccessEvent event) {
-		this.display.setContent(
-				MessageKind.SPECIAL,
-				"Thank you for shopping!\nHave a nice day."
-				);
-	}
+        this.display.setContent(
+                MessageKind.NORMAL,
+                "Cash received: " + this.cashAmount + "\n"
+                        + "Change amount: " + changeAmount
+        );
+    }
 
-	//
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes CreditCardScannedEvent event) {
+        this.display.setContent(
+                MessageKind.SPECIAL, "Credit card scanned.\nPlease enter your PIN..."
+        );
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes ExpressModeDisabledEvent event) {
-		// This overwrites the change amount message and is not absolutely necessary anyway
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes CreditCardScanFailedEvent event) {
+        this.display.setContent(
+                MessageKind.WARNING, "Failed to scan card.\nPlease try again..."
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+
+    @Override
+    public void onEvent(@Observes InvalidCreditCardEvent event) {
+        this.display.setContent(
+                MessageKind.WARNING, "Invalid credit card information.\nPlease try again..."
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes SaleSuccessEvent event) {
+        this.display.setContent(
+                MessageKind.SPECIAL,
+                "Thank you for shopping!\nHave a nice day."
+        );
+    }
+
+    //
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes ExpressModeDisabledEvent event) {
+        // This overwrites the change amount message and is not absolutely necessary anyway
 //		this.display.setContent(
 //				MessageKind.SPECIAL, "Express mode disabled."
 //				);
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void onEvent(@Observes ExpressModeEnabledEvent event) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onEvent(@Observes ExpressModeEnabledEvent event) {
 //		this.display.setContent(
 //				MessageKind.SPECIAL, "Express mode enabled."
 //				);
-	}
+    }
 
-	@Override
-	public void onEvent(InsufficientCashAmountEvent event) {
-		this.display.setContent(MessageKind.WARNING, "Not enough cash. Please try again...");
-	}
+    @Override
+    public void onEvent(InsufficientCashAmountEvent event) {
+        this.display.setContent(MessageKind.WARNING, "Not enough cash. Please try again...");
+    }
 
 }
