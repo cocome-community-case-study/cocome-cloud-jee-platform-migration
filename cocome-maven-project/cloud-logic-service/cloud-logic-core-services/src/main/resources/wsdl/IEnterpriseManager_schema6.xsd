@@ -147,6 +147,10 @@
   <xs:element name="queryPlantOperationsByPlantIdResponse" type="tns:queryPlantOperationsByPlantIdResponse"/>
   <xs:element name="queryPlantsByEnterpriseID" type="tns:queryPlantsByEnterpriseID"/>
   <xs:element name="queryPlantsByEnterpriseIDResponse" type="tns:queryPlantsByEnterpriseIDResponse"/>
+  <xs:element name="queryProductionOrderById" type="tns:queryProductionOrderById"/>
+  <xs:element name="queryProductionOrderByIdResponse" type="tns:queryProductionOrderByIdResponse"/>
+  <xs:element name="queryProductionOrdersByEnterpriseId" type="tns:queryProductionOrdersByEnterpriseId"/>
+  <xs:element name="queryProductionOrdersByEnterpriseIdResponse" type="tns:queryProductionOrdersByEnterpriseIdResponse"/>
   <xs:element name="queryRecipeByCustomProductBarcode" type="tns:queryRecipeByCustomProductBarcode"/>
   <xs:element name="queryRecipeByCustomProductBarcodeResponse" type="tns:queryRecipeByCustomProductBarcodeResponse"/>
   <xs:element name="queryRecipeById" type="tns:queryRecipeById"/>
@@ -819,6 +823,16 @@
       <xs:element minOccurs="0" name="return" type="ns4:RecipeTO"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="queryProductionOrdersByEnterpriseId">
+    <xs:sequence>
+      <xs:element name="enterpriseId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryProductionOrdersByEnterpriseIdResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns4:ProductionOrderTO"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="queryRecipesByEnterpriseId">
     <xs:sequence>
       <xs:element name="enterpriseID" type="xs:long"/>
@@ -931,6 +945,16 @@
   <xs:complexType name="queryPlantByNameResponse">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns5:PlantTO"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryProductionOrderById">
+    <xs:sequence>
+      <xs:element name="productionOrderId" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="queryProductionOrderByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="ns4:ProductionOrderTO"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="queryParameterById">

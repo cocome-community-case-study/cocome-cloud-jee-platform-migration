@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+
+<h:body>
+
+    <ui:composition template="/templates/commonTemplate.xhtml">
+
+        <f:ajax render="storeEnterpriseInfo"/>
+
+        <ui:define name="body">
+            <h:form>
+                <h:dataTable
+                        value="#{productionOrderQuery.getAllByParentObj(enterpriseInformation.activeEnterprise)}"
+                        var="productionOrder"
+                        styleClass="product-table"
+                        headerClass="product-table-header"
+                        rowClasses="product-table-odd-row,product-table-even-row"
+                        columnClasses="
+                                product-table-text-col,
+                                product-table-text-col,
+                                product-table-text-col,
+                                product-table-text-col,
+                                product-table-text-col">
+                    <h:column>
+                        <f:facet name="header">Order ID</f:facet>
+                        <h:outputText value="#{productionOrder.data.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Order Date</f:facet>
+                        <h:outputText value="#{productionOrder.data.orderingDate}">
+                            <f:convertDateTime pattern="#{strings['order.data.format']}" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Delivery Date</f:facet>
+                        <h:outputText value="#{productionOrder.data.deliveryDate}">
+                            <f:convertDateTime pattern="#{strings['order.data.format']}" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Enterprise</f:facet>
+                        <h:outputText value="#{productionOrder.data.enterprise.name}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Store</f:facet>
+                        <h:outputText value="#{productionOrder.data.store.name}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</h:body>
+
+</html>

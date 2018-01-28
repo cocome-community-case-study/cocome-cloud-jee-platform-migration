@@ -704,7 +704,7 @@ public interface IEnterpriseManager {
             @XmlElement(required = true)
             @WebParam(name = "plantOperationOrderEntryID") final long plantOperationOrderEntryId);
 
-    /* Other Methods **************/
+    /* Production Order Management **************/
 
     @WebMethod
     long submitProductionOrder(
@@ -712,6 +712,22 @@ public interface IEnterpriseManager {
             @WebParam(name = "productionOrderTO")
                     ProductionOrderTO productionOrderTO)
             throws NotInDatabaseException, CreateException, RecipeException;
+
+    @WebMethod
+    Collection<ProductionOrderTO> queryProductionOrdersByEnterpriseId(
+            @XmlElement(required = true)
+            @WebParam(name = "enterpriseId")
+                    long enterpriseId)
+            throws NotInDatabaseException;
+
+    @WebMethod
+    ProductionOrderTO queryProductionOrderById(
+            @XmlElement(required = true)
+            @WebParam(name = "productionOrderId")
+                    long productionOrderId)
+            throws NotInDatabaseException;
+
+    /* Other Methods **************/
 
     /**
      * @param supplier   The supplier which delivers the products

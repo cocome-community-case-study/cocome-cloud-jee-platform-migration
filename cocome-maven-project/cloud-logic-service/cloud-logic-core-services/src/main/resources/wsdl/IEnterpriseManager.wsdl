@@ -241,6 +241,10 @@
     <wsdl:part name="parameters" element="tns:queryEntryPointInteractionsByRecipeIdResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryProductionOrderByIdResponse">
+    <wsdl:part name="parameters" element="tns:queryProductionOrderByIdResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="createPlantResponse">
     <wsdl:part name="parameters" element="tns:createPlantResponse">
     </wsdl:part>
@@ -621,6 +625,10 @@
     <wsdl:part name="parameters" element="tns:getSupplierByIDResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="queryProductionOrdersByEnterpriseIdResponse">
+    <wsdl:part name="parameters" element="tns:queryProductionOrdersByEnterpriseIdResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="queryNominalParametersByRecipeOperationId">
     <wsdl:part name="parameters" element="tns:queryNominalParametersByRecipeOperationId">
     </wsdl:part>
@@ -631,6 +639,10 @@
   </wsdl:message>
   <wsdl:message name="queryParameterInteractionsByRecipeIdResponse">
     <wsdl:part name="parameters" element="tns:queryParameterInteractionsByRecipeIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryProductionOrdersByEnterpriseId">
+    <wsdl:part name="parameters" element="tns:queryProductionOrdersByEnterpriseId">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="updateEntryPointInteractionResponse">
@@ -663,6 +675,10 @@
   </wsdl:message>
   <wsdl:message name="queryRecipeNodeById">
     <wsdl:part name="parameters" element="tns:queryRecipeNodeById">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryProductionOrderById">
+    <wsdl:part name="parameters" element="tns:queryProductionOrderById">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="queryRecipesByEnterpriseIdResponse">
@@ -1262,6 +1278,14 @@
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="queryProductionOrdersByEnterpriseId">
+      <wsdl:input name="queryProductionOrdersByEnterpriseId" message="tns:queryProductionOrdersByEnterpriseId">
+    </wsdl:input>
+      <wsdl:output name="queryProductionOrdersByEnterpriseIdResponse" message="tns:queryProductionOrdersByEnterpriseIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="queryRecipesByEnterpriseId">
       <wsdl:input name="queryRecipesByEnterpriseId" message="tns:queryRecipesByEnterpriseId">
     </wsdl:input>
@@ -1354,6 +1378,14 @@
       <wsdl:input name="queryPlantByName" message="tns:queryPlantByName">
     </wsdl:input>
       <wsdl:output name="queryPlantByNameResponse" message="tns:queryPlantByNameResponse">
+    </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryProductionOrderById">
+      <wsdl:input name="queryProductionOrderById" message="tns:queryProductionOrderById">
+    </wsdl:input>
+      <wsdl:output name="queryProductionOrderByIdResponse" message="tns:queryProductionOrderByIdResponse">
     </wsdl:output>
       <wsdl:fault name="NotInDatabaseException" message="tns:NotInDatabaseException">
     </wsdl:fault>
@@ -2263,6 +2295,18 @@
         <soap:fault name="NotInDatabaseException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="queryProductionOrdersByEnterpriseId">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryProductionOrdersByEnterpriseId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryProductionOrdersByEnterpriseIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="queryRecipesByEnterpriseId">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="queryRecipesByEnterpriseId">
@@ -2401,6 +2445,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="queryPlantByNameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="NotInDatabaseException">
+        <soap:fault name="NotInDatabaseException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="queryProductionOrderById">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryProductionOrderById">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryProductionOrderByIdResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="NotInDatabaseException">

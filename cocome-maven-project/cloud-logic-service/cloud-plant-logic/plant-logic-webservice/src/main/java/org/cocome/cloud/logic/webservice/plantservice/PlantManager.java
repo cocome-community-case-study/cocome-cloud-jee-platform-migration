@@ -135,7 +135,7 @@ public class PlantManager implements IPlantManager {
 
     @Override
     public void updateProductionUnitClass(ProductionUnitClassTO productionUnitClassTO)
-            throws UpdateException, NotInDatabaseException {
+            throws UpdateException {
         persistenceContext.updateEntity(plantFactory.convertToProductionUnitClass(productionUnitClassTO));
     }
 
@@ -173,7 +173,7 @@ public class PlantManager implements IPlantManager {
 
     @Override
     public void updateProductionUnitOperation(final ProductionUnitOperationTO productionUnitOperationTO)
-            throws NotInDatabaseException, UpdateException {
+            throws UpdateException {
         persistenceContext.updateEntity(plantFactory.convertToProductionUnitOperation(productionUnitOperationTO));
     }
 
@@ -215,7 +215,7 @@ public class PlantManager implements IPlantManager {
 
     @Override
     public void updateProductionUnit(final ProductionUnitTO productionUnitTO)
-            throws NotInDatabaseException, UpdateException {
+            throws UpdateException {
         persistenceContext.updateEntity(plantFactory.convertToProductionUnit(productionUnitTO));
     }
 

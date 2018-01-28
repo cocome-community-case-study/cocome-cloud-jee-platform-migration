@@ -46,7 +46,7 @@ public interface IEnterpriseDataFactory {
 
     CustomProductTO fillCustomProductTO(ICustomProduct product);
 
-    /* Plant Product *****/
+    /* Plant *****/
 
     IPlant getNewPlant();
 

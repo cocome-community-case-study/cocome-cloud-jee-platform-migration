@@ -156,10 +156,23 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IProduct> queryAllProducts(long enterpriseID) throws NotInDatabaseException {
+    public Collection<IProduct> queryAllProducts(long enterpriseID) {
         return queryCollection(enterpriseID,
                 enterpriseManager -> enterpriseManager.getAllEnterpriseProducts(enterpriseID),
                 enterpriseFactory::convertToProduct);
+    }
+
+    @Override
+    public IProductionOrder queryProductionOrderById(long productionOrderId) throws NotInDatabaseException {
+        return querySingleEntity(defaultEnterpriseIndex, enterpriseManager ->
+                plantFactory.convertToProductionOrder(enterpriseManager.queryProductionOrderById(productionOrderId)));
+    }
+
+    @Override
+    public Collection<IProductionOrder> queryProductionOrdersByEnterpriseId(long enterpriseId)  {
+        return queryCollection(enterpriseId,
+                enterpriseManager -> enterpriseManager.queryProductionOrdersByEnterpriseId(enterpriseId),
+                plantFactory::convertToProductionOrder);
     }
 
     @Override
@@ -192,7 +205,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IProductSupplier> querySuppliers(long enterpriseID) throws NotInDatabaseException {
+    public Collection<IProductSupplier> querySuppliers(long enterpriseID) {
         IEnterpriseManager enterpriseManager;
         List<SupplierTO> supplierTOList;
         try {
@@ -236,8 +249,7 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IProduct> queryProductsBySupplier(long enterpriseID, long productSupplierID)
-            throws NotInDatabaseException {
+    public Collection<IProduct> queryProductsBySupplier(long enterpriseID, long productSupplierID) {
         IEnterpriseManager enterpriseManager;
         List<ProductTO> productTOList;
         try {
@@ -338,14 +350,14 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IBooleanParameter> queryBooleanParametersByRecipeOperationId(long operationId) throws NotInDatabaseException {
+    public Collection<IBooleanParameter> queryBooleanParametersByRecipeOperationId(long operationId) {
         return queryCollection(operationId,
                 enterpriseManager -> enterpriseManager.queryBooleanParametersByRecipeOperationId(operationId),
                 plantFactory::convertToBooleanParameter);
     }
 
     @Override
-    public Collection<INominalParameter> queryNominalParametersByRecipeOperationId(long operationId) throws NotInDatabaseException {
+    public Collection<INominalParameter> queryNominalParametersByRecipeOperationId(long operationId) {
         return queryCollection(operationId,
                 enterpriseManager -> enterpriseManager.queryNominalParametersByRecipeOperationId(operationId),
                 plantFactory::convertToNominalParameter);
@@ -401,21 +413,21 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IEntryPointInteraction> queryEntryPointInteractionsByRecipeId(long recipeId) throws NotInDatabaseException {
+    public Collection<IEntryPointInteraction> queryEntryPointInteractionsByRecipeId(long recipeId) {
         return queryCollection(defaultEnterpriseIndex,
                 enterpriseManager -> enterpriseManager.queryEntryPointInteractionsByRecipeId(recipeId),
                 plantFactory::convertToEntryPointInteraction);
     }
 
     @Override
-    public Collection<IParameterInteraction> queryParameterInteractionsByRecipeId(long recipeId) throws NotInDatabaseException {
+    public Collection<IParameterInteraction> queryParameterInteractionsByRecipeId(long recipeId) {
         return queryCollection(defaultEnterpriseIndex,
                 enterpriseManager -> enterpriseManager.queryParameterInteractionsByRecipeId(recipeId),
                 plantFactory::convertToParameterInteraction);
     }
 
     @Override
-    public Collection<IRecipeNode> queryRecipeNodesByRecipeId(long recipeId) throws NotInDatabaseException {
+    public Collection<IRecipeNode> queryRecipeNodesByRecipeId(long recipeId) {
         return queryCollection(defaultEnterpriseIndex,
                 enterpriseManager -> enterpriseManager.queryRecipeNodesByRecipeId(recipeId),
                 plantFactory::convertToRecipeNode);
@@ -429,30 +441,28 @@ public abstract class ProxyEnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IEntryPoint> queryEntryPointsByRecipeOperationId(long operationId) throws NotInDatabaseException {
+    public Collection<IEntryPoint> queryEntryPointsByRecipeOperationId(long operationId) {
         return queryCollection(defaultEnterpriseIndex,
                 enterpriseManager -> enterpriseManager.queryEntryPointsByRecipeOperationId(operationId),
                 plantFactory::convertToEntryPoint);
     }
 
     @Override
-    public Collection<IEntryPoint> queryInputEntryPointsByRecipeOperationId(long operationId)
-            throws NotInDatabaseException {
+    public Collection<IEntryPoint> queryInputEntryPointsByRecipeOperationId(long operationId) {
         return queryCollection(defaultEnterpriseIndex,
                 enterpriseManager -> enterpriseManager.queryInputEntryPointsByRecipeOperationId(operationId),
                 plantFactory::convertToEntryPoint);
     }
 
     @Override
-    public Collection<IEntryPoint> queryOutputEntryPointsByRecipeOperationId(long operationId)
-            throws NotInDatabaseException {
+    public Collection<IEntryPoint> queryOutputEntryPointsByRecipeOperationId(long operationId) {
         return queryCollection(defaultEnterpriseIndex,
                 enterpriseManager -> enterpriseManager.queryOutputEntryPointsByRecipeOperationId(operationId),
                 plantFactory::convertToEntryPoint);
     }
 
     @Override
-    public Collection<IPlantOperation> queryPlantOperationsByPlantId(long plantId) throws NotInDatabaseException {
+    public Collection<IPlantOperation> queryPlantOperationsByPlantId(long plantId) {
         return queryCollection(defaultEnterpriseIndex,
                 enterpriseManager -> enterpriseManager.queryPlantOperationsByPlantId(plantId),
                 plantFactory::convertToPlantOperation);

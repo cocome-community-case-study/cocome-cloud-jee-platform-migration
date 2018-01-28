@@ -522,14 +522,14 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public long createEntryPoint(EntryPointTO entryPointTO) throws CreateException, NotInDatabaseException {
+    public long createEntryPoint(EntryPointTO entryPointTO) throws CreateException {
         final IEntryPoint entryPoint = plantFactory.convertToEntryPoint(entryPointTO);
         saveDBCreateAction(() -> persistenceContext.createEntity(entryPoint));
         return entryPoint.getId();
     }
 
     @Override
-    public void updateEntryPoint(EntryPointTO entryPointTO) throws UpdateException, NotInDatabaseException {
+    public void updateEntryPoint(EntryPointTO entryPointTO) throws UpdateException {
         final IEntryPoint entryPoint = plantFactory.convertToEntryPoint(entryPointTO);
         saveDBUpdateAction(() -> persistenceContext.updateEntity(entryPoint));
     }
@@ -600,7 +600,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public void updatePlantOperation(PlantOperationTO plantOperationTO) throws UpdateException, NotInDatabaseException {
+    public void updatePlantOperation(PlantOperationTO plantOperationTO) throws UpdateException {
         final IPlantOperation param = plantFactory.convertToPlantOperation(plantOperationTO);
         saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
     }
@@ -637,7 +637,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public void updateBooleanParameter(BooleanParameterTO booleanPlantOperationParameterTO)
-            throws UpdateException, NotInDatabaseException {
+            throws UpdateException {
         final IBooleanParameter param = plantFactory.convertToBooleanParameter(booleanPlantOperationParameterTO);
         saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
     }
@@ -688,7 +688,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public void updateNominalParameter(NominalParameterTO nominalParameterTO)
-            throws UpdateException, NotInDatabaseException {
+            throws UpdateException {
         final INominalParameter param = plantFactory.convertToNominalParameter(nominalParameterTO);
         saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
     }
@@ -724,7 +724,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public void updateEntryPointInteraction(EntryPointInteractionTO entryPointInteractionTO)
-            throws UpdateException, NotInDatabaseException {
+            throws UpdateException {
         final IEntryPointInteraction param = plantFactory.convertToEntryPointInteraction(entryPointInteractionTO);
         saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
     }
@@ -759,7 +759,7 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public void updateParameterInteraction(ParameterInteractionTO parameterInteractionTO)
-            throws UpdateException, NotInDatabaseException {
+            throws UpdateException {
         final IParameterInteraction param = plantFactory.convertToParameterInteraction(parameterInteractionTO);
         saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
     }
@@ -821,7 +821,7 @@ public class EnterpriseManager implements IEnterpriseManager {
     }
 
     @Override
-    public void updateRecipe(RecipeTO recipeTO) throws UpdateException, NotInDatabaseException {
+    public void updateRecipe(RecipeTO recipeTO) throws UpdateException {
         final IRecipe param = plantFactory.convertToRecipe(recipeTO);
         saveDBUpdateAction(() -> persistenceContext.updateEntity(param));
     }
@@ -851,13 +851,25 @@ public class EnterpriseManager implements IEnterpriseManager {
 
     @Override
     public long submitProductionOrder(ProductionOrderTO productionOrderTO)
-            throws NotInDatabaseException, CreateException, RecipeException {
+            throws NotInDatabaseException, CreateException {
         final IProductionOrder order = plantFactory.convertToProductionOrder(productionOrderTO);
         order.check();
         order.setOrderingDate(new Date());
         persistOrder(order);
         productionManager.submitOrder(order);
         return order.getId();
+    }
+
+    @Override
+    public Collection<ProductionOrderTO> queryProductionOrdersByEnterpriseId(long enterpriseId) throws NotInDatabaseException {
+        return queryCollection(enterpriseQuery.queryProductionOrdersByEnterpriseId(enterpriseId),
+                plantFactory::fillProductionOrderTO);
+    }
+
+    @Override
+    public ProductionOrderTO queryProductionOrderById(long productionOrderId) throws NotInDatabaseException {
+        return plantFactory.fillProductionOrderTO(
+                enterpriseQuery.queryProductionOrderById(productionOrderId));
     }
 
     private IProduct queryProduct(ProductTO productTO)

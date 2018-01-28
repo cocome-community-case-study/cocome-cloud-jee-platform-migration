@@ -518,6 +518,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(productionOrder.getId());
         result.setOrderingDate(productionOrder.getOrderingDate());
         result.setDeliveryDate(productionOrder.getDeliveryDate());
+        result.setEnterprise(enterpriseDatatypes.fillEnterpriseTO(productionOrder.getEnterprise()));
         result.setStore(storeDatatypes.fillStoreWithEnterpriseTO(productionOrder.getStore()));
         result.setOrderEntries(convertList(productionOrder.getOrderEntries(),
                 this::fillProductionOrderEntryTO));

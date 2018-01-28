@@ -36,6 +36,10 @@
                                        title="#{strings['enterprise.table.action.show_recipes']}">
                             <h:graphicImage value="#{resource['icon:recipe.png']}" styleClass="button"/>
                         </h:commandLink>
+                        <h:commandLink action="#{enterpriseInformation.switchToEnterprise(enterprise, 'show_production_orders?faces-redirect=true')}"
+                                       title="#{strings['enterprise.table.action.show_production_orders']}">
+                            <h:graphicImage value="#{resource['icon:icon_deliverables.png']}" styleClass="button"/>
+                        </h:commandLink>
                     </h:column>
                 </h:dataTable>
             </h:form>

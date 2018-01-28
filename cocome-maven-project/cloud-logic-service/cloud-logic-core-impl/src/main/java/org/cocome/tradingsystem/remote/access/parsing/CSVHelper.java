@@ -657,6 +657,21 @@ public class CSVHelper implements IBackendConversionHelper {
     }
 
     @Override
+    public Collection<IProductionOrder> getProductionOrder(String productionOrder) {
+        return rowToCollection(productionOrder, row -> {
+            final IProductionOrder result = plantFactory.getNewProductionOrder();
+
+            result.setId(fetchLong(row.getColumns().get(0)));
+            result.setOrderingDate(fetchDate(row.getColumns().get(1)));
+            result.setDeliveryDate(fetchDate(row.getColumns().get(2)));
+            result.setEnterpriseId(fetchLong(row.getColumns().get(3)));
+            result.setStoreId(fetchLong(row.getColumns().get(4)));
+
+            return result;
+        });
+    }
+
+    @Override
     public Collection<IPlantOperationOrder> getPlantOperationOrder(String order) {
         return rowToCollection(order, row -> {
             final IPlantOperationOrder result = plantFactory.getNewPlantOperationOrder();

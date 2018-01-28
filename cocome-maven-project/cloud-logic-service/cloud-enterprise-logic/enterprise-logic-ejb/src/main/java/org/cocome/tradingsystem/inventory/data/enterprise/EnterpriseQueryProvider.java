@@ -236,19 +236,19 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IEntryPointInteraction> queryEntryPointInteractionsByRecipeId(long recipeId) throws NotInDatabaseException {
+    public Collection<IEntryPointInteraction> queryEntryPointInteractionsByRecipeId(long recipeId) {
         return csvHelper.getEntryPointInteraction(
                 backendConnection.getEntity("EntryPointInteraction", "recipe.id==" + recipeId));
     }
 
     @Override
-    public Collection<IParameterInteraction> queryParameterInteractionsByRecipeId(long recipeId) throws NotInDatabaseException {
+    public Collection<IParameterInteraction> queryParameterInteractionsByRecipeId(long recipeId) {
         return csvHelper.getParameterInteraction(
                 backendConnection.getEntity("ParameterInteraction", "recipe.id==" + recipeId));
     }
 
     @Override
-    public Collection<IRecipeNode> queryRecipeNodesByRecipeId(long recipeId) throws NotInDatabaseException {
+    public Collection<IRecipeNode> queryRecipeNodesByRecipeId(long recipeId) {
         return csvHelper.getRecipeNode(
                 backendConnection.getEntity("RecipeNode", "recipe.id==" + recipeId));
     }
@@ -271,7 +271,7 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
     }
 
     @Override
-    public Collection<IPlantOperation> queryPlantOperationsByPlantId(long plantId) throws NotInDatabaseException {
+    public Collection<IPlantOperation> queryPlantOperationsByPlantId(long plantId) {
         return csvHelper
                 .getPlantOperation(backendConnection.getEntity(
                         "PlantOperation",
@@ -305,6 +305,19 @@ public class EnterpriseQueryProvider implements IEnterpriseQuery {
                 .getRecipe(backendConnection.getEntity(
                         "Recipe",
                         "enterprise.id==" + enterpriseId));
+    }
+
+    @Override
+    public Collection<IProductionOrder> queryProductionOrdersByEnterpriseId(long enterpriseId) {
+        return csvHelper
+                .getProductionOrder(backendConnection.getEntity(
+                        "ProductionOrder",
+                        "enterprise.id==" + enterpriseId));
+    }
+
+    @Override
+    public IProductionOrder queryProductionOrderById(long productionOrderId) throws NotInDatabaseException {
+        return getSingleEntity(csvHelper::getProductionOrder, "ProductionOrder", productionOrderId);
     }
 
     @Override

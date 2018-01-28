@@ -307,4 +307,8 @@ public interface IEnterpriseQuery {
     IRecipeNode queryRecipeNodeById(long recipeNodeId) throws NotInDatabaseException;
 
     Collection<IRecipe> queryRecipesByEnterpriseId(long enterpriseId);
+
+    Collection<IProductionOrder> queryProductionOrdersByEnterpriseId(long enterpriseId);
+
+    IProductionOrder queryProductionOrderById(long productionOrderId) throws NotInDatabaseException;
 }

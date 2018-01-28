@@ -74,4 +74,6 @@ public interface IBackendConversionHelper {
     Collection<IRecipeOperation> getRecipeOperation(String recipeOperation);
 
     Collection<IRecipeNode> getRecipeNode(String recipeNode);
+
+    Collection<IProductionOrder> getProductionOrder(String productionOrder);
 }
