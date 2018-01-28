@@ -28,7 +28,7 @@ public class NominalParameterDAO extends AbstractEnterpriseDAO<NominalParameterT
 
     @Override
     protected long createImpl(IEnterpriseManager iEnterpriseManager, NominalParameterTO obj)
-            throws CreateException_Exception, NotInDatabaseException_Exception {
+            throws CreateException_Exception {
         return iEnterpriseManager.createNominalParameter(obj);
     }
 
