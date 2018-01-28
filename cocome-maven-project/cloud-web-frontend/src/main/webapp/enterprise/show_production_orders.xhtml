@@ -43,11 +43,17 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">Enterprise</f:facet>
-                        <h:outputText value="#{productionOrder.data.enterprise.name}"/>
+                        <h:commandLink
+                                action="#{navigationMenu.changeStateTo('ENTERPRISE_VIEW')}"
+                                value="#{productionOrder.data.enterprise.name}"
+                                rendered="#{login.loggedIn and (login.user.hasPermissionString('enterprise manager'))}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">Store</f:facet>
-                        <h:outputText value="#{productionOrder.data.store.name}"/>
+                        <h:commandLink
+                                action="#{navigationMenu.changeStateTo('STORE_VIEW')}"
+                                value="#{productionOrder.data.store.name}"
+                                rendered="#{login.loggedIn and (login.user.hasPermissionString('store manager'))}"/>
                     </h:column>
                 </h:dataTable>
             </h:form>
