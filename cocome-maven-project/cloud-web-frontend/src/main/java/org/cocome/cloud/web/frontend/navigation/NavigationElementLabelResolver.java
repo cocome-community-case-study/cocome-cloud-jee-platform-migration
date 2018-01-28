@@ -29,12 +29,11 @@ public class NavigationElementLabelResolver implements Serializable, ILabelResol
 	@Override
 	public String getLabel(String navOutcome) {
 		String transformedOutcome = transformOutcomeToRef(navOutcome);
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("navigation.");
-		sb.append(transformedOutcome);
-		sb.append(".label");
-		return strings.getString(sb.toString());
+
+		String sb = "navigation." +
+				transformedOutcome +
+				".label";
+		return strings.getString(sb);
 	}
 
 	private String transformOutcomeToRef(String navOutcome) {
