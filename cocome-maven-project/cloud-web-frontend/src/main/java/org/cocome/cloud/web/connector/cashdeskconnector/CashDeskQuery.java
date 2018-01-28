@@ -136,7 +136,7 @@ public class CashDeskQuery implements Serializable {
         try {
             lookupCashDeskComponents(storeID);
             String message = userDisplay.getMessage(cashDeskName, storeID);
-            LOG.error(String.format("Got display message '%s'", message));
+            LOG.info(String.format("Got display message '%s'", message));
             return message;
         } catch (UnhandledException_Exception | NotInDatabaseException_Exception e) {
             LOG.error(String.format("Exception while retrieving diplay message at cashdesk %s in store %d: %s\n",
