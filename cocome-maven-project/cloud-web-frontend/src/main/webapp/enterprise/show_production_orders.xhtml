@@ -12,7 +12,24 @@
         <f:ajax render="storeEnterpriseInfo"/>
 
         <ui:define name="body">
-            <h:form>
+            <!-- Polling mechanism -->
+            <script type="text/javascript">
+                setInterval(function () {
+                    document.getElementById('pollData:btnLoadData').click();
+                }, 30*1000);
+            </script>
+            <h:form id="pollData">
+                <!-- Polling mechanism -->
+                <h:commandButton id="btnLoadData"
+                                 value="Hidden"
+                                 action="#{productionOrderQuery.pollData(enterpriseInformation.activeEnterprise)}"
+                                 style="display:none">
+                    <f:ajax execute="@form" render=":productionOrders"/>
+                </h:commandButton>
+            </h:form>
+
+            <!-- Actual Data -->
+            <h:form id="productionOrders">
                 <h:dataTable
                         value="#{productionOrderQuery.getAllByParentObj(enterpriseInformation.activeEnterprise)}"
                         var="productionOrder"
@@ -32,13 +49,13 @@
                     <h:column>
                         <f:facet name="header">Order Date</f:facet>
                         <h:outputText value="#{productionOrder.data.orderingDate}">
-                            <f:convertDateTime pattern="#{strings['order.data.format']}" />
+                            <f:convertDateTime pattern="#{strings['order.data.format']}"/>
                         </h:outputText>
                     </h:column>
                     <h:column>
                         <f:facet name="header">Delivery Date</f:facet>
                         <h:outputText value="#{productionOrder.data.deliveryDate}">
-                            <f:convertDateTime pattern="#{strings['order.data.format']}" />
+                            <f:convertDateTime pattern="#{strings['order.data.format']}"/>
                         </h:outputText>
                     </h:column>
                     <h:column>
@@ -56,6 +73,9 @@
                                 rendered="#{login.loggedIn and (login.user.hasPermissionString('store manager'))}"/>
                     </h:column>
                 </h:dataTable>
+                <h:outputText value="#{productionOrderQuery.currentTime}">
+                    <f:convertDateTime pattern="#{strings['order.data.format']}"/>
+                </h:outputText>
             </h:form>
         </ui:define>
     </ui:composition>

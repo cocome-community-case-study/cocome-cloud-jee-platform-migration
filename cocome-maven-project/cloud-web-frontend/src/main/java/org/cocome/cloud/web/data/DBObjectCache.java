@@ -47,4 +47,8 @@ public class DBObjectCache<T extends ViewData> {
     public void remove(final T obj) {
         this.objects.remove(obj.getData().getId());
     }
+
+    public void clear() {
+        this.objects.clear();
+    }
 }
