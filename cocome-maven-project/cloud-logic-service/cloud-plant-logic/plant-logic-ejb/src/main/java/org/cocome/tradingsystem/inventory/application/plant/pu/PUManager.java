@@ -96,11 +96,14 @@ public class PUManager {
             job.getEnterpriseManager().onPlantOperationFinish(job.getOrderEntry().getId());
             if (!jobPool.hasJobs(job.getOrder(), job.getOrderEntry())) {
                 LOG.info("Order entry finished: " + job.getOrderEntry());
+                job.getOrderEntry().setFinished(true);
+                persistenceContext.updateEntity(job.getOrderEntry());
                 job.getEnterpriseManager().onPlantOperationOrderEntryFinish(job.getOrderEntry().getId());
             }
             if (!jobPool.hasJobs(job.getOrder())) {
                 LOG.info("Order finished: " + job.getOrderEntry());
                 job.getOrder().setDeliveryDate(new Date());
+                job.getOrder().setFinished(true);
                 persistenceContext.updateEntity(job.getOrder());
                 job.getEnterpriseManager().onPlantOperationOrderFinish(job.getOrder().getId());
             }

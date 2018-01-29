@@ -53,6 +53,8 @@ public class ProductionOrderTO implements Serializable, IIdentifiableTO {
     private StoreWithEnterpriseTO store;
     @XmlElement(name = "orderEntries", required = true)
     private Collection<ProductionOrderEntryTO> orderEntries;
+    @XmlElement(name = "finished", required = true)
+    private boolean finished;
 
     @Override
     public long getId() {
@@ -130,5 +132,19 @@ public class ProductionOrderTO implements Serializable, IIdentifiableTO {
 
     public void setEnterprise(EnterpriseTO enterprise) {
         this.enterprise = enterprise;
+    }
+
+    /**
+     * @return {@code true} if order has been finished
+     */
+    public boolean isFinished() {
+        return finished;
+    }
+
+    /**
+     * @param finished a flag indicating of the order has finished or not
+     */
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }

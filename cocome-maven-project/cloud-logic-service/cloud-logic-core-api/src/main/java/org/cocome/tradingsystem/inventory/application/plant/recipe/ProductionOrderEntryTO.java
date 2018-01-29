@@ -47,6 +47,8 @@ public class ProductionOrderEntryTO implements Serializable, IIdentifiableTO {
     private RecipeTO recipe;
     @XmlElement(name = "parameterValues", required = true)
     private Collection<ParameterValueTO> parameterValues;
+    @XmlElement(name = "finished", required = true)
+    private boolean finished;
 
     @Override
     public long getId() {
@@ -100,4 +102,17 @@ public class ProductionOrderEntryTO implements Serializable, IIdentifiableTO {
         this.parameterValues = parameterValues;
     }
 
+    /**
+     * @return {@code true} if order has been finished
+     */
+    public boolean isFinished() {
+        return finished;
+    }
+
+    /**
+     * @param finished a flag indicating of the order has finished or not
+     */
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 }

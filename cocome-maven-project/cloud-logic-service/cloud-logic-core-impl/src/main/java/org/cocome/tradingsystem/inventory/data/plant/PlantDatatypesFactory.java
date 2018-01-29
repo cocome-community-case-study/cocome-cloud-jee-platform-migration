@@ -426,6 +426,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(plantOperationOrder.getId());
         result.setOrderingDate(plantOperationOrder.getOrderingDate());
         result.setDeliveryDate(plantOperationOrder.getDeliveryDate());
+        result.setFinished(plantOperationOrder.isFinished());
         result.setEnterprise(enterpriseDatatypes.fillEnterpriseTO(plantOperationOrder.getEnterprise()));
         result.setPlant(enterpriseDatatypes.fillPlantTO(plantOperationOrder.getPlant()));
         result.setOrderEntries(convertList(plantOperationOrder.getOrderEntries(),
@@ -440,6 +441,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(plantOperationOrderTO.getId());
         result.setOrderingDate(plantOperationOrderTO.getOrderingDate());
         result.setDeliveryDate(plantOperationOrderTO.getDeliveryDate());
+        result.setFinished(plantOperationOrderTO.isFinished());
         result.setEnterprise(enterpriseDatatypes.convertToEnterprise(plantOperationOrderTO.getEnterprise()));
         result.setEnterpriseId(plantOperationOrderTO.getEnterprise().getId());
         result.setPlant(enterpriseDatatypes.convertToPlant(plantOperationOrderTO.getPlant()));
@@ -461,6 +463,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(plantOperationOrderEntry.getId());
         result.setPlantOperation(fillPlantOperationTO(plantOperationOrderEntry.getOperation()));
         result.setAmount(plantOperationOrderEntry.getAmount());
+        result.setFinished(plantOperationOrderEntry.isFinished());
         result.setParameterValues(convertList(plantOperationOrderEntry.getParameterValues(),
                 this::fillParameterValueTO));
         return result;
@@ -473,6 +476,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         final IPlantOperationOrderEntry result = getNewPlantOperationOrderEntry();
         result.setId(plantOperationOrderEntryTO.getId());
         result.setAmount(plantOperationOrderEntryTO.getAmount());
+        result.setFinished(plantOperationOrderEntryTO.isFinished());
         result.setOperation(convertToPlantOperation(plantOperationOrderEntryTO.getPlantOperation()));
         result.setOperationId(plantOperationOrderEntryTO.getPlantOperation().getId());
         result.setParameterValues(convertList(plantOperationOrderEntryTO.getParameterValues(),
@@ -518,6 +522,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(productionOrder.getId());
         result.setOrderingDate(productionOrder.getOrderingDate());
         result.setDeliveryDate(productionOrder.getDeliveryDate());
+        result.setFinished(productionOrder.isFinished());
         result.setEnterprise(enterpriseDatatypes.fillEnterpriseTO(productionOrder.getEnterprise()));
         result.setStore(storeDatatypes.fillStoreWithEnterpriseTO(productionOrder.getStore()));
         result.setOrderEntries(convertList(productionOrder.getOrderEntries(),
@@ -532,6 +537,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(productionOrderTO.getId());
         result.setOrderingDate(productionOrderTO.getOrderingDate());
         result.setDeliveryDate(productionOrderTO.getDeliveryDate());
+        result.setFinished(productionOrderTO.isFinished());
         result.setEnterpriseId(productionOrderTO.getEnterprise().getId());
         result.setStoreId(productionOrderTO.getStore().getId());
         result.setOrderEntries(convertList(productionOrderTO.getOrderEntries(),
@@ -551,6 +557,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         result.setId(productionOrderEntry.getId());
         result.setRecipe(fillRecipeTO(productionOrderEntry.getOperation()));
         result.setAmount(productionOrderEntry.getAmount());
+        result.setFinished(productionOrderEntry.isFinished());
         result.setParameterValues(convertList(productionOrderEntry.getParameterValues(),
                 this::fillParameterValueTO));
         return result;
@@ -562,6 +569,7 @@ public class PlantDatatypesFactory implements IPlantDataFactory {
         final IProductionOrderEntry result = getNewProductionOrderEntry();
         result.setId(productionOrderEntryTO.getId());
         result.setAmount(productionOrderEntryTO.getAmount());
+        result.setFinished(productionOrderEntryTO.isFinished());
         result.setOperation(convertToRecipe(productionOrderEntryTO.getRecipe()));
         result.setParameterValues(convertList(productionOrderEntryTO.getParameterValues(),
                 this::convertToParameterValue));

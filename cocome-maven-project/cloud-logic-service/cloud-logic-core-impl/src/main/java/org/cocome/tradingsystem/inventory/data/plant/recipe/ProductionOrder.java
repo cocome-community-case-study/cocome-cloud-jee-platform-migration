@@ -48,6 +48,7 @@ public class ProductionOrder implements IProductionOrder, Serializable {
     private IStore store;
     private ITradingEnterprise enterprise;
     private Collection<IProductionOrderEntry> orderEntries;
+    private boolean finished;
 
     private long storeId;
     private long enterpriseId;
@@ -150,4 +151,15 @@ public class ProductionOrder implements IProductionOrder, Serializable {
     public void setStoreId(long storeId) {
         this.storeId = storeId;
     }
+
+    @Override
+    public boolean isFinished() {
+        return finished;
+    }
+
+    @Override
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
 }

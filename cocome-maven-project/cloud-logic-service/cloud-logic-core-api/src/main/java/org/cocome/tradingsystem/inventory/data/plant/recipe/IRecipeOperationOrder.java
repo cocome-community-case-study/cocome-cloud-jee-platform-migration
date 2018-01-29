@@ -94,6 +94,16 @@ public interface IRecipeOperationOrder<
     void setOrderEntries(Collection<TEntry> orderEntries);
 
     /**
+     * @return {@code true} if order has been finished
+     */
+    boolean isFinished();
+
+    /**
+     * @param finished a flag indicating of the order has finished or not
+     */
+    void setFinished(boolean finished);
+
+    /**
      * Checks the validity of this order
      *
      * @throws NotInDatabaseException if a referenced entity could not be found inside the database

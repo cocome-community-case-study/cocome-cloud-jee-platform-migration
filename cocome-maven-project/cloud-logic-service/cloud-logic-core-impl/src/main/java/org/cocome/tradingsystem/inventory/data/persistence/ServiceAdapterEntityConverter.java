@@ -546,6 +546,8 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.isFinished()) +
+                ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(order.getEnterpriseId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(order.getPlantId());
@@ -558,6 +560,8 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.isFinished()) +
+                ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(order.getEnterpriseId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(order.getPlantId());
@@ -567,6 +571,8 @@ class ServiceAdapterEntityConverter {
         return TimeUtils.convertNullableToStringDate(order.getDeliveryDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.isFinished()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(order.getEnterpriseId()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -580,6 +586,8 @@ class ServiceAdapterEntityConverter {
                 ServiceAdapterHeaders.SEPARATOR +
                 TimeUtils.convertToStringDate(order.getOrderingDate()) +
                 ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(order.isFinished()) +
+                ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(order.getEnterpriseId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(order.getStoreId());
@@ -587,6 +595,8 @@ class ServiceAdapterEntityConverter {
 
     static String getCreatePlantOperationOrderEntryContent(IPlantOperationOrderEntry orderEntry) {
         return String.valueOf(orderEntry.getAmount()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.isFinished()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(orderEntry.getOperation().getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -597,6 +607,8 @@ class ServiceAdapterEntityConverter {
         return String.valueOf(orderEntry.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(orderEntry.getAmount()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.isFinished()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(orderEntry.getOperation().getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
@@ -626,6 +638,8 @@ class ServiceAdapterEntityConverter {
     static String getCreateProductionOrderEntryContent(IProductionOrderEntry orderEntry) {
         return String.valueOf(orderEntry.getAmount()) +
                 ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.isFinished()) +
+                ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(orderEntry.getOperation().getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(orderEntry.getOrderId());
@@ -635,6 +649,8 @@ class ServiceAdapterEntityConverter {
         return String.valueOf(orderEntry.getId()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(orderEntry.getAmount()) +
+                ServiceAdapterHeaders.SEPARATOR +
+                String.valueOf(orderEntry.isFinished()) +
                 ServiceAdapterHeaders.SEPARATOR +
                 String.valueOf(orderEntry.getOperation().getId()) +
                 ServiceAdapterHeaders.SEPARATOR +

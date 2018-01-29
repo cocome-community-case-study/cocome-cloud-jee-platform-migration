@@ -186,11 +186,14 @@ public class ProductionManager {
             jobContext.getJob().getStoreManager().onProductionFinish(jobContext.getJob().getOrderEntry().getId());
             if (!jobPool.hasJobs(jobContext.getJob().getOrder(), jobContext.getJob().getOrderEntry())) {
                 LOG.info("Production order entry finished: " + jobContext.getJob().getOrderEntry());
+                jobContext.getJob().getOrderEntry().setFinished(true);
+                persistenceContext.updateEntity(jobContext.getJob().getOrderEntry());
                 jobContext.getJob().getStoreManager().onProductionOrderEntryFinish(jobContext.getJob().getOrderEntry().getId());
             }
             if (!jobPool.hasJobs(jobContext.getJob().getOrder())) {
                 LOG.info("Production Order finished: " + jobContext.getJob().getOrderEntry());
                 jobContext.getJob().getOrder().setDeliveryDate(new Date());
+                jobContext.getJob().getOrder().setFinished(true);
                 persistenceContext.updateEntity(jobContext.getJob().getOrder());
                 jobContext.getJob().getStoreManager().onProductionOrderFinish(jobContext.getJob().getOrder().getId());
             }

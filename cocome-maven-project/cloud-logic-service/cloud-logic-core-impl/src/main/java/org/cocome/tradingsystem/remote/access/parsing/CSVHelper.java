@@ -664,8 +664,9 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setId(fetchLong(row.getColumns().get(0)));
             result.setOrderingDate(fetchDate(row.getColumns().get(1)));
             result.setDeliveryDate(fetchDate(row.getColumns().get(2)));
-            result.setEnterpriseId(fetchLong(row.getColumns().get(3)));
-            result.setStoreId(fetchLong(row.getColumns().get(4)));
+            result.setFinished(fetchBoolean(row.getColumns().get(3)));
+            result.setEnterpriseId(fetchLong(row.getColumns().get(4)));
+            result.setStoreId(fetchLong(row.getColumns().get(5)));
 
             return result;
         });
@@ -679,8 +680,9 @@ public class CSVHelper implements IBackendConversionHelper {
             result.setId(fetchLong(row.getColumns().get(0)));
             result.setOrderingDate(fetchDate(row.getColumns().get(1)));
             result.setDeliveryDate(fetchDate(row.getColumns().get(2)));
-            result.setEnterpriseId(fetchLong(row.getColumns().get(3)));
-            result.setPlantId(fetchLong(row.getColumns().get(4)));
+            result.setFinished(fetchBoolean(row.getColumns().get(3)));
+            result.setEnterpriseId(fetchLong(row.getColumns().get(4)));
+            result.setPlantId(fetchLong(row.getColumns().get(5)));
 
             return result;
         });
@@ -693,6 +695,7 @@ public class CSVHelper implements IBackendConversionHelper {
 
             result.setId(fetchLong(row.getColumns().get(0)));
             result.setAmount(fetchLong(row.getColumns().get(1)));
+            result.setFinished(fetchBoolean(row.getColumns().get(2)));
 
             return result;
         });

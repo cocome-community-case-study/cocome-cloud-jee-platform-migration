@@ -39,6 +39,7 @@ public class ProductionOrderEntry implements Serializable, IProductionOrderEntry
     private Collection<IParameterValue> parameterValues;
     private IProductionOrder order;
     private long orderId;
+    private boolean finished;
 
     @Override
     public long getId() {
@@ -109,4 +110,15 @@ public class ProductionOrderEntry implements Serializable, IProductionOrderEntry
     public void setOrder(IProductionOrder order) {
         this.order = order;
     }
+
+    @Override
+    public boolean isFinished() {
+        return finished;
+    }
+
+    @Override
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
 }

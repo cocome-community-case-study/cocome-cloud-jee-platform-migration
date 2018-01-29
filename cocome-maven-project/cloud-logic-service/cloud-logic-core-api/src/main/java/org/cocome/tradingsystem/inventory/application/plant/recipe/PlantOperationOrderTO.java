@@ -53,6 +53,8 @@ public class PlantOperationOrderTO implements Serializable, IIdentifiableTO {
     private PlantTO plant;
     @XmlElement(name = "orderEntries", required = true)
     private Collection<PlantOperationOrderEntryTO> orderEntries;
+    @XmlElement(name = "finished", required = true)
+    private boolean finished;
 
     /**
      * Minimal constructor
@@ -147,5 +149,19 @@ public class PlantOperationOrderTO implements Serializable, IIdentifiableTO {
      */
     public void setOrderEntries(Collection<PlantOperationOrderEntryTO> orderEntries) {
         this.orderEntries = orderEntries;
+    }
+
+    /**
+     * @return {@code true} if order has been finished
+     */
+    public boolean isFinished() {
+        return finished;
+    }
+
+    /**
+     * @param finished a flag indicating of the order has finished or not
+     */
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }

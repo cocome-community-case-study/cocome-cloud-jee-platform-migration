@@ -51,4 +51,8 @@ public interface IRecipeOperationOrderEntry<T extends IRecipeOperation>
 
     void setOrderId(final long orderId);
 
+    boolean isFinished();
+
+    void setFinished(boolean finished);
+
 }

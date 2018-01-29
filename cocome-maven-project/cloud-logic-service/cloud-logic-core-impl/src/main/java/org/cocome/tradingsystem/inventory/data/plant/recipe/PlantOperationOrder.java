@@ -45,6 +45,7 @@ public class PlantOperationOrder implements Serializable, IPlantOperationOrder {
     private long id;
     private Date deliveryDate;
     private Date orderingDate;
+    private boolean finished;
     private ITradingEnterprise enterprise;
     private IPlant plant;
     private Collection<IPlantOperationOrderEntry> orderEntries = new LinkedList<>();
@@ -150,4 +151,15 @@ public class PlantOperationOrder implements Serializable, IPlantOperationOrder {
     public void setPlantId(long plantId) {
         this.plantId = plantId;
     }
+
+    @Override
+    public boolean isFinished() {
+        return finished;
+    }
+
+    @Override
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
 }

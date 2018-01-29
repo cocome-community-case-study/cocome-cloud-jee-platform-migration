@@ -34,6 +34,7 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
 
     private long id;
     private long amount;
+    private boolean finished;
     private IPlantOperation plantOperation;
     private long operationId;
     private Collection<IParameterValue> parameterValues;
@@ -110,4 +111,15 @@ public class PlantOperationOrderEntry implements Serializable, IPlantOperationOr
     public void setOrder(IPlantOperationOrder order) {
         this.order = order;
     }
+
+    @Override
+    public boolean isFinished() {
+        return finished;
+    }
+
+    @Override
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
 }

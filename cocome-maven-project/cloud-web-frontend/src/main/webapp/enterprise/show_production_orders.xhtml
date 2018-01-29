@@ -16,7 +16,7 @@
             <script type="text/javascript">
                 setInterval(function () {
                     document.getElementById('pollData:btnLoadData').click();
-                }, 30*1000);
+                }, 15*1000);
             </script>
             <h:form id="pollData">
                 <!-- Polling mechanism -->
@@ -54,7 +54,10 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">Delivery Date</f:facet>
-                        <h:outputText value="#{productionOrder.data.deliveryDate}">
+                        <h:outputText value="In Progress"
+                                      rendered="#{!productionOrder.data.finished}"/>
+                        <h:outputText value="#{productionOrder.data.deliveryDate}"
+                                      rendered="#{productionOrder.data.finished}">
                             <f:convertDateTime pattern="#{strings['order.data.format']}"/>
                         </h:outputText>
                     </h:column>
