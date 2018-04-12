@@ -26,7 +26,9 @@ for `cocome-maven-project` and `cocome-cloud-jee-service-adapter`:
 ## Important notice
 - In each case you need to start the glassfish domains before you can actually deploy 
   something on them. Therefore, start each domain in the following order: start database, 
-  start registry,start adapter, start the rest (web, store, enterprise).
+  1. start registry,
+  2. start adapter, 
+  3. start the rest (web, plant, store, enterprise).
 - Whenever you want to start the domains, do it in this order.
 
 

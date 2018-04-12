@@ -5,7 +5,7 @@ Eclipse, and the deployment process. In many cases it is easy to fix
 these issues or work around them. Here is a (growing) list of hints
 how to solve typical issues:
 
-'Errors with the Target Runtime'
+##Errors with the Target Runtime
 
 There may be errors regarding the target runtime. They may be resolved
 by installing at least the Glassfish Tools from the Oracle Enterprise
@@ -15,12 +15,12 @@ your existing Glassfish installation. After this, change the Targeted
 Runtimes of the ear, ejb, webservice and java-utils projects under
 Properties -> Targeted Runtimes to the newly created glassfish server.
 
-'Java Errors'
+## Java Errors
 
 Add the JDK 7 path to your PATH environment variable if you have
 problems with running Glassfish through the maven install command.
 
-'Buid Problems'
+## Buid Problems
 
 Disable the Build automatically option in Eclipse if you have trouble 
 deploying the `cloud-web-frontend` project or change the output folders
@@ -28,7 +28,7 @@ for the Eclipse build to something other than /target. Eclipse auto
 build may interfere with the maven build. This may also happen when you
 have imported your project not as a Maven project.
 
-'Deployment fails in an erratic way'
+## Deployment fails in an erratic way
 
 We added a script called `deployment.sh` which can be used in Linux and
 other environments which support `bash`. It allows to deploy, undeploy,
@@ -56,7 +56,7 @@ Glassfish (servers need to be running):
 9. Deploy the whole CoCoME (you can try to deploy just the service that caused the problem). Therefore,
    (see [`Deployment Setup.md`](./Deployment Setup.md))
 
-'Errors after a restart of CoCoME'
+##Errors after a restart of CoCoME
 Sometimes, when you restart CoCoME (after a system shutdown etc) it does not work again. For example, 
 Enterprises you once created don't show up. You only get an error message.
 Solution: Did you start the database? Did you start the domains in the correct order? (They depend 

@@ -38,6 +38,9 @@
                 <logic.plant.user>admin</logic.plant.user>
                 <logic.plant.password>admin</logic.plant.password>
                 <logic.plant.baseDir />
+                <!-- Enter the URL of an operational xPPU device here to use it for testing -->
+                <!-- <test.xppu.url>http://129.187.88.30:4567</test.xppu.url> -->
+                <test.xppu.url/>
 
 				<logic.stubs.package>org.cocome.cloud.logic.stub</logic.stubs.package>
 		

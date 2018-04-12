@@ -47,6 +47,7 @@ physical machines.
 In detail these four or five instances are named:
 - web
 - store
+- plant
 - adapter (this is for the jee-service-adapter project)
 - enterprise
 - registry (this is optional and can be installed along side the
@@ -91,6 +92,7 @@ If you do not see 'servers' in your Eclipse perspective got to
 `bin/asadmin create-domain --portbase 8200 adapter`  (this is for the service-adapter)
 `bin/asadmin create-domain --portbase 8300 enterprise`
 `bin/asadmin create-domain --portbase 8400 registry` (registry is optional)
+`bin/asadmin create-domain --portbase 8500 plant`
 
 Note: It is best to start each domain before creating the next when
 using this method. Otherwise both domains may end up using the same
@@ -125,6 +127,7 @@ For this method we suggest the following portbases:
 - adapter 8200
 - enterprise 8300
 - registry 8400 (registry is optional)
+- plant 8500
 
 If you get an error saying something like 'the portbase you are using is already in use' , try to find out which program uses it and 
 change it if possible.

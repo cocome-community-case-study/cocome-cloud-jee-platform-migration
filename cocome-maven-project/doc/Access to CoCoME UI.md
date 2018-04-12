@@ -32,9 +32,27 @@ You need to provide the ID of an existing store to do that
 which can be retrieved using the Database Manager view mentioned 
 in the paragraph above.
 
-##Notice
+##Important (!): Start-up order of CoCoME applications
 In case you already deployed CoCoME and you want to restart the application 
 (for example after a shutdown of your PC), start the glassfish domains in 
-the following order: start database, start registry,start adapter, start the 
-rest (web, store, enterprise). Then, you will be able to access the UI as
-mentioned above.
+the following order: 
+
+1. start database, 
+2. start registry,
+3. start adapter, 
+4. start the rest (web, plant, store, enterprise). 
+
+Then, you will be able to access the UI as mentioned above.
+
+## Default Credit Card Credentials:
+
+This variant of CoCoME offers only one single hard-coded credit card (see [`TrivialBankServer`](../cloud-logic-service/cloud-store-logic/store-logic-ejb/src/main/java/org/cocome/tradingsystem/external/TrivialBankServer.java)).
+Use the following credentials if you want to use UI functions that require credit card credentials:
+
+<dl>
+  <dt>Credit Card Info </dt>
+  <dd>1234</dd>
+
+  <dt>Credit Card Pin</dt>
+  <dd>7777</dd>
+</dl>
