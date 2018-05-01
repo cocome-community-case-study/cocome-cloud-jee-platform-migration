@@ -53,7 +53,7 @@ To deploy one of the sub-projects, execute the commands in its corresponding fol
 On command line you may deploy CoCoME or one of the above sub-projects as follows:
 
 - Enter the project folder to deploy CoCoME and run
-  `mvn -s settings.xml install`
+  `mvn -s settings.xml install -DskipITs`
   
 - To Undeploy CoCoME or a sub-project enter:
   `mvn -s settings.xml clean post-clean`
@@ -65,7 +65,8 @@ To deploy CoCoME or one of the above sub-projects from within Eclipse, do the fo
 - Set the following values:
  - Goals: install
  - Profiles: Leave empty
- - User Settings:  Use your settings.xml from the actual project
+ - User Settings: Use your settings.xml from the actual project
+ - Check the skip tests flag
  
 To undeploy CoCoME or a sub-project:
 

@@ -92,7 +92,7 @@ If you want to use the Maven commands from within Eclipse, create the following 
      
    
 The resulting packages can now be deployed by hand, via
-`mvn -s settings.xml install`(in both projects), or via the deployment
+`mvn -s settings.xml install -DskipITs`(in both projects), or via the deployment
 script `deployment.sh`. Please read the [`Deployment Setup.md`](./Deployment Setup.md).
 
 ## Eclipse Errors
