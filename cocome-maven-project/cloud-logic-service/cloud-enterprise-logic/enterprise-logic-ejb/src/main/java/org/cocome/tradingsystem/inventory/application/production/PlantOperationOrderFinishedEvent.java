@@ -3,7 +3,7 @@ package org.cocome.tradingsystem.inventory.application.production;
 import java.io.Serializable;
 
 /**
- * The abstract class for any event time comming from an production unit
+ * Event class for finished plant operation orders
  *
  * @author Rudolf Biczok
  */
