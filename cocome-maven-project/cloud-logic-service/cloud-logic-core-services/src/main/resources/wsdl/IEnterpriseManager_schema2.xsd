@@ -103,6 +103,7 @@
       <xs:element name="enterprise" type="ns3:EnterpriseTO"/>
       <xs:element name="store" type="ns3:StoreWithEnterpriseTO"/>
       <xs:element maxOccurs="unbounded" name="orderEntries" type="tns:ProductionOrderEntryTO"/>
+      <xs:element name="finished" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -112,6 +113,7 @@
       <xs:element name="amount" type="xs:long"/>
       <xs:element name="recipe" type="tns:RecipeTO"/>
       <xs:element maxOccurs="unbounded" name="parameterValues" type="tns:ParameterValueTO"/>
+      <xs:element name="finished" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 

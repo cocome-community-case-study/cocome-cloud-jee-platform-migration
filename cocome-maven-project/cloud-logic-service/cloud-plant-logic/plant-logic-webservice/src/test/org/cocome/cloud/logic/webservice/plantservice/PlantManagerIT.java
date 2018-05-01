@@ -147,10 +147,10 @@ public class PlantManagerIT {
         /* Environmental setup */
 
         final PUCImporter xppu;
-        if(TestUtils.REAL_XPPU_ENDPOINT.isEmpty()) {
+        if (TestUtils.REAL_XPPU_ENDPOINT.isEmpty()) {
             xppu = new PUCImporter("xPPU", XPPU.values(), plant, pm);
         } else {
-            xppu = new PUCImporter("xPPU", plant, pm);
+            xppu = new PUCImporter("xPPU", TestUtils.REAL_XPPU_ENDPOINT, plant, pm);
         }
         final PUCImporter fmu = new PUCImporter("FMU", FMU.values(), plant, pm);
 
@@ -159,8 +159,12 @@ public class PlantManagerIT {
         final ProductionUnitTO xppu1 = new ProductionUnitTO();
         xppu1.setPlant(plant);
         xppu1.setProductionUnitClass(xppu.getProductionUnitClass());
-        xppu1.setDouble(true);
-        xppu1.setInterfaceUrl(TestUtils.REAL_XPPU_ENDPOINT);
+        if (TestUtils.REAL_XPPU_ENDPOINT.isEmpty()) {
+            xppu1.setDouble(true);
+            xppu1.setInterfaceUrl(TestUtils.REAL_XPPU_ENDPOINT);
+        } else {
+            xppu1.setInterfaceUrl("dummy2.org");
+        }
         xppu1.setLocation("Some Place 1");
         xppu1.setId(pm.createProductionUnit(xppu1));
 

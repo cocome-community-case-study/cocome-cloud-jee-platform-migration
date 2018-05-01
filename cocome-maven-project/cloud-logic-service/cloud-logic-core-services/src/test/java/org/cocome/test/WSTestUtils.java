@@ -64,7 +64,12 @@ public class WSTestUtils {
 
         /* Environmental setup */
 
-        final PUCImporter xppu = new PUCImporter("xPPU", XPPU.values(), plant, pm);
+        final PUCImporter xppu;
+        if(TestUtils.REAL_XPPU_ENDPOINT.isEmpty()) {
+            xppu = new PUCImporter("xPPU", XPPU.values(), plant, pm);
+        } else {
+            xppu = new PUCImporter("xPPU", TestUtils.REAL_XPPU_ENDPOINT, plant, pm);
+        }
         final PUCImporter fmu = new PUCImporter("FMU", FMU.values(), plant, pm);
 
         /* Production Units */
@@ -72,7 +77,9 @@ public class WSTestUtils {
         final ProductionUnitTO xppu1 = new ProductionUnitTO();
         xppu1.setPlant(plant);
         xppu1.setProductionUnitClass(xppu.getProductionUnitClass());
-        xppu1.setDouble(true);
+        if(TestUtils.REAL_XPPU_ENDPOINT.isEmpty()) {
+            xppu1.setDouble(true);
+        }
         xppu1.setInterfaceUrl("dummy1.org");
         xppu1.setLocation("Some Place 1");
         xppu1.setId(pm.createProductionUnit(xppu1));

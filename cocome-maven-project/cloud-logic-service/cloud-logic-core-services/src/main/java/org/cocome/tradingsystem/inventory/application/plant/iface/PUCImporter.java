@@ -28,12 +28,13 @@ public class PUCImporter {
     private Map<String, ProductionUnitOperationTO> operators;
 
     public PUCImporter(final String pucName,
+                       final String interfaceURL,
                        final PlantTO plant,
                        final IPlantManager pm) throws CreateException_Exception,
             NotInDatabaseException_Exception {
 
         final long pucId =
-                pm.importProductionUnitClass("Test", "http://129.187.88.30:4567", plant);
+                pm.importProductionUnitClass(pucName, interfaceURL, plant);
 
         puc = pm.queryProductionUnitClassByID(pucId);
 

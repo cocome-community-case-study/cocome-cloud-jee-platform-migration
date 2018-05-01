@@ -20,6 +20,7 @@
       <xs:element name="enterprise" type="ns2:EnterpriseTO"/>
       <xs:element name="plant" type="ns3:PlantTO"/>
       <xs:element maxOccurs="unbounded" name="orderEntries" type="tns:PlantOperationOrderEntryTO"/>
+      <xs:element name="finished" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -29,6 +30,7 @@
       <xs:element name="amount" type="xs:long"/>
       <xs:element name="plantOperation" type="tns:PlantOperationTO"/>
       <xs:element maxOccurs="unbounded" name="parameterValues" type="tns:ParameterValueTO"/>
+      <xs:element name="finished" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 
