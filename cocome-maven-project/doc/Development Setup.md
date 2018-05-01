@@ -61,9 +61,14 @@
   domains or you have configured you Glassfish servers with different
   admin and http ports, then you have to set these values properly.
   
-- In the `service-adapter` project, proceed in a similar way (You should to add a Glassfish domain for this one). Therefore
+- In the `service-adapter` project, proceed in a similar way (You should have added a Glassfish domain for this one too). Therefore
   read the [README](https://github.com/cocome-community-case-study/cocome-cloud-jee-service-adapter) in the cocome-cloud-jee-service-adapter project.
+
+
 - Make sure you refer to the same domain for `service adapter` in this setting file and in the setting file of the service-adapter.  
+
+  Notice: the domain 'adapter' you propably created during glassfish setup is supposed to be the domain for the service-adapter project.
+
   
 ## Building CoCoME
  

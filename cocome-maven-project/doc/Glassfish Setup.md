@@ -2,11 +2,13 @@
 
 The project and the documentation are based on Glassfish 4.x as platform
 service. However, you may use other JavaEE platform providers.
+#####Important notice: when you want to use your own DB (see [Service Adapter](https://github.com/cocome-community-case-study/cocome-cloud-jee-service-adapter/blob/master/README.md) for further information) you need to use Glassfish 5.x
 
 ## Prerequisits
 
 - Eclipse with Glassfish Tools (optional)
-- Glassfish 4.0 or higher (can be obtained from https://glassfish.java.net/)
+- [Glassfish 4.0](https://javaee.github.io/glassfish/download) or higher
+- Glassfish 5.x already available but compatibility not tested completely.
 
 Quick Facts:
 - ${GLASSFISH} path to the Glassfish installation
@@ -50,8 +52,7 @@ In detail these four or five instances are named:
 - plant
 - adapter (this is for the jee-service-adapter project)
 - enterprise
-- registry (this is optional and can be installed along side the
-  store component)
+- registry 
 
 In case you use one Glassfish installaion (which is recommended on one physical machine),
 you can name then as listed above. Proceed with "Creating domains with...".
@@ -126,7 +127,7 @@ For this method we suggest the following portbases:
 - store 8100
 - adapter 8200
 - enterprise 8300
-- registry 8400 (registry is optional)
+- registry 8400
 - plant 8500
 
 If you get an error saying something like 'the portbase you are using is already in use' , try to find out which program uses it and 
