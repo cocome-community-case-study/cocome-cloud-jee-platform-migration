@@ -1,10 +1,13 @@
-package org.cocome.test;
+package org.cocome.tradingsystem.util;
 
-import org.cocome.tradingsystem.util.Configuration;
 
 import java.util.Properties;
 
-public final class TestConfig {
+/**
+ * This config loader is used to load web service properties inside Java SE environments
+ * @author Rudolf Biczok
+ */
+public final class JavaSEConfigLoader {
 
     private static Properties configData = Configuration
             .loadPropertiesFromClasspath("Configuration.properties");
@@ -25,6 +28,6 @@ public final class TestConfig {
         return configData.getProperty(attribute);
     }
 
-    private TestConfig() {
+    private JavaSEConfigLoader() {
     }
 }

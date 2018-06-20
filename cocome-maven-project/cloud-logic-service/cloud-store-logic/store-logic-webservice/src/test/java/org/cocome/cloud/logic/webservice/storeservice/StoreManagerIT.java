@@ -21,7 +21,7 @@ package org.cocome.cloud.logic.webservice.storeservice;
 
 import org.cocome.cloud.logic.stub.*;
 import org.cocome.test.EnterpriseInfo;
-import org.cocome.test.TestConfig;
+import org.cocome.tradingsystem.util.JavaSEConfigLoader;
 import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.ParameterValueTO;
 import org.cocome.tradingsystem.inventory.application.store.*;
@@ -40,11 +40,11 @@ import java.util.Date;
 public class StoreManagerIT {
 
     private static IEnterpriseManager em = WSTestUtils.createJaxWsClient(IEnterpriseManager.class,
-            TestConfig.getEnterpriseServiceWSDL());
+            JavaSEConfigLoader.getEnterpriseServiceWSDL());
     private static IPlantManager pm = WSTestUtils.createJaxWsClient(IPlantManager.class,
-            TestConfig.getPlantManagerWSDL());
+            JavaSEConfigLoader.getPlantManagerWSDL());
     private static IStoreManager sm = WSTestUtils.createJaxWsClient(IStoreManager.class,
-            TestConfig.getStoreManagerWSDL());
+            JavaSEConfigLoader.getStoreManagerWSDL());
 
     private static EnterpriseInfo enterpriseInfo;
 

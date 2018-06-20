@@ -11,6 +11,7 @@
     <modules>
         <module>cloud-logic-service</module>
         <module>cloud-web-frontend</module>
+        <module>cloud-cli-frontend</module>
     </modules>
 
     <properties>

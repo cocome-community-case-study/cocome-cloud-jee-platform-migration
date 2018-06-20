@@ -20,7 +20,7 @@ package org.cocome.cloud.webservice.enterpriseservice;
 
 import org.cocome.cloud.logic.stub.*;
 import org.cocome.test.EnterpriseInfo;
-import org.cocome.test.TestConfig;
+import org.cocome.tradingsystem.util.JavaSEConfigLoader;
 import org.cocome.test.WSTestUtils;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
@@ -42,9 +42,9 @@ import java.util.*;
 public class EnterpriseManagerIT {
 
     private static IEnterpriseManager em = WSTestUtils.createJaxWsClient(IEnterpriseManager.class,
-            TestConfig.getEnterpriseServiceWSDL());
+            JavaSEConfigLoader.getEnterpriseServiceWSDL());
     private static IPlantManager pm = WSTestUtils.createJaxWsClient(IPlantManager.class,
-            TestConfig.getPlantManagerWSDL());
+            JavaSEConfigLoader.getPlantManagerWSDL());
 
     @Test
     public void testCRUDForPlant() throws Exception {

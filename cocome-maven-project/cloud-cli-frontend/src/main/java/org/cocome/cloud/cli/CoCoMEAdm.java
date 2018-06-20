@@ -1,74 +1,58 @@
-/*
- *************************************************************************
- * Copyright 2013 DFG SPP 1593 (http://dfg-spp1593.de)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *************************************************************************
- */
-
-package org.cocome.test;
+package org.cocome.cloud.cli;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.cocome.cloud.logic.stub.*;
-import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.application.enterprise.CustomProductTO;
 import org.cocome.tradingsystem.inventory.application.plant.PlantTO;
-import org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo;
 import org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo;
 import org.cocome.tradingsystem.inventory.application.plant.iface.PUCImporter;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.FMU;
 import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.doub.XPPU;
-import org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO;
 import org.cocome.tradingsystem.inventory.application.plant.productionunit.ProductionUnitTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.*;
-import org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO;
 import org.cocome.tradingsystem.inventory.application.plant.recipe.RecipeTO;
+import org.cocome.tradingsystem.inventory.application.store.*;
 import org.cocome.tradingsystem.inventory.application.store.EnterpriseTO;
-import org.cocome.tradingsystem.inventory.application.store.StoreWithEnterpriseTO;
+import org.cocome.tradingsystem.inventory.application.store.OnDemandItemTO;
+import org.cocome.tradingsystem.inventory.application.store.ProductTO;
 import org.cocome.tradingsystem.inventory.data.plant.parameter.IBooleanParameter;
+import org.cocome.tradingsystem.util.JavaSEConfigLoader;
 
 import java.util.*;
 
-/**
- * Utilities for web service unit tests
- *
- * @author Rudolf biczok
- */
-public class WSTestUtils {
+public class CoCoMEAdm {
 
-    @SuppressWarnings("unchecked")
-    public static <T> T createJaxWsClient(final Class<T> clientClass, final String url) {
-        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        factory.setServiceClass(clientClass);
-        factory.setAddress(url);
-        return (T) factory.create();
-    }
-
-    public static EnterpriseInfo createEnvironmentWithSimpleRecipe(final IEnterpriseManager em,
-                                                                   final IPlantManager pm)
+    public static void main(final String... args)
             throws CreateException_Exception, NotInDatabaseException_Exception, RecipeException_Exception {
-        final EnterpriseTO enterprise = WSTestUtils.createEnterprise(em);
-        final PlantTO plant = WSTestUtils.createPlant(enterprise, em);
-        final StoreWithEnterpriseTO store = WSTestUtils.createStore(enterprise, em);
+        final IEnterpriseManager em = createJaxWsClient(IEnterpriseManager.class,
+                JavaSEConfigLoader.getEnterpriseServiceWSDL());
+        final IPlantManager pm = createJaxWsClient(IPlantManager.class,
+                JavaSEConfigLoader.getPlantManagerWSDL());
+        final IStoreManager sm = createJaxWsClient(IStoreManager.class,
+                JavaSEConfigLoader.getStoreManagerWSDL());
+
+        final org.cocome.tradingsystem.inventory.application.store.EnterpriseTO enterprise = createEnterprise(em);
+        final PlantTO plant = createPlant(enterprise, em);
+        final StoreWithEnterpriseTO store = createStore(enterprise, em);
+
+        final String xppuEndpoint;
+        if (args.length > 0 && args[0] != null && !args[0].isEmpty()) {
+            xppuEndpoint = args[0];
+            System.out.println("Used URL to xPPU: " + xppuEndpoint);
+        } else {
+            xppuEndpoint = "";
+            System.out.println("Using mocked xPPU to populate CoCoME instance");
+            System.out.println("Add xPPU URL as command line argument to use real xPPU instance instead");
+        }
 
         /* Environmental setup */
 
         final PUCImporter xppu;
-        if(TestUtils.REAL_XPPU_ENDPOINT.isEmpty()) {
+        if (xppuEndpoint.isEmpty()) {
             xppu = new PUCImporter("xPPU", XPPU.values(), plant, pm);
         } else {
-            xppu = new PUCImporter("xPPU", TestUtils.REAL_XPPU_ENDPOINT, plant, pm);
+            xppu = new PUCImporter("xPPU", xppuEndpoint, plant, pm);
         }
         final PUCImporter fmu = new PUCImporter("FMU", FMU.values(), plant, pm);
 
@@ -77,21 +61,15 @@ public class WSTestUtils {
         final ProductionUnitTO xppu1 = new ProductionUnitTO();
         xppu1.setPlant(plant);
         xppu1.setProductionUnitClass(xppu.getProductionUnitClass());
-        if(TestUtils.REAL_XPPU_ENDPOINT.isEmpty()) {
+        if (xppuEndpoint.isEmpty()) {
             xppu1.setDouble(true);
-
+            xppu1.setInterfaceUrl("test.org");
+        } else {
+            xppu1.setDouble(false);
+            xppu1.setInterfaceUrl(xppuEndpoint);
         }
-        xppu1.setInterfaceUrl(TestUtils.REAL_XPPU_ENDPOINT);
         xppu1.setLocation("Some Place 1");
         xppu1.setId(pm.createProductionUnit(xppu1));
-
-        final ProductionUnitTO xppu2 = new ProductionUnitTO();
-        xppu2.setPlant(plant);
-        xppu2.setProductionUnitClass(xppu.getProductionUnitClass());
-        xppu2.setDouble(true);
-        xppu2.setInterfaceUrl("dummy2.org");
-        xppu2.setLocation("Some Place 2");
-        xppu2.setId(pm.createProductionUnit(xppu2));
 
         final ProductionUnitTO fmu3 = new ProductionUnitTO();
         fmu3.setPlant(plant);
@@ -103,10 +81,10 @@ public class WSTestUtils {
 
         /* Plant Operations */
 
-        final PlantOperationTO operation1 = new PlantOperationTO();
+        final org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO operation1 = new org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO();
         operation1.setName("Produce Yogurt");
         operation1.setPlant(plant);
-        operation1.setMarkup(new MarkupInfo(
+        operation1.setMarkup(new org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo(
                 Arrays.asList(
                         xppu.getOperation(XPPU.Crane_ACT_Init),
                         xppu.getOperation(XPPU.Stack_ACT_Init),
@@ -119,7 +97,7 @@ public class WSTestUtils {
                         xppu.getOperation(XPPU.Crane_ACT_PickUpWP),
                         xppu.getOperation(XPPU.Crane_ACT_TurnToConveyor),
                         xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
-                        new ConditionalExpressionInfo(
+                        new org.cocome.tradingsystem.inventory.application.plant.expression.ConditionalExpressionInfo(
                                 "Organic",
                                 IBooleanParameter.TRUE_VALUE,
                                 Arrays.asList(
@@ -141,16 +119,16 @@ public class WSTestUtils {
         op1out1.setDirection(EntryPointTO.DirectionTO.OUTPUT);
         op1out1.setId(em.createEntryPoint(op1out1));
 
-        final BooleanParameterTO param = new BooleanParameterTO();
+        final org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO param = new org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO();
         param.setCategory("Ingredients");
         param.setName("Organic");
         param.setOperation(operation1);
         param.setId(em.createBooleanParameter(param));
 
-        final PlantOperationTO operation2 = new PlantOperationTO();
+        final org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO operation2 = new org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO();
         operation2.setName("Create Package");
         operation2.setPlant(plant);
-        operation2.setMarkup(new MarkupInfo(Arrays.asList(
+        operation2.setMarkup(new org.cocome.tradingsystem.inventory.application.plant.expression.MarkupInfo(Arrays.asList(
                 xppu.getOperation(XPPU.Crane_ACT_Init),
                 fmu.getOperation(FMU.Silo0_ACT_Init),
                 fmu.getOperation(FMU.Silo2_ACT_Init)
@@ -163,14 +141,14 @@ public class WSTestUtils {
         op2out1.setDirection(EntryPointTO.DirectionTO.OUTPUT);
         op2out1.setId(em.createEntryPoint(op2out1));
 
-        final NominalParameterTO opr2param = new NominalParameterTO();
+        final org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO opr2param = new org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO();
         opr2param.setCategory("Bottle");
         opr2param.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
         opr2param.setName("Bottle");
         opr2param.setOperation(operation2);
         opr2param.setId(em.createNominalParameter(opr2param));
 
-        final PlantOperationTO operation3 = new PlantOperationTO();
+        final org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO operation3 = new org.cocome.tradingsystem.inventory.application.plant.recipe.PlantOperationTO();
         operation3.setName("Package Yogurt");
         operation3.setPlant(plant);
         operation3.setMarkup(new MarkupInfo(Arrays.asList(
@@ -206,8 +184,10 @@ public class WSTestUtils {
         customProduct.setPurchasePrice(10);
         customProduct.setId(em.createProduct(customProduct));
 
+        /* Product creation */
+
         final ProductTO product = new ProductTO();
-        product.setBarcode(new Date().getTime());
+        product.setBarcode(new Date().getTime() + 1024);
         product.setName("Cola");
         product.setPurchasePrice(10);
         product.setId(em.createProduct(product));
@@ -235,13 +215,13 @@ public class WSTestUtils {
         node3.setOperation(operation3);
         node3.setId(em.createRecipeNode(node3));
 
-        final BooleanParameterTO cparam1 = new BooleanParameterTO();
+        final org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO cparam1 = new org.cocome.tradingsystem.inventory.application.plant.parameter.BooleanParameterTO();
         cparam1.setCategory("Ingredients");
         cparam1.setName("Organic");
         cparam1.setOperation(recipe);
         cparam1.setId(em.createBooleanParameter(cparam1));
 
-        final NominalParameterTO cparam2 = new NominalParameterTO();
+        final org.cocome.tradingsystem.inventory.application.plant.parameter.NominalParameterTO cparam2 = new NominalParameterTO();
         cparam2.setCategory("Packaging");
         cparam2.setName("Bottle");
         cparam2.setOptions(new HashSet<>(Arrays.asList("Glass", "Plastic")));
@@ -286,19 +266,42 @@ public class WSTestUtils {
 
         em.validateRecipe(recipe);
 
-        return new EnterpriseInfo(enterprise,
-                Collections.singletonList(store),
-                Collections.singletonList(plant),
-                Collections.singletonList(recipe),
-                Arrays.asList(cparam1, cparam2),
-                Collections.singletonList(new CustomProductInfo(customProduct,
-                        Arrays.asList(cparam1, cparam2))),
-                Collections.singletonList(product));
+        /* Store inventory creation */
+
+        final ProductWithItemTO item1 = new ProductWithItemTO();
+        final OnDemandItemTO onDemandItem = new OnDemandItemTO();
+        onDemandItem.setSalesPrice(12);
+        item1.setItem(onDemandItem);
+        item1.setProduct(customProduct);
+        item1.getItem().setId(sm.createItem(store.getId(), item1));
+
+        final ProductWithItemTO item2 = new ProductWithItemTO();
+        item2.setItem(new StockItemTO(10,5,20,12));
+        item2.setProduct(product);
+        item2.getItem().setId(sm.createItem(store.getId(), item2));
     }
 
-    public static EnterpriseTO createEnterprise(final IEnterpriseManager em)
+    @SuppressWarnings("unchecked")
+    private static <T> T createJaxWsClient(final Class<T> clientClass, final String url) {
+        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+        factory.setServiceClass(clientClass);
+        factory.setAddress(url);
+        return (T) factory.create();
+    }
+
+    private static StoreWithEnterpriseTO createStore(final EnterpriseTO enterprise,
+                                                     final IEnterpriseManager em) throws CreateException_Exception {
+        final StoreWithEnterpriseTO store = new StoreWithEnterpriseTO();
+        store.setName("Store1");
+        store.setLocation("Test Location");
+        store.setEnterpriseTO(enterprise);
+        store.setId(em.createStore(store));
+        return store;
+    }
+
+    private static EnterpriseTO createEnterprise(final IEnterpriseManager em)
             throws CreateException_Exception, NotInDatabaseException_Exception {
-        final String enterpriseName = String.format("Enterprise-%s", UUID.randomUUID().toString());
+        final String enterpriseName = "TestEnterprise";
         final EnterpriseTO enterprise;
         try {
             enterprise = em.queryEnterpriseByName(enterpriseName);
@@ -309,38 +312,8 @@ public class WSTestUtils {
         return enterprise;
     }
 
-    public static StoreWithEnterpriseTO createStore(final EnterpriseTO enterprise,
-                                                    final IEnterpriseManager em) throws CreateException_Exception {
-        final StoreWithEnterpriseTO store = new StoreWithEnterpriseTO();
-        store.setName("Store1");
-        store.setLocation("Test Location");
-        store.setEnterpriseTO(enterprise);
-        store.setId(em.createStore(store));
-        return store;
-    }
-
-    public static CustomProductTO createCustomProduct(final IEnterpriseManager em) throws CreateException_Exception {
-        final CustomProductTO customProductTO = new CustomProductTO();
-        customProductTO.setName("Awsome Product");
-        customProductTO.setBarcode(new Date().getTime());
-        customProductTO.setPurchasePrice(10);
-        customProductTO.setId(em.createProduct(customProductTO));
-        return customProductTO;
-    }
-
-    public static RecipeTO createRecipe(final EnterpriseTO enterprise,
-                                        final CustomProductTO customProduct,
-                                        final IEnterpriseManager em) throws CreateException_Exception {
-        final RecipeTO recipeTO = new RecipeTO();
-        recipeTO.setName("Produce " + customProduct.getName());
-        recipeTO.setCustomProduct(customProduct);
-        recipeTO.setEnterprise(enterprise);
-        recipeTO.setId(em.createRecipe(recipeTO));
-        return recipeTO;
-    }
-
-    public static PlantTO createPlant(final EnterpriseTO enterprise,
-                                      final IEnterpriseManager em) throws CreateException_Exception {
+    private static PlantTO createPlant(final EnterpriseTO enterprise,
+                                       final IEnterpriseManager em) throws CreateException_Exception {
         final PlantTO plant = new PlantTO();
         plant.setName("Plant1");
         plant.setLocation("Test Location");
