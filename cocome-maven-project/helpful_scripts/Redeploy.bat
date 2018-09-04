@@ -59,6 +59,7 @@ call asadmin undeploy store-logic-ear --port 8148 &
 call asadmin undeploy cloud-registry-service --port 8448 &
 call asadmin undeploy enterprise-logic-ear --port 8348 &
 call asadmin undeploy plant-logic-ear --port 8048 &
+call asadmin undeploy cloud-web-frontend --port 8048 &
 
 call mvn -s %cocome_settings% install -f %cocome_pom% -DskipTests
 
