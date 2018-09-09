@@ -119,15 +119,14 @@ public class WSTestUtils {
                         xppu.getOperation(XPPU.Crane_ACT_PickUpWP),
                         xppu.getOperation(XPPU.Crane_ACT_TurnToConveyor),
                         xppu.getOperation(XPPU.Crane_ACT_PutDownWP),
+                        xppu.getOperation(XPPU.ACT_ToBase),
                         new ConditionalExpressionInfo(
                                 "Organic",
                                 IBooleanParameter.TRUE_VALUE,
                                 Arrays.asList(
-                                        xppu.getOperation(XPPU.ACT_DriveFromBaseToRamp1),
-                                        xppu.getOperation(XPPU.ACT_PushToRamp1)),
+                                        xppu.getOperation(XPPU.ACT_DriveFromBaseToRamp1)),
                                 Arrays.asList(
-                                        xppu.getOperation(XPPU.ACT_DriveFromBaseToRamp2),
-                                        xppu.getOperation(XPPU.ACT_PushToRamp2))
+                                        xppu.getOperation(XPPU.ACT_DriveFromBaseToRamp2))
                         ),
                         fmu.getOperation(FMU.Silo0_ACT_Init),
                         fmu.getOperation(FMU.Silo1_ACT_Init),
