@@ -4,3 +4,5 @@
 **/.classpath
 **/settings.xml
 *.iml
+*.xsd
+*wsdl
