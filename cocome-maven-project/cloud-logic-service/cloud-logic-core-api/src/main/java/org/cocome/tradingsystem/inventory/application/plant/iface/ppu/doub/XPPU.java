@@ -8,11 +8,10 @@ import org.cocome.tradingsystem.inventory.application.plant.iface.ppu.PUCOperati
  * @author Rudolf Biczok
  */
 public enum XPPU implements PUCOperationMeta {
+    ACT_ToBase("_1_2_1_P1_O2", 2),
     ACT_DriveFromBaseToRamp1("_1_2_1_P1_O3", 2),
-    ACT_DriveFromBaseToRamp2("_1_2_1_P1_O5", 2),
-    ACT_DriveFromBaseToEnd("_1_2_1_P1_O6", 2),
-    ACT_PushToRamp1("_1_2_1_P1_O7", 2),
-    ACT_PushToRamp2("_1_2_1_P1_O8", 2),
+    ACT_DriveFromBaseToRamp2("_1_2_1_P1_O4", 2),
+    ACT_DriveFromBaseToEnd("_1_2_1_P1_O5", 2),
     Crane_ACT_Init("_1_2_1_P2_O1", 1),
     Crane_ACT_PickUpWP("_1_2_1_P2_O2", 5),
     Crane_ACT_PutDownWP("_1_2_1_P2_O3", 5),
