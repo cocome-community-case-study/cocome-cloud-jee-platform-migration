@@ -55,12 +55,10 @@ public class PUWorkerTest {
         final IPUInterface iface = new XPPUDouble(1000);
         final PUWorker<UUID> worker = new PUWorker<>(unit, iface, callback);
         worker.submitJob(UUID.randomUUID(), Arrays.asList(
-                XPPU.Crane_ACT_Init.getOperationId(),
-                XPPU.ACT_PushToRamp1.getOperationId()
+                XPPU.Crane_ACT_Init.getOperationId()
         ));
         worker.submitJob(UUID.randomUUID(), Arrays.asList(
-                XPPU.Crane_ACT_Init.getOperationId(),
-                XPPU.ACT_PushToRamp1.getOperationId()
+                XPPU.Crane_ACT_Init.getOperationId()
         ));
         Assert.assertTrue(worker.getWorkLoad() >= 2 && worker.getWorkLoad() <= 4);
         //Does also join to the worker thread
@@ -84,9 +82,7 @@ public class PUWorkerTest {
         Assert.assertEquals(
                 Arrays.asList(
                         XPPU.Crane_ACT_Init.getOperationId(),
-                        XPPU.ACT_PushToRamp1.getOperationId(),
-                        XPPU.Crane_ACT_Init.getOperationId(),
-                        XPPU.ACT_PushToRamp1.getOperationId()),
+                        XPPU.Crane_ACT_Init.getOperationId()),
                 observedOperations
         );
 
