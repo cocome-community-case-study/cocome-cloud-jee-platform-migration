@@ -21,7 +21,8 @@ public enum XPPU implements PUCOperationMeta {
     Stamp_ACT_Init("_1_2_1_P3_O1", 1),
     Stamp_ACT_Stamp("_1_2_1_P3_O2", 1),
     Stack_ACT_Init("_1_2_1_P4_O1", 1),
-    Stack_ACT_ProvideWP("_1_2_1_P4_O2", 2);
+    Stack_ACT_ProvideWP("_1_2_1_P4_O2", 2),
+    Conveyor_Init("1_2_1_P1_01",1);
 
     private String operationId;
     private long execTimeInMillis;

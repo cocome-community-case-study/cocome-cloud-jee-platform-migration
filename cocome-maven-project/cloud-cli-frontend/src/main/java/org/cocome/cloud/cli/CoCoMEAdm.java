@@ -89,6 +89,7 @@ public class CoCoMEAdm {
                         xppu.getOperation(XPPU.Crane_ACT_Init),
                         xppu.getOperation(XPPU.Stack_ACT_Init),
                         xppu.getOperation(XPPU.Stamp_ACT_Init),
+                        xppu.getOperation(XPPU.Conveyor_Init),
                         xppu.getOperation(XPPU.Stack_ACT_ProvideWP),
                         xppu.getOperation(XPPU.Crane_ACT_PickUpWP),
                         xppu.getOperation(XPPU.Crane_ACT_TurnToStamp),
