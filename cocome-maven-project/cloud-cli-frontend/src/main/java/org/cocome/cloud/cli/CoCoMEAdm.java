@@ -65,7 +65,8 @@ public class CoCoMEAdm {
             xppu1.setDouble(true);
             xppu1.setInterfaceUrl("test.org");
         } else {
-            xppu1.setDouble(false);
+           // xppu1.setDouble(false);
+           xppu1.setDouble(true);
             xppu1.setInterfaceUrl(xppuEndpoint);
         }
         xppu1.setLocation("Some Place 1");

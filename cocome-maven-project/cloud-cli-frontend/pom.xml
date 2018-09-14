@@ -79,7 +79,7 @@
                 <configuration>
                     <mainClass>org.cocome.cloud.cli.CoCoMEAdm</mainClass>
                     <arguments>
-                        <argument>${test.xppu.url}</argument>
+                        <argument>http://129.187.88.30:4567/</argument>
                     </arguments>
                 </configuration>
             </plugin>
