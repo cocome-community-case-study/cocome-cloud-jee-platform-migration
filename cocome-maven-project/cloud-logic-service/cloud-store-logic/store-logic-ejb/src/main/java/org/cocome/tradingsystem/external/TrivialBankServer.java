@@ -67,8 +67,8 @@ public class TrivialBankServer implements IBankLocal {
 	public DebitResult debitCard(final TransactionID id) {
 		if (!id.equals(CREDIT_CARD_TXID)) {
 			return DebitResult.INVALID_TRANSACTION_ID;
-		} else if (Math.random() > 0.5) {
-			return DebitResult.INSUFFICIENT_BALANCE;
+		//} else if (Math.random() > 0.5) {  What the hell?!
+			//return DebitResult.INSUFFICIENT_BALANCE;
 		} else {
 			return DebitResult.OK;
 		}
