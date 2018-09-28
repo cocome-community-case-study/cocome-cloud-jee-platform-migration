@@ -3,19 +3,20 @@
 
 REM !!!!WINDOWS ONLY!!!!!
 REM !!!!!!!!!Change the SET Locations to your destination folders/files!!!!!!!!
-SET cocome_settings=C:\Users\Nikolaus\Desktop\Arbeit\CoCoMEGit\cocome-cloud-jee-platform-migration\cocome-maven-project\settings.xml
-SET cocome_pom=C:\Users\Nikolaus\Desktop\Arbeit\CoCoMEGit\cocome-cloud-jee-platform-migration\cocome-maven-project\pom.xml
-SET glassfish_home=C:\Users\Nikolaus\Desktop\Arbeit\glassfish5\bin
-SET glassfish_domain=C:\Users\Nikolaus\Desktop\Arbeit\glassfish5\glassfish\domains
+SET cocome_settings=C:\Users\path to cocome settings         \settings.xml
+SET cocome_pom=C:\Users\  path to cocome pom            \pom.xml
+SET glassfish_home=C:\Users\path to glassfish              \glassfish5\bin
+SET glassfish_domain=C:\Users\ path to glassfish domains               \glassfish\domains
 
 REM call mvn -s %cocome_settings% clean post-clean -f %cocome_pom% &
 
 cd %glassfish_home%
 call asadmin stop-domain registry & 
-call asadmin stop-domain adapter & 
 call asadmin stop-domain web & 
 call asadmin stop-domain store & 
 call asadmin stop-domain enterprise & 
+call asadmin stop-domain plant & 
+
 
 
 cd %glassfish_domain%
@@ -48,17 +49,24 @@ FOR /D %%p IN (".\web\generated\*.*") DO rmdir "%%p" /s /q &
 del /S /Q .\web\osgi-cache\* &
 FOR /D %%p IN (".\web\osgi-cache\*.*") DO rmdir "%%p" /s /q &
 
+del /S /Q .\plant\applications\* &
+FOR /D %%p IN (".\plant\applications\*.*") DO rmdir "%%p" /s /q &
+del /S /Q .\plant\generated\* &
+FOR /D %%p IN (".\plant\generated\*.*") DO rmdir "%%p" /s /q &
+del /S /Q .\plant\osgi-cache\* &
+FOR /D %%p IN (".\plant\osgi-cache\*.*") DO rmdir "%%p" /s /q &
+
 cd %glassfish_home%
 call asadmin start-domain registry & 
-call asadmin start-domain adapter & 
 call asadmin start-domain web & 
 call asadmin start-domain store & 
 call asadmin start-domain enterprise & 
+call asadmin start-domain plant & 
 
 call asadmin undeploy store-logic-ear --port 8148 &
 call asadmin undeploy cloud-registry-service --port 8448 &
 call asadmin undeploy enterprise-logic-ear --port 8348 &
-call asadmin undeploy plant-logic-ear --port 8048 &
+call asadmin undeploy plant-logic-ear --port 8548 &
 call asadmin undeploy cloud-web-frontend --port 8048 &
 
 call mvn -s %cocome_settings% install -f %cocome_pom% -DskipTests
